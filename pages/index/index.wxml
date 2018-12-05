@@ -18,3 +18,17 @@
   </view>
 </view>
 
+<view class="category" wx:for="{{list}}">
+  <view class="title">{{item.title}}<navigator class="more" url="../column/column?id={{item.columnId}}">更多></navigator></view>
+  <view class="scroll_box"> 
+      <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">    
+        <navigator wx:for="{{item.caseItems.listView}}" class="item_list" url="../column/column?id={{item.columnId}}">
+          <view>
+            <image src="{{item.img}}" class="item_book_img" mode="aspectFill"></image>
+            <view class="item_book_text">{{item.name}}</view>
+          </view>
+        </navigator>      
+      </scroll-view>
+  </view>
+</view>
+

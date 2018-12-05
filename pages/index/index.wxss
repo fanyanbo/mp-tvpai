@@ -25,7 +25,7 @@ swiper{
   text-align: center;
   border-radius: 100%;
   font-size: 32rpx;
-  margin: 20rpx
+  margin:10rpx 20rpx
 }
 .movie-container{
   display: flex;
@@ -61,4 +61,36 @@ swiper{
   padding-top: 50px;
   height: 400px;
   /* background-color: #FF0000; */
+}
+
+.category{
+padding: 20rpx;
+}
+.scroll_box{
+width: 100%;
+height: 310rpx;
+overflow: hidden;
+white-space: nowrap;
+}
+.item_list{
+width: 180rpx;
+height: 200rpx;
+margin-right: 23rpx;
+display: inline-block;
+}
+.item_book_img{
+  width: 180rpx;
+  height: 200rpx
+}
+.category .title{
+  font-size: 32rpx;
+  height: 60rpx;
+  line-height: 40rpx
+}
+.category .more{
+  float: right
+}
+.category .item_book_text{
+  font-size: 28rpx;
+  text-align: center
 }
