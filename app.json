@@ -1,11 +1,14 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/second/second",
     "pages/my/my",
     "pages/find/find",
     "pages/column/column",
-    "pages/columnDetail/columnDetail"
+    "pages/columnDetail/columnDetail",
+    "pages/search-input/index",
+    "pages/search-result/index",
+    "pages/hot-category/index",
+    "pages/hot-detail/index"
   ],
   "window": {
     "navigationBarTextStyle": "black",
