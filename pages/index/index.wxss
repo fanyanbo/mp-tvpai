@@ -31,5 +31,5 @@
 .movie-content-wrapper{
   padding-top: 50px;
   height: 400px;
-  background-color: #FF0000;
+  /* background-color: #FF0000; */
 }
