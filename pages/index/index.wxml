@@ -1,6 +1,19 @@
-<view class="page">
-    <view class="page__hd">
-        <view class="page__title">首页</view>
-        <view class="page__desc">WeUI 是一套同微信原生视觉体验一致的基础样式库。</view>
-    </view>
+<swiper indicator-dots="{{indicatorDots}}"
+  autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+  <block wx:for="{{imgUrls}}">
+    <swiper-item>
+      <image src="{{item}}" class="slide-image" width="355" height="150"/>
+    </swiper-item>
+  </block>
+</swiper>
+
+<view class="section">
+  <view class="column-view">
+  <navigator class="column-item" url="../column/column?id={{item.columnId}}" wx:for="{{column}}">
+    <view>{{item.text}}</view>
+  </navigator>
+  <navigator class="column-item" url="../columnDetail/columnDetail">
+    <view>更多</view>
+  </navigator>
+  </view>
 </view>

@@ -1,13 +1,36 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/second/second"
+    "pages/second/second",
+    "pages/my/my",
+    "pages/find/find",
+    "pages/column/column",
+    "pages/columnDetail/columnDetail"
   ],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "电视派",
     "navigationBarBackgroundColor": "#f8f8f8",
     "backgroundColor": "#f8f8f8"
+  },
+  "tabBar": {
+    "selectedColor": "#fd614e",
+    "color": "#444",
+    "position": "top",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "主页"
+      },
+      {
+        "pagePath": "pages/find/find",
+        "text": "发现"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的"
+      }
+    ]
   },
   "networkTimeout": {
     "request": 10000,

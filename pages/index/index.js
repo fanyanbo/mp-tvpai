@@ -1,6 +1,50 @@
 Page({
   data: {
-  
+    imgUrls: [
+      '../../images/banner1.jpg',
+      '../../images/banner2.jpg',
+      '../../images/banner3.jpg'
+    ],
+    indicatorDots: true,
+    autoplay: true,
+    interval: 10000,
+    duration: 1000,
+    column:[
+      {
+        "text":"电影",
+        "url":"",
+        "columnId":"1"
+      },
+      {
+        "text": "电视剧",
+        "url": "",
+        "columnId": "2"
+      },
+      {
+        "text": "综艺",
+        "url": "",
+        "columnId": "1"
+      },
+      {
+        "text": "动漫",
+        "url": "",
+        "columnId": "1"
+      },
+      {
+        "text": "娱乐",
+        "url": "",
+        "columnId": "1"
+      },
+      {
+        "text": "电视剧",
+        "url": "",
+        "columnId": "1"
+      }, {
+        "text": "电影",
+        "url": "",
+        "columnId": "1"
+      }
+    ]
   },
 
   onLoad(options) {
