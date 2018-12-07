@@ -1,1 +1,6 @@
 /* pages/my/my.wxss */
+.mainwrapper {
+  position: absolute;
+  left: 0;
+  top: 500rpx;
+}

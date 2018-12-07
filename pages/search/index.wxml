@@ -1,0 +1,28 @@
+<!-- 返回-->
+<view class="return-box-wrapper">
+  <view class="return-box" style="top:{{paddingTop}}px" bindtap='handleReturnTap'>
+    <image class="return-icon" src="../../images/Icons-back.png" ></image>
+    <text class="return-text">{{titleContent}}</text>
+  </view>
+</view>
+
+<!-- 搜索框-->
+<view class='search-wrapper'>
+  <view class='search-box-wrapper'>
+    <image class="search-icon" src='../../images/scan.png' bindtap='query'></image>
+    <input class="search-text" type='text' placeholder='输入你想要的内容' confirm-type='search' focus="{{isFocus}}" value="{{inputValue}}" bindinput='inputBind' bindconfirm='query'></input>
+    <image class="delete-icon" src='../../images/Icons-menu.png' bindtap='handleDeteteTap' wx:if="{{inputValue}}"></image>
+  </view>
+  <text class="btn-text" bindtap='handleCancelTap'>取消</text>
+</view>
+
+
+<!-- 搜索输入内容-->
+<view class='search-input-wrapper'>
+
+</view>
+
+<!-- 搜索结果内容-->
+<view class='search-result-wrapper'>
+
+</view>

@@ -1,0 +1,8 @@
+
+<!-- 搜索框 -->
+<view class="search-box-wrapper">
+  <view class="search-box" style="top:{{paddingTop}}px" bindtap='handletap'>
+    <image  src="../../images/Icons_voice.png" class="search-icon"></image>
+    <text class="search-text">{{searchContent}}</text>
+  </view>
+</view>

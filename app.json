@@ -5,16 +5,16 @@
     "pages/find/find",
     "pages/column/column",
     "pages/columnDetail/columnDetail",
-    "pages/search-input/index",
-    "pages/search-result/index",
+    "pages/search/index",
     "pages/hot-category/index",
     "pages/hot-detail/index"
   ],
-  "window": {
+  "window": {  
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "电视派",
     "navigationBarBackgroundColor": "#f8f8f8",
-    "backgroundColor": "#f8f8f8"
+    "backgroundColor": "#f8f8f8",
+    "navigationStyle": "custom"
   },
   "tabBar": {
     "selectedColor": "#fd614e",

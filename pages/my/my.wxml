@@ -1,2 +1,9 @@
 <!--pages/my/my.wxml-->
-<text>pages/my/my.wxml</text>
+<text class="mainwrapper">pages/my/my.wxml</text>
+<view> 
+  <remotecontrol></remotecontrol>
+</view>
+
+<view>
+  <search></search>
+</view>

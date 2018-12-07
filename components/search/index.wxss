@@ -1,0 +1,28 @@
+
+.search-box {
+  position:fixed;
+  display:flex;
+  align-items: center;
+  /* justify-content:center; */
+  width:464rpx;
+  height:66rpx;
+  margin-left:20rpx;
+  background-image:linear-gradient(-225deg, #F0F300 0%,orange 100%);
+  border-radius:50rpx;
+  /* top:10rpx; */
+  left:0;
+}
+
+.search-icon {
+  margin-left: 20rpx;
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.search-text {
+  margin-left: 20rpx;
+  font-size: 28rpx;
+  color: gray;
+  letter-spacing: 0;
+  /* font-family:sans-serif; */
+}

@@ -1,0 +1,228 @@
+/* components/remotecontrol/index.wxss */
+.remoter-panel-wrapper {
+  position:fixed;
+  width:100%;
+  height:850rpx;
+  background-color:   #F6F6F8;
+  bottom:0;
+  left:0;
+}
+
+.voice-control-wrapper{
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 12rpx;
+  margin-bottom: 46rpx;
+}
+
+.btn-control{
+  width: 110rpx;
+  height: 110rpx;
+}
+.btn-add{
+  margin-left: 60rpx;
+}
+.btn-redce{
+  margin-right: 60rpx;
+}
+.btn-add-icon{
+  position: absolute;
+  top: 30rpx;
+  left: 90rpx;
+  width: 50rpx;
+  height: 50rpx;
+}
+.btn-back-icon{
+  position: absolute;
+  top: 30rpx;
+  left: 350rpx;
+  width: 50rpx;
+  height: 50rpx;
+}
+.btn-redce-icon{
+  position: absolute;
+  top: 30rpx;
+  right: 90rpx;
+  width: 50rpx;
+  height: 50rpx;
+}
+
+/* 上下左右 */
+.center-wrapper{
+  position: relative;
+  background: #FFFFFF;
+  margin:0 auto;
+  border-radius: 50%;
+  /* height: 520rpx;
+  width: 520rpx; */
+  height: 460rpx;
+  width: 460rpx;
+}
+.centers-wrapper{
+  position: absolute;
+  left: 130rpx;
+  top: 130rpx;
+  width: 200rpx;
+  height: 200rpx;
+  /* left: 155rpx;
+  top: 155rpx;
+  width: 210rpx;
+  height: 210rpx; */
+  z-index: 10;
+}
+.center-background-activity{
+  position: absolute;
+  /* left: 155rpx;
+  top: 155rpx; */
+  left: 130rpx;
+  top: 130rpx;
+  width: 200rpx;
+  height: 200rpx;
+  z-index: 9;
+}
+.center-background{
+  position: absolute;
+  left: 130rpx;
+  top: 130rpx;
+  width: 200rpx;
+  height: 200rpx;
+  z-index: 9;
+}
+.center-btn-up-wrapper{
+  position: absolute;
+  top: 9rpx;
+  left: 165rpx;
+  width: 120rpx;
+  height: 120rpx;
+  z-index: 999;
+}
+.center-btn-up{
+  position: absolute;
+  left: 165rpx;
+  top: 9rpx;
+  width: 120rpx;
+  height: 120rpx;
+}
+.center-btn-down-wrapper{
+  position: absolute;
+  top: 330rpx;
+  left: 170rpx;
+  width: 120rpx;
+  height: 120rpx;
+  z-index: 999;
+}
+.center-btn-down{
+  position: absolute;
+  top: 330rpx;
+  left: 170rpx;
+  width: 120rpx;
+  height: 120rpx;
+}
+.center-btn-left-wrapper{
+  position: absolute;
+  top: 170rpx;
+  left: 10rpx;
+  width: 120rpx;
+  height: 120rpx;
+  z-index: 999;
+}
+.center-btn-left{
+  position: absolute;
+  top: 170rpx;
+  left: 10rpx;
+  width: 120rpx;
+  height: 120rpx;
+}
+.center-btn-right-wrapper{
+  position: absolute;
+  top: 170rpx;
+  right: 10rpx;
+  width: 120rpx;
+  height: 120rpx;
+  z-index: 999;
+}
+.center-btn-right{
+  position: absolute;
+  top: 170rpx;
+  right: 10rpx;
+  width: 120rpx;
+  height: 120rpx;
+}
+
+/* 语音版面 */
+.voice_icon_wrapper {
+  width: 750rpx;
+  position:fixed;
+  bottom: 359rpx;
+  text-align: center;
+}
+
+.icon-mic{
+  width: 220rpx;
+  height: 220rpx;
+}
+
+.tip-wrapper{
+  width: 750rpx;
+  text-align: center;
+  position:fixed;
+  bottom: 159rpx;
+}
+.tip-text{
+  font-size: 28rpx;
+  color: #8F8E94;
+  letter-spacing: 0;
+}
+
+.icon-loading{
+  width: 120rpx;
+  height: 120rpx;
+}
+
+/* .speak-btn-wrapper{
+  position:relative;
+} */
+.remoter-btn{
+  position:fixed;
+  display:flex;
+  justify-content:center;
+  width:664rpx;
+  height:86rpx;
+  margin-left:43rpx;
+  background-image:linear-gradient(-225deg, #3B7BFF 0%,#29AEFF 100%);
+  border-radius:50rpx;
+  bottom:10rpx;
+  left:0;
+}
+
+.remoter-btn-icon{
+  margin-top: 23rpx;
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.remoter-btn-bg{
+  position: fixed;
+  left: 35rpx;
+  bottom: 1rpx;
+  width: 680rpx;
+  height: 102rpx;
+}
+
+.remoter-btn-text {
+  margin-top: 20rpx;
+  margin-left: 10rpx;
+  font-size: 32rpx;
+  color: #FFFFFF;
+  letter-spacing: 0;
+}
+
+.remoter-btn-voice {
+  background-image:linear-gradient(-225deg, #F0F300 0%,orange 100%);
+}
+
+.remoter-btn-text-voice {
+  color: black;
+}
