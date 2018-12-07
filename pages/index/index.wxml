@@ -1,26 +1,16 @@
+
 <swiper indicator-dots="{{indicatorDots}}"
   autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
-  <block wx:for="{{imgUrls}}">
+  <block wx:for="{{column}}">
     <swiper-item>
-      <image src="{{item}}" class="slide-image" width="355" height="150"/>
+     <view class="column-item" wx:for="{{column}}">{{item.text}}</view>
     </swiper-item>
   </block>
 </swiper>
 
-<view class="section">
-  <view class="column-view">
-  <navigator class="column-item" url="../column/column?id={{item.columnId}}" wx:for="{{column}}">
-    <view>{{item.text}}</view>
-  </navigator>
-  <navigator class="column-item" url="../columnDetail/columnDetail">
-    <view>更多</view>
-  </navigator>
-  </view>
-</view>
-
 <view class="category" wx:for="{{list}}">
   <view class="title">{{item.title}}<navigator class="more" url="../column/column?id={{item.columnId}}">更多></navigator></view>
-  <view class="scroll_box"> 
+  <view class="scroll_box section"> 
       <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">    
         <navigator wx:for="{{item.caseItems.listView}}" class="item_list" url="../column/column?id={{item.columnId}}">
           <view>
