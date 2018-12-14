@@ -1,0 +1,73 @@
+<!--components/remotecontrol/index.wxml-->
+<view>
+  <view class="remoter-panel-mask" wx:if="{{isShowMask}}" bindtap="handleTapMask">
+  </view>
+  <!-- 按键遥控器版面 -->
+  <view class="remoter-panel-wrapper origin-pos" animation="{{animationData}}" wx:if="{{indexStatus === 'RemoteControl'}}" >
+
+    <!-- 上面区域-->
+    <view class="header-wrapper">
+      <image src="../../images/shutdown@3x.png" class="control-icon shutdown-icon {{isShutdownFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="shutdown"></image>
+      <image src="../../images/volup@3x.png" class="control-icon volup-icon {{isVolupFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="volup"></image>
+      <image src="../../images/voldown@3x.png" class="control-icon voldown-icon {{isVoldownFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="voldown"></image>
+    </view>
+
+    <!-- 中间区域-->
+    <view class="center-wrapper">
+      <view class="center-control">
+        <view class="center-control-left" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="left"></view>
+        <view class="center-control-right" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="right"></view>
+        <view class="center-control-up" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="up"></view>
+        <view class="center-control-down" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="down"></view>
+        <image class="center-control-icon" src="{{curDirectorImg}}" ></image>
+        <view class="center-ok {{isOKFocus ? 'ok-focus' : ''}}" catchtouchstart="handlePushController" catchtouchend="handlePushControllerEnd" id="ok">
+          <image class="center-ok-icon" wx:if="{{isOKFocus}}" src="../../images/director-center.png"></image>
+          <text class="center-ok-text {{isOKFocus ? 'ok-text-focus' : ''}}">确定</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 下面区域-->
+    <view class="footer-wrapper">
+      <image src="../../images/home@3x.png" class="control-icon home-icon {{isHomeFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="home"></image>
+      <image src="../../images/return@3x.png" class="control-icon return-icon {{isBackFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="back"></image>
+      <image src="../../images/menu@3x.png" class="control-icon menu-icon {{isMenuFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="menu"></image>
+    </view>
+  </view>
+
+  <!-- 语音输入版面 -->
+  <view class="remoter-panel-wrapper" wx:if="{{indexStatus === 'VoiceInput'}}">
+    <view class="voice_input_wrapper">
+      <image class="icon-mic" src="../../images/Icons-mic.png"></image>
+    </view> 
+    <view class="tip-wrapper">
+      <text class="tip-text">{{oneTip}}</text>
+    </view>
+  </view>
+
+  <!-- 语音结果版面 -->
+  <view class="remoter-panel-wrapper" wx:if="{{indexStatus === 'VoiceResult'}}">
+    <view class="voice_result_wrapper">
+      <image src="../../images/Icons-loading.png" class="icon-loading"></image>
+    </view> 
+    <view class="tip-wrapper">
+      <text class="tip-text">{{oneTip}}</text>
+    </view>
+  </view>
+
+</view>
+
+<!-- 遥控器按钮 -->
+<view class="remoter-btn-wrapper">
+  <view class="remoter-btn-tips" wx:if="{{isShowTips && !voiceInputStatus}}">      
+    <text class="remoter-tips-text">{{tipsContent}}</text>
+    <image class="remoter-tips-icon" bindtap="handleBtnTipsClosed" src="../../images/close@3x.png" ></image>
+  </view>
+   <!-- bindtap="handleButtonTap" -->
+  <view class="remoter-btn {{voiceInputStatus ? 'btn-input-status' : ''}}" bindlongpress="handleButtonLongTap" bindtouchstart="handleRecorderManagerStart" bindtouchend="handleRecorderManagerStop">   
+    <image class="remoter-btn-icon" src="{{curBtnImg}}" ></image>
+    <text class="remoter-btn-text">{{btnContent}}</text>
+  </view>
+</view>
+
+

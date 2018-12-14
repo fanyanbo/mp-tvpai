@@ -14,7 +14,18 @@ Component({
     longtapStatus: false,
     voiceInputStatus: false,
     waitVoiceResult: false,
-    oneTip: '您可以说：“今天天气怎么样”'
+    oneTip: '您可以说：“今天天气怎么样”',
+    // 按键效果
+    centerActivity: false,
+    homeActivity: false,
+    backActivity: false,
+    menuActivity: false,
+    volumePlusActivity: false,
+    volumeMinusActivity: false,
+    upActivity: false,
+    downActivity: false,
+    leftActivity: false,
+    rightActivity: false,
   },
   methods: {
     // 这里是一个自定义方法
@@ -27,6 +38,82 @@ Component({
 
     handleRecorderManagerStart() {
       console.log('手指按住');
+    },
+
+    handlePushController(e) {
+      const self = this;
+      const curId = e.currentTarget.id;
+      console.log('遥控按键按住', curId)
+      switch (curId) {
+        case 'home':
+          this.setData({ homeActivity: true })
+          break;
+        case 'back':
+          this.setData({ backActivity: true })
+          break;
+        case 'menu':
+          this.setData({ menuActivity: true })
+          break;
+        case 'volume_plus':
+          this.setData({ volumePlusActivity: true })
+          break;
+        case 'volume_minus':
+          this.setData({ volumeMinusActivity: true })
+          break;
+        case 'up':
+          this.setData({ upActivity: true })
+          break;
+        case 'down':
+          this.setData({ downActivity: true })
+          break;
+        case 'left':
+          this.setData({ leftActivity: true })
+          break;
+        case 'right':
+          this.setData({ rightActivity: true })
+          break;
+        case 'ok':
+          this.setData({ centerActivity: true })
+          break;
+      }
+      // 调用后台推送接口
+    },
+
+    handlePushControllerEnd(e) {
+      const curId = e.currentTarget.id;
+      console.log('遥控按键松开',curId);
+      switch (curId) {
+        case 'home':
+          this.setData({ homeActivity: false })
+          break;
+        case 'back':
+          this.setData({ backActivity: false })
+          break;
+        case 'menu':
+          this.setData({ menuActivity: false })
+          break;
+        case 'volume_plus':
+          this.setData({ volumePlusActivity: false })
+          break;
+        case 'volume_minus':
+          this.setData({ volumeMinusActivity: false })
+          break;
+        case 'up':
+          this.setData({ upActivity: false })
+          break;
+        case 'down':
+          this.setData({ downActivity: false })
+          break;
+        case 'left':
+          this.setData({ leftActivity: false })
+          break;
+        case 'right':
+          this.setData({ rightActivity: false })
+          break;
+        case 'ok':
+          this.setData({ centerActivity: false })
+          break;
+      }
     },
 
     handleRecorderManagerStop(event) {

@@ -41,17 +41,25 @@
   </navigator>
   </view>
 </view>  -->
-
+    
 </view>
 
+<image class="animationImg" src="{{animationImgUrl}}"></image>
+
 <view>
-  <remotecontrol id="remotecontrol-id" fromPage="hello"></remotecontrol>
+  <remotecontrolnew id="remotecontrol-id" fromPage="hello"></remotecontrolnew>
 </view>
 
 <view>
   <search></search>
 </view>
 
-
-
+<!-- 测试 -->
+<!-- <view class="modals modals-bottom-dialog" bindtap="hideModal" wx:if="{{value}}"> -->
+<!-- <view class="modals-cancel" ></view> -->
+<!-- <view class="bottom-dialog-body bottom-pos" animation="{{animationData}}"></view> -->
+<!-- </view> -->
+<!-- <button bindtap="showModal">点我</button> -->
+<!-- canvas -->
+<!-- <canvas style="width: 300px; height: 200px;" canvas-id="firstCanvas"></canvas> -->
 

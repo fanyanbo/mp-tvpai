@@ -1,6 +1,6 @@
 {
   "pages": [
-    "pages/index/index",
+    "pages/fyb-index/index",
     "pages/my/my",
     "pages/find/find",
     "pages/column/column",
@@ -13,8 +13,7 @@
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "电视派",
     "navigationBarBackgroundColor": "#f8f8f8",
-    "backgroundColor": "#f8f8f8",
-    "navigationStyle": "custom"
+    "backgroundColor": "#f8f8f8"
   },
   "tabBar": {
     "selectedColor": "#fd614e",
@@ -22,7 +21,7 @@
     "position": "top",
     "list": [
       {
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/fyb-index/index",
         "text": "主页"
       },
       {

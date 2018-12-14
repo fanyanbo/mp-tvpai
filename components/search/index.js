@@ -27,7 +27,7 @@ Component({
           console.log(res.statusBarHeight, res.windowWidth);
           let scale = res.windowWidth / 375;
           this.setData({
-            paddingTop: res.statusBarHeight + 100
+            paddingTop: res.statusBarHeight + 12
           })
         }
       })     
