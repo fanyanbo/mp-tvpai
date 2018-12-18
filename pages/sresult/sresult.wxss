@@ -1,0 +1,17 @@
+.container{text-align: center;}
+.tabParents{width: 95%;margin-left:2%;overflow-x: scroll;overflow-y: hidden;text-align:center;background:#fff;}
+.tabScroll{width:100%;position: relative;height: 70rpx;white-space:nowrap;margin:0 auto;text-align:left;background:#fff;}
+.tabScroll view{display: inline;padding: 6rpx 15rpx;font-size: 32rpx;color: #444;}
+.tabScroll view.active{color: #fd614e;border-bottom: 1rpx solid #fd614e;background:#fff;}
+.tabAll,.tabOpen{font-size: 32rpx;margin-top: 70rpx;}
+.tabOpen{position:absolute;z-index:99;bottom:5%;left:45%;}
+.tagListAbsolute{position: absolute;z-index: 9;background: #fff;}
+.movieList{margin:18% auto;}
+.tagList{position:fixed;top:0;width: 100%;}
+.tagAll{position:absolute;z-index:9;overflow-y:scroll;background:#fff;width: 100%;border-bottom: 1rpx solid #ccc;padding-bottom:60rpx;}
+/* radio{opacity: 0}
+radio:checked{color:red;} */
+
+label.active{color: red;}
+.tabAll{position: fixed;top:-1%;width:100%;display: block;background:#fff;}
+.nomv{margin: 60% auto;}

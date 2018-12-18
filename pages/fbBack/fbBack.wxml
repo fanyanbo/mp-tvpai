@@ -1,0 +1,12 @@
+<view class="container">
+<!--反馈成功  -->
+<view class="height100">
+<view class="fb_success">
+      <image src="../../images/chenggong_icon.png"/>
+      <text>提交成功!</text>
+      <text class="fb_one">感谢您的反馈意见</text>
+       <button bindtap="backHome">好的</button> 
+  </view>
+</view>
+
+</view>

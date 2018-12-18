@@ -1,0 +1,97 @@
+<!--pages/movieDetail.wxml-->
+<view class='cntainer'>
+<!--影片信息  -->
+<view class='movieDetail'>
+  <image src='{{movieData.show_info.images[0].url}}' class='haibao'></image>
+  <view class='describe'>
+    <ul>
+      <li class="title">{{movieData.base_info.title}}</li>
+      <li><span>{{movieData.base_info.score}}分</span> . {{movieData.base_info.video_type}}</li>
+      <li>{{movieData.base_info.publish_area}}.{{tags}}.{{movieData.base_info.publish_date}}</li>
+      <!-- <li><image src="../../images/collect_icon.png"></image><em>收藏</em></li> -->
+    </ul>
+  </view>
+</view>
+<!--影片信息end  -->
+
+<view class="push">推送至电视</view>
+
+<view class='tvLists'>
+  <view class='scroll'>
+    <view wx:for="{{moviesItem}}" wx:for-item="item" >
+      <view bindtap='push' data-source="{{item.play_sources[0].source}}" data-index="{{item.segment_index}}" class='xs {{chioced==item.segment_index? "active":""}}' wx:if="{{item.video_type=='电影'}}">{{item.title}}</view>
+      <view bindtap='push' data-source="{{item.play_sources[0].source}}" data-index="{{item.segment_index}}" class='xs {{chioced==item.segment_index? "active":""}}' wx:else>
+        第{{item.segment_index}}集
+      </view>
+      
+    </view>
+  </view>
+
+</view>
+
+
+<!--简介  -->
+<view class="push">简介</view> 
+<view class='content'>
+<view>{{movieData.show_info.attributes[0].text}}</view>
+<view>{{movieData.show_info.attributes[1].text}}</view>
+<view class='{{opens? "open":""}}'>{{movieData.show_info.attributes[2].text}}</view>
+<view class="openit" bindtap='openIt' hidden='{{flagOpen? true:false}}'>展开</view>
+<view class='scrollIt' hidden='{{flagOpen? false:true}}' bindtap='openIt'>收起</view>
+</view>
+
+
+<!--猜你喜欢  -->
+<view class="push">猜你喜欢</view> 
+<view class='movieList'>
+  <view class='item' wx:for="{{videoLike}}" wx:for-item="item">
+    <navigator url="../movieDetail/movieDetail?id={{item.id}}">
+      <image src='{{item.images[0].url}}'></image>
+      <text class='describe'>{{item.title}}</text>
+    </navigator>
+  </view>
+</view>  
+
+
+
+<!--设备模板  -->
+<view class='boxshdaw' hidden="{{flag ? true : false}}" bindtap='boxshdawclick'></view>
+<view class="service" hidden="{{flag ? true : false}}">
+
+
+  <view wx:if="{{iqiyi.length>0}}">
+    <view class='item'>爱奇艺视频源</view>
+     <view class='item' wx:for="{{iqiyi}}" wx:for-item="item">
+     <view class='left'></view>
+ <form bindsubmit="pushdown">
+      <view class='right'>
+        <text wx:if="{{item.model==null}}">{{item.deviceName}}</text>
+        <text wx:else>{{item.model}} {{item.deviceName}}</text>
+        <text class="right" data-serviceid="{{item.id}}" bindtap='pushdown'>推送</text>
+      </view>
+  </form>
+     </view>
+  </view>
+
+
+<view wx:if="{{tent.length>0}}">
+<view class='item'>腾讯视频源</view>
+  <view class='item' wx:for="{{tent}}" wx:for-item="item">
+      <view class='left'></view>
+      <view class='right'>
+        <text wx:if="{{item.model==null}}">{{item.deviceName}}</text>
+        <text wx:else>{{item.model}} {{item.deviceName}}</text>
+        <text class="right" data-serviceid="{{item.id}}" bindtap='pushdown'>推送</text>
+      </view>
+  </view>
+</view>
+
+<view class='no' wx:if="{{iqiyi.length<1&&tent.length<1}}">
+  暂无相关设备
+</view>
+  
+  
+</view>
+
+</view>
+

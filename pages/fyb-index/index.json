@@ -1,7 +1,0 @@
-{
-  "usingComponents": {
-    "remotecontrol": "../../components/remotecontrol/index",
-    "remotecontrolnew": "../../components/remotecontrolnew/index",
-    "search": "../../components/search/index"
-  }
-}

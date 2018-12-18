@@ -1,0 +1,77 @@
+page{
+   background: rgb(248, 248, 248);
+   overflow-y:hidden; 
+}
+.height100{height:10000rpx;background: #fff;}
+.section__title{
+  color: #999;
+  font-size: 24rpx;
+  padding:20rpx 0 14rpx 20rpx;
+}
+textarea{
+  width:94%;
+  background: #fff;
+  font-size: 32rpx;
+  padding: 20rpx;
+  color:#444!important;
+  min-height: 400rpx;
+  line-height: 60rpx;
+  position: absolute;
+  z-index: -1;
+}
+button[type="default"]{
+  color:#fff;
+  background:#f9681e;
+  font-size:28rpx;
+  margin:40rpx 20rpx 0 20rpx;
+  border-radius:4px;
+  position:absolute;
+  width:94%;
+  height:80rpx;
+  line-height:80rpx;
+  top:520rpx;
+  border:none !important;
+}
+button[disabled]{
+  color: #f0f0f0;
+  border-color: #dbdbdb;
+}
+.hide{display: none;}
+.block{display: block;}
+
+.fb_success{
+width:100%;
+text-align:center;
+color:#444;
+font-size:32rpx;
+position:absolute;
+top:25%;
+z-index:9999999;
+}
+
+.fb_success image{
+  width:140rpx;
+  height:140rpx;
+  margin-bottom:60rpx;
+}
+.fb_success text{
+  display: block;
+}
+.fb_success text.fb_one{
+  color:#a8a8a8;
+  font-size:28rpx;
+  margin-top:20rpx;
+  margin-bottom:60rpx;
+}
+.fb_success view{
+  width:300rpx;
+  height:60rpx;
+  line-height:60rpx;
+  border:1rpx solid #eaeaea;
+  border-radius:5rpx;
+  text-align:center;
+  margin:0 auto;
+}
+.opacity{
+  opacity: 0.6;
+}

@@ -1,0 +1,255 @@
+page{
+  background-color: rgb(248, 248, 248)
+}
+.none{
+  display: none;
+}
+.block{
+  display: block;
+}
+.container{
+  font-size: 0;
+  padding-bottom: 100rpx;
+}
+.user{
+  width: 100%;
+  height: 160rpx;
+  line-height: 160rpx;
+  background-color: #fff;
+  border-top: 1px solid #eaeaea;
+  overflow: hidden;
+  position: relative;
+}
+.avatar{
+  width: 110rpx;
+  height: 110rpx;
+  border-radius: 50%;
+  margin: 25rpx 20rpx;
+  display: inline-block;
+}
+.username{
+  font-size: 38rpx;
+  color: #444;
+  display: inline-block;
+  position: absolute;
+  /* top: 61rpx;  */
+  left: 150rpx;
+}
+.cancel-view{
+  font-size: 38rpx;
+  color: #444;
+  display: inline-block;
+  position: absolute;
+  /* top: 61rpx;  */
+  right: 50rpx;
+}
+.mydevices{
+  height: 60rpx;
+  position: relative;
+}
+.mydevices text{
+  font-size: 24rpx;
+  color: #999;
+  display: block;
+  left: 20rpx;
+  top: 22rpx;
+  position: absolute
+}
+.no-devices{
+  width: 100%;
+  height: 400rpx;
+  background-color: #fff;
+  box-sizing: border-box;
+  padding-top: 120rpx;
+  text-align: center;
+}
+.no-title{
+  font-size: 28rpx;
+  color: #444;
+  word-break: break-all;
+  text-align: center;
+  width: 75%;
+  line-height: 60rpx;
+}
+.howbind{
+  margin-top: 45rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #0096e3;
+  display: block;
+}
+.cancel-bind{
+  font-size: 28rpx;
+  width:100%;
+  margin-top: 50rpx;
+ /* margin-bottom: 100rpx; */
+  color:#fff;
+  background:#f9681e;
+  border-radius:8rpx;
+  padding-left:14px;
+  padding-right:14px;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+  line-height:60rpx;
+}
+.cancel-bind:hover{
+  opacity: 0.4;
+}
+.devices{
+  background: #fff;
+  width: 100%;
+  height: auto;
+  min-height: 520rpx;
+  color: #444;
+}
+.device-top{
+  width: 100%;
+  height: 100rpx;
+  line-height: 100rpx;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2rpx solid #eaeaea;
+}
+.device-top-left{
+  flex: 1
+}
+.device-top-right{
+  flex: 1;
+  text-align: right;
+}
+.device-model,.device-content-right{
+  font-size: 26rpx;
+  color: #999;
+  text-align: right;
+}
+.device-name{
+  margin-left: 20rpx;
+  font-size: 28rpx;
+  color: #444;
+  vertical-align:middle;
+}
+.device-content-left{
+  font-size: 28rpx
+}
+.device-tv{
+  width: 40rpx;
+  height: 30rpx;
+  vertical-align:middle;
+}
+.device-model{
+  vertical-align:middle;
+}
+.device-content{
+  width: 100%;
+  height: 100rpx;
+  line-height: 100rpx;
+  padding: 0 20rpx 0 100rpx;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2rpx solid #eaeaea;
+}
+.device-content-left{
+  flex: 1
+}
+.device-content-right{
+  flex: 1;
+  text-align: right;
+}
+.more{
+  margin-left: 20rpx;
+  width: 20rpx;
+  height: 20rpx;
+  vertical-align:middle;
+  transform: rotate(90deg);
+}
+.moretop{
+  transform: rotate(-90deg)
+}
+.name-more{
+  margin-left: 20rpx;
+  width: 20rpx;
+  height: 20rpx;  
+  margin-bottom:-4rpx;
+}
+.morebind{
+  margin-top: 20rpx;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 20rpx;
+}
+.morebind text{
+  font-size: 22rpx;
+  color: #0096e3;
+  text-align: right;
+}
+
+
+
+
+
+.modal-mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #000;
+  opacity: 0.35;
+  overflow: hidden;
+  z-index: 9000;
+  color: #fff;
+}
+
+.modal-dialog {
+  width: 540rpx;
+  overflow: hidden;
+  position: fixed;
+  top: 50%;
+  left: 0;
+  z-index: 9999;
+  background: #f9f9f9;
+  margin: -180rpx 105rpx;
+  border-radius: 8rpx;
+}
+
+.modal-title {
+  margin: 40rpx 0 20rpx 0;
+  text-align: center;
+}
+.modal-title image{
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.modal-content {
+  text-align: center;
+  font-size: 26rpx;
+  color: #444;
+  margin-bottom: 40rpx;
+}
+
+
+.modal-footer {
+  display: flex;
+  flex-direction: row;
+  height: 80rpx;
+  border-top: 1px solid #eaeaea;
+  font-size: 28rpx;
+  line-height: 80rpx;
+}
+
+.btn-cancel {
+  width: 50%;
+  color: #444;
+  text-align: center;
+  border-right: 1px solid #eaeaea;
+}
+
+.btn-confirm {
+  width: 50%;
+  color: #fc4c00;
+  text-align: center;
+}

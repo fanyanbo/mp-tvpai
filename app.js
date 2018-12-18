@@ -1,62 +1,61 @@
 //app.jss
-
 var utils = require('utils/util.js');
-let { WeToast } = require('toast/wetoast.js')
+var api = require('config/config.js');
+
+let {WeToast} = require('toast/wetoast.js')
 
 // 使用登录凭证 code 获取 session_key 和 openid
 function login(rawData, code, encryptedData, iv, signature) {
-  var url = getApp().globalData.ROOTUrl + 'appletAPI/getSession.coocaa'
-  var paramsStr = { "appid": "wx45e46c7c955eebf1", "jscode": code }
+  console.log("--------code：" + code);
+  var url = api.getSessionUrl
+  var paramsStr = { "appid": "wx35b9e9a99fd089a9", "jscode": code } //wx45e46c7c955eebf1 wx35b9e9a99fd089a9
   var key = getApp().globalData.key
   var sign = utils.encryption(paramsStr, key)
-  wx.request({
-    url: url,
-    data: {
-      client_id: 'applet',
-      sign: sign,
-      param: paramsStr
-    },
-    method: 'get',
-    header: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    success: res => {
-      var data = res.data;
-      if (data.result) {
-        console.log("进来了")
-
-        var cksession = data.data.ccsession
-        console.log("返回数据")
-        console.log(data)
-        wx.setStorageSync('cksession', cksession)
-        getApp().globalData.ccsession = cksession
-        //定时器判断ccsession是否失效
-        //countTime()
-        console.log("setStorageSync cksession:" + cksession)
-        decryptUser(rawData, encryptedData, iv, cksession, signature)
-        console.log("登录返回数据：")
-        console.log(data.data.mobile)
-        var mobile = data.data.mobile
-        var username = data.data.username
-        //把mobile和username存下来
-        wx.setStorageSync('mobile', mobile)
-        wx.setStorageSync('username', username)
-        console.log(mobile)
-        utils.showToastBox("成功", "success")
+    wx.request({
+      url: url,
+      data: {
+        client_id: 'applet',
+        sign: sign,
+        param: paramsStr
+      },
+      method: 'get',
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      success: res => {
+        var data = res.data;
+        if (data.result){
+          console.log("进来了" + data.data.ccsession)
+          var cksession = data.data.ccsession
+          wx.setStorageSync('cksession', cksession)
+          getApp().globalData.ccsession = cksession
+          //定时器判断ccsession是否失效
+          //countTime()
+          console.log("setStorageSync cksession:" + cksession)
+          decryptUser(rawData, encryptedData, iv, cksession, signature)
+          console.log("登录返回数据：")
+          console.log(data.data.mobile)
+          var mobile = data.data.mobile
+          var username = data.data.username
+          //把mobile和username存下来
+          wx.setStorageSync('mobile', mobile)
+          wx.setStorageSync('username', username)
+          wx.setStorageSync('userid', data.data.userid)
+         // utils.showToastBox("成功", "success")
+        }
+      },
+      fail: function(){
+        console.log("使用登录凭证 code 获取 session_key 和 openid失败")
       }
-    },
-    fail: function () {
-      console.log("使用登录凭证 code 获取 session_key 和 openid失败")
-    }
-  })
+    })
 }
 
 //解密获取用户数据
 function decryptUser(rawData, encryptedData, iv, cksession, signature) {
-  var url = getApp().globalData.ROOTUrl + 'appletAPI/getuserinfo.coocaa'
+  var url = api.getuserinfoUrl
   var key = getApp().globalData.key
   cksession = wx.getStorageSync('cksession')
-  // console.log("getStorageSync cksession:" + cksession)
+ // console.log("getStorageSync cksession:" + cksession)
   rawData = encodeURI(rawData, 'utf-8')
   var paramsStr = { "ccsession": cksession, "encryptedData": encryptedData, "iv": iv, "rawData": rawData, "signature": signature }
   var sign = utils.encryption(paramsStr, key)
@@ -71,7 +70,7 @@ function decryptUser(rawData, encryptedData, iv, cksession, signature) {
     },
     success: res => {
       var data = res.data;
-      console.log(data.message)
+      console.log(JSON.stringify(data))
     },
     fail: function () {
       console.log("解密用户信息失败!")
@@ -83,7 +82,7 @@ function decryptUser(rawData, encryptedData, iv, cksession, signature) {
 function countTime() {
   var count = 0;
   var n = wx.getStorageSync('cksession')
-  var i = setInterval(function () {
+  var i = setInterval(function(){
     var d = new Date()
     if (n === null || n === '') {
       count++;
@@ -94,7 +93,7 @@ function countTime() {
     } else {
       console.log(d.toLocaleString() + "---------------" + n)
     }
-  }, 1000)
+  },1000)
 }
 
 
@@ -115,8 +114,8 @@ App({
   onLoad: function () {
 
   },
-  onShow: function () {
-    this.getUserInfo()
+  onShow:function(){
+    // this.getUserInfo()
   },
   getlocalUserSecret: function () {
     var that = this
@@ -146,39 +145,40 @@ App({
     })
   },
   getUserInfo: function (cb) {
+    console.log('test,0000000000000000000000000000000000')
     var that = this
     // wx.clearStorageSync(that.globalData.userInfo)
-    wx.checkSession({
-      success: function (res) {
-        that.globalData.username = wx.getStorageSync('username')
-        console.log("登录状态没过期")
-        console.log(res)
-      },
-      fail: function (res) {
-        console.log("登录状态已过期")
-        wx.clearStorageSync(that.globalData.userInfo)
-        //重新登录
-        wx.login({
-          success: function (e) {
-            // console.log(e)
-            var code = e.code
-            wx.getUserInfo({
-              success: function (res) {
-                console.log(res)
-                var encryptedData = res.encryptedData
-                var iv = res.iv;
-                var rawData = res.rawData
-                var signature = res.signature
-                that.globalData.userInfo = res.userInfo
-                wx.setStorageSync('that.globalData.userInfo', that.globalData.userInfo)
-                typeof cb == "function" && cb(that.globalData.userInfo)
-                login(rawData, code, encryptedData, iv, signature)
-              }
-            })
-          }
-        })
-      }
-    })
+    var ccsession = wx.getStorageSync("cksession")
+    if (ccsession == null || ccsession === '' || ccsession == undefined) {
+      console.log("登录状态已过期" + ccsession)
+      wx.clearStorageSync(that.globalData.userInfo)
+      //重新登录
+      wx.login({
+        success: function (e) {
+          var code = e.code
+          wx.getUserInfo({
+            success: function (res) {
+              console.log(res)
+              var encryptedData = res.encryptedData
+              var iv = res.iv;
+              var rawData = res.rawData
+              var signature = res.signature
+              that.globalData.userInfo = res.userInfo
+              wx.setStorageSync('userInfo', res.userInfo)
+              typeof cb == "function" && cb(that.globalData.userInfo)
+              login(rawData, code, encryptedData, iv, signature)
+            },
+            fail: function () {
+              console.log("未获得用户信息")
+            }
+          })
+        }
+      })
+
+    } else {
+      that.globalData.username = wx.getStorageSync('username')
+      console.log("登录状态没过期")
+    }
   },
   debug: function (log) {
     var date = new Date()
@@ -193,25 +193,25 @@ App({
     var time = year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second + '  '
     // console.log(time)
 
-    var logs = wx.getStorageSync('logs') || []
+    var logs = wx.getStorageSync('logs')
     logs.unshift(time + log)
     wx.setStorageSync('logs', logs)
   },
   globalData: {
-    ROOTUrl: 'https://tvpi.coocaa.com',
+ //   ROOTUrl: 'https://wx.coocaa.com/',
     username: wx.getStorageSync("username"),
     mobile: null,
     userInfo: null,
     userSecret: null,
     devicesID: null,
     source: null,
-    appkey: '5cc090ddad6e4544815a0026e9a735a4',
-    secret:'cd8a62acc6164b27a9af4d29de8eeebd',
+    key: '9acd4f7d5d9b87468575b240d824eb4f',
     client_id: 'applet',
     movieIdsList: '',
     coocaaLogin: false,
+    auhtSetting:false,
     ccsession: '',
-    time: Math.round(new Date().getTime() / 1000).toString()
+    onLine:''
   }
 })
 
@@ -219,6 +219,6 @@ App({
 
 
 module.exports = {
-  login: login,
+  login:login,
   countTime: countTime
 }

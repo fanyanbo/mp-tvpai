@@ -1,0 +1,68 @@
+<view class="container">
+  <!--搜索  -->
+   <form bindsubmit="searchSure">
+  <image class='search' src='/images/ser_icon.png' hidden="{{flag ? false : true}}"></image>
+  <input type='text' placeholder='关键词搜索' bindblur="blurTap" bindtap="bindButtonTap" focus="{{focus}}" confirm-type="搜索" bindconfirm="searchSure"></input>
+  </form>
+  <!--搜索标签列表  -->
+  <view class='searchList' hidden="{{flag ? false : true}}">
+    <view data-category="_cc_1" bindtap="tagClick"><image src='../../images/search/ss1.png'></image><li>电视剧</li></view>
+     <view data-category="_cc_2" bindtap="tagClick"><image src='../../images/search/ss2.png'></image><li>动漫</li></view> 
+    <!-- <view data-category="_cc_3" bindtap="tagClick"><image src='../../images/search/ss3.png'></image><li>儿童</li></view> -->
+    <view data-category="_cc_4" bindtap="tagClick"><image src='../../images/search/ss4.png'></image><li>电影</li></view>
+    <view data-category="_cc_5" bindtap="tagClick"><image src='../../images/search/ss5.png'></image><li>综艺</li></view>
+    <view data-category="_cc_6" bindtap="tagClick"><image src='../../images/search/ss6.png'></image><li>娱乐</li></view>
+    <view data-category="_cc_7" bindtap="tagClick"><image src='../../images/search/ss7.png'></image><li>音乐</li></view>
+    <view data-category="_cc_8" bindtap="tagClick"><image src='../../images/search/ss8.png'></image><li>旅游</li></view>
+    <view data-category="_cc_9" bindtap="tagClick"><image src='../../images/search/ss9.png'></image><li>纪录片</li></view>
+    <view data-category="_cc_10" bindtap="tagClick"><image src='../../images/search/ss10.png'></image><li>搞笑</li></view>
+    <view data-category="_cc_11" bindtap="tagClick"><image src='../../images/search/ss11.png'></image><li>教育</li></view>
+    <view data-category="_cc_12" bindtap="tagClick"><image src='../../images/search/ss12.png'></image><li>咨讯</li></view>
+    <view data-category="_cc_13" bindtap="tagClick"><image src='../../images/search/ss13.png'></image><li>财经</li></view>
+    <view data-category="_cc_14" bindtap="tagClick"><image src='../../images/search/ss14.png'></image><li>体育</li></view>
+    <view data-category="_cc_15" bindtap="tagClick"><image src='../../images/search/ss15.png'></image><li>军事</li></view>
+    <view data-category="_cc_16" bindtap="tagClick"><image src='../../images/search/ss16.png'></image><li>片花</li></view>
+    <view data-category="_cc_17" bindtap="tagClick"><image src='../../images/search/ss17.png'></image><li>汽车</li></view>
+    <view data-category="_cc_18" bindtap="tagClick"><image src='../../images/search/ss18.png'></image><li>科技</li></view>
+    <view data-category="_cc_19" bindtap="tagClick"><image src='../../images/search/ss19.png'></image><li>时尚</li></view>
+    <view data-category="_cc_20" bindtap="tagClick"><image src='../../images/search/ss20.png'></image><li>生活</li></view>
+    <view data-category="_cc_21" bindtap="tagClick"><image src='../../images/search/ss21.png'></image><li>母婴</li></view>
+    <view data-category="_cc_22" bindtap="tagClick"><image src='../../images/search/ss22.png'></image><li>游戏</li></view>
+    <view data-category="_cc_23" bindtap="tagClick"><image src='../../images/search/ss23.png'></image><li>脱口秀</li></view>
+    <view data-category="_cc_24" bindtap="tagClick"><image src='../../images/search/ss24.png'></image><li>原创</li></view>
+    <view data-category="_cc_25" bindtap="tagClick"><image src='../../images/search/ss25.png'></image><li>健康</li></view>
+    <view data-category="_cc_26" bindtap="tagClick"><image src='../../images/search/ss26.png'></image><li>广告</li></view>
+    <view data-category="_cc_27" bindtap="tagClick"><image src='../../images/search/ss27.png'></image><li>VIP</li></view>
+      <!-- <view data-category="_cc_28" bindtap="tagClick"><image src='../../images/search/ss28.png'></image><li>MV</li></view>   -->
+    <!-- <view data-category="_cc_29" bindtap="tagClick"><image src='../../images/search/ss29.png'></image><li>全部VIP纪录片</li></view>
+  -->
+          
+  </view>
+  <!--搜索标签列表end  -->
+
+  <!--搜索body  -->
+  <view class='search-body' hidden="{{flag ? true : false}}">
+    <view class="title">热门搜索</view>
+    <view class="list">
+      <ul>
+        <li bindtap="hotClick" wx:for="{{hotSearch}}" wx:for-item="item" data-content="{{item.title}}">{{item.title}}</li>
+      </ul>
+    </view>
+  </view>
+   <!--搜索body end -->
+
+
+  <view class='searchKey' hidden='{{searchKey ? true : false}}'>
+    <view class='title'>{{tvTilte}}</view>
+    <view class='close' bindtap='closeSearch'>x</view>
+    <view class='movieList'>
+      <view class='item' wx:for="{{videoList}}" wx:for-item="searchVideo">
+        <navigator url="../movieDetail/movieDetail?id={{searchVideo.id}}" hover-class="none">
+          <image src='{{searchVideo.images[0].url}}'></image>
+          <text class='describe'>{{searchVideo.title}}</text>
+        </navigator>
+      </view>
+    </view> 
+  </view> 
+
+</view>

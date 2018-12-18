@@ -12,9 +12,9 @@
 		"autoAudits": false
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.4.1",
-	"appid": "wx242b4f2f3bd0369e",
-	"projectname": "mp%E7%94%B5%E8%A7%86%E6%B4%BE%E5%BC%80%E5%8F%91%E7%89%88",
+	"libVersion": "2.4.2",
+	"appid": "wx35b9e9a99fd089a9",
+	"projectname": "dev%E5%BC%80%E5%8F%91",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
@@ -28,13 +28,23 @@
 			"current": -1,
 			"list": []
 		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
 		"game": {
 			"currentL": -1,
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
-			"list": []
+			"current": 0,
+			"list": [
+				{
+					"id": -1,
+					"name": "关联设备",
+					"pathName": "pages/home/home"
+				}
+			]
 		}
 	}
 }

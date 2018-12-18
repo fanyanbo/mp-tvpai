@@ -1,44 +1,51 @@
 {
   "pages": [
-    "pages/fyb-index/index",
+    "pages/index/index",
     "pages/my/my",
-    "pages/find/find",
-    "pages/column/column",
-    "pages/columnDetail/columnDetail",
-    "pages/search/index",
-    "pages/hot-category/index",
-    "pages/hot-detail/index"
+    "pages/cinecism/cinecism",
+    "pages/detail/detail",
+    "pages/feedback/fb",
+    "pages/login/coocaa",
+    "pages/course/course",
+    "pages/fbBack/fbBack",
+    "pages/home/home",
+    "pages/webView/webView",
+    "pages/movies/movies",
+    "pages/sresult/sresult",
+    "pages/movieDetail/movieDetail"
   ],
-  "window": {  
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "",
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "电视派",
-    "navigationBarBackgroundColor": "#f8f8f8",
-    "backgroundColor": "#f8f8f8"
+    "enablePullDownRefresh": false,
+    "backgroundColor": "#fff"
   },
   "tabBar": {
     "selectedColor": "#fd614e",
     "color": "#444",
-    "position": "top",
+    "position":"top",
     "list": [
       {
-        "pagePath": "pages/fyb-index/index",
-        "text": "主页"
+        "pagePath": "pages/index/index",
+        "text": "发现",
+        "iconPath": "images/home_n.png",
+        "iconSize": 120,
+        "selectedIconPath": "images/home_y.png"
       },
       {
-        "pagePath": "pages/find/find",
-        "text": "发现"
+        "pagePath": "pages/movies/movies",
+        "text": "影片库",
+        "iconPath": "images/movies1.png",
+        "selectedIconPath": "images/movies2.png"
       },
       {
         "pagePath": "pages/my/my",
-        "text": "我的"
+        "text": "我的",
+        "iconPath": "images/my_n.png",
+        "selectedIconPath": "images/my_y.png"
       }
     ]
-  },
-  "networkTimeout": {
-    "request": 10000,
-    "connectSocket": 10000,
-    "uploadFile": 10000,
-    "downloadFile": 10000
-  },
-  "debug": true
+  }
 }

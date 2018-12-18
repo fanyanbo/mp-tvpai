@@ -1,0 +1,57 @@
+
+<view class='container'>
+<!--顶部搜索  -->
+<view class='tagList {{tagListAbsolute}}'>
+  <view class='tabParents'>
+    <view class='tabScroll'>
+      <form bindsubmit="tagClick">
+    <view wx:for="{{firstChn}}"  wx:for-item="item" data-exvalue="{{item.extra_condition}}" data-filtervalue="{{item.filter_value}}" data-sortvalue="{{item.sort_value}}" data-index="{{index}}"  bindtap='chioceChn' class="{{activeIndex2 == index? 'active':''}}" bindtap='tagClick'>{{item.title}} </view>
+    </form>
+    </view>
+  </view>
+  <!--标签列表  -->
+  <view hidden="{{flag ? true : false}}" class='tagAll'>
+      <view class='tabParents' wx:for="{{secondchn}}" wx:for-item="item" wx:for-index="ids" id="{{index}}" bindtap='secondTag'>
+        <view class='tabScroll'>
+            <view bindtap='chioceChn' data-num="{{index}}" data-isd="{{ids+'_'+index}}" class="{{activeIndex == (ids+'_'+index)? 'active':''}}" wx:for="{{item}}" wx:for-item="item" data-exvalue="{{item.extra_condition}}" data-filtervalue="{{item.filter_value}}" data-sortvalue="{{item.sort_value}}">{{item.title}}</view>
+        </view>
+      </view>
+  <view class='{{tabAll}}' data-tab='{{tabShow}}' bindtap='tabClick'>全部</view>
+  </view>
+
+  <!--标签列表end  -->
+  
+</view>
+
+
+  <!--顶部搜索end  -->
+
+<!--全部展开收起按钮  -->
+<view class='{{tabAll}}' hidden="{{flag ? false : true}}" data-tab='{{tabShow}}' bindtap='tabClick'>全部</view>
+<!--全部展开收起按钮end  -->
+
+<!--影片列表  -->
+<view class='movieList' wx:if="{{contentAll!=null&&contentAll.length>0}}">
+  <view class='item' wx:for="{{contentAll}}" wx:for-item="item">
+    <form bindsubmit="movieclick">
+    <navigator url="../movieDetail/movieDetail?id={{item.id}}" bindtap="movieclick" hover-class="none" data-id="{{item.id}}">
+      <image src='{{item.images[0].url}}'></image>
+      <text class='describe'>{{item.title}}</text>
+    </navigator>
+    </form>
+  </view>
+
+ </view>
+ <view class="nomv" wx:else>暂无相关影片</view>
+<!--影片列表end  -->
+</view>
+
+  <view class='search-body' hidden="{{flag ? true : false}}">
+    <view class="title">热门搜索</view>
+    <view class="list">
+      <ul>
+        <li bindtap="hotClick" wx:for="{{hotSearch}}" wx:for-item="item" data-content="{{item.title}}">{{item.title}}</li>
+      </ul>
+    </view>
+  </view>
+   <!--搜索body end -->

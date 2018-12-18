@@ -1,5 +1,8 @@
 var md5 = require('md5.js')
 
+
+var app = getApp()
+
 function formatTime( date ) {
   var year = date.getFullYear()
   var month = date.getMonth() + 1
@@ -90,18 +93,17 @@ function setParams(params){
   }else {
     var result = '';
     for (var key in params) {
-      if (params[key] == null || params[key] == "") continue;
-      result += key + params[key];
+      if (params[key] == null || params[key] === "") continue;
+      result += key + '=' + params[key] + '&';
     }
-    return result.substr(0, result.length);
+    return result.substr(0, result.length - 1);
   }
 
 }
 //md5加密
 function encryption(paramsStr, k){
-  var str = setParams(paramsStr) + k
-  var sign = md5.hexMD5(str)
-   console.log(sign)
+  var str = setParams(paramsStr)
+  var sign = md5.hexMD5(str + k)
   return sign
 }
 
@@ -182,33 +184,82 @@ function json2Form(json) {
   }
   return str.join("&");
 }
-//判断用户是否登录酷开账号
+
+//checkUsers
+function checkUsers() {
+  let key = getApp().globalData.key
+  let ccsession = wx.getStorageSync('cksession')
+  let paramsStr = { "ccsession": ccsession }
+  let sign = encryption(paramsStr, key)
+  wx.request({
+    url: getApp().globalData.ROOTUrl + 'ccuserlogin/checkUser.coocaa',
+    method: 'GET',
+    data: {
+      client_id: getApp().globalData.client_id,
+      sign: sign,
+      param: paramsStr
+    },
+    success: function (res) {
+      if (res.data && res.data.result) {
+        console.log("checkUser:")
+        console.log(res)
+        wx.setStorageSync('userid', res.data.data.userid)
+        wx.setStorageSync('username', res.data.data.username)
+        wx.setStorageSync('mobile', res.data.data.mobile)
+      }
+    },
+    error:function(){
+    
+    }
+  })
+}
+
+
 function coocaaLogin() {
   var mobile = wx.getStorageSync('mobile')
-  var username = wx.getStorageSync('username')
+  var userid = wx.getStorageSync('userid')
   console.log("mobile" + mobile)
-  if (username != null && username != '') {
+  if (userid != null && userid != '') {
     return true
   } else {
     showToastBox("去登陆酷开账号", "loading")
     //去登陆酷开账号
-    wx.navigateTo({
-      url: '../login/coocaa'
-    });
+    setTimeout(function(){
+      wx.navigateTo({
+        url: '../login/coocaa'
+      });
+    },1000)
     return null
   }
 }
 
 //操作前判断ccsession是否为空
 function ccsessionIs(){
-  var ccsession = wx.getStorageSync("cksession");
+  var ccsession = wx.getStorageSync("cksession")
+  var userInfo = wx.getStorageSync("userInfo")
   //console.log(ccsession == null || ccsession === '' || ccsession == undefined)
-  if (ccsession == null || ccsession === '' || ccsession == undefined) {
-   showToastBox("返回点我的", "loading")
+  if (ccsession == null || ccsession === '' || ccsession == undefined) {  
+  //  if (userInfo == null || userInfo == undefined || userInfo == ''){
+     if (!getApp().globalData.auhtSetting && getApp().globalData.onLine){        
+          getApp().getUserInfo()
+          // showToastBox("去授权登录！", "loading")
+          // wx.switchTab({
+          //   url: '../index/index',
+          // })
+     } else{
+          showToastBox("去授权登录！", "loading")
+          wx.switchTab({
+            url: '../my/my',
+          })
+        }
+    //  return null
+  //  }
+  //  showToastBox("返回点我的", "loading")
     return null
   }
   return true
 }
+
 
 // countdown
 class CountDown {
@@ -420,7 +471,7 @@ function starGrade(pingfen,i, starClass0, starClass1, starClass2, starClass3, st
 // network post data
 
 function postLoading(url, method, params, success, fail, complete, message){
-  console.log("zy======="+JSON.stringify(params))
+  console.log(params)
   wx.showNavigationBarLoading()
   if (message != '') {
     wx.showLoading({
@@ -459,10 +510,52 @@ function postLoading(url, method, params, success, fail, complete, message){
   })
 }
 
+// 事件收集
+function eventCollect(type, contactId){
+  var that = this
+  const url = getApp().globalData.ROOTUrl + 'userEventLog/saveEventLog.coocaa'
+  const key = getApp().globalData.key
+  var ccsession = wx.getStorageSync("cksession")
+  var createTime = Date.parse(new Date())/1000
+  var appid = "wx35b9e9a99fd089a9"
+  var formId = wx.getStorageSync("formid")
+  var paramsStr = { "appid": appid, "ccsession": ccsession,"contactId": contactId +'', "formId": formId +'', "type": type, "wxCreateTime": createTime+''}
+  var sign = encryption(paramsStr, key)
+  var data = {
+    client_id: getApp().globalData.client_id,
+    sign: sign,
+    param: paramsStr
+  }
+  wx.request({
+    url: url,
+    data: {
+      client_id: 'applet',
+      sign: sign,
+      param: paramsStr
+    },
+    method: 'get',
+    header: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    success:res => {
+      if(res.data.result === true){
+        console.log('enevtCollect success!')
+      }
+    },
+    fail: function () {
+      console.log("获取formid失败")
+    },
+    complete:function(){
+      console.log("事件表单接口请求完成")
+    }
+  })
+}
+
 module.exports = {
   formatTime: formatTime,
   isFunction: isFunction,
   parseInteger: parseInt,
+  eventCollect: eventCollect,
   encodeUTF8: encodeUTF8,
   sha1: sha1,
   showLoading: showLoading,
@@ -481,7 +574,8 @@ module.exports = {
   getDateDiff: getDateDiff,
   starGrade: starGrade,
   getDateDiff: getDateDiff,
-  postLoading: postLoading
+  postLoading: postLoading,
+  checkUsers: checkUsers
 }
 
 // export default CountDown

@@ -1,0 +1,32 @@
+/* pages/movieDetail.wxss */
+.movieDetail{width: 94%;margin: 0 auto;}
+.movieDetail image.haibao{width: 30%;height: 280rpx;overflow: hidden;}
+.movieDetail .describe{margin-left: 5%;display: inline-block;width: 64%;vertical-align:top;color: #444;
+}
+.movieDetail .describe ul li{font-size: 26rpx;display:block;}
+.movieDetail .describe ul li.title{font-size: 36rpx;margin-bottom: 5%;}
+.movieDetail .describe ul li span{color: #f4c000;}
+.movieDetail .describe ul li image{width:52rpx;height:52rpx;vertical-align:middle;}
+.movieDetail .describe ul li em{position:absolute;top:20%;display:block;left:13%;font-size: 30rpx;}
+.movieDetail .describe ul li:last-child{margin-top: 10%;position: relative;}
+.tvLists{width: 94%;margin: 5% auto;overflow-x: scroll;overflow-y:hidden;}
+.tvLists view.xs{display: inline-block;padding: 20rpx 40rpx 20rpx 40rpx;border: 1rpx solid #ccc;font-size:26rpx;margin-right:20rpx;}
+.tvLists view.xs  text{display: block;margin-top:15rpx;}
+.tvLists .scroll{position:relative;height:140rpx;white-space:nowrap;margin:0 auto;text-align:left;border: none;padding-left:0;}
+.tvLists view.active{color:#f4c000;}
+.tvLists .scroll view{display: inline-block;}
+.push{margin-left: 3%;margin-top:10%;font-size: 36rpx;}
+.content{font-size: 26rpx;width: 94%;margin: 5% auto;}
+.movieList{margin-top:5%;}
+
+.service{position: fixed;bottom:0;width: 100%;background:#fff;padding-bottom:10rpx;border-top:1rpx solid #eee;z-index: 99;height:50%;overflow-y:scroll;}
+.service .item{width: 94%;margin: 0 auto;font-size:30rpx;padding-top:30rpx;}
+.service .item .left{width: 20%;display:inline-block;font-size:30rpx;}
+.service .item .right{width: 80%;display:inline-block;font-size: 30rpx;}
+.service .item .right text.right{width:auto !important;float: right;padding: 5rpx 15rpx;font-size: 26rpx;text-align: center;border:1rpx solid #eee;
+}
+.service .no{text-align: center;width: 100%;padding: 50rpx;}
+.boxshdaw{height: 100%;position: fixed;width: 100%;background: rgba(0,0,0,.6);z-index: 9;top:0;}
+
+.openit,.scrollIt{width: 100%;text-align: center;font-size: 30rpx;color:#353535;}
+.open{height:75rpx;overflow:hidden;}

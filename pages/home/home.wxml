@@ -1,0 +1,71 @@
+<view class="container">
+  <view class="user">
+    <image src="{{avatar}}" class="avatar" background-size="cover"></image>
+    <text class="username">{{username}}</text>
+    <view class="cancel-view">
+      <button class="cancel-bind" bindtap="cancelBind" data-statu="open">取消账号绑定</button>
+    </view>
+  </view>
+  <view class="mydevices">
+    <text>我的设备</text>
+  </view>
+  <view class="{{devices?'none':'no-devices'}}">
+    <text class="no-title">{{"您的账号未关联任何设备，关联后\n可推送影片到设备中播放"}}</text>
+    <text class="howbind" bindtap="howbind">如何关联？</text>
+  </view>
+  <view class="{{devices?'devices':'none'}}">
+    <block wx:for="{{mydevices}}" wx:key="*this" wx:for-index="index">
+      <view class="device-item" >
+        <view class="device-top" data-index="{{index}}" bindtap="moreLess">
+          <view class="device-top-left">
+            <image src="../../images/shebei_icon.png" class="device-tv"></image>
+            <text class="device-name">{{item.deviceName}}</text>
+          </view>
+          <view class="device-top-right">
+            <text class="device-model">{{item.model}}</text>
+            <image src="../../images/arrow1.png" data-index="{{index}}" class="more {{moretop[index]}}"></image>
+          </view>
+        </view>
+        <view data-index="{{index}}" class="none {{block[index]}}">
+          <view class="device-content">
+            <text class="device-content-left">电视名称</text>
+            <view class="device-content-right">
+              <text>{{item.deviceName}}</text>
+              <image src="../../images/arrow1.png" class="name-more"></image>
+            </view>
+            
+          </view>
+          <view class="device-content">
+            <text class="device-content-left">电视型号</text>
+            <text class="device-content-right">{{item.model}}</text>
+          </view>
+          <view class="device-content">
+            <text class="device-content-left">电视ID</text>
+            <text class="device-content-right">{{item.devMac}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+  <view class="{{devices?'morebind':'none'}}" bindtap="moreBind">
+    <text>如何关联更多我的设备？</text>
+  </view>
+
+ 
+</view>
+
+
+<!--弹窗-->
+<view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
+<view class="modal-dialog" wx:if="{{showModal}}">
+  <view class="modal-title">
+    <image src="../../images/gantanhao-_icon.png"></image>
+  </view>
+  <view class="modal-content">
+    <text>确定取消酷开账号的绑定吗</text>
+  </view>
+  <view class="modal-footer">
+    <view class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</view>
+    <view class="btn-confirm" bindtap="onConfirm" data-status="confirm">确定</view>
+  </view>
+</view>
