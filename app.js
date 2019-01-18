@@ -1,8 +1,6 @@
-//app.jss
-var utils = require('utils/util.js');
-var api = require('config/config.js');
-
-let {WeToast} = require('toast/wetoast.js')
+let utils = require('utils/util.js');
+let api = require('config/config.js');
+let { WeToast } = require('toast/wetoast.js');
 
 // 使用登录凭证 code 获取 session_key 和 openid
 function login(rawData, code, encryptedData, iv, signature) {
@@ -11,43 +9,43 @@ function login(rawData, code, encryptedData, iv, signature) {
   var paramsStr = { "appid": "wx35b9e9a99fd089a9", "jscode": code } //wx45e46c7c955eebf1 wx35b9e9a99fd089a9
   var key = getApp().globalData.key
   var sign = utils.encryption(paramsStr, key)
-    wx.request({
-      url: url,
-      data: {
-        client_id: 'applet',
-        sign: sign,
-        param: paramsStr
-      },
-      method: 'get',
-      header: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      success: res => {
-        var data = res.data;
-        if (data.result){
-          console.log("进来了" + data.data.ccsession)
-          var cksession = data.data.ccsession
-          wx.setStorageSync('cksession', cksession)
-          getApp().globalData.ccsession = cksession
-          //定时器判断ccsession是否失效
-          //countTime()
-          console.log("setStorageSync cksession:" + cksession)
-          decryptUser(rawData, encryptedData, iv, cksession, signature)
-          console.log("登录返回数据：")
-          console.log(data.data.mobile)
-          var mobile = data.data.mobile
-          var username = data.data.username
-          //把mobile和username存下来
-          wx.setStorageSync('mobile', mobile)
-          wx.setStorageSync('username', username)
-          wx.setStorageSync('userid', data.data.userid)
-         // utils.showToastBox("成功", "success")
-        }
-      },
-      fail: function(){
-        console.log("使用登录凭证 code 获取 session_key 和 openid失败")
+  wx.request({
+    url: url,
+    data: {
+      client_id: 'applet',
+      sign: sign,
+      param: paramsStr
+    },
+    method: 'get',
+    header: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    success: res => {
+      var data = res.data;
+      if (data.result) {
+        console.log("进来了" + data.data.ccsession)
+        var cksession = data.data.ccsession
+        wx.setStorageSync('cksession', cksession)
+        getApp().globalData.ccsession = cksession
+        //定时器判断ccsession是否失效
+        //countTime()
+        console.log("setStorageSync cksession:" + cksession)
+        decryptUser(rawData, encryptedData, iv, cksession, signature)
+        console.log("登录返回数据：")
+        console.log(data.data.mobile)
+        var mobile = data.data.mobile
+        var username = data.data.username
+        //把mobile和username存下来
+        wx.setStorageSync('mobile', mobile)
+        wx.setStorageSync('username', username)
+        wx.setStorageSync('userid', data.data.userid)
+        // utils.showToastBox("成功", "success")
       }
-    })
+    },
+    fail: function () {
+      console.log("使用登录凭证 code 获取 session_key 和 openid失败")
+    }
+  })
 }
 
 //解密获取用户数据
@@ -55,11 +53,9 @@ function decryptUser(rawData, encryptedData, iv, cksession, signature) {
   var url = api.getuserinfoUrl
   var key = getApp().globalData.key
   cksession = wx.getStorageSync('cksession')
- // console.log("getStorageSync cksession:" + cksession)
   rawData = encodeURI(rawData, 'utf-8')
   var paramsStr = { "ccsession": cksession, "encryptedData": encryptedData, "iv": iv, "rawData": rawData, "signature": signature }
   var sign = utils.encryption(paramsStr, key)
-  //console.log("cksession" + cksession)
   var dataStr = utils.json2Form({ client_id: 'applet', sign: sign, param: '{"ccsession":"' + cksession + '","encryptedData":"' + encryptedData + '","iv":"' + iv + '","rawData":"' + rawData + '","signature":"' + signature + '"}' })
   wx.request({
     url: url,
@@ -69,6 +65,7 @@ function decryptUser(rawData, encryptedData, iv, cksession, signature) {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     success: res => {
+      console.log('fyb,', res)
       var data = res.data;
       console.log(JSON.stringify(data))
     },
@@ -78,11 +75,10 @@ function decryptUser(rawData, encryptedData, iv, cksession, signature) {
   })
 }
 
-
 function countTime() {
   var count = 0;
   var n = wx.getStorageSync('cksession')
-  var i = setInterval(function(){
+  var i = setInterval(function () {
     var d = new Date()
     if (n === null || n === '') {
       count++;
@@ -93,29 +89,20 @@ function countTime() {
     } else {
       console.log(d.toLocaleString() + "---------------" + n)
     }
-  },1000)
+  }, 1000)
 }
 
 
 App({
   WeToast,
   onLaunch: function () {
-    var that = this
 
-    // that.globalData.source = wx.getStorageSync('source')
-
-    //调用API从本地缓存中获取数据
-    wx.getStorageInfo({
-      success: function (res) {
-
-      }
-    })
   },
   onLoad: function () {
 
   },
-  onShow:function(){
-    // this.getUserInfo()
+  onShow: function () {
+
   },
   getlocalUserSecret: function () {
     var that = this
@@ -145,9 +132,7 @@ App({
     })
   },
   getUserInfo: function (cb) {
-    console.log('test,0000000000000000000000000000000000')
     var that = this
-    // wx.clearStorageSync(that.globalData.userInfo)
     var ccsession = wx.getStorageSync("cksession")
     if (ccsession == null || ccsession === '' || ccsession == undefined) {
       console.log("登录状态已过期" + ccsession)
@@ -174,7 +159,6 @@ App({
           })
         }
       })
-
     } else {
       that.globalData.username = wx.getStorageSync('username')
       console.log("登录状态没过期")
@@ -191,14 +175,12 @@ App({
     var second = date.getSeconds()
 
     var time = year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second + '  '
-    // console.log(time)
 
     var logs = wx.getStorageSync('logs')
     logs.unshift(time + log)
     wx.setStorageSync('logs', logs)
   },
   globalData: {
- //   ROOTUrl: 'https://wx.coocaa.com/',
     username: wx.getStorageSync("username"),
     mobile: null,
     userInfo: null,
@@ -209,16 +191,13 @@ App({
     client_id: 'applet',
     movieIdsList: '',
     coocaaLogin: false,
-    auhtSetting:false,
+    auhtSetting: false,
     ccsession: '',
-    onLine:''
+    onLine: ''
   }
 })
 
-
-
-
 module.exports = {
-  login:login,
+  login: login,
   countTime: countTime
 }

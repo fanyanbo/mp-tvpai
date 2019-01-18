@@ -50,6 +50,7 @@ Page({
     }
 
     utils.postLoading(url, 'GET', data, function (res) {
+      console.log("---获取设备-fyb----",res);
       console.log("---获取设备-----"+JSON.stringify(res.data))
       if(res.data.result){
         if(res.data.data){
@@ -104,8 +105,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    var that = this
-    that.setData({
+    this.setData({
       ccsession: wx.getStorageSync("cksession")
     })
     this.getDevices('获取设备中')

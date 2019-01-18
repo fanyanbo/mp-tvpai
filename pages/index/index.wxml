@@ -4,8 +4,7 @@
     <swiper indicator-dots="{{indicatorDots}}" circular="true" autoplay="{{autoplay}}" indicator-color="{{indicatorColor}}" indicator-active-color="{{indicatorActiveColor}}" interval="{{interval}}" duration="{{duration}}" bindchange="listenSwiper">
       <block wx:for="{{banners}}" wx:key="">
         <navigator url="../cinecism/cinecism?id={{item.articleId}}">
-          <swiper-item>
-            
+          <swiper-item>    
             <image class="slide-image" src="{{item.articlePicUrl}}"></image>
             <text class="banner-text">{{item.articleTitle}} </text>
           </swiper-item>
@@ -35,13 +34,11 @@
       </navigator>
     </block>
   </view>
-
   <!--no more data  -->
   <view class="{{hasMoreData?'none':'more-data'}}">
     <text>没有更多内容</text>
   </view>
 </view>
-
 
 <view>
   <remotecontrolnew id="remotecontrol-id" fromPage="hello"></remotecontrolnew>

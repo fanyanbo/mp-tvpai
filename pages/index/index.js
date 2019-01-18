@@ -1,15 +1,10 @@
 //index.js
-var utils = require('../../utils/util.js');
-var appJs = require('../../app.js');
-var api = require('../../config/config.js');
-var app = getApp()
-
+let utils = require('../../utils/util.js');
+let appJs = require('../../app.js');
+let api = require('../../config/config.js');
+let app = getApp()
 
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
     page: '1',
     pageSize: '10',
@@ -38,10 +33,8 @@ Page({
       param: {}
     }
     utils.postLoading(url, 'GET', data, function (res) {
-      // success
-      console.log('banners success:')
-      console.log(res)
 
+      console.log('banners success:', res)
       if (res.data && res.data.data) {
         if (res.data.data.length > 5) {
           that.setData({
@@ -54,16 +47,12 @@ Page({
         }
       }
     }, function (res) {
-      // fail
-      console.log('banners fail:')
-      console.log(res)
+      console.log('banners fail:', res)
       wx.showToast({
         title: '加载轮播数据失败',
       })
     }, function (res) {
-      // complete
-      console.log('banners complete:')
-      console.log(res)
+      console.log('banners complete:', res)
     }, message)
   },
   // 获取信息流
@@ -132,11 +121,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let that = this
-    that.getBanners('加载中')
-    that.getStreams('')
+    this.getBanners('加载中')
+    this.getStreams('')
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -149,7 +136,7 @@ Page({
   onShow: function () {
     var that = this
     var ccsession = wx.getStorageSync('cksession')
-    // console.log("ccsession:")
+    console.log('fyb,',ccsession)
     if (ccsession === null || ccsession === '') {
       //重新登录
       wx.login({
@@ -158,6 +145,7 @@ Page({
           console.log("-----wx.login-----" + JSON.stringify(e));
           wx.getUserInfo({
             success: function (res) {
+              console.log('fyb',res)
               var encryptedData = res.encryptedData
               var iv = res.iv;
               var rawData = res.rawData
@@ -176,22 +164,21 @@ Page({
         }
       })
     } else {
-      console.log('test,22222222222222222')
+      console.log('fyb,ccsession != null')
       app.getUserInfo();
       var userInfo = wx.getStorageSync('userInfo')
+      console.log('fyb,index.js userInfo:',userInfo)
       if (typeof (userInfo) == "undefined") {
         console.log('get user info failed')
       } else {
         console.log('get user info success')
       }
-      //更新数据
-      that.setData({
-        userInfo: userInfo,
-        username: wx.getStorageSync("username")
-      })
-
+      // the code is commented by fyb
+      // that.setData({
+      //   userInfo: userInfo,
+      //   username: wx.getStorageSync("username")
+      // })
     }
-
   },
 
   /**
@@ -200,14 +187,12 @@ Page({
   onHide: function () {
 
   },
-
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
 
   },
-
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
@@ -217,7 +202,6 @@ Page({
     this.getStreams('正在刷新数据')
     wx.stopPullDownRefresh()
   },
-
   /**
    * 页面上拉触底事件的处理函数
    */
@@ -225,7 +209,6 @@ Page({
     if (this.data.hasMoreData) {
       this.getStreams('加载中')
     } else {
-
       this.setData({
         hasMoreData: false
       })
@@ -266,5 +249,5 @@ function getPeriods(e) {
 
 function getMonthDay(d) {
   var date = new Date(d);
-  return ( date.getMonth() + 1 ) + '月' + date.getDate() + '日'
+  return (date.getMonth() + 1) + '月' + date.getDate() + '日'
 }

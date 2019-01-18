@@ -41,34 +41,3 @@
     </view>
   </view>
 </view>
-
-
-<!-- <view class="container">
-  <view class="avatar">
-    <image class="wx-avatar" src="{{userInfo.avatarUrl}}"></image>
-    <image class="cc-logo" src="../../images/c_logo.png"></image>
-    <image class="line-avatar" src="../../images/portrait_green.png" mode="aspectFit"></image>
-  </view>
-  <view class="notice">
-    <text>微信账号与酷开账号绑定</text>
-  </view>
-  <view class="login-nav">
-    <view class="{{selected?'on':'off'}} mob-nav" bindtap="selected">手机短信登录</view>
-    <view class="{{selected1?'on':'off'}} acc-nav" bindtap="selected1">账号密码登录</view>
-  </view>
-  <view class="{{selected?'show':'hidden'}}">
-    <input class="mob-acc" type="number" maxlength="11" name="mobile" bindblur="blurTel" value="" placeholder="请输入手机号码" />
-    <view class="line-view">
-      <input class="mob-pass" type="text" placeholder="请输入验证码" value="" bindblur="blurMobcode"/>
-      <text class="getmob-code" bindtap="vcode">{{c2 || '获取验证码'}}</text>
-    </view>
-    <button class="mob-login" bindtap="mobLogin">登录</button>
-  </view>
-  <view class="{{selected1?'show':'hidden'}}">
-    <form bindsubmit="ccsubmit">
-      <input class="acc-name" name="userName" type="text" placeholder="请输入账号" />
-      <input class="acc-pass" name="userPassword" type="password" placeholder="请输入密码" />
-      <button class="acc-login" form-type="submit">登录</button>
-    </form>
-  </view>
-</view> -->

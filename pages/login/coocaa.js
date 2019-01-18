@@ -54,6 +54,7 @@ Page({
     let that = this
     const key = app.globalData.key
     const mobile = that.data.mobile
+    console.log('fyb,vcode:',key,mobile)
 
     if (!mobile){
       wx.showModal({
@@ -129,7 +130,7 @@ Page({
       return !1
     }else {
       const key = app.globalData.key
-      const url = api.getCaptchaUrl
+      const url = api.captchaLoginUrl
       const paramsStr = { "captcha": code, "ccsession": wx.getStorageSync('cksession'),"mobile": mobile}
       const sign = utils.encryption(paramsStr, key)
       const data = {
@@ -137,9 +138,11 @@ Page({
         sign: sign,
         param: paramsStr  
       }
+      console.log('fyb',url,data)
       utils.postLoading(url, 'GET', data, function(res){
         
         if(res.data.result){
+          console.log('fyb',res)
           let resdata = res.data.data
           wx.setStorageSync('username', resdata.username)
           app.globalData.username = wx.getStorageSync("username")

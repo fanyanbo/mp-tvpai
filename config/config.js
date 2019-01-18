@@ -1,4 +1,5 @@
-const baseUrl = 'https://wx.coocaa.com/';
+// const baseUrl = 'https://wx.coocaa.com/';
+const baseUrl = 'https://beta-wx.coocaa.com/';
 
 const getDevicesUrl = baseUrl + "articleMoviesAPI/getDevices.coocaa";//获取设备信息
 const logoutUrl = baseUrl + "ccuserlogin/logout.coocaa";//登出酷开账号
@@ -15,7 +16,8 @@ const getMoviesDetailUrl = baseUrl + "articleMoviesAPI/getMoviesDetail.coocaa";/
 const getBannersUrl = baseUrl + "spread/getBanners.coocaa";//获取轮播图数据
 const saveUserFeedbackUrl = baseUrl + "articleMoviesAPI/saveUserFeedback.coocaa";//保存用户反馈
 const getStreamsUrl = baseUrl + "spread/getStreams.coocaa";//获取信息流
-const getCaptchaUrl = baseUrl + "ccuserlogin/getCaptcha.coocaa";//登录酷开账号
+const getCaptchaUrl = baseUrl + "ccuserlogin/getCaptcha.coocaa";//获取验证码
+const captchaLoginUrl = baseUrl + "ccuserlogin/captchaLogin.coocaa";//登录酷开账号
 const getVideoDetailUrl = baseUrl + "moviesAPI/getVideoDetail.coocaa";//获取影片详情接口
 const getRelateVideoListUrl = baseUrl + "moviesAPI/getRelateVideoList.coocaa";//获取猜你喜欢（关联影片列表）
 const getTvSegmentListUrl = baseUrl + "moviesAPI/getTvSegmentList.coocaa";//获取剧集列表接口
@@ -48,6 +50,7 @@ module.exports = {
   saveUserFeedbackUrl: saveUserFeedbackUrl,
   getStreamsUrl: getStreamsUrl,
   getCaptchaUrl: getCaptchaUrl,
+  captchaLoginUrl: captchaLoginUrl,
   getVideoDetailUrl: getVideoDetailUrl,
   getRelateVideoListUrl: getRelateVideoListUrl,
   getTvSegmentListUrl: getTvSegmentListUrl,
