@@ -8,8 +8,8 @@
     <!-- 上面区域-->
     <view class="header-wrapper">
       <image src="../../images/shutdown@3x.png" class="control-icon shutdown-icon {{isShutdownFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="shutdown"></image>
-      <image src="../../images/volup@3x.png" class="control-icon volup-icon {{isVolupFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="volup"></image>
-      <image src="../../images/voldown@3x.png" class="control-icon voldown-icon {{isVoldownFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="voldown"></image>
+      <image src="../../images/volup@3x.png" class="control-icon volup-icon {{isVolupFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="volume_plus"></image>
+      <image src="../../images/voldown@3x.png" class="control-icon voldown-icon {{isVoldownFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="volume_minus"></image>
     </view>
 
     <!-- 中间区域-->
@@ -37,21 +37,23 @@
 
   <!-- 语音输入版面 -->
   <view class="remoter-panel-wrapper" wx:if="{{indexStatus === 'VoiceInput'}}">
-    <view class="voice_input_wrapper">
-      <image class="icon-mic" src="../../images/Icons-mic.png"></image>
-    </view> 
-    <view class="tip-wrapper">
-      <text class="tip-text">{{oneTip}}</text>
+    <view class="voice-input-wrapper">
+      <canvas class="canvas" canvas-id="canvasCircle"></canvas>
+      <canvas class="canvas-mask" canvas-id="canvasRing"></canvas>
+      <view class="canvas_icon">
+        <image class="icon-mic" src="../../images/Icons-mic.png"></image>
+      </view> 
     </view>
   </view>
 
   <!-- 语音结果版面 -->
   <view class="remoter-panel-wrapper" wx:if="{{indexStatus === 'VoiceResult'}}">
-    <view class="voice_result_wrapper">
+    <view class="loading-wrapper" wx:if="{{!query}}">
       <image src="../../images/Icons-loading.png" class="icon-loading"></image>
+      <text class='loading-text'>数据处理中，请稍后</text>
     </view> 
-    <view class="tip-wrapper">
-      <text class="tip-text">{{oneTip}}</text>
+    <view class="content-wrapper" wx:if="{{query}}">
+      <text>{{query}}</text>
     </view>
   </view>
 

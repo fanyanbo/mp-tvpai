@@ -82,12 +82,12 @@ function countTime() {
     var d = new Date()
     if (n === null || n === '') {
       count++;
-      console.log(d.toLocaleString() + "---------------失效了")
+      console.log(d.toLocaleString() + "失效了")
       if (count == 3) {
         clearInterval(i);
       }
     } else {
-      console.log(d.toLocaleString() + "---------------" + n)
+      console.log(d.toLocaleString() + "->" + n)
     }
   }, 1000)
 }
@@ -169,13 +169,10 @@ App({
     var year = date.getFullYear()
     var month = date.getMonth() + 1
     var day = date.getDate()
-
     var hour = date.getHours()
     var minute = date.getMinutes()
     var second = date.getSeconds()
-
     var time = year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second + '  '
-
     var logs = wx.getStorageSync('logs')
     logs.unshift(time + log)
     wx.setStorageSync('logs', logs)
@@ -193,7 +190,8 @@ App({
     coocaaLogin: false,
     auhtSetting: false,
     ccsession: '',
-    onLine: ''
+    onLine: '',
+    activeid: null //add by fyb
   }
 })
 

@@ -463,13 +463,7 @@ function starGrade(pingfen,i, starClass0, starClass1, starClass2, starClass3, st
   }
 }
 
-
-
-
-
-
 // network post data
-
 function postLoading(url, method, params, success, fail, complete, message){
   console.log(params)
   wx.showNavigationBarLoading()

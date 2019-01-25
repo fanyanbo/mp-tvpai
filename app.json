@@ -17,10 +17,16 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "",
+    "navigationBarTitleText": "电视派",
     "navigationBarTextStyle": "black",
     "enablePullDownRefresh": false,
     "backgroundColor": "#fff"
+  },
+  "plugins": {
+    "WechatSI": {
+    "version": "0.2.2",
+    "provider": "wx069ba97219f66d99"
+    }
   },
   "tabBar": {
     "selectedColor": "#fd614e",

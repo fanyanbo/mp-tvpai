@@ -21,6 +21,29 @@ Page({
   listenSwiper: function (e) {
     // console.log(e)
   },
+  getActiveId: function () {
+    console.log('获取激活id中')
+    const ccsession = wx.getStorageSync('cksession')
+    const url = api.getDevicesUrl
+    const key = app.globalData.key
+    let paramsStr = { "ccsession": ccsession }
+    const sign = utils.encryption(paramsStr, key)
+    let data = {
+      client_id: app.globalData.client_id,
+      sign: sign,
+      param: paramsStr
+    }
+    utils.postLoading(url, 'GET', data, function (res) {
+      if (res.data.result && res.data.data) {
+        console.log("获取设备激活id:" + res.data.data[0].serviceId);
+        app.globalData.activeid = res.data.data[0].serviceId;
+      }
+    }, function (res) {
+
+    }, function (res) {
+
+    }, '')
+  },
   // 获取轮播图数据
   getBanners: function (message) {
     let that = this
@@ -33,7 +56,6 @@ Page({
       param: {}
     }
     utils.postLoading(url, 'GET', data, function (res) {
-
       console.log('banners success:', res)
       if (res.data && res.data.data) {
         if (res.data.data.length > 5) {
@@ -103,18 +125,13 @@ Page({
           title: res.data.message,
         })
       }
-
-
     }, function (res) {
-      console.log('streams fail:')
-      console.log(res)
-
+      console.log('streams fail:',res)
       wx.showToast({
         title: '加载数据失败',
       })
     }, function (res) {
-      console.log('streams complete:')
-      console.log(res)
+      console.log('streams complete:',res)
     }, message)
   },
   /**
@@ -128,7 +145,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    this.getActiveId()
   },
   /**
    * 生命周期函数--监听页面显示
@@ -136,16 +153,16 @@ Page({
   onShow: function () {
     var that = this
     var ccsession = wx.getStorageSync('cksession')
-    console.log('fyb,',ccsession)
+    console.log('首页，onshow,', ccsession)
     if (ccsession === null || ccsession === '') {
       //重新登录
       wx.login({
         success: function (e) {
           var code = e.code
-          console.log("-----wx.login-----" + JSON.stringify(e));
+          console.log("wx.login:" + JSON.stringify(e));
           wx.getUserInfo({
             success: function (res) {
-              console.log('fyb',res)
+              console.log('fyb', res)
               var encryptedData = res.encryptedData
               var iv = res.iv;
               var rawData = res.rawData
@@ -164,10 +181,9 @@ Page({
         }
       })
     } else {
-      console.log('fyb,ccsession != null')
       app.getUserInfo();
       var userInfo = wx.getStorageSync('userInfo')
-      console.log('fyb,index.js userInfo:',userInfo)
+      console.log('首页，getuserInfo:', userInfo)
       if (typeof (userInfo) == "undefined") {
         console.log('get user info failed')
       } else {
@@ -180,18 +196,15 @@ Page({
       // })
     }
   },
-
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
   },
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作
@@ -214,7 +227,6 @@ Page({
       })
     }
   },
-
   /**
    * 用户点击右上角分享
    */
@@ -243,10 +255,8 @@ function getPeriods(e) {
       data[i].createTime = firstTime
     }
   }
-
   return data
 }
-
 function getMonthDay(d) {
   var date = new Date(d);
   return (date.getMonth() + 1) + '月' + date.getDate() + '日'

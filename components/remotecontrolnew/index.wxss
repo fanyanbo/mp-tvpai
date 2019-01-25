@@ -1,284 +1,314 @@
 /* components/remotecontrol/index.wxss */
 /* 弹出遥控器面板的遮罩层 */
 .remoter-panel-mask {  
-  position: fixed;
-  width: 750rpx;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  background-color: black;
-  opacity: 0.5;
-}
-
-/* 遥控器面板公共样式 */
-.remoter-panel-wrapper {
-  position: fixed;
-  width: 100%;
-  height: 908rpx;
-  background-color: white;
-  border-radius: 10rpx 10rpx 0 0;
-  bottom: 0;
-  left: 0;
-  z-index: 101;
-}
-
-.origin-pos {
-  transform:translateY(100%);
-}
-
-/* 遥控器面板 */
-.header-wrapper {
-  position: absolute;
-  width: 750rpx;
-  height: 140rpx;
-  left: 0;
-  top: 0;
-}
-
-.footer-wrapper {
-  position: absolute;
-  width: 750rpx;
-  height: 140rpx;
-  left: 0;
-  bottom: 110rpx;
-}
-
-.control-icon {
-  width: 60rpx;
-  height: 60rpx;
-}
-
-.shutdown-icon, .home-icon {
-  position: absolute;
-  left: 60rpx;
-  top: 40rpx;
-}
-
-.voldown-icon, .return-icon {
-  position: absolute;
-  left: 346rpx;
-  top: 40rpx;
-}
-
-.volup-icon, .menu-icon {
-  position: absolute;
-  left: 630rpx;
-  top: 40rpx;
-}
-
-.center-wrapper {
-  position: absolute;
-  width: 750rpx;
-  height: 518rpx;
-  left: 0;
-  top: 140rpx;
-}
-
-.center-control {
-  position: absolute;
-  width: 460rpx;
-  height: 460rpx;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%,-50%);
-}
-
-.center-control-left {
-  position: absolute;
-  width: 140rpx;
-  height: 140rpx;
-  left: 0;
-  top: 160rpx;
-}
-
-.center-control-right {
-  position: absolute;
-  width: 140rpx;
-  height: 140rpx;
-  left: 320rpx;
-  top: 160rpx;
-}
-
-.center-control-up {
-  position: absolute;
-  width: 140rpx;
-  height: 140rpx;
-  left: 160rpx;
-  top: 0;
-}
-
-.center-control-down {
-  position: absolute;
-  width: 140rpx;
-  height: 140rpx;
-  left: 160rpx;
-  bottom: 0rpx;
-}
-
-.center-control-icon {
-  width: 100%;
-  height: 100%;
-}
-
-.center-ok {
-  position: absolute;
-  width: 180rpx;
-  height: 180rpx;
-  left: 50%;
-  top: 50%;
-  background-color: white;
-  border: 1rpx solid lightgray;
-  border-radius: 50%;
-  transform: translate(-50%,-50%);
-}
-
-.ok-focus {
-  border: 1rpx solid white;
-}
-
-.center-ok-icon {
-  width: 100%;
-  height: 100%;
-}
-
-.center-ok-text {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%,-50%);
-  z-index: 102;
-  width: 64rpx;
-  height: 44rpx;
-  font-family: PingFangSC-Regular;
-  font-size: 32rpx;
-  color: #666666;
-  letter-spacing: 0;
-}
-
-.ok-text-focus {
-  color:  #FFD71C;
-}
-
-.control-focus {
-  background-color: #FFD71C;
-  border-radius: 50%;
-  opacity: 0.5;
-}
-
-/* 语音输入面板 */
-.voice_input_wrapper {
-  position: absolute;
-  width: 260rpx;
-  height: 260rpx;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%,-50%);
-}
-
-.icon-mic {
-  width: 100%;
-  height: 100%;
-}
-
-.tip-wrapper{
-  position: absolute;
-  width: 750rpx;
-  top: 50rpx;
-  font-family: PingFangSC-Regular;
-  font-size: 36rpx;
-  color: #999999;
-  letter-spacing: 0;
-  text-align: center;
-}
-
-/* 语音结果版面 */
-.voice_result_wrapper {
-  position: absolute;
-  width: 150rpx;
-  height: 150rpx;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%,-50%);
-}
-
-.icon-loading {
-  width: 100%;
-  height: 100%;
-}
-
-/* 遥控器按钮 */
-.remoter-btn-wrapper {
-  position: fixed;
-  width: 750rpx;
-  /* height: 190rpx; */
-  z-index: 101;
-  left: 0;
-  bottom: 0;
-}
-
-.remoter-btn-tips {
-  width: 750rpx;
-  height: 80rpx;
-  background-color: #FFD71C;
-  position: absolute;
-  bottom: 110rpx;
-}
-
-.remoter-tips-text {
-  font-family: PingFangSC-Regular;
-  font-size: 32rpx;
-  color: #333333;
-  letter-spacing: 0;
-  position: absolute;
-  left: 40rpx;
-  top: 18rpx;
-}
-
-.remoter-tips-icon {
-  width: 48rpx;
-  height: 48rpx;
-  position: absolute;
-  left: 672rpx;
-  top: 18rpx;
-}
-
-.remoter-btn {
-  width: 750rpx;
-  height: 110rpx;
-  background-color: #FFFFFF;
-  background: rgba(255,255,255,0.95);
-  box-shadow: inset 0 0 0 0;
-  border-top: 1rpx solid #cccccc;
-  position: absolute;
-  bottom: 0;
-}
-
-.remoter-btn-icon {
-  width: 45.2rpx;
-  height: 45.2rpx;
-  position: absolute;
-  left: 291.4rpx;
-  bottom: 31.4rpx;
-}
-
-.remoter-btn-text {
-  /* width: 96rpx; */
-  height: 44rpx;
-  font-size: 32rpx;
-  position: absolute;
-  left: 354rpx;
-  font-family: PingFangSC-Regular;
-  color: #000000;
-  letter-spacing: 0;
-  bottom: 32rpx;
-}
-
-.btn-input-status {
-  background-color: #FFD71C;
-}
-
-
-
-
-
+    position: fixed;
+    width: 750rpx;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background-color: black;
+    opacity: 0.5;
+  }
+  
+  /* 遥控器面板公共样式 */
+  .remoter-panel-wrapper {
+    position: fixed;
+    width: 750rpx;
+    height: 908rpx;
+    background-color: white;
+    border-radius: 10rpx 10rpx 0 0;
+    bottom: 0;
+    left: 0;
+    z-index: 101;
+  }
+  
+  .origin-pos {
+    transform:translateY(100%);
+  }
+  
+  /* 遥控器面板 */
+  .header-wrapper {
+    position: absolute;
+    width: 750rpx;
+    height: 140rpx;
+    left: 0;
+    top: 0;
+  }
+  
+  .footer-wrapper {
+    position: absolute;
+    width: 750rpx;
+    height: 140rpx;
+    left: 0;
+    bottom: 110rpx;
+  }
+  
+  .control-icon {
+    width: 60rpx;
+    height: 60rpx;
+  }
+  
+  .shutdown-icon, .home-icon {
+    position: absolute;
+    left: 60rpx;
+    top: 40rpx;
+  }
+  
+  .voldown-icon, .return-icon {
+    position: absolute;
+    left: 346rpx;
+    top: 40rpx;
+  }
+  
+  .volup-icon, .menu-icon {
+    position: absolute;
+    left: 630rpx;
+    top: 40rpx;
+  }
+  
+  .center-wrapper {
+    position: absolute;
+    width: 750rpx;
+    height: 518rpx;
+    left: 0;
+    top: 140rpx;
+  }
+  
+  .center-control {
+    position: absolute;
+    width: 460rpx;
+    height: 460rpx;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+  }
+  
+  .center-control-left {
+    position: absolute;
+    width: 140rpx;
+    height: 140rpx;
+    left: 0;
+    top: 160rpx;
+  }
+  
+  .center-control-right {
+    position: absolute;
+    width: 140rpx;
+    height: 140rpx;
+    left: 320rpx;
+    top: 160rpx;
+  }
+  
+  .center-control-up {
+    position: absolute;
+    width: 140rpx;
+    height: 140rpx;
+    left: 160rpx;
+    top: 0;
+  }
+  
+  .center-control-down {
+    position: absolute;
+    width: 140rpx;
+    height: 140rpx;
+    left: 160rpx;
+    bottom: 0rpx;
+  }
+  
+  .center-control-icon {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .center-ok {
+    position: absolute;
+    width: 180rpx;
+    height: 180rpx;
+    left: 50%;
+    top: 50%;
+    background-color: white;
+    border: 1rpx solid lightgray;
+    border-radius: 50%;
+    transform: translate(-50%,-50%);
+  }
+  
+  .ok-focus {
+    border: 1rpx solid white;
+  }
+  
+  .center-ok-icon {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .center-ok-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 102;
+    width: 64rpx;
+    height: 44rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 32rpx;
+    color: #666666;
+    letter-spacing: 0;
+  }
+  
+  .ok-text-focus {
+    color:  #FFD71C;
+  }
+  
+  .control-focus {
+    background-color: #FFD71C;
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+  
+  /* 语音输入面板 */
+  .voice-input-wrapper {
+    z-index: 0;
+    position: relative;
+    margin: 100px auto 20px;
+    width: 200px;
+    height: 200px;
+  }
+  .canvas {
+    z-index: 1;
+    width: 200px;
+    height: 200px;
+  }
+  .canvas-mask {
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 200px;
+  }
+  .canvas_icon{ 
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    display: flex;  
+    align-items: center;
+    justify-content: center;
+  }
+  .icon-mic{
+    width: 320rpx;
+    height: 320rpx;
+  }
+  
+  /* 语音结果版面 */
+  .loading-wrapper {
+    position: absolute;
+    width: 450rpx;
+    height: 450rpx;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .icon-loading {
+    width: 60rpx;
+    height: 60rpx;
+    animation: rotate 1s linear infinite;
+  }
+  @keyframes rotate{
+    0% {transform: rotate(0deg);}
+    50% {transform: rotate(180deg);}
+    100% {transform: rotate(360deg);}
+  }
+  
+  .loading-text{
+    margin-top: 40rpx;
+    color: #C2C1C7;
+    font-size: 28rpx;
+  }
+  
+  .content-wrapper {
+    position: absolute;
+    width: 750rpx;
+    top: 150rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 36rpx;
+    color: #999999;
+    letter-spacing: 0;
+    text-align: center;
+  }
+  
+  /* 遥控器按钮 */
+  .remoter-btn-wrapper {
+    position: fixed;
+    width: 750rpx;
+    /* height: 190rpx; */
+    z-index: 101;
+    left: 0;
+    bottom: 0;
+  }
+  
+  .remoter-btn-tips {
+    width: 750rpx;
+    height: 80rpx;
+    background-color: #FFD71C;
+    position: absolute;
+    bottom: 110rpx;
+  }
+  
+  .remoter-tips-text {
+    font-family: PingFangSC-Regular;
+    font-size: 32rpx;
+    color: #333333;
+    letter-spacing: 0;
+    position: absolute;
+    left: 40rpx;
+    top: 18rpx;
+  }
+  
+  .remoter-tips-icon {
+    width: 48rpx;
+    height: 48rpx;
+    position: absolute;
+    left: 672rpx;
+    top: 18rpx;
+  }
+  
+  .remoter-btn {
+    width: 750rpx;
+    height: 110rpx;
+    background-color: #FFFFFF;
+    background: rgba(255,255,255,0.95);
+    box-shadow: inset 0 0 0 0;
+    border-top: 1rpx solid #cccccc;
+    position: absolute;
+    bottom: 0;
+  }
+  
+  .remoter-btn-icon {
+    width: 45.2rpx;
+    height: 45.2rpx;
+    position: absolute;
+    left: 291.4rpx;
+    bottom: 31.4rpx;
+  }
+  
+  .remoter-btn-text {
+    /* width: 96rpx; */
+    height: 44rpx;
+    font-size: 32rpx;
+    position: absolute;
+    left: 354rpx;
+    font-family: PingFangSC-Regular;
+    color: #000000;
+    letter-spacing: 0;
+    bottom: 32rpx;
+  }
+  
+  .btn-input-status {
+    background-color: #FFD71C;
+  }
