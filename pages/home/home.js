@@ -1,6 +1,6 @@
 // home.js
 import utils from '../../utils/util';
-const api = require('../../config/config.js');
+const api = require('../../api/api.js');
 export {
   utils,
 }

@@ -1,6 +1,6 @@
 // detail.js
 var utils = require('../../utils/util.js');
-var api = require('../../config/config.js');
+var api = require('../../api/api.js');
 var app = getApp()
 var i = 1
 var movieId 

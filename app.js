@@ -1,10 +1,10 @@
 let utils = require('utils/util.js');
-let api = require('config/config.js');
-let { WeToast } = require('toast/wetoast.js');
+let api = require('api/api.js');
+let { WeToast } = require('components/toast/wetoast.js');
 
 // 使用登录凭证 code 获取 session_key 和 openid
 function login(rawData, code, encryptedData, iv, signature) {
-  console.log("--------code：" + code);
+  console.log("code：" + code);
   var url = api.getSessionUrl
   var paramsStr = { "appid": "wx35b9e9a99fd089a9", "jscode": code } //wx45e46c7c955eebf1 wx35b9e9a99fd089a9
   var key = getApp().globalData.key

@@ -1,7 +1,7 @@
 // var utils = require('../../utils/util.js');
 // var CryptoJS = require('../../utils/crypto-js/aes')
 var aes = require('../../utils/aes')
-var api = require('../../config/config.js')
+var api = require('../../api/api.js')
 import utils from '../../utils/util'
 export {
   utils,

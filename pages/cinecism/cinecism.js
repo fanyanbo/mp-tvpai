@@ -1,5 +1,5 @@
 // pages/cinecism/cinecism.js
-const api = require('../../config/config.js');
+const api = require('../../api/api.js');
 var utils = require('../../utils/util.js')
 var app = getApp()
 var a = 1

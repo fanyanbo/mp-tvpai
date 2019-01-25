@@ -1,7 +1,6 @@
-//index.js
 let utils = require('../../utils/util.js');
 let appJs = require('../../app.js');
-let api = require('../../config/config.js');
+let api = require('../../api/api.js');
 let app = getApp()
 
 Page({

@@ -1,6 +1,6 @@
 /**app.wxss**/
 
-@import "toast/wetoast.wxss";
+@import "components/toast/wetoast.wxss";
 /**640px 下的字体大小**/
 /**超大字体 32px**/
 .font-size-xl{

@@ -1,7 +1,6 @@
-// pages/my/my.js
 var utils = require('../../utils/util.js');
 var appJs = require('../../app.js');
-var api = require('../../config/config.js')
+var api = require('../../api/api.js')
 var app = getApp()
 
 var userDebug = false
@@ -419,7 +418,6 @@ Page({
     })
     console.log('fyb,my.js onload:',ccsession)
     if (ccsession === null || ccsession === '') {
-      console.log('fyb,11111111111111111111')
       //重新登录
       wx.login({
         success: function (e) {
@@ -447,7 +445,6 @@ Page({
       })
     } 
     else {
-      console.log('fyb,22222222222222222222222')
       app.getUserInfo();
       var userInfo = app.globalData.userInfo
       if (typeof (userInfo) == "undefined") {

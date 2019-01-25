@@ -1,5 +1,5 @@
 {
   "usingComponents": {
-    "remotecontrolnew": "../../components/remotecontrolnew/index"
+    "remotecontrolnew": "../../components/remotecontrol/index"
   }
 }
