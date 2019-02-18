@@ -19,7 +19,7 @@
     </view>
     <!-- </navigator> -->
   </view>
-<!--tab  -->
+
   <view class="swiper-tab"> 
     <view class="swiper-tab-list {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">
       <text class="ontext">喜欢的文章</text>
@@ -108,4 +108,9 @@
   </swiper>
 
 </view>
+
+<view>
+  <remotecontrol id="remotecontrol-id"></remotecontrol>
+</view>
+
 

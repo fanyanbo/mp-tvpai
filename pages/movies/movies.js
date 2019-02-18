@@ -3,10 +3,11 @@ var api = require('../../api/api.js')
 var app = getApp()
 Page({
   data: {
+    isShowTips: true,
     focus: false,
     flag: true,
     inputValue: '',
-    searchKey:true
+    searchKey: true
   },
   bindButtonTap: function () {
     this.setData({
@@ -14,49 +15,60 @@ Page({
       flag: false
     })
   },
-  blurTap:function(){
+  blurTap: function () {
     // 搜索框失去焦点
     this.setData({
       focus: false,
       flag: true
     })
   },
-  searchSure:function(e){
-  // 关键字搜索
+  searchSure: function (e) {
+    // 关键字搜索
     var keyword = e.detail.value
     console.log(keyword)
     console.log("formid：")
     console.log(e.detail.formId)
     wx.setStorageSync("formid", e.detail.formId)
-    searchMovie(this,keyword)
+    searchMovie(this, keyword)
     var type = "keySearch"
     keyword = keyword.replace(/[\s|\~|`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\|\[|\]|\{|\}|\;|\：|\"|\'|\,|\<|\.|\>|\/|\?]/g, "")
     keyword = encodeURI(keyword, 'utf-8')
     utils.eventCollect(type, keyword)
   },
-  tagClick:function(e){
+  tagClick: function (e) {
     // 标签点击搜索 跳到search
     var categoryId = e.currentTarget.dataset.category
     wx.navigateTo({
       url: '../sresult/sresult?category_id=' + categoryId
     })
-
   },
-  hotClick:function(e){
+  hotClick: function (e) {
     searchMovie(this, e.currentTarget.dataset.content)
   },
-  closeSearch:function(){
+  closeSearch: function () {
     this.setData({
-      searchKey:true
+      searchKey: true
     })
   },
-  onLoad:function(){
+  onShow: function () {
+    console.log('onShow()')
+    this.setData({
+      isShowTips: app.globalData.isShowTips
+    })
+  },
+  onLoad: function () { 
+    console.log('onLoad')
+    // 不能在onReady中初始化，onReady在onTabItemTap后执行
+    this.remoteCtrl = this.selectComponent("#remotecontrol-id")
     hotSearch(this)
+  },
+  onTabItemTap: function (items) {
+    console.log('onTabItemTap', items)
+    this.remoteCtrl.hideRemoteControl()
   }
 })
 
-// 搜索
-function searchMovie(that,keyword){
+function searchMovie(that, keyword) {
   var url = api.searchUrl
   var ccsession = wx.getStorageSync("cksession")
   that.setData({
@@ -65,13 +77,10 @@ function searchMovie(that,keyword){
   keyword = keyword.replace(/[\s|\~|`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\|\[|\]|\{|\}|\;|\：|\"|\'|\,|\<|\.|\>|\/|\?]/g, "")
   console.log("keyword:" + keyword)
   keyword = encodeURI(keyword, 'utf-8')
-  var paramsStr = { "ccsession": ccsession, "keyword": keyword } 
+  var paramsStr = { "ccsession": ccsession, "keyword": keyword }
   var sign = utils.encryption(paramsStr, app.globalData.key)
-
   var dataStr = utils.json2Form({ client_id: 'applet', sign: sign, param: '{"ccsession":"' + ccsession + '","keyword":"' + keyword + '"}' })
-  console.log("dataStr--------------------------")
   console.log(dataStr)
- 
   wx.request({
     url: url,
     data: dataStr,
@@ -80,28 +89,24 @@ function searchMovie(that,keyword){
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     success: res => {
-       utils.showToastBox("加载中...", "loading")
-      if (res.data.result && res.data.data!=null){
-        console.log("mmmm====================xxx")
+      utils.showToastBox("加载中...", "loading")
+      if (res.data.result && res.data.data != null) {
         console.log(res.data)
-          //搜索成功 设置searchKey 为false
-          // 展示搜索关键字内容
-          that.setData({
-            videoList: res.data.data.videos,
-            searchKey: false
-          })
-     
-      }else{
+        //搜索成功 设置searchKey 为false
+        // 展示搜索关键字内容
+        that.setData({
+          videoList: res.data.data.videos,
+          searchKey: false
+        })
+      } else {
         utils.showToastBox(res.data.message, "loading")
       }
-      // console.log(res.data)
     },
-    error:function(){
+    error: function () {
       utils.showToastBox('搜索失败', "loading")
     }
   })
 }
-
 
 function hotSearch(that) {
   var paramsStr = { "ccsession": wx.getStorageSync("cksession") }

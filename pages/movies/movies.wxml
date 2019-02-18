@@ -33,30 +33,22 @@
     <view data-category="_cc_25" bindtap="tagClick"><image src='../../images/search/ss25.png'></image><li>健康</li></view>
     <view data-category="_cc_26" bindtap="tagClick"><image src='../../images/search/ss26.png'></image><li>广告</li></view>
     <view data-category="_cc_27" bindtap="tagClick"><image src='../../images/search/ss27.png'></image><li>VIP</li></view>
-      <!-- <view data-category="_cc_28" bindtap="tagClick"><image src='../../images/search/ss28.png'></image><li>MV</li></view>   -->
-    <!-- <view data-category="_cc_29" bindtap="tagClick"><image src='../../images/search/ss29.png'></image><li>全部VIP纪录片</li></view>
-  -->
-          
   </view>
-  <!--搜索标签列表end  -->
 
-  <!--搜索body  -->
   <view class='search-body' hidden="{{flag ? true : false}}">
     <view class="title">热门搜索</view>
     <view class="list">
       <ul>
-        <li bindtap="hotClick" wx:for="{{hotSearch}}" wx:for-item="item" data-content="{{item.title}}">{{item.title}}</li>
+        <li bindtap="hotClick" wx:for="{{hotSearch}}" wx:for-item="item" wx:key="*this" data-content="{{item.title}}">{{item.title}}</li>
       </ul>
     </view>
   </view>
-   <!--搜索body end -->
-
 
   <view class='searchKey' hidden='{{searchKey ? true : false}}'>
     <view class='title'>{{tvTilte}}</view>
     <view class='close' bindtap='closeSearch'>x</view>
     <view class='movieList'>
-      <view class='item' wx:for="{{videoList}}" wx:for-item="searchVideo">
+      <view class='item' wx:for="{{videoList}}" wx:for-item="searchVideo" wx:key="*this">
         <navigator url="../movieDetail/movieDetail?id={{searchVideo.id}}" hover-class="none">
           <image src='{{searchVideo.images[0].url}}'></image>
           <text class='describe'>{{searchVideo.title}}</text>
@@ -64,5 +56,8 @@
       </view>
     </view> 
   </view> 
+</view>
 
+<view>
+  <remotecontrol id="remotecontrol-id" fromPage="hello" isShowTips="{{isShowTips}}"></remotecontrol>
 </view>

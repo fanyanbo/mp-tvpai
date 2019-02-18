@@ -53,7 +53,6 @@ Page({
       getApp().globalData.onLine = true
       if (this.data.coocaaLogin) {
         if (utils.ccsessionIs() == null) return
-        console.log('fyb,','ccsession != null')
         wx.navigateTo({
           url: '../login/coocaa',
         })
@@ -62,7 +61,7 @@ Page({
           url: '../home/home',
         })
       }
-    } 
+    }
     else {
       getApp().globalData.onLine = false
       this.setData({
@@ -73,7 +72,6 @@ Page({
   lower: function (e) {
     var that = this
     if (i1 == that.data.page) {
-      console.log('lower:')
       if (that.data.page > 1 && that.data.page <= that.data.totalPageArticle) {
         this.getArticle()
       }
@@ -95,7 +93,6 @@ Page({
   lower2: function (e) {
     var that = this
     if (i3 == that.data.moviePage) {
-      console.log('lower2:')
       if (that.data.moviePage > 1 && that.data.moviePage <= that.data.totalPageMovie) {
         this.getMovie()
       }
@@ -104,19 +101,13 @@ Page({
     return
   },
   upper: function (e) {
-
   },
   scroll: function (e) {
-
   },
   handler: function (e) {
-    console.log("原先的点击")
-    console.log(e);
-    var that = this
     if (e.detail != undefined) {
       app.globalData.auhtSetting = e.detail['authSetting']['scope.userInfo'];
     }
-    //判断ccsession是否为空
     if (utils.ccsessionIs() == null) return
     if (this.data.coocaaLogin) {
       wx.navigateTo({
@@ -149,8 +140,6 @@ Page({
       },
       success: function (res) {
         var data = res.data
-        console.log("0res文章")
-        console.log(res)
         if (res.data.result) {
           var data = res.data.data
           var list = data.list
@@ -177,7 +166,6 @@ Page({
               });
             }
           } else {
-
             if (that.data.coocaaLogin) {
               that.setData({
                 total: data.pager.totalNum,
@@ -193,18 +181,15 @@ Page({
               });
             }
           }
-          console.log("articleData===========")
+          console.log("articleData:")
           console.log(that.data.articleData)
           console.log(that.data.page)
-          console.log("that.data.coocaaLogin..................")
           console.log(that.data.coocaaLogin)
-          console.log("data.list")
           console.log(data.list)
         }
       },
       fail: function (res) {
         console.log('fail:' + res)
-        console.log("获取我的文章失败")
         utils.showFailToast(that, "获取我的文章失败,请稍后")
       }
     })
@@ -234,23 +219,18 @@ Page({
           that.setData({
             hasTopic: false
           });
-
         } else {
           that.setData({
             hasTopic: true
           });
         }
-        console.log("话题res")
-        console.log(res)
-
+        console.log("话题res",res)
         if (res.data.result) {
-
           that.setData({
             totalPageTopic: data.data.pager.totalPage
           })
           let list = data.data.list
           for (let i in list) {
-            // createTime
             list[i].createTime = utils.toDate(list[i].createTime, '-')
             console.log(list[i].createTime)
           }
@@ -266,7 +246,6 @@ Page({
                 topicData: data.list
               });
             }
-
           } else {
             if (that.data.coocaaLogin) {
               that.setData({
@@ -284,14 +263,13 @@ Page({
             }
 
           }
-          console.log("topicData------------")
+          console.log("topicData:")
           console.log(that.data.topicData)
           console.log(that.data.page)
         }
       },
       fail: function (res) {
         console.log('fail:' + res)
-        console.log("获取我的话题失败")
         utils.showFailToast(that, "获取我的话题失败,请稍后")
       }
     })
@@ -304,8 +282,7 @@ Page({
     }
     let key = app.globalData.key
     let ccsession = wx.getStorageSync('cksession')
-    console.log("ccsession影片的")
-    console.log(ccsession)
+    console.log("ccsession影片的",ccsession)
     let page = that.data.moviePage
     let paramsStr = { "ccsession": ccsession, "page": page + '', "pageSize": '10' }
     let sign = utils.encryption(paramsStr, key)
@@ -318,11 +295,8 @@ Page({
         param: paramsStr
       },
       success: function (res) {
-
-        console.log("影片res:")
-        console.log(res)
+        console.log("影片res:",res)
         if (res.data.result) {
-
           var data = res.data
           that.setData({
             totalPageMovie: data.data.pager.totalPage
@@ -332,7 +306,6 @@ Page({
               hasMovie: false
             })
             let list = data.data.list
-
             if (list != null) {
               for (let j in list) {
                 if (list[j].publish_date) {
@@ -349,7 +322,6 @@ Page({
                 }
               }
             }
-
           } else {
             that.setData({
               coocaaLogin: true
@@ -384,48 +356,45 @@ Page({
             }
 
           }
-          console.log("movieData=============")
+          console.log("movieData:")
           console.log(that.data.movieData)
-          console.log("movieTotal")
           console.log(that.data.movieTotal)
           console.log(that.data.page)
         }
       },
       fail: function (res) {
         console.log('fail:' + res)
-        console.log("获取收藏影片失败")
         utils.showFailToast(that, "获取收藏影片失败,请稍后")
       }
     })
   },
   onLoad: function () {
-
-    console.log('fyb,授权登陆',this.data.canIUse)
+    console.log('fyb,授权登陆', this.data.canIUse)
     var that = this
     var ccsession = app.globalData.ccsession
     wx.getSetting({
       success: function (res) {
-        console.log('授权登陆,1111111',res.authSetting['scope.userInfo'])
+        console.log('授权登陆,1111111', res.authSetting['scope.userInfo'])
         if (res.authSetting['scope.userInfo']) {
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称
           wx.getUserInfo({
             success: function (res) {
-              console.log('fyb,',res.userInfo)
+              console.log('fyb,', res.userInfo)
             }
           })
         }
       }
     })
-    console.log('fyb,my.js onload:',ccsession)
+    console.log('fyb,my.js onload:', ccsession)
     if (ccsession === null || ccsession === '') {
       //重新登录
       wx.login({
         success: function (e) {
-          console.log('授权登陆,2222222',e)
+          console.log('授权登陆,2222222', e)
           var code = e.code
           wx.getUserInfo({
             success: function (res) {
-              console.log('授权登陆,33333333',res)
+              console.log('授权登陆,33333333', res)
               var encryptedData = res.encryptedData
               var iv = res.iv;
               var rawData = res.rawData
@@ -443,7 +412,7 @@ Page({
           })
         }
       })
-    } 
+    }
     else {
       app.getUserInfo();
       var userInfo = app.globalData.userInfo
@@ -453,18 +422,13 @@ Page({
         console.log('get user info success')
       }
       getApp().globalData.onLine = true
-      //更新数据
       that.setData({
         userInfo: userInfo,
         username: wx.getStorageSync("username"),
         onLine: true
       })
     }
-
-    // get coocaa login info
-    // var username = wx.getStorageSync('username')
-    console.log("app.globalData.username")
-    console.log(app.globalData.username)
+    console.log("app.globalData.username",app.globalData.username)
     if (app.globalData.username != '未登录' && app.globalData.username != '') {
       console.log("进来了")
       that.setData({
@@ -482,12 +446,10 @@ Page({
         coocaaLogin: true,
       })
     }
-    //tab
     /** 
      * 获取系统信息 
      */
     wx.getSystemInfo({
-
       success: function (res) {
         console.log("设备信息")
         console.log(res)
@@ -498,31 +460,24 @@ Page({
         });
       }
     });
-    // if (this.data.movieData != null && this.data.movieData.length > 0) {
     this.setData({
       movieTotal: 0,
       moviePage: 1,
       movieData: []
     });
     this.getMovie();
-    // }
-    // if (this.data.articleData != null && this.data.articleData.length > 0) {
     this.setData({
       total: 0,
       page: 1,
       articleData: []
     });
     this.getArticle();
-    // }
-    // if (this.data.topicData != null && this.data.topicData.length > 0) {
     this.setData({
       topicTotal: 0,
       topicPage: 1,
       topicData: []
     });
     this.getTopic();
-    // }
-
   },
   onShareAppMessage: function () {
     return {
@@ -532,7 +487,6 @@ Page({
   },
   onShow: function () {
     var that = this
-    //var ccsession = wx.getStorageSync('cksession');
     userDebug = false
     debugCnt = 0
     console.log('onshow')
@@ -542,8 +496,6 @@ Page({
         that.setData({ storgeSize: res.currentSize })
       }
     })
-    //var username = wx.getStorageSync('username')
-    //checkUser
     let key = app.globalData.key
     let ccsession = wx.getStorageSync('cksession')
     let paramsStr = { "ccsession": ccsession }
@@ -558,19 +510,16 @@ Page({
       },
       success: function (res) {
         if (res.data.result && res.data.data != null) {
-          console.log("checkUser:")
-          console.log(res)
+          console.log("checkUser:",res)
           wx.setStorageSync('userid', res.data.data.userid)
           wx.setStorageSync('username', res.data.data.username)
           wx.setStorageSync('mobile', res.data.data.mobile)
-
           if (res.data.data.userid === undefined || res.data.data.userid === '' || res.data.data.userid === null) {
             app.globalData.username = '未登录'
             that.setData({
               username: '未登录',
               coocaaLogin: true
             })
-            console.log("=======+++++++")
           } else {
 
             app.globalData.username = res.data.data.username
@@ -582,7 +531,6 @@ Page({
         }
       }
     })
-
     if (app.globalData.username != '未登录' && app.globalData.username != '') {
       console.log("进来了2")
       that.setData({
@@ -605,7 +553,6 @@ Page({
     i1 = 2
     i2 = 2
     i3 = 2
-    // that.onLoad()
     if (this.data.movieData != null && this.data.movieData.length > 0 && !that.data.coocaaLogin) {
       this.setData({
         movieTotal: 0,
@@ -630,12 +577,8 @@ Page({
       });
       this.getTopic();
     }
-
-
-
   },
   onPullDownRefresh: function () {
-    console.log(1)
     this.setData({
       total: 0,
       page: 1,
@@ -650,10 +593,8 @@ Page({
     this.getMovie()
     this.getArticle()
     this.getTopic()
-
     wx.stopPullDownRefresh();
   },
-  // tab
   /** 
   * 滑动切换tab 
   */
@@ -677,7 +618,6 @@ Page({
   },
   noBinds: function (e) {
     var that = this
-    //判断ccsession是否为空
     if (utils.ccsessionIs() == null) return
     wx.navigateTo({
       url: '../login/coocaa',

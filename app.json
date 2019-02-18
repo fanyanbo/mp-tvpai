@@ -35,22 +35,15 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "发现",
-        "iconPath": "images/home_n.png",
-        "iconSize": 120,
-        "selectedIconPath": "images/home_y.png"
+        "text": "发现"
       },
       {
         "pagePath": "pages/movies/movies",
-        "text": "影片库",
-        "iconPath": "images/movies1.png",
-        "selectedIconPath": "images/movies2.png"
+        "text": "影片库"
       },
       {
         "pagePath": "pages/my/my",
-        "text": "我的",
-        "iconPath": "images/my_n.png",
-        "selectedIconPath": "images/my_y.png"
+        "text": "我的"
       }
     ]
   }

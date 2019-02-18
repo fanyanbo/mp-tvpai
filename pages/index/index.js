@@ -5,6 +5,7 @@ let app = getApp()
 
 Page({
   data: {
+    isShowTips : true,
     page: '1',
     pageSize: '10',
     banners: [],
@@ -18,7 +19,6 @@ Page({
     duration: 500
   },
   listenSwiper: function (e) {
-    // console.log(e)
   },
   getActiveId: function () {
     console.log('获取激活id中')
@@ -133,6 +133,10 @@ Page({
       console.log('streams complete:',res)
     }, message)
   },
+  onTabItemTap: function(items) {
+    console.log('onTabItemTap',items)
+    this.remoteCtrl.hideRemoteControl()
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -145,11 +149,15 @@ Page({
    */
   onReady: function () {
     this.getActiveId()
+    this.remoteCtrl = this.selectComponent("#remotecontrol-id")
   },
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    this.setData({
+      isShowTips: app.globalData.isShowTips
+    })
     var that = this
     var ccsession = wx.getStorageSync('cksession')
     console.log('首页，onshow,', ccsession)

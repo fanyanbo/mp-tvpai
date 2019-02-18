@@ -10,14 +10,18 @@ Component({
     multipleSlots: true // 在组件定义时的选项中启用多slot支持
   },
   properties: {
-    fromPage: String // 属性值可以在组件使用时指定
+    fromPage: String, // 属性值可以在组件使用时指定
+    isShowTips: {
+      type: Boolean,
+      value: true
+    }
   },
   data: {
     activeid: null,
     btnContent: '遥控器', 
     tipsContent: '提示：长按遥控器按钮，就能语音啦',
     query: '',
-    isShowTips: true,
+    // isShowTips: true,
     isShowMask: false, // 是否显示遮罩层
     hasRecordAuth: null, //是否有录音权限
     hasDevice: false, //是否有目标设备
@@ -46,12 +50,23 @@ Component({
   methods: {
     // 这里是一个自定义方法,供父组件调用
     hideRemoteControl() {
-      console.log('hideRemoteControl()');
+      console.log('hideRemoteControl()')
+      this.setData({
+        curBtnImg: '../../images/remoter@3x.png',
+        btnContent: '遥控器',
+        voiceInputStatus: false,
+        indexStatus: '',
+        longtapStatus: false,
+        waitVoiceResult: false,
+        isShowMask: false,
+        query: ''
+      })
     },
 
     handleBtnTipsClosed() {
-      console.log('handleBtnTipsClosed()');
-      this.setData({isShowTips: false});
+      console.log('handleBtnTipsClosed()')
+      app.globalData.isShowTips = false
+      this.setData({isShowTips: false})
     },
 
     handlePushController(e) {
@@ -441,14 +456,12 @@ Component({
       this.animation = animation
       this.fadeDown();
     },
-
     fadeIn() {
       this.animation.translateY(0).step()
       this.setData({
         animationData: this.animation.export()
       })
     },
-
     fadeDown() {
       this.animation.translateY(500).step()
       this.setData({
