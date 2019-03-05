@@ -1,26 +1,97 @@
 <!--pages/my/my.wxml-->
 <view class="container">
   <view class="userinfo" bindtap="userDebug">
-    <image class="user-bg" src="{{userInfo.avatarUrl}}"></image>
     <view class="info-bg"></view>
     <view class="user-msg">
       <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
       <text class="userinfo-nickname font-size-normal fc-dark">{{userInfo.nickName}}</text>
        <!-- <button open-type="openSetting" bindopensetting="handler" class="coocaa-name" bindtap="ccLogin">酷开账号：<text class="coocaa-username">{{username}}</text></button>  -->
-        <text hidden="{{onLine ? false:true}}" class="coocaa-name">酷开账号：<text class="coocaa-username">{{username}}</text></text> 
+        <!-- <text hidden="{{onLine ? false:true}}" class="coocaa-name">酷开账号：<text class="coocaa-username">{{username}}</text></text> 
         <button  hidden="{{onLine ? false:true}}" class="getuser" open-type="openSetting" bindopensetting="handler"></button>
         <text class='onLine' hidden="{{onLine ? true:false}}">点击这里！授权登录即可推送、收藏影片!</text>
-        <button class='aut' wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button>
+        <button class='aut' wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button> -->
     </view>
     <!-- <navigator url="../feedback/fb" hover-class="navigator-hover"> -->
     <view class="feedback" bindtap='webNavigateTo'>
-        <image src="../../images/shiyongbangzhu.png" mode="aspectFit"></image>
-        <text>使用帮助</text>
+        <image src="../../images/shiyong.png" mode="aspectFit"></image>       
     </view>
-    <!-- </navigator> -->
+    <!-- </navigator> -->     
   </view>
 
-  <view class="swiper-tab"> 
+
+  <navigator class='binding mylabel' url="../home/home">
+    <image class='my_icon' src="../../images/search_tv.png"></image>
+    <text class="title">设备绑定</text>
+    <text class="more">></text>
+  </navigator>
+  <navigator class='history mylabel' url="../home/home">
+    <image class='my_icon' src="../../images/history.png"></image>
+    <text class="title">推送历史</text>
+    <text class="more">全部></text>
+  </navigator>
+  <view class="scroll_box section"> 
+      <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">    
+        <navigator class="item_list" url="../column/column?id={{item.third_album_id}}">
+          <view>
+            <image src="../../images/face.jpg" class="item_book_img" mode="aspectFill"></image>
+            <view class="item_book_text inaline">我喜欢我喜欢我喜欢我喜欢</view>
+          </view>
+        </navigator>    
+        <navigator class="item_list" url="../column/column?id={{item.third_album_id}}">
+          <view>
+            <image src="../../images/face.jpg" class="item_book_img" mode="aspectFill"></image>
+            <view class="item_book_text inaline">我喜欢</view>
+          </view>
+        </navigator> 
+        <navigator class="item_list" url="../column/column?id={{item.third_album_id}}">
+          <view>
+            <image src="../../images/face.jpg" class="item_book_img" mode="aspectFill"></image>
+            <view class="item_book_text inaline">我喜欢</view>
+          </view>
+        </navigator> 
+        <navigator class="item_list" url="../column/column?id={{item.third_album_id}}">
+          <view>
+            <image src="../../images/face.jpg" class="item_book_img" mode="aspectFill"></image>
+            <view class="item_book_text inaline">我喜欢</view>
+          </view>
+        </navigator> 
+      </scroll-view>
+  </view>
+
+  <navigator class='history mylabel' url="../home/home">
+    <image class='my_icon' src="../../images/like.png"></image>
+    <text class="title">我的喜欢</text>
+    <text class="more">全部></text>
+  </navigator>
+    <view class="scroll_box section"> 
+      <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">    
+        <navigator class="item_list" url="../column/column?id={{item.third_album_id}}">
+          <view>
+            <image src="../../images/face.jpg" class="item_book_img" mode="aspectFill"></image>
+            <view class="item_book_text inaline">我喜欢我喜欢我喜欢我喜欢</view>
+          </view>
+        </navigator>    
+        <navigator class="item_list" url="../column/column?id={{item.third_album_id}}">
+          <view>
+            <image src="../../images/face.jpg" class="item_book_img" mode="aspectFill"></image>
+            <view class="item_book_text inaline">我喜欢</view>
+          </view>
+        </navigator> 
+        <navigator class="item_list" url="../column/column?id={{item.third_album_id}}">
+          <view>
+            <image src="../../images/face.jpg" class="item_book_img" mode="aspectFill"></image>
+            <view class="item_book_text inaline">我喜欢</view>
+          </view>
+        </navigator> 
+        <navigator class="item_list" url="../column/column?id={{item.third_album_id}}">
+          <view>
+            <image src="../../images/face.jpg" class="item_book_img" mode="aspectFill"></image>
+            <view class="item_book_text inaline">我喜欢</view>
+          </view>
+        </navigator> 
+      </scroll-view>
+  </view>
+  <!-- <view class="swiper-tab"> 
     <view class="swiper-tab-list {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">
       <text class="ontext">喜欢的文章</text>
     </view> 
@@ -30,12 +101,12 @@
     <view class="swiper-tab-list {{currentTab==2 ? 'on' : ''}}" data-current="2" bindtap="swichNav">
       <text class="ontext">收藏的影片</text>
     </view> 
-  </view> 
+  </view>  -->
  
-  <swiper current="{{currentTab}}" class="swiper-box" duration="300" bindchange="bindChange" style="height:{{clientHeight?clientHeight+'px':'auto'}}"> 
+  <!-- <swiper current="{{currentTab}}" class="swiper-box" duration="300" bindchange="bindChange" style="height:{{clientHeight?clientHeight+'px':'auto'}}">  -->
     <!-- 文章 --> 
-    <swiper-item> 
-    <scroll-view scroll-y bindscrolltolower="lower" style="height:{{clientHeight?clientHeight+'px':'auto'}}">
+
+    <!-- <scroll-view scroll-y bindscrolltolower="lower" style="height:{{clientHeight?clientHeight+'px':'auto'}}">
         <view class="kong"></view>
         <view class="{{hasArticle ? 'no-article' : 'none'}}">您还没有喜欢的文章哦</view> 
         <view class="{{hasArticle ? 'none' : 'article-main'}}">
@@ -52,11 +123,11 @@
               </navigator>
             </block>
         </view>
-    </scroll-view>
-    </swiper-item> 
+    </scroll-view> -->
+
 
     <!-- 话题 --> 
-    <swiper-item> 
+    <!-- <swiper-item> 
       <scroll-view scroll-y bindscrolltolower="lower1" style="height: {{clientHeight?clientHeight+'px':'auto'}}">
         <view class="kong"></view>
         <view class="{{hasTopic ? 'no-topic' : 'none'}}">您还没有参与的话题哦</view> 
@@ -72,18 +143,17 @@
             </block>
         </view> 
       </scroll-view>
-    </swiper-item> 
+    </swiper-item>  -->
 
     <!-- 影片 --> 
-    <swiper-item>
+    <!-- <swiper-item>
       <scroll-view bindscrolltolower="lower2" scroll-y style="height:{{clientHeight?clientHeight+'px':'auto'}}">
         <view class="kong"></view>
         <view bindtap="noBinds" class="{{coocaaLogin?'no-coocaa':'none'}}">
           <text class="no-title">未绑定酷开账号</text>
           <text class="no-subtitle">收藏的影片将同步至您的酷开账号</text>
-          <!-- <navigator url="../login/coocaa" hover-class="none"> -->
-            <button hover-class="none" class="no-bind">绑定酷开账号</button>
-          <!-- </navigator> -->
+          <button hover-class="none" class="no-bind">绑定酷开账号</button>
+
         </view>
 
         <view class="{{coocaaLogin?'none':'coocaa-movie'}}">
@@ -105,7 +175,7 @@
         </view> 
       </scroll-view> 
     </swiper-item> 
-  </swiper>
+  </swiper> -->
 
 </view>
 

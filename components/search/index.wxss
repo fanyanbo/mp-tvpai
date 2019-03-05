@@ -1,16 +1,20 @@
-
-.search-box {
+.search-box-wrapper{
   position:fixed;
+  background: #f60;
+  width: 100%;
+   z-index: 9999;
+  height: 88rpx;
+  top: -20rpx
+}
+.search-box {
   display:flex;
   align-items: center;
   /* justify-content:center; */
-  width:464rpx;
-  height:66rpx;
-  margin-left:20rpx;
+  width:480rpx;
+  height:88rpx;
   background-image:linear-gradient(-225deg, #F0F300 0%,orange 100%);
   border-radius:50rpx;
-  /* top:10rpx; */
-  left:0;
+  left:0; 
 }
 
 .search-icon {

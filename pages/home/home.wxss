@@ -105,12 +105,10 @@ page{
 .device-top{
   width: 100%;
   height: 100rpx;
-  line-height: 100rpx;
-  padding: 0 20rpx;
+  padding: 20px 20rpx 0 20px;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
-  border-bottom: 2rpx solid #eaeaea;
 }
 .device-top-left{
   flex: 1
@@ -118,6 +116,14 @@ page{
 .device-top-right{
   flex: 1;
   text-align: right;
+}
+.device-open{
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  font-size: 30rpx;
+  padding: 0 20rpx;
+  border-bottom: 2rpx solid #eaeaea;
 }
 .device-model,.device-content-right{
   font-size: 26rpx;
@@ -185,7 +191,10 @@ page{
   color: #0096e3;
   text-align: right;
 }
-
+.scan{
+  width: 60%;
+  margin-top: 50px
+}
 
 
 

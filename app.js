@@ -1,7 +1,6 @@
 let utils = require('utils/util.js');
 let api = require('api/api.js');
 let { WeToast } = require('components/toast/wetoast.js');
-
 // 使用登录凭证 code 获取 session_key 和 openid
 function login(rawData, code, encryptedData, iv, signature) {
   console.log("code：" + code);
@@ -23,7 +22,7 @@ function login(rawData, code, encryptedData, iv, signature) {
     success: res => {
       var data = res.data;
       if (data.result) {
-        console.log("进来了" + data.data.ccsession)
+        console.log("----进来了----" + data.data.ccsession)
         var cksession = data.data.ccsession
         wx.setStorageSync('cksession', cksession)
         getApp().globalData.ccsession = cksession
@@ -90,6 +89,14 @@ function countTime() {
 App({
   WeToast,
   onLaunch: function () {
+    wx.getSystemInfo({
+      success: res => {
+        //导航高度
+        this.globalData.navHeight = res.statusBarHeight + 46;
+      }, fail(err) {
+        console.log(err);
+      }
+    })
   },
   onLoad: function () {
   },
@@ -124,6 +131,12 @@ App({
   },
   getUserInfo: function (cb) {
     var that = this
+    var tvSource = wx.getStorageSync("tvSource");
+    if (tvSource == null || tvSource === '' || tvSource == undefined){
+      wx.setStorageSync('tvSource', 'iqiyi')
+    }else{
+      that.globalData.tvSource = wx.getStorageSync('tvSource')
+    }
     var ccsession = wx.getStorageSync("cksession")
     if (ccsession == null || ccsession === '' || ccsession == undefined) {
       console.log("登录状态已过期" + ccsession)
@@ -183,7 +196,12 @@ App({
     ccsession: '',
     onLine: '',
     activeid: null, //add by fyb
-    isShowTips: true
+    isShowTips: true,
+    time: Math.round(new Date().getTime() / 1000).toString(),
+    appkey: '5cc090ddad6e4544815a0026e9a735a4',
+    secret: 'cd8a62acc6164b27a9af4d29de8eeebd',
+    tvSource: wx.getStorageSync("tvSource"),
+    version_code:33
   }
 })
 

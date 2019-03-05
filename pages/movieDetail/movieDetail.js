@@ -1,15 +1,15 @@
 // pages/movieDetail.js
 
-
-var utils = require('../../utils/util.js')
-var api = require('../../api/api.js')
-var app = getApp()
+let utils = require('../../utils/util.js');
+let api = require('../../api/api.js');
+let app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    isShowTips: true,
     flag:true,
     flagOpen:false,
     opens:true
@@ -119,121 +119,121 @@ Page({
 
 
 function movieDetail(that,movieId){
-  var paramsStr = { "ccsession": wx.getStorageSync("cksession"), "movieId": movieId, nodeType: 'res'}
-  var sign = utils.encryption(paramsStr, app.globalData.key)
-  wx.request({
-    url: api.getVideoDetailUrl,
-    data: {
-      client_id: 'applet',
-      sign: sign,
-      param: paramsStr
-    },
-    header: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    method: 'GET',
-    success: function (res) {
+  const secret = app.globalData.secret
+  var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": movieId, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code}
+  console.log(paramsStr);
+  const sign = utils.encryptionIndex(paramsStr, secret)
+  const url = api.getVideoDetailUrl
+  let data = {
+    appkey: app.globalData.appkey,
+    third_album_id: movieId,
+    time: app.globalData.time,
+    tv_source: app.globalData.tvSource,
+    version_code: app.globalData.version_code,
+    sign: sign,
+  } 
+    utils.postLoading(url, 'GET', data, function (res) {
       console.log("影片详情====")
-      console.log(res.data)
-      if (res.data.result&&res.data.data != null) {
-
-        if (res.data.data.base_info != null && res.data.data.base_info!=''){
-          var tags = res.data.data.base_info.video_tags
-          tags = tags.toString().split(',')
-        }
+      console.log(res.data.data)
+      if (res.data.data) {
+        var tags = res.data.data.video_tags
+        tags = tags.toString().split(',')
         var tagArr = []
         if (tags!=null&&tags.length>3){
           var temp = tags[0] + '.' + tags[1] + '.' + tags[2] 
           tagArr.push(temp)
         }
         that.setData({
-          movieId: movieId,
           movieData: res.data.data,
           tags: tagArr,
-          relation_column: res.data.data.control_info.requset_action.relation_column,
-          movieType: res.data.data.base_info.video_type
         })
         likes(that, movieId)
         moviesItem(that, movieId)
       }
-    },
-    fail: function (res) {
-      utils.showToastBox(res.data.msg, "loading")
-    }
-  })
+    }, function (res) {
+    console.log('streams fail:')
+    console.log(res)
+      utils.showToastBox("加载数据失败", "loading")
+  }, function (res) {
+    console.log('streams complete:')
+    console.log(res)
+  },"")
 }
 
+
 function likes(that,movieId){
-  var pageIndex = 0
-  var pageSize = 30
-  var columnIndex = that.data.relation_column
-  var paramsStr = { "ccsession": wx.getStorageSync("cksession"), "columnIndex": columnIndex+'', "movieId": movieId, nodeType: 'res', "pageIndex": pageIndex+'', "pageSize": pageSize+'' }
-  var sign = utils.encryption(paramsStr, app.globalData.key)
-  wx.request({
-    url: api.getRelateVideoListUrl,
-    data: {
-      client_id: 'applet',
-      sign: sign,
-      param: paramsStr
-    },
-    header: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    method: 'GET',
-    success: function (res) {
+  const secret = app.globalData.secret
+  var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": movieId, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code}
+  console.log(paramsStr)
+  var sign = utils.encryptionIndex(paramsStr, secret)
+  var url = api.relatelongUrl
+  let data = {
+    appkey: app.globalData.appkey,
+    third_album_id: movieId,
+    time: app.globalData.time,
+    tv_source: app.globalData.tvSource,
+    version_code: app.globalData.version_code,
+    sign: sign,
+  }
+  utils.postLoading(url, 'GET', data, function (res) {
       console.log("获取设备")
-      console.log(res)
-      if (res.data.result && res.data.data != null) {
+      console.log(res.data.data)
+      if (res.data.data) {
         var videoLike = []
-        if (res.data.data.videos.length>9){
+        if (res.data.data.length>9){
           for(var k=0;k<9;k++){
-             videoLike.push(res.data.data.videos[k])
+             videoLike.push(res.data.data[k])
           }
         }else{
-          videoLike = res.data.data.videos
+          videoLike = res.data.data
         }
         that.setData({
           videoLike: videoLike
         })
       }
-    },
-    fail: function (res) {
-      utils.showToastBox(res.data.msg, "loading")
-    }
-  })
+  }, function (res) {
+    console.log('streams fail:')
+    console.log(res)
+    utils.showToastBox("加载数据失败", "loading")
+  }, function (res) {
+    console.log('streams complete:')
+    console.log(res)
+  },""
+  )
 }
 
 
 function moviesItem(that, movieId){
-  var pageIndex = 0
-  var columnIndex = that.data.relation_column
-  var paramsStr = { "ccsession": wx.getStorageSync("cksession"),"movieId": movieId, nodeType: 'res', "pageIndex": pageIndex + ''}
-  var sign = utils.encryption(paramsStr, app.globalData.key)
-  wx.request({
-    url: api.getTvSegmentListUrl,
-    data: {
-      client_id: 'applet',
-      sign: sign,
-      param: paramsStr
-    },
-    header: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    method: 'GET',
-    success: function (res) {
+  const secret = app.globalData.secret
+  var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": movieId, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
+  console.log(paramsStr)
+  var sign = utils.encryptionIndex(paramsStr, secret)
+  var url = api.getTvSegmentListUrl
+  let data = {
+    appkey: app.globalData.appkey,
+    third_album_id: movieId,
+    time: app.globalData.time,
+    tv_source: app.globalData.tvSource,
+    version_code: app.globalData.version_code,
+    sign: sign,
+  }
+  utils.postLoading(url, 'GET', data, function (res) {
       console.log("===============-------ggg")
-      console.log(res.data.data.segments)
-      if (res.data.result && res.data.data != null) {
-      
+      console.log(res.data)
+      if (res.data.data) {      
         that.setData({
-          moviesItem: res.data.data.segments
+          moviesItem: res.data.data
         })
       }
-    },
-    fail: function (res) {
-      utils.showToastBox(res.data.msg, "loading")
-    }
-  })
+  }, function (res) {
+    console.log('streams fail:')
+    console.log(res)
+    utils.showToastBox("加载数据失败", "loading")
+  }, function (res) {
+    console.log('streams complete:')
+    console.log(res)
+  },""
+  )
 }
 
 

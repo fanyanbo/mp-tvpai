@@ -1,5 +1,6 @@
-const baseUrl = 'https://wx.coocaa.com/';
-// const baseUrl = 'https://beta-wx.coocaa.com/';
+//const baseUrl = 'https://wx.coocaa.com/';
+const baseUrl = 'http://beta-wx.coocaa.com/';
+const _baseUrl ='https://beta-tvpi.coocaa.com/';
 
 const getDevicesUrl = baseUrl + "articleMoviesAPI/getDevices.coocaa";//获取设备信息
 const logoutUrl = baseUrl + "ccuserlogin/logout.coocaa";//登出酷开账号
@@ -18,9 +19,9 @@ const saveUserFeedbackUrl = baseUrl + "articleMoviesAPI/saveUserFeedback.coocaa"
 const getStreamsUrl = baseUrl + "spread/getStreams.coocaa";//获取信息流
 const getCaptchaUrl = baseUrl + "ccuserlogin/getCaptcha.coocaa";//获取验证码
 const captchaLoginUrl = baseUrl + "ccuserlogin/captchaLogin.coocaa";//登录酷开账号
-const getVideoDetailUrl = baseUrl + "moviesAPI/getVideoDetail.coocaa";//获取影片详情接口
-const getRelateVideoListUrl = baseUrl + "moviesAPI/getRelateVideoList.coocaa";//获取猜你喜欢（关联影片列表）
-const getTvSegmentListUrl = baseUrl + "moviesAPI/getTvSegmentList.coocaa";//获取剧集列表接口
+//const getVideoDetailUrl = baseUrl + "moviesAPI/getVideoDetail.coocaa";//获取影片详情接口
+//const getRelateVideoListUrl = baseUrl + "moviesAPI/getRelateVideoList.coocaa";//获取猜你喜欢（关联影片列表）
+//const getTvSegmentListUrl = baseUrl + "moviesAPI/getTvSegmentList.coocaa";//获取剧集列表接口
 const searchUrl = baseUrl + "moviesAPI/search.coocaa";//搜索
 const getHotSearchListUrl = baseUrl + "moviesAPI/getHotSearchList.coocaa";//热门搜索
 const getCollectArticleUrl = baseUrl + "appletUsers/getCollectArticle.coocaa";//个人中心页相关接口
@@ -32,6 +33,21 @@ const getTagListUrl = baseUrl + "moviesAPI/getTagList.coocaa";//获取频道筛�
 const getChnVideoListUrl = baseUrl + "moviesAPI/getChnVideoList.coocaa";//获取频道内容列表接口
 const getSessionUrl = baseUrl + "appletAPI/getSession.coocaa";//使用登录凭证 code 获取 session_key 和 openid
 const getuserinfoUrl = baseUrl + "appletAPI/getuserinfo.coocaa";//微信小程序API接口
+const saveEventLogUrl = baseUrl + "userEventLog/saveEventLog.coocaa";//事件收集
+
+const bindDeviceListUrl = baseUrl + "wxUserDeviceAPI/bindDeviceList.coocaa";//设备接口列表
+const bindDeviceUrl = baseUrl + "wxUserDeviceAPI/bindDevice.coocaa";//用户绑定接口
+
+
+
+
+const oneclassifyUrl = _baseUrl + "video/client/longvideo/oneclassify";// 获取一级标签分类
+const recommendlistUrl = _baseUrl + "video/client/longvideo/recommendlist";// 获取首页推荐接口
+const recommendmorelistUrl = _baseUrl + "video/client/longvideo/recommendmorelist";// 获取标签页详细内容
+const getVideoDetailUrl = _baseUrl + "video/client/longvideo/videodetail";//获取影片详情接口
+const relatelongUrl = _baseUrl + "video/client/longvideo/relatelong";//相关正片
+const getTvSegmentListUrl = _baseUrl + "video/client/longvideo/episodeslist";//获取剧集列表接口
+
 
 module.exports = {
   getDevicesUrl:getDevicesUrl,
@@ -52,7 +68,6 @@ module.exports = {
   getCaptchaUrl: getCaptchaUrl,
   captchaLoginUrl: captchaLoginUrl,
   getVideoDetailUrl: getVideoDetailUrl,
-  getRelateVideoListUrl: getRelateVideoListUrl,
   getTvSegmentListUrl: getTvSegmentListUrl,
   searchUrl: searchUrl,
   getHotSearchListUrl: getHotSearchListUrl,
@@ -65,4 +80,11 @@ module.exports = {
   getChnVideoListUrl: getChnVideoListUrl,
   getSessionUrl: getSessionUrl,
   getuserinfoUrl: getuserinfoUrl,
+  saveEventLogUrl: saveEventLogUrl,
+  bindDeviceListUrl: bindDeviceListUrl,
+  bindDeviceUrl: bindDeviceUrl,
+  oneclassifyUrl: oneclassifyUrl,
+  recommendlistUrl: recommendlistUrl,
+  recommendmorelistUrl: recommendmorelistUrl,
+  relatelongUrl: relatelongUrl
 }

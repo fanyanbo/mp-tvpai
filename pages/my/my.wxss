@@ -9,9 +9,35 @@ page {
 .none{
   display: none
 }
+.mylabel{
+  height: 88rpx;
+  line-height: 88rpx;
+  padding: 0 30rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+.mylabel .title{
+  color: #333;
+  font-size: 30rpx;
+  display: inline-block; 
+  margin-left: 10rpx
+}
+.mylabel .more{
+  float:right;
+  font-size: 28rpx;
+  color: #999
+}
+.my_icon{
+  width: 42rpx;
+  height: 42rpx;
+  display: inline-block; 
+  vertical-align: middle;
+  float:left;
+  margin-top: 26rpx
+}
 .userinfo {
   width: 100%;
-  height: 374rpx;
+  height: 266rpx;
   display: block;
   text-align: center;
   background-color: #fff;
@@ -37,7 +63,6 @@ page {
   width: 100%;
   height: 100%;
   z-index: 2;
-  background: rgba(0, 0, 0, 0.2)
 }
 .user-msg{
   position: relative;
@@ -49,17 +74,17 @@ page {
 }
 
 .userinfo-avatar {
-  width: 124rpx;
-  height: 124rpx;
+  width: 132rpx;
+  height: 132rpx;
   border-radius: 50%;
   border: 2px solid white;
-  margin-top: 80rpx
+  margin-top: 40rpx
 }
 
 .userinfo-nickname {
   display: block;
   font-size: 30rpx;
-  color: #fff;
+  color: #333;
   margin: 10rpx 0 10rpx 0;
 }
 .coocaa-name,.onLine{
@@ -285,3 +310,39 @@ scroll-view{
 /* .onLine{} */
 .getuser,.aut{height: 60rpx;margin-top:-6%;opacity: 0;}
 .onLine{color: #fc4c00;}
+
+
+.section{
+width: 100%;
+overflow: hidden;
+white-space: nowrap;
+padding: 0 30rpx;
+box-sizing: border-box;
+margin-bottom: 10rpx
+}
+.item_list{
+  width: 210rpx;
+  height: 168rpx;
+  margin:10rpx 10rpx;
+  display: inline-block;
+}
+.item_book_img{
+  width: 210rpx;
+  height: 118rpx;
+  border-radius: 10rpx
+}
+.item_book_text{
+  font-size: 28rpx;
+  text-align: left;
+  color: #333;
+  height: 40rpx;
+  line-height: 40rpx;
+  width: 210rpx;
+  margin-top: 5rpx
+}
+.inaline{
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis
+}
+

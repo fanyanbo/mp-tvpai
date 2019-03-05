@@ -1,30 +1,30 @@
 <view class="container">
-  <view class="user">
-    <image src="{{avatar}}" class="avatar" background-size="cover"></image>
-    <text class="username">{{username}}</text>
-    <view class="cancel-view">
-      <button class="cancel-bind" bindtap="cancelBind" data-statu="open">取消账号绑定</button>
-    </view>
-  </view>
   <view class="mydevices">
     <text>我的设备</text>
   </view>
   <view class="{{devices?'none':'no-devices'}}">
     <text class="no-title">{{"您的账号未关联任何设备，关联后\n可推送影片到设备中播放"}}</text>
     <text class="howbind" bindtap="howbind">如何关联？</text>
+    <view class="view">
+      <button class="scan" type="primary" bindtap="scan" id="scan">扫一扫</button>
+    </view>
+
   </view>
   <view class="{{devices?'devices':'none'}}">
     <block wx:for="{{mydevices}}" wx:key="*this" wx:for-index="index">
       <view class="device-item" >
-        <view class="device-top" data-index="{{index}}" bindtap="moreLess">
+        <view class="device-top">
           <view class="device-top-left">
             <image src="../../images/shebei_icon.png" class="device-tv"></image>
-            <text class="device-name">{{item.deviceName}}</text>
+            <text class="device-name">{{item.deviceName}}</text>           
           </view>
           <view class="device-top-right">
-            <text class="device-model">{{item.model}}</text>
-            <image src="../../images/arrow1.png" data-index="{{index}}" class="more {{moretop[index]}}"></image>
-          </view>
+            <text class="device-model">已绑定</text>            
+          </view>           
+        </view>
+        <view class="device-open" data-index="{{index}}" bindtap="moreLess">
+          <text>设备详情</text>
+          <image src="../../images/arrow1.png" data-index="{{index}}" class="more {{moretop[index]}}"></image>
         </view>
         <view data-index="{{index}}" class="none {{block[index]}}">
           <view class="device-content">

@@ -58,7 +58,7 @@ Page({
         })
       } else {
         wx.navigateTo({
-          url: '../home/home',
+          url: '../user/user',
         })
       }
     }
@@ -224,7 +224,7 @@ Page({
             hasTopic: true
           });
         }
-        console.log("话题res",res)
+        console.log("话题res", res)
         if (res.data.result) {
           that.setData({
             totalPageTopic: data.data.pager.totalPage
@@ -282,7 +282,7 @@ Page({
     }
     let key = app.globalData.key
     let ccsession = wx.getStorageSync('cksession')
-    console.log("ccsession影片的",ccsession)
+    console.log("ccsession影片的", ccsession)
     let page = that.data.moviePage
     let paramsStr = { "ccsession": ccsession, "page": page + '', "pageSize": '10' }
     let sign = utils.encryption(paramsStr, key)
@@ -295,7 +295,7 @@ Page({
         param: paramsStr
       },
       success: function (res) {
-        console.log("影片res:",res)
+        console.log("影片res:", res)
         if (res.data.result) {
           var data = res.data
           that.setData({
@@ -428,9 +428,10 @@ Page({
         onLine: true
       })
     }
-    console.log("app.globalData.username",app.globalData.username)
+    console.log("app.globalData.username", app.globalData.username)
     if (app.globalData.username != '未登录' && app.globalData.username != '') {
       console.log("进来了")
+      wx.setStorageSync('username', app.globalData.username)
       that.setData({
         username: app.globalData.username,
         coocaaLogin: false
@@ -510,7 +511,7 @@ Page({
       },
       success: function (res) {
         if (res.data.result && res.data.data != null) {
-          console.log("checkUser:",res)
+          console.log("checkUser:", res)
           wx.setStorageSync('userid', res.data.data.userid)
           wx.setStorageSync('username', res.data.data.username)
           wx.setStorageSync('mobile', res.data.data.mobile)

@@ -1,7 +1,8 @@
 var md5 = require('md5.js')
-
-
+const api = require('../api/api.js');
 var app = getApp()
+
+
 
 function formatTime( date ) {
   var year = date.getFullYear()
@@ -101,11 +102,32 @@ function setParams(params){
 
 }
 //md5加密
-function encryption(paramsStr, k){
+function encryption(paramsStr, k) {
   var str = setParams(paramsStr)
   var sign = md5.hexMD5(str + k)
   return sign
 }
+
+//首页调用
+function setParamsIndex(params) {
+  if (isEmptyObject(params)) {
+    return ""
+  } else {
+    var result = '';
+    for (var key in params) {
+      if (params[key] == null || params[key] == "") continue;
+      result += key + params[key];
+    }
+    return result.substr(0, result.length);
+  }
+}
+
+function encryptionIndex(paramsStr, k) {
+  var str = setParamsIndex(paramsStr)
+  var sign = md5.hexMD5(str + k)
+  return sign
+}
+
 
 //数组查找操作
 function contains(a, obj) {
@@ -191,8 +213,9 @@ function checkUsers() {
   let ccsession = wx.getStorageSync('cksession')
   let paramsStr = { "ccsession": ccsession }
   let sign = encryption(paramsStr, key)
+  console.log(getApp().globalData.client_id + sign + paramsStr);
   wx.request({
-    url: getApp().globalData.ROOTUrl + 'ccuserlogin/checkUser.coocaa',
+    url: api.checkUserUrl,
     method: 'GET',
     data: {
       client_id: getApp().globalData.client_id,
@@ -200,6 +223,7 @@ function checkUsers() {
       param: paramsStr
     },
     success: function (res) {
+      
       if (res.data && res.data.result) {
         console.log("checkUser:")
         console.log(res)
@@ -465,7 +489,6 @@ function starGrade(pingfen,i, starClass0, starClass1, starClass2, starClass3, st
 
 // network post data
 function postLoading(url, method, params, success, fail, complete, message){
-  console.log(params)
   wx.showNavigationBarLoading()
   if (message != '') {
     wx.showLoading({
@@ -507,7 +530,7 @@ function postLoading(url, method, params, success, fail, complete, message){
 // 事件收集
 function eventCollect(type, contactId){
   var that = this
-  const url = getApp().globalData.ROOTUrl + 'userEventLog/saveEventLog.coocaa'
+  const url = api.saveEventLogUrl
   const key = getApp().globalData.key
   var ccsession = wx.getStorageSync("cksession")
   var createTime = Date.parse(new Date())/1000
@@ -556,7 +579,9 @@ module.exports = {
   hideLoading: hideLoading,
   showFailToast: showFailToast,
   setParams: setParams,
+  setParamsIndex: setParamsIndex,
   encryption: encryption,
+  encryptionIndex: encryptionIndex,
   contains: contains,
   toDate: toDate,
   showToastBox: showToastBox,

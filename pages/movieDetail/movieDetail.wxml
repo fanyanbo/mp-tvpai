@@ -2,12 +2,12 @@
 <view class='cntainer'>
 <!--影片信息  -->
 <view class='movieDetail'>
-  <image src='{{movieData.show_info.images[0].url}}' class='haibao'></image>
+  <image src='{{movieData.video_poster}}' class='haibao'></image>
   <view class='describe'>
     <ul>
-      <li class="title">{{movieData.base_info.title}}</li>
-      <li><span>{{movieData.base_info.score}}分</span> . {{movieData.base_info.video_type}}</li>
-      <li>{{movieData.base_info.publish_area}}.{{tags}}.{{movieData.base_info.publish_date}}</li>
+      <li class="title">{{movieData.album_title}}</li>
+      <li><span>{{movieData.score}}分</span> . {{movieData.video_type}}</li>
+      <li>{{movieData.video_tags}}</li>
       <!-- <li><image src="../../images/collect_icon.png"></image><em>收藏</em></li> -->
     </ul>
   </view>
@@ -19,7 +19,7 @@
 <view class='tvLists'>
   <view class='scroll'>
     <view wx:for="{{moviesItem}}" wx:for-item="item" >
-      <view bindtap='push' data-source="{{item.play_sources[0].source}}" data-index="{{item.segment_index}}" class='xs {{chioced==item.segment_index? "active":""}}' wx:if="{{item.video_type=='电影'}}">{{item.title}}</view>
+      <view bindtap='push' data-source="{{item.play_sources[0].source}}" data-index="{{item.segment_index}}" class='xs {{chioced==item.segment_index? "active":""}}' wx:if="{{item.segment_index==1}}">{{item.video_subtitle}}</view>
       <view bindtap='push' data-source="{{item.play_sources[0].source}}" data-index="{{item.segment_index}}" class='xs {{chioced==item.segment_index? "active":""}}' wx:else>
         第{{item.segment_index}}集
       </view>
@@ -33,9 +33,9 @@
 <!--简介  -->
 <view class="push">简介</view> 
 <view class='content'>
-<view>{{movieData.show_info.attributes[0].text}}</view>
-<view>{{movieData.show_info.attributes[1].text}}</view>
-<view class='{{opens? "open":""}}'>{{movieData.show_info.attributes[2].text}}</view>
+<view>{{movieData.director}}</view>
+<view>{{movieData.actor}}</view>
+<view class='{{opens? "open":""}}'>{{movieData.description}}</view>
 <view class="openit" bindtap='openIt' hidden='{{flagOpen? true:false}}'>展开</view>
 <view class='scrollIt' hidden='{{flagOpen? false:true}}' bindtap='openIt'>收起</view>
 </view>
@@ -45,9 +45,9 @@
 <view class="push">猜你喜欢</view> 
 <view class='movieList'>
   <view class='item' wx:for="{{videoLike}}" wx:for-item="item">
-    <navigator url="../movieDetail/movieDetail?id={{item.id}}">
-      <image src='{{item.images[0].url}}'></image>
-      <text class='describe'>{{item.title}}</text>
+    <navigator url="../movieDetail/movieDetail?id={{item.third_album_id}}">
+      <image src='{{item.video_poster}}'></image>
+      <text class='describe'>{{item.album_title}}</text>
     </navigator>
   </view>
 </view>  

@@ -1,89 +1,131 @@
-let utils = require('../../utils/util.js');
-let appJs = require('../../app.js');
-let api = require('../../api/api.js');
-let app = getApp()
-
+//index.js
+var utils = require('../../utils/util.js');
+const api = require('../../api/api.js');
+//获取应用实例
+var app = getApp();
 Page({
   data: {
-    isShowTips : true,
-    page: '1',
+    isShowTips: true,
+    page: '0',
     pageSize: '10',
-    banners: [],
-    hasMoreData: true,
-    streams: [],
+    banner_pageSize:'3',
     indicatorDots: true,
-    autoplay: true,
-    indicatorColor: '#ececec',
-    indicatorActiveColor: '#acacac',
+    autoplay: false,
     interval: 5000,
-    duration: 500
+    duration: 1000,
+    indicatorColor: '#ECECEC',
+    indicatorActiveColor: "#FFD71C",
+    banners: [],
+    column: [],
+    list: []
   },
-  listenSwiper: function (e) {
-  },
-  getActiveId: function () {
-    console.log('获取激活id中')
-    const ccsession = wx.getStorageSync('cksession')
-    const url = api.getDevicesUrl
-    const key = app.globalData.key
-    let paramsStr = { "ccsession": ccsession }
-    const sign = utils.encryption(paramsStr, key)
-    let data = {
-      client_id: app.globalData.client_id,
-      sign: sign,
-      param: paramsStr
-    }
-    utils.postLoading(url, 'GET', data, function (res) {
-      if (res.data.result && res.data.data) {
-        console.log("获取设备激活id:" + res.data.data[0].serviceId);
-        app.globalData.activeid = res.data.data[0].serviceId;
-      }
-    }, function (res) {
-
-    }, function (res) {
-
-    }, '')
-  },
-  // 获取轮播图数据
-  getBanners: function (message) {
+  // 获取一级标签分类
+  oneclassify: function (message) {
     let that = this
-    const url = api.getBannersUrl
-    const key = app.globalData.key
-    const sign = utils.encryption({}, key)
+    const secret = app.globalData.secret
+    const params = { "appkey": app.globalData.appkey, "page_index": that.data.page, "page_size": that.data.pageSize, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code}
+    console.log(params);
+    const sign = utils.encryptionIndex(params, secret)
+    const url = api.oneclassifyUrl
     let data = {
-      client_id: app.globalData.client_id,
-      sign: sign,
-      param: {}
+      appkey: app.globalData.appkey,
+      page_index: that.data.page,
+      page_size: that.data.pageSize,
+      time: app.globalData.time,
+      tv_source: app.globalData.tvSource,
+      version_code: app.globalData.version_code,
+      sign: sign
     }
-    utils.postLoading(url, 'GET', data, function (res) {
-      console.log('banners success:', res)
-      if (res.data && res.data.data) {
-        if (res.data.data.length > 5) {
+    utils.postLoading(url, 'GET', data, function (res){
+      console.log("一级粉类")
+      console.log(res)
+      if (res.data.data) {
+        let streams = res.data.data
+        if (streams.length < parseInt(that.data.pageSize)) {
           that.setData({
-            banners: res.data.data.slice(0, 5)
+            column: streams
           })
         } else {
           that.setData({
-            banners: res.data.data
+            column: streams,
+            page: parseInt(that.data.page) + 1 + ''
           })
         }
+      } else {
+        wx.showToast({
+          title: res.data.message,
+        })
       }
     }, function (res) {
-      console.log('banners fail:', res)
+      console.log('streams fail:')
+      console.log(res)
+
       wx.showToast({
-        title: '加载轮播数据失败',
+        title: '加载数据失败',
       })
     }, function (res) {
-      console.log('banners complete:', res)
+      console.log('streams complete:')
+      console.log(res)
     }, message)
   },
-  // 获取信息流
-  getStreams: function (message) {
+
+
+  // 首页推荐接口
+  twoclassify: function (message) {
+    let that = this
+    const secret = app.globalData.secret
+    const params = { "appkey": app.globalData.appkey, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code}
+    console.log(params);
+    const sign = utils.encryptionIndex(params, secret)
+    const url = api.recommendlistUrl
+    let data = {
+      appkey: app.globalData.appkey,
+      time: app.globalData.time,
+      tv_source: app.globalData.tvSource,
+      version_code: app.globalData.version_code,
+      sign: sign
+    }
+    utils.postLoading(url, 'GET', data, function (res) {
+      console.log('正片二级分类:')
+      console.log(res.data.data)
+      if (res.data.data) {
+        let recommendlist = res.data.data
+        if (recommendlist.length < parseInt(that.data.pageSize)) {
+          that.setData({
+            list: recommendlist
+          })
+        } else {
+          that.setData({
+            list: recommendlist,
+          })
+        }
+
+
+      } else {
+        wx.showToast({
+          title: res.data.message,
+        })
+      }
+    }, function (res) {
+      console.log('streams fail:')
+      console.log(res)
+
+      wx.showToast({
+        title: '加载数据失败',
+      })
+    }, function (res) {
+      console.log(res)
+    }, message)
+  },
+
+  // 获取轮播图数据
+  getBanners: function (message) {
     let that = this
     const url = api.getStreamsUrl
     const key = app.globalData.key
     const page = that.data.page
-    const pageSize = that.data.pageSize
-    const params = { "page": page, "pageSize": pageSize }
+    const banner_pageSize = that.data.banner_pageSize
+    const params = { "page": page, "pageSize": banner_pageSize }
     const sign = utils.encryption(params, key)
 
     let data = {
@@ -109,14 +151,13 @@ Page({
         let streams = res.data.data.list
         if (streams.length < parseInt(that.data.pageSize)) {
           that.setData({
-            streams: getPeriods(streamsTm.concat(streams)),
+            streams: res.data.data.list,
             hasMoreData: false
           })
         } else {
           that.setData({
-            streams: getPeriods(streamsTm.concat(streams)),
+            streams: res.data.data.list,
             hasMoreData: true,
-            page: parseInt(that.data.page) + 1 + ''
           })
         }
       } else {
@@ -125,36 +166,30 @@ Page({
         })
       }
     }, function (res) {
-      console.log('streams fail:',res)
+      console.log('streams fail:', res)
       wx.showToast({
         title: '加载数据失败',
       })
     }, function (res) {
-      console.log('streams complete:',res)
+      console.log('streams complete:', res)
     }, message)
   },
-  onTabItemTap: function(items) {
-    console.log('onTabItemTap',items)
-    this.remoteCtrl.hideRemoteControl()
+
+
+
+  onLoad(options) {
+    console.log('first onLoad监听页面加载');
+    let that = this
+    that.oneclassify('')
+    that.twoclassify('')
+    that.getBanners('加载中')
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    this.getBanners('加载中')
-    this.getStreams('')
+
+  onReady() {
+    console.log('first onReady监听页面初次渲染完成');
   },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-    this.getActiveId()
-    this.remoteCtrl = this.selectComponent("#remotecontrol-id")
-  },
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
+
+  onShow() {
     this.setData({
       isShowTips: app.globalData.isShowTips
     })
@@ -203,36 +238,13 @@ Page({
       // })
     }
   },
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
+
+  onHide() {
+    console.log('first onHide监听页面隐藏');
   },
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  },
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-    this.data.page = '1'
-    this.getBanners('正在刷新数据')
-    this.getStreams('正在刷新数据')
-    wx.stopPullDownRefresh()
-  },
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-    if (this.data.hasMoreData) {
-      this.getStreams('加载中')
-    } else {
-      this.setData({
-        hasMoreData: false
-      })
-    }
+
+  onUnload() {
+    console.log('first onUnload监听页面卸载');
   },
   /**
    * 用户点击右上角分享
@@ -249,22 +261,5 @@ Page({
       }
     }
   }
-})
-// 获取期数
-function getPeriods(e) {
-  let data = e, dl = data.length, firstTime = getMonthDay(data[0].createTime)
-  data[0].createTime = firstTime
-  for (let i = 1; i < dl; i++) {
-    if (getMonthDay(data[i].createTime) == firstTime) {
-      data[i].createTime = 'period'
-    } else {
-      firstTime = getMonthDay(data[i].createTime)
-      data[i].createTime = firstTime
-    }
-  }
-  return data
-}
-function getMonthDay(d) {
-  var date = new Date(d);
-  return (date.getMonth() + 1) + '月' + date.getDate() + '日'
-}
+});
+

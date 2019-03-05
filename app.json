@@ -12,7 +12,9 @@
     "pages/webView/webView",
     "pages/movies/movies",
     "pages/sresult/sresult",
-    "pages/movieDetail/movieDetail"
+    "pages/movieDetail/movieDetail",
+    "pages/find/find",
+    "pages/column/column"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -30,16 +32,14 @@
   },
   "tabBar": {
     "selectedColor": "#fd614e",
-    "color": "#444",
+    "color": "#333",
     "position":"top",
+    "backgroundColor":"#fff",
+    "borderStyle":"black",
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "发现"
-      },
-      {
-        "pagePath": "pages/movies/movies",
-        "text": "影片库"
+        "text": "主页"
       },
       {
         "pagePath": "pages/my/my",

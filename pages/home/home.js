@@ -5,7 +5,6 @@ export {
   utils,
 }
 const app = getApp()
-let ccsession = wx.getStorageSync('cksession')
 Page({
   data: {
     avatar: '../../images/man.png',
@@ -20,11 +19,11 @@ Page({
   getDevices: function (message) {
     let that = this
     const ccsession = wx.getStorageSync('cksession')
-    const url = api.getDevicesUrl
+    const url = api.bindDeviceListUrl
     const key = app.globalData.key
     var paramsStr = { "ccsession": ccsession }
     const sign = utils.encryption(paramsStr, key)
-    console.log("client_id:" + app.globalData.client_id)
+    console.log("ccsession:" + ccsession)
     let data = {
       client_id: app.globalData.client_id,
       sign: sign,
@@ -45,6 +44,34 @@ Page({
     }, function (res) {
 
     }, message)
+  },
+  bindDevice: function (qrUrl) {
+    let that = this
+    const ccsession = wx.getStorageSync('cksession')
+    const url = api.bindDeviceUrl
+    const key = app.globalData.key
+    var paramsStr = { "ccsession": ccsession, "qrUrl": qrUrl}
+    const sign = utils.encryption(paramsStr, key)
+    console.log("client_id:" + app.globalData.client_id)
+    console.log(ccsession);
+    let data = {
+      client_id: app.globalData.client_id,
+      sign: sign,
+      param: paramsStr,
+      ccsession: ccsession,
+      qrUrl: qrUrl
+    }
+    utils.postLoading(url, 'GET', data, function (res) {
+      console.log("绑定设备信息:" + JSON.stringify(res.data))
+      if (res.data.code == 200) {
+        that.getDevices('获取设备中');
+
+      }
+    }, function (res) {
+
+    }, function (res) {
+
+      }, qrUrl)
   },
   howbind: function (e) {
     wx.navigateTo({
@@ -82,7 +109,7 @@ Page({
       avatar: userInfo.avatarUrl,
       username: userInfo.nickName
     })
-    console.log("onLoad, ccsession:" + ccsession)
+    console.log("onLoad, ccsession:" + wx.getStorageSync('cksession'))
     this.getDevices('获取设备中')
 
   },
@@ -90,7 +117,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    this.getDevices('')
+   // this.getDevices('')
   },
   /**
    * 生命周期函数--监听页面显示
@@ -99,7 +126,7 @@ Page({
     this.setData({
       ccsession: wx.getStorageSync("cksession")
     })
-    this.getDevices('获取设备中')
+  //  this.getDevices('获取设备中')
   },
   /**
    * 生命周期函数--监听页面隐藏
@@ -117,7 +144,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    this.getDevices('');
+  //  this.getDevices('');
     wx.stopPullDownRefresh()
   },
   /**
@@ -211,6 +238,21 @@ Page({
       },
       fail: function (res) {
         console.log(res)
+      }
+    })
+  },
+  scan() {
+    wx.scanCode({
+      success: (res) => {
+        console.log("扫码结果");
+        console.log(res.result);
+        this.setData({
+          qrUrl: res.result
+        });
+        this.bindDevice(res.result)
+      },
+      fail: (res) => {
+        console.log(res);
       }
     })
   }

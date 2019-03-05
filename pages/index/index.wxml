@@ -1,42 +1,38 @@
-<view class="container">
-  <!--banners  -->
-  <view class="banner">
-    <swiper indicator-dots="{{indicatorDots}}" circular="true" autoplay="{{autoplay}}" indicator-color="{{indicatorColor}}" indicator-active-color="{{indicatorActiveColor}}" interval="{{interval}}" duration="{{duration}}" bindchange="listenSwiper">
-      <block wx:for="{{banners}}" wx:key="">
+<!-- <view>
+  <search></search>
+</view> -->
+
+<view style="margin-bottom:100rpx">
+  <swiper indicator-dots="{{indicatorDots}}"
+    autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-active-color="{{indicatorActiveColor}}" indicator-color="{{indicatorColor}}">
+    <block wx:for="{{streams}}">
         <navigator url="../cinecism/cinecism?id={{item.articleId}}">
-          <swiper-item>    
-            <image class="slide-image" src="{{item.articlePicUrl}}"></image>
-            <text class="banner-text">{{item.articleTitle}} </text>
-          </swiper-item>
+            <swiper-item>
+              <image src="{{item.articlePicUrl}}" class="slide-image" />
+            </swiper-item>
         </navigator>
       </block>
-    </swiper>
-  </view>
-  <!--streams  -->
-  <view class="stream">
-    <block wx:for="{{streams}}" wx:key="*this">
-      <view class="{{item.createTime == 'period' ? 'none' : 'period'}}">
-        <text>{{item.createTime ? item.createTime : ''}}</text>
+  </swiper>
+
+  <view class="label">
+      <view wx:for="{{column}}" class="column-item">     
+      <image src="{{item.classify_pic}}" mode="aspectFill"></image>
+      <view class="item_book_text">{{item.classify_name}}</view>
       </view>
-      <navigator url="../cinecism/cinecism?id={{item.articleId}}">
-        <view class="{{item.articleType == 0?'stream-item':'none'}}">
-          <image src="{{item.articlePicUrl}}" mode="aspectFill" class="stream-img"></image>
-          <view class="stream-item-title">
-            <text class="stream-title">{{item.articleTitle}}</text>
-            <text class="stream-time">{{item.articleReadTime}}分钟可读完</text><span class="verticalLine"> | </span><text class="stream-time stream-time-left">作者：{{item.articleAuthor}}</text>
-          </view>
-        </view>
-        <view class="{{item.articleType == 1?'stream-topic-item':'none'}}">
-            <text class="topic-item-type">话题</text>
-            <text class="topic-item-title">{{item.articleTitle}}</text>
-            <text class="topic-item-time">{{item.articleReadTime}}分钟可读完</text>
-        </view>
-      </navigator>
-    </block>
-  </view>
-  <!--no more data  -->
-  <view class="{{hasMoreData?'none':'more-data'}}">
-    <text>没有更多内容</text>
+  </view> 
+
+  <view class="category" wx:for="{{list}}">
+    <view class="title">{{item.title}}<navigator class="more" url="../column/column?id={{item.tag_id}}&title={{item.title}}">更多></navigator></view>
+    <view class="scroll_box section"> 
+        <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">    
+          <navigator wx:for="{{item.video_list}}" class="item_list" url="../column/column?id={{item.third_album_id}}">
+            <view>
+              <image src="{{item.video_poster}}" class="item_book_img" mode="aspectFill"></image>
+              <view class="item_book_text">{{item.album_title}}</view>
+            </view>
+          </navigator>      
+        </scroll-view>
+    </view>
   </view>
 </view>
 
