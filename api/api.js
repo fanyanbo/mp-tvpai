@@ -37,6 +37,7 @@ const saveEventLogUrl = baseUrl + "userEventLog/saveEventLog.coocaa";//事件收
 
 const bindDeviceListUrl = baseUrl + "wxUserDeviceAPI/bindDeviceList.coocaa";//设备接口列表
 const bindDeviceUrl = baseUrl + "wxUserDeviceAPI/bindDevice.coocaa";//用户绑定接口
+const changeDeviceStatusUrl = baseUrl + "wxUserDeviceAPI/changeDeviceStatus.coocaa";//修改设备名称或修改设备绑定状态接口
 
 
 
@@ -86,5 +87,6 @@ module.exports = {
   oneclassifyUrl: oneclassifyUrl,
   recommendlistUrl: recommendlistUrl,
   recommendmorelistUrl: recommendmorelistUrl,
-  relatelongUrl: relatelongUrl
+  relatelongUrl: relatelongUrl,
+  changeDeviceStatusUrl: changeDeviceStatusUrl
 }

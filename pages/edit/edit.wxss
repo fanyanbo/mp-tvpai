@@ -1,0 +1,44 @@
+/* pages/edit/edit.wxss */
+page{
+  background-color: rgb(248, 248, 248)
+}
+.input-area{
+  height: 110rpx;
+  line-height: 110rpx;
+  font-size:34rpx;
+  background: #fff;
+  margin-top: 30rpx;
+  margin-bottom: 20rpx;
+  padding:0 20rpx;
+}
+.editInput{
+  height: 110rpx;
+  line-height: 110rpx;
+  padding-left: 20rpx;
+
+}
+.accountLog{
+  width: 90%;
+  margin: 0 auto;
+  background: #FFD50F;
+  height: 94rpx;
+  text-align: center;
+  line-height: 94rpx;
+  border-radius: 16rpx;
+  color: #333;
+  font-size: 36rpx;
+  margin-top: 40rpx
+}
+.nameLabel{
+  width: 200rpx;
+  height: 52rpx;
+  line-height: 52rpx;
+  text-align: center;
+  border-radius: 100rpx;
+  display: inline-block;
+  background: #ECECEC ;
+  font-size:28rpx;
+  color: #666;
+  margin: 20rpx 10rpx;
+
+}

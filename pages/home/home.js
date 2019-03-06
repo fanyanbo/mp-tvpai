@@ -7,7 +7,7 @@ export {
 const app = getApp()
 Page({
   data: {
-    avatar: '../../images/man.png',
+    isShowTips: true,
     username: '你好',
     devices: false,
     mydevices: [],
@@ -15,35 +15,6 @@ Page({
     moretop: ['moretop'],
     showModal: false,
     ccsession: wx.getStorageSync('cksession')
-  },
-  getDevices: function (message) {
-    let that = this
-    const ccsession = wx.getStorageSync('cksession')
-    const url = api.bindDeviceListUrl
-    const key = app.globalData.key
-    var paramsStr = { "ccsession": ccsession }
-    const sign = utils.encryption(paramsStr, key)
-    console.log("ccsession:" + ccsession)
-    let data = {
-      client_id: app.globalData.client_id,
-      sign: sign,
-      param: paramsStr
-    }
-    utils.postLoading(url, 'GET', data, function (res) {
-      console.log("获取设备信息:" + JSON.stringify(res.data))
-      if (res.data.result && res.data.data) {
-        that.setData({
-          devices: true,
-          mydevices: res.data.data
-        })
-        console.log("获取设备激活id:" + res.data.data[0].serviceId);
-        app.globalData.activeid = res.data.data[0].serviceId;
-      }
-    }, function (res) {
-
-    }, function (res) {
-
-    }, message)
   },
   bindDevice: function (qrUrl) {
     let that = this
@@ -64,8 +35,16 @@ Page({
     utils.postLoading(url, 'GET', data, function (res) {
       console.log("绑定设备信息:" + JSON.stringify(res.data))
       if (res.data.code == 200) {
-        that.getDevices('获取设备中');
-
+        wx.showToast({
+          title: '设备绑定中...',
+        })
+        setTimeout(function () {
+          getDevices(that, '获取设备中');
+        }, 2000)       
+      }else{
+        wx.showToast({
+          title: '设备绑定失败',
+        })   
       }
     }, function (res) {
 
@@ -110,7 +89,7 @@ Page({
       username: userInfo.nickName
     })
     console.log("onLoad, ccsession:" + wx.getStorageSync('cksession'))
-    this.getDevices('获取设备中')
+    getDevices(this,'获取设备中')
 
   },
   /**
@@ -258,3 +237,33 @@ Page({
   }
 })
 
+function getDevices(that,message) {
+  const ccsession = wx.getStorageSync('cksession')
+  const url = api.bindDeviceListUrl
+  const key = app.globalData.key
+  var paramsStr = { "ccsession": ccsession }
+  const sign = utils.encryption(paramsStr, key)
+  let data = {
+    client_id: app.globalData.client_id,
+    sign: sign,
+    param: paramsStr,
+    ccsession: ccsession
+  }
+  console.log(data)
+  utils.postLoading(url, 'GET', data, function (res) {
+    console.log("获取设备信息:")
+    console.log(res)
+    if (res.data.result && res.data.data) {
+      that.setData({
+        devices: true,
+        mydevices: res.data.data
+      })
+      console.log("获取设备激活id:" + res.data.data[0].deviceId);
+      app.globalData.activeid = res.data.data[0].deviceId;
+    }
+  }, function (res) {
+
+  }, function (res) {
+
+  }, message)
+}

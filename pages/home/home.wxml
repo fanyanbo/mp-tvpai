@@ -1,55 +1,42 @@
 <view class="container">
-  <view class="mydevices">
-    <text>我的设备</text>
-  </view>
-  <view class="{{devices?'none':'no-devices'}}">
-    <text class="no-title">{{"您的账号未关联任何设备，关联后\n可推送影片到设备中播放"}}</text>
-    <text class="howbind" bindtap="howbind">如何关联？</text>
-    <view class="view">
-      <button class="scan" type="primary" bindtap="scan" id="scan">扫一扫</button>
-    </view>
 
+<view class="{{devices?'none':'no-devices'}}">
+  <text class="no-title">{{"您的账号未关联任何设备，关联后\n可推送影片到设备中播放"}}</text>
+  <text class="howbind" bindtap="howbind">如何关联？</text>
+  <view class="view">
+    <button class="scan" type="primary" bindtap="scan" id="scan">扫一扫</button>
   </view>
-  <view class="{{devices?'devices':'none'}}">
-    <block wx:for="{{mydevices}}" wx:key="*this" wx:for-index="index">
-      <view class="device-item" >
+</view>
+
+<view class="{{devices?'binding':'none'}} " bindtap="scan">绑定新设备</view>
+<view class="{{devices?'mydevices':'none'}} "><text>我的设备</text></view>
+<view wx:for="{{mydevices}}" class="{{devices?'devices':'none'}}">
+      <view class="device-item device-top-left" >
         <view class="device-top">
-          <view class="device-top-left">
-            <image src="../../images/shebei_icon.png" class="device-tv"></image>
-            <text class="device-name">{{item.deviceName}}</text>           
-          </view>
-          <view class="device-top-right">
-            <text class="device-model">已绑定</text>            
-          </view>           
+          <text class="device-name inaline">{{item.device.deviceName}}</text>
+          <navigator class="edit" url="../delete/delete?deviceId={{item.deviceId}}&bind={{item.bindStatus}}&deviceName={{item.device.deviceName}}">编辑</navigator>
         </view>
-        <view class="device-open" data-index="{{index}}" bindtap="moreLess">
-          <text>设备详情</text>
-          <image src="../../images/arrow1.png" data-index="{{index}}" class="more {{moretop[index]}}"></image>
-        </view>
-        <view data-index="{{index}}" class="none {{block[index]}}">
+        <view class="{{block[index]}}">
           <view class="device-content">
-            <text class="device-content-left">电视名称</text>
-            <view class="device-content-right">
-              <text>{{item.deviceName}}</text>
-              <image src="../../images/arrow1.png" class="name-more"></image>
-            </view>
-            
+            <text class="device-content-left">型号：{{item.device.model}}</text>
           </view>
           <view class="device-content">
-            <text class="device-content-left">电视型号</text>
-            <text class="device-content-right">{{item.model}}</text>
+            <text class="device-content-left">MAC：{{item.device.devMac}}</text>
           </view>
           <view class="device-content">
-            <text class="device-content-left">电视ID</text>
-            <text class="device-content-right">{{item.devMac}}</text>
+            <text class="device-content-left">激活ID：{{item.deviceId}}</text>
           </view>
         </view>
       </view>
-    </block>
+      <view class="device-top-right">
+          <image wx:if="{{item.bindStatus == 1}}" class="device-model" src="../../images/binding.png"></image>
+          <view wx:else>
+            绑定
+          </view>           
+        </view>  
   </view>
-  <view class="{{devices?'morebind':'none'}}" bindtap="moreBind">
-    <text>如何关联更多我的设备？</text>
-  </view>
+
+
 
  
 </view>
@@ -68,4 +55,8 @@
     <view class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</view>
     <view class="btn-confirm" bindtap="onConfirm" data-status="confirm">确定</view>
   </view>
+</view>
+
+<view>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}"></remotecontrol>
 </view>

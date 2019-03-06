@@ -44,17 +44,15 @@ page{
   right: 50rpx;
 }
 .mydevices{
-  height: 60rpx;
+  height: 90rpx;
+  line-height: 90rpx;
   position: relative;
-}
-.mydevices text{
-  font-size: 24rpx;
+  width: 90%;
+  margin: 0 auto;
+  font-size: 28rpx;
   color: #999;
-  display: block;
-  left: 20rpx;
-  top: 22rpx;
-  position: absolute
 }
+
 .no-devices{
   width: 100%;
   height: 400rpx;
@@ -97,25 +95,60 @@ page{
 }
 .devices{
   background: #fff;
-  width: 100%;
-  height: auto;
-  min-height: 520rpx;
+  width: 670rpx;
+  height: 218rpx;
   color: #444;
+  margin: 0 auto;
+  border-radius: 15rpx
 }
 .device-top{
-  width: 100%;
-  height: 100rpx;
-  padding: 20px 20rpx 0 20px;
-  box-sizing: border-box;
-  display: flex;
+  width: 510rpx;
+  height: 56rpx;
+  line-height: 56rpx;
+  padding: 20rpx;
+  box-sizing:content-box;  
   justify-content: space-between;
+  font-size: 36rpx;
+  color: #444;
+  vertical-align:middle;
+  
+}
+.device-name{
+  width: 350rpx;
+  display: inline-block;
+  float:left;
+}
+.edit{
+  border-radius: 20rpx;
+  background: #ECECEC;
+  color:#999;
+  font-size:26rpx;
+  float:left;
+  padding:0 25rpx;
+  margin-left: 10rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  margin-top: 8rpx;
 }
 .device-top-left{
-  flex: 1
+  width: 510rpx;
+  float:left;
+
 }
 .device-top-right{
-  flex: 1;
-  text-align: right;
+  float:left;
+  height: 218rpx;
+  line-height:218rpx;
+  width: 160rpx;
+  text-align: center;
+  font-size: 34rpx;
+  color:#999;
+  border-left:solid 1px #ECECEC ;
+  box-sizing: border-box;  
+}
+.device-model{
+  width: 160rpx;
+  height: 218rpx;
 }
 .device-open{
   width: 100%;
@@ -125,45 +158,31 @@ page{
   padding: 0 20rpx;
   border-bottom: 2rpx solid #eaeaea;
 }
-.device-model,.device-content-right{
-  font-size: 26rpx;
-  color: #999;
-  text-align: right;
+
+.inaline{
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis
 }
-.device-name{
-  margin-left: 20rpx;
-  font-size: 28rpx;
-  color: #444;
-  vertical-align:middle;
-}
-.device-content-left{
-  font-size: 28rpx
-}
+
 .device-tv{
   width: 40rpx;
   height: 30rpx;
   vertical-align:middle;
 }
-.device-model{
-  vertical-align:middle;
-}
+
 .device-content{
   width: 100%;
-  height: 100rpx;
-  line-height: 100rpx;
-  padding: 0 20rpx 0 100rpx;
+  height: 34rpx;
+  line-height: 34rpx;
+  padding:0 20rpx;
   box-sizing: border-box;
   display: flex;
+  font-size: 24rpx;
+  color: #999;
   justify-content: space-between;
-  border-bottom: 2rpx solid #eaeaea;
 }
-.device-content-left{
-  flex: 1
-}
-.device-content-right{
-  flex: 1;
-  text-align: right;
-}
+
 .more{
   margin-left: 20rpx;
   width: 20rpx;
@@ -261,4 +280,16 @@ page{
   width: 50%;
   color: #fc4c00;
   text-align: center;
+}
+
+.binding{
+  width: 90%;
+  height: 94rpx;
+  line-height:94rpx;
+  background: #fff;
+  color: #000;
+  margin: 15rpx auto;
+  font-size: 36rpx;
+  text-align: center;
+  border-radius: 15rpx
 }

@@ -37,7 +37,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 4,
+			"current": 6,
 			"list": [
 				{
 					"id": -1,
@@ -70,6 +70,21 @@
 					"id": -1,
 					"name": "影片详情",
 					"pathName": "pages/movieDetail/movieDetail",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "编辑",
+					"pathName": "pages/edit/edit",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "删除",
+					"pathName": "pages/delete/delete",
+					"query": "",
 					"scene": null
 				}
 			]

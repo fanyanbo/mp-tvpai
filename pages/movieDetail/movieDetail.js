@@ -12,7 +12,9 @@ Page({
     isShowTips: true,
     flag:true,
     flagOpen:false,
-    opens:true
+    opens:true,
+    length:0,
+    movieType:""
   },
 
   /**
@@ -120,13 +122,13 @@ Page({
 
 function movieDetail(that,movieId){
   const secret = app.globalData.secret
-  var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": movieId, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code}
+  var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": '_oqy_233066601', "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code}
   console.log(paramsStr);
   const sign = utils.encryptionIndex(paramsStr, secret)
   const url = api.getVideoDetailUrl
   let data = {
     appkey: app.globalData.appkey,
-    third_album_id: movieId,
+    third_album_id: '_oqy_233066601',
     time: app.globalData.time,
     tv_source: app.globalData.tvSource,
     version_code: app.globalData.version_code,
@@ -146,9 +148,10 @@ function movieDetail(that,movieId){
         that.setData({
           movieData: res.data.data,
           tags: tagArr,
+          movieType: res.data.data.video_type
         })
-        likes(that, movieId)
-        moviesItem(that, movieId)
+        likes(that, "_oqy_233066601")
+        moviesItem(that, "_oqy_233066601")
       }
     }, function (res) {
     console.log('streams fail:')
@@ -164,7 +167,6 @@ function movieDetail(that,movieId){
 function likes(that,movieId){
   const secret = app.globalData.secret
   var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": movieId, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code}
-  console.log(paramsStr)
   var sign = utils.encryptionIndex(paramsStr, secret)
   var url = api.relatelongUrl
   let data = {
@@ -176,7 +178,7 @@ function likes(that,movieId){
     sign: sign,
   }
   utils.postLoading(url, 'GET', data, function (res) {
-      console.log("获取设备")
+      console.log("相关联")
       console.log(res.data.data)
       if (res.data.data) {
         var videoLike = []
@@ -206,7 +208,6 @@ function likes(that,movieId){
 function moviesItem(that, movieId){
   const secret = app.globalData.secret
   var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": movieId, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
-  console.log(paramsStr)
   var sign = utils.encryptionIndex(paramsStr, secret)
   var url = api.getTvSegmentListUrl
   let data = {
@@ -218,11 +219,13 @@ function moviesItem(that, movieId){
     sign: sign,
   }
   utils.postLoading(url, 'GET', data, function (res) {
-      console.log("===============-------ggg")
+      console.log("===============-------剧集")
       console.log(res.data)
-      if (res.data.data) {      
+      if (res.data.data) {  
+        console.log(res.data.data.length)    
         that.setData({
-          moviesItem: res.data.data
+          moviesItem: res.data.data,
+          length: res.data.data.length
         })
       }
   }, function (res) {

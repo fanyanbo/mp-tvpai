@@ -14,7 +14,9 @@
     "pages/sresult/sresult",
     "pages/movieDetail/movieDetail",
     "pages/find/find",
-    "pages/column/column"
+    "pages/column/column",
+    "pages/edit/edit",
+    "pages/delete/delete"
   ],
   "window": {
     "backgroundTextStyle": "light",
