@@ -99,7 +99,8 @@ page{
   height: 218rpx;
   color: #444;
   margin: 0 auto;
-  border-radius: 15rpx
+  border-radius: 15rpx;
+  margin-bottom: 30rpx
 }
 .device-top{
   width: 510rpx;

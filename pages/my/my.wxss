@@ -15,6 +15,7 @@ page {
   padding: 0 30rpx;
   width: 100%;
   box-sizing: border-box;
+
 }
 .mylabel .title{
   color: #333;
@@ -23,9 +24,18 @@ page {
   margin-left: 10rpx
 }
 .mylabel .more{
-  float:right;
-  font-size: 28rpx;
-  color: #999
+  float: right;
+  font-size:28rpx;
+  color:#999;
+}
+.mylabel .arrow{
+  height: 26rpx;
+  width: 14rpx;
+  vertical-align: middle;
+  display: inline-block;
+  float: right;
+  margin-top: 31rpx;
+  margin-left: 10rpx
 }
 .my_icon{
   width: 42rpx;

@@ -200,7 +200,7 @@ App({
     time: Math.round(new Date().getTime() / 1000).toString(),
     appkey: '5cc090ddad6e4544815a0026e9a735a4',
     secret: 'cd8a62acc6164b27a9af4d29de8eeebd',
-    tvSource: wx.getStorageSync("tvSource"),
+    tvSource: 'iqiyi',
     version_code:33
   }
 })

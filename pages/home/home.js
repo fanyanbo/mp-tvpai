@@ -14,7 +14,7 @@ Page({
     block: ['block'],
     moretop: ['moretop'],
     showModal: false,
-    ccsession: wx.getStorageSync('cksession')
+    ccsession: wx.getStorageSync('cksession'),
   },
   bindDevice: function (qrUrl) {
     let that = this
@@ -33,7 +33,8 @@ Page({
       qrUrl: qrUrl
     }
     utils.postLoading(url, 'GET', data, function (res) {
-      console.log("绑定设备信息:" + JSON.stringify(res.data))
+      console.log("绑定设备信息:" )
+      console.log(res)
       if (res.data.code == 200) {
         wx.showToast({
           title: '设备绑定中...',
@@ -234,6 +235,48 @@ Page({
         console.log(res);
       }
     })
+  },
+  binding:function(event){
+    let that = this
+    console.log(event.currentTarget.dataset.deviceid)
+    const key = app.globalData.key
+    const ccsession = wx.getStorageSync('cksession')
+    var paramsStr = { bind: "1", "ccsession": ccsession, "deviceId": String(event.currentTarget.dataset.deviceid)}
+    console.log(paramsStr);
+    const sign = utils.encryption(paramsStr, key)
+    console.log(sign);
+    const url = api.changeDeviceStatusUrl
+    let data = {
+      client_id: app.globalData.client_id,
+      sign: sign,
+      param: paramsStr,
+      ccsession: ccsession,
+      bind: "1",
+      deviceId: String(event.currentTarget.dataset.deviceid),
+    }
+    utils.postLoading(url, 'GET', data, function (res) {
+      console.log(res)
+      if (res.data.code == 200) {
+        wx.showToast({
+          title: '绑定成功',
+        })
+        setTimeout(function () {
+          getDevices(that, '获取设备中');
+        }, 1000)
+      } else {
+        console.log('streams fail:')
+        wx.showToast({
+          title: '绑定失败',
+        })
+      }
+    }, function (res) {
+      console.log('streams fail:', res)
+      wx.showToast({
+        title: '绑定失败',
+      })
+    }, function (res) {
+      console.log('streams complete:', res)
+    }, "")
   }
 })
 
@@ -259,8 +302,20 @@ function getDevices(that,message) {
         mydevices: res.data.data
       })
       console.log("获取设备激活id:" + res.data.data[0].deviceId);
+      console.log("获取设备源:" + res.data.data[0].device.source);
+      if (res.data.data[0].device.source == "tencent"){
+        app.globalData.tvSource = 'qq';
+        wx.setStorageSync('tvSource', 'qq')
+      }else{
+        app.globalData.tvSource = 'iqiyi';
+        wx.setStorageSync('tvSource', 'iqiyi')
+      }
+      
       app.globalData.activeid = res.data.data[0].deviceId;
     }
+
+
+
   }, function (res) {
 
   }, function (res) {

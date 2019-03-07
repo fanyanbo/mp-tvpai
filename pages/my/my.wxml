@@ -22,12 +22,12 @@
   <navigator class='binding mylabel' url="../home/home">
     <image class='my_icon' src="../../images/search_tv.png"></image>
     <text class="title">设备绑定</text>
-    <text class="more">></text>
+    <image class="arrow" src="../../images/arrow.png"></image>
   </navigator>
   <navigator class='history mylabel' url="../home/home">
     <image class='my_icon' src="../../images/history.png"></image>
     <text class="title">推送历史</text>
-    <text class="more">全部></text>
+    <view class="more">全部 <image class="arrow" src="../../images/arrow.png"></image></view>
   </navigator>
   <view class="scroll_box section"> 
       <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">    
@@ -61,7 +61,7 @@
   <navigator class='history mylabel' url="../home/home">
     <image class='my_icon' src="../../images/like.png"></image>
     <text class="title">我的喜欢</text>
-    <text class="more">全部></text>
+     <view class="more">全部 <image class="arrow" src="../../images/arrow.png"></image></view>
   </navigator>
     <view class="scroll_box section"> 
       <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">    
