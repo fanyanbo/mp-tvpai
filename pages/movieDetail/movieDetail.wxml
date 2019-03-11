@@ -1,23 +1,26 @@
 <!--pages/movieDetail.wxml-->
 <view class='cntainer'>
 <!--影片信息  -->
+<view class="top">
 <view class='movieDetail'>
   <image src='{{movieData.video_poster}}' class='haibao'></image>
   <view class='describe'>
     <ul>
-      <li class="title">{{movieData.album_title}}<span class="score">{{movieData.score}}分</span></li>
-      <li>年份： {{movieData.publish_date}}</li>
-      <li>导演： {{movieData.director}}</li>
-      <li>主演：{{movieData.actor}}</li>
-      <li>标签：{{movieData.video_tags}}</li>
+      <li class="intwoline title">{{movieData.album_title}}</li>
+      <li><span class="score">{{movieData.score}}分</span>{{movieData.video_tags}}</li>
+      <li style="margin-top:50rpx">
+        <span><image class="like" src='../../images/like_before1.png'></image></span>
+        <span wx:if="{{movieData.video_type == '电影'}}"><image class="collect" src='../../images/collect_before.png'></image></span>
+      </li>
     </ul>
   </view>
 </view>
+</view>
 <!--影片信息end  -->
 
-<view class="push">推送至电视<span class="length">共{{length}}集 ></span></view>
+<view class="push" wx:if="{{movieType !='电影'}}"><image class="pushIcon" src='../../images/push.png'></image>投屏<span class="length">{{prompt_info}} ></span></view>
 
-<view class='tvLists'>
+<view class='tvLists' wx:if="{{movieType !='电影'}}">
   <view class='scroll'>
     <view wx:for="{{moviesItem}}" wx:for-item="item" >
       <view bindtap='push' data-source="{{item.play_sources[0].source}}" data-index="{{item.segment_index}}" class='xs {{chioced==item.segment_index? "active":""}}' wx:if="{{movieType == '电影'}}">{{item.video_subtitle}}
@@ -37,13 +40,10 @@
 
 
 <!--简介  -->
-<view class="introduce">简介</view> 
+<view class="introduce" bindtap='chooseSezi'>简介<image class="arrow" src="../../images/arrow.png"></image></view> 
 <view class='content'>
-<view>{{movieData.director}}</view>
-<view>{{movieData.actor}}</view>
-<view class='description {{opens? "open":""}}'>{{movieData.description}}</view>
-<view class="openit" bindtap='openIt' hidden='{{flagOpen? true:false}}'>展开</view>
-<view class='scrollIt' hidden='{{flagOpen? false:true}}' bindtap='openIt'>收起</view>
+  <view><text class="label">导演：</text>{{movieData.director}}</view>
+  <view><text class="label">演员：</text>{{movieData.actor}}</view>
 </view>
 
 
@@ -101,3 +101,14 @@
 
 </view>
 
+
+<view>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}"></remotecontrol>
+</view>
+
+<!--详情弹窗 -->
+<view class='maskLayer' bindtap='hideModal'></view>
+<view class='choose' animation='{{animationData}}'>
+  <view class="title">简介</view>
+  <view class="description">{{movieData.description}}</view>
+</view>

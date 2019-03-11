@@ -301,7 +301,7 @@ function getDevices(that,message) {
         devices: true,
         mydevices: res.data.data
       })
-      console.log("获取设备激活id:" + res.data.data[0].deviceId);
+      console.log("获取设备激活id:" + res.data.data[0].device.serviceId);
       console.log("获取设备源:" + res.data.data[0].device.source);
       if (res.data.data[0].device.source == "tencent"){
         app.globalData.tvSource = 'qq';

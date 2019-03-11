@@ -1,4 +1,7 @@
 {
+  "navigationBarTitleText": "详情",
+  "navigationBarBackgroundColor":"#333",
+  "navigationBarTextStyle":"white",
   "usingComponents": {
     "remotecontrol": "../../components/remotecontrol/index",
     "search": "../../components/search/index"
