@@ -115,7 +115,7 @@ function setParamsIndex(params) {
   } else {
     var result = '';
     for (var key in params) {
-      if (params[key] == null || params[key] == "") continue;
+      if (params[key] === null || params[key] === "") continue;
       result += key + params[key];
     }
     return result.substr(0, result.length);
