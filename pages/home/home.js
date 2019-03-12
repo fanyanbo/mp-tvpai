@@ -9,7 +9,7 @@ Page({
   data: {
     isShowTips: true,
     username: '你好',
-    devices: false,
+    devices: "",
     mydevices: [],
     block: ['block'],
     moretop: ['moretop'],

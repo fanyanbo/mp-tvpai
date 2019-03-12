@@ -1,4 +1,8 @@
 <!--pages/my/my.wxml-->
+<view>
+  <search></search>
+</view>
+
 <view class="container">
   <view class="userinfo" bindtap="userDebug">
     <view class="info-bg"></view>
@@ -12,9 +16,9 @@
         <button class='aut' wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button> -->
     </view>
     <!-- <navigator url="../feedback/fb" hover-class="navigator-hover"> -->
-    <view class="feedback" bindtap='webNavigateTo'>
+    <!-- <view class="feedback" bindtap='webNavigateTo'>
         <image src="../../images/shiyong.png" mode="aspectFit"></image>       
-    </view>
+    </view> -->
     <!-- </navigator> -->     
   </view>
 

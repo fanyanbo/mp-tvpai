@@ -1,7 +1,7 @@
 
 <view class='container'>
 <!--顶部搜索  -->
-<view class='tagList {{tagListAbsolute}}'>
+<view class='tagList {{tagListAbsolute}}' style="margin-top:120rpx">
   <view class='tabParents'>
     <view class='tabScroll'>
       <form bindsubmit="tagClick">

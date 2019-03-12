@@ -68,7 +68,13 @@ Page({
       console.log(res)
     }, message)
   },
-
+  tagClick: function (e) {
+    // 标签点击搜索 跳到search
+    var categoryId = e.currentTarget.dataset.category
+    wx.navigateTo({
+      url: '../sresult/sresult?category_id=' + categoryId
+    })
+  },
 
   // 首页推荐接口
   twoclassify: function (message) {
