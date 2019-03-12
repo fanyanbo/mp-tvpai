@@ -1,6 +1,6 @@
-<view>
+<!-- <view>
   <search></search>
-</view>
+</view> -->
 
 <!-- <view style="margin-bottom:100rpx">
   <swiper indicator-dots="{{indicatorDots}}"
@@ -37,9 +37,15 @@
 </view> -->
 
 <view class="main-wrapper">
-  <scroll-view scroll-y="true" style="height: 600px"
+  <scroll-view scroll-y="true" style="height: auto"
       bindscrolltoupper="upper"
       bindscrolltolower="lower">
+    <view class="search-box-wrapper">
+      <view class="search-box" bindtap='handleSearchTap'>
+        <image src="../../images/ser_icon.png" class="search-icon"></image>
+        <text class="search-text">{{searchContent}}</text>
+      </view>
+    </view> 
     <swiper indicator-dots="{{indicatorDots}}"
       autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-active-color="{{indicatorActiveColor}}" indicator-color="{{indicatorColor}}">
       <block wx:for="{{streams}}">

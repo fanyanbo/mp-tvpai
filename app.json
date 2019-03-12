@@ -16,7 +16,8 @@
     "pages/find/find",
     "pages/column/column",
     "pages/edit/edit",
-    "pages/delete/delete"
+    "pages/delete/delete",
+    "pages/search/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -24,8 +25,7 @@
     "navigationBarTitleText": "电视派",
     "navigationBarTextStyle": "black",
     "enablePullDownRefresh": false,
-    "backgroundColor": "#fff",
-    "navigationStyle":"custom"
+    "backgroundColor": "#fff"
   },
   "plugins": {
     "WechatSI": {
