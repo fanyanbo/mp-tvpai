@@ -237,7 +237,7 @@ Component({
     //处理遥控器相关事件
     handleRecorderManagerStart() {
       console.log('手指按住, 监测是否有目标设备：' + app.globalData.activeid);
-      this.data.activeid = 31140974; //yuanbotest only
+      // this.data.activeid = 31140974; //yuanbotest only
       if (this.data.activeid == null) {
         let activeid = app.globalData.activeid
         if (activeid != null) {
