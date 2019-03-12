@@ -19,9 +19,14 @@ text-align: center;
   width: 750rpx;
   height: 2114rpx
 }
+.swiper_list image{
+  display: inline-block;
+  float: left
+}
 .binding{
   width: 90%;
   margin: 0 auto;
-  margin-bottom: 40rpx;
-  background: #FFD71C
+  margin-bottom: 80rpx;
+  background: #FFD71C;
+  color: #333
 }

@@ -26,6 +26,7 @@
   width: 30rpx;
   height: 30rpx;
 }
+
 .search-text {
   margin-left: 30rpx;
   font-size: 28rpx;
@@ -33,22 +34,28 @@
   letter-spacing: 0;
 }
 
-swiper{
-  width: 100%;
-  height: 340rpx;
-}
+
+
 .slide-image{
-  width: 100%;
-  height:340rpx;
-  padding: 0 20rpx;
-  box-sizing: border-box
+  border-radius: 8rpx;
+  width: 670rpx;
+  height: 300rpx
 }
 
+.banner_list{
+  width: 670rpx;
+  height: 300rpx;
+  display: inline-block;
+  border-radius: 8rpx;
+  margin:0 10rpx
+}
 .flex-wrp {display: flex;}
 .label{
-  width: 100%;
+  box-sizing: border-box;
   text-align: center;
-  margin: 10px auto
+  margin: 40rpx auto !important;
+  padding:0 40rpx;
+  height: 360rpx;
 }
 
 .column-item{
@@ -59,7 +66,7 @@ swiper{
   border-radius: 100%;
   font-size: 26rpx;
   color: #333;
-  margin:10rpx 20rpx;  
+  margin:10rpx 12rpx;  
 }
 .column-item image{
   width: 100rpx;
@@ -103,7 +110,7 @@ swiper{
 }
 
 .category{
-padding: 20rpx;
+  padding:20rpx 40rpx;
 }
 .section{
 width: 100%;
@@ -117,10 +124,12 @@ width: 210rpx;
 height: 374rpx;
 margin-right: 23rpx;
 display: inline-block;
+border-radius: 8rpx
 }
 .item_book_img{
   width: 210rpx;
-  height: 294rpx
+  height: 294rpx;
+  border-radius: 8rpx
 }
 .category .title{
   font-size: 32rpx;
@@ -143,4 +152,9 @@ display: inline-block;
   width: 210rpx;
   white-space:normal;
   overflow:auto;
+  display: block;
 }
+
+
+
+
