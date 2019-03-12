@@ -5,6 +5,7 @@ const api = require('../../api/api.js');
 var app = getApp();
 Page({
   data: {
+    searchContent: '搜索视频、影评或话题',
     isShowTips: true,
     page: '0',
     pageSize: '30',
@@ -193,8 +194,6 @@ Page({
     }, message)
   },
 
-
-
   onLoad(options) {
     console.log('first onLoad监听页面加载');
     let that = this
@@ -278,6 +277,14 @@ Page({
         // 转发失败
       }
     }
+  },
+
+  // 樊彦博添加
+  handleSearchTap: function () {
+    console.log('跳转至搜索页面');
+    wx.navigateTo({
+      url: '../../pages/search/index',
+    });
   }
 });
 

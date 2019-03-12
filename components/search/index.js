@@ -1,10 +1,10 @@
-// components/remotecontrol/index.js
+
 Component({
   properties: {
     // 属性值可以在组件使用时指定
   },
   data: {
-    // 这里是一些组件内部数据
+    // 组件内部数据
     searchContent: '搜索视频、影评或话题',
     paddingTop: 0,
     scale: 1
@@ -12,9 +12,9 @@ Component({
   methods: {
     // 这里是一个自定义方法
     handletap() {
-      console.log('handletap');
+      console.log('点击搜索组件，跳转至搜索页面');
       wx.navigateTo({
-        url: '../../pages/home/home',
+        url: '../../pages/search/index',
       })
     }
   },

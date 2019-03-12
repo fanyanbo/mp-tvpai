@@ -1,0 +1,15 @@
+// wxs目前不支持es6语法
+// const getInf = (str, key) => str.replace(new RegExp(`${key}`, 'g'), `%%${key}%%`).split('%%');
+
+function getInf (str, key) {
+    var regexp = getRegExp(key, "g");
+    return str.replace(regexp, "%%" + key + "%%").split("%%");
+}
+
+function getHighLightItems(str, key) {
+    return getInf(str, key);
+}
+
+module.exports = {
+    getHighLightItems: getHighLightItems
+}
