@@ -7,7 +7,7 @@ Page({
   data: {
     isShowTips: true,
     page: '0',
-    pageSize: '10',
+    pageSize: '30',
     banner_pageSize:'3',
     indicatorDots: true,
     autoplay: false,
@@ -16,7 +16,9 @@ Page({
     indicatorColor: '#ECECEC',
     indicatorActiveColor: "#FFD71C",
     banners: [],
-    column: [],
+    column1: [],
+    column2: [],
+    column3: [],
     list: []
   },
   // 获取一级标签分类
@@ -39,18 +41,26 @@ Page({
     utils.postLoading(url, 'GET', data, function (res){
       console.log("一级粉类")
       console.log(res)
+      var column1 = []
+      var column2 = []
+      var column3 = []
       if (res.data.data) {
         let streams = res.data.data
-        if (streams.length < parseInt(that.data.pageSize)) {
-          that.setData({
-            column: streams
-          })
-        } else {
-          that.setData({
-            column: streams,
-            page: parseInt(that.data.page) + 1 + ''
-          })
+        for (var k = 0; k < 10; k++) {
+          column1.push(res.data.data[k])
         }
+        for (var i = 10; i < 20; i++) {
+          column2.push(res.data.data[i])
+        }
+        for (var n = 20; n < 30; n++) {
+          column3.push(res.data.data[n])
+        }
+        that.setData({
+          column1: column1,
+          column2: column2,
+          column3: column3
+        })
+
       } else {
         wx.showToast({
           title: res.data.message,
