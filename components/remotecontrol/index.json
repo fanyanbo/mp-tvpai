@@ -1,4 +1,7 @@
 {
   "component": true,
-  "usingComponents": {}
+  "usingComponents": {
+    "toast_dlg" : "../toastDlg/toastDlg",
+    "toast_prompt": "../toastPrompt/toastPrompt"
+  }
 }

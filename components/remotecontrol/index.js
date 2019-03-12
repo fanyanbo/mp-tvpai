@@ -45,10 +45,35 @@ Component({
     // 动画数据
     count: 0, // 设置 计数器 初始为0
     countTimer: null, // 设置 定时器 初始为null
-    animationData: {} 
+    animationData: {} ,
+    isShowToastDlg: false,// 是否显示"设备未绑定"对话弹窗
+    toastDlgGoBindProperties: {},//“设备未绑定”对话弹窗-提示内容
+    isShowToastPrompt: false,//是否显示"电视不支持遥控"提示弹窗
+    toastPromptNotSupportContents: {},//“电视不支持遥控”提示弹窗-提示内容
   },
   methods: {
     // 这里是一个自定义方法,供父组件调用
+    handleToastGoBindCancel() { //取消去绑定弹窗
+      console.log("toast gobindTV hide...")
+      this.setData({
+        isShowToastDlg: false
+      })
+    },
+    handleToastGoBindConfirm() {
+      console.log("toast gobindTV confirm...")
+      this.setData({
+        isShowToastDlg: false
+      })
+      wx.navigateTo({
+        url:"../../pages/home/home"
+      })
+    },
+    handleToastNotSupport() {
+      console.log("toast notsupport hide...")
+      this.setData({
+        isShowToastPrompt: false
+      })
+    },
     hideRemoteControl() {
       console.log('hideRemoteControl()')
       this.setData({
@@ -179,13 +204,18 @@ Component({
             hasDevice: true
           })
         } else {
-          wx.showToast({
-            title: '请先绑定设备',
-            icon: 'none',
-            duration: 1000,
-          })
           this.setData({
             hasDevice: false
+          })
+          //显示 设备未绑定 对话弹窗
+          this.setData({
+            isShowToastDlg: true,
+            toastDlgGoBindProperties: {
+              title: "设备未绑定",
+              tips: "您还未绑定设备，暂无法操作",
+              btnCancel: "取消",
+              btnConfirm: "去绑定"
+            }
           })
         }
       }

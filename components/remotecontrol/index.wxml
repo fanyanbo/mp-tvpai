@@ -1,4 +1,5 @@
 <!--components/remotecontrol/index.wxml-->
+
 <view>
   <view class="remoter-panel-mask" wx:if="{{isShowMask}}" bindtap="handleTapMask">
   </view>
@@ -72,4 +73,8 @@
   </view>
 </view>
 
+<toast_dlg wx:if="{{isShowToastDlg}}" 
+  bindtoastdlgcancel="handleToastGoBindCancel" bindtoastdlgconfirm="handleToastGoBindConfirm" toastDlgContents="{{toastDlgGoBindProperties}}">
+</toast_dlg>
 
+<toast_prompt wx:if="{{isShowToastPrompt}}" bindtoastpromptevt="handleToastNotSupport" toastPromptContents="{{toastPromptNotSupportContents}}"></toast_prompt>
