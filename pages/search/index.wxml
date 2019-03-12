@@ -137,6 +137,6 @@ todo:
 
 </view>
 
-<!-- <view>
-  <remotecontrol id="remotecontrol-id"></remotecontrol>
-</view> -->
+<view>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}"></remotecontrol>
+</view>

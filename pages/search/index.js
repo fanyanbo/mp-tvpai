@@ -3,6 +3,7 @@ const api = require('../../utils/api_tvpai')
 
 Page({
   data: {
+    isShowTips: false,
     inputPlaceholder: '搜索视频、影评或话题',
     curIndex: 0, //当前剧集
     curThirdId: '',
