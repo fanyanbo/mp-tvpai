@@ -8,5 +8,5 @@
       <image src="../../images/help/4.jpg" class="image4"></image>
       </view>  
       <view class="view">
-        <button class="binding" type="primary" bindtap="scan" id="scan">开始扫码绑定</button>
+        <button class="binding" bindtap="scan" id="scan">开始扫码绑定</button>
       </view>

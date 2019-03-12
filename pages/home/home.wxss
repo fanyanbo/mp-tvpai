@@ -55,11 +55,6 @@ page{
 
 .no-devices{
   width: 100%;
-  height: 400rpx;
-  background-color: #fff;
-  box-sizing: border-box;
-  padding-top: 120rpx;
-  text-align: center;
 }
 .no-title{
   font-size: 28rpx;
@@ -293,4 +288,32 @@ page{
   font-size: 36rpx;
   text-align: center;
   border-radius: 15rpx
+}
+
+.swiper-box{ display: block; height: 100%; width: 100%;overflow-y:scroll; margin-bottom: 300rpx}  
+.swiper-box view{  
+text-align: center;  
+}  
+.swiper_list .image1,.swiper_list .image2{
+  width: 750rpx;
+  height: 1148rpx
+}
+.swiper_list .image3{
+  width: 750rpx;
+  height: 1240rpx
+}
+.swiper_list .image4{
+  width: 750rpx;
+  height: 2114rpx
+}
+.swiper_list image{
+  display: inline-block;
+  float: left
+}
+._binding{
+  width: 90%;
+  margin: 0 auto;
+  margin-bottom: 80rpx;
+  background: #FFD71C;
+  color: #333
 }

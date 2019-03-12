@@ -1,7 +1,7 @@
 /* pages/column/column.wxss */
 
 .movieList{margin:0 auto; margin-bottom: 120rpx; width: 90%}
-.nomv{margin: 60% auto;}
+.nomv{margin: 60% auto; text-align: center}
 
 .item{ margin-top: 25rpx;}
 .listImg{border-radius: 10rpx}
