@@ -1,0 +1,8 @@
+<!--components/toastPrompt/toastPrompt.wxml-->
+<view class='toast_prompt'>
+  <view class='toast_prompt__mask' bindtap="triggerBtn"></view>
+  <view class='toast_prompt__content'>
+    <view class='toast_prompt__content__tips'>{{toastPromptContents.tips}}</view>
+    <button class='toast_prompt__content__btn' bindtap="triggerBtn">{{toastPromptContents.btnName}}</button>
+  </view>
+</view>
