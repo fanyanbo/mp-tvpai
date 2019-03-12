@@ -27,7 +27,7 @@ todo:
   <view class='search-history-wrapper' wx:if="{{historyWordsList && historyWordsList.length != 0}}">
     <view class='title-wrapper'>
       <view class='title'>历史搜索</view>
-      <image class="clear" src='../../images/delete@3x.png' bindtap='handleClearTap'></image>
+      <image class="icon-clear" src='../../images/delete@3x.png' bindtap='handleClearTap'></image>
     </view>
     <view class='items-wrapper'>
       <view class='history-words' bindtap="onKeywordTap" data-keyword="{{item}}" wx:for="{{historyWordsList}}" wx:key="index">{{item}}</view>

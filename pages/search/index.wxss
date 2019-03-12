@@ -55,7 +55,6 @@
   width: 100%;
   height: 90rpx;
   align-items: center;
-  background: green;
 }
 .title-wrapper .title {
   margin-left: 20rpx;
@@ -64,9 +63,8 @@
   font-weight: bold;
   color: black;
   letter-spacing: 0;
-  background: red;
 }
-.title-wrapper .clear {
+.title-wrapper .icon-clear {
   width: 60rpx;
   height: 60rpx;
 }
