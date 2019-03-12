@@ -22,29 +22,20 @@ Page({
       }
     });
   },
-  /** 
-     * 滑动切换tab 
-     */
-  bindChange: function (e) {
-    var that = this;
-    that.setData({ currentTab: e.detail.current });
-  },
-  /** 
-   * 点击tab切换 
-   */
-  swichNav: function (e) {
-    var that = this
-    // that.data.winHeight
-    wx.pageScrollTo({
-      scrollTop: 0
+  scan() {
+    wx.scanCode({
+      success: (res) => {
+        console.log("扫码结果");
+        console.log(res.result);
+        this.setData({
+          qrUrl: res.result
+        });
+        this.bindDevice(res.result)
+      },
+      fail: (res) => {
+        console.log(res);
+      }
     })
-    if (this.data.currentTab === e.target.dataset.current) {
-      return false;
-    } else {
-      that.setData({
-        currentTab: e.target.dataset.current
-      })
-    }
   },
   // back:function(){
   //   var pages = getCurrentPages();

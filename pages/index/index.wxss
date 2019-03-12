@@ -2,6 +2,37 @@
   background: #F6F6F8;
   padding-bottom: 64rpx;
 }
+.main-wrapper {
+  margin-bottom:100rpx;
+}
+.search-box-wrapper{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 88rpx;
+}
+.search-box {
+  display: flex;
+  align-items: center;
+  width: 670rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  margin-left: 40rpx;
+  border-radius: 32rpx;
+  background: #F2F2F2;
+}
+.search-icon {
+  margin-left: 54rpx;
+  width: 30rpx;
+  height: 30rpx;
+}
+.search-text {
+  margin-left: 30rpx;
+  font-size: 28rpx;
+  color: #999999;
+  letter-spacing: 0;
+}
+
 swiper{
   width: 100%;
   height: 340rpx;

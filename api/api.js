@@ -1,5 +1,5 @@
-//const baseUrl = 'https://wx.coocaa.com/';
-const baseUrl = 'http://beta-wx.coocaa.com/';
+const baseUrl = 'https://wx.coocaa.com/';
+// const baseUrl = 'http://beta-wx.coocaa.com/';
 const _baseUrl ='https://beta-tvpi.coocaa.com/';
 
 const getDevicesUrl = baseUrl + "articleMoviesAPI/getDevices.coocaa";//获取设备信息
@@ -48,6 +48,8 @@ const recommendmorelistUrl = _baseUrl + "video/client/longvideo/recommendmorelis
 const getVideoDetailUrl = _baseUrl + "video/client/longvideo/videodetail";//获取影片详情接口
 const relatelongUrl = _baseUrl + "video/client/longvideo/relatelong";//相关正片
 const getTvSegmentListUrl = _baseUrl + "video/client/longvideo/episodeslist";//获取剧集列表接口
+const addUrl = _baseUrl + "video/client/collect/add";//收藏接口
+const pushhistoryUrl = _baseUrl + "video/client/pushhistory/list";//推送历史
 
 
 module.exports = {
@@ -88,5 +90,7 @@ module.exports = {
   recommendlistUrl: recommendlistUrl,
   recommendmorelistUrl: recommendmorelistUrl,
   relatelongUrl: relatelongUrl,
-  changeDeviceStatusUrl: changeDeviceStatusUrl
+  changeDeviceStatusUrl: changeDeviceStatusUrl,
+  addUrl: addUrl,
+  pushhistoryUrl: pushhistoryUrl
 }

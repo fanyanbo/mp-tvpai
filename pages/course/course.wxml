@@ -1,101 +1,12 @@
 <!--course.wxml-->
-<view class="swiper-tab">  
-<view class="course_name">系统登录账号方法</view>
-    <view class="swiper-tab-list {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">4.0-4.4</view>  
-    <view class="swiper-tab-list {{currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">5.0-5.2</view>  
-    <view class="swiper-tab-list {{currentTab==2 ? 'on' : ''}}" data-current="2" bindtap="swichNav">5.5-5.7</view>  
-    <view class="swiper-tab-list {{currentTab==3 ? 'on' : ''}}" data-current="3" bindtap="swichNav">VR</view>  
-</view>  
 <!-- <swiper current="{{currentTab}}" class="swiper-box" duration="300" style="padding-top:140rpx;height:{{winHeight}}px" bindchange="bindChange">   -->
-<swiper current="{{currentTab}}" class="swiper-box" duration="300" style="padding-top:140rpx;height:{{winHeight}}px" bindchange="bindChange">  
-    <!-- 第一个tab -->  
-    <swiper-item style="overflow-y:scroll;">  
-      <view class="swiper_list"   style="height:1400px;">
-      <text>第一步：打开电视，进入主页;</text>
-      <image src="http://img.coocaa.com/public/x40/1.jpg" mode="aspectFill"></image>
-      <text>第二步：遥控器操作，进入[我的]或者[设置]，找到[账户];</text>
-      <image src="http://img.coocaa.com/public/x40/2.jpg" mode="aspectFill"></image>
-      <text>第三步：选择[账户]后点击确定，进入账号登录界面;</text>
-      <image src="http://img.coocaa.com/public/x40/3.jpg" mode="aspectFill"></image>
-       <text>第四步：登录你已注册过的账号：手机号码\密码;</text>
-      <image src="http://img.coocaa.com/public/x40/4.jpg" mode="aspectFill"></image>
-       <text>第五步：确认输入无误后，点击[登录];</text>
-      <image src="http://img.coocaa.com/public/x40/5.jpg" mode="aspectFill"></image>
-       <text>第六步：完成登录。</text>
-      <image src="http://img.coocaa.com/public/x40/6.jpg" mode="aspectFill"></image>
-      <text>4.0-4.4的系统只有手机号码登录，无QQ扫码登录。</text>
+
+      <view class="swiper_list">
+      <image src="../../images/help/1.jpg" class="image1"></image>
+      <image src="../../images/help/2.jpg" class="image2"></image>
+      <image src="../../images/help/3.jpg" class="image3"></image>
+      <image src="../../images/help/4.jpg" class="image4"></image>
       </view>  
-    </swiper-item>  
-    <!-- 第二个tab -->  
-     <swiper-item  style="overflow-y:scroll;">  
-      <view class="swiper_list" style="height:2300px;">
-      <text>第一步：打开电视，进入主页;</text>
-      <image src="http://www.coocaa.com//act14/weixin/applet/course1.jpg" mode="aspectFill"></image>
-      <text>第二步：按遥控器左键，进入左侧菜单，选择[设置];</text>
-      <image src="http://www.coocaa.com//act14/weixin/applet/course2.jpg" mode="aspectFill"></image>
-      <text>第三步：选择[账户与支付]后点击确定，进入账号登录界面;</text>
-      <image src="http://www.coocaa.com//act14/weixin/applet/course3.jpg" mode="aspectFill"></image>
-       <text>第四步：5.0系统后，账户有两种登录方式：酷开账户登录、手机QQ扫码登录。</text>
-      <image src="http://www.coocaa.com//act14/weixin/applet/course4.jpg" mode="aspectFill"></image>
-       <text>第一种、手机号码登录
-输入你已注册过的手机号码与密码，确认输入无误后点击[登录]，即可完成登录。
-酷开账户登录之后，可以在登陆后绑定QQ或绑定手机号。
-</text>
-      <image src="http://www.coocaa.com//act14/weixin/applet/course5.jpg" mode="aspectFill"></image>
-       <image src="http://www.coocaa.com//act14/weixin/applet/course6.jpg" mode="aspectFill"></image>
-      <image src="http://www.coocaa.com//act14/weixin/applet/course7.jpg" mode="aspectFill"></image>
-      
-       <text>第二种、其他登录方式
-选择[其他登录方式]--手机QQ扫码登录;</text>
-<image src="http://www.coocaa.com//act14/weixin/applet/course8.jpg" mode="aspectFill"></image>
-      <image src="http://www.coocaa.com//act14/weixin/applet/course9.jpg" mode="aspectFill"></image>
-    <text>打开手机QQ，选择[扫一扫]，扫码电视上的二维码，在手机上点击确认后完成登录。</text>
-      <image src="http://www.coocaa.com//act14/weixin/applet/course10.jpg" mode="aspectFill"></image>
-   <image src="http://www.coocaa.com//act14/weixin/applet/course11.jpg" mode="aspectFill"></image>
-  
-      </view>  
-    </swiper-item>  
-    <!-- 第三个tab -->  
-    <swiper-item style="overflow-y:scroll;">  
-      <view class="swiper_list"   style="height:2200px;">
-      <text>第一步：打开电视，进入主页;</text>
-      <image src="http://www.coocaa.com//act14/weixin/applet/cc1.jpg" mode="aspectFill"></image>
-      <text>第二步：按遥控器左键，进入左侧菜单，选择[酷开账户];</text>
-      <image src="http://www.coocaa.com//act14/weixin/applet/cc2.jpg" mode="aspectFill"></image>
-      <text>第三步：点击确定，进入账号登录界面;</text>
-      <image src="http://www.coocaa.com//act14/weixin/applet/cc3.jpg" mode="aspectFill"></image>
-       <text>第四步：账户有两种登录方式：手机QQ扫码登录、酷开账户登录。
-第一种、手机QQ扫码快速登录
-打开手机QQ，选择[扫一扫]，扫码电视上的二维码，在手机上点击确认后完成登录。</text>
-      <image src="http://www.coocaa.com//act14/weixin/applet/cc4.jpg" mode="aspectFill"></image>
-      <image src="http://www.coocaa.com//act14/weixin/applet/cc5.jpg" mode="aspectFill"></image>
-       <text>第二种、酷开账户登录
-如果不想QQ扫码登录，可选择酷开账户登录;</text>
-      <image src="http://www.coocaa.com//act14/weixin/applet/cc6.jpg" mode="aspectFill"></image>
-     <text>选择[酷开账户登录]，点击遥控器上的[确认];</text>
-     <image src="http://www.coocaa.com//act14/weixin/applet/cc7.jpg" mode="aspectFill"></image>
-      <text>输入你已注册过的手机号码与密码，确认输入无误后点击[登录]，即可完成登录。</text>
-       <image src="http://www.coocaa.com//act14/weixin/applet/cc8.jpg" mode="aspectFill"></image>
-      <image src="http://www.coocaa.com//act14/weixin/applet/cc9.jpg" mode="aspectFill"></image>
-     <image src="http://www.coocaa.com//act14/weixin/applet/cc10.jpg" mode="aspectFill"></image>
-   <text> 登录了账号之后，你还可以在账号与支付中心绑定手机号码或QQ。</text>
-      </view>  
-    </swiper-item>  
-       <!-- 第四个tab -->  
-    <swiper-item style="overflow-y:scroll;">  
-      <view class="swiper_list" style="height:1320px;">
-      <text>第一步：打开VR设备，进入主页</text>
-      <image src="http://img.coocaa.com/public/x50/111.jpg" mode="aspectFill"></image>
-      <text>第二步：在主页顶栏，找到账号入口并点击</text>
-      <image src="http://img.coocaa.com/public/x50/112.jpg" mode="aspectFill"></image>
-      <text>第三步：页面弹出账号登陆界面</text>
-      <image src="http://img.coocaa.com/public/x50/113.jpg" mode="aspectFill"></image>
-       <text>第四步：登陆你已注册过的账号，填写正确的手机号码/密码，点击登录</text>
-      <image src="http://img.coocaa.com/public/x50/114.jpg" mode="aspectFill"></image>
-       <text>第五步：完成登录</text>
-      <image src="http://img.coocaa.com/public/x40/5.jpg" mode="aspectFill"></image>
-       <text>第六步：完成登录。</text>
-      <image src="http://img.coocaa.com/public/x50/115.jpg" mode="aspectFill"></image>
-      </view>  
-    </swiper-item>  
-</swiper>  
+      <view class="view">
+        <button class="binding" type="primary" bindtap="scan" id="scan">开始扫码绑定</button>
+      </view>

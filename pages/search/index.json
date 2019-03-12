@@ -1,0 +1,9 @@
+{
+    "usingComponents": {
+      "remotecontrol": "../../components/remotecontrol/index"
+    },
+    "navigationBarBackgroundColor": "#333",
+    "navigationBarTitleText": "搜索",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f4f4f4"
+}

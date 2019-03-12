@@ -1,8 +1,13 @@
+<!-- 
+author:fanyanbo
+email:fanyanbo@coocaa.com
+todo:
+1.??????
+-->
 
-<!-- 搜索框 -->
 <view class="search-box-wrapper">
   <view class="search-box" bindtap='handletap'>
-    <image  src="../../images/search.png" class="search-icon"></image>
+    <image src="../../images/ser_icon.png" class="search-icon"></image>
     <text class="search-text">{{searchContent}}</text>
   </view>
 </view>

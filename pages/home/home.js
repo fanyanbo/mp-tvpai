@@ -236,6 +236,12 @@ Page({
       }
     })
   },
+  navigateto() {
+    //跳转教程页面
+    wx.navigateTo({
+      url: '../course/course'
+    })
+  },
   binding:function(event){
     let that = this
     console.log(event.currentTarget.dataset.deviceid)
@@ -301,17 +307,25 @@ function getDevices(that,message) {
         devices: true,
         mydevices: res.data.data
       })
-      console.log("获取设备激活id:" + res.data.data[0].device.serviceId);
-      console.log("获取设备源:" + res.data.data[0].device.source);
-      if (res.data.data[0].device.source == "tencent"){
-        app.globalData.tvSource = 'qq';
-        wx.setStorageSync('tvSource', 'qq')
-      }else{
-        app.globalData.tvSource = 'iqiyi';
-        wx.setStorageSync('tvSource', 'iqiyi')
+
+      for (var ii = 0; ii < res.data.data.length; ii++) {
+        if (res.data.data[ii].bindStatus === 1) {
+          console.log(res.data.data[ii].deviceId);
+          wx.setStorageSync('deviceId', res.data.data[ii].deviceId)
+          app.globalData.activeid = res.data.data[ii].deviceId;
+          console.log("获取绑定中的设备激活id:" + res.data.data[ii].device.serviceId);
+          console.log("获取绑定中的设备源:" + res.data.data[ii].device.source);
+        }
+        if (res.data.data[ii].device.source == "tencent") {
+          app.globalData.tvSource = 'qq';
+          wx.setStorageSync('tvSource', 'qq')
+        } else {
+          app.globalData.tvSource = 'iqiyi';
+          wx.setStorageSync('tvSource', 'iqiyi')
+        }
       }
+
       
-      app.globalData.activeid = res.data.data[0].deviceId;
     }
 
 
