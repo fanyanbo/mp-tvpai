@@ -85,6 +85,8 @@ Page({
       version_code: app.globalData.version_code,
       sign: sign
     }
+    console.log('fyb',url);
+    console.log('fyb',data);
     utils.postLoading(url, 'GET', data, function (res) {
       console.log('正片二级分类:')
       console.log(res.data.data)

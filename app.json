@@ -24,7 +24,8 @@
     "navigationBarTitleText": "电视派",
     "navigationBarTextStyle": "black",
     "enablePullDownRefresh": false,
-    "backgroundColor": "#fff"
+    "backgroundColor": "#fff",
+    "navigationStyle":"custom"
   },
   "plugins": {
     "WechatSI": {

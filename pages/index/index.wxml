@@ -2,7 +2,7 @@
   <search></search>
 </view>
 
-<view style="margin-bottom:100rpx">
+<!-- <view style="margin-bottom:100rpx">
   <swiper indicator-dots="{{indicatorDots}}"
     autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-active-color="{{indicatorActiveColor}}" indicator-color="{{indicatorColor}}">
     <block wx:for="{{streams}}">
@@ -34,6 +34,44 @@
         </scroll-view>
     </view>
   </view>
+</view> -->
+
+<view class="main-wrapper">
+  <scroll-view scroll-y="true" style="height: 600px"
+      bindscrolltoupper="upper"
+      bindscrolltolower="lower">
+    <swiper indicator-dots="{{indicatorDots}}"
+      autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-active-color="{{indicatorActiveColor}}" indicator-color="{{indicatorColor}}">
+      <block wx:for="{{streams}}">
+          <navigator url="../cinecism/cinecism?id={{item.articleId}}">
+              <swiper-item>
+                <image src="{{item.articlePicUrl}}" class="slide-image" />
+              </swiper-item>
+          </navigator>
+        </block>
+    </swiper>
+
+    <view class="label">
+        <view wx:for="{{column}}" class="column-item">     
+        <image src="{{item.classify_pic}}" mode="aspectFill"></image>
+        <view class="item_book_text">{{item.classify_name}}</view>
+        </view>
+    </view> 
+
+    <view class="category" wx:for="{{list}}">
+      <view class="title">{{item.title}}<navigator class="more" url="../column/column?id={{item.tag_id}}&title={{item.title}}">更多></navigator></view>
+      <view class="scroll_box section"> 
+          <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">    
+            <navigator wx:for="{{item.video_list}}" class="item_list" url="../movieDetail/movieDetail?id={{item.third_album_id}}">
+              <view>
+                <image src="{{item.video_poster}}" class="item_book_img" mode="aspectFill"></image>
+                <view class="item_book_text">{{item.album_title}}</view>
+              </view>
+            </navigator>      
+          </scroll-view>
+      </view>
+    </view>
+  </scroll-view>
 </view>
 
 <view>
