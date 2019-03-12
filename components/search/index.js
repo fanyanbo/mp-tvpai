@@ -14,7 +14,7 @@ Component({
     handletap() {
       console.log('handletap');
       wx.navigateTo({
-        url: '../../pages/search/index',
+        url: '../../pages/home/home',
       })
     }
   },

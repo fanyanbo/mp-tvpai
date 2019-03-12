@@ -1,5 +1,5 @@
 /* pages/movieDetail.wxss */
-.top{width: 100%;margin: 0 auto; background: #333; padding-top: 40rpx}
+.top{width: 100%;margin: 0 auto; background: #333; padding-top: 40rpx; padding-bottom: 20rpx}
 .movieDetail{margin: 0 40rpx;}
 .movieDetail image.haibao{width: 30%;height: 280rpx;overflow: hidden; border-radius: 10rpx}
 .movieDetail .describe{margin-left: 5%;display: inline-block;width: 64%;vertical-align:top;color: #444;
@@ -19,17 +19,17 @@
     -webkit-line-clamp:2;
 }
 
-.tvLists{width: 100%;margin: 0 auto; padding:0 40rpx; box-sizing: border-box; overflow-x: scroll;overflow-y:hidden;margin-bottom:40rpx; background:#333}
-.tvLists view.xs{display: block;padding: 10rpx 20rpx;border: 1rpx solid #ccc; float:left; border-radius: 8rpx; background: #444; font-size:26rpx;margin-right:20rpx;}
-.tvLists view.xs  text{display: block;}
-.tvLists .scroll{position:relative;height:170rpx;white-space:nowrap;margin:0 auto;text-align:left;border: none;padding-left:0;}
-.tvLists view.active{color:#f4c000;}
+.tvLists{width: 100%;margin: 0 auto; padding:0 40rpx; padding-bottom: 20rpx; box-sizing: border-box; overflow-x: scroll;overflow-y:hidden;margin-bottom:40rpx; background:#333}
+.tvLists view.xs{display: block; float:left; border-radius: 8rpx; background: #444; font-size:26rpx;margin-right:20rpx;}
+.tvLists view.xs text{display: block;}
+.tvLists .scroll{position:relative;white-space:nowrap;margin:0 auto;text-align:left;border: none;padding-left:0;}
+.tvLists view.active{background: #FFD71C; color: #333 !important}
 .tvLists .scroll view{display: inline-block;}
-.push{padding-left: 40rpx;font-size: 32rpx;color: #999; height: 88rpx;line-height: 88rpx; background:#333}
+.push{padding-left: 40rpx; margin-top:-20rpx; font-size: 32rpx;color: #999; height: 88rpx;line-height: 88rpx; background:#333}
 .pushIcon{width: 40rpx; height: 40rpx; vertical-align: middle; display: inline-block; margin-right: 12rpx}
 .content{font-size: 28rpx; margin: 40rpx; color:#666}
 .content .label{color: #333}
-.movieList{margin:40rpx auto; margin-bottom:120rpx}
+.movieList{margin:40rpx auto; margin-bottom:120rpx; padding:0 20rpx; box-sizing: border-box}
 
 .service{position: fixed;bottom:0;width: 100%;background:#fff;padding-bottom:10rpx;border-top:1rpx solid #eee;z-index: 99;height:50%;overflow-y:scroll;}
 .service .item{width: 94%;margin: 0 auto;font-size:30rpx;padding-top:30rpx;}
@@ -44,10 +44,11 @@
 .open{height:75rpx;overflow:hidden;}
 
 .score{color: #FFD71C;  padding-right: 10rpx}
-.length{float: right; font-size: 28rpx; color: #666; margin-right: 3%}
-.zy{display: block; width: 260rpx; height: 115rpx}
-.segmeng{font-size: 32rpx; color: #999}
-.subtitle{font-size: 24rpx; color:#666; width: 270rpx;   white-space:normal;  overflow:auto;}
+.length{float: right; font-size: 24rpx; color: #666; margin-right: 3%}
+.tvLists .zy{display: block; width: 260rpx; height: 115rpx;border: 1rpx solid #ccc;padding: 10rpx 20rpx;}
+.tvLists .dsj{display: block; width: 108rpx; height: 108rpx; text-align: center; line-height: 108rpx; color: #999; font-size: 32rpx}
+.tvLists view .segmeng{font-size: 32rpx; color: #999}
+.tvLists view .subtitle{font-size: 24rpx; color:#666; width: 270rpx;   white-space:normal;  overflow:auto;}
 
 .introduce{margin:0 40rpx;font-size: 36rpx;color: #000; height: 36rpx;line-height: 36rpx; border-left: #FDBE1A 3px solid; padding-left: 14rpx;}
 .description{color:#666}
@@ -72,14 +73,14 @@
 }
 .choose{
   width: 100%;
-  overflow: hidden;
   position: fixed;
   bottom: 0;
   z-index: 9999;
   background: #f9f9f9;
   padding:40rpx;
   box-sizing: border-box;
-  border-radius: 10rpx 10rpx 0 0
+  border-radius: 20rpx 20rpx 0 0;
+  height: 900rpx;
 }
 .choose .title{
   color: #333;
@@ -89,5 +90,24 @@
 .choose .description{
   color: #666;
   font-size: 32rpx;
-  line-height: 60rpx
+  line-height: 50rpx;
+  margin-top: 20rpx;
+  height: 800rpx;
+}
+.choose .tvlist{
+  margin-top: 20rpx;
+}
+.choose .xs{display: block;border: 1rpx solid #ccc; float:left; border-radius: 8rpx; background: #F2F2F2; font-size:26rpx;margin:10rpx;}
+.choose .xs  text{display: block;}
+.choose .segmeng{font-size: 32rpx; color: #333}
+.choose .subtitle{font-size: 24rpx; color:#666; width: 270rpx;   white-space:normal;  overflow:auto;}
+.choose .zy{display: block; width: 260rpx; height: 115rpx;border: 1rpx solid #ccc;padding: 10rpx 20rpx;}
+.choose .dsj{display: block; width: 108rpx; height: 108rpx; text-align: center; line-height: 108rpx; color: #999; font-size: 32rpx}
+.choose .active{background: #FFD71C; color: #333 !important}
+.indexFixed{
+  position: fixed;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
 }

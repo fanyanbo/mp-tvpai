@@ -1,5 +1,5 @@
 <!--pages/movieDetail.wxml-->
-<view class='cntainer'>
+<view class='cntainer {{proInfoWindow?"indexFixed":""}}' >
 <!--影片信息  -->
 <view class="top">
 <view class='movieDetail'>
@@ -9,8 +9,11 @@
       <li class="intwoline title">{{movieData.album_title}}</li>
       <li><span class="score">{{movieData.score}}分</span>{{movieData.video_tags}}</li>
       <li style="margin-top:50rpx">
-        <span><image class="like" src='../../images/like_before1.png'></image></span>
-        <span wx:if="{{movieData.video_type == '电影'}}"><image class="collect" src='../../images/collect_before.png'></image></span>
+        <span bindtap='add' data-title="{{movieData.album_title}}" data-poster="{{movieData.video_poster}}" data-id="{{movieData.third_album_id}}"><image class="like" src='../../images/like_before1.png'></image></span>
+        <span bindtap='push' data-movieid="{{movieData.third_album_id}}" data-index="1" wx:if="{{movieData.video_type == '电影'}}">
+          <image wx:if="{{moviepush == false}}" class='collect' src='../../images/collect_before3.png'></image>
+          <image wx:else="{{moviepush == true}}" class='collect' src='../../images/collect_after3.png'></image>
+        </span>
       </li>
     </ul>
   </view>
@@ -18,19 +21,17 @@
 </view>
 <!--影片信息end  -->
 
-<view class="push" wx:if="{{movieType !='电影'}}"><image class="pushIcon" src='../../images/push.png'></image>投屏<span class="length">{{prompt_info}} ></span></view>
+<view  data-tap='push' bindtap='chooseSezi' class="push" wx:if="{{movieType !='电影'}}"><image class="pushIcon" src='../../images/push.png'></image>投屏<span class="length">{{prompt_info}} ></span></view>
 
-<view class='tvLists' wx:if="{{movieType !='电影'}}">
-  <view class='scroll'>
+<view class='tvLists'>
+  <view class='scroll' wx:if="{{movieType !='电影'}}">
     <view wx:for="{{moviesItem}}" wx:for-item="item" >
-      <view bindtap='push' data-source="{{item.play_sources[0].source}}" data-index="{{item.segment_index}}" class='xs {{chioced==item.segment_index? "active":""}}' wx:if="{{movieType == '电影'}}">{{item.video_subtitle}}
-      </view>
-      <view bindtap='push' data-source="{{item.play_sources[0].source}}" data-index="{{item.segment_index}}" class='xs zy {{chioced==item.segment_index? "active":""}}' wx:if="{{movieType == '综艺'}}">
+      <view bindtap='push' data-movieid="{{item.third_album_id}}" data-index="{{item.segment_index}}" class='xs zy {{chioced==item.segment_index? "active":""}}' wx:if="{{movieType == '综艺'}}">
         <text class="segmeng moviesItem">第{{item.segment_index}}期</text>
         <text class="subtitle moviesItem">{{item.video_subtitle}}</text>
       </view>
-      <view bindtap='push' data-source="{{item.play_sources[0].source}}" data-index="{{item.segment_index}}" class='xs {{chioced==item.segment_index? "active":""}}' wx:else>
-      <text class="segmeng moviesItem">第{{item.segment_index}}集</text>
+      <view bindtap='push' data-movieid="{{item.third_album_id}}" data-index="{{item.segment_index}}" class='xs dsj {{chioced==item.segment_index? "active":""}}' wx:else>
+      <text class="segmeng moviesItem">{{item.segment_index}}</text>
       </view>
       
     </view>
@@ -40,7 +41,7 @@
 
 
 <!--简介  -->
-<view class="introduce" bindtap='chooseSezi'>简介<image class="arrow" src="../../images/arrow.png"></image></view> 
+<view class="introduce" data-tap='description' bindtap='chooseSezi'>简介<image class="arrow" src="../../images/arrow.png"></image></view> 
 <view class='content'>
   <view><text class="label">导演：</text>{{movieData.director}}</view>
   <view><text class="label">演员：</text>{{movieData.actor}}</view>
@@ -65,37 +66,9 @@
 <view class="service" hidden="{{flag ? true : false}}">
 
 
-  <view wx:if="{{iqiyi.length>0}}">
-    <view class='item'>爱奇艺视频源</view>
-     <view class='item' wx:for="{{iqiyi}}" wx:for-item="item">
-     <view class='left'></view>
- <form bindsubmit="pushdown">
-      <view class='right'>
-        <text wx:if="{{item.model==null}}">{{item.deviceName}}</text>
-        <text wx:else>{{item.model}} {{item.deviceName}}</text>
-        <text class="right" data-serviceid="{{item.id}}" bindtap='pushdown'>推送</text>
-      </view>
-  </form>
-     </view>
-  </view>
 
 
-<view wx:if="{{tent.length>0}}">
-<view class='item'>腾讯视频源</view>
-  <view class='item' wx:for="{{tent}}" wx:for-item="item">
-      <view class='left'></view>
-      <view class='right'>
-        <text wx:if="{{item.model==null}}">{{item.deviceName}}</text>
-        <text wx:else>{{item.model}} {{item.deviceName}}</text>
-        <text class="right" data-serviceid="{{item.id}}" bindtap='pushdown'>推送</text>
-      </view>
-  </view>
-</view>
 
-<view class='no' wx:if="{{iqiyi.length<1&&tent.length<1}}">
-  暂无相关设备
-</view>
-  
   
 </view>
 
@@ -107,8 +80,36 @@
 </view>
 
 <!--详情弹窗 -->
-<view class='maskLayer' bindtap='hideModal'></view>
-<view class='choose' animation='{{animationData}}'>
+<view wx:if="{{chooseSize}}" class='maskLayer' data-tap='description' bindtap='hideModal'></view>
+<view wx:if="{{chooseSize}}" class='choose' animation='{{animationData}}'>
   <view class="title">简介</view>
+<scroll-view
+    scroll-y
+    style="height: 800rpx;"
+    bindscrolltoupper="upper"
+    bindscrolltolower="lower"
+    bindscroll="scroll"
+    scroll-into-view="{{toView}}"
+    scroll-top="{{scrollTop}}"
+  >
   <view class="description">{{movieData.description}}</view>
+   </scroll-view>
+</view>
+
+<!--剧集弹窗-->
+<view wx:if="{{pushSize}}" class='maskLayer' data-tap='push' bindtap='hideModal'></view>
+<view wx:if="{{pushSize}}" class='choose' animation='{{animationData}}'>
+  <view class="title">投屏</view>
+  <view class="tvlist" wx:for="{{moviesItem}}" wx:for-item="item">
+
+      <view bindtap='push' data-movieid="{{item.third_album_id}}" data-index="{{item.segment_index}}" class='xs zy {{chioced==item.segment_index? "active":""}}' wx:if="{{movieType == '综艺'}}">
+        <text class="segmeng moviesItem">第{{item.segment_index}}期</text>
+        <text class="subtitle moviesItem">{{item.video_subtitle}}</text>
+      </view>
+
+      <view bindtap='push' data-movieid="{{item.third_album_id}}" data-index="{{item.segment_index}}" class='xs dsj {{chioced==item.segment_index? "active":""}}' wx:else>
+      <text class="segmeng moviesItem">{{item.segment_index}}</text>
+      </view>
+
+  </view>
 </view>

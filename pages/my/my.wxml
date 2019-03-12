@@ -24,6 +24,7 @@
     <text class="title">设备绑定</text>
     <image class="arrow" src="../../images/arrow.png"></image>
   </navigator>
+
   <navigator class='history mylabel' url="../home/home">
     <image class='my_icon' src="../../images/history.png"></image>
     <text class="title">推送历史</text>
@@ -37,28 +38,10 @@
             <view class="item_book_text inaline">我喜欢我喜欢我喜欢我喜欢</view>
           </view>
         </navigator>    
-        <navigator class="item_list" url="../column/column?id={{item.third_album_id}}">
-          <view>
-            <image src="../../images/face.jpg" class="item_book_img" mode="aspectFill"></image>
-            <view class="item_book_text inaline">我喜欢</view>
-          </view>
-        </navigator> 
-        <navigator class="item_list" url="../column/column?id={{item.third_album_id}}">
-          <view>
-            <image src="../../images/face.jpg" class="item_book_img" mode="aspectFill"></image>
-            <view class="item_book_text inaline">我喜欢</view>
-          </view>
-        </navigator> 
-        <navigator class="item_list" url="../column/column?id={{item.third_album_id}}">
-          <view>
-            <image src="../../images/face.jpg" class="item_book_img" mode="aspectFill"></image>
-            <view class="item_book_text inaline">我喜欢</view>
-          </view>
-        </navigator> 
       </scroll-view>
   </view>
 
-  <navigator class='history mylabel' url="../home/home">
+  <!-- <navigator class='history mylabel' url="../home/home">
     <image class='my_icon' src="../../images/like.png"></image>
     <text class="title">我的喜欢</text>
      <view class="more">全部 <image class="arrow" src="../../images/arrow.png"></image></view>
@@ -90,7 +73,11 @@
           </view>
         </navigator> 
       </scroll-view>
-  </view>
+  </view> -->
+
+
+
+
   <!-- <view class="swiper-tab"> 
     <view class="swiper-tab-list {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">
       <text class="ontext">喜欢的文章</text>

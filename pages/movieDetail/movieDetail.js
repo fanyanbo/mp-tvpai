@@ -10,12 +10,17 @@ Page({
    */
   data: {
     isShowTips: true,
+    proInfoWindow: false,
     flag:true,
     flagOpen:false,
     opens:true,
     length:0,
     movieType:"",
-    prompt_info:""
+    prompt_info:"",
+    movieId:"",
+    chioced:'',
+    moviepush:false
+
   },
 
   /**
@@ -74,27 +79,30 @@ Page({
   
   },
   chooseSezi: function (e) {
-    // 用that取代this，防止不必要的情况发生
     var that = this;
-    // 创建一个动画实例
+    const tap = e.currentTarget.dataset.tap;
+    console.log(tap)
     var animation = wx.createAnimation({
       // 动画持续时间
       duration: 500,
-      // 定义动画效果，当前是匀速
       timingFunction: 'linear'
     })
-    // 将该变量赋值给当前动画
     that.animation = animation
-    // 先在y轴偏移，然后用step()完成一个动画
     animation.translateY(200).step()
-    // 用setData改变当前动画
-    that.setData({
-      // 通过export()方法导出数据
-      animationData: animation.export(),
-      // 改变view里面的Wx：if
-      chooseSize: true
-    })
-    // 设置setTimeout来改变y轴偏移量，实现有感觉的滑动
+    if (tap == "description"){
+      that.setData({
+        animationData: animation.export(),
+        chooseSize: true,
+        proInfoWindow: true
+      }) 
+    }else{
+      that.setData({
+        animationData: animation.export(),
+        pushSize: true,
+        proInfoWindow: true
+      })
+    }
+
     setTimeout(function () {
       animation.translateY(0).step()
       that.setData({
@@ -104,6 +112,8 @@ Page({
   },
   hideModal: function (e) {
     var that = this;
+    const tap = e.currentTarget.dataset.tap;
+    console.log(tap)
     var animation = wx.createAnimation({
       duration: 1000,
       timingFunction: 'linear'
@@ -116,69 +126,101 @@ Page({
     })
     setTimeout(function () {
       animation.translateY(0).step()
-      that.setData({
-        animationData: animation.export(),
-        chooseSize: false
-      })
+      if (tap == "description") {
+        that.setData({
+          animationData: animation.export(),
+          chooseSize: false,
+          proInfoWindow: false
+        })
+      } else {
+        that.setData({
+          animationData: animation.export(),
+          pushSize: false,
+          proInfoWindow: false
+        })
+      }
     }, 200)
   },
   push:function(e){
     var index = e.currentTarget.dataset.index
+    console.log("================"+index)
     var that= this
     //判断ccsession是否为空
     if (utils.ccsessionIs() == null) return
-    if (utils.coocaaLogin() == null) return
-    if (that.data.movieType!='电影'){
-      var moviechildId = index
-    }
+    // if (utils.coocaaLogin() == null) return
     that.setData({
-      chioced: index,
-      flag:false,
-      moviechildId: moviechildId
+    //  flag:false,
+      moviechildId: index,
+      movieId: e.currentTarget.dataset.movieid
     })
-    service(that)
-  },
-  pushdown:function(e){
-    var that = this
-    console.log("tuisong");
-    console.log("formid：")
-    console.log(e.detail.formId)
-    wx.setStorageSync("formid", e.detail.formId)
-    var jishu = parseInt(that.data.moviechildId) - 1
-    push(that, that.data.movieId, e.currentTarget.dataset.serviceid, jishu )
+    var ccsession = wx.getStorageSync("cksession")
+    if (ccsession != null && ccsession != undefined && ccsession !== '') {
+      getDevices(that, '获取设备中');
+    } else {
+      utils.showToastBox("登录未授权，返回点击我的", "loading")
+    }
+  },add: function (event) {
+    let that = this
+    var video_title = e.currentTarget.title
+    var video_poster = e.currentTarget.poster
+    var third_album_id = e.currentTarget.id
+    const secret = app.globalData.secret
+    const params = { "appkey": app.globalData.appkey, "video_type": 1, "video_title": video_title, "video_poster": video_poster, "third_album_id": third_album_id,"time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
+    console.log(params);
+    const sign = utils.encryptionIndex(params, secret)
+    const url = api.addUrl+"add=1"
+    let data = {
+      appkey: app.globalData.appkey,
+      video_type: 1,
+      video_title: video_title,
+      video_poster: video_poster,
+      third_album_id: third_album_id,
+      time: app.globalData.time,
+      tv_source: app.globalData.tvSource,
+      version_code: app.globalData.version_code,
+      sign: sign
+    }
+    utils.postLoading(url, 'GET', data, function (res) {
+      console.log(res)
+      if (res.data.code == 200) {
+        wx.showToast({
+          title: '绑定成功',
+        })
+        setTimeout(function () {
+          getDevices(that, '获取设备中');
+        }, 1000)
+      } else {
+        console.log('streams fail:')
+        wx.showToast({
+          title: '绑定失败',
+        })
+      }
+    }, function (res) {
+      console.log('streams fail:', res)
+      wx.showToast({
+        title: '绑定失败',
+      })
+    }, function (res) {
+      console.log('streams complete:', res)
+    }, "")
   },
   boxshdawclick:function(){
     this.setData({
       flag: true,
     })
   }
-  // openIt:function(e){
-  //   console.log(e)
-  //   if (this.data.flagOpen){
-  //     this.setData({
-  //       opens: true,
-  //       flagOpen:false
-  //     })
-  //   }else{
-  //     this.setData({
-  //       opens: false,
-  //       flagOpen: true
-  //     })
-  //   }
-      
-  // }
 })
 
 
 function movieDetail(that,movieId){
   const secret = app.globalData.secret
-  var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": '_oqy_233066601', "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code}
+  var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": movieId, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code}
   console.log(paramsStr);
   const sign = utils.encryptionIndex(paramsStr, secret)
   const url = api.getVideoDetailUrl
   let data = {
     appkey: app.globalData.appkey,
-    third_album_id: '_oqy_233066601',
+    third_album_id: movieId,
     time: app.globalData.time,
     tv_source: app.globalData.tvSource,
     version_code: app.globalData.version_code,
@@ -201,8 +243,8 @@ function movieDetail(that,movieId){
           movieType: res.data.data.video_type,
           prompt_info: res.data.data.prompt_info
         })
-        likes(that, "_oqy_233066601")
-        moviesItem(that, "_oqy_233066601")
+        likes(that, movieId)
+        moviesItem(that, movieId)
       }
     }, function (res) {
     console.log('streams fail:')
@@ -292,82 +334,9 @@ function moviesItem(that, movieId){
 
 
 
-function service(that){
-  //判断ccsession是否为空
-  if (utils.ccsessionIs() == null) return
-  if (utils.coocaaLogin() == null) return
-  var ccsession = wx.getStorageSync("cksession")
-  if (ccsession != null && ccsession != undefined && ccsession !== '') {
-    var paramsStr = { "ccsession": ccsession }
-    var sign = utils.encryption(paramsStr, app.globalData.key)
-    wx.request({
-      url: api.getDevicesUrl,
-      data: {
-        client_id: 'applet',
-        sign: sign,
-        param: paramsStr
-      },
-      method: 'get',
-      header: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      success: res => {
-        if (res.data.result) {
-          console.log("获取设备接口成功")
-          console.log(res.data.data)
-          //如果没有设备
-          if (res.data.data == null || res.data.data == undefined || res.data.data.length == 0) {
-            wx.showModal({
-              title: '无法推送',
-              content: '您的酷开账号未关联任何设备,请查看教程',
-              success: function (res) {
-                if (res.confirm) {
-                  console.log('用户点击确定')
-                  //跳转教程页面
-                  wx.navigateTo({
-                    url: '../course/course'
-                  })
-                } else if (res.cancel) {
-                  console.log('用户点击取消')
-                }
-              }
-            })
-
-          } else {
-            var iqiyi = [],tent = []
-            for (var ii = 0; ii < res.data.data.length;ii++){
-              if (res.data.data[ii].source === 'yinhe') { 
-                iqiyi.push(res.data.data[ii])
-              } else if (res.data.data[ii].source === 'tencent'){
-                tent.push(res.data.data[ii])
-                }
-            }
-            
-           that.setData({
-             iqiyi: iqiyi,
-             tent: tent
-           })
-           console.log("iqiyi")
-           console.log(iqiyi)
-          }
-        } else {
-          utils.showToastBox("请重试", "loading")
-        }
-      },
-      fail: function () {
-        utils.showFailToast(that, "加载失败，请重试")
-        console.log("获取设备接口失败")
-      }
-    })
-  } else {
-    utils.showToastBox("登录未授权，返回点击我的", "loading")
-  }
-
- 
-}
 
 // 推送影视
-function push(that, movieId, deviceId, moviechildId){
+function push(that, movieId, deviceId, moviechildId,_type){
   if (deviceId==null){
     utils.showToastBox('无设备id!', "loading")
     return
@@ -393,12 +362,15 @@ function push(that, movieId, deviceId, moviechildId){
     },
     method: 'GET',
     success: function (res) {
-
       var type = "moviePush"
       utils.eventCollect(type, movieId)
       console.log("===============-------推送影视")
-      console.log(res.data.data)
+      console.log(res)
       if (res.data.result) {
+        that.setData({
+          chioced: moviechildId,
+          moviepush:true
+        })        
         utils.showToastBox("推送成功", "success")
       }else{
         utils.showToastBox(res.data.message, "loading")
@@ -408,4 +380,61 @@ function push(that, movieId, deviceId, moviechildId){
       utils.showToastBox(res.data.message, "loading")
     }
   })
+}
+
+
+function getDevices(that, message) {
+  const ccsession = wx.getStorageSync('cksession')
+  const url = api.bindDeviceListUrl
+  const key = app.globalData.key
+  var paramsStr = { "ccsession": ccsession }
+  const sign = utils.encryption(paramsStr, key)
+  let data = {
+    client_id: app.globalData.client_id,
+    sign: sign,
+    param: paramsStr,
+    ccsession: ccsession
+  }
+  console.log(data)
+  utils.postLoading(url, 'GET', data, function (res) {
+    console.log("获取设备信息:")
+    console.log(res)
+    if (res.data.result && res.data.data) {
+
+      for (var ii = 0; ii < res.data.data.length; ii++) {
+        if (res.data.data[ii].bindStatus === 1) {
+          console.log("有绑定中的设备")
+          console.log(res.data.data[ii].deviceId);
+          wx.setStorageSync('deviceId', res.data.data[ii].deviceId)
+          push(that, that.data.movieId, res.data.data[ii].deviceId, that.data.moviechildId, that.data.movieType)
+        }
+      }
+
+
+      
+    }else{
+      wx.showModal({
+        title: '无法推送',
+        content: '您未关联任何设备,请查看教程',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+            //跳转教程页面
+            wx.navigateTo({
+              url: '../course/course'
+            })
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    }
+
+
+
+  }, function (res) {
+
+  }, function (res) {
+
+  }, message)
 }

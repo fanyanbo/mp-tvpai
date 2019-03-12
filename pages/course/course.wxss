@@ -1,46 +1,27 @@
 /**course.wxss**/
-.course_name{
-height: 80rpx;
-line-height: 80rpx;
-width: 100%;
-background: #f5f5f5;
-text-align: center;
-font-size:36rpx;
-color:#444;
-z-index:99;
+page{
+  background-color: rgb(248, 248, 248)
 }
-.swiper-tab{  
-width: 100%;  
-border-bottom: 1rpx solid #eaeaea;  
-text-align: center;  
-line-height: 60rpx;
-position:fixed;
-z-index:99;
-background:#fff;
-}  
-.swiper-tab-list{  
-font-size: 30rpx;  
-display: inline-block;  
-width: 25%;  
-color: #444;  
-}  
-.on{ 
-color: #04be02;  
-border-bottom: 4rpx solid #04be02;
-}  
   
 .swiper-box{ display: block; height: 100%; width: 100%;overflow-y:scroll;}  
 .swiper-box view{  
 text-align: center;  
 }  
-.swiper_list text{
-font-size:30rpx;
-color:#444;
-width:87%;
-display:inline-block;
-text-align:left;
-margin:20rpx 0;
+.swiper_list .image1,.swiper_list .image2{
+  width: 750rpx;
+  height: 1148rpx
 }
-.swiper_list image{
- height:320rpx; 
+.swiper_list .image3{
+  width: 750rpx;
+  height: 1240rpx
+}
+.swiper_list .image4{
+  width: 750rpx;
+  height: 2114rpx
+}
+.binding{
+  width: 90%;
+  margin: 0 auto;
+  margin-bottom: 40rpx;
+  background: #FFD71C
 }

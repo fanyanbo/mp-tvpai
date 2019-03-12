@@ -69,27 +69,6 @@ Page({
       })
     }
   },
-  lower: function (e) {
-    var that = this
-    if (i1 == that.data.page) {
-      if (that.data.page > 1 && that.data.page <= that.data.totalPageArticle) {
-        this.getArticle()
-      }
-      i1++
-    }
-    return
-  },
-  lower1: function (e) {
-    var that = this
-    if (i2 == that.data.topicPage) {
-      console.log('lower1:')
-      if (that.data.topicPage > 1 && that.data.topicPage <= that.data.totalPageTopic) {
-        this.getTopic()
-      }
-      i2++
-    }
-    return
-  },
   lower2: function (e) {
     var that = this
     if (i3 == that.data.moviePage) {
@@ -119,254 +98,52 @@ Page({
       })
     }
   },
-  getArticle: function () {
-    var that = this
-    var username = wx.getStorageSync('username')
-    if (that.data.page > 1 && ((that.data.page - 1) * 10 > that.data.total || (that.data.page - 1) * 10 == that.data.total)) {
-      return false;
+  getMovie: function (message) {
+    let that = this
+    const secret = app.globalData.secret
+    const vuid = wx.getStorageSync('deviceId')
+    console.log(vuid);
+    const params = { "appkey": app.globalData.appkey, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code, "vuid": vuid }
+    console.log(params);
+    const sign = utils.encryptionIndex(params, secret)
+    const url = api.pushhistoryUrl
+    let data = {
+      appkey: app.globalData.appkey,
+      vuid: vuid,
+      time: app.globalData.time,
+      tv_source: app.globalData.tvSource,
+      version_code: app.globalData.version_code,
+      sign: sign
     }
-    var key = app.globalData.key
-    var ccsession = wx.getStorageSync('cksession')
-    var page = that.data.page
-    var paramsStr = { "ccsession": ccsession, "page": page + '', "pageSize": '10' }
-    var sign = utils.encryption(paramsStr, key)
-    wx.request({
-      url: api.getCollectArticleUrl,
-      method: 'GET',
-      data: {
-        client_id: app.globalData.client_id,
-        sign: sign,
-        param: paramsStr
-      },
-      success: function (res) {
-        var data = res.data
-        if (res.data.result) {
-          var data = res.data.data
-          var list = data.list
+    utils.postLoading(url, 'GET', data, function (res) {
+      console.log("推送历史")
+      console.log(res)
+      if (res.data.data) {
+        let streams = res.data.data
+        if (streams.length < parseInt(that.data.pageSize)) {
           that.setData({
-            totalPageArticle: data.pager.totalPage
+            column: streams
           })
-          if (data != null && data.list != null && data.list.length > 0) {
-            that.setData({
-              hasArticle: false
-            })
-          } else {
-            that.setData({
-              hasArticle: true
-            })
-          }
-          console.log("获取我的文章成功")
-          if (that.data.page == 1 && !that.data.coocaaLogin) {
-            console.log("第一页")
-            if (list != null && list != undefined) {
-              that.setData({
-                total: data.pager.totalNum,
-                page: that.data.page + 1,
-                articleData: data.list
-              });
-            }
-          } else {
-            if (that.data.coocaaLogin) {
-              that.setData({
-                total: data.pager.totalNum,
-                page: 1,
-                articleData: data.list
-              });
-            } else if (username != null && username != '') {
-              console.log("大于一页")
-              that.setData({
-                total: data.pager.totalNum,
-                page: that.data.page + 1,
-                articleData: that.data.articleData.concat(data.list)
-              });
-            }
-          }
-          console.log("articleData:")
-          console.log(that.data.articleData)
-          console.log(that.data.page)
-          console.log(that.data.coocaaLogin)
-          console.log(data.list)
-        }
-      },
-      fail: function (res) {
-        console.log('fail:' + res)
-        utils.showFailToast(that, "获取我的文章失败,请稍后")
-      }
-    })
-  },
-  getTopic: function () {
-    var that = this
-    var username = wx.getStorageSync('username')
-    if (that.data.topicPage > 1 && (10 * (that.data.topicPage - 1) > that.data.topicTotal || 10 * (that.data.topicPage - 1) == that.data.topicTotal)) {
-      return false;
-    }
-    let key = app.globalData.key
-    let ccsession = wx.getStorageSync('cksession')
-    let page = that.data.topicPage
-    let paramsStr = { "ccsession": ccsession, "page": page + '', "pageSize": '10' }
-    let sign = utils.encryption(paramsStr, key)
-    wx.request({
-      url: api.getEmpCommentUrl,
-      method: 'GET',
-      data: {
-        client_id: app.globalData.client_id,
-        sign: sign,
-        param: paramsStr
-      },
-      success: function (res) {
-        var data = res.data
-        if (data.data != null && data.data.list != null && data.data.list.length > 0) {
-          that.setData({
-            hasTopic: false
-          });
         } else {
           that.setData({
-            hasTopic: true
-          });
-        }
-        console.log("话题res", res)
-        if (res.data.result) {
-          that.setData({
-            totalPageTopic: data.data.pager.totalPage
+            column: streams,
+            page: parseInt(that.data.page) + 1 + ''
           })
-          let list = data.data.list
-          for (let i in list) {
-            list[i].createTime = utils.toDate(list[i].createTime, '-')
-            console.log(list[i].createTime)
-          }
-          console.log("获取参与话题成功")
-          var data = res.data.data
-          var list = data.list
-          if (that.data.topicPage == 1 && !that.data.coocaaLogin) {
-            console.log("第一页")
-            if (list != null && list != undefined) {
-              that.setData({
-                topicTotal: data.pager.totalNum,
-                topicPage: that.data.topicPage + 1,
-                topicData: data.list
-              });
-            }
-          } else {
-            if (that.data.coocaaLogin) {
-              that.setData({
-                topicTotal: data.pager.totalNum,
-                topicPage: 1,
-                topicData: data.list
-              });
-            } else if (username != null && username != '') {
-              console.log("大于一页")
-              that.setData({
-                topicTotal: data.pager.totalNum,
-                topicPage: that.data.topicPage + 1,
-                topicData: that.data.topicData.concat(data.list)
-              });
-            }
-
-          }
-          console.log("topicData:")
-          console.log(that.data.topicData)
-          console.log(that.data.page)
         }
-      },
-      fail: function (res) {
-        console.log('fail:' + res)
-        utils.showFailToast(that, "获取我的话题失败,请稍后")
+      } else {
+        wx.showToast({
+          title: res.data.message,
+        })
       }
-    })
-  },
-  getMovie: function () {
-    var username = wx.getStorageSync('username')
-    var that = this
-    if (that.data.moviePage > 1 && ((that.data.moviePage - 1) * 10 > that.data.movieTotal || (that.data.moviePage - 1) * 10 == that.data.movieTotal)) {
-      return false;
-    }
-    let key = app.globalData.key
-    let ccsession = wx.getStorageSync('cksession')
-    console.log("ccsession影片的", ccsession)
-    let page = that.data.moviePage
-    let paramsStr = { "ccsession": ccsession, "page": page + '', "pageSize": '10' }
-    let sign = utils.encryption(paramsStr, key)
-    wx.request({
-      url: api.getCollectMoviesUrl,
-      method: 'GET',
-      data: {
-        client_id: app.globalData.client_id,
-        sign: sign,
-        param: paramsStr
-      },
-      success: function (res) {
-        console.log("影片res:", res)
-        if (res.data.result) {
-          var data = res.data
-          that.setData({
-            totalPageMovie: data.data.pager.totalPage
-          })
-          if (data.data != null) {
-            that.setData({
-              hasMovie: false
-            })
-            let list = data.data.list
-            if (list != null) {
-              for (let j in list) {
-                if (list[j].publish_date) {
-                  list[j].publish_date = list[j].publish_date + ' | '
-                }
-                if (list[j].publish_area) {
-                  list[j].publish_area = list[j].publish_area + ' | '
-                }
-                if (list[j].video_tags) {
-                  let video_tags = list[j].video_tags.split(',')
-                  if (video_tags.length > 3) {
-                    list[j].video_tags = video_tags.splice(-3) + ' | '
-                  }
-                }
-              }
-            }
-          } else {
-            that.setData({
-              coocaaLogin: true
-            })
-          }
-          console.log("获取收藏影片成功")
-          var data = res.data.data
-          var list = data.list
-          if (that.data.moviePage == 1 && !that.data.coocaaLogin) {
-            console.log("第一页")
-            if (list != null && list != undefined) {
-              that.setData({
-                movieTotal: data.pager.totalNum,
-                moviePage: that.data.moviePage + 1,
-                movieData: data.list
-              });
-            }
-          } else {
-            if (that.data.coocaaLogin) {
-              that.setData({
-                movieTotal: data.pager.totalNum,
-                moviePage: 1,
-                movieData: data.list
-              });
-            } else if (username != null && username != '') {
-              console.log("大于一页")
-              that.setData({
-                movieTotal: data.pager.totalNum,
-                moviePage: that.data.moviePage + 1,
-                movieData: that.data.movieData.concat(data.list)
-              });
-            }
-
-          }
-          console.log("movieData:")
-          console.log(that.data.movieData)
-          console.log(that.data.movieTotal)
-          console.log(that.data.page)
-        }
-      },
-      fail: function (res) {
-        console.log('fail:' + res)
-        utils.showFailToast(that, "获取收藏影片失败,请稍后")
-      }
-    })
+    }, function (res) {
+      console.log('streams fail:')
+      console.log(res)
+      wx.showToast({
+        title: '加载数据失败',
+      })
+    }, function (res) {
+      console.log('streams complete:')
+    }, '')
   },
   onLoad: function () {
     console.log('fyb,授权登陆', this.data.canIUse)
@@ -467,18 +244,6 @@ Page({
       movieData: []
     });
     this.getMovie();
-    this.setData({
-      total: 0,
-      page: 1,
-      articleData: []
-    });
-    this.getArticle();
-    this.setData({
-      topicTotal: 0,
-      topicPage: 1,
-      topicData: []
-    });
-    this.getTopic();
   },
   onShareAppMessage: function () {
     return {
@@ -562,22 +327,6 @@ Page({
       });
       this.getMovie();
     }
-    if (this.data.articleData != null && this.data.articleData.length > 0) {
-      this.setData({
-        total: 0,
-        page: 1,
-        articleData: []
-      });
-      this.getArticle();
-    }
-    if (this.data.topicData != null && this.data.topicData.length > 0) {
-      this.setData({
-        topicTotal: 0,
-        topicPage: 1,
-        topicData: []
-      });
-      this.getTopic();
-    }
   },
   onPullDownRefresh: function () {
     this.setData({
@@ -592,8 +341,6 @@ Page({
       articleData: []
     })
     this.getMovie()
-    this.getArticle()
-    this.getTopic()
     wx.stopPullDownRefresh();
   },
   /** 

@@ -1,6 +1,6 @@
-<!-- <view>
+<view>
   <search></search>
-</view> -->
+</view>
 
 <view style="margin-bottom:100rpx">
   <swiper indicator-dots="{{indicatorDots}}"

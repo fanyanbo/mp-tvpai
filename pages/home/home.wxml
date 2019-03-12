@@ -8,7 +8,7 @@
   </view>
 </view>
 
-<view class="{{devices?'binding':'none'}} " bindtap="scan">绑定新设备</view>
+<view class="{{devices?'binding':'none'}} " bindtap="navigateto">绑定新设备</view>
 <view class="{{devices?'mydevices':'none'}} "><text>我的设备</text></view>
 <view wx:for="{{mydevices}}" class="{{devices?'devices':'none'}}">
       <view class="device-item device-top-left" >
@@ -24,7 +24,7 @@
             <text class="device-content-left">MAC：{{item.device.devMac}}</text>
           </view>
           <view class="device-content">
-            <text class="device-content-left">激活ID：{{item.deviceId}}</text>
+            <text class="device-content-left">激活ID：{{item.device.serviceId}}</text>
           </view>
         </view>
       </view>
