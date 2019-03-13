@@ -168,7 +168,7 @@ Page({
           return false
         }
         let streams = res.data.data.list
-        if (streams.length < parseInt(that.data.pageSize)) {
+        if (streams && streams.length < parseInt(that.data.pageSize)) {
           that.setData({
             streams: res.data.data.list,
             hasMoreData: false

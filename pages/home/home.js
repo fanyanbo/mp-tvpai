@@ -302,7 +302,7 @@ function getDevices(that, message) {
         if (res.data.data[ii].bindStatus === 1) {
           console.log(res.data.data[ii].deviceId);
           wx.setStorageSync('deviceId', res.data.data[ii].deviceId)
-          app.globalData.activeid = res.data.data[ii].deviceId;
+          app.globalData.activeid = res.data.data[ii].device.serviceId;
           console.log("获取绑定中的设备激活id:" + res.data.data[ii].device.serviceId);
           console.log("获取绑定中的设备源:" + res.data.data[ii].device.source);
         }

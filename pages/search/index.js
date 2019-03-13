@@ -14,11 +14,11 @@ Page({
     scrollHeight: 0,
     isFocus: true,
     inputValue: '', //输入框内容
-    isShowResult: false, 
+    isShowResult: false,
     currentContent: 'search-result-content',
     // currentContent: 'search-input-content',
-    hotKeywordsList: [], 
-    historyWordsList: ['小猪佩奇','奇葩说'], // 后台接口关联账户信息，所以先做本地缓存处理
+    hotKeywordsList: [],
+    historyWordsList: ['小猪佩奇', '奇葩说'], // 后台接口关联账户信息，所以先做本地缓存处理
     resultTitleList: [
       '影片',
       '文章'
@@ -99,6 +99,7 @@ Page({
       activeIndex: val
     })
   },
+  // 处理推送电视剧
   handleEpisodeTap: function (e) {
     console.log('推送剧集', e);
     this.setData({
@@ -107,7 +108,13 @@ Page({
     });
     let third_album_id = e.currentTarget.dataset.keyword.third_album_id;
     let segment_index = e.currentTarget.dataset.keyword.segment_index - 1;
-    this.pushMedia(third_album_id, segment_index);
+    this.pushEpisode(third_album_id, segment_index);
+  },
+  // 处理推送电影
+  handleMovieTap: function (e) {
+    console.log('推送电影', e);
+    let third_album_id = e.currentTarget.dataset.keyword.video_detail.third_album_id;
+    this.pushMovie(third_album_id);
   },
   handleMoreTap: function (e) {
     console.log('handleMoreTap', e);
@@ -119,9 +126,10 @@ Page({
     console.log('search onLoad监听页面加载');
     let cacheKeywords = wx.getStorageSync('history_keywords');
     console.log(cacheKeywords);
-    this.setData({historyWordsList: cacheKeywords ? cacheKeywords : []});
+    this.setData({ historyWordsList: cacheKeywords ? cacheKeywords : [] });
     this.getHotKeyword();
     this.getBindDeviceList();
+    // this.getUserInfo();
   },
   onReady() {
     console.log('search onReady监听页面初次渲染完成');
@@ -154,7 +162,7 @@ Page({
   searchByKeyword: function (videoType, keyword, pageIndex = 0) {
     let that = this;
     console.log('searchByKeyword videoType:' + videoType + ',keyword:' + keyword + ',pageIndex:' + pageIndex)
-    wx.showLoading({title: '加载中...'})
+    wx.showLoading({ title: '加载中...' })
     let params = {
       "video_type": videoType,
       "keyword": keyword,
@@ -199,10 +207,10 @@ Page({
       function (res) {
         console.log('getHotKeyword success', res.data)
         if (res.data && res.data.data) {
-          that.setData({ 
+          that.setData({
             hotKeywordsList: res.data.data
           })
-        }else {
+        } else {
           console.log('服务器开小差')
           let errMsg = res.data.msg + "[" + res.data.code + "]";
           wx.showToast({
@@ -221,7 +229,7 @@ Page({
   },
 
   // 获取搜索历史关键词
-  getHistoryKeyword: function() {
+  getHistoryKeyword: function () {
     utils.request(api.getHistoryKeywordUrl, 'GET', utils.paramsAssemble_tvpai(),
       function (res) {
         console.log('getHistoryKeyword success', res.data)
@@ -238,7 +246,7 @@ Page({
   getUserInfo: function () {
     wx.getUserInfo({
       success(res) {
-        console.log('getUserInfo success',res);
+        console.log('getUserInfo success', res);
       },
       fail(err) {
         console.log('getUserInfo err', err);
@@ -249,16 +257,16 @@ Page({
   // 获取已绑定的设备列表信息
   getBindDeviceList: function () {
     let that = this;
-    let params = {ccsession: wx.getStorageSync('cksession')};
+    let params = { ccsession: wx.getStorageSync('cksession') };
     let desParams = utils.paramsAssemble_wx(params);
     console.log('getBindDeviceList', desParams);
     utils.request(api.getBindDeviceListUrl, 'GET', desParams,
       function (res) {
         console.log('getBindDeviceList success', res.data);
-        if(res.data.data && res.data.data.length !== 0) {
-          if(res.data.data[0].bindStatus === 1) {
+        if (res.data.data && res.data.data.length !== 0) {
+          if (res.data.data[0].bindStatus === 1) {
             console.log(res.data.data[0].deviceId);
-            that.setData({bindedDeviceId: res.data.data[0].deviceId + ''});
+            that.setData({ bindedDeviceId: res.data.data[0].deviceId + '' });
           }
         }
       },
@@ -270,19 +278,19 @@ Page({
       })
   },
 
-  // 根据专辑，剧集等信息推送影片
-  pushMedia: function (movieId, movieChildId) {
+  // 推送电视剧
+  pushEpisode: function (movieId, movieChildId) {
     let params = {
       ccsession: wx.getStorageSync('cksession'),
-      deviceId: this.data.bindedDeviceId, 
-      movieId: movieId, 
+      deviceId: this.data.bindedDeviceId,
+      movieId: movieId,
       moviechildId: movieChildId + ''
     };
     let desParams = utils.paramsAssemble_wx(params);
-    console.log('pushMedia params', desParams);
+    console.log('pushEpisode params', desParams);
     utils.request(api.pushMediaUrl, 'GET', desParams,
       function (res) {
-        console.log('pushMedia success', res.data);
+        console.log('pushEpisode success', res.data);
         if (res.data.code === 200) {
           wx.showToast({
             title: '推送成功',
@@ -300,15 +308,51 @@ Page({
         }
       },
       function (res) {
-        console.log('pushMedia error', res)
+        console.log('pushEpisode error', res)
       },
       function (res) {
-        console.log('pushMedia complete')
+        console.log('pushEpisode complete')
+      })
+  },
+
+  // 推送电影
+  pushMovie: function (movieId) {
+    let params = {
+      ccsession: wx.getStorageSync('cksession'),
+      deviceId: this.data.bindedDeviceId,
+      movieId: movieId
+    };
+    let desParams = utils.paramsAssemble_wx(params);
+    console.log('pushMovie params', desParams);
+    utils.request(api.pushMediaUrl, 'GET', desParams,
+      function (res) {
+        console.log('pushMovie success', res.data);
+        if (res.data && res.data.code === 200) {
+          wx.showToast({
+            title: '推送成功',
+            icon: 'success',
+            duration: 2000
+          });
+        } else {
+          console.log('推送电影失败');
+          let errMsg = res.data.message + "[" + res.data.returnCode + "]";
+          wx.showToast({
+            title: errMsg,
+            icon: 'none',
+            duration: 2000
+          });
+        }
+      },
+      function (res) {
+        console.log('pushMovie error', res)
+      },
+      function (res) {
+        console.log('pushMovie complete')
       })
   },
 
   // 获取系统信息
-  getSystemInfo: function() {
+  getSystemInfo: function () {
     wx.getSystemInfo({
       success(res) {
         console.log('getDevInfo success', res);

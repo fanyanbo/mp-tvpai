@@ -1,68 +1,65 @@
 <view class="main-wrapper">
-  <scroll-view scroll-y="true" style="height: auto"
-      bindscrolltoupper="upper"
-      bindscrolltolower="lower">
+  <scroll-view scroll-y="true" style="height: auto" bindscrolltoupper="upper" bindscrolltolower="lower">
     <view class="search-box-wrapper">
       <view class="search-box" bindtap='handleSearchTap'>
         <image src="../../images/ser_icon.png" class="search-icon"></image>
         <text class="search-text">{{searchContent}}</text>
       </view>
-    </view> 
-
-    <view class="scroll_box section"> 
-      <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">    
-        <navigator wx:for="{{streams}}" class="banner_list" url="../cinecism/cinecism?id={{item.articleId}}">
-            <image src="{{item.articlePicUrl}}" class="slide-image" ></image>
-        </navigator>   
+    </view>
+    <view class="scroll_box section">
+      <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">
+        <navigator wx:for="{{streams}}" wx:key="index" class="banner_list" url="../cinecism/cinecism?id={{item.articleId}}">
+          <image src="{{item.articlePicUrl}}" class="slide-image"></image>
+        </navigator>
         <navigator class="banner_list" url="../find/find">
-            <image src="../../images/banner.png" class="slide-image" ></image>
-        </navigator>     
+          <image src="../../images/banner.png" class="slide-image"></image>
+        </navigator>
       </scroll-view>
     </view>
-
-  <swiper class="label" indicator-dots="{{indicatorDots}}"
-    autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-active-color="{{indicatorActiveColor}}" indicator-color="{{indicatorColor}}">
-    <block>
+    <swiper class="label" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-active-color="{{indicatorActiveColor}}" indicator-color="{{indicatorColor}}">
+      <block>
         <swiper-item>
-          <view wx:for="{{column1}}" class="column-item" data-category="{{item.classify_id}}" bindtap="tagClick">     
+          <view wx:for="{{column1}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" bindtap="tagClick">
             <image src="{{item.classify_pic}}" mode="aspectFill"></image>
             <view class="item_book_text">{{item.classify_name}}</view>
           </view>
         </swiper-item>
-    </block>
-    <block>
+      </block>
+      <block>
         <swiper-item>
-          <view wx:for="{{column2}}" class="column-item" data-category="{{item.classify_id}}" bindtap="tagClick">     
+          <view wx:for="{{column2}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" bindtap="tagClick">
             <image src="{{item.classify_pic}}" mode="aspectFill"></image>
             <view class="item_book_text">{{item.classify_name}}</view>
           </view>
         </swiper-item>
-    </block>
-    <block>
+      </block>
+      <block>
         <swiper-item>
-          <view wx:for="{{column3}}" class="column-item" data-category="{{item.classify_id}}" bindtap="tagClick">     
+          <view wx:for="{{column3}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" bindtap="tagClick">
             <image src="{{item.classify_pic}}" mode="aspectFill"></image>
             <view class="item_book_text">{{item.classify_name}}</view>
           </view>
         </swiper-item>
-    </block>
-  </swiper>
-
-
-    <view class="category" wx:for="{{list}}">
-      <view class="title">{{item.title}}<navigator class="more" url="../column/column?id={{item.tag_id}}&title={{item.title}}">更多></navigator></view>
-      <view class="scroll_box section"> 
-          <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">    
-            <navigator wx:for="{{item.video_list}}" class="item_list" url="../movieDetail/movieDetail?id={{item.third_album_id}}">
+      </block>
+    </swiper>
+    <view class="category" wx:for="{{list}}" wx:key="index">
+      <view class="title">
+        {{item.title}}
+        <navigator class="more" url="../column/column?id={{item.tag_id}}&title={{item.title}}">
+          更多>
+        </navigator>
+      </view>
+      <view class="scroll_box section">
+        <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">
+          <navigator wx:for="{{item.video_list}}" wx:key="index" class="item_list" url="../movieDetail/movieDetail?id={{item.third_album_id}}">
             <image src="{{item.video_poster}}" class="item_book_img"></image>
             <text class="item_book_text">{{item.album_title}}</text>
-            </navigator>      
-          </scroll-view>
+          </navigator>
+        </scroll-view>
       </view>
     </view>
   </scroll-view>
 </view>
-
 <view>
   <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}"></remotecontrol>
 </view>
