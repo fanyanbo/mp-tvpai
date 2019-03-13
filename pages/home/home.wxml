@@ -1,19 +1,16 @@
 <view class="container">
 
-<view class="{{devices?'none':'no-devices'}}">
+<view class="{{devices?'none':'no-devices'}}" wx:if="{{isShowDoc}}">
       <view class="swiper_list">
-      <image src="../../images/help/1.jpg" class="image1"></image>
-      <image src="../../images/help/2.jpg" class="image2"></image>
-      <image src="../../images/help/3.jpg" class="image3"></image>
-      <image src="../../images/help/4.jpg" class="image4"></image>
+        <image src="../../images/help/1.jpg" class="image1"></image>
+        <image src="../../images/help/2.jpg" class="image2"></image>
+        <image src="../../images/help/3.jpg" class="image3"></image>
+        <image src="../../images/help/4.jpg" class="image4"></image>
       </view>  
       <view class="view">
         <button class="_binding" bindtap="scan" id="scan">开始扫码绑定</button>
       </view>
 </view>
-
-
-
 
 <view class="{{devices?'binding':'none'}} " bindtap="navigateto">绑定新设备</view>
 <view class="{{devices?'mydevices':'none'}} "><text>我的设备</text></view>
@@ -42,12 +39,7 @@
           </view>           
         </view>  
   </view>
-
-
-
- 
 </view>
-
 
 <!--弹窗-->
 <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>

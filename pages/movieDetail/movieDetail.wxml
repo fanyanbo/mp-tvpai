@@ -20,9 +20,7 @@
 </view>
 </view>
 <!--影片信息end  -->
-
 <view  data-tap='push' bindtap='chooseSezi' class="push" wx:if="{{movieType !='电影'}}"><image class="pushIcon" src='../../images/push.png'></image>投屏<span class="length">{{prompt_info}} ></span></view>
-
 <view class='tvLists'>
   <view class='scroll' wx:if="{{movieType !='电影'}}">
     <view wx:for="{{moviesItem}}" wx:for-item="item" >
@@ -32,22 +30,16 @@
       </view>
       <view bindtap='push' data-movieid="{{item.third_album_id}}" data-index="{{item.segment_index}}" class='xs dsj {{chioced==item.segment_index? "active":""}}' wx:else>
       <text class="segmeng moviesItem">{{item.segment_index}}</text>
-      </view>
-      
+      </view>   
     </view>
   </view>
-
 </view>
-
-
 <!--简介  -->
 <view class="introduce" data-tap='description' bindtap='chooseSezi'>简介<image class="arrow" src="../../images/arrow.png"></image></view> 
 <view class='content'>
   <view><text class="label">导演：</text>{{movieData.director}}</view>
   <view><text class="label">演员：</text>{{movieData.actor}}</view>
 </view>
-
-
 <!--猜你喜欢  -->
 <view class="introduce">猜你喜欢</view> 
 <view class='movieList'>
@@ -58,27 +50,14 @@
     </navigator>
   </view>
 </view>  
-
-
-
 <!--设备模板  -->
 <view class='boxshdaw' hidden="{{flag ? true : false}}" bindtap='boxshdawclick'></view>
 <view class="service" hidden="{{flag ? true : false}}">
-
-
-
-
-
-  
 </view>
-
 </view>
-
-
 <view>
   <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}"></remotecontrol>
 </view>
-
 <!--详情弹窗 -->
 <view wx:if="{{chooseSize}}" class='maskLayer' data-tap='description' bindtap='hideModal'></view>
 <view wx:if="{{chooseSize}}" class='choose' animation='{{animationData}}'>
@@ -90,12 +69,10 @@
     bindscrolltolower="lower"
     bindscroll="scroll"
     scroll-into-view="{{toView}}"
-    scroll-top="{{scrollTop}}"
-  >
+    scroll-top="{{scrollTop}}">
   <view class="description">{{movieData.description}}</view>
    </scroll-view>
 </view>
-
 <!--剧集弹窗-->
 <view wx:if="{{pushSize}}" class='maskLayer' data-tap='push' bindtap='hideModal'></view>
 <view wx:if="{{pushSize}}" class='choose' animation='{{animationData}}'>
