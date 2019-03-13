@@ -1,8 +1,7 @@
-//index.js
 var utils = require('../../utils/util.js');
 const api = require('../../api/api.js');
-//获取应用实例
 var app = getApp();
+
 Page({
   data: {
     searchContent: '搜索视频、影评或话题',
@@ -118,8 +117,6 @@ Page({
             list: recommendlist,
           })
         }
-
-
       } else {
         wx.showToast({
           title: res.data.message,
@@ -153,8 +150,7 @@ Page({
       param: params
     }
     utils.postLoading(url, 'GET', data, function (res) {
-      console.log('streams ok:')
-      console.log(res)
+      console.log('streams ok:', res)
 
       let streamsTm = that.data.streams
       if (res.data.result) {
@@ -194,8 +190,8 @@ Page({
     }, message)
   },
 
-  onLoad(options) {
-    console.log('first onLoad监听页面加载');
+  onLoad() {
+    console.log('首页 onLoad监听页面加载');
     let that = this
     that.oneclassify('')
     that.twoclassify('')
@@ -203,69 +199,54 @@ Page({
   },
 
   onReady() {
-    console.log('first onReady监听页面初次渲染完成');
+    console.log('首页 onReady监听页面初次渲染完成');
   },
 
   onShow() {
+    console.log('首页，onshow')
     this.setData({
       isShowTips: app.globalData.isShowTips
     })
-    var that = this
-    var ccsession = wx.getStorageSync('cksession')
-    console.log('首页，onshow,', ccsession)
+    let that = this
+    let ccsession = wx.getStorageSync('cksession')
+    // 判断登录状态是否过期
     if (ccsession === null || ccsession === '') {
-      //重新登录
       wx.login({
-        success: function (e) {
-          var code = e.code
-          console.log("wx.login:" + JSON.stringify(e));
+        success: function (res) {
+          const code = res.code;
+          console.log("wx.login", JSON.stringify(res));
           wx.getUserInfo({
             success: function (res) {
-              console.log('fyb', res)
-              var encryptedData = res.encryptedData
-              var iv = res.iv;
-              var rawData = res.rawData
-              var signature = res.signature
-              app.globalData.userInfo = res.userInfo
-              wx.setStorageSync('userInfo', res.userInfo)
-              typeof cb == "function" && cb(app.globalData.userInfo)
-              appJs.login(rawData, code, encryptedData, iv, signature)
-              that.setData({
-                userInfo: res.userInfo
-              })
-            }, fail: function () {
-              console.log("未获得用户信息")
-            }
-          })
+              console.log('wx.getUserInfo', res)
+              let encryptedData = res.encryptedData;
+              let iv = res.iv;
+              let rawData = res.rawData;
+              let signature = res.signature;
+              app.globalData.userInfo = res.userInfo;
+              wx.setStorageSync('userInfo', res.userInfo);
+              typeof cb == "function" && cb(app.globalData.userInfo);
+              app.login(rawData, code, encryptedData, iv, signature);
+            }, 
+            fail: function () {
+              console.log("获取用户信息失败");
+          }})
         }
       })
     } else {
+      // 意义何在？
       app.getUserInfo();
-      var userInfo = wx.getStorageSync('userInfo')
-      console.log('首页，getuserInfo:', userInfo)
-      if (typeof (userInfo) == "undefined") {
-        console.log('get user info failed')
-      } else {
-        console.log('get user info success')
-      }
-      // the code is commented by fyb
-      // that.setData({
-      //   userInfo: userInfo,
-      //   username: wx.getStorageSync("username")
-      // })
+      console.log('首页，getuserInfo:', wx.getStorageSync('userInfo'));
     }
   },
 
   onHide() {
-    console.log('first onHide监听页面隐藏');
+    console.log('首页 onHide');
   },
 
   onUnload() {
-    console.log('first onUnload监听页面卸载');
+    console.log('首页 onUnload');
   },
-  /**
-   * 用户点击右上角分享
-   */
+
   onShareAppMessage: function (res) {
     return {
       title: '酷影评',
@@ -279,7 +260,6 @@ Page({
     }
   },
 
-  // 樊彦博添加
   handleSearchTap: function () {
     console.log('跳转至搜索页面');
     wx.navigateTo({
