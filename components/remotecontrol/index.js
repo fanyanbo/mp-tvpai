@@ -39,6 +39,7 @@ Component({
     curBtnImg: '../../images/remoter@3x.png',
     indexStatus: '',  // 当前显示版面
     longtapStatus: false, // 是否是长按状态
+    bStartRecord: false,//是否开始录制音频
     voiceInputStatus: false, // 是否是语音输入状态
     waitVoiceResult: false,  // 等待语音结果状态
     oneTip: '您可以说：“今天天气怎么样”',
@@ -196,7 +197,6 @@ Component({
                                 that.setData({
                                   hasRecordAuth: true
                                 });
-                                result = true
                               }
                             },
                             fail: (res) => {
@@ -242,6 +242,7 @@ Component({
         voiceInputStatus: false,
         indexStatus: '',
         longtapStatus: false,
+        bStartRecord: false,
         waitVoiceResult: false,
         isShowMask: false,
         query: ''
@@ -344,9 +345,9 @@ Component({
         data: data,
         success: function (res) {
           console.log('pushController done!', res)
+          console.timeEnd('timeTap')
         }
       })
-      console.timeEnd('timeTap')
     },
 
     // 处理遮罩层点击事件,等待语音解析过程不处理该事件
@@ -369,8 +370,8 @@ Component({
     },
 
     handleRecorderManagerStop(event) {
-      console.log('语音键 touch end, 是否等待语音结果: ' + this.data.waitVoiceResult + ",是否为长按状态: " + this.data.longtapStatus);
-      
+      console.log('语音键 touch end, 是否等待语音结果: ' + this.data.waitVoiceResult + ",是否为长按状态: " + this.data.longtapStatus 
+              + '是否开始录制:' +this.data.bStartRecord);
       var bTVReady = false;
       bTVReady = this.isBindedTVStatusReady()
       if (!bTVReady) {
@@ -379,15 +380,17 @@ Component({
       }
       console.timeEnd('timeVoice')
       try {
-      //当处理语音过程中，不处理任何事件, 注意不能直接返回，需处理第一次情况
+        //当处理语音过程中，不处理任何事件, 注意不能直接返回，需处理第一次情况
         if (!this.data.waitVoiceResult) {
-          if (this.data.longtapStatus) { //当长按时手指松开，设置按钮样式，显示语音结果版面
+          if (this.data.bStartRecord){ //当长按时手指松开，设置按钮样式，显示语音结果版面
             console.log('处理长按手指松开，停止录音，停止超时倒计时，停止录音动画，等待解析结果');
             this.stopRecordTimer()
             this.stopRecordAnimation()
             this.stopRecord()
             this.setData({
               indexStatus: 'VoiceResult',
+              longtapStatus:false,
+              bStartRecord: false,
               voiceInputStatus: false,
               waitVoiceResult: true, //等待语音结果
               curBtnImg: '../../images/remoter@3x.png',
@@ -403,7 +406,11 @@ Component({
             //     query: ''
             //   })
             // }, 5000)
-          } else { //当短按手指松开，显示遥控版面
+          } else if (!!this.data.longtapStatus) {
+            this.setData({
+              longtapStatus: false,
+            })
+          }else { //当短按手指松开，显示遥控版面
             console.log('处理短按手指松开');
             if (this.data.isShowMask) {
               this.setData({
@@ -424,6 +431,10 @@ Component({
               this.showEnterAnimaiton()
             }
           }
+        } else if (!!this.data.longtapStatus) {
+          this.setData({
+            longtapStatus: false,
+          })
         }
       }
       catch (err) {
@@ -434,6 +445,9 @@ Component({
     // 遥控器按钮长按事件
     handleButtonLongTap(event) {
       console.log('语音键 longpress ...') 
+      this.setData({
+        longtapStatus: true
+      })
       var bTVReady = false;
       bTVReady = this.isBindedTVStatusReady({type: 'longpress'})
       if (!bTVReady) {
@@ -454,7 +468,7 @@ Component({
         isShowMask: true,
         curBtnImg: '../../images/voice@3x.png',
         btnContent: '松开结束',
-        longtapStatus: true
+        bStartRecord: true
       })
       console.log('开始执行语音输入动画和版面进场动画');
       this.startRecordAnimation();   
@@ -471,6 +485,9 @@ Component({
       const that = this
       manager.onRecognize = function (res) {
         console.log("onRecognize result", res.result)
+        that.setData({
+          query: res.result,
+        })
       }
       manager.onStop = function (res) {
         console.log("onStop result", res.result)
@@ -486,6 +503,7 @@ Component({
             voiceInputStatus: false,
             indexStatus: '',
             longtapStatus: false,
+            bStartRecord:false,
             waitVoiceResult: false,
             isShowMask: false,
             query: ''
@@ -515,6 +533,7 @@ Component({
               voiceInputStatus: false,
               indexStatus: '',
               longtapStatus: false,
+              bStartRecord: false,
               waitVoiceResult: false,
               isShowMask: false,
               query: ''
@@ -537,6 +556,7 @@ Component({
           that.setData({
             indexStatus: '',
             longtapStatus: false,
+            bStartRecord: false,
             waitVoiceResult: false,
             isShowMask: false,
             query: ''
