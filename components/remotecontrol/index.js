@@ -138,7 +138,7 @@ Component({
       if (!this.data.bBindedTVOnline) {
         console.log("bBindedTVOnline false.")
         wx.showToast({
-          title: '抱歉，当前绑定的设备不在线，请确认是否开机联网',
+          title: '抱歉，当前绑定的设备不在线，\r\n请确认是否开机联网',
           icon: 'none'
         })
         return false
@@ -146,7 +146,7 @@ Component({
       if (!this.data.bBindedTVSupportMP) {
         console.log("bBindedTVSupportMP false.")
         wx.showToast({
-          title: '抱歉，当前绑定的设备暂不支持遥控，请先安装升级小维AI',
+          title: '抱歉，当前绑定的设备暂不支持遥控，\r\n请先安装升级小维AI',
           icon: 'none'
         })
         return false
