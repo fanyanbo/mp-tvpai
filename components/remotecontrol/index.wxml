@@ -72,9 +72,3 @@
     <text class="remoter-btn-text">{{btnContent}}</text>
   </view>
 </view>
-
-<toast_dlg wx:if="{{isShowToastDlg}}" 
-  bindtoastdlgcancel="handleToastGoBindCancel" bindtoastdlgconfirm="handleToastGoBindConfirm" toastDlgContents="{{toastDlgGoBindProperties}}">
-</toast_dlg>
-
-<toast_prompt wx:if="{{isShowToastPrompt}}" bindtoastpromptevt="handleToastNotSupport" toastPromptContents="{{toastPromptNotSupportContents}}"></toast_prompt>
