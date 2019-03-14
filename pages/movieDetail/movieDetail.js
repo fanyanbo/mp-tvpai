@@ -229,7 +229,7 @@ function movieDetail(that, movieId) {
   }
   utils.postLoading(url, 'GET', data, function (res) {
     console.log("影片详情====")
-    console.log(res.data.data)
+    console.log(res)
     if (res.data.data) {
       var tags = res.data.data.video_tags
       tags = tags.toString().split(',')

@@ -46,11 +46,21 @@ Page({
       isShowResult: false
     })
   },
+  // 点击收藏
   handleLikeTap(e) {
     console.log('handleLikeTap', e);
     this.setData({
       isLike: !this.data.isLike,
       curThirdAlbumId: e.currentTarget.dataset.keyword.third_album_id
+    });
+  },
+  // 点击海报，跳转详情页
+  handlePosterTap(e) {
+    console.log('handlePosterTap', e);
+    let third_album_id = e.currentTarget.dataset.item.video_detail.third_album_id;
+    console.log("../movieDetail/movieDetail?id=" + third_album_id);
+    wx.navigateTo({
+      url: "../movieDetail/movieDetail?id=" + third_album_id
     });
   },
   // 输入框内容有变化时触发
@@ -64,7 +74,8 @@ Page({
   onKeywordTap: function (event) {
     console.log('选择关键字：', event.target.dataset.keyword);
     let cacheKeywords = this.data.historyWordsList;
-    cacheKeywords.push(event.target.dataset.keyword);
+    if(cacheKeywords.indexOf(event.target.dataset.keyword) < 0)
+      cacheKeywords.push(event.target.dataset.keyword);
     this.setData({
       inputValue: event.target.dataset.keyword,
       isShowResult: true,
@@ -76,9 +87,10 @@ Page({
   // 输入法回车搜索
   query: function () {
     console.log('query')
-    // 将搜索关键字缓存
+    // 将搜索关键字缓存,去重
     let cacheKeywords = this.data.historyWordsList;
-    cacheKeywords.push(this.data.inputValue);
+    if(cacheKeywords.indexOf(event.target.dataset.keyword) < 0)
+      cacheKeywords.push(this.data.inputValue);
     this.setData({
       searchResultList: [],
       isShowResult: true,
@@ -242,18 +254,6 @@ Page({
       })
   },
 
-  // 获取微信用户信息，需要用户授权
-  getUserInfo: function () {
-    wx.getUserInfo({
-      success(res) {
-        console.log('getUserInfo success', res);
-      },
-      fail(err) {
-        console.log('getUserInfo err', err);
-      }
-    })
-  },
-
   // 获取已绑定的设备列表信息
   getBindDeviceList: function () {
     let that = this;
@@ -349,6 +349,28 @@ Page({
       function (res) {
         console.log('pushMovie complete')
       })
+  },
+
+  // 收藏或取消影片
+  collect: function () {
+
+  },
+
+  // 获取收藏影片列表
+  getCollectedList: function() {
+
+  },
+
+  // 获取微信用户信息，需要用户授权
+  getUserInfo: function () {
+    wx.getUserInfo({
+      success(res) {
+        console.log('getUserInfo success', res);
+      },
+      fail(err) {
+        console.log('getUserInfo err', err);
+      }
+    })
   },
 
   // 获取系统信息
