@@ -271,9 +271,9 @@ Page({
     });
   },
   getBindedDevice: function () {
-    console.log('获取并重设当前绑定设备信息');
-    let that = this;
-    let params = { ccsession: wx.getStorageSync('cksession') };
+    console.log('首页获取并重设当前绑定设备信息');
+    let ccsession = wx.getStorageSync('cksession');
+    let params = { ccsession: ccsession };
     let desParams = utils_fyb.paramsAssemble_wx(params);
     console.log('getBindDeviceList params', desParams);
     utils_fyb.request(api_fyb.getBindDeviceListUrl, 'GET', desParams,
@@ -282,12 +282,9 @@ Page({
         if (res.data.data) {
           for (let i = 0; i < res.data.data.length; i++) {
             if (res.data.data[i].bindStatus === 1) {
-              let deviceInfo = {
-                deviceId: res.data.data[i].deviceId + '',
-                activeId: res.data.data[i].device.serviceId
-              };
-              console.log('当前绑定的设备信息', deviceInfo);
-              wx.setStorageSync('deviceInfo', deviceInfo);
+              app.globalData.activeId = res.data.data[i].device.serviceId;
+              app.globalData.deviceId = res.data.data[i].deviceId + '',
+              console.log('当前绑定的设备信息: activeId = ' + app.globalData.activeId + ", deviceId = " + app.globalData.deviceId);
               break;
             }
           }

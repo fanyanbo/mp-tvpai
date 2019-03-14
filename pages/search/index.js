@@ -6,7 +6,6 @@ const api = require('../../utils/api_fyb')
 
 Page({
   data: {
-    bindedDeviceId: '', // 当前绑定的设备id
     isShowTips: false,
     inputPlaceholder: '搜索视频、影评或话题',
     curIndex: 0, //当前剧集
@@ -122,8 +121,9 @@ Page({
     });
     let third_album_id = e.currentTarget.dataset.keyword.third_album_id;
     let segment_index = e.currentTarget.dataset.keyword.segment_index - 1;
-    if (this.bindedDeviceId && this.bindedDeviceId !== '') {
-      this.pushEpisode(third_album_id, segment_index);
+    console.log(app.globalData.deviceId, third_album_id);
+    if (app.globalData.deviceId != null) {
+      this.pushEpisode(app.globalData.deviceId, third_album_id, segment_index);
     } else {
       wx.navigateTo({url: "../home/home"});
     }
@@ -132,8 +132,9 @@ Page({
   handleMovieTap: function (e) {
     console.log('推送电影', e);
     let third_album_id = e.currentTarget.dataset.keyword.video_detail.third_album_id;
-    if (this.bindedDeviceId && this.bindedDeviceId !== '') {
-      this.pushMovie(third_album_id);
+    console.log(app.globalData.deviceId, third_album_id);
+    if (app.globalData.deviceId != null) {
+      this.pushMovie(app.globalData.deviceId, third_album_id);
     } else {
       wx.navigateTo({url: "../home/home"});
     }
@@ -151,9 +152,7 @@ Page({
     this.setData({ historyWordsList: cacheKeywords ? cacheKeywords : [] });
     this.getHotKeyword();
     // this.getBindedDevice();
-    let deviceInfo = wx.getStorageSync('deviceInfo');
-    console.log(deviceInfo);
-    this.setData({bindedDeviceId: deviceInfo.deviceId});
+    console.log('当前已绑定设备', app.globalData.deviceId);
   },
   onReady() {
     console.log('search onReady监听页面初次渲染完成');
@@ -279,7 +278,6 @@ Page({
           for (let i = 0; i < res.data.data.length; i++) {
             if (res.data.data[i].bindStatus === 1) {
               console.log('当前绑定的设备id', res.data.data[i].deviceId);
-              that.setData({ bindedDeviceId: res.data.data[i].deviceId + '' });
               break;
             }
           }
@@ -294,10 +292,10 @@ Page({
   },
 
   // 推送电视剧
-  pushEpisode: function (movieId, movieChildId) {
+  pushEpisode: function (deviceId, movieId, movieChildId) {
     let params = {
       ccsession: wx.getStorageSync('cksession'),
-      deviceId: this.data.bindedDeviceId,
+      deviceId: deviceId,
       movieId: movieId,
       moviechildId: movieChildId + ''
     };
@@ -331,10 +329,10 @@ Page({
   },
 
   // 推送电影
-  pushMovie: function (movieId) {
+  pushMovie: function (deviceId, movieId) {
     let params = {
       ccsession: wx.getStorageSync('cksession'),
-      deviceId: this.data.bindedDeviceId,
+      deviceId: deviceId,
       movieId: movieId
     };
     let desParams = utils.paramsAssemble_wx(params);
