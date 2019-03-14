@@ -1,8 +1,8 @@
 .container{text-align: center;}
 .tabParents{width: 95%;margin-left:2%;overflow-x: scroll;overflow-y: hidden;text-align:center;background:#fff;}
 .tabScroll{width:100%;position: relative;height: 70rpx;white-space:nowrap;margin:0 auto;text-align:left;background:#fff;}
-.tabScroll view{display: inline;padding: 6rpx 15rpx;font-size: 32rpx;color: #444;}
-.tabScroll view.active{color: #fd614e;border-bottom: 1rpx solid #fd614e;background:#fff;}
+.tabScroll view{display: inline;padding: 6rpx 15rpx;font-size: 30rpx;color: #999;}
+.tabScroll view.active{color: #000;border-bottom: 2rpx solid #FFD71C;background:#fff;}
 .tabAll,.tabOpen{font-size: 32rpx;margin-top: 70rpx;}
 .tabOpen{position:absolute;z-index:99;bottom:5%;left:45%;}
 .tagListAbsolute{position: absolute;z-index: 9;background: #fff;}
@@ -14,4 +14,5 @@ radio:checked{color:red;} */
 
 label.active{color: red;}
 .tabAll{position: fixed;top:-1%;width:100%;display: block;background:#fff;}
+.click{font-size: 28rpx}
 .nomv{margin: 60% auto;}

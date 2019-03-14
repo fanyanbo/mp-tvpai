@@ -82,8 +82,9 @@ Page({
   tagClick: function (e) {
     // 标签点击搜索 跳到search
     var categoryId = e.currentTarget.dataset.category
+    var title = e.currentTarget.dataset.title
     wx.navigateTo({
-      url: '../sresult/sresult?category_id=' + categoryId
+      url: '../sresult/sresult?category_id=' + categoryId + '&title=' + title
     })
   },
 
@@ -168,17 +169,20 @@ Page({
           return false
         }
         let streams = res.data.data.list
-        if (streams.length < parseInt(that.data.pageSize)) {
-          that.setData({
-            streams: res.data.data.list,
-            hasMoreData: false
-          })
-        } else {
-          that.setData({
-            streams: res.data.data.list,
-            hasMoreData: true,
-          })
+        if (res.data.data.list){
+          if (streams.length < parseInt(that.data.pageSize)) {
+            that.setData({
+              streams: res.data.data.list,
+              hasMoreData: false
+            })
+          } else {
+            that.setData({
+              streams: res.data.data.list,
+              hasMoreData: true,
+            })
+          }
         }
+
       } else {
         wx.showToast({
           title: res.data.message,

@@ -7,12 +7,12 @@ export {
 const app = getApp()
 Page({
   data: {
-    isShowTips: true,
+    isShowTips: false,
     username: '你好',
-    devices: "",
     mydevices: [],
     block: ['block'],
     moretop: ['moretop'],
+    devices:true,
     showModal: false,
     ccsession: wx.getStorageSync('cksession'),
   },
@@ -44,7 +44,7 @@ Page({
         }, 2000)       
       }else{
         wx.showToast({
-          title: '设备绑定失败',
+          title: '设备绑定失败' + res.data.code,
         })   
       }
     }, function (res) {
@@ -304,7 +304,7 @@ function getDevices(that,message) {
     console.log(res)
     if (res.data.result && res.data.data) {
       that.setData({
-        devices: true,
+        devices:false,
         mydevices: res.data.data
       })
 

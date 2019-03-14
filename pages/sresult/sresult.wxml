@@ -1,7 +1,7 @@
 
 <view class='container'>
 <!--顶部搜索  -->
-<view class='tagList {{tagListAbsolute}}' style="margin-top:120rpx">
+<view class='tagList {{tagListAbsolute}}'>
   <view class='tabParents'>
     <view class='tabScroll'>
       <form bindsubmit="tagClick">
@@ -16,7 +16,7 @@
             <view bindtap='chioceChn' data-num="{{index}}" data-isd="{{ids+'_'+index}}" class="{{activeIndex == (ids+'_'+index)? 'active':''}}" wx:for="{{item}}" wx:for-item="item" data-exvalue="{{item.extra_condition}}" data-filtervalue="{{item.filter_value}}" data-sortvalue="{{item.sort_value}}">{{item.title}}</view>
         </view>
       </view>
-  <view class='{{tabAll}}' data-tab='{{tabShow}}' bindtap='tabClick'>全部</view>
+  <view class='{{tabAll}} click' data-tab='{{tabShow}}' bindtap='tabClick'>收起</view>
   </view>
 
   <!--标签列表end  -->
@@ -27,7 +27,7 @@
   <!--顶部搜索end  -->
 
 <!--全部展开收起按钮  -->
-<view class='{{tabAll}}' hidden="{{flag ? false : true}}" data-tab='{{tabShow}}' bindtap='tabClick'>全部</view>
+<view class='{{tabAll}} click' hidden="{{flag ? false : true}}" data-tab='{{tabShow}}' bindtap='tabClick'>全部</view>
 <!--全部展开收起按钮end  -->
 
 <!--影片列表  -->

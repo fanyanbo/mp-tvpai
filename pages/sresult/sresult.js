@@ -121,6 +121,10 @@ Page({
     // var channelId = ''
 
     searchContent(that, options.category_id)
+
+    wx.setNavigationBarTitle({
+      title: options.title
+    })
   },
 
   /**

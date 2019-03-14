@@ -1,7 +1,7 @@
 <!--pages/my/my.wxml-->
-<view>
+<!-- <view>
   <search></search>
-</view>
+</view> -->
 
 <view class="container">
   <view class="userinfo" bindtap="userDebug">

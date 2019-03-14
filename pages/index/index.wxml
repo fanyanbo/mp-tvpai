@@ -24,7 +24,7 @@
     autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-active-color="{{indicatorActiveColor}}" indicator-color="{{indicatorColor}}">
     <block>
         <swiper-item>
-          <view wx:for="{{column1}}" class="column-item" data-category="{{item.classify_id}}" bindtap="tagClick">     
+          <view wx:for="{{column1}}" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="tagClick">     
             <image src="{{item.classify_pic}}" mode="aspectFill"></image>
             <view class="item_book_text">{{item.classify_name}}</view>
           </view>
@@ -32,7 +32,7 @@
     </block>
     <block>
         <swiper-item>
-          <view wx:for="{{column2}}" class="column-item" data-category="{{item.classify_id}}" bindtap="tagClick">     
+          <view wx:for="{{column2}}" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="tagClick">     
             <image src="{{item.classify_pic}}" mode="aspectFill"></image>
             <view class="item_book_text">{{item.classify_name}}</view>
           </view>
@@ -40,7 +40,7 @@
     </block>
     <block>
         <swiper-item>
-          <view wx:for="{{column3}}" class="column-item" data-category="{{item.classify_id}}" bindtap="tagClick">     
+          <view wx:for="{{column3}}" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="tagClick">     
             <image src="{{item.classify_pic}}" mode="aspectFill"></image>
             <view class="item_book_text">{{item.classify_name}}</view>
           </view>

@@ -1,6 +1,6 @@
 <view class="container">
 
-<view class="{{devices?'none':'no-devices'}}">
+<view class="{{devices?'no-devices':'none'}}">
       <view class="swiper_list">
       <image src="../../images/help/1.jpg" class="image1"></image>
       <image src="../../images/help/2.jpg" class="image2"></image>
@@ -15,9 +15,9 @@
 
 
 
-<view class="{{devices?'binding':'none'}} " bindtap="navigateto">绑定新设备</view>
-<view class="{{devices?'mydevices':'none'}} "><text>我的设备</text></view>
-<view wx:for="{{mydevices}}" class="{{devices?'devices':'none'}}">
+<view class="{{devices?'none':'binding'}} " bindtap="navigateto">绑定新设备</view>
+<view class="{{devices?'none':'mydevices'}} "><text>我的设备</text></view>
+<view wx:for="{{mydevices}}" class="{{devices?'none':'devices'}}">
       <view class="device-item device-top-left" >
         <view class="device-top">
           <text class="device-name inaline">{{item.device.deviceName}}</text>
