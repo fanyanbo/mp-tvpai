@@ -1,6 +1,8 @@
-var utils = require('../../utils/util.js');
+const utils = require('../../utils/util.js');
+const utils_fyb = require('../../utils/util_fyb');
+const api_fyb = require('../../utils/api_fyb')
 const api = require('../../api/api.js');
-var app = getApp();
+const app = getApp();
 
 Page({
   data: {
@@ -198,10 +200,10 @@ Page({
 
   onLoad() {
     console.log('首页 onLoad监听页面加载');
-    let that = this
-    that.oneclassify('')
-    that.twoclassify('')
-    that.getBanners('加载中')
+    this.getBindedDevice();
+    this.oneclassify('');
+    this.twoclassify('');
+    this.getBanners('加载中');
   },
 
   onReady() {
@@ -244,15 +246,12 @@ Page({
       console.log('首页，getuserInfo:', wx.getStorageSync('userInfo'));
     }
   },
-
   onHide() {
     console.log('首页 onHide');
   },
-
   onUnload() {
     console.log('首页 onUnload');
   },
-
   onShareAppMessage: function (res) {
     return {
       title: '酷影评',
@@ -265,12 +264,41 @@ Page({
       }
     }
   },
-
   handleSearchTap: function () {
     console.log('跳转至搜索页面');
     wx.navigateTo({
       url: '../../pages/search/index',
     });
+  },
+  getBindedDevice: function () {
+    console.log('获取并重设当前绑定设备信息');
+    let that = this;
+    let params = { ccsession: wx.getStorageSync('cksession') };
+    let desParams = utils_fyb.paramsAssemble_wx(params);
+    console.log('getBindDeviceList params', desParams);
+    utils_fyb.request(api_fyb.getBindDeviceListUrl, 'GET', desParams,
+      function (res) {
+        console.log('getBindDeviceList success', res.data);
+        if (res.data.data) {
+          for (let i = 0; i < res.data.data.length; i++) {
+            if (res.data.data[i].bindStatus === 1) {
+              let deviceInfo = {
+                deviceId: res.data.data[i].deviceId + '',
+                activeId: res.data.data[i].device.serviceId
+              };
+              console.log('当前绑定的设备信息', deviceInfo);
+              wx.setStorageSync('deviceInfo', deviceInfo);
+              break;
+            }
+          }
+        }
+      },
+      function (res) {
+        console.log('getBindDeviceList error', res)
+      },
+      function (res) {
+        console.log('getBindDeviceList complete')
+      })
   }
 });
 

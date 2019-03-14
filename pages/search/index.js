@@ -54,9 +54,9 @@ Page({
       curThirdAlbumId: e.currentTarget.dataset.keyword.third_album_id
     });
   },
-  // 点击海报，跳转详情页
-  handlePosterTap(e) {
-    console.log('handlePosterTap', e);
+  // 点击跳转详情页
+  handleJumpTap(e) {
+    console.log('handleJumpTap', e);
     let third_album_id = e.currentTarget.dataset.item.video_detail.third_album_id;
     console.log("../movieDetail/movieDetail?id=" + third_album_id);
     wx.navigateTo({
@@ -139,8 +139,10 @@ Page({
     console.log(cacheKeywords);
     this.setData({ historyWordsList: cacheKeywords ? cacheKeywords : [] });
     this.getHotKeyword();
-    this.getBindedDevice();
-    // this.getCollectedList();
+    // this.getBindedDevice();
+    let deviceInfo = wx.getStorageSync('deviceInfo');
+    console.log(deviceInfo);
+    this.setData({bindedDeviceId: deviceInfo.deviceId});
   },
   onReady() {
     console.log('search onReady监听页面初次渲染完成');
@@ -360,7 +362,12 @@ Page({
 
   // 获取收藏影片列表
   getCollectedList: function() {
-    let desParams = utils.paramsAssemble_tvpai();
+    let params = {
+      page_index: 0,
+      page_size: 10,
+      video_type: 1
+    }
+    let desParams = utils.paramsAssemble_tvpai(params);
     console.log(desParams);
     utils.request(api.getCollectedListUrl, 'GET', desParams,
       function (res) {

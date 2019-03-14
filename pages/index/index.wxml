@@ -1,37 +1,33 @@
+<view class="search-box-wrapper">
+  <view class="search-box" bindtap='handleSearchTap'>
+    <image src="../../images/ser_icon.png" class="search-icon"></image>
+    <text class="search-text">{{searchContent}}</text>
+  </view>
+</view>
 <view class="main-wrapper">
   <scroll-view scroll-y="true" style="height: auto" bindscrolltoupper="upper" bindscrolltolower="lower">
-    <view class="search-box-wrapper">
-      <view class="search-box" bindtap='handleSearchTap'>
-        <image src="../../images/ser_icon.png" class="search-icon"></image>
-        <text class="search-text">{{searchContent}}</text>
-      </view>
+    <view class="banner-swiper">
+      <swiper autoplay="{{autoplay}}" current='{{swiperCurrent}}' previous-margin="{{previousmargin}}" next-margin="{{nextmargin}}" bindchange="swiperChange">
+        <block wx:for="{{streams}}" wx:key="key" class="banner_list">
+          <navigator wx:key="index" url="../cinecism/cinecism?id={{item.articleId}}">
+            <swiper-item>
+              <image src="{{item.articlePicUrl}}" class="slide-image" bindchange="chuangEvent"></image>
+            </swiper-item>
+          </navigator>
+        </block>
+        <block wx:key="key" class="banner_list">
+          <navigator class="banner_list" url="../find/find">
+            <swiper-item>
+              <image src="../../images/banner.png" class="slide-image"></image>
+            </swiper-item>
+          </navigator>
+        </block>
+      </swiper>
     </view>
-
-
-
-
-
-<view class="banner-swiper">
-  <swiper autoplay="{{autoplay}}" current='{{swiperCurrent}}' previous-margin="{{previousmargin}}" next-margin="{{nextmargin}}" bindchange="swiperChange" >
-    <block wx:for="{{streams}}" wx:key="key"  class="banner_list"> 
-    <navigator wx:key="index" url="../cinecism/cinecism?id={{item.articleId}}">
-      <swiper-item><image src="{{item.articlePicUrl}}" class="slide-image" bindchange="chuangEvent"></image> </swiper-item>
-    </navigator>
-    </block>         
-    <block wx:key="key" class="banner_list"> 
-      <navigator class="banner_list" url="../find/find">
-        <swiper-item>      
-          <image src="../../images/banner.png" class="slide-image"></image>   
-        </swiper-item>
-      </navigator>
-    </block>   
-  </swiper>
- </view> 
-
     <swiper class="label" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-active-color="{{indicatorActiveColor}}" indicator-color="{{indicatorColor}}">
       <block>
         <swiper-item>
-          <view wx:for="{{column1}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}"  data-title="{{item.classify_name}}" bindtap="tagClick">
+          <view wx:for="{{column1}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="tagClick">
             <image src="{{item.classify_pic}}" mode="aspectFill"></image>
             <view class="item_book_text">{{item.classify_name}}</view>
           </view>
@@ -39,7 +35,7 @@
       </block>
       <block>
         <swiper-item>
-          <view wx:for="{{column2}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}"  data-title="{{item.classify_name}}"  bindtap="tagClick">
+          <view wx:for="{{column2}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="tagClick">
             <image src="{{item.classify_pic}}" mode="aspectFill"></image>
             <view class="item_book_text">{{item.classify_name}}</view>
           </view>
@@ -47,7 +43,7 @@
       </block>
       <block>
         <swiper-item>
-          <view wx:for="{{column3}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}"  data-title="{{item.classify_name}}" bindtap="tagClick">
+          <view wx:for="{{column3}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="tagClick">
             <image src="{{item.classify_pic}}" mode="aspectFill"></image>
             <view class="item_book_text">{{item.classify_name}}</view>
           </view>
