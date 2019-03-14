@@ -366,6 +366,11 @@ Component({
     handleRecorderManagerStart() {
       console.time('timeVoice')
       console.log('语音键 touch start 目标设备：' + this.data.activeid);
+      //每次进入遥控器面板前，刷新一次设备状态
+      if (!this.data.isShowMask) {
+        console.log('refresh tv status.')
+        this.refreshBindedTVStatus()
+      }
     },
 
     handleRecorderManagerStop(event) {
