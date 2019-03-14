@@ -23,7 +23,7 @@
 <view  data-tap='push' bindtap='chooseSezi' class="push" wx:if="{{movieType !='电影'}}"><image class="pushIcon" src='../../images/push.png'></image>投屏<span class="length">{{prompt_info}} ></span></view>
 <view class='tvLists'>
   <view class='scroll' wx:if="{{movieType !='电影'}}">
-    <view wx:for="{{moviesItem}}" wx:for-item="item" >
+    <view wx:for="{{moviesItem}}" wx:key="index" wx:for-item="item" >
       <view bindtap='push' data-movieid="{{item.third_album_id}}" data-index="{{item.segment_index}}" class='xs zy {{chioced==item.segment_index? "active":""}}' wx:if="{{movieType == '综艺'}}">
         <text class="segmeng moviesItem">第{{item.segment_index}}期</text>
         <text class="subtitle moviesItem intwoline">{{item.video_title}}</text>
@@ -43,7 +43,7 @@
 <!--猜你喜欢  -->
 <view class="introduce">猜你喜欢</view> 
 <view class='movieList'>
-  <view class='item' wx:for="{{videoLike}}" wx:for-item="item">
+  <view class='item' wx:for="{{videoLike}}" wx:key="index" wx:for-item="item">
     <navigator url="../movieDetail/movieDetail?id={{item.third_album_id}}">
       <image src='{{item.video_poster}}'></image>
       <text class='describe'>{{item.album_title}}</text>
