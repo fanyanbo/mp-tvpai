@@ -85,7 +85,6 @@ function countTime() {
   }, 1000)
 }
 
-
 App({
   WeToast,
   onLaunch: function () {

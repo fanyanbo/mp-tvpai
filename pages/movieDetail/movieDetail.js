@@ -11,15 +11,15 @@ Page({
   data: {
     isShowTips: true,
     proInfoWindow: false,
-    flag:true,
-    flagOpen:false,
-    opens:true,
-    length:0,
-    movieType:"",
-    prompt_info:"",
-    movieId:"",
-    chioced:'',
-    moviepush:false
+    flag: true,
+    flagOpen: false,
+    opens: true,
+    length: 0,
+    movieType: "",
+    prompt_info: "",
+    movieId: "",
+    chioced: '',
+    moviepush: false
 
   },
 
@@ -34,49 +34,49 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-  
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-  
+
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-  
+
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-  
+
   },
   chooseSezi: function (e) {
     var that = this;
@@ -89,13 +89,13 @@ Page({
     })
     that.animation = animation
     animation.translateY(200).step()
-    if (tap == "description"){
+    if (tap == "description") {
       that.setData({
         animationData: animation.export(),
         chooseSize: true,
         proInfoWindow: true
-      }) 
-    }else{
+      })
+    } else {
       that.setData({
         animationData: animation.export(),
         pushSize: true,
@@ -141,15 +141,15 @@ Page({
       }
     }, 200)
   },
-  push:function(e){
+  push: function (e) {
     var index = e.currentTarget.dataset.index
-    console.log("================"+index)
-    var that= this
+    console.log("================" + index)
+    var that = this
     //判断ccsession是否为空
     if (utils.ccsessionIs() == null) return
     // if (utils.coocaaLogin() == null) return
     that.setData({
-    //  flag:false,
+      //  flag:false,
       moviechildId: index,
       movieId: e.currentTarget.dataset.movieid
     })
@@ -159,16 +159,18 @@ Page({
     } else {
       utils.showToastBox("登录未授权，返回点击我的", "loading")
     }
-  },add: function (event) {
+  }, 
+  
+  add: function (event) {
     let that = this
     var video_title = e.currentTarget.title
     var video_poster = e.currentTarget.poster
     var third_album_id = e.currentTarget.id
     const secret = app.globalData.secret
-    const params = { "appkey": app.globalData.appkey, "video_type": 1, "video_title": video_title, "video_poster": video_poster, "third_album_id": third_album_id,"time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
+    const params = { "appkey": app.globalData.appkey, "video_type": 1, "video_title": video_title, "video_poster": video_poster, "third_album_id": third_album_id, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
     console.log(params);
     const sign = utils.encryptionIndex(params, secret)
-    const url = api.addUrl+"add=1"
+    const url = api.addUrl + "add=1"
     let data = {
       appkey: app.globalData.appkey,
       video_type: 1,
@@ -204,17 +206,16 @@ Page({
       console.log('streams complete:', res)
     }, "")
   },
-  boxshdawclick:function(){
+  boxshdawclick: function () {
     this.setData({
       flag: true,
     })
   }
 })
 
-
-function movieDetail(that,movieId){
+function movieDetail(that, movieId) {
   const secret = app.globalData.secret
-  var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": movieId, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code}
+  var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": movieId, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
   console.log(paramsStr);
   const sign = utils.encryptionIndex(paramsStr, secret)
   const url = api.getVideoDetailUrl
@@ -225,41 +226,40 @@ function movieDetail(that,movieId){
     tv_source: app.globalData.tvSource,
     version_code: app.globalData.version_code,
     sign: sign,
-  } 
-    utils.postLoading(url, 'GET', data, function (res) {
-      console.log("影片详情====")
-      console.log(res.data.data)
-      if (res.data.data) {
-        var tags = res.data.data.video_tags
-        tags = tags.toString().split(',')
-        var tagArr = []
-        if (tags!=null&&tags.length>3){
-          var temp = tags[0] + '.' + tags[1] + '.' + tags[2] 
-          tagArr.push(temp)
-        }
-        that.setData({
-          movieData: res.data.data,
-          tags: tagArr,
-          movieType: res.data.data.video_type,
-          prompt_info: res.data.data.prompt_info
-        })
-        likes(that, movieId)
-        moviesItem(that, movieId)
+  }
+  utils.postLoading(url, 'GET', data, function (res) {
+    console.log("影片详情====")
+    console.log(res)
+    if (res.data.data) {
+      var tags = res.data.data.video_tags
+      tags = tags.toString().split(',')
+      var tagArr = []
+      if (tags != null && tags.length > 3) {
+        var temp = tags[0] + '.' + tags[1] + '.' + tags[2]
+        tagArr.push(temp)
       }
-    }, function (res) {
+      that.setData({
+        movieData: res.data.data,
+        tags: tagArr,
+        movieType: res.data.data.video_type,
+        prompt_info: res.data.data.prompt_info
+      })
+      likes(that, movieId)
+      moviesItem(that, movieId)
+    }
+  }, function (res) {
     console.log('streams fail:')
     console.log(res)
-      utils.showToastBox("加载数据失败", "loading")
+    utils.showToastBox("加载数据失败", "loading")
   }, function (res) {
     console.log('streams complete:')
     console.log(res)
-  },"")
+  }, "")
 }
 
-
-function likes(that,movieId){
+function likes(that, movieId) {
   const secret = app.globalData.secret
-  var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": movieId, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code}
+  var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": movieId, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
   var sign = utils.encryptionIndex(paramsStr, secret)
   var url = api.relatelongUrl
   let data = {
@@ -271,21 +271,21 @@ function likes(that,movieId){
     sign: sign,
   }
   utils.postLoading(url, 'GET', data, function (res) {
-      console.log("相关联")
-      console.log(res.data.data)
-      if (res.data.data) {
-        var videoLike = []
-        if (res.data.data.length>9){
-          for(var k=0;k<9;k++){
-             videoLike.push(res.data.data[k])
-          }
-        }else{
-          videoLike = res.data.data
+    console.log("相关联")
+    console.log(res.data.data)
+    if (res.data.data) {
+      var videoLike = []
+      if (res.data.data.length > 9) {
+        for (var k = 0; k < 9; k++) {
+          videoLike.push(res.data.data[k])
         }
-        that.setData({
-          videoLike: videoLike
-        })
+      } else {
+        videoLike = res.data.data
       }
+      that.setData({
+        videoLike: videoLike
+      })
+    }
   }, function (res) {
     console.log('streams fail:')
     console.log(res)
@@ -293,12 +293,11 @@ function likes(that,movieId){
   }, function (res) {
     console.log('streams complete:')
     console.log(res)
-  },""
+  }, ""
   )
 }
 
-
-function moviesItem(that, movieId){
+function moviesItem(that, movieId) {
   const secret = app.globalData.secret
   var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": movieId, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
   var sign = utils.encryptionIndex(paramsStr, secret)
@@ -312,15 +311,15 @@ function moviesItem(that, movieId){
     sign: sign,
   }
   utils.postLoading(url, 'GET', data, function (res) {
-      console.log("===============-------剧集")
-      console.log(res.data)
-      if (res.data.data) {  
-        console.log(res.data.data.length)    
-        that.setData({
-          moviesItem: res.data.data,
-          length: res.data.data.length
-        })
-      }
+    console.log("===============-------剧集")
+    console.log(res.data)
+    if (res.data.data) {
+      console.log(res.data.data.length)
+      that.setData({
+        moviesItem: res.data.data,
+        length: res.data.data.length
+      })
+    }
   }, function (res) {
     console.log('streams fail:')
     console.log(res)
@@ -328,24 +327,21 @@ function moviesItem(that, movieId){
   }, function (res) {
     console.log('streams complete:')
     console.log(res)
-  },""
+  }, ""
   )
 }
 
-
-
-
 // 推送影视
-function push(that, movieId, deviceId, moviechildId,_type){
-  if (deviceId==null){
+function push(that, movieId, deviceId, moviechildId, _type) {
+  if (deviceId == null) {
     utils.showToastBox('无设备id!', "loading")
     return
   }
   var paramsStr
-  if (moviechildId==undefined){
-    paramsStr = { "ccsession": wx.getStorageSync("cksession"), "deviceId": deviceId+'', "movieId": movieId }
-  }else{
-    paramsStr = { "ccsession": wx.getStorageSync("cksession"), "deviceId": deviceId+'', "movieId": movieId, "moviechildId": moviechildId + '' }
+  if (moviechildId == undefined) {
+    paramsStr = { "ccsession": wx.getStorageSync("cksession"), "deviceId": deviceId + '', "movieId": movieId }
+  } else {
+    paramsStr = { "ccsession": wx.getStorageSync("cksession"), "deviceId": deviceId + '', "movieId": movieId, "moviechildId": moviechildId + '' }
   }
   console.log("参数")
   console.log(paramsStr)
@@ -369,10 +365,10 @@ function push(that, movieId, deviceId, moviechildId,_type){
       if (res.data.result) {
         that.setData({
           chioced: moviechildId,
-          moviepush:true
-        })        
+          moviepush: true
+        })
         utils.showToastBox("推送成功", "success")
-      }else{
+      } else {
         utils.showToastBox(res.data.message, "loading")
       }
     },
@@ -381,7 +377,6 @@ function push(that, movieId, deviceId, moviechildId,_type){
     }
   })
 }
-
 
 function getDevices(that, message) {
   const ccsession = wx.getStorageSync('cksession')
@@ -400,7 +395,6 @@ function getDevices(that, message) {
     console.log("获取设备信息:")
     console.log(res)
     if (res.data.result && res.data.data) {
-
       for (var ii = 0; ii < res.data.data.length; ii++) {
         if (res.data.data[ii].bindStatus === 1) {
           console.log("有绑定中的设备")
@@ -409,10 +403,7 @@ function getDevices(that, message) {
           push(that, that.data.movieId, res.data.data[ii].deviceId, that.data.moviechildId, that.data.movieType)
         }
       }
-
-
-      
-    }else{
+    } else {
       wx.showModal({
         title: '无法推送',
         content: '您未关联任何设备,请查看教程',
@@ -429,9 +420,6 @@ function getDevices(that, message) {
         }
       })
     }
-
-
-
   }, function (res) {
 
   }, function (res) {

@@ -7,12 +7,13 @@ export {
 const app = getApp()
 Page({
   data: {
+    isShowDoc: false,
     isShowTips: false,
     username: '你好',
+    devices: "",
     mydevices: [],
     block: ['block'],
     moretop: ['moretop'],
-    devices:true,
     showModal: false,
     ccsession: wx.getStorageSync('cksession'),
   },
@@ -21,7 +22,7 @@ Page({
     const ccsession = wx.getStorageSync('cksession')
     const url = api.bindDeviceUrl
     const key = app.globalData.key
-    var paramsStr = { "ccsession": ccsession, "qrUrl": qrUrl}
+    var paramsStr = { "ccsession": ccsession, "qrUrl": qrUrl }
     const sign = utils.encryption(paramsStr, key)
     console.log("client_id:" + app.globalData.client_id)
     console.log(ccsession);
@@ -33,25 +34,24 @@ Page({
       qrUrl: qrUrl
     }
     utils.postLoading(url, 'GET', data, function (res) {
-      console.log("绑定设备信息:" )
-      console.log(res)
+      console.log("绑定设备信息:", res)
       if (res.data.code == 200) {
         wx.showToast({
           title: '设备绑定中...',
         })
         setTimeout(function () {
           getDevices(that, '获取设备中');
-        }, 2000)       
-      }else{
+        }, 2000)
+      } else {
         wx.showToast({
-          title: '设备绑定失败' + res.data.code,
-        })   
+          title: '设备绑定失败',
+        })
       }
     }, function (res) {
 
     }, function (res) {
 
-      }, qrUrl)
+    }, qrUrl)
   },
   howbind: function (e) {
     wx.navigateTo({
@@ -90,14 +90,13 @@ Page({
       username: userInfo.nickName
     })
     console.log("onLoad, ccsession:" + wx.getStorageSync('cksession'))
-    getDevices(this,'获取设备中')
+    getDevices(this, '获取设备中')
 
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-   // this.getDevices('')
   },
   /**
    * 生命周期函数--监听页面显示
@@ -106,7 +105,6 @@ Page({
     this.setData({
       ccsession: wx.getStorageSync("cksession")
     })
-  //  this.getDevices('获取设备中')
   },
   /**
    * 生命周期函数--监听页面隐藏
@@ -124,7 +122,6 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-  //  this.getDevices('');
     wx.stopPullDownRefresh()
   },
   /**
@@ -172,7 +169,6 @@ Page({
   onConfirm: function () {
     let that = this
     const url = api.logoutUrl
-
     const key = app.globalData.key
     const ccsession = wx.getStorageSync('cksession')
     const params = { "ccsession": ccsession }
@@ -198,18 +194,15 @@ Page({
               url: '../index/index',
             })
           } catch (e) {
-            // Do something when catch error
             console.log(e)
           }
           that.onLoad();
         } else {
-
           wx.showModal({
             title: '提示',
             content: res.data.message,
           })
         }
-
         that.setData({
           ccsession: wx.getStorageSync('cksession')
         })
@@ -237,17 +230,16 @@ Page({
     })
   },
   navigateto() {
-    //跳转教程页面
     wx.navigateTo({
       url: '../course/course'
     })
   },
-  binding:function(event){
+  binding: function (event) {
     let that = this
     console.log(event.currentTarget.dataset.deviceid)
     const key = app.globalData.key
     const ccsession = wx.getStorageSync('cksession')
-    var paramsStr = { bind: "1", "ccsession": ccsession, "deviceId": String(event.currentTarget.dataset.deviceid)}
+    var paramsStr = { bind: "1", "ccsession": ccsession, "deviceId": String(event.currentTarget.dataset.deviceid) }
     console.log(paramsStr);
     const sign = utils.encryption(paramsStr, key)
     console.log(sign);
@@ -286,7 +278,7 @@ Page({
   }
 })
 
-function getDevices(that,message) {
+function getDevices(that, message) {
   const ccsession = wx.getStorageSync('cksession')
   const url = api.bindDeviceListUrl
   const key = app.globalData.key
@@ -300,19 +292,17 @@ function getDevices(that,message) {
   }
   console.log(data)
   utils.postLoading(url, 'GET', data, function (res) {
-    console.log("获取设备信息:")
-    console.log(res)
-    if (res.data.result && res.data.data) {
+    console.log("获取设备信息:", res)
+    if (res.data.result && res.data.data && res.data.data.length != 0) {
       that.setData({
-        devices:false,
+        devices: true,
         mydevices: res.data.data
       })
-
       for (var ii = 0; ii < res.data.data.length; ii++) {
         if (res.data.data[ii].bindStatus === 1) {
           console.log(res.data.data[ii].deviceId);
           wx.setStorageSync('deviceId', res.data.data[ii].deviceId)
-          app.globalData.activeid = res.data.data[ii].deviceId;
+          app.globalData.activeid = res.data.data[ii].device.serviceId;
           console.log("获取绑定中的设备激活id:" + res.data.data[ii].device.serviceId);
           console.log("获取绑定中的设备源:" + res.data.data[ii].device.source);
         }
@@ -324,15 +314,10 @@ function getDevices(that,message) {
           wx.setStorageSync('tvSource', 'iqiyi')
         }
       }
-
-      
     }
+  }, function () {
 
-
-
-  }, function (res) {
-
-  }, function (res) {
-
+  }, function () {
+    that.setData({ isShowDoc: true });
   }, message)
 }
