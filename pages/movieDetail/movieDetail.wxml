@@ -11,8 +11,8 @@
       <li style="margin-top:50rpx">
         <span bindtap='like' data-title="{{movieData.album_title}}" data-poster="{{movieData.video_poster}}" data-id="{{movieData.third_album_id}}"><image class="like" src='../../images/like_before1.png'></image></span>
         <span bindtap='push' data-movieid="{{movieData.third_album_id}}" data-index="1" wx:if="{{movieData.video_type == '电影'}}">
-          <image wx:if="{{moviepush == false}}" class='collect' src='../../images/collect_before3.png'></image>
-          <image wx:else="{{moviepush == true}}" class='collect' src='../../images/collect_after3.png'></image>
+          <image wx:if="{{moviepush == false}}" class='collect' src='../../images/collect_before.png'></image>
+          <image wx:else="{{moviepush == true}}" class='collect' src='../../images/collect_after.png'></image>
         </span>
       </li>
     </ul>

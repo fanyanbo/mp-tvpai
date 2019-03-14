@@ -18,7 +18,7 @@
         <block wx:key="key" class="banner_list">
           <navigator class="banner_list" url="../find/find">
             <swiper-item>
-              <image src="../../images/banner.png" class="slide-image"></image>
+              <image src="../../images/banner.jpg" class="slide-image"></image>
             </swiper-item>
           </navigator>
         </block>
