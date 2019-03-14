@@ -1,6 +1,6 @@
 // 注：正式环境无法使用，还未发布
-// const baseUrl = 'https://wx.coocaa.com/'; 
-const baseUrl = 'http://beta-wx.coocaa.com/';
+const baseUrl = 'https://wx.coocaa.com/'; 
+//const baseUrl = 'http://beta-wx.coocaa.com/';
 const _baseUrl ='https://beta-tvpi.coocaa.com/';
 
 const getDevicesUrl = baseUrl + "articleMoviesAPI/getDevices.coocaa";//获取设备信息

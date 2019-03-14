@@ -6,16 +6,28 @@
         <text class="search-text">{{searchContent}}</text>
       </view>
     </view>
-    <view class="scroll_box section">
-      <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">
-        <navigator wx:for="{{streams}}" wx:key="index" class="banner_list" url="../cinecism/cinecism?id={{item.articleId}}">
-          <image src="{{item.articlePicUrl}}" class="slide-image"></image>
-        </navigator>
-        <navigator class="banner_list" url="../find/find">
-          <image src="../../images/banner.png" class="slide-image"></image>
-        </navigator>
-      </scroll-view>
-    </view>
+
+
+
+
+
+<view class="banner-swiper">
+  <swiper autoplay="{{autoplay}}" current='{{swiperCurrent}}' previous-margin="{{previousmargin}}" next-margin="{{nextmargin}}" bindchange="swiperChange" >
+    <block wx:for="{{streams}}" wx:key="key"  class="banner_list"> 
+    <navigator wx:key="index" url="../cinecism/cinecism?id={{item.articleId}}">
+      <swiper-item><image src="{{item.articlePicUrl}}" class="slide-image" bindchange="chuangEvent"></image> </swiper-item>
+    </navigator>
+    </block>         
+    <block wx:key="key" class="banner_list"> 
+      <navigator class="banner_list" url="../find/find">
+        <swiper-item>      
+          <image src="../../images/banner.png" class="slide-image"></image>   
+        </swiper-item>
+      </navigator>
+    </block>   
+  </swiper>
+ </view> 
+
     <swiper class="label" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-active-color="{{indicatorActiveColor}}" indicator-color="{{indicatorColor}}">
       <block>
         <swiper-item>

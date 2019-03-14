@@ -48,7 +48,15 @@
 .tvLists .zy{display: block; width: 260rpx; height: 115rpx;border: 1rpx solid #ccc;padding: 10rpx 20rpx;}
 .tvLists .dsj{display: block; width: 108rpx; height: 108rpx; text-align: center; line-height: 108rpx; color: #999; font-size: 32rpx}
 .tvLists view .segmeng{font-size: 32rpx; color: #999}
-.tvLists view .subtitle{font-size: 24rpx; color:#666; width: 270rpx;   white-space:normal;  overflow:auto;}
+.tvLists view .subtitle{font-size: 24rpx; color:#666; width: 270rpx;   white-space:normal;  height: 60rpx}
+.intwoline{
+    display:-webkit-box !important;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    word-break:break-all;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
+}
 
 .introduce{margin:0 40rpx;font-size: 36rpx;color: #000; height: 36rpx;line-height: 36rpx; border-left: #FDBE1A 3px solid; padding-left: 14rpx;}
 .description{color:#666}

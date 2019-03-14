@@ -36,12 +36,6 @@
 
 
 
-.slide-image{
-  border-radius: 8rpx;
-  width: 670rpx;
-  height: 300rpx
-}
-
 .banner_list{
   width: 670rpx;
   height: 300rpx;
@@ -158,3 +152,26 @@ border-radius: 8rpx
 
 
 
+.banner-swiper {
+ width: 100%;
+ height: 300rpx;
+ overflow: hidden;
+}
+
+swiper {
+ display: block;
+ height: 300rpx;
+ position: relative;
+}
+
+.slide-image {
+ display: block;
+ margin: 0 auto;
+border-radius: 8rpx;
+width: 670rpx;
+height: 300rpx
+}
+.active{
+ margin-top:0rpx;
+ height: 300rpx;
+}

@@ -19,6 +19,7 @@ Page({
     prompt_info: "",
     movieId: "",
     chioced: '',
+    title:'',
     moviepush: false
 
   },
@@ -154,14 +155,21 @@ Page({
       movieId: e.currentTarget.dataset.movieid
     })
     var ccsession = wx.getStorageSync("cksession")
+    var deviceid = wx.getStorageSync("deviceId")
+    console.log("检测ccsession" + ccsession);
     if (ccsession != null && ccsession != undefined && ccsession !== '') {
-      getDevices(that, '获取设备中');
+      if (deviceid != null && deviceid != undefined && deviceid !== ''){
+        push(that, that.data.movieId, deviceid, that.data.moviechildId, that.data.movieType)
+      }else{
+        getDevices(that, '获取设备中');
+      }
+      
     } else {
       utils.showToastBox("登录未授权，返回点击我的", "loading")
     }
   }, 
   
-  add: function (event) {
+  like: function (event) {
     let that = this
     var video_title = e.currentTarget.title
     var video_poster = e.currentTarget.poster
@@ -186,21 +194,18 @@ Page({
       console.log(res)
       if (res.data.code == 200) {
         wx.showToast({
-          title: '绑定成功',
+          title: '添加成功',
         })
-        setTimeout(function () {
-          getDevices(that, '获取设备中');
-        }, 1000)
       } else {
         console.log('streams fail:')
         wx.showToast({
-          title: '绑定失败',
+          title: '添加失败',
         })
       }
     }, function (res) {
       console.log('streams fail:', res)
       wx.showToast({
-        title: '绑定失败',
+        title: '添加失败',
       })
     }, function (res) {
       console.log('streams complete:', res)
@@ -230,6 +235,8 @@ function movieDetail(that, movieId) {
   utils.postLoading(url, 'GET', data, function (res) {
     console.log("影片详情====")
     console.log(res)
+    var ccsession = wx.getStorageSync("cksession")
+    console.log("检测ccsession：" + ccsession);
     if (res.data.data) {
       var tags = res.data.data.video_tags
       tags = tags.toString().split(',')
@@ -242,6 +249,7 @@ function movieDetail(that, movieId) {
         movieData: res.data.data,
         tags: tagArr,
         movieType: res.data.data.video_type,
+        title: res.data.data.album_title,
         prompt_info: res.data.data.prompt_info
       })
       likes(that, movieId)
@@ -332,7 +340,7 @@ function moviesItem(that, movieId) {
 }
 
 // 推送影视
-function push(that, movieId, deviceId, moviechildId, _type) {
+function push(that, movieId, deviceId, moviechildId, _type,title) {
   if (deviceId == null) {
     utils.showToastBox('无设备id!', "loading")
     return
@@ -367,6 +375,7 @@ function push(that, movieId, deviceId, moviechildId, _type) {
           chioced: moviechildId,
           moviepush: true
         })
+        addpushhistory(that, movieId, title, moviechildId);
         utils.showToastBox("推送成功", "success")
       } else {
         utils.showToastBox(res.data.message, "loading")
@@ -377,6 +386,38 @@ function push(that, movieId, deviceId, moviechildId, _type) {
     }
   })
 }
+
+function addpushhistory(that, movieId, title, video_id) {
+  const secret = app.globalData.secret
+  var paramsStr = { "album_id": movieId, "appkey": app.globalData.appkey, "time": app.globalData.time, "title": title, "version_code": app.globalData.version_code, "video_id": video_id, "video_type": 1, "vuid": wx.getStorageSync("cksession") }
+  var sign = utils.encryptionIndex(paramsStr, secret)
+  var url = api.relatelongUrl
+  let data = {
+    appkey: app.globalData.appkey,
+    album_id: movieId,
+    time: app.globalData.time,
+    title: title,
+    version_code: app.globalData.version_code,
+    video_id:video_id,
+    video_type:1,
+    vuid: wx.getStorageSync("cksession"),
+    sign: sign,
+  }
+  utils.postLoading(url, 'GET', data, function (res) {
+    console.log("增加历史")
+    console.log(res)
+  }, function (res) {
+    console.log('streams fail:')
+    console.log(res)
+    utils.showToastBox("加载数据失败", "loading")
+  }, function (res) {
+    console.log('streams complete:')
+    console.log(res)
+  }, ""
+  )
+}
+
+
 
 function getDevices(that, message) {
   const ccsession = wx.getStorageSync('cksession')
@@ -400,7 +441,7 @@ function getDevices(that, message) {
           console.log("有绑定中的设备")
           console.log(res.data.data[ii].deviceId);
           wx.setStorageSync('deviceId', res.data.data[ii].deviceId)
-          push(that, that.data.movieId, res.data.data[ii].deviceId, that.data.moviechildId, that.data.movieType)
+          push(that, that.data.movieId, res.data.data[ii].deviceId, that.data.moviechildId, that.data.movieType, that.data.title)
         }
       }
     } else {

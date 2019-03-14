@@ -19,7 +19,9 @@ Page({
     column1: [],
     column2: [],
     column3: [],
-    list: []
+    list: [],
+    previousmargin: '20rpx',//前边距
+    nextmargin: '40rpx',//后边距
   },
   // 获取一级标签分类
   oneclassify: function (message) {
