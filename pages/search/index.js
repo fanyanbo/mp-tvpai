@@ -1,8 +1,6 @@
-    // 如果获取设备信息为空，该如何交互？
-    // 
-
 const utils = require('../../utils/util_fyb');
-const api = require('../../utils/api_fyb')
+const api = require('../../utils/api_fyb');
+const app = getApp();
 
 Page({
   data: {
@@ -152,7 +150,7 @@ Page({
     this.setData({ historyWordsList: cacheKeywords ? cacheKeywords : [] });
     this.getHotKeyword();
     // this.getBindedDevice();
-    console.log('当前已绑定设备', app.globalData.deviceId);
+    console.log('搜索页当前已绑定设备', app.globalData.deviceId);
   },
   onReady() {
     console.log('search onReady监听页面初次渲染完成');
