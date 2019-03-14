@@ -90,8 +90,7 @@ Component({
     //默认只判断状态，不现实提示弹窗； 如需显示，请传参{type:'longpress'}
    isBindedTVStatusReady({type = 'tap'} = {}) {
     //正常流程
-    let deviceInfo = wx.getStorageSync('deviceInfo');
-    this.data.activeid = deviceInfo.activeId || null;//实时获取最新激活id
+    this.data.activeid = app.globalData.activeId;//实时获取最新激活id
     if(this.data.activeidOld != this.data.activeid) { //激活id有变
       this.refreshBindedTVStatus()
       this.data.activeidOld = this.data.activeid
@@ -670,9 +669,7 @@ Component({
     }
 
     //进到每个页面时获取一次最新设备id，刷新一次设备状态
-    let deviceInfo = wx.getStorageSync('deviceInfo');
-    console.log(deviceInfo);
-    this.data.activeidOld = this.data.activeid = deviceInfo.activeId || null
+    this.data.activeidOld = this.data.activeid = app.globalData.activeId
     if (this.data.activeid == null) {
       console.log('activeid null')
       return
