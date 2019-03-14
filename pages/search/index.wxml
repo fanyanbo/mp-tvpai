@@ -55,21 +55,24 @@
   <view class="video-content" wx:if="{{inputValue}}" style="display:{{activeIndex !== 0 ? 'none' : 'block'}}">
     <scroll-view scroll-y="true" style="height: {{scrollHeight}}px" bindscrolltoupper="upper" bindscrolltolower="lower">
       <block class="video-content-list" wx:for="{{searchResultList}}" wx:key="index">
-        <!-- 每一项布局 -->
+        <!-- 每一大项布局 -->
         <view class="video-content-item">
           <!-- 影片海报布局 -->
           <view class="item-poster">
-            <view class="item-poster-left">
+            <view class="item-poster-left" bindtap="handlePosterTap" data-item="{{item}}">
               <image class="left-img" src="{{item.video_poster}}" />
             </view>
             <view class="item-poster-right">
-              <!-- 高亮关键字 -->
-              <view class='right-title-wrapper'>
-                <text wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="{{index}}" class="{{item == inputValue ? 'searchHigh' : '' }}">
-                  {{item}}
-                </text>
+              <!-- 高亮关键字 这种写法显示会有问题，待研究-->
+              <!-- <view class='right-title-wrapper'>
+                <text wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="{{index}}" class="{{item == inputValue ? 'searchHigh' : '' }}">{{item}}</text>
+              </view> -->
+              <view class='right-title-wrapper' bindtap="handlePosterTap" data-item="{{item}}">
+                <block wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="{{index}}" >
+                  <text class="{{item == inputValue ? 'searchHigh' : '' }}">{{item}}</text>
+                </block>
               </view>
-              <view class="right-detail-wrapper">
+              <view class="right-detail-wrapper" bindtap="handlePosterTap" data-item="{{item}}">
                 <view class="right-detail">
                   {{item.video_detail.video_type}}-{{item.video_detail.publish_date}}-{{item.video_detail.actor}}-{{item.video_detail.video_tags}}
                 </view>
@@ -88,7 +91,7 @@
                 </view>
                 <view class="push" wx:if="{{item.episodes_list == null}}" data-keyword="{{item}}" bindtap="handleMovieTap">
                   <!-- <image class="icon" src="../../images/push.png"></image>
-                <view class="text">投屏</view> -->
+                  <view class="text">投屏</view> -->
                   <image class="icon" src="../../images/collect_before.png" />
                 </view>
               </view>

@@ -66,8 +66,8 @@
   letter-spacing: 0;
 }
 .title-wrapper .icon-clear {
-  width: 60rpx;
-  height: 60rpx;
+  width: 40rpx;
+  height: 40rpx;
 }
 /* 历史搜索关键词 */
 .items-wrapper {

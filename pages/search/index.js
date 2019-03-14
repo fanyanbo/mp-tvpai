@@ -46,11 +46,21 @@ Page({
       isShowResult: false
     })
   },
+  // 点击收藏
   handleLikeTap(e) {
     console.log('handleLikeTap', e);
     this.setData({
       isLike: !this.data.isLike,
       curThirdAlbumId: e.currentTarget.dataset.keyword.third_album_id
+    });
+  },
+  // 点击海报，跳转详情页
+  handlePosterTap(e) {
+    console.log('handlePosterTap', e);
+    let third_album_id = e.currentTarget.dataset.item.video_detail.third_album_id;
+    console.log("../movieDetail/movieDetail?id=" + third_album_id);
+    wx.navigateTo({
+      url: "../movieDetail/movieDetail?id=" + third_album_id
     });
   },
   // 输入框内容有变化时触发
@@ -64,7 +74,8 @@ Page({
   onKeywordTap: function (event) {
     console.log('选择关键字：', event.target.dataset.keyword);
     let cacheKeywords = this.data.historyWordsList;
-    cacheKeywords.push(event.target.dataset.keyword);
+    if(cacheKeywords.indexOf(event.target.dataset.keyword) < 0)
+      cacheKeywords.push(event.target.dataset.keyword);
     this.setData({
       inputValue: event.target.dataset.keyword,
       isShowResult: true,
@@ -76,9 +87,10 @@ Page({
   // 输入法回车搜索
   query: function () {
     console.log('query')
-    // 将搜索关键字缓存
+    // 将搜索关键字缓存,去重
     let cacheKeywords = this.data.historyWordsList;
-    cacheKeywords.push(this.data.inputValue);
+    if(cacheKeywords.indexOf(event.target.dataset.keyword) < 0)
+      cacheKeywords.push(this.data.inputValue);
     this.setData({
       searchResultList: [],
       isShowResult: true,
@@ -88,9 +100,8 @@ Page({
   },
   handleClearTap() {
     console.log('搜索输入页 handleClearTap');
-    this.setData({
-      historyWordsList: []
-    })
+    this.setData({historyWordsList: []});
+    wx.setStorageSync('history_keywords', []);
   },
   handleTabClick: function (e) {
     const val = e.currentTarget.dataset['index'];
@@ -128,8 +139,8 @@ Page({
     console.log(cacheKeywords);
     this.setData({ historyWordsList: cacheKeywords ? cacheKeywords : [] });
     this.getHotKeyword();
-    this.getBindDeviceList();
-    // this.getUserInfo();
+    this.getBindedDevice();
+    // this.getCollectedList();
   },
   onReady() {
     console.log('search onReady监听页面初次渲染完成');
@@ -242,31 +253,22 @@ Page({
       })
   },
 
-  // 获取微信用户信息，需要用户授权
-  getUserInfo: function () {
-    wx.getUserInfo({
-      success(res) {
-        console.log('getUserInfo success', res);
-      },
-      fail(err) {
-        console.log('getUserInfo err', err);
-      }
-    })
-  },
-
-  // 获取已绑定的设备列表信息
-  getBindDeviceList: function () {
+  // 获取已绑定的设备信息
+  getBindedDevice: function () {
     let that = this;
     let params = { ccsession: wx.getStorageSync('cksession') };
     let desParams = utils.paramsAssemble_wx(params);
-    console.log('getBindDeviceList', desParams);
+    console.log('getBindDeviceList params', desParams);
     utils.request(api.getBindDeviceListUrl, 'GET', desParams,
       function (res) {
         console.log('getBindDeviceList success', res.data);
-        if (res.data.data && res.data.data.length !== 0) {
-          if (res.data.data[0].bindStatus === 1) {
-            console.log(res.data.data[0].deviceId);
-            that.setData({ bindedDeviceId: res.data.data[0].deviceId + '' });
+        if (res.data.data) {
+          for (let i = 0; i < res.data.data.length; i++) {
+            if (res.data.data[i].bindStatus === 1) {
+              console.log('当前绑定的设备id', res.data.data[i].deviceId);
+              that.setData({ bindedDeviceId: res.data.data[i].deviceId + '' });
+              break;
+            }
           }
         }
       },
@@ -349,6 +351,39 @@ Page({
       function (res) {
         console.log('pushMovie complete')
       })
+  },
+
+  // 收藏或取消影片
+  collect: function () {
+
+  },
+
+  // 获取收藏影片列表
+  getCollectedList: function() {
+    let desParams = utils.paramsAssemble_tvpai();
+    console.log(desParams);
+    utils.request(api.getCollectedListUrl, 'GET', desParams,
+      function (res) {
+        console.log('getCollectedList success', res.data)
+      },
+      function (res) {
+        console.log('getCollectedList error', res)
+      },
+      function (res) {
+        console.log('getCollectedList complete')
+      })
+  },
+
+  // 获取微信用户信息，需要用户授权
+  getUserInfo: function () {
+    wx.getUserInfo({
+      success(res) {
+        console.log('getUserInfo success', res);
+      },
+      fail(err) {
+        console.log('getUserInfo err', err);
+      }
+    })
   },
 
   // 获取系统信息
