@@ -1,8 +1,7 @@
-let utils = require('../../utils/util.js');
-let api = require('../../api/api.js');
-let app = getApp()
+const utils = require('../../utils/util.js');
+const api = require('../../api/api.js');
+const app = getApp()
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -10,11 +9,6 @@ Page({
     isShowTips: true,
     contentAll: [],
   },
-
-
-
-
-
   /**
    * 生命周期函数--监听页面加载
    */
@@ -22,7 +16,6 @@ Page({
     let that = this
     const secret = app.globalData.secret
     const params = { "appkey": app.globalData.appkey, "target_id": options.id, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code}
-
     const sign = utils.encryptionIndex(params, secret)
     const url = api.recommendmorelistUrl
     let data = {
@@ -54,56 +47,47 @@ Page({
     }, function (res) {
       console.log('streams complete:', res)
     }, ""),
-
-
     wx.setNavigationBarTitle({
       title: options.title
     })
 
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
 
   },
-
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
 
   },
-
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
 
   },
-
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
 
   },
-
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
 
   },
-
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
 
   },
-
   /**
    * 用户点击右上角分享
    */

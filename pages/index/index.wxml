@@ -1,10 +1,10 @@
-<view class="search-box-wrapper">
-  <view class="search-box" bindtap='handleSearchTap'>
-    <image src="../../images/ser_icon.png" class="search-icon"></image>
-    <text class="search-text">{{searchContent}}</text>
-  </view>
-</view>
 <view class="main-wrapper">
+  <view class="search-box-wrapper">
+    <view class="search-box" bindtap='handleSearchTap'>
+      <image src="../../images/ser_icon.png" class="search-icon"></image>
+      <text class="search-text">{{searchContent}}</text>
+    </view>
+  </view>
   <scroll-view scroll-y="true" style="height: auto" bindscrolltoupper="upper" bindscrolltolower="lower">
     <view class="banner-swiper">
       <swiper autoplay="{{autoplay}}" current='{{swiperCurrent}}' previous-margin="{{previousmargin}}" next-margin="{{nextmargin}}" bindchange="swiperChange">

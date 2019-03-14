@@ -3,10 +3,6 @@
   padding-bottom: 64rpx;
 }
 .search-box-wrapper{
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 101;
   display: flex;
   width: 750rpx;
   height: 88rpx;
@@ -35,7 +31,6 @@
   letter-spacing: 0;
 }
 .main-wrapper {
-  margin-top: 88rpx;
   margin-bottom:100rpx;
 }
 .banner_list{

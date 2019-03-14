@@ -1,3 +1,6 @@
+    // 如果获取设备信息为空，该如何交互？
+    // 
+
 const utils = require('../../utils/util_fyb');
 const api = require('../../utils/api_fyb')
 
@@ -119,13 +122,21 @@ Page({
     });
     let third_album_id = e.currentTarget.dataset.keyword.third_album_id;
     let segment_index = e.currentTarget.dataset.keyword.segment_index - 1;
-    this.pushEpisode(third_album_id, segment_index);
+    if (this.bindedDeviceId && this.bindedDeviceId !== '') {
+      this.pushEpisode(third_album_id, segment_index);
+    } else {
+      wx.navigateTo({url: "../home/home"});
+    }
   },
   // 处理推送电影
   handleMovieTap: function (e) {
     console.log('推送电影', e);
     let third_album_id = e.currentTarget.dataset.keyword.video_detail.third_album_id;
-    this.pushMovie(third_album_id);
+    if (this.bindedDeviceId && this.bindedDeviceId !== '') {
+      this.pushMovie(third_album_id);
+    } else {
+      wx.navigateTo({url: "../home/home"});
+    }
   },
   handleMoreTap: function (e) {
     console.log('handleMoreTap', e);
@@ -303,7 +314,7 @@ Page({
           });
         } else {
           console.log('推送剧集失败');
-          let errMsg = res.data.msg + "[" + res.data.code + "]";
+          let errMsg = res.data.message + "[" + res.data.code + "]";
           wx.showToast({
             title: errMsg,
             icon: 'none',
@@ -339,7 +350,7 @@ Page({
           });
         } else {
           console.log('推送电影失败');
-          let errMsg = res.data.message + "[" + res.data.returnCode + "]";
+          let errMsg = res.data.message + "[" + res.data.code + "]";
           wx.showToast({
             title: errMsg,
             icon: 'none',
