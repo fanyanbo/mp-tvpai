@@ -34,9 +34,9 @@ Component({
     isBackFocus: false,
     isMenuFocus: false,
     // 方向icon路径
-    curDirectorImg: '../../images/director-normal.png',
+    curDirectorImg: '../../images/components/remotecontrol/director-normal.png',
     // 遥控器按钮icon路径
-    curBtnImg: '../../images/remoter@3x.png',
+    curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
     indexStatus: '',  // 当前显示版面
     longtapStatus: false, // 是否是长按状态
     bStartRecord: false,//是否开始录制音频
@@ -236,7 +236,7 @@ Component({
     hideRemoteControl() {
       console.log('hideRemoteControl()')
       this.setData({
-        curBtnImg: '../../images/remoter@3x.png',
+        curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
         btnContent: '遥控器',
         voiceInputStatus: false,
         indexStatus: '',
@@ -281,16 +281,16 @@ Component({
           this.setData({ isVolupFocus: true })
           break
         case 'up':
-          this.setData({ curDirectorImg: '../../images/director-up.png' })
+          this.setData({ curDirectorImg: '../../images/components/remotecontrol/director-up.png' })
           break;
         case 'down':
-          this.setData({ curDirectorImg: '../../images/director-down.png' })
+          this.setData({ curDirectorImg: '../../images/components/remotecontrol/director-down.png' })
           break;
         case 'left':
-          this.setData({ curDirectorImg: '../../images/director-left.png' })
+          this.setData({ curDirectorImg: '../../images/components/remotecontrol/director-left.png' })
           break;
         case 'right':
-          this.setData({ curDirectorImg: '../../images/director-right.png' })
+          this.setData({ curDirectorImg: '../../images/components/remotecontrol/director-right.png' })
           break;
       }
       // 调用后台推送接口
@@ -324,7 +324,7 @@ Component({
         case 'down':
         case 'left':
         case 'right':
-          this.setData({ curDirectorImg: '../../images/director-normal.png' })
+          this.setData({ curDirectorImg: '../../images/components/remotecontrol/director-normal.png' })
           break
       }
       
@@ -355,7 +355,7 @@ Component({
       if (!this.data.waitVoiceResult && this.data.isShowMask) {
         this.setData({
           isShowMask: false,
-          curBtnImg: '../../images/remoter@3x.png',
+          curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
           btnContent: '遥控器'
         })
         this.showExitAnimation()
@@ -392,7 +392,7 @@ Component({
               bStartRecord: false,
               voiceInputStatus: false,
               waitVoiceResult: true, //等待语音结果
-              curBtnImg: '../../images/remoter@3x.png',
+              curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
               btnContent: '遥控器'
             })
             //等待5S，模拟语音处理，然后重置参数
@@ -415,7 +415,7 @@ Component({
               this.setData({
                 // indexStatus: '',
                 isShowMask: false,
-                curBtnImg: '../../images/remoter@3x.png',
+                curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
                 btnContent: '遥控器'
               })
               this.showExitAnimation()
@@ -424,7 +424,7 @@ Component({
               this.setData({
                 indexStatus: 'RemoteControl',
                 isShowMask: true,
-                curBtnImg: '../../images/voice@3x.png',
+                curBtnImg: '../../images/components/remotecontrol/voice@3x.png',
                 btnContent: '按住说话'
               })
               this.showEnterAnimaiton()
@@ -465,7 +465,7 @@ Component({
         indexStatus: 'VoiceInput',
         voiceInputStatus: true,
         isShowMask: true,
-        curBtnImg: '../../images/voice@3x.png',
+        curBtnImg: '../../images/components/remotecontrol/voice@3x.png',
         btnContent: '松开结束',
         bStartRecord: true
       })
@@ -497,7 +497,7 @@ Component({
             duration: 1000,
           })
           that.setData({
-            curBtnImg: '../../images/remoter@3x.png',
+            curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
             btnContent: '遥控器',
             voiceInputStatus: false,
             indexStatus: '',
@@ -527,7 +527,7 @@ Component({
           // 2s后回到主页面
           setTimeout(() => {
             that.setData({
-              curBtnImg: '../../images/remoter@3x.png',
+              curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
               btnContent: '遥控器',
               voiceInputStatus: false,
               indexStatus: '',
