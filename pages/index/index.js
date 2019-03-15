@@ -1,10 +1,9 @@
-const utils = require('../../utils/util.js');
+const utils = require('../../utils/util');
 const utils_fyb = require('../../utils/util_fyb');
-const api_fyb = require('../../utils/api_fyb')
-const api = require('../../api/api.js');
-let appJs = require('../../app.js');
+const api_fyb = require('../../api/api_fyb');
+const api = require('../../api/api');
+const appJs = require('../../app');
 const app = getApp();
-
 
 Page({
   data: {
