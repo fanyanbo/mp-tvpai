@@ -1,0 +1,20 @@
+<!--pages/history/history.wxml-->
+<view class="contant">
+  <view class="title">最近7天</view>
+  <view class="list" wx:for="{{withinList}}" wx:for-item="item">
+    <view class="img">
+     <image src="{{item.poster_h}}" class="item_book_img" mode="aspectFill"></image>    
+    </view>              
+    <view class="item_book_text intwoline">{{item.title}}</view>
+  </view>
+</view>
+
+<view class="contant" wx:if="{{showoverList}}">
+  <view class="title">一周前</view>
+  <view class="list" wx:for="{{overList}}" wx:for-item="item">
+    <view class="img">
+     <image src="{{item.poster_h}}" class="item_book_img" mode="aspectFill"></image>    
+    </view>              
+    <view class="item_book_text intwoline">{{item.title}}</view>
+  </view>
+</view>

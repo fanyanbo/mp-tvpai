@@ -1,0 +1,40 @@
+/* pages/history/history.wxss */
+.contant{
+  padding:0 40rpx
+}
+.title{
+  font-size: 32rpx;
+  color: #000000;
+  height: 90rpx;
+  line-height: 90rpx
+}
+.list{
+  display: flex
+}
+.img{
+  flex: 1;
+}
+.item_book_img{
+  width: 256rpx;
+  height: 144rpx;
+  border-radius: 8rpx
+}
+.item_book_text{
+  flex: 2
+}
+.item_book_text{
+  font-size: 32rpx;
+  color: #666666;
+  padding-top: 30rpx;
+  padding-left: 20rpx;
+  height: 80rpx;
+  line-height: 40rpx
+}
+.intwoline{
+    display:-webkit-box !important;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    word-break:break-all;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
+}
