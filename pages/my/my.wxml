@@ -22,7 +22,7 @@
       <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">    
         <navigator class="item_list" url="../column/column?id={{item.third_album_id}}">
           <view>
-            <image src="../../images/face.jpg" class="item_book_img" mode="aspectFill"></image>
+            <image src="../../images/no-result@3x.png" class="item_book_img" mode="aspectFill"></image>
             <view class="item_book_text inaline">我喜欢我喜欢我喜欢我喜欢</view>
           </view>
         </navigator>    

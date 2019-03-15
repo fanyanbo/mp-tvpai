@@ -1,9 +1,4 @@
-<!--pages/column/column.wxml-->
 <!--影片列表  -->
-<view>
-  <search></search>
-</view>
-
 <view class='movieList' wx:if="{{contentAll!=null&&contentAll.length>0}}">
   <view class='item' wx:for="{{contentAll}}" wx:for-item="item">
     <form bindsubmit="movieclick">

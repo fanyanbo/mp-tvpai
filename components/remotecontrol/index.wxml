@@ -8,9 +8,9 @@
 
     <!-- 上面区域-->
     <view class="header-wrapper">
-      <image src="../../images/shutdown@3x.png" class="control-icon shutdown-icon {{isShutdownFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="shutdown"></image>
-      <image src="../../images/volup@3x.png" class="control-icon volup-icon {{isVolupFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="volume_plus"></image>
-      <image src="../../images/voldown@3x.png" class="control-icon voldown-icon {{isVoldownFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="volume_minus"></image>
+      <image src="../../images/components/remotecontrol/shutdown@3x.png" class="control-icon shutdown-icon {{isShutdownFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="shutdown"></image>
+      <image src="../../images/components/remotecontrol/volup@3x.png" class="control-icon volup-icon {{isVolupFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="volume_plus"></image>
+      <image src="../../images/components/remotecontrol/voldown@3x.png" class="control-icon voldown-icon {{isVoldownFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="volume_minus"></image>
     </view>
 
     <!-- 中间区域-->
@@ -22,7 +22,7 @@
         <view class="center-control-down" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="down"></view>
         <image class="center-control-icon" src="{{curDirectorImg}}" ></image>
         <view class="center-ok {{isOKFocus ? 'ok-focus' : ''}}" catchtouchstart="handlePushController" catchtouchend="handlePushControllerEnd" id="ok">
-          <image class="center-ok-icon" wx:if="{{isOKFocus}}" src="../../images/director-center.png"></image>
+          <image class="center-ok-icon" wx:if="{{isOKFocus}}" src="../../images/components/remotecontrol/director-center.png"></image>
           <text class="center-ok-text {{isOKFocus ? 'ok-text-focus' : ''}}">确定</text>
         </view>
       </view>
@@ -30,9 +30,9 @@
 
     <!-- 下面区域-->
     <view class="footer-wrapper">
-      <image src="../../images/home@3x.png" class="control-icon home-icon {{isHomeFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="home"></image>
-      <image src="../../images/return@3x.png" class="control-icon return-icon {{isBackFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="back"></image>
-      <image src="../../images/menu@3x.png" class="control-icon menu-icon {{isMenuFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="menu"></image>
+      <image src="../../images/components/remotecontrol/home@3x.png" class="control-icon home-icon {{isHomeFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="home"></image>
+      <image src="../../images/components/remotecontrol/return@3x.png" class="control-icon return-icon {{isBackFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="back"></image>
+      <image src="../../images/components/remotecontrol/menu@3x.png" class="control-icon menu-icon {{isMenuFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="menu"></image>
     </view>
   </view>
 
@@ -42,7 +42,7 @@
       <canvas class="canvas" canvas-id="canvasCircle"></canvas>
       <canvas class="canvas-mask" canvas-id="canvasRing"></canvas>
       <view class="canvas_icon">
-        <image class="icon-mic" src="../../images/Icons-mic.png"></image>
+        <image class="icon-mic" src="../../images/components/remotecontrol/Icons-mic.png"></image>
       </view> 
     </view>
   </view>
@@ -50,7 +50,7 @@
   <!-- 语音结果版面 -->
   <view class="remoter-panel-wrapper" wx:if="{{indexStatus === 'VoiceResult'}}">
     <view class="loading-wrapper" wx:if="{{!query}}">
-      <image src="../../images/Icons-loading.png" class="icon-loading"></image>
+      <image src="../../images/components/remotecontrol/Icons-loading.png" class="icon-loading"></image>
       <text class='loading-text'>数据处理中，请稍后</text>
     </view> 
     <view class="content-wrapper" wx:if="{{query}}">
@@ -64,7 +64,7 @@
 <view class="remoter-btn-wrapper">
   <view class="remoter-btn-tips" wx:if="{{isShowTips && !voiceInputStatus}}">      
     <text class="remoter-tips-text">{{tipsContent}}</text>
-    <image class="remoter-tips-icon" bindtap="handleBtnTipsClosed" src="../../images/close@3x.png" ></image>
+    <image class="remoter-tips-icon" bindtap="handleBtnTipsClosed" src="../../images/components/remotecontrol/close@3x.png" ></image>
   </view>
    <!-- bindtap="handleButtonTap" -->
   <view class="remoter-btn {{voiceInputStatus ? 'btn-input-status' : ''}}" bindlongpress="handleButtonLongTap" bindtouchstart="handleRecorderManagerStart" bindtouchend="handleRecorderManagerStop">   
@@ -72,9 +72,3 @@
     <text class="remoter-btn-text">{{btnContent}}</text>
   </view>
 </view>
-
-<toast_dlg wx:if="{{isShowToastDlg}}" 
-  bindtoastdlgcancel="handleToastGoBindCancel" bindtoastdlgconfirm="handleToastGoBindConfirm" toastDlgContents="{{toastDlgGoBindProperties}}">
-</toast_dlg>
-
-<toast_prompt wx:if="{{isShowToastPrompt}}" bindtoastpromptevt="handleToastNotSupport" toastPromptContents="{{toastPromptNotSupportContents}}"></toast_prompt>

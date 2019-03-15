@@ -35,6 +35,7 @@ function paramsAssemble_tvpai(paramsObj = {}) {
     "time": Math.round(new Date().getTime() / 1000).toString(),
     "tv_source": 'iqiyi',
     "version_code": 33,
+    // 'token': 'fanyanbo',
     // "vuid": 'fanyanbo'
   }
   let desParams = Object.assign(orignParams, paramsObj);

@@ -1,9 +1,9 @@
 const utils = require('../../utils/util_fyb');
-const api = require('../../utils/api_fyb')
+const api = require('../../utils/api_fyb');
+const app = getApp();
 
 Page({
   data: {
-    bindedDeviceId: '', // 当前绑定的设备id
     isShowTips: false,
     inputPlaceholder: '搜索视频、影评或话题',
     curIndex: 0, //当前剧集
@@ -54,9 +54,9 @@ Page({
       curThirdAlbumId: e.currentTarget.dataset.keyword.third_album_id
     });
   },
-  // 点击海报，跳转详情页
-  handlePosterTap(e) {
-    console.log('handlePosterTap', e);
+  // 点击跳转详情页
+  handleJumpTap(e) {
+    console.log('handleJumpTap', e);
     let third_album_id = e.currentTarget.dataset.item.video_detail.third_album_id;
     console.log("../movieDetail/movieDetail?id=" + third_album_id);
     wx.navigateTo({
@@ -119,13 +119,23 @@ Page({
     });
     let third_album_id = e.currentTarget.dataset.keyword.third_album_id;
     let segment_index = e.currentTarget.dataset.keyword.segment_index - 1;
-    this.pushEpisode(third_album_id, segment_index);
+    console.log(app.globalData.deviceId, third_album_id);
+    if (app.globalData.deviceId != null) {
+      this.pushEpisode(app.globalData.deviceId, third_album_id, segment_index);
+    } else {
+      wx.navigateTo({url: "../home/home"});
+    }
   },
   // 处理推送电影
   handleMovieTap: function (e) {
     console.log('推送电影', e);
     let third_album_id = e.currentTarget.dataset.keyword.video_detail.third_album_id;
-    this.pushMovie(third_album_id);
+    console.log(app.globalData.deviceId, third_album_id);
+    if (app.globalData.deviceId != null) {
+      this.pushMovie(app.globalData.deviceId, third_album_id);
+    } else {
+      wx.navigateTo({url: "../home/home"});
+    }
   },
   handleMoreTap: function (e) {
     console.log('handleMoreTap', e);
@@ -139,8 +149,8 @@ Page({
     console.log(cacheKeywords);
     this.setData({ historyWordsList: cacheKeywords ? cacheKeywords : [] });
     this.getHotKeyword();
-    this.getBindedDevice();
-    // this.getCollectedList();
+    // this.getBindedDevice();
+    console.log('搜索页当前已绑定设备', app.globalData.deviceId);
   },
   onReady() {
     console.log('search onReady监听页面初次渲染完成');
@@ -266,7 +276,6 @@ Page({
           for (let i = 0; i < res.data.data.length; i++) {
             if (res.data.data[i].bindStatus === 1) {
               console.log('当前绑定的设备id', res.data.data[i].deviceId);
-              that.setData({ bindedDeviceId: res.data.data[i].deviceId + '' });
               break;
             }
           }
@@ -281,10 +290,10 @@ Page({
   },
 
   // 推送电视剧
-  pushEpisode: function (movieId, movieChildId) {
+  pushEpisode: function (deviceId, movieId, movieChildId) {
     let params = {
       ccsession: wx.getStorageSync('cksession'),
-      deviceId: this.data.bindedDeviceId,
+      deviceId: deviceId,
       movieId: movieId,
       moviechildId: movieChildId + ''
     };
@@ -301,7 +310,7 @@ Page({
           });
         } else {
           console.log('推送剧集失败');
-          let errMsg = res.data.msg + "[" + res.data.code + "]";
+          let errMsg = res.data.message + "[" + res.data.code + "]";
           wx.showToast({
             title: errMsg,
             icon: 'none',
@@ -318,10 +327,10 @@ Page({
   },
 
   // 推送电影
-  pushMovie: function (movieId) {
+  pushMovie: function (deviceId, movieId) {
     let params = {
       ccsession: wx.getStorageSync('cksession'),
-      deviceId: this.data.bindedDeviceId,
+      deviceId: deviceId,
       movieId: movieId
     };
     let desParams = utils.paramsAssemble_wx(params);
@@ -337,7 +346,7 @@ Page({
           });
         } else {
           console.log('推送电影失败');
-          let errMsg = res.data.message + "[" + res.data.returnCode + "]";
+          let errMsg = res.data.message + "[" + res.data.code + "]";
           wx.showToast({
             title: errMsg,
             icon: 'none',
@@ -360,7 +369,12 @@ Page({
 
   // 获取收藏影片列表
   getCollectedList: function() {
-    let desParams = utils.paramsAssemble_tvpai();
+    let params = {
+      page_index: 0,
+      page_size: 10,
+      video_type: 1
+    }
+    let desParams = utils.paramsAssemble_tvpai(params);
     console.log(desParams);
     utils.request(api.getCollectedListUrl, 'GET', desParams,
       function (res) {

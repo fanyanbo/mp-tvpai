@@ -55,13 +55,13 @@
     top: 40rpx;
   }
   
-  .voldown-icon, .return-icon {
+  .volup-icon, .return-icon {
     position: absolute;
     left: 346rpx;
     top: 40rpx;
   }
   
-  .volup-icon, .menu-icon {
+  .voldown-icon, .menu-icon {
     position: absolute;
     left: 630rpx;
     top: 40rpx;

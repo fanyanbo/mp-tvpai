@@ -195,7 +195,8 @@ App({
     auhtSetting: false,
     ccsession: '',
     onLine: '',
-    activeid: null, //add by fyb
+    activeId: null, //语音遥控推送使用
+    deviceId: null, //影片推送使用
     isShowTips: true,
     time: Math.round(new Date().getTime() / 1000).toString(),
     appkey: '5cc090ddad6e4544815a0026e9a735a4',

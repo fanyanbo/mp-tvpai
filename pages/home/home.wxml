@@ -14,7 +14,7 @@
   <view class="{{devices?'mydevices':'none'}} ">
     <text>我的设备</text>
   </view>
-  <view wx:for="{{mydevices}}" class="{{devices?'devices':'none'}}">
+  <view wx:for="{{mydevices}}" wx:key="index" class="{{devices?'devices':'none'}}">
     <view class="device-item device-top-left">
       <view class="device-top">
         <text class="device-name inaline">{{item.device.deviceName}}</text>

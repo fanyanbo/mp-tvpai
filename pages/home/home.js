@@ -298,15 +298,16 @@ function getDevices(that, message) {
         devices: true,
         mydevices: res.data.data
       })
-      for (var ii = 0; ii < res.data.data.length; ii++) {
-        if (res.data.data[ii].bindStatus === 1) {
-          console.log(res.data.data[ii].deviceId);
-          wx.setStorageSync('deviceId', res.data.data[ii].deviceId)
-          app.globalData.activeid = res.data.data[ii].device.serviceId;
-          console.log("获取绑定中的设备激活id:" + res.data.data[ii].device.serviceId);
-          console.log("获取绑定中的设备源:" + res.data.data[ii].device.source);
+      for (let i = 0; i < res.data.data.length; i++) {
+        if (res.data.data[i].bindStatus === 1) {
+          console.log(res.data.data[i].deviceId);
+          wx.setStorageSync('deviceId', res.data.data[i].deviceId);
+          // 是否一定使用globaldata，用storage方案如何？
+          app.globalData.activeId = res.data.data[i].device.serviceId;
+          app.globalData.deviceId = res.data.data[i].deviceId + '',
+          console.log("已绑定设备激活id-设备源:" + res.data.data[i].device.serviceId + res.data.data[i].device.source);
         }
-        if (res.data.data[ii].device.source == "tencent") {
+        if (res.data.data[i].device.source == "tencent") {
           app.globalData.tvSource = 'qq';
           wx.setStorageSync('tvSource', 'qq')
         } else {

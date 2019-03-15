@@ -59,7 +59,7 @@
         <view class="video-content-item">
           <!-- 影片海报布局 -->
           <view class="item-poster">
-            <view class="item-poster-left" bindtap="handlePosterTap" data-item="{{item}}">
+            <view class="item-poster-left" bindtap="handleJumpTap" data-item="{{item}}">
               <image class="left-img" src="{{item.video_poster}}" />
             </view>
             <view class="item-poster-right">
@@ -67,12 +67,12 @@
               <!-- <view class='right-title-wrapper'>
                 <text wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="{{index}}" class="{{item == inputValue ? 'searchHigh' : '' }}">{{item}}</text>
               </view> -->
-              <view class='right-title-wrapper' bindtap="handlePosterTap" data-item="{{item}}">
+              <view class='right-title-wrapper' bindtap="handleJumpTap" data-item="{{item}}">
                 <block wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="{{index}}" >
                   <text class="{{item == inputValue ? 'searchHigh' : '' }}">{{item}}</text>
                 </block>
               </view>
-              <view class="right-detail-wrapper" bindtap="handlePosterTap" data-item="{{item}}">
+              <view class="right-detail-wrapper" bindtap="handleJumpTap" data-item="{{item}}">
                 <view class="right-detail">
                   {{item.video_detail.video_type}}-{{item.video_detail.publish_date}}-{{item.video_detail.actor}}-{{item.video_detail.video_tags}}
                 </view>
@@ -99,7 +99,7 @@
           </view>
           <!-- 综艺和游戏推送布局 儿童？？显示剧集介绍 -->
           <view class="item-push" wx:if="{{item.video_detail.video_type == '游戏' || item.video_detail.video_type == '综艺'}}">
-            <view class="tips">
+            <view class="tips" bindtap="handleJumpTap" data-item="{{item}}">
               <image class="left" src="../../images/push.png"></image>
               <text class="center">投屏</text>
               <image class="right" src="../../images/arrow.png"></image>
@@ -116,7 +116,7 @@
           </view>
           <!-- 电视剧推送布局,剧集只显示数字，1,2,3 -->
           <view class="item-push" wx:elif="{{item.video_detail.video_type == '电视剧'}}">
-            <view class="tips">
+            <view class="tips" bindtap="handleJumpTap" data-item="{{item}}">
               <image class="left" src="../../images/push.png"></image>
               <text class="center">投屏</text>
               <image class="right" src="../../images/arrow.png"></image>
