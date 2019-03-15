@@ -54,6 +54,7 @@ Component({
     // 这里是一个自定义方法,供父组件调用
     //绑定设备状态有更新时，刷新下被绑设备状态
     refreshBindedTVStatus() {
+      this.data.activeidOld = this.data.activeid = app.globalData.activeId;
       console.log('refreshBindedTVStatus new id:' + this.data.activeid)
       let that = this;
       let dataOnline = {
@@ -365,12 +366,12 @@ Component({
     //处理遥控器相关事件
     handleRecorderManagerStart() {
       console.time('timeVoice')
-      console.log('语音键 touch start 目标设备：' + this.data.activeid);
-      //每次进入遥控器面板前，刷新一次设备状态
       if (!this.data.isShowMask) {
         console.log('refresh tv status.')
         this.refreshBindedTVStatus()
       }
+      console.log('语音键 touch start 目标设备：' + this.data.activeid);
+      //每次进入遥控器面板前，刷新一次设备状态
     },
 
     handleRecorderManagerStop(event) {
