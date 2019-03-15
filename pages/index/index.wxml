@@ -75,3 +75,23 @@
 <view>
   <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}"></remotecontrol>
 </view>
+
+
+<!--弹窗-->
+<view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
+<view class="modal-dialog" wx:if="{{showModal}}">
+  <view class="modal-title">
+    <image src="../../images/gantanhao-_icon.png"></image>
+  </view>
+  <view class="modal-content">
+    <text>电视派申请获得您的信息权限</text>
+  </view>
+  <view class="modal-footer">
+    <view class="btn-cancel" bindtap="onCancel" data-status="cancel">拒绝</view>
+    <view class="btn-confirm">
+    <button class="getuserinfo" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">
+      允许
+    </button>
+    </view>
+  </view>
+</view>
