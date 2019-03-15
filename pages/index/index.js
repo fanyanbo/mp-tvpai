@@ -11,7 +11,7 @@ Page({
     isShowTips: true,
     page: '0',
     pageSize: '30',
-    banner_pageSize:'3',
+    banner_pageSize: '3',
     indicatorDots: true,
     autoplay: false,
     interval: 5000,
@@ -29,59 +29,45 @@ Page({
   // 获取一级标签分类
   oneclassify: function (message) {
     let that = this
-    const secret = app.globalData.secret
-    const params = { "appkey": app.globalData.appkey, "page_index": that.data.page, "page_size": that.data.pageSize, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code}
-    console.log(params);
-    const sign = utils.encryptionIndex(params, secret)
-    const url = api.oneclassifyUrl
-    let data = {
-      appkey: app.globalData.appkey,
-      page_index: that.data.page,
-      page_size: that.data.pageSize,
-      time: app.globalData.time,
-      tv_source: app.globalData.tvSource,
-      version_code: app.globalData.version_code,
-      sign: sign
-    }
-    utils.postLoading(url, 'GET', data, function (res){
-      console.log("一级粉类")
-      console.log(res)
-      var column1 = []
-      var column2 = []
-      var column3 = []
-      if (res.data.data) {
-        let streams = res.data.data
-        for (var k = 0; k < 10; k++) {
-          column1.push(res.data.data[k])
+    let params1 = {"page_index": that.data.page, "page_size": that.data.pageSize};
+    let desParams = utils_fyb.paramsAssemble_tvpai(params1);
+    utils_fyb.request(api_fyb.getOneclassifyUrl, 'GET', desParams,
+      function (res) {
+        console.log('获取一级分类 success', res.data);
+        var column1 = []
+        var column2 = []
+        var column3 = []
+        if (res.data.data) {
+          for (var k = 0; k < 10; k++) {
+            column1.push(res.data.data[k])
+          }
+          for (var i = 10; i < 20; i++) {
+            column2.push(res.data.data[i])
+          }
+          for (var n = 20; n < 30; n++) {
+            column3.push(res.data.data[n])
+          }
+          that.setData({
+            column1: column1,
+            column2: column2,
+            column3: column3
+          })
+        } else {
+          wx.showToast({
+            title: res.data.message,
+          })
         }
-        for (var i = 10; i < 20; i++) {
-          column2.push(res.data.data[i])
-        }
-        for (var n = 20; n < 30; n++) {
-          column3.push(res.data.data[n])
-        }
-        that.setData({
-          column1: column1,
-          column2: column2,
-          column3: column3
-        })
-
-      } else {
+      },
+      function (res) {
+        console.log('获取一级分类 error', res)
         wx.showToast({
-          title: res.data.message,
+          title: '加载数据失败',
         })
+      },
+      function (res) {
+        console.log('获取一级分类 complete')
       }
-    }, function (res) {
-      console.log('streams fail:')
-      console.log(res)
-
-      wx.showToast({
-        title: '加载数据失败',
-      })
-    }, function (res) {
-      console.log('streams complete:')
-      console.log(res)
-    }, message)
+    );
   },
   tagClick: function (e) {
     // 标签点击搜索 跳到search
@@ -96,7 +82,7 @@ Page({
   twoclassify: function (message) {
     let that = this
     const secret = app.globalData.secret
-    const params = { "appkey": app.globalData.appkey, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code}
+    const params = { "appkey": app.globalData.appkey, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
     console.log(params);
     const sign = utils.encryptionIndex(params, secret)
     const url = api.recommendlistUrl
@@ -107,8 +93,6 @@ Page({
       version_code: app.globalData.version_code,
       sign: sign
     }
-    console.log('fyb',url);
-    console.log('fyb',data);
     utils.postLoading(url, 'GET', data, function (res) {
       console.log('正片二级分类:')
       console.log(res.data.data)
@@ -129,9 +113,7 @@ Page({
         })
       }
     }, function (res) {
-      console.log('streams fail:')
-      console.log(res)
-
+      console.log('streams fail:', res)
       wx.showToast({
         title: '加载数据失败',
       })
@@ -170,7 +152,7 @@ Page({
           return false
         }
         let streams = res.data.data.list
-        if (res.data.data.list){
+        if (res.data.data.list) {
           if (streams.length < parseInt(that.data.pageSize)) {
             that.setData({
               streams: res.data.data.list,
@@ -183,7 +165,6 @@ Page({
             })
           }
         }
-
       } else {
         wx.showToast({
           title: res.data.message,
@@ -216,17 +197,20 @@ Page({
       isShowTips: app.globalData.isShowTips
     })
     let ccsession = wx.getStorageSync('cksession')
-    console.log("首页，判断登录状态是否过期", ccsession);
+    console.log("首页 onShow, 判断登录状态是否过期", ccsession);
   },
+
   onHide() {
     console.log('首页 onHide');
   },
+
   onUnload() {
     console.log('首页 onUnload');
   },
+
   onShareAppMessage: function (res) {
     return {
-      title: '酷影评',
+      title: '电视派',
       path: 'pages/index/index',
       success: function (res) {
         // 转发成功
@@ -236,6 +220,7 @@ Page({
       }
     }
   },
+
   handleSearchTap: function () {
     console.log('跳转至搜索页面');
     wx.navigateTo({
@@ -244,7 +229,6 @@ Page({
   },
   getBindedDevice: function () {
     let ccsession = wx.getStorageSync('cksession');
-
     let params = { ccsession: ccsession };
     let desParams = utils_fyb.paramsAssemble_wx(params);
     console.log('首页获取绑定设备信息 参数', desParams);
@@ -257,7 +241,7 @@ Page({
             if (res.data.data[i].bindStatus === 1) {
               app.globalData.activeId = res.data.data[i].device.serviceId;
               app.globalData.deviceId = res.data.data[i].deviceId + '',
-              console.log('当前绑定的设备信息: activeId = ' + app.globalData.activeId + ", deviceId = " + app.globalData.deviceId);
+                console.log('当前绑定的设备信息: activeId = ' + app.globalData.activeId + ", deviceId = " + app.globalData.deviceId);
               break;
             }
           }
@@ -268,7 +252,8 @@ Page({
       },
       function (res) {
         console.log('getBindDeviceList complete')
-      })
+      }
+    )
   }
 });
 
