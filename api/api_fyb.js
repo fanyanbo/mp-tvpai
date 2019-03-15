@@ -6,8 +6,9 @@ const baseUrl_tvpai = config.baseUrl_tvpai;
 const searchByKeywordUrl = baseUrl_tvpai + "video/client/search/list";// 根据关键字搜索
 const getHotKeywordUrl =  baseUrl_tvpai + "video/client/search/hot";// 获取热门关键词
 const getHistoryKeywordUrl =  baseUrl_tvpai + "video/client/search/history";// 获取搜索历史关键词
-const collectUrl = baseUrl_tvpai + "video/client/collect/add" //收藏或取消影片
-const getCollectedListUrl = baseUrl_tvpai + "video/client/collect/list" //获取已收藏影片列表
+const collectUrl = baseUrl_tvpai + "video/client/collect/add"; //收藏或取消影片
+const getCollectedListUrl = baseUrl_tvpai + "video/client/collect/list"; //获取已收藏影片列表
+const getOneclassifyUrl = baseUrl_tvpai + "video/client/longvideo/oneclassify";// 获取一级标签分类
 
 // 微信业务后台接口
 const getBindDeviceListUrl = baseUrl_wx + "wxUserDeviceAPI/bindDeviceList.coocaa";//获取已绑定设备列表
@@ -19,6 +20,7 @@ module.exports = {
   getHistoryKeywordUrl: getHistoryKeywordUrl,
   collectUrl: collectUrl,
   getCollectedListUrl: getCollectedListUrl,
+  getOneclassifyUrl: getOneclassifyUrl,
   getBindDeviceListUrl: getBindDeviceListUrl,
   pushMediaUrl: pushMediaUrl
 }

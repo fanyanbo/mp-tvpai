@@ -33,7 +33,8 @@ function paramsAssemble_tvpai(paramsObj = {}) {
   let orignParams = {
     "appkey": '5cc090ddad6e4544815a0026e9a735a4',
     "time": Math.round(new Date().getTime() / 1000).toString(),
-    "tv_source": 'iqiyi',
+    // "tv_source": 'iqiyi',
+    "tv_source": app.globalData.tvSource,
     "version_code": 33,
     // 'token': 'fanyanbo',
     // "vuid": 'fanyanbo'
