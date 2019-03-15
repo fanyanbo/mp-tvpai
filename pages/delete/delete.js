@@ -58,16 +58,12 @@ Page({
     }, "")
   },
   chooseSezi: function (e) {
-    // 用that取代this，防止不必要的情况发生
     var that = this;
     // 创建一个动画实例
     var animation = wx.createAnimation({
-      // 动画持续时间
       duration: 500,
-      // 定义动画效果，当前是匀速
       timingFunction: 'linear'
     })
-    // 将该变量赋值给当前动画
     that.animation = animation
     // 先在y轴偏移，然后用step()完成一个动画
     animation.translateY(200).step()

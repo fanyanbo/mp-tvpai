@@ -37,11 +37,6 @@ Page({
   userDebug: function () {
     userDebug = true
   },
-  webNavigateTo: function () {
-    wx.navigateTo({
-      url: '../webView/webView'
-    })
-  },
   bindGetUserInfo: function (e) {
     console.log('bindGetUserInfo:' + this.data.coocaaLogin)
     console.log(e.detail.userInfo)
