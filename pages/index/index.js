@@ -243,12 +243,12 @@ Page({
     });
   },
   getBindedDevice: function () {
-    console.log('首页获取当前绑定设备信息');
     let ccsession = wx.getStorageSync('cksession');
-    console.log('首页获取当前绑定设备信息 ccsession = ' + ccsession);
+
     let params = { ccsession: ccsession };
     let desParams = utils_fyb.paramsAssemble_wx(params);
-    console.log('getBindDeviceList params', desParams);
+    console.log('首页获取绑定设备信息 参数', desParams);
+    console.log('首页获取绑定设备信息 请求地址：' + api_fyb.getBindDeviceListUrl);
     utils_fyb.request(api_fyb.getBindDeviceListUrl, 'GET', desParams,
       function (res) {
         console.log('getBindDeviceList success', res.data);

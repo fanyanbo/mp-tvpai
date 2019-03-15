@@ -11,7 +11,7 @@ Page({
     },
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
-  getMovie: function (message) {
+  getMovie: function () {
     let that = this
     const secret = app.globalData.secret
     const vuid = wx.getStorageSync('cksession')
@@ -48,7 +48,7 @@ Page({
         title: '加载数据失败',
       })
     }, function (res) {
-      console.log('streams complete:')
+      console.log('streams complete')
     }, '')
   },
   onLoad: function () {
@@ -83,10 +83,8 @@ Page({
               wx.setStorageSync('userInfo', app.globalData.userInfo)
               typeof cb == "function" && cb(app.globalData.userInfo)
               appJs.login(rawData, code, encryptedData, iv, signature)
-              getApp().globalData.onLine = true
               that.setData({
                 userInfo: res.userInfo,
-                onLine: true
               })
             }
           })
@@ -95,19 +93,16 @@ Page({
     }
     this.getMovie();
   },
-  onShareAppMessage: function () {
-  },
   jumpurl: function (e) {
     let ccsession = wx.getStorageSync("cksession")
     console.log("jumpurl ccsession:" + ccsession);
     if (ccsession != null && ccsession != undefined && ccsession !== '') {
       var type = e.currentTarget.dataset.type
-      console.log(type)
-      if (type == "home") {
+      if (type === "home") {
         wx.navigateTo({
           url: '../home/home',
         })
-      } else if (type == "history") {
+      } else if (type === "history") {
         wx.navigateTo({
           url: '../home/home',
         })
@@ -130,7 +125,7 @@ Page({
               appJs.login(rawData, code, encryptedData, iv, signature);
             },
             fail: function (err) {
-              console.log("获取用户信息失败");
+              console.log("我的页面，获取用户信息失败");
             }
           })
         }
@@ -138,11 +133,12 @@ Page({
     }
   },
   onShow: function () {
-    console.log('onshow')
   },
   onPullDownRefresh: function () {
     this.getMovie()
     wx.stopPullDownRefresh();
+  },
+  onShareAppMessage: function () {
   },
 })
 
