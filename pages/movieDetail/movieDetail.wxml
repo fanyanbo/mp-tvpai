@@ -9,10 +9,10 @@
       <li class="intwoline title">{{movieData.album_title}}</li>
       <li><span class="score">{{movieData.score}}分</span>{{movieData.video_tags}}</li>
       <li style="margin-top:50rpx">
-        <button class="like" open-type="getUserInfo" bindtap='like' data-title="{{movieData.album_title}}" data-poster="{{movieData.video_poster}}" data-id="{{movieData.third_album_id}}"><image src='../../images/like_before1.png'></image></button>
+        <!-- <button class="like" open-type="getUserInfo" bindtap='like' data-title="{{movieData.album_title}}" data-poster="{{movieData.video_poster}}" data-id="{{movieData.third_album_id}}"><image src='../../images/like_before1.png'></image></button> -->
         <button class='collect' open-type="getUserInfo" bindtap='push' data-movieid="{{movieData.third_album_id}}"  data-tvid="{{item.video_url.tvId}}" data-index="1" wx:if="{{movieData.video_type == '电影'}}">
-          <image wx:if="{{moviepush == false}}" src='../../images/collect_before3.png'></image>
-          <image wx:else="{{moviepush == true}}" src='../../images/collect_after3.png'></image>
+          <image wx:if="{{moviepush == false}}" src='../../images/collect_before.png'></image>
+          <image wx:else="{{moviepush == true}}" src='../../images/collect_after.png'></image>
         </button>
       </li>
     </ul>
@@ -23,13 +23,11 @@
 <view data-tap='push' bindtap='chooseSezi' class="push" wx:if="{{movieType !='电影'}}"><image class="pushIcon" src='../../images/push.png'></image>投屏<span class="length">{{prompt_info}} ></span></view>
 <view class='tvLists'>
   <view class='scroll' wx:if="{{movieType !='电影'}}">
-
     <view wx:for="{{moviesItem}}" wx:for-item="item" >
-      <button open-type="getUserInfo" bindtap='push' data-movieid="{{item.third_album_id}}" data-index="{{item.segment_index}}" data-tvid="{{item.video_url.tvId}}" class='xs zy {{chioced==item.segment_index? "active":""}}' wx:if="{{movieType == '综艺'}}">
-
-        <text class="segmeng moviesItem">第{{item.segment_index}}期</text>
-        <text class="subtitle moviesItem intwoline">{{item.video_title}}</text>
-      </button>
+    <view wx:if="{{movieType == '综艺'}}" class='xs zy {{chioced==item.segment_index? "active":""}}'>
+      <button class="segmeng" open-type="getUserInfo" bindtap='push' data-movieid="{{item.third_album_id}}" data-index="{{item.segment_index}}" data-tvid="{{item.video_url.tvId}}" >第{{item.segment_index}}期</button>        
+      <text class="subtitle moviesItem intwoline">{{item.video_title}}</text>
+    </view>
       <button open-type="getUserInfo" bindtap='push' data-movieid="{{item.third_album_id}}" data-index="{{item.segment_index}}" data-tvid="{{item.video_url.tvId}}" class='xs dsj {{chioced==item.segment_index? "active":""}}' wx:else>
       <text class="segmeng moviesItem">{{item.segment_index}}</text>
       </button>   
@@ -81,14 +79,18 @@
   <view class="title">投屏</view>
   <view class="tvlist" wx:for="{{moviesItem}}" wx:for-item="item">
 
-      <view bindtap='push' data-movieid="{{item.third_album_id}}" data-index="{{item.segment_index}}" class='xs zy {{chioced==item.segment_index? "active":""}}' wx:if="{{movieType == '综艺'}}">
-        <text class="segmeng moviesItem">第{{item.segment_index}}期</text>
-        <text class="subtitle moviesItem">{{item.video_subtitle}}</text>
-      </view>
+    <view wx:if="{{movieType == '综艺'}}" class='xs zy {{chioced==item.segment_index? "active":""}}'>
+      <button class="segmeng" open-type="getUserInfo" bindtap='push' data-movieid="{{item.third_album_id}}" data-index="{{item.segment_index}}" data-tvid="{{item.video_url.tvId}}" >第{{item.segment_index}}期</button>        
+      <text class="subtitle moviesItem intwoline">{{item.video_title}}</text>
+    </view>
 
-      <view bindtap='push' data-movieid="{{item.third_album_id}}" data-index="{{item.segment_index}}" class='xs dsj {{chioced==item.segment_index? "active":""}}' wx:else>
+      <!-- <view bindtap='push' data-movieid="{{item.third_album_id}}" data-index="{{item.segment_index}}" class='xs dsj {{chioced==item.segment_index? "active":""}}' wx:else>
       <text class="segmeng moviesItem">{{item.segment_index}}</text>
-      </view>
+      </view> -->
+
+      <button open-type="getUserInfo" bindtap='push' data-movieid="{{item.third_album_id}}" data-index="{{item.segment_index}}" data-tvid="{{item.video_url.tvId}}" class='xs dsj {{chioced==item.segment_index? "active":""}}' wx:else>
+      <text class="segmeng moviesItem">{{item.segment_index}}</text>
+      </button>  
 
   </view>
 </view>

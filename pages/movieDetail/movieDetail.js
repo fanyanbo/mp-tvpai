@@ -2,6 +2,7 @@
 
 let utils = require('../../utils/util.js');
 let api = require('../../api/api.js');
+let appJs = require('../../app');
 let app = getApp()
 Page({
 
@@ -27,7 +28,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    movieDetail(this, options.id)
+    movieDetail(this, "_oqy_733959300")
   },
 
   /**

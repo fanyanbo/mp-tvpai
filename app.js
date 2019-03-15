@@ -1,6 +1,7 @@
 let utils = require('utils/util.js');
 let api = require('api/api.js');
 let { WeToast } = require('components/toast/wetoast.js');
+
 // 使用登录凭证 code 获取 session_key 和 openid
 function login(rawData, code, encryptedData, iv, signature) {
   console.log("code：" + code);
@@ -23,7 +24,7 @@ function login(rawData, code, encryptedData, iv, signature) {
       var data = res.data;
       if (data.result) {
         console.log(res)
-        console.log("----进来了----" + data.data.ccsession)
+        console.log("getSessionUrl" + data.data.ccsession)
         var cksession = data.data.ccsession
         wx.setStorageSync('cksession', cksession)
         getApp().globalData.ccsession = cksession
@@ -69,65 +70,13 @@ function decryptUser(rawData, encryptedData, iv, cksession, signature) {
   })
 }
 
-function countTime() {
-  var count = 0;
-  var n = wx.getStorageSync('cksession')
-  var i = setInterval(function () {
-    var d = new Date()
-    if (n === null || n === '') {
-      count++;
-      console.log(d.toLocaleString() + "失效了")
-      if (count == 3) {
-        clearInterval(i);
-      }
-    } else {
-      console.log(d.toLocaleString() + "->" + n)
-    }
-  }, 1000)
-}
-
 App({
   WeToast,
   onLaunch: function () {
-    wx.getSystemInfo({
-      success: res => {
-        //导航高度
-        this.globalData.navHeight = res.statusBarHeight + 46;
-      }, fail(err) {
-        console.log(err);
-      }
-    })
   },
   onLoad: function () {
   },
   onShow: function () {
-  },
-  getlocalUserSecret: function () {
-    var that = this
-    wx.getStorage({
-      key: 'userSecret',
-      success: function (res) {
-        if (res.data) {
-          console.log('get userSecret from storage:' + res.data)
-          that.debug('get userSecret from storage:' + res.data)
-          that.globalData.userSecret = res.data
-          that.getBindStatus()
-        } else {
-          wx.removeStorage({
-            key: 'userSecret',
-            success: function (res) {
-              console.log(res.data)
-            }
-          })
-          that.getUserID()
-        }
-      },
-      fail: function () {
-        console.log('get userSecret from storage failed')
-        that.debug('get userSecret from storage failed')
-        that.getUserID()
-      }
-    })
   },
   getUserInfo: function (cb) {
     var that = this
@@ -141,7 +90,6 @@ App({
     if (ccsession == null || ccsession === '' || ccsession == undefined) {
       console.log("登录状态已过期" + ccsession)
       wx.clearStorageSync(that.globalData.userInfo)
-      //重新登录
       wx.login({
         success: function (e) {
           var code = e.code
@@ -167,19 +115,6 @@ App({
       that.globalData.username = wx.getStorageSync('username')
       console.log("登录状态没过期")
     }
-  },
-  debug: function (log) {
-    var date = new Date()
-    var year = date.getFullYear()
-    var month = date.getMonth() + 1
-    var day = date.getDate()
-    var hour = date.getHours()
-    var minute = date.getMinutes()
-    var second = date.getSeconds()
-    var time = year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second + '  '
-    var logs = wx.getStorageSync('logs')
-    logs.unshift(time + log)
-    wx.setStorageSync('logs', logs)
   },
   globalData: {
     username: wx.getStorageSync("username"),
@@ -207,6 +142,5 @@ App({
 })
 
 module.exports = {
-  login: login,
-  countTime: countTime
+  login: login
 }
