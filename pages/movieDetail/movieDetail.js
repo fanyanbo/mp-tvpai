@@ -21,14 +21,15 @@ Page({
     movieId: "",
     chioced: '',
     title:'',
-    moviepush: false
+    moviepush: false,
+    video_url:''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    movieDetail(this, "_oqy_733959300")
+    movieDetail(this, options.id)
   },
 
   /**
@@ -145,7 +146,7 @@ Page({
   push: function (e) {
     var index = e.currentTarget.dataset.index
     var tvid = e.currentTarget.dataset.tvid
-    console.log("================" + index)
+    console.log("================" + tvid)
     var that = this
     //判断ccsession是否为空
 //    if (utils.ccsessionIs() == null) return
@@ -342,13 +343,19 @@ function moviesItem(that, movieId) {
   }
   utils.postLoading(url, 'GET', data, function (res) {
     console.log("===============-------剧集")
-    console.log(res.data)
+    console.log(res.data.data)
     if (res.data.data) {
       console.log(res.data.data.length)
       that.setData({
         moviesItem: res.data.data,
         length: res.data.data.length,
+        tvid: res.data.data.video_url
       })
+      for (let i = 0; i < res.data.data.length; i++){
+        that.setData({
+          video_url: JSON.parse(res.data.data[i].video_url)
+        })  
+      }
     }
   }, function (res) {
     console.log('streams fail:')
@@ -390,7 +397,7 @@ function push(that, movieId, deviceId, moviechildId, _type, tvid) {
     success: function (res) {
       var type = "moviePush"
       utils.eventCollect(type, movieId)
-      console.log("===============-------推送影视")
+      console.log("===============-------推送影视" + tvid)
       console.log(res)
       if (res.data.result) {
         that.setData({
@@ -411,13 +418,13 @@ function push(that, movieId, deviceId, moviechildId, _type, tvid) {
 
 function addpushhistory(that, movieId, title, video_id) {
   const secret = app.globalData.secret
-  var paramsStr = {"appkey": app.globalData.appkey, "time": app.globalData.time, "version_code": app.globalData.version_code, "vuid": wx.getStorageSync("cksession") }
+  var paramsStr = { "appkey": app.globalData.appkey, "time": app.globalData.time, "version_code": app.globalData.version_code, "vuid": wx.getStorageSync("wxopenid") }
   var sign = utils.encryptionIndex(paramsStr, secret)
-  console.log("增加历史")
+  console.log("album_id：" + movieId + "===video_id:==" + video_id +"增加历史movieId：" + movieId)
   console.log(paramsStr)
   console.log(sign)
   wx.request({
-    url: api.addpushhistoryUrl + "?sign=" + sign + "&vuid=" + wx.getStorageSync("cksession") + "&version_code=33&time=" + app.globalData.time + "&appkey=" + app.globalData.appkey,
+    url: api.addpushhistoryUrl + "?sign=" + sign + "&vuid=" + wx.getStorageSync("wxopenid") + "&version_code=33&time=" + app.globalData.time + "&appkey=" + app.globalData.appkey,
     method: "POST",
     data: {
       album_id: movieId,
@@ -458,7 +465,7 @@ function getDevices(that, message,tvid) {
   }
   console.log(data)
   utils.postLoading(url, 'GET', data, function (res) {
-    console.log("获取设备信息:")
+    console.log("获取设备信息:" + tvid)
     console.log(res)
     if (res.data.result && res.data.data) {
       for (var ii = 0; ii < res.data.data.length; ii++) {

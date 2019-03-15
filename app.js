@@ -23,9 +23,11 @@ function login(rawData, code, encryptedData, iv, signature) {
       var data = res.data;
       if (data.result) {
         console.log(res)
-        console.log("----进来了----" + data.data.ccsession)
+        console.log(data.data.wxopenid+"----进来了----" + data.data.ccsession)
         var cksession = data.data.ccsession
+        var wxopenid = data.data.wxopenid
         wx.setStorageSync('cksession', cksession)
+        wx.setStorageSync('wxopenid', wxopenid)
         getApp().globalData.ccsession = cksession
         console.log("setStorageSync cksession:" + cksession)
         decryptUser(rawData, encryptedData, iv, cksession, signature)

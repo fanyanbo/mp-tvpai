@@ -52,25 +52,11 @@ Page({
   },
   scroll: function (e) {
   },
-  handler: function (e) {
-    if (e.detail != undefined) {
-      app.globalData.auhtSetting = e.detail['authSetting']['scope.userInfo'];
-    }
-    if (utils.ccsessionIs() == null) return
-    if (this.data.coocaaLogin) {
-      wx.navigateTo({
-        url: '../login/coocaa',
-      })
-    } else {
-      wx.navigateTo({
-        url: '../home/home',
-      })
-    }
-  },
+
   getMovie: function (message) {
     let that = this
     const secret = app.globalData.secret
-    const vuid = wx.getStorageSync('cksession')
+    const vuid = wx.getStorageSync('wxopenid')
     console.log(vuid);
     const params = { "appkey": app.globalData.appkey, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code, "vuid": vuid }
     console.log(params);
@@ -86,17 +72,20 @@ Page({
     }
     utils.postLoading(url, 'GET', data, function (res) {
       console.log("推送历史")
-      console.log(res.data.data)
+      console.log(res)
       if (res.data.data) {
-        let streams = res.data.data
-        that.setData({
-          historyList: streams
-        })
+        let withinList = res.data.data.movies_within_serven_days
+        let overList = res.data.data.movies_over_serven_days
+        if (withinList.length == 0){
+          that.setData({
+            historyList: overList
+          })    
+        }else{
+          that.setData({
+            historyList: withinList
+          })
+        }
 
-      } else {
-        wx.showToast({
-          title: res.data.message,
-        })
       }
     }, function (res) {
       console.log('streams fail:')
@@ -228,7 +217,7 @@ Page({
 
       } else if (type == "history") {
         wx.navigateTo({
-          url: '../home/home',
+          url: '../history/history',
         })
       }
 
