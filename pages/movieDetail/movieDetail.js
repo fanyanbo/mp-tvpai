@@ -21,7 +21,6 @@ Page({
     chioced: '',
     title:'',
     moviepush: false
-
   },
 
   /**
@@ -144,28 +143,50 @@ Page({
   },
   push: function (e) {
     var index = e.currentTarget.dataset.index
+    var tvid = e.currentTarget.dataset.tvid
     console.log("================" + index)
     var that = this
     //判断ccsession是否为空
-    if (utils.ccsessionIs() == null) return
-    // if (utils.coocaaLogin() == null) return
-    that.setData({
-      //  flag:false,
-      moviechildId: index,
-      movieId: e.currentTarget.dataset.movieid
-    })
+//    if (utils.ccsessionIs() == null) return
+
     var ccsession = wx.getStorageSync("cksession")
     var deviceid = wx.getStorageSync("deviceId")
-    console.log("检测ccsession" + ccsession);
+    console.log("检测ccsession:" + ccsession);
+    console.log("检测deviceid:" + deviceid);
     if (ccsession != null && ccsession != undefined && ccsession !== '') {
+      that.setData({
+        moviechildId: index,
+        movieId: e.currentTarget.dataset.movieid
+
+      })
       if (deviceid != null && deviceid != undefined && deviceid !== ''){
-        push(that, that.data.movieId, deviceid, that.data.moviechildId, that.data.movieType)
+        push(that, that.data.movieId, deviceid, that.data.moviechildId, that.data.movieType, tvid)
       }else{
-        getDevices(that, '获取设备中');
-      }
-      
+        getDevices(that, '获取设备中', tvid);
+      }      
     } else {
-      utils.showToastBox("登录未授权，返回点击我的", "loading")
+      wx.login({
+        success: function (res) {
+          const code = res.code;
+          console.log("wx.login", JSON.stringify(res));
+          wx.getUserInfo({
+            success: function (res) {
+              console.log('wx.getUserInfo', res)
+              let encryptedData = res.encryptedData;
+              let iv = res.iv;
+              let rawData = res.rawData;
+              let signature = res.signature;
+              app.globalData.userInfo = res.userInfo;
+              wx.setStorageSync('userInfo', res.userInfo);
+              typeof cb == "function" && cb(app.globalData.userInfo);
+              appJs.login(rawData, code, encryptedData, iv, signature);
+            },
+            fail: function (err) {
+              console.log("获取用户信息失败");
+            }
+          })
+        }
+      })
     }
   }, 
   
@@ -325,7 +346,7 @@ function moviesItem(that, movieId) {
       console.log(res.data.data.length)
       that.setData({
         moviesItem: res.data.data,
-        length: res.data.data.length
+        length: res.data.data.length,
       })
     }
   }, function (res) {
@@ -340,7 +361,7 @@ function moviesItem(that, movieId) {
 }
 
 // 推送影视
-function push(that, movieId, deviceId, moviechildId, _type,title) {
+function push(that, movieId, deviceId, moviechildId, _type, tvid) {
   if (deviceId == null) {
     utils.showToastBox('无设备id!', "loading")
     return
@@ -375,51 +396,54 @@ function push(that, movieId, deviceId, moviechildId, _type,title) {
           chioced: moviechildId,
           moviepush: true
         })
-        addpushhistory(that, movieId, title, moviechildId);
+        addpushhistory(that, movieId,that.data.title, tvid);
         utils.showToastBox("推送成功", "success")
       } else {
-        utils.showToastBox(res.data.message, "loading")
+        utils.showToastBox(res.data.message)
       }
     },
     fail: function (res) {
-      utils.showToastBox(res.data.message, "loading")
+      utils.showToastBox(res.data.message)
     }
   })
 }
 
 function addpushhistory(that, movieId, title, video_id) {
   const secret = app.globalData.secret
-  var paramsStr = { "album_id": movieId, "appkey": app.globalData.appkey, "time": app.globalData.time, "title": title, "version_code": app.globalData.version_code, "video_id": video_id, "video_type": 1, "vuid": wx.getStorageSync("cksession") }
+  var paramsStr = {"appkey": app.globalData.appkey, "time": app.globalData.time, "version_code": app.globalData.version_code, "vuid": wx.getStorageSync("cksession") }
   var sign = utils.encryptionIndex(paramsStr, secret)
-  var url = api.relatelongUrl
-  let data = {
-    appkey: app.globalData.appkey,
-    album_id: movieId,
-    time: app.globalData.time,
-    title: title,
-    version_code: app.globalData.version_code,
-    video_id:video_id,
-    video_type:1,
-    vuid: wx.getStorageSync("cksession"),
-    sign: sign,
-  }
-  utils.postLoading(url, 'GET', data, function (res) {
-    console.log("增加历史")
-    console.log(res)
-  }, function (res) {
-    console.log('streams fail:')
-    console.log(res)
-    utils.showToastBox("加载数据失败", "loading")
-  }, function (res) {
-    console.log('streams complete:')
-    console.log(res)
-  }, ""
-  )
+  console.log("增加历史")
+  console.log(paramsStr)
+  console.log(sign)
+  wx.request({
+    url: api.addpushhistoryUrl + "?sign=" + sign + "&vuid=" + wx.getStorageSync("cksession") + "&version_code=33&time=" + app.globalData.time + "&appkey=" + app.globalData.appkey,
+    method: "POST",
+    data: {
+      album_id: movieId,
+      title: title,
+      video_id: video_id,
+      video_type: "1",
+    },
+    header: {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    success: function (res) {
+      console.log(res.data);
+      // wx.navigateBack({
+      //   delta: 1  //小程序关闭当前页面返回上一页面
+      // })
+      // wx.showToast({
+      //   title: '评教成功！',
+      //   icon: 'success',
+      //   duration: 2000
+      // })
+    },
+  })
 }
 
 
 
-function getDevices(that, message) {
+function getDevices(that, message,tvid) {
   const ccsession = wx.getStorageSync('cksession')
   const url = api.bindDeviceListUrl
   const key = app.globalData.key
@@ -441,7 +465,7 @@ function getDevices(that, message) {
           console.log("有绑定中的设备")
           console.log(res.data.data[ii].deviceId);
           wx.setStorageSync('deviceId', res.data.data[ii].deviceId)
-          push(that, that.data.movieId, res.data.data[ii].deviceId, that.data.moviechildId, that.data.movieType, that.data.title)
+          push(that, that.data.movieId, res.data.data[ii].deviceId, that.data.moviechildId, that.data.movieType,tvid)
         }
       }
     } else {

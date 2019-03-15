@@ -37,11 +37,6 @@ Page({
   userDebug: function () {
     userDebug = true
   },
-  webNavigateTo: function () {
-    wx.navigateTo({
-      url: '../webView/webView'
-    })
-  },
   bindGetUserInfo: function (e) {
     console.log('bindGetUserInfo:' + this.data.coocaaLogin)
     console.log(e.detail.userInfo)
@@ -101,12 +96,12 @@ Page({
   getMovie: function (message) {
     let that = this
     const secret = app.globalData.secret
-    const vuid = wx.getStorageSync('deviceId')
+    const vuid = wx.getStorageSync('cksession')
     console.log(vuid);
     const params = { "appkey": app.globalData.appkey, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code, "vuid": vuid }
     console.log(params);
     const sign = utils.encryptionIndex(params, secret)
-    const url = api.pushhistoryUrl
+    const url = api.pushhistorylistUrl
     let data = {
       appkey: app.globalData.appkey,
       vuid: vuid,
@@ -117,19 +112,13 @@ Page({
     }
     utils.postLoading(url, 'GET', data, function (res) {
       console.log("推送历史")
-      console.log(res)
+      console.log(res.data.data)
       if (res.data.data) {
         let streams = res.data.data
-        if (streams.length < parseInt(that.data.pageSize)) {
-          that.setData({
-            column: streams
-          })
-        } else {
-          that.setData({
-            column: streams,
-            page: parseInt(that.data.page) + 1 + ''
-          })
-        }
+        that.setData({
+          historyList: streams
+        })
+
       } else {
         wx.showToast({
           title: res.data.message,

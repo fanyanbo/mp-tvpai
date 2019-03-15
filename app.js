@@ -22,6 +22,7 @@ function login(rawData, code, encryptedData, iv, signature) {
     success: res => {
       var data = res.data;
       if (data.result) {
+        console.log(res)
         console.log("----进来了----" + data.data.ccsession)
         var cksession = data.data.ccsession
         wx.setStorageSync('cksession', cksession)

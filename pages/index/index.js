@@ -2,7 +2,9 @@ const utils = require('../../utils/util.js');
 const utils_fyb = require('../../utils/util_fyb');
 const api_fyb = require('../../utils/api_fyb')
 const api = require('../../api/api.js');
+let appJs = require('../../app.js');
 const app = getApp();
+
 
 Page({
   data: {
@@ -211,40 +213,40 @@ Page({
   },
 
   onShow() {
-    console.log('首页，onshow')
     this.setData({
       isShowTips: app.globalData.isShowTips
     })
     let that = this
     let ccsession = wx.getStorageSync('cksession')
-    // 判断登录状态是否过期
-    if (ccsession === null || ccsession === '') {
-      wx.login({
-        success: function (res) {
-          const code = res.code;
-          console.log("wx.login", JSON.stringify(res));
-          wx.getUserInfo({
-            success: function (res) {
-              console.log('wx.getUserInfo', res)
-              let encryptedData = res.encryptedData;
-              let iv = res.iv;
-              let rawData = res.rawData;
-              let signature = res.signature;
-              app.globalData.userInfo = res.userInfo;
-              wx.setStorageSync('userInfo', res.userInfo);
-              typeof cb == "function" && cb(app.globalData.userInfo);
-              app.login(rawData, code, encryptedData, iv, signature);
-            }, 
-            fail: function () {
-              console.log("获取用户信息失败");
-          }})
-        }
-      })
-    } else {
-      // 意义何在？
-      app.getUserInfo();
-      console.log('首页，getuserInfo:', wx.getStorageSync('userInfo'));
-    }
+    console.log("判断登录状态是否过期")
+    console.log(ccsession)
+    // if (ccsession === null || ccsession === '') {
+    //   wx.login({
+    //     success: function (res) {
+    //       const code = res.code;
+    //       console.log("wx.login", JSON.stringify(res));
+    //       wx.getUserInfo({
+    //         success: function (res) {
+    //           console.log('wx.getUserInfo', res)
+    //           let encryptedData = res.encryptedData;
+    //           let iv = res.iv;
+    //           let rawData = res.rawData;
+    //           let signature = res.signature;
+    //           app.globalData.userInfo = res.userInfo;
+    //           wx.setStorageSync('userInfo', res.userInfo);
+    //           typeof cb == "function" && cb(app.globalData.userInfo);
+    //           appJs.login(rawData, code, encryptedData, iv, signature);
+    //         }, 
+    //         fail: function (err) {
+    //           console.log("获取用户信息失败");
+    //       }})
+    //     }
+    //   })
+    // } else {
+    //   // 意义何在？
+    //   app.getUserInfo();
+    //   console.log('首页，getuserInfo:', wx.getStorageSync('userInfo'));
+    // }
   },
   onHide() {
     console.log('首页 onHide');

@@ -1,554 +1,570 @@
-<!--cinecism.wxml-->
-<!--height:{{scHeight-90}}px;overflow-y:{{isTrue}}  -->
+<!-- cinecism.wxml -->
+<!-- height:{{scHeight-90}}px;overflow-y:{{isTrue}} -->
 <form bindsubmit="formSubmit" report-submit="true">
-   <button id="eventBbutton" name="collectEvent" formType="submit" bindtap='collectEvent'class="button-hover" hover-class="other-button-hover"></button>
-   <label for="eventBbutton">
-<view class="container" style="">
-<view class="relativePostion">
-<view class="cinecism">
-<!--封面-->
-<!-- <image class="cinecism_img" src="{{dataList.picUrl}}" mode="aspectFill"/> -->
-<image class="cinecism_img" src="{{dataList.picUrl}}" mode="aspectFill"/>
-<!--标题-->
-<view class="cinecism_title font-size-xl">
-{{dataList.articleTitle}}
-</view>
-<!--作者-->
-<view class="cinecism_author font-size-xs">
-{{dataList.author}}
-</view>
-<!--时间-->
-<view class="cinecism_time font-size-xs">
-{{cTime}}
-</view>
- <view class="cinecism_content font-size-ns">
-<rich-text nodes="{{dataList.content}}" wx:if="{{dataList.content!=null&&dataList.content!=''&&dataList.content!='<p><br></p>'}}"></rich-text>
-</view> 
-</view>
-
-<!--相关文章模块  -->
-<view wx:if="{{articleUp.length > 0 && articleUp != null}}" class="artical mTb">
-<block wx:for="{{articleUp}}">    
-<view wx:if="{{item.contactArticle.type == '0'}}">
- <navigator url="cinecism?id={{item.contactArticle.id}}"> 
-<view class="artical_about">
-<view class="text1">{{item.contactArticle.articleTitle}}</view>
-<view class="text2">{{timeData}}  <text>  {{item.contactArticle.author}}</text><text class="right blue">查看全文</text></view>
-</view>
- </navigator>  
-</view>
-<!--话题模块-->
-
-<view class="topic mTb" wx:else>
-<!--话题-->
- <navigator url="cinecism?id={{item.contactArticle.id}}"> 
-<view class="cinecism_topic">
-<text class="font-size-ns">#话题#</text>
-<view class="font-size-large">{{item.contactArticle.articleTitle}}</view>
-</view>
- </navigator> 
-</view>
-<!--话题模块end-->
-
- </block>    
-</view>
-
-<!--相关文章模块end  -->
-
-
-
-
-
-<!--投票、正反方  -->
-
-<block wx:for="{{votesList}}" wx:for-item="votefor" wx:for-index="id">
-  <view wx:if="{{votefor.voteType == '0'}}">
-  <!--单选投票-->
-    <view wx:if="{{votefor.optionType == '0'}}">
-    <view class="vote" wx:if="{{votesList!=null&&votesList.length>0}}">
-      <rich-text nodes="{{votefor.content}}" wx:if="{{votefor.content!=null&&votefor.content!=''&&votefor.content!='<p><br></p>'}}"></rich-text>  
-      <view class="vote_one" wx:for="{{votefor.voteOptionWrapList}}" wx:for-item="voteOptionfor">  
-              <view class="vote_list">
+  <button id="eventBbutton" name="collectEvent" formType="submit" bindtap='collectEvent' class="button-hover" hover-class="other-button-hover"></button>
+  <label for="eventBbutton">
+    <view class="container" style="">
+      <view class="relativePostion">
+        <view class="cinecism">
+          <!-- 封面 -->
+          <!-- <image class="cinecism_img" src="{{dataList.picUrl}}" mode="aspectFill"/> -->
+          <image class="cinecism_img" src="{{dataList.picUrl}}" mode="aspectFill" />
+          <!-- 标题 -->
+          <view class="cinecism_title font-size-xl">{{dataList.articleTitle}}</view>
+          <!-- 作者 -->
+          <view class="cinecism_author font-size-xs">{{dataList.author}}</view>
+          <!-- 时间 -->
+          <view class="cinecism_time font-size-xs">{{cTime}}</view>
+          <view class="cinecism_content font-size-ns">
+            <rich-text nodes="{{dataList.content}}" wx:if="{{dataList.content!=null&&dataList.content!=''&&dataList.content!='<p><br></p>'}}"></rich-text>
+          </view>
+        </view>
+        <!-- 相关文章模块 -->
+        <view wx:if="{{articleUp.length > 0 && articleUp != null}}" class="artical mTb">
+          <block wx:for="{{articleUp}}" wx:key="index">
+            <view wx:if="{{item.contactArticle.type == '0'}}">
+              <navigator url="cinecism?id={{item.contactArticle.id}}">
+                <view class="artical_about">
+                  <view class="text1">{{item.contactArticle.articleTitle}}</view>
+                  <view class="text2">
+                    {{timeData}}
+                    <text>{{item.contactArticle.author}}</text>
+                    <text class="right blue">查看全文</text>
+                  </view>
+                </view>
+              </navigator>
+            </view>
+            <!-- 话题模块 -->
+            <view class="topic mTb" wx:else>
+              <!-- 话题 -->
+              <navigator url="cinecism?id={{item.contactArticle.id}}">
+                <view class="cinecism_topic">
+                  <text class="font-size-ns">#话题#</text>
+                  <view class="font-size-large">{{item.contactArticle.articleTitle}}</view>
+                </view>
+              </navigator>
+            </view>
+            <!-- 话题模块end -->
+          </block>
+        </view>
+        <!-- 相关文章模块end -->
+        <!-- 投票、正反方 -->
+        <block wx:for="{{votesList}}" wx:key="index" wx:for-item="votefor" wx:for-index="id">
+          <view wx:if="{{votefor.voteType == '0'}}">
+            <!-- 单选投票 -->
+            <view wx:if="{{votefor.optionType == '0'}}">
+              <view class="vote" wx:if="{{votesList!=null&&votesList.length>0}}">
+                <rich-text nodes="{{votefor.content}}" wx:if="{{votefor.content!=null&&votefor.content!=''&&votefor.content!='<p><br></p>'}}"></rich-text>
+                <view class="vote_one" wx:for="{{votefor.voteOptionWrapList}}" wx:for-item="voteOptionfor">
+                  <view class="vote_list">
                     <ul bindtap="chioceClick" data-voteid="{{votefor.id}}" data-optionid="{{voteOptionfor.id}}">
                       <li class="width70 nowarap mt20">{{voteOptionfor.option}}</li>
                       <li class="right" wx:if="{{votefor.readyVoteByWxOpenidNum > '0'}}">
-                      <text class="red" wx:if="{{voteOptionfor.wxOpenid != null}}">{{voteOptionfor.voteRatio}}%</text><text wx:else>{{voteOptionfor.voteRatio}}%</text>
-                      </li>
-                     <li style="float:none;" wx:else>
-                     <li wx:if="{{ votefor.voteEndtime < timestamp}}"  class="right chioceIcon"></li>
-                     <li data-voteid="{{votefor.id}}" data-optionid="{{voteOptionfor.id}}" class="right chioceIcon {{cicleMany[voteOptionfor.id]}}" wx:else></li>
-                      
-                     </li>
-                      
-                      <div class="clear"></div>
-                    </ul>
-              </view>
-        </view>
-            <!--投票按钮  -->
-            <view data-id="{{id}}" wx:if="{{votefor.readyVoteByWxOpenidNum > '0'}}" class="vote2_button">投票</view>
-            <view wx:else>
-              <view wx:if="{{ votefor.voteEndtime > timestamp}}">
-                <view wx:if="{{votefor.voteOptionWrapList==null||votefor.voteOptionWrapList.length<=0}}"></view>
-                <view wx:else data-id="{{id}}"  bindtap="voteArray" class="vote_button" data-vote="{{votefor.id}}" hover-class="hoverVs">投票</view>
-              </view>
-              <view class="vote2_button" wx:else>已结束</view>
-            </view>
-            </view>  
-    </view>
-    <!--单选投票end  -->
-    <!--多选投票  -->
-    <view class="" wx:else wx:for-index="id">
-    <view class="vote" wx:if="{{votesList!=null&&votesList.length>0}}">
-        <rich-text nodes="{{votefor.content}}" wx:if="{{votefor.content!=null&&votefor.content!=''&&votefor.content!='<p><br></p>'}}"></rich-text>  
-        <view class="vote_one" wx:for="{{votefor.voteOptionWrapList}}" wx:for-item="voteOptionfor" >  
-              <view class="vote_list">
-                    <ul bindtap="chioceClick2" data-voteid="{{votefor.id}}" data-optionid="{{voteOptionfor.id}}">
-                      <li data-voteid="{{voteOptionfor.id}}" class="width70 nowarap mt20">{{voteOptionfor.option}}</li>
-                      <li class="right" wx:if="{{votefor.readyVoteByWxOpenidNum > '0'}}">
-                      <text class="red" wx:if="{{voteOptionfor.wxOpenid != null}}">{{voteOptionfor.voteRatio}}%</text><text wx:else>{{voteOptionfor.voteRatio}}%</text>
+                        <text class="red" wx:if="{{voteOptionfor.wxOpenid != null}}">
+                          {{voteOptionfor.voteRatio}}%
+                        </text>
+                        <text wx:else>{{voteOptionfor.voteRatio}}%</text>
                       </li>
                       <li style="float:none;" wx:else>
-                        <li wx:if="{{ votefor.voteEndtime < timestamp}}"  class="right chioceIcon"></li>
+                        <li wx:if="{{ votefor.voteEndtime < timestamp}}" class="right chioceIcon"></li>
                         <li data-voteid="{{votefor.id}}" data-optionid="{{voteOptionfor.id}}" class="right chioceIcon {{cicleMany[voteOptionfor.id]}}" wx:else></li>
                       </li>
                       <div class="clear"></div>
                     </ul>
-              </view>
-        </view>
-            <!--投票按钮  -->
-        <view data-id="{{id}}" wx:if="{{votefor.readyVoteByWxOpenidNum > '0'}}" class="vote2_button">投票</view>
-        <view wx:else>
-            <view wx:if="{{ votefor.voteEndtime > timestamp}}">
-              <view wx:if="{{votefor.voteOptionWrapList==null||votefor.voteOptionWrapList.length<=0}}"></view>
-              <view wx:else data-id="{{id}}"  bindtap="voteArray" class="vote_button" data-vote="{{votefor.id}}" hover-class="hoverVs">投票</view>
-            </view>
-             <view class="vote2_button" wx:else>已结束</view>
-         </view>
-           </view>  
-    </view>
- <!--多选投票end  -->
-  </view>
-
-  <view class="vs" wx:else>
-   <view  wx:if="{{votesList!=null&&votesList.length>0}}">
-  <!--正反方-->
-      <rich-text nodes="{{votefor.content}}" wx:if="{{votefor.content!=null&&votefor.content!=''&&votefor.content!='<p><br></p>'}}"></rich-text>
-       <view class="ml20">
-          <div wx:for="{{votefor.voteOptionWrapList}}" wx:for-item="voteOptionfor" data-id="{{voteOptionfor.id}}" class="{{virtual[id]}} msg" wx:for-index="buttonindex">
-            <p wx:if="{{voteOptionfor.wxOpenid==null && votefor.readyVoteByWxOpenidNum > '0'}}">
-              <text class="mg60 virtual" wx:if="{{buttonindex=='0'}}">正方</text>
-              <text class="mg60 virtual" wx:else>反方</text>
-              <text class="grayColor virtual">{{voteOptionfor.option}}</text>
-            </p>
-             <p wx:else>
-              <text class="mg60" wx:if="{{buttonindex=='0'}}">正方</text>
-              <text class="mg60" wx:else>反方</text>
-              <text class="grayColor">{{voteOptionfor.option}}</text>
-            </p>
-            <view wx:if="{{votefor.readyVoteByWxOpenidNum > '0'}}">
-            </view>
-            <view class="{{voteHide[id]}}" wx:else>
-                <view wx:if="{{voteOptionfor.wxOpenid == null}}">
-                    <view wx:if="{{buttonindex==0}}" data-index="{{buttonindex}}" data-optionid="{{voteOptionfor.id}}" class="affirmative optionList" bindtap="voteVs" data-vote="{{votefor.id}}" hover-class="hoverVs">支持正方</view>
-                    <view wx:else data-index="{{buttonindex}}" data-optionid="{{voteOptionfor.id}}" class="negative optionList" bindtap="voteVs" data-vote="{{votefor.id}}" hover-class="hoverVs">支持反方</view>
-                    <view class="clear"></view>
+                  </view>
                 </view>
+                <!-- 投票按钮 -->
+                <view data-id="{{id}}" wx:if="{{votefor.readyVoteByWxOpenidNum > '0'}}" class="vote2_button">
+                  投票
+                </view>
+                <view wx:else>
+                  <view wx:if="{{ votefor.voteEndtime > timestamp}}">
+                    <view wx:if="{{votefor.voteOptionWrapList==null||votefor.voteOptionWrapList.length<=0}}"></view>
+                    <view wx:else data-id="{{id}}" bindtap="voteArray" class="vote_button" data-vote="{{votefor.id}}" hover-class="hoverVs">
+                      投票
+                    </view>
+                  </view>
+                  <view class="vote2_button" wx:else>已结束</view>
+                </view>
+              </view>
             </view>
-                 <view class="clear"></view>
-          </div>
-
-      
-
-
-  <!-- 显示百分比 -->
-    <view class="" wx:for="{{votefor.voteOptionWrapList}}" wx:for-item="voteOptionfor" data-index="{{index}}">
-        <view data-id="{{id}}" class="progresswxOpenid" wx:if="{{votefor.readyVoteByWxOpenidNum > '0'}}">
-          <view class="classname" wx:if="{{index == '0'}}">
-            <progress data-id="{{id}}" percent="{{voteOptionfor.voteRatio}}" color="pink" class="voteProgress"/>
-              <view class="vote_score">
-                  <text data-id="{{id}}" class="affirmative_score">{{voteOptionfor.voteRatio}}%</text>
-                  <text data-id="{{id}}" class="negative_score">{{100-voteOptionfor.voteRatio}}%</text>
+            <!-- 单选投票end -->
+            <!-- 多选投票 -->
+            <view class="" wx:else wx:for-index="id">
+              <view class="vote" wx:if="{{votesList!=null&&votesList.length>0}}">
+                <rich-text nodes="{{votefor.content}}" wx:if="{{votefor.content!=null&&votefor.content!=''&&votefor.content!='<p><br></p>'}}"></rich-text>
+                <view class="vote_one" wx:for="{{votefor.voteOptionWrapList}}" wx:key="index" wx:for-item="voteOptionfor">
+                  <view class="vote_list">
+                    <ul bindtap="chioceClick2" data-voteid="{{votefor.id}}" data-optionid="{{voteOptionfor.id}}">
+                      <li data-voteid="{{voteOptionfor.id}}" class="width70 nowarap mt20">
+                        {{voteOptionfor.option}}
+                      </li>
+                      <li class="right" wx:if="{{votefor.readyVoteByWxOpenidNum > '0'}}">
+                        <text class="red" wx:if="{{voteOptionfor.wxOpenid != null}}">
+                          {{voteOptionfor.voteRatio}}%
+                        </text>
+                        <text wx:else>{{voteOptionfor.voteRatio}}%</text>
+                      </li>
+                      <li style="float:none;" wx:else>
+                        <li wx:if="{{ votefor.voteEndtime < timestamp}}" class="right chioceIcon"></li>
+                        <li data-voteid="{{votefor.id}}" data-optionid="{{voteOptionfor.id}}" class="right chioceIcon {{cicleMany[voteOptionfor.id]}}" wx:else></li>
+                      </li>
+                      <div class="clear"></div>
+                    </ul>
+                  </view>
+                </view>
+                <!-- 投票按钮 -->
+                <view data-id="{{id}}" wx:if="{{votefor.readyVoteByWxOpenidNum > '0'}}" class="vote2_button">
+                  投票
+                </view>
+                <view wx:else>
+                  <view wx:if="{{ votefor.voteEndtime > timestamp}}">
+                    <view wx:if="{{votefor.voteOptionWrapList==null||votefor.voteOptionWrapList.length<=0}}"></view>
+                    <view wx:else data-id="{{id}}" bindtap="voteArray" class="vote_button" data-vote="{{votefor.id}}" hover-class="hoverVs">
+                      投票
+                    </view>
+                  </view>
+                  <view class="vote2_button" wx:else>已结束</view>
+                </view>
               </view>
+            </view>
+            <!-- 多选投票end -->
           </view>
-        </view>
-<!--不显示百分比  -->
-          <view data-id="{{id}}" class="progress hide {{progressHide[id]}}" wx:else>
-            <progress data-id="{{id}}" percent="{{voteOptionfor.voteRatio}}" color="pink" class="voteProgress"/>
-              <view class="vote_score">
-                  <text data-id="{{id}}" class="affirmative_score">{{voteOptionfor.voteRatio}}%</text>
-                  <text data-id="{{id}}" class="negative_score">{{100-voteOptionfor.voteRatio}}%</text>
+          <view class="vs" wx:else>
+            <view wx:if="{{votesList!=null&&votesList.length>0}}">
+              <!-- 正反方 -->
+              <rich-text nodes="{{votefor.content}}" wx:if="{{votefor.content!=null&&votefor.content!=''&&votefor.content!='<p><br></p>'}}"></rich-text>
+              <view class="ml20">
+                <div wx:for="{{votefor.voteOptionWrapList}}" wx:key="index" wx:for-item="voteOptionfor" data-id="{{voteOptionfor.id}}" class="{{virtual[id]}} msg" wx:for-index="buttonindex">
+                  <p wx:if="{{voteOptionfor.wxOpenid==null && votefor.readyVoteByWxOpenidNum > '0'}}">
+                    <text class="mg60 virtual" wx:if="{{buttonindex=='0'}}">正方</text>
+                    <text class="mg60 virtual" wx:else>反方</text>
+                    <text class="grayColor virtual">{{voteOptionfor.option}}</text>
+                  </p>
+                  <p wx:else>
+                    <text class="mg60" wx:if="{{buttonindex=='0'}}">正方</text>
+                    <text class="mg60" wx:else>反方</text>
+                    <text class="grayColor">{{voteOptionfor.option}}</text>
+                  </p>
+                  <view wx:if="{{votefor.readyVoteByWxOpenidNum > '0'}}"></view>
+                  <view class="{{voteHide[id]}}" wx:else>
+                    <view wx:if="{{voteOptionfor.wxOpenid == null}}">
+                      <view wx:if="{{buttonindex==0}}" data-index="{{buttonindex}}" data-optionid="{{voteOptionfor.id}}" class="affirmative optionList" bindtap="voteVs" data-vote="{{votefor.id}}" hover-class="hoverVs">
+                        支持正方
+                      </view>
+                      <view wx:else data-index="{{buttonindex}}" data-optionid="{{voteOptionfor.id}}" class="negative optionList" bindtap="voteVs" data-vote="{{votefor.id}}" hover-class="hoverVs">
+                        支持反方
+                      </view>
+                      <view class="clear"></view>
+                    </view>
+                  </view>
+                  <view class="clear"></view>
+                </div>
+                <!-- 显示百分比 -->
+                <view class="" wx:for="{{votefor.voteOptionWrapList}}" wx:for-item="voteOptionfor" data-index="{{index}}">
+                  <view data-id="{{id}}" class="progresswxOpenid" wx:if="{{votefor.readyVoteByWxOpenidNum > '0'}}">
+                    <view class="classname" wx:if="{{index == '0'}}">
+                      <progress data-id="{{id}}" percent="{{voteOptionfor.voteRatio}}" color="pink" class="voteProgress" />
+                      <view class="vote_score">
+                        <text data-id="{{id}}" class="affirmative_score">
+                          {{voteOptionfor.voteRatio}}%
+                        </text>
+                        <text data-id="{{id}}" class="negative_score">
+                          {{100-voteOptionfor.voteRatio}}%
+                        </text>
+                      </view>
+                    </view>
+                  </view>
+                  <!-- 不显示百分比 -->
+                  <view data-id="{{id}}" class="progress hide {{progressHide[id]}}" wx:else>
+                    <progress data-id="{{id}}" percent="{{voteOptionfor.voteRatio}}" color="pink" class="voteProgress" />
+                    <view class="vote_score">
+                      <text data-id="{{id}}" class="affirmative_score">
+                        {{voteOptionfor.voteRatio}}%
+                      </text>
+                      <text data-id="{{id}}" class="negative_score">
+                        {{100-voteOptionfor.voteRatio}}%
+                      </text>
+                    </view>
+                  </view>
+                </view>
               </view>
+            </view>
           </view>
-    </view>
-        
-
-    </view>
-</view>
-  </view>
-</block>
-<view wx:if="{{votesList !=null && votesList.length>0}}" class="pb20"></view>
-
-
-<!--影评模块  -->
-<view class="movies" wx:if="{{moviesData!=null&&moviesData.length>0}}">
-<block wx:for="{{moviesData}}" wx:for-index="index">
-<view class="moviesOne">
-<!--影评富文本  -->
-  <rich-text nodes="{{item.content}}" wx:if="{{item.content!=null&&item.content!=''&&item.content!='<p><br></p>'}}"></rich-text>
-<!--影评  -->
-<view wx:if="{{item.moviesDetail != null}}">
-<view class="cinecism_card">
-<!-- <navigator url="../detail/detail?articleId={{item.articleId}}&movieId={{item.movieId}}"> -->
-  <view data-articleid="{{item.articleId}}" data-contentid="{{item.contentId}}" data-movietypes="{{item.movieType}}" bindtap="detailTo">
-    <view class="floatLeft">
-        <image src="{{imgV[index].url}}" mode="aspectFill" />
-    </view>
-      <view class="floatRight">
-            <view class="title font-size-ns">{{item.moviesDetail.videoData.base_info.title}}</view>
-    <!--评分-->
-          <!-- <view class="pingfen" data-index="{{index}}">
+        </block>
+        <view wx:if="{{votesList !=null && votesList.length>0}}" class="pb20"></view>
+        <!-- 影评模块 -->
+        <view class="movies" wx:if="{{moviesData!=null&&moviesData.length>0}}">
+          <block wx:for="{{moviesData}}" wx:for-index="index">
+            <view class="moviesOne">
+              <!-- 影评富文本 -->
+              <rich-text nodes="{{item.content}}" wx:if="{{item.content!=null&&item.content!=''&&item.content!='<p><br></p>'}}"></rich-text>
+              <!-- 影评 -->
+              <view wx:if="{{item.moviesDetail != null}}">
+                <view class="cinecism_card">
+                  <!-- <navigator url="../detail/detail?articleId={{item.articleId}}&movieId={{item.movieId}}"> -->
+                  <view data-articleid="{{item.articleId}}" data-contentid="{{item.contentId}}" data-movietypes="{{item.movieType}}" bindtap="detailTo">
+                    <view class="floatLeft">
+                      <image src="{{imgV[index].url}}" mode="aspectFill" />
+                    </view>
+                    <view class="floatRight">
+                      <view class="title font-size-ns">
+                        {{item.moviesDetail.videoData.base_info.title}}
+                      </view>
+                      <!-- 评分 -->
+                      <!-- <view class="pingfen" data-index="{{index}}">
             <ul>
             <li class="font-size-xs" data-pingfen="{{movieData.score}}" >评分：{{item.moviesDetail.videoData.base_info.score}}</li>
             <div class="clear"></div>
             </ul>
-        </view>   -->
-          <!--评分-->
-          <view class="pingfenStar" data-index="{{index}}">
-              <ul>
-                <li class="{{starClass0[index] ? 'starAll':'starGray'}}"></li>
-                <li class="{{starClass1[index] ? 'starAll':'starGray'}}"></li>
-                <li class="{{starClass2[index] ? 'starAll':'starGray'}}"></li>
-                <li class="{{starClass3[index] ? 'starAll':'starGray'}}"></li>
-                <li class="{{starClass4[index] ? 'starAll':'starGray'}}"></li>
-                <li class="font-size-xs" data-pingfen="{{movieData.score}}" >{{item.moviesDetail.videoData.base_info.score}}</li>
-                <div class="clear"></div>
-              </ul>
-        </view>  
-
-
-
-        <view class="font-size-xs"><text wx:if="{{item.moviesDetail.videoData.base_info.publish_date!=null&&item.moviesDetail.videoData.base_info.publish_date.length>0}}">{{item.moviesDetail.videoData.base_info.publish_date}} | </text><text wx:if="{{item.moviesDetail.videoData.base_info.publish_area!=null&&item.moviesDetail.videoData.base_info.publish_area.length>0}}">{{item.moviesDetail.videoData.base_info.publish_area}} | </text><text wx:if="{{tags!=null&&tags.length>0}}">{{tags}} | </text><text wx:if="{{item.moviesDetail.videoData.base_info.sub_title!=null&&item.moviesDetail.videoData.base_info.sub_title.length>0}}">{{item.moviesDetail.videoData.base_info.sub_title}}</text></view>
-      </view> 
-
-  <!-- </navigator> -->
- <!--清除浮动-->
- <view class="clear"></view>
-</view>
-
-   <view class="cinecism_card_footer"> 
-    <!--收藏影片-->
-         <view class="inline">
-          
-            <view class="collect_logo" >
-                <!-- <image src="../../images/collect_icon.png"/> -->
-                <li data-contentid="{{item.contentId}}" wx:if="{{item.moviesDetail.isCollectionMovie == 'no'}}" class="starIcon {{starArrays[item.contentId]}}" data-index="{{index}}" bindtap="collect"></li>
-               
-              <li wx:else class="starIcon1" data-index="{{index}}"></li>
-            </view>
-        
-              <view class="cinecism_card_collect">
-                  <text class="cinecism_card_star font-size-small">收藏影片</text>
+        </view> -->
+                      <!-- 评分 -->
+                      <view class="pingfenStar" data-index="{{index}}">
+                        <ul>
+                          <li class="{{starClass0[index] ? 'starAll':'starGray'}}"></li>
+                          <li class="{{starClass1[index] ? 'starAll':'starGray'}}"></li>
+                          <li class="{{starClass2[index] ? 'starAll':'starGray'}}"></li>
+                          <li class="{{starClass3[index] ? 'starAll':'starGray'}}"></li>
+                          <li class="{{starClass4[index] ? 'starAll':'starGray'}}"></li>
+                          <li class="font-size-xs" data-pingfen="{{movieData.score}}">
+                            {{item.moviesDetail.videoData.base_info.score}}
+                          </li>
+                          <div class="clear"></div>
+                        </ul>
+                      </view>
+                      <view class="font-size-xs">
+                        <text wx:if="{{item.moviesDetail.videoData.base_info.publish_date!=null&&item.moviesDetail.videoData.base_info.publish_date.length>0}}">
+                          {{item.moviesDetail.videoData.base_info.publish_date}} |
+                        </text>
+                        <text wx:if="{{item.moviesDetail.videoData.base_info.publish_area!=null&&item.moviesDetail.videoData.base_info.publish_area.length>0}}">
+                          {{item.moviesDetail.videoData.base_info.publish_area}} |
+                        </text>
+                        <text wx:if="{{tags!=null&&tags.length>0}}">{{tags}} |</text>
+                        <text wx:if="{{item.moviesDetail.videoData.base_info.sub_title!=null&&item.moviesDetail.videoData.base_info.sub_title.length>0}}">
+                          {{item.moviesDetail.videoData.base_info.sub_title}}
+                        </text>
+                      </view>
+                    </view>
+                    <!-- </navigator> -->
+                    <!-- 清除浮动 -->
+                    <view class="clear"></view>
+                  </view>
+                  <view class="cinecism_card_footer">
+                    <!-- 收藏影片 -->
+                    <view class="inline">
+                      <view class="collect_logo">
+                        <!-- <image src="../../images/collect_icon.png"/> -->
+                        <li data-contentid="{{item.contentId}}" wx:if="{{item.moviesDetail.isCollectionMovie == 'no'}}" class="starIcon {{starArrays[item.contentId]}}" data-index="{{index}}" bindtap="collect"></li>
+                        <li wx:else class="starIcon1" data-index="{{index}}"></li>
+                      </view>
+                      <view class="cinecism_card_collect">
+                        <text class="cinecism_card_star font-size-small">收藏影片</text>
+                      </view>
+                    </view>
+                    <!-- 收藏影片end -->
+                    <!-- 推送到电视 -->
+                    <view class="inline" data-movietypes="{{item.movieType}}" data-contentid="{{item.contentId}}" data-allcount="{{item.moviesDetail.videoData.base_info.publist_segment}}" data-nowcount="{{item.moviesDetail.videoData.base_info.current_segment}}" data-videotype="{{item.moviesDetail.videoData.base_info.video_type}}" bindtap="pushVideo">
+                      <!-- <button name="pushVideo" formType="submit">  </button> -->
+                      <view class="push_logo">
+                        <image src="../../images/propell_icon.png" />
+                      </view>
+                      <view class="cinecism_card_push">
+                        <text class="cinecism_card_tv font-size-small">推送到电视</text>
+                      </view>
+                    </view>
+                    <!-- 推送到电视end -->
+                  </view>
+                </view>
               </view>
-                  
-     
-        </view> 
-  <!--收藏影片end-->
-  <!--推送到电视-->
-      
-       <view class="inline" data-movietypes="{{item.movieType}}" data-contentid="{{item.contentId}}" data-allcount="{{item.moviesDetail.videoData.base_info.publist_segment}}" data-nowcount="{{item.moviesDetail.videoData.base_info.current_segment}}" data-videotype="{{item.moviesDetail.videoData.base_info.video_type}}"  bindtap="pushVideo">
-       <!-- <button name="pushVideo" formType="submit">  </button> -->
-          <view class="push_logo">
-              <image src="../../images/propell_icon.png"/>
-          </view>
-          <view class="cinecism_card_push">
-            <text class="cinecism_card_tv font-size-small">推送到电视</text>
-          </view>
-      </view> 
-  
-  <!--推送到电视end-->
-   </view> 
-</view>
-
-</view>
+            </view>
+          </block>
+          <view wx:if="{{moviesData !=null && moviesData.length>0}}" class="pb20"></view>
+        </view>
+        <!-- 影评模块end  
 
 
 
-</view>
-</block>
-<view wx:if="{{moviesData !=null && moviesData.length>0}}" class="pb20"></view>
-</view>
-<!--影评模块end  
-
-
-
-<!--底部固定结构  -->
-
-<!--相关文章-->
-
-<view class="cinecism_article" wx:if="{{articleDown!=null&&articleDown.length > 0}}">
-<!--一篇文章-->
-<text >相关文章</text>
-<block wx:for="{{articleDown}}"> 
-<!-- <view wx:if="{{item.contactArticle.type == '0'}}"> -->
-<view>
-<navigator url="cinecism?id={{item.contactArticle.id}}">
-<view class="box">
-<view class="gray">{{item.contactArticle.articleTitle}}</view>
-<image src="{{item.contactArticle.picUrl}}" mode="aspectFill"></image>
-</view>
-</navigator> 
-</view>
-
-<!--话题模块-->
-
-<!-- <view class="topic" wx:else> -->
-<!--话题-->
- <!-- <navigator url="cinecism?id={{item.contactArticle.id}}"> 
+<!--底部固定结构 -->
+        <!-- 相关文章 -->
+        <view class="cinecism_article" wx:if="{{articleDown!=null&&articleDown.length > 0}}">
+          <!-- 一篇文章 -->
+          <text>相关文章</text>
+          <block wx:for="{{articleDown}}" wx:key="index">
+            <!-- <view wx:if="{{item.contactArticle.type == '0'}}"> -->
+            <view>
+              <navigator url="cinecism?id={{item.contactArticle.id}}">
+                <view class="box">
+                  <view class="gray">{{item.contactArticle.articleTitle}}</view>
+                  <image src="{{item.contactArticle.picUrl}}" mode="aspectFill"></image>
+                </view>
+              </navigator>
+            </view>
+            <!-- 话题模块 -->
+            <!-- <view class="topic" wx:else> -->
+            <!-- 话题 -->
+            <!-- <navigator url="cinecism?id={{item.contactArticle.id}}"> 
 <view class="cinecism_topic">
 <text class="font-size-ns">#话题#</text>
 <view class="font-size-large">{{item.contactArticle.articleTitle}}</view>
 </view>
  </navigator> 
 </view> -->
-<!--话题模块end-->
-
-</block>
-<view  class="pb20"></view>
-<!--一篇文章end-->
-</view>
-<!--相关文章end-->
-
-
-
-
-<!--评论 start-->
-<view id="cinecism_comment">
-<view class="cinecism_comment" wx:if="{{loadData!=null&&loadData.length>0}}">
-<view class="cinecism_comment_topic">评论 {{commentData.pager.totalNum}}</view>
-
-<!--一条评论  -->
- <block wx:for="{{loadData}}"> 
-<view class="cinecism_comment_one">
-<div class="comment_left">
-<image src="{{item.headimgurl}}" mode="aspectFill"></image>
-</div>
-<div class="comment_right">
-<ul>
-<li class="comment_right_name">{{item.nickname}}</li>
-<li class="right width60" bindtap="handClick" data-commentid="{{item.id}}"  data-id="{{index}}"><image src="{{likeClass[index]=='true' ? '../../images/praise_icon2.png':'../../images/praise_icon.png'}}" data-commentid="{{item.id}}"  data-id="{{index}}" ></image></li>
-<li class="right comment_right_like" data-id="{{index}}">{{praiseNum[index]}}</li> 
-<li class="right comment_right_time">{{createTime[index]}}</li>
-</ul>
-<ul><li class="font-size-ns">{{item.content}}</li></ul>
-</div>
-</view>
- </block> 
-<!--一条评论end  -->
-
-</view>
-</view>
-
-
-<!--评论end  -->
-
-
-<!-- 底部栏start -->
-<view class="footer">
-<ul>
-<li class="footer_bar" bindtap="clickBar" wx:if="{{moviesData!=null&&moviesData.length>0&&lenIs}}"><image src="../../images/catalog_icon.png"></image><text>文中影片</text></li>
-<!--评论数  -->
-<li class="right">{{commentData.pager.totalNum}}</li>
-<!--评论图标  -->
-<li class="right mg20" bindtap="commentClick"><image src="../../images/comment_icon.png"></image></li>
-<!--点赞数  -->
-<li class="right mg50" data-index="{{index}}">{{collectNum}}</li>
-<!--点赞图标  -->
-<li class="right mg20 starTop"><image bindtap="clickLike" data-articleId="{{dataList.id}}" data-index="{{index}}" src="{{img == 1? '../../images/like_icon.png':'../../images/like_icon2.png'}}"></image></li>
-<div class="clear"></div>
-</ul>
-
-</view>
-<!--底部栏end  -->
-<!--评论输入框  -->
-<view bindtap="closeGray1" class="grayBox grayBox1 {{hidden1 == 'true'?'hide':''}}"></view>
-<view class="inputWords {{hidden1 == 'true'?'hide':''}}"><input confirm-type="send" data-id="{{dataList.id}}" placeholder="我也说两句" focus="{{focus}}" value="{{inInput}}"  bindconfirm="bindconfirm" /></view>
-<!--评论输入框end  -->
-
-
-<!--push推送展开栏  -->
-<view bindtap="closeGray2" class="grayBox grayBox2 {{hidden2 == 'true'?'hide':''}}"></view>
-<view class="pushBar {{hidden2 == 'true'?'hide':''}}">
-
-<view class="countName">酷开账号：{{username}}<li bindtap="closeList" class="right"><image src="../../images/close_icon.png"></image></li></view>
-<view class="mg">
-<!--电视剧剧集列表  -->
-<view wx:if="{{videotype !='dianying'}}">
-  <view class="mg_title">请选择推送剧集</view>
-
-    <view class="tvList">
-
-      <view>
-      <li data-index="{{index}}" bindtap="chioceService" class="{{tvChioced == index ? 'tvChioced':''}}" wx:for="{{tvCount}}" wx:for-index="index">{{index+1}}</li>
-      <div class="clear"></div> 
-      </view>
-
-    </view>
-
-  </view>
-</view>
-
-
-<!--电视剧剧集列表end  -->
-
-
-
-<view class="device">
-<!--爱奇异视频源  -->
-<view wx:if="{{movietypes=='iqiyi'||movietypes=='iqiyiTencent'}}">
-  <view class="aiqiyi" wx:if="{{qiyiList!=null&&qiyiList.length>0 }}">
-    <div wx:for="{{qiyiList}}" wx:for-index="index" wx:if="{{item.source=='yinhe'&&index == '0'}}" class="aiqiyi_title">爱奇艺视频源</div>
-    <div>
-      <ul>
-        <li wx:for="{{qiyiList}}" wx:if="{{item.source=='yinhe'}}">{{item.model}} {{item.deviceName}}<text class="pushRight" data-serviceidspare="{{item.serviceIdSpare}}" data-serviceid="{{item.serviceId}}" data-id="{{item.id}}" data-source="iqiyi" bindtap="pushMovies">推送</text></li>
-      </ul>
-    </div>
-  </view>
-  <view wx:else>
-  <!-- <div class="aiqiyi_title">爱奇艺视频源</div> -->
-      <div>
-        <ul>
-          <li class="noService" wx:if="{{movietypes!='iqiyiTencent'}}">暂无相关设备</li>
-        </ul>
-    </div>
-  </view>
-</view>
-
-<!--腾讯视频源  -->
-<view wx:if="{{movietypes=='tencent'||movietypes=='iqiyiTencent'}}">
-  <view class="aiqiyi" wx:if="{{tencentList!=null&&tencentList.length>0}}">
-    <div wx:for="{{tencentList}}" wx:for-index="index" wx:if="{{item.source=='tencent' && index == '0'}}"  class="aiqiyi_title">腾讯视频源</div>
-    <div>
-        <ul>
-          <li wx:for="{{tencentList}}" wx:if="{{item.source=='tencent'}}">{{item.model}} {{item.deviceName}}<text class="pushRight" data-serviceidspare="{{item.serviceIdSpare}}" data-serviceid="{{item.serviceId}}" data-id="{{item.id}}" data-source="tencent" bindtap="pushMovies">推送</text></li>
-        </ul>
-      </div>
-  </view> 
-  <view wx:else>
-    <!-- <div class="aiqiyi_title">腾讯视频源</div> -->
-        <div>
+            <!-- 话题模块end -->
+          </block>
+          <view class="pb20"></view>
+          <!-- 一篇文章end -->
+        </view>
+        <!-- 相关文章end -->
+        <!-- 评论 start -->
+        <view id="cinecism_comment">
+          <view class="cinecism_comment" wx:if="{{loadData!=null&&loadData.length>0}}">
+            <view class="cinecism_comment_topic">评论 {{commentData.pager.totalNum}}</view>
+            <!-- 一条评论 -->
+            <block wx:for="{{loadData}}">
+              <view class="cinecism_comment_one">
+                <div class="comment_left">
+                  <image src="{{item.headimgurl}}" mode="aspectFill"></image>
+                </div>
+                <div class="comment_right">
+                  <ul>
+                    <li class="comment_right_name">{{item.nickname}}</li>
+                    <li class="right width60" bindtap="handClick" data-commentid="{{item.id}}" data-id="{{index}}">
+                      <image src="{{likeClass[index]=='true' ? '../../images/praise_icon2.png':'../../images/praise_icon.png'}}" data-commentid="{{item.id}}" data-id="{{index}}"></image>
+                    </li>
+                    <li class="right comment_right_like" data-id="{{index}}">
+                      {{praiseNum[index]}}
+                    </li>
+                    <li class="right comment_right_time">{{createTime[index]}}</li>
+                  </ul>
+                  <ul>
+                    <li class="font-size-ns">{{item.content}}</li>
+                  </ul>
+                </div>
+              </view>
+            </block>
+            <!-- 一条评论end -->
+          </view>
+        </view>
+        <!-- 评论end -->
+        <!-- 底部栏start -->
+        <view class="footer">
           <ul>
-            <li class="noService"  wx:if="{{movietypes!='iqiyiTencent'}}">暂无相关设备</li>
-          </ul>
-      </div>
-  </view>
-</view>
-<!--创维视频源  -->
-
-<view wx:if="{{movietypes=='sky'}}">
-    <view class="aiqiyi" wx:if="{{skyList!=null&&skyList.length>0}}">
-      <div wx:for="{{skyList}}" wx:for-index="index" wx:if="{{item.source=='sky'&&index=='0'}}" class="aiqiyi_title">创维聚合视频源</div>
-        <div>
-          <ul>
-          <li wx:for="{{skyList}}" wx:if="{{item.source=='sky'}}">{{item.model}} {{item.deviceName}}<text class="pushRight" data-serviceidspare="{{item.serviceIdSpare}}" data-serviceid="{{item.serviceid}}" data-id="{{item.id}}" bindtap="pushMovies">推送</text></li>
-          </ul>
-        </div>
-    </view> 
-    <view wx:else>
-      <!-- <div class="aiqiyi_title">创维视频源</div> -->
-          <div>
-            <ul>
-              <li class="noService">暂无相关设备</li>
-            </ul>
-        </div>
-    </view>
-</view>
-
-<!--优朋视频源  -->
-<view wx:if="{{movietypes=='voole'}}">
-  <view class="aiqiyi"  wx:if="{{vooleList!=null&&vooleList.length>0}}">
-    <div wx:for="{{vooleList}}" wx:for-index="index" wx:if="{{item.source=='voole'&&index=='0'}}" class="aiqiyi_title">优朋视频源</div>
-      <div>
-        <ul>
-        <li wx:for="{{vooleList}}" wx:if="{{item.source=='voole'}}">{{item.model}} {{item.deviceName}}<text class="pushRight" data-serviceidspare="{{item.serviceIdSpare}}" data-serviceid="{{item.serviceid}}" data-id="{{item.id}}" bindtap="pushMovies">推送</text></li>
-        </ul>
-      </div>
-  </view> 
-  <view wx:else>
-      <!-- <div class="aiqiyi_title">优朋视频源</div> -->
-          <div>
-            <ul>
-              <li class="noService">暂无相关设备</li>
-            </ul>
-        </div>
-  </view>
-
-</view> 
-<view wx:if="{{movietypes!='tencent'&& movietypes!='iqiyi'&&qiyiList.length=='0'&&tencentList.length=='0'}}">
-    <div>
-        <ul>
-          <li class="noService">暂无相关设备</li>
-        </ul>
-    </div>
-</view>
-
-</view>
-<!--device end  -->
-
-
-</view>
-<!--push推送展开栏end  -->
-
-
-</view>
-<!--菜单展开栏  -->
-<view bindtap="closeGray" class="grayBox {{hidden == 'true'?'hide':''}}"></view>
-<view class="openBar {{hidden == 'true'?'hide':''}}">
-  <view class="openBar_list">
-
-      <view class="movieList" wx:for="{{clooectList}}" wx:for-index="index">
-          <ul>
-            <li>{{item.moviesDetail.videoData.base_info.title}}</li>
-
-            <li class="right1">
-             <li name="collectMovieBottom" formType="submit" data-moviesid="{{item.movieId}}" data-contentid="{{item.contentId}}" wx:if="{{item.moviesDetail.isCollectionMovie == 'no'}}" class="starIcon {{starArrays[item.contentId]}}" data-index="{{index}}" bindtap="collect" ></li>
-
-            <li wx:else class="starIcon1" data-index="{{index}}"></li>
+            <li class="footer_bar" bindtap="clickBar" wx:if="{{moviesData!=null&&moviesData.length>0&&lenIs}}">
+              <image src="../../images/catalog_icon.png"></image>
+              <text>文中影片</text>
             </li>
-            <li class="right2" data-movietypes="{{item.movieType}}" data-contentid="{{item.contentId}}" data-allcount="{{item.moviesDetail.videoData.base_info.publist_segment}}" data-nowcount="{{item.moviesDetail.videoData.base_info.current_segment}}" data-videotype="{{item.moviesDetail.videoData.base_info.video_type}}"  bindtap="pushVideo"><image src="../../images/propell_icon.png"></image></li>
+            <!-- 评论数 -->
+            <li class="right">{{commentData.pager.totalNum}}</li>
+            <!-- 评论图标 -->
+            <li class="right mg20" bindtap="commentClick">
+              <image src="../../images/comment_icon.png"></image>
+            </li>
+            <!-- 点赞数 -->
+            <li class="right mg50" data-index="{{index}}">{{collectNum}}</li>
+            <!-- 点赞图标 -->
+            <li class="right mg20 starTop">
+              <image bindtap="clickLike" data-articleId="{{dataList.id}}" data-index="{{index}}" src="{{img == 1? '../../images/like_icon.png':'../../images/like_icon2.png'}}"></image>
+            </li>
             <div class="clear"></div>
           </ul>
+        </view>
+        <!-- 底部栏end -->
+        <!-- 评论输入框 -->
+        <view bindtap="closeGray1" class="grayBox grayBox1 {{hidden1 == 'true'?'hide':''}}"></view>
+        <view class="inputWords {{hidden1 == 'true'?'hide':''}}">
+          <input confirm-type="send" data-id="{{dataList.id}}" placeholder="我也说两句" focus="{{focus}}" value="{{inInput}}" bindconfirm="bindconfirm" />
+        </view>
+        <!-- 评论输入框end -->
+        <!-- push推送展开栏 -->
+        <view bindtap="closeGray2" class="grayBox grayBox2 {{hidden2 == 'true'?'hide':''}}"></view>
+        <view class="pushBar {{hidden2 == 'true'?'hide':''}}">
+          <view class="countName">
+            酷开账号：{{username}}
+            <li bindtap="closeList" class="right">
+              <image src="../../images/close_icon.png"></image>
+            </li>
+          </view>
+          <view class="mg">
+            <!-- 电视剧剧集列表 -->
+            <view wx:if="{{videotype !='dianying'}}">
+              <view class="mg_title">请选择推送剧集</view>
+              <view class="tvList">
+                <view>
+                  <li data-index="{{index}}" bindtap="chioceService" class="{{tvChioced == index ? 'tvChioced':''}}" wx:for="{{tvCount}}" wx:key="index" wx:for-index="index">
+                    {{index+1}}
+                  </li>
+                  <div class="clear"></div>
+                </view>
+              </view>
+            </view>
+          </view>
+          <!-- 电视剧剧集列表end -->
+          <view class="device">
+            <!-- 爱奇异视频源 -->
+            <view wx:if="{{movietypes=='iqiyi'||movietypes=='iqiyiTencent'}}">
+              <view class="aiqiyi" wx:if="{{qiyiList!=null&&qiyiList.length>0 }}">
+                <div wx:for="{{qiyiList}}" wx:for-index="index" wx:if="{{item.source=='yinhe'&&index == '0'}}" class="aiqiyi_title">
+                  爱奇艺视频源
+                </div>
+                <div>
+                  <ul>
+                    <li wx:for="{{qiyiList}}" wx:if="{{item.source=='yinhe'}}">
+                      {{item.model}} {{item.deviceName}}
+                      <text class="pushRight" data-serviceidspare="{{item.serviceIdSpare}}" data-serviceid="{{item.serviceId}}" data-id="{{item.id}}" data-source="iqiyi" bindtap="pushMovies">
+                        推送
+                      </text>
+                    </li>
+                  </ul>
+                </div>
+              </view>
+              <view wx:else>
+                <!-- <div class="aiqiyi_title">爱奇艺视频源</div> -->
+                <div>
+                  <ul>
+                    <li class="noService" wx:if="{{movietypes!='iqiyiTencent'}}">暂无相关设备</li>
+                  </ul>
+                </div>
+              </view>
+            </view>
+            <!-- 腾讯视频源 -->
+            <view wx:if="{{movietypes=='tencent'||movietypes=='iqiyiTencent'}}">
+              <view class="aiqiyi" wx:if="{{tencentList!=null&&tencentList.length>0}}">
+                <div wx:for="{{tencentList}}" wx:for-index="index" wx:if="{{item.source=='tencent' && index == '0'}}" class="aiqiyi_title">
+                  腾讯视频源
+                </div>
+                <div>
+                  <ul>
+                    <li wx:for="{{tencentList}}" wx:if="{{item.source=='tencent'}}">
+                      {{item.model}} {{item.deviceName}}
+                      <text class="pushRight" data-serviceidspare="{{item.serviceIdSpare}}" data-serviceid="{{item.serviceId}}" data-id="{{item.id}}" data-source="tencent" bindtap="pushMovies">
+                        推送
+                      </text>
+                    </li>
+                  </ul>
+                </div>
+              </view>
+              <view wx:else>
+                <!-- <div class="aiqiyi_title">腾讯视频源</div> -->
+                <div>
+                  <ul>
+                    <li class="noService" wx:if="{{movietypes!='iqiyiTencent'}}">暂无相关设备</li>
+                  </ul>
+                </div>
+              </view>
+            </view>
+            <!-- 创维视频源 -->
+            <view wx:if="{{movietypes=='sky'}}">
+              <view class="aiqiyi" wx:if="{{skyList!=null&&skyList.length>0}}">
+                <div wx:for="{{skyList}}" wx:for-index="index" wx:if="{{item.source=='sky'&&index=='0'}}" class="aiqiyi_title">
+                  创维聚合视频源
+                </div>
+                <div>
+                  <ul>
+                    <li wx:for="{{skyList}}" wx:if="{{item.source=='sky'}}">
+                      {{item.model}} {{item.deviceName}}
+                      <text class="pushRight" data-serviceidspare="{{item.serviceIdSpare}}" data-serviceid="{{item.serviceid}}" data-id="{{item.id}}" bindtap="pushMovies">
+                        推送
+                      </text>
+                    </li>
+                  </ul>
+                </div>
+              </view>
+              <view wx:else>
+                <!-- <div class="aiqiyi_title">创维视频源</div> -->
+                <div>
+                  <ul>
+                    <li class="noService">暂无相关设备</li>
+                  </ul>
+                </div>
+              </view>
+            </view>
+            <!-- 优朋视频源 -->
+            <view wx:if="{{movietypes=='voole'}}">
+              <view class="aiqiyi" wx:if="{{vooleList!=null&&vooleList.length>0}}">
+                <div wx:for="{{vooleList}}" wx:for-index="index" wx:if="{{item.source=='voole'&&index=='0'}}" class="aiqiyi_title">
+                  优朋视频源
+                </div>
+                <div>
+                  <ul>
+                    <li wx:for="{{vooleList}}" wx:if="{{item.source=='voole'}}">
+                      {{item.model}} {{item.deviceName}}
+                      <text class="pushRight" data-serviceidspare="{{item.serviceIdSpare}}" data-serviceid="{{item.serviceid}}" data-id="{{item.id}}" bindtap="pushMovies">
+                        推送
+                      </text>
+                    </li>
+                  </ul>
+                </div>
+              </view>
+              <view wx:else>
+                <!-- <div class="aiqiyi_title">优朋视频源</div> -->
+                <div>
+                  <ul>
+                    <li class="noService">暂无相关设备</li>
+                  </ul>
+                </div>
+              </view>
+            </view>
+            <view wx:if="{{movietypes!='tencent'&& movietypes!='iqiyi'&&qiyiList.length=='0'&&tencentList.length=='0'}}">
+              <div>
+                <ul>
+                  <li class="noService">暂无相关设备</li>
+                </ul>
+              </div>
+            </view>
+          </view>
+          <!-- device end -->
+        </view>
+        <!-- push推送展开栏end -->
       </view>
-  
-  </view>
-
-</view>
-<view class="openBar_footer {{hidden == 'true'?'hide':''}}"><text>文中影片</text><li bindtap="closeBar" class="right"><image src="../../images/close_icon.png"></image></li></view>
-<!--菜单展开栏end  -->
-
-<!--推送失败弹出框  -->
-<view class="grayBox grayBox3 {{hidden3 == 'true'?'hide':''}}"></view>
-<view class="failPrompt {{hidden3 == 'true'?'hide':''}}">
-  <text>推送失败</text>
-  <ul>
-  <li>1、如果您未推送成功，请等待3-5分钟重试；</li>
-  <li>2、若仍未成功：5.2以下系统请恢复出厂，5.2以上系统请升级系统；</li>
-  <li>3、详询酷开会员微信号在线客服。</li>
-  </ul>
-  <div class="footer_failPrompt">
-    <div bindtap="closeFailBox">我知道了</div>
-    <div>客服咨询
-    <contact-button class="contact" type="default-light" size="27" session-from="weapp"></contact-button>
-    <contact-button class="contact" type="default-light" size="27" session-from="weapp"></contact-button>
-    <contact-button class="contact" type="default-light" size="27" session-from="weapp"> </contact-button>
-    <contact-button class="contact" type="default-light" size="27" session-from="weapp"></contact-button>
-     <contact-button class="contact" type="default-light" size="27" session-from="weapp"></contact-button>
-    </div>
-  </div>
-</view>
-
-</view>
- <!-- </button>  -->
- </label>
+      <!-- 菜单展开栏 -->
+      <view bindtap="closeGray" class="grayBox {{hidden == 'true'?'hide':''}}"></view>
+      <view class="openBar {{hidden == 'true'?'hide':''}}">
+        <view class="openBar_list">
+          <view class="movieList" wx:for="{{clooectList}}" wx:key="index" wx:for-index="index">
+            <ul>
+              <li>{{item.moviesDetail.videoData.base_info.title}}</li>
+              <li class="right1">
+                <li name="collectMovieBottom" formType="submit" data-moviesid="{{item.movieId}}" data-contentid="{{item.contentId}}" wx:if="{{item.moviesDetail.isCollectionMovie == 'no'}}" class="starIcon {{starArrays[item.contentId]}}" data-index="{{index}}" bindtap="collect"></li>
+                <li wx:else class="starIcon1" data-index="{{index}}"></li>
+              </li>
+              <li class="right2" data-movietypes="{{item.movieType}}" data-contentid="{{item.contentId}}" data-allcount="{{item.moviesDetail.videoData.base_info.publist_segment}}" data-nowcount="{{item.moviesDetail.videoData.base_info.current_segment}}" data-videotype="{{item.moviesDetail.videoData.base_info.video_type}}" bindtap="pushVideo">
+                <image src="../../images/propell_icon.png"></image>
+              </li>
+              <div class="clear"></div>
+            </ul>
+          </view>
+        </view>
+      </view>
+      <view class="openBar_footer {{hidden == 'true'?'hide':''}}">
+        <text>文中影片</text>
+        <li bindtap="closeBar" class="right">
+          <image src="../../images/close_icon.png"></image>
+        </li>
+      </view>
+      <!-- 菜单展开栏end -->
+      <!-- 推送失败弹出框 -->
+      <view class="grayBox grayBox3 {{hidden3 == 'true'?'hide':''}}"></view>
+      <view class="failPrompt {{hidden3 == 'true'?'hide':''}}">
+        <text>推送失败</text>
+        <ul>
+          <li>1、如果您未推送成功，请等待3-5分钟重试；</li>
+          <li>2、若仍未成功：5.2以下系统请恢复出厂，5.2以上系统请升级系统；</li>
+          <li>3、详询酷开会员微信号在线客服。</li>
+        </ul>
+        <div class="footer_failPrompt">
+          <div bindtap="closeFailBox">我知道了</div>
+          <div>
+            客服咨询
+            <contact-button class="contact" type="default-light" size="27" session-from="weapp"></contact-button>
+            <contact-button class="contact" type="default-light" size="27" session-from="weapp"></contact-button>
+            <contact-button class="contact" type="default-light" size="27" session-from="weapp"></contact-button>
+            <contact-button class="contact" type="default-light" size="27" session-from="weapp"></contact-button>
+            <contact-button class="contact" type="default-light" size="27" session-from="weapp"></contact-button>
+          </div>
+        </div>
+      </view>
+    </view>
+    <!-- </button> -->
+  </label>
 </form>
-  <!-- <rich-text nodes="{{message}}" bindtap="tap"></rich-text>      -->
-
+<!-- <rich-text nodes="{{message}}" bindtap="tap"></rich-text> -->
