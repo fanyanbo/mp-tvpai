@@ -9,7 +9,7 @@
     </form>
   </view>
  </view>
- <view class="nomv" wx:else>暂无相关影片</view>
+ <view class="nomv" wx:if="{{isShowDoc}}">暂无相关影片</view>
  <view>
   <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}"></remotecontrol>
 </view>

@@ -7,6 +7,7 @@ Page({
    */
   data: {
     isShowTips: true,
+    isShowDoc:false,
     contentAll: [],
   },
   /**
@@ -35,6 +36,7 @@ Page({
       }else {
         console.log('streams fail:')
         console.log(res)
+        that.setData({ isShowDoc: true });
         wx.showToast({
           title: '加载数据失败',
         })
@@ -44,6 +46,7 @@ Page({
       wx.showToast({
         title: '加载数据失败',
       })
+      that.setData({ isShowDoc: true });
     }, function (res) {
       console.log('streams complete:', res)
     }, ""),

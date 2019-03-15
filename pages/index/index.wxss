@@ -45,7 +45,6 @@
   box-sizing: border-box;
   text-align: center;
   margin: 40rpx auto !important;
-  padding:0 40rpx;
   height: 360rpx;
 }
 .column-item{
@@ -56,7 +55,7 @@
   border-radius: 100%;
   font-size: 26rpx;
   color: #333;
-  margin:10rpx 12rpx;  
+  margin:10rpx 20rpx;  
 }
 .column-item image{
   width: 100rpx;
