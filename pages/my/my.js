@@ -37,33 +37,7 @@ Page({
   userDebug: function () {
     userDebug = true
   },
-  bindGetUserInfo: function (e) {
-    console.log('bindGetUserInfo:' + this.data.coocaaLogin)
-    console.log(e.detail.userInfo)
-    if (e.detail.userInfo != undefined) {
-      this.setData({
-        userInfo: e.detail.userInfo,
-        onLine: true
-      })
-      getApp().globalData.onLine = true
-      if (this.data.coocaaLogin) {
-        if (utils.ccsessionIs() == null) return
-        wx.navigateTo({
-          url: '../login/coocaa',
-        })
-      } else {
-        wx.navigateTo({
-          url: '../user/user',
-        })
-      }
-    }
-    else {
-      getApp().globalData.onLine = false
-      this.setData({
-        onLine: false
-      })
-    }
-  },
+
   lower2: function (e) {
     var that = this
     if (i3 == that.data.moviePage) {
@@ -239,6 +213,52 @@ Page({
       title: '酷影评',
       path: 'pages/my/my'
     }
+  },
+  jumpurl: function (e) {
+
+    var ccsession = wx.getStorageSync("cksession")
+    console.log("检测ccsession:" + ccsession);
+    if (ccsession != null && ccsession != undefined && ccsession !== '') {
+      var type = e.currentTarget.dataset.type
+      console.log(type)
+      if (type == "home") {
+        wx.navigateTo({
+          url: '../home/home',
+        })
+
+      } else if (type == "history") {
+        wx.navigateTo({
+          url: '../home/home',
+        })
+      }
+
+    } else {
+      wx.login({
+        success: function (res) {
+          const code = res.code;
+          console.log("wx.login", JSON.stringify(res));
+          wx.getUserInfo({
+            success: function (res) {
+              console.log('wx.getUserInfo', res)
+              let encryptedData = res.encryptedData;
+              let iv = res.iv;
+              let rawData = res.rawData;
+              let signature = res.signature;
+              app.globalData.userInfo = res.userInfo;
+              wx.setStorageSync('userInfo', res.userInfo);
+              typeof cb == "function" && cb(app.globalData.userInfo);
+              appJs.login(rawData, code, encryptedData, iv, signature);
+            },
+            fail: function (err) {
+              console.log("获取用户信息失败");
+            }
+          })
+        }
+      })
+    }
+
+
+
   },
   onShow: function () {
     var that = this
