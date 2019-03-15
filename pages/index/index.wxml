@@ -27,7 +27,7 @@
     <swiper class="label" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-active-color="{{indicatorActiveColor}}" indicator-color="{{indicatorColor}}">
       <block>
         <swiper-item>
-          <view wx:for="{{column1}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="tagClick">
+          <view wx:for="{{column1}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="handleCategoryTap">
             <image src="{{item.classify_pic}}" mode="aspectFill"></image>
             <view class="item_book_text">{{item.classify_name}}</view>
           </view>
@@ -35,7 +35,7 @@
       </block>
       <block>
         <swiper-item>
-          <view wx:for="{{column2}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="tagClick">
+          <view wx:for="{{column2}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="handleCategoryTap">
             <image src="{{item.classify_pic}}" mode="aspectFill"></image>
             <view class="item_book_text">{{item.classify_name}}</view>
           </view>
@@ -43,14 +43,14 @@
       </block>
       <block>
         <swiper-item>
-          <view wx:for="{{column3}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="tagClick">
+          <view wx:for="{{column3}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="handleCategoryTap">
             <image src="{{item.classify_pic}}" mode="aspectFill"></image>
             <view class="item_book_text">{{item.classify_name}}</view>
           </view>
         </swiper-item>
       </block>
     </swiper>
-    <view class="category" wx:for="{{list}}" wx:key="index">
+    <view class="category" wx:for="{{recommandList}}" wx:key="index">
       <view class="title">
         {{item.title}}
         <navigator class="more" url="../column/column?id={{item.tag_id}}&title={{item.title}}">

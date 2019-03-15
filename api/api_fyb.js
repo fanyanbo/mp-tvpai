@@ -8,11 +8,13 @@ const getHotKeywordUrl =  baseUrl_tvpai + "video/client/search/hot";// 获取热
 const getHistoryKeywordUrl =  baseUrl_tvpai + "video/client/search/history";// 获取搜索历史关键词
 const collectUrl = baseUrl_tvpai + "video/client/collect/add"; //收藏或取消影片
 const getCollectedListUrl = baseUrl_tvpai + "video/client/collect/list"; //获取已收藏影片列表
-const getOneclassifyUrl = baseUrl_tvpai + "video/client/longvideo/oneclassify";// 获取一级标签分类
+const getOneClassifyUrl = baseUrl_tvpai + "video/client/longvideo/oneclassify";// 获取一级标签分类
+const getRecommendListUrl = baseUrl_tvpai + "video/client/longvideo/recommendlist";// 获取首页推荐
 
 // 微信业务后台接口
 const getBindDeviceListUrl = baseUrl_wx + "wxUserDeviceAPI/bindDeviceList.coocaa";//获取已绑定设备列表
 const pushMediaUrl = baseUrl_wx + "articleMoviesAPI/devicesPush.coocaa";//推送影视内容
+const getBannerDataUrl = baseUrl_wx + "spread/getStreams.coocaa";//获取Banner数据
 
 module.exports = {
   searchByKeywordUrl: searchByKeywordUrl,
@@ -20,7 +22,9 @@ module.exports = {
   getHistoryKeywordUrl: getHistoryKeywordUrl,
   collectUrl: collectUrl,
   getCollectedListUrl: getCollectedListUrl,
-  getOneclassifyUrl: getOneclassifyUrl,
+  getOneClassifyUrl: getOneClassifyUrl,
+  getRecommendListUrl: getRecommendListUrl,
   getBindDeviceListUrl: getBindDeviceListUrl,
-  pushMediaUrl: pushMediaUrl
+  pushMediaUrl: pushMediaUrl,
+  getBannerDataUrl: getBannerDataUrl
 }
