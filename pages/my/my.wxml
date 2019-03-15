@@ -7,17 +7,17 @@
     </view> 
   </view>
 
-  <navigator class='binding mylabel' url="../home/home">
+  <button open-type="getUserInfo" class='binding mylabel' url="../home/home">
     <image class='my_icon' src="../../images/search_tv.png"></image>
     <text class="title">设备绑定</text>
     <image class="arrow" src="../../images/arrow.png"></image>
-  </navigator>
+  </button>
 
-  <navigator class='history mylabel' url="../home/home">
+ <button open-type="getUserInfo"  class='history mylabel' url="../home/home">
     <image class='my_icon' src="../../images/history.png"></image>
     <text class="title">推送历史</text>
     <view class="more">全部 <image class="arrow" src="../../images/arrow.png"></image></view>
-  </navigator>
+  </button>
   <view class="scroll_box section"> 
       <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">    
         <navigator class="item_list" url="../column/column?id={{item.third_album_id}}">
