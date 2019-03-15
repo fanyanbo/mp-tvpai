@@ -1,7 +1,5 @@
 'use strict';
 
-const app = getApp();
-
 class AuthApi {
  
   /**

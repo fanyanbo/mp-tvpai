@@ -1,4 +1,3 @@
-// 注：正式环境无法使用，还未发布
 // const baseUrl = 'https://wx.coocaa.com/'; 
 const baseUrl = 'http://beta-wx.coocaa.com/';
 const _baseUrl ='https://beta-tvpi.coocaa.com/';
@@ -35,13 +34,9 @@ const getChnVideoListUrl = baseUrl + "moviesAPI/getChnVideoList.coocaa";//获取
 const getSessionUrl = baseUrl + "appletAPI/getSession.coocaa";//使用登录凭证 code 获取 session_key 和 openid
 const getuserinfoUrl = baseUrl + "appletAPI/getuserinfo.coocaa";//微信小程序API接口
 const saveEventLogUrl = baseUrl + "userEventLog/saveEventLog.coocaa";//事件收集
-
 const bindDeviceListUrl = baseUrl + "wxUserDeviceAPI/bindDeviceList.coocaa";//设备接口列表
 const bindDeviceUrl = baseUrl + "wxUserDeviceAPI/bindDevice.coocaa";//用户绑定接口
 const changeDeviceStatusUrl = baseUrl + "wxUserDeviceAPI/changeDeviceStatus.coocaa";//修改设备名称或修改设备绑定状态接口
-
-
-
 
 const oneclassifyUrl = _baseUrl + "video/client/longvideo/oneclassify";// 获取一级标签分类
 const recommendlistUrl = _baseUrl + "video/client/longvideo/recommendlist";// 获取首页推荐接口
