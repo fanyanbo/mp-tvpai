@@ -1,11 +1,9 @@
-/***
- * 网络请求
- */
+const config = require('../config/index');
+
 class Api {
 
   constructor() {
-    this.host = 'https://user.coocaa.com/aimp/';
-    // this.host = 'http://192.168.1.107:40001/';
+    this.host = config.baseUrl_nj2 + '/aimp/';
   }
 
   request(url, data, method, success, fail, complete) {
@@ -16,7 +14,7 @@ class Api {
        // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
       header: {
         'Content-Type': 'application/json;utf-8',
-      }, // 设置请求的 header
+      }, 
       success: function (res) {
         var data = res.data;
         console.log(data);
@@ -24,11 +22,9 @@ class Api {
       },
       fail: function (error) {
         console.log(url, error);
-        // fail
         fail && typeof fail === 'function' && fail(error);
       },
       complete: function () {
-        // complete
         complete && typeof complete === 'function' && fail(complete);
       }
     })
@@ -119,7 +115,6 @@ class Api {
     console.log(options)
     wx.uploadFile({
       url: 'https://user.coocaa.com/aimp/mp/pushVoice',
-      // url: 'https://user.coocaa.com/aimptest/mp/pushVoice',
       filePath: options.data.tempFilePath,
       name: 'file',
       formData: {openid:options.data.openid},

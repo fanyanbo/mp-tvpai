@@ -200,7 +200,7 @@ Page({
   },
 
   onLoad() {
-    console.log('首页 onLoad监听页面加载');
+    console.log('首页 onLoad');
     this.getBindedDevice();
     this.oneclassify('');
     this.twoclassify('');
@@ -215,37 +215,8 @@ Page({
     this.setData({
       isShowTips: app.globalData.isShowTips
     })
-    let that = this
     let ccsession = wx.getStorageSync('cksession')
-    console.log("判断登录状态是否过期")
-    console.log(ccsession)
-    // if (ccsession === null || ccsession === '') {
-    //   wx.login({
-    //     success: function (res) {
-    //       const code = res.code;
-    //       console.log("wx.login", JSON.stringify(res));
-    //       wx.getUserInfo({
-    //         success: function (res) {
-    //           console.log('wx.getUserInfo', res)
-    //           let encryptedData = res.encryptedData;
-    //           let iv = res.iv;
-    //           let rawData = res.rawData;
-    //           let signature = res.signature;
-    //           app.globalData.userInfo = res.userInfo;
-    //           wx.setStorageSync('userInfo', res.userInfo);
-    //           typeof cb == "function" && cb(app.globalData.userInfo);
-    //           appJs.login(rawData, code, encryptedData, iv, signature);
-    //         }, 
-    //         fail: function (err) {
-    //           console.log("获取用户信息失败");
-    //       }})
-    //     }
-    //   })
-    // } else {
-    //   // 意义何在？
-    //   app.getUserInfo();
-    //   console.log('首页，getuserInfo:', wx.getStorageSync('userInfo'));
-    // }
+    console.log("首页，判断登录状态是否过期", ccsession);
   },
   onHide() {
     console.log('首页 onHide');
@@ -272,8 +243,9 @@ Page({
     });
   },
   getBindedDevice: function () {
-    console.log('首页获取并重设当前绑定设备信息');
+    console.log('首页获取当前绑定设备信息');
     let ccsession = wx.getStorageSync('cksession');
+    console.log('首页获取当前绑定设备信息 ccsession = ' + ccsession);
     let params = { ccsession: ccsession };
     let desParams = utils_fyb.paramsAssemble_wx(params);
     console.log('getBindDeviceList params', desParams);
