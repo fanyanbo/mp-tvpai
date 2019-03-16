@@ -57,18 +57,32 @@ Page({
   },
   chooseSezi: function (e) {
     let that = this
-    wx.showActionSheet({
-      itemList: ['确定删除'],
-      itemColor: '#E64340',
-      success(res) {
-        console.log('success :'+ JSON.stringify(res))
-        if(res.tapIndex == 0){
-          that.deleteName()
+    wx.getSystemInfo({
+      success: function(res) {
+        console.log('getsysteminfo  '+JSON.stringify(res))
+        let itemList
+        if(res.platform == 'ios') {
+          itemList = ['确定删除']
+        }else {
+          itemList = ['确定删除', '取消']
         }
+        wx.showActionSheet({
+          itemList: itemList,
+          // itemColor: '#E64340',
+          success(res) {
+            console.log('success :' + JSON.stringify(res))
+            if (res.tapIndex == 0) {
+              that.deleteName()
+            }else if(res.tapIndex == 1){
+              //空操作
+              console.log('取消')
+            }
+          },
+          fail(res) {
+            console.log('fail :' + JSON.stringify(res))
+          }
+        })
       },
-      fail(res) {
-        console.log('fail :' + JSON.stringify(res))
-      }
     })
   },
   /**
