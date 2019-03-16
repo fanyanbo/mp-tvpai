@@ -61,6 +61,7 @@ Page({
     let ccsession = wx.getStorageSync('cksession');
     wx.getSetting({
       success: function (res) {
+        console.log(res)
         console.log('用户基本信息获取权限', res.authSetting['scope.userInfo'])
         if (res.authSetting['scope.userInfo']) {
           wx.getUserInfo({
