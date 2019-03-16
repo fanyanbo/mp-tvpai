@@ -13,3 +13,10 @@
     <view>
       <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}"></remotecontrol>
     </view>
+    <!-- 弹窗 -->
+    <view wx:if="{{chooseSize}}" class='maskLayer' bindtap='hideModal'></view>
+    <view wx:if="{{chooseSize}}" class='choose' animation='{{animationData}}'>
+      <view class="ask">确定要删除该设备吗</view>
+      <view bindtap='deleteName' class="sure">确定删除</view>
+      <view bindtap='hideModal' class="clearBtn">取消</view>
+    </view>
