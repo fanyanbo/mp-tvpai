@@ -3,7 +3,7 @@ const config = require('../config/index');
 class Api {
 
   constructor() {
-    this.host = config.baseUrl_nj2 + '/aimp/';
+    this.host = config.baseUrl_nj + '/aimp/';
   }
 
   request(url, data, method, success, fail, complete) {
@@ -127,7 +127,7 @@ class Api {
    * 检测TV是否在线，及TV端小维AI版本是否支持小程序
    */
   isTVOnline(options) {
-    let url = ' https://user.coocaa.com/tvpaiNew/push/checkOnline?activeId='
+    let url = 'https://user.coocaa.com/tvpaiNew/push/checkOnline?activeId='
     this._post(url + options.data.activeid, options.data, options.success, options.fail)
   }
 }

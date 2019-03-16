@@ -36,7 +36,7 @@
     </view>
     <view class="device-top-right">
       <image wx:if="{{item.bindStatus == 1}}" class="device-model" src="../../images/binding.png"></image>
-      <view data-deviceid='{{item.deviceId}}' bindtap="binding" wx:else>绑定</view>
+      <view data-deviceid='{{item.deviceId}}' bindtap="handleBindTap" wx:else>绑定</view>
     </view>
   </view>
 </view>
