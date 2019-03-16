@@ -1,48 +1,41 @@
-page {
-  background-color: #fff;
-}
 .container{
   font-size: 0
 }
 .none{
   display: none
 }
-.mylabel{
+.mylabel {
+  width: 750rpx;
   height: 88rpx;
-  line-height: 88rpx;
+  display: flex;
+  align-items: center;
   padding: 0 30rpx;
-  width: 100%;
   box-sizing: border-box;
-  background: none;
-  text-align: left
+  position: relative;
+  background: #fff;
 }
-.mylabel .title{
-  color: #333;
-  font-size: 30rpx;
-  display: inline-block; 
-  margin-left: 10rpx
+.mylabel .title {
+  position: absolute;
+  left: 100rpx;
+  font-size: 32rpx;
+  color: #000000;
+  letter-spacing: 0;
 }
-.mylabel .more{
-  float: right;
+.mylabel .more {
+  position: absolute;
   font-size:28rpx;
   color:#999;
+  right: 50rpx;
 }
-.mylabel .arrow{
+.mylabel .arrow {
+  position: absolute;
   height: 26rpx;
   width: 14rpx;
-  vertical-align: middle;
-  display: inline-block;
-  float: right;
-  margin-top: 31rpx;
-  margin-left: 10rpx
+  right: 20rpx;
 }
-.my_icon{
+.mylabel .my_icon {
   width: 42rpx;
   height: 42rpx;
-  display: inline-block; 
-  vertical-align: middle;
-  float:left;
-  margin-top: 26rpx
 }
 .userinfo {
   position: relative;
@@ -71,12 +64,12 @@ page {
   color: #333;
 }
 .section{
-width: 100%;
-overflow: hidden;
-white-space: nowrap;
-padding: 0 30rpx;
-box-sizing: border-box;
-margin-bottom: 10rpx
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 0 30rpx;
+  box-sizing: border-box;
+  margin-bottom: 10rpx
 }
 .item_list{
   width: 210rpx;
@@ -99,8 +92,8 @@ margin-bottom: 10rpx
   margin-top: 5rpx
 }
 .inaline{
-    overflow:hidden;
-    white-space:nowrap;
-    text-overflow:ellipsis
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis
 }
 
