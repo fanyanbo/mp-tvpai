@@ -4,8 +4,8 @@
   z-index: 999;
   height: 64rpx;
   left: 40rpx;
-  top: 48px;
-  /* top: 88px; */
+  /* 这个高度在红米6 pro上刚刚好，和胶囊平齐 */
+  top: 48px; 
 }
 .search-box {
   display: flex;
@@ -13,8 +13,8 @@
   width: 480rpx;
   height: 64rpx;
   border-radius: 32rpx;
-  background: #F2F2F2;
-  /* background-image: linear-gradient(-225deg, #F0F300 0%,orange 100%); */
+  /* background: #F2F2F2; */
+  background-image: linear-gradient(-225deg, #F0F300 0%,orange 100%);
 }
 .search-icon {
   margin-left: 54rpx;

@@ -148,6 +148,17 @@ Page({
 
   onReady() {
     console.log('onReady');
+    let that = this;
+    wx.getSystemInfo({
+      success: function(res) {
+        console.log(res);
+        // custom模式测试，在真机上screenHeight和windowHeight高度一样，导致marginTop为0；模拟器上正常
+        let screenHeight = res.screenHeight;
+        let windowHeight = res.windowHeight;
+        let marginTop = screenHeight - windowHeight;
+        console.log("marginTop",marginTop)
+      }
+    })
   },
 
   onShow() {

@@ -1,17 +1,15 @@
-.container{
-  font-size: 0
-}
-.none{
-  display: none
+/* 清除button默认样式 */
+button::after {
+  border:none;
 }
 .mylabel {
+  position: relative;
   width: 750rpx;
   height: 88rpx;
   display: flex;
   align-items: center;
   padding: 0 30rpx;
   box-sizing: border-box;
-  position: relative;
   background: #fff;
 }
 .mylabel .title {

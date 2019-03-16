@@ -21,7 +21,7 @@
   </button>
   <view class="scroll_box section">
     <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">
-      <navigator wx:for="{{historyList}}" wx:for-item="item" class="item_list" url="../column/column?id={{item.third_album_id}}">
+      <navigator wx:for="{{historyList}}" wx:key="index" wx:for-item="item" class="item_list" url="../column/column?id={{item.third_album_id}}">
         <view>
           <image src="{{item.poster_h}}" class="item_book_img" mode="aspectFill"></image>
           <view class="item_book_text inaline">{{item.title}}</view>
