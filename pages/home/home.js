@@ -49,11 +49,6 @@ Page({
 
     }, qrUrl)
   },
-  howbind: function (e) {
-    wx.navigateTo({
-      url: '../course/course',
-    })
-  },
   moreBind: function () {
     wx.navigateTo({
       url: '../course/course',
