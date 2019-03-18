@@ -320,7 +320,8 @@
 }
 .right-detail {
   width: 100%;
-  padding-top: 8rpx;
+  height: 34rpx;
+  line-height: 34rpx;
   font-size: 24rpx;
   color: #999999;
   overflow: hidden;
