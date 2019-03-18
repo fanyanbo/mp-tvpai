@@ -198,10 +198,11 @@ Page({
 
   getBindedDevice: function () {
     let ccsession = wx.getStorageSync('cksession');
+    if (ccsession == null || ccsession === "") return;
     let params = { ccsession: ccsession };
     let desParams = utils_fyb.paramsAssemble_wx(params);
     console.log('getBindedDevice params', desParams);
-    console.log('getBindedDevice url' + api_fyb.getBindDeviceListUrl);
+    console.log('getBindedDevice url', api_fyb.getBindDeviceListUrl);
     utils_fyb.request(api_fyb.getBindDeviceListUrl, 'GET', desParams,
       function (res) {
         console.log('getBindDeviceList success', res.data);

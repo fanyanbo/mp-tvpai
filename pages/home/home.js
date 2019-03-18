@@ -1,14 +1,11 @@
-import utils from '../../utils/util';
+const utils  = require('../../utils/util');
 const api = require('../../api/api.js');
-export {
-  utils,
-}
-const app = getApp()
+const app = getApp();
+
 Page({
   data: {
     isShowDoc: false,
     isShowTips: false,
-    username: '你好',
     devices: "",
     mydevices: [],
     block: ['block'],
@@ -80,18 +77,13 @@ Page({
     })
   },
 
-  onLoad: function (options) {
-    let userInfo = wx.getStorageSync('userInfo');
-    this.setData({
-      avatar: userInfo.avatarUrl,
-      username: userInfo.nickName
-    })
+  onLoad: function () {
     console.log("onLoad, ccsession:" + wx.getStorageSync('cksession'))
     getDevices(this, '获取设备中')
-
   },
 
   onReady: function () {
+
   },
 
   onShow: function () {
@@ -108,93 +100,6 @@ Page({
 
   },
 
-  onPullDownRefresh: function () {
-    wx.stopPullDownRefresh()
-  },
-
-  onReachBottom: function () {
-
-  },
-
-  onShareAppMessage: function () {
-
-  },
-
-  cancelBind: function () {
-    this.setData({
-      showModal: true
-    })
-  },
-  /**
-   * 弹出框蒙层截断touchmove事件
-   */
-  preventTouchMove: function () {
-  },
-  /**
-   * 隐藏模态对话框
-   */
-  hideModal: function () {
-    this.setData({
-      showModal: false
-    });
-  },
-  /**
-   * 对话框取消按钮点击事件
-   */
-  onCancel: function () {
-    this.hideModal();
-  },
-  /**
-   * 对话框确认按钮点击事件
-   */
-  onConfirm: function () {
-    let that = this
-    const url = api.logoutUrl
-    const key = app.globalData.key
-    const ccsession = wx.getStorageSync('cksession')
-    const params = { "ccsession": ccsession }
-    const sign = utils.encryption(params, key)
-    let data = {
-      client_id: app.globalData.client_id,
-      sign: sign,
-      param: params
-    }
-    wx.request({
-      url: url,
-      method: 'GET',
-      data: data,
-      success: function (res) {
-        console.log(res)
-        if (res.data.result) {
-          that.hideModal();
-          try {
-            wx.clearStorageSync()
-            app.globalData.username = '未登录'
-
-            wx.switchTab({
-              url: '../index/index',
-            })
-          } catch (e) {
-            console.log(e)
-          }
-          that.onLoad();
-        } else {
-          wx.showModal({
-            title: '提示',
-            content: res.data.message,
-          })
-        }
-        that.setData({
-          ccsession: wx.getStorageSync('cksession')
-        })
-        console.log("ccsession")
-        console.log(ccsession)
-      },
-      fail: function (res) {
-        console.log(res)
-      }
-    })
-  },
   scan() {
     wx.scanCode({
       success: (res) => {
