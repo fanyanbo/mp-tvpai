@@ -90,15 +90,28 @@
                   </block>
                 </view>
                 <view class="push" wx:if="{{item.episodes_list == null}}" data-keyword="{{item}}" bindtap="handleMovieTap">
-                  <!-- <image class="icon" src="../../images/push.png"></image>
-                  <view class="text">投屏</view> -->
                   <image class="icon" src="../../images/collect_before.png" />
                 </view>
               </view>
             </view>
           </view>
-          <!-- 综艺和游戏推送布局 儿童？？显示剧集介绍 -->
-          <view class="item-push" wx:if="{{item.video_detail.video_type == '游戏' || item.video_detail.video_type == '综艺'}}">
+          <!-- 电视剧推送布局,剧集只显示数字，1,2,3 -->
+          <view class="item-push" wx:if="{{item.video_detail.video_type == '电视剧'}}">
+            <view class="tips" bindtap="handleJumpTap" data-item="{{item}}">
+              <image class="left" src="../../images/push.png"></image>
+              <text class="center">投屏</text>
+              <image class="right" src="../../images/arrow.png"></image>
+            </view>
+            <scroll-view class="episode2" scroll-x style="width: 100%">
+              <block wx:for="{{item.episodes_list}}" wx:key="index">
+                <view class="scroll-view-item2 {{item.segment_index == curIndex? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" hover-class="noimplement">
+                  {{item.segment_index}}
+                </view>
+              </block>
+            </scroll-view>
+          </view>
+          <!-- 综艺和游戏推送布局 儿童，生活？？显示剧集介绍 item.video_detail.video_type == '游戏' || item.video_detail.video_type == '综艺'-->
+          <view class="item-push" wx:else>
             <view class="tips" bindtap="handleJumpTap" data-item="{{item}}">
               <image class="left" src="../../images/push.png"></image>
               <text class="center">投屏</text>
@@ -110,21 +123,6 @@
                 <view class="scroll-view-item {{(item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" hover-class="noimplement">
                   <view class="idx">第 {{item.segment_index}} 集</view>
                   <view class="desc">{{item.video_title}}</view>
-                </view>
-              </block>
-            </scroll-view>
-          </view>
-          <!-- 电视剧推送布局,剧集只显示数字，1,2,3 -->
-          <view class="item-push" wx:elif="{{item.video_detail.video_type == '电视剧'}}">
-            <view class="tips" bindtap="handleJumpTap" data-item="{{item}}">
-              <image class="left" src="../../images/push.png"></image>
-              <text class="center">投屏</text>
-              <image class="right" src="../../images/arrow.png"></image>
-            </view>
-            <scroll-view class="episode2" scroll-x style="width: 100%">
-              <block wx:for="{{item.episodes_list}}" wx:key="index">
-                <view class="scroll-view-item2 {{item.segment_index == curIndex? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" hover-class="noimplement">
-                  {{item.segment_index}}
                 </view>
               </block>
             </scroll-view>

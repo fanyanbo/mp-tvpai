@@ -198,6 +198,7 @@ Page({
 
   getBindedDevice: function () {
     let ccsession = wx.getStorageSync('cksession');
+    console.log('getBindedDevice ccsession', ccsession);
     if (ccsession == null || ccsession === "") return;
     let params = { ccsession: ccsession };
     let desParams = utils_fyb.paramsAssemble_wx(params);

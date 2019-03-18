@@ -43,7 +43,6 @@ Page({
             historyList: withinList
           })
         }
-
       }
     }, function (res) {
       console.log('streams fail:')
@@ -56,46 +55,8 @@ Page({
     }, '')
   },
   onLoad: function () {
-    console.log('onload', this.data.canIUse)
-    let that = this
-    let ccsession = wx.getStorageSync('cksession');
-    wx.getSetting({
-      success: function (res) {
-        console.log(res)
-        console.log('用户基本信息获取权限', res.authSetting['scope.userInfo'])
-        if (res.authSetting['scope.userInfo']) {
-          wx.getUserInfo({
-            success: function (res) {
-              console.log('用户基本信息', res.userInfo)
-              that.setData({ userInfo: res.userInfo })
-            }
-          }
-          )
-        }
-      }
-    })
-    if (ccsession == null || ccsession === '') {
-      wx.login({
-        success: function (e) {
-          let code = e.code
-          wx.getUserInfo({
-            success: function (res) {
-              let encryptedData = res.encryptedData
-              let iv = res.iv;
-              let rawData = res.rawData
-              let signature = res.signature
-              app.globalData.userInfo = res.userInfo
-              wx.setStorageSync('userInfo', app.globalData.userInfo)
-              typeof cb == "function" && cb(app.globalData.userInfo)
-              appJs.login(rawData, code, encryptedData, iv, signature)
-              that.setData({
-                userInfo: res.userInfo,
-              })
-            }
-          })
-        }
-      })
-    }
+    console.log('onload canIUse', this.data.canIUse);
+    console.log('onload ccsession',  wx.getStorageSync('cksession'));
     this.getMovie();
   },
   jumpurl: function (e) {
@@ -130,7 +91,7 @@ Page({
               appJs.login(rawData, code, encryptedData, iv, signature);
             },
             fail: function (err) {
-              console.log("我的页面，获取用户信息失败");
+              console.log("我的页面，获取用户信息失败",res);
             }
           })
         }
