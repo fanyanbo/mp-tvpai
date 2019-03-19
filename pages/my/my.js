@@ -11,6 +11,12 @@ Page({
   },
 
   onLoad: function () {
+    console.log('onLoad');
+    this.getMovieHistoryList();
+  },
+
+  onShow: function () {
+    console.log('onShow');
     this.getMovieHistoryList();
   },
 
