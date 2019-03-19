@@ -8,7 +8,7 @@
       </view>
     </view>
   </view>
-  <button open-type="getUserInfo" class='binding mylabel' data-type="home" bindgetuserinfo="bindGetUserInfo">
+  <button class='binding mylabel' data-type="home" bindtap="jumpHomePage">
     <image class='my_icon' src="../../images/search_tv.png"></image>
     <text class="title">设备绑定</text>
     <image class="arrow" src="../../images/arrow.png"></image>
