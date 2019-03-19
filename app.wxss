@@ -1,4 +1,6 @@
 /**app.wxss**/
+/* 
+@import "components/toast/wetoast.wxss";
 
 @import "components/toast/wetoast.wxss";
 /**640px 下的字体大小**/
@@ -158,6 +160,7 @@ rich-text{
   height:50rpx;
 line-height:50rpx;
 
+  line-height:50rpx;
 }
 .pushRight{
 float: right;
@@ -168,6 +171,14 @@ text-align: center;
 font-size:24rpx;
 border:1rpx solid #eaeaea;
 border-radius:4rpx;
+  float: right;
+  width: 100rpx;
+  height:45rpx;
+  line-height: 45rpx;
+  text-align: center;
+  font-size:24rpx;
+  border:1rpx solid #eaeaea;
+  border-radius:4rpx;
 }
 .aiqiyi div ul li:last-child,.tencent div ul li:last-child{
 border-bottom:none;
@@ -275,6 +286,8 @@ button::after {
   border: none;
   background: none
 }
+
+
 .nomv{
   width: 100%;
   text-align: center;
@@ -287,3 +300,12 @@ button::after {
   height: 274rpx;
 
 }
+
+
+
+
+
+
+
+
+

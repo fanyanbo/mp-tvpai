@@ -1,14 +1,14 @@
-let utils = require('utils/util.js');
-let api = require('api/api.js');
-let { WeToast } = require('components/toast/wetoast.js');
+const utils = require('utils/util.js');
+const api = require('api/api.js');
+const { WeToast } = require('components/toast/wetoast.js');
 
 // 使用登录凭证 code 获取 session_key 和 openid
 function login(rawData, code, encryptedData, iv, signature) {
   console.log("code：" + code);
-  var url = api.getSessionUrl
-  var paramsStr = { "appid": "wx35b9e9a99fd089a9", "jscode": code } //wx45e46c7c955eebf1 wx35b9e9a99fd089a9
-  var key = getApp().globalData.key
-  var sign = utils.encryption(paramsStr, key)
+  let url = api.getSessionUrl
+  let paramsStr = { "appid": "wx35b9e9a99fd089a9", "jscode": code } //wx45e46c7c955eebf1 wx35b9e9a99fd089a9
+  let key = getApp().globalData.key
+  let sign = utils.encryption(paramsStr, key)
   wx.request({
     url: url,
     data: {
@@ -21,12 +21,12 @@ function login(rawData, code, encryptedData, iv, signature) {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     success: res => {
-      var data = res.data;
+      let data = res.data;
       if (data.result) {
         console.log(res)
         console.log(data.data.wxopenid+"----进来了----" + data.data.ccsession)
-        var cksession = data.data.ccsession
-        var wxopenid = data.data.wxopenid
+        let cksession = data.data.ccsession
+        let wxopenid = data.data.wxopenid
         wx.setStorageSync('cksession', cksession)
         wx.setStorageSync('wxopenid', wxopenid)
         getApp().globalData.ccsession = cksession
@@ -34,8 +34,8 @@ function login(rawData, code, encryptedData, iv, signature) {
         decryptUser(rawData, encryptedData, iv, cksession, signature)
         console.log("登录返回数据：")
         console.log(data.data.mobile)
-        var mobile = data.data.mobile
-        var username = data.data.username
+        let mobile = data.data.mobile
+        let username = data.data.username
         wx.setStorageSync('mobile', mobile)
         wx.setStorageSync('username', username)
         wx.setStorageSync('userid', data.data.userid)
@@ -49,13 +49,13 @@ function login(rawData, code, encryptedData, iv, signature) {
 
 //解密获取用户数据
 function decryptUser(rawData, encryptedData, iv, cksession, signature) {
-  var url = api.getuserinfoUrl
-  var key = getApp().globalData.key
+  let url = api.getuserinfoUrl
+  let key = getApp().globalData.key
   cksession = wx.getStorageSync('cksession')
   rawData = encodeURI(rawData, 'utf-8')
-  var paramsStr = { "ccsession": cksession, "encryptedData": encryptedData, "iv": iv, "rawData": rawData, "signature": signature }
-  var sign = utils.encryption(paramsStr, key)
-  var dataStr = utils.json2Form({ client_id: 'applet', sign: sign, param: '{"ccsession":"' + cksession + '","encryptedData":"' + encryptedData + '","iv":"' + iv + '","rawData":"' + rawData + '","signature":"' + signature + '"}' })
+  let paramsStr = { "ccsession": cksession, "encryptedData": encryptedData, "iv": iv, "rawData": rawData, "signature": signature }
+  let sign = utils.encryption(paramsStr, key)
+  let dataStr = utils.json2Form({ client_id: 'applet', sign: sign, param: '{"ccsession":"' + cksession + '","encryptedData":"' + encryptedData + '","iv":"' + iv + '","rawData":"' + rawData + '","signature":"' + signature + '"}' })
   wx.request({
     url: url,
     data: dataStr,
@@ -81,27 +81,27 @@ App({
   onShow: function () {
   },
   getUserInfo: function (cb) {
-    var that = this
-    var tvSource = wx.getStorageSync("tvSource");
+    let that = this
+    let tvSource = wx.getStorageSync("tvSource");
     if (tvSource == null || tvSource === '' || tvSource == undefined){
       wx.setStorageSync('tvSource', 'iqiyi')
     }else{
       that.globalData.tvSource = wx.getStorageSync('tvSource')
     }
-    var ccsession = wx.getStorageSync("cksession")
+    let ccsession = wx.getStorageSync("cksession")
     if (ccsession == null || ccsession === '' || ccsession == undefined) {
       console.log("登录状态已过期" + ccsession)
       wx.clearStorageSync(that.globalData.userInfo)
       wx.login({
         success: function (e) {
-          var code = e.code
+          let code = e.code
           wx.getUserInfo({
             success: function (res) {
               console.log(res)
-              var encryptedData = res.encryptedData
-              var iv = res.iv;
-              var rawData = res.rawData
-              var signature = res.signature
+              let encryptedData = res.encryptedData
+              let iv = res.iv;
+              let rawData = res.rawData
+              let signature = res.signature
               that.globalData.userInfo = res.userInfo
               wx.setStorageSync('userInfo', res.userInfo)
               typeof cb == "function" && cb(that.globalData.userInfo)
@@ -139,7 +139,7 @@ App({
     appkey: '5cc090ddad6e4544815a0026e9a735a4',
     secret: 'cd8a62acc6164b27a9af4d29de8eeebd',
     tvSource: 'iqiyi',
-    version_code:33
+    version_code: 33
   }
 })
 

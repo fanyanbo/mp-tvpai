@@ -1,17 +1,12 @@
-const utils = require('../../utils/util');
 const utils_fyb = require('../../utils/util_fyb');
 const api_fyb = require('../../api/api_fyb');
-const api = require('../../api/api');
-const appJs = require('../../app');
 const app = getApp();
 
 Page({
   data: {
     searchContent: '搜索视频、影评或话题',
     isShowTips: true,
-    page: '0',
     pageSize: '30',
-    banner_pageSize: '3',
     indicatorDots: true,
     autoplay: false,
     interval: 5000,
@@ -22,30 +17,31 @@ Page({
     column1: [],
     column2: [],
     column3: [],
-    list: [],
-    previousmargin: '20rpx',//前边距
-    nextmargin: '40rpx',//后边距
+    recommandList: [],
+    previousmargin: '20rpx',
+    nextmargin: '40rpx',
+  },
+  swiperChange: function () {
+    console.log('swiperChange');
   },
   // 获取一级标签分类
-  oneclassify: function (message) {
+  oneclassify: function () {
     let that = this
-    let params1 = {"page_index": that.data.page, "page_size": that.data.pageSize};
-    let desParams = utils_fyb.paramsAssemble_tvpai(params1);
-    utils_fyb.request(api_fyb.getOneclassifyUrl, 'GET', desParams,
+    let params = { "page_index": '0', "page_size": '30' };
+    let desParams = utils_fyb.paramsAssemble_tvpai(params);
+    utils_fyb.request(api_fyb.getOneClassifyUrl, 'GET', desParams,
       function (res) {
-        console.log('获取一级分类 success', res.data);
-        var column1 = []
-        var column2 = []
-        var column3 = []
+        console.log('getOneClassifyUrl:', res.data);
+        let column1 = [], column2 = [], column3 = []
         if (res.data.data) {
-          for (var k = 0; k < 10; k++) {
-            column1.push(res.data.data[k])
-          }
-          for (var i = 10; i < 20; i++) {
-            column2.push(res.data.data[i])
-          }
-          for (var n = 20; n < 30; n++) {
-            column3.push(res.data.data[n])
+          for (let i = 0; i < 30; i++) {
+            if (i < 10) {
+              column1.push(res.data.data[i])
+            } else if (i >= 10 && i < 20) {
+              column2.push(res.data.data[i])
+            } else {
+              column3.push(res.data.data[i])
+            }
           }
           that.setData({
             column1: column1,
@@ -59,153 +55,125 @@ Page({
         }
       },
       function (res) {
-        console.log('获取一级分类 error', res)
+        console.log('getOneClassifyUrl error', res)
         wx.showToast({
           title: '加载数据失败',
         })
-      },
-      function (res) {
-        console.log('获取一级分类 complete')
       }
     );
   },
-  tagClick: function (e) {
-    // 标签点击搜索 跳到search
-    var categoryId = e.currentTarget.dataset.category
-    var title = e.currentTarget.dataset.title
+  // 点击一级分类，跳转
+  handleCategoryTap: function (e) {
+    let categoryId = e.currentTarget.dataset.category;
+    let title = e.currentTarget.dataset.title;
     wx.navigateTo({
       url: '../sresult/sresult?category_id=' + categoryId + '&title=' + title
-    })
+    });
   },
-
-  // 首页推荐接口
-  twoclassify: function (message) {
-    let that = this
-    const secret = app.globalData.secret
-    const params = { "appkey": app.globalData.appkey, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
-    console.log(params);
-    const sign = utils.encryptionIndex(params, secret)
-    const url = api.recommendlistUrl
-    let data = {
-      appkey: app.globalData.appkey,
-      time: app.globalData.time,
-      tv_source: app.globalData.tvSource,
-      version_code: app.globalData.version_code,
-      sign: sign
-    }
-    utils.postLoading(url, 'GET', data, function (res) {
-      console.log('正片二级分类:')
-      console.log(res.data.data)
-      if (res.data.data) {
-        let recommendlist = res.data.data
-        if (recommendlist.length < parseInt(that.data.pageSize)) {
+  // 获取首页推荐分类和影片
+  twoclassify: function () {
+    let that = this;
+    utils_fyb.request(api_fyb.getRecommendListUrl, 'GET', utils_fyb.paramsAssemble_tvpai(),
+      function (res) {
+        console.log('getRecommendListUrl:', res.data.data)
+        if (res.data.data) {
           that.setData({
-            list: recommendlist
+            recommandList: res.data.data
           })
         } else {
-          that.setData({
-            list: recommendlist,
+          wx.showToast({
+            title: res.data.message,
           })
         }
-      } else {
+      },
+      function (res) {
+        console.log('getRecommendListUrl error', res)
         wx.showToast({
-          title: res.data.message,
+          title: '加载数据失败',
         })
       }
-    }, function (res) {
-      console.log('streams fail:', res)
-      wx.showToast({
-        title: '加载数据失败',
-      })
-    }, function (res) {
-      console.log(res)
-    }, message)
+    );
   },
-
   // 获取轮播图数据
-  getBanners: function (message) {
-    let that = this
-    const url = api.getStreamsUrl
-    const key = app.globalData.key
-    const page = that.data.page
-    const banner_pageSize = that.data.banner_pageSize
-    const params = { "page": page, "pageSize": banner_pageSize }
-    const sign = utils.encryption(params, key)
-
-    let data = {
-      client_id: app.globalData.client_id,
-      sign: sign,
-      param: params
-    }
-    utils.postLoading(url, 'GET', data, function (res) {
-      console.log('streams ok:', res)
-
-      let streamsTm = that.data.streams
-      if (res.data.result) {
-        if (that.data.page == '1') {
-          streamsTm = []
-        }
-        if (parseInt(that.data.page) > res.data.data.pager.totalPage) {
-          that.setData({
-            hasMoreData: false
-          })
-          return false
-        }
-        let streams = res.data.data.list
-        if (res.data.data.list) {
-          if (streams.length < parseInt(that.data.pageSize)) {
+  getBanners: function () {
+    let that = this;
+    let params = { "page": '0', "pageSize": '3' }
+    let desParams = utils_fyb.paramsAssemble_wx(params);
+    utils_fyb.request(api_fyb.getBannerDataUrl, 'GET', desParams,
+      function (res) {
+        console.log('getBannerDataUrl success', res.data);
+        if (res.data.result) {
+          if (res.data.data.pager.totalPage < 0) {
             that.setData({
-              streams: res.data.data.list,
               hasMoreData: false
             })
-          } else {
-            that.setData({
-              streams: res.data.data.list,
-              hasMoreData: true,
-            })
+            return false
           }
+          let streams = res.data.data.list
+          if (res.data.data.list) {
+            if (streams.length < parseInt(that.data.pageSize)) {
+              that.setData({
+                streams: res.data.data.list,
+                hasMoreData: false
+              })
+            } else {
+              that.setData({
+                streams: res.data.data.list,
+                hasMoreData: true,
+              })
+            }
+          }
+        } else {
+          wx.showToast({
+            title: res.data.message,
+          })
         }
-      } else {
+      },
+      function (res) {
+        console.log('getBannerDataUrl error', res);
         wx.showToast({
-          title: res.data.message,
-        })
+          title: '加载数据失败',
+        });
       }
-    }, function (res) {
-      console.log('streams fail:', res)
-      wx.showToast({
-        title: '加载数据失败',
-      })
-    }, function (res) {
-      console.log('streams complete:', res)
-    }, message)
+    )
   },
 
   onLoad() {
-    console.log('首页 onLoad');
+    console.log('onLoad');
     this.getBindedDevice();
-    this.oneclassify('');
-    this.twoclassify('');
-    this.getBanners('加载中');
+    this.oneclassify();
+    this.twoclassify();
+    this.getBanners();
   },
 
   onReady() {
-    console.log('首页 onReady监听页面初次渲染完成');
+    console.log('onReady');
+    let that = this;
+    wx.getSystemInfo({
+      success: function(res) {
+        console.log(res);
+        // custom模式测试，在真机上screenHeight和windowHeight高度一样，导致marginTop为0；模拟器上正常
+        let screenHeight = res.screenHeight;
+        let windowHeight = res.windowHeight;
+        let marginTop = screenHeight - windowHeight;
+        console.log("marginTop",marginTop)
+      }
+    })
   },
 
   onShow() {
     this.setData({
       isShowTips: app.globalData.isShowTips
-    })
-    let ccsession = wx.getStorageSync('cksession')
-    console.log("首页 onShow, 判断登录状态是否过期", ccsession);
+    });
+    console.log("onShow");
   },
 
   onHide() {
-    console.log('首页 onHide');
+    console.log('onHide');
   },
 
   onUnload() {
-    console.log('首页 onUnload');
+    console.log('onUnload');
   },
 
   onShareAppMessage: function (res) {
@@ -227,12 +195,15 @@ Page({
       url: '../../pages/search/index',
     });
   },
+
   getBindedDevice: function () {
     let ccsession = wx.getStorageSync('cksession');
+    console.log('getBindedDevice ccsession', ccsession);
+    if (ccsession == null || ccsession === "") return;
     let params = { ccsession: ccsession };
     let desParams = utils_fyb.paramsAssemble_wx(params);
-    console.log('首页获取绑定设备信息 参数', desParams);
-    console.log('首页获取绑定设备信息 请求地址：' + api_fyb.getBindDeviceListUrl);
+    console.log('getBindedDevice params', desParams);
+    console.log('getBindedDevice url', api_fyb.getBindDeviceListUrl);
     utils_fyb.request(api_fyb.getBindDeviceListUrl, 'GET', desParams,
       function (res) {
         console.log('getBindDeviceList success', res.data);
@@ -241,7 +212,7 @@ Page({
             if (res.data.data[i].bindStatus === 1) {
               app.globalData.activeId = res.data.data[i].device.serviceId;
               app.globalData.deviceId = res.data.data[i].deviceId + '',
-                console.log('当前绑定的设备信息: activeId = ' + app.globalData.activeId + ", deviceId = " + app.globalData.deviceId);
+              console.log('getBindedDevice: activeId = ' + app.globalData.activeId + ", deviceId = " + app.globalData.deviceId);
               break;
             }
           }
@@ -249,9 +220,6 @@ Page({
       },
       function (res) {
         console.log('getBindDeviceList error', res)
-      },
-      function (res) {
-        console.log('getBindDeviceList complete')
       }
     )
   }

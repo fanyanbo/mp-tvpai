@@ -1,37 +1,35 @@
 <view class="container">
   <view class="userinfo">
-    <view class="info-bg"></view>
-    <view class="user-msg">
-      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
-      <text class="userinfo-nickname font-size-normal fc-dark">{{userInfo.nickName}}</text>
-    </view> 
+    <view class="avatar-wrapper">
+      <open-data class="avatar" type="userAvatarUrl"></open-data>
+      <view class="avatar"></view>
+      <view class="name">
+        <open-data class="nickname" type="userNickName"></open-data>
+      </view>
+    </view>
   </view>
-
-  <button open-type="getUserInfo" class='binding mylabel' data-type="home" bindtap='jumpurl'>
+  <button class='binding mylabel' data-type="home" bindtap="jumpHomePage">
     <image class='my_icon' src="../../images/search_tv.png"></image>
     <text class="title">设备绑定</text>
     <image class="arrow" src="../../images/arrow.png"></image>
   </button>
-
- <button open-type="getUserInfo"  class='history mylabel' data-type="history" bindtap='jumpurl'>
+  <button open-type="getUserInfo" class='history mylabel' data-type="history" bindgetuserinfo="bindGetUserInfo">
     <image class='my_icon' src="../../images/history.png"></image>
     <text class="title">推送历史</text>
-    <view class="more">全部 <image class="arrow" src="../../images/arrow.png"></image></view>
+    <text class="more">全部</text>
+    <image class="arrow" src="../../images/arrow.png"></image>
   </button>
-  <view class="scroll_box section"> 
-      <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">    
-        <navigator wx:for="{{historyList}}" wx:for-item="item" class="item_list" url="../column/column?id={{item.third_album_id}}">
-          <view>
-            <image src="{{item.poster_h}}" class="item_book_img" mode="aspectFill"></image>
-            <view class="item_book_text inaline">{{item.title}}</view>
-          </view>
-        </navigator>    
-      </scroll-view>
+  <view class="scroll_box section">
+    <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">
+      <navigator wx:for="{{historyList}}" wx:key="index" wx:for-item="item" class="item_list" url="../column/column?id={{item.third_album_id}}">
+        <view>
+          <image src="{{item.poster_h}}" class="item_book_img" mode="aspectFill"></image>
+          <view class="item_book_text inaline">{{item.title}}</view>
+        </view>
+      </navigator>
+    </scroll-view>
   </view>
 </view>
-
 <view>
   <remotecontrol id="remotecontrol-id"></remotecontrol>
 </view>
-
-

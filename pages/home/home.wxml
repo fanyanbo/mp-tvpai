@@ -7,7 +7,8 @@
       <image src="../../images/help/4.jpg" class="image4"></image>
     </view>
     <view class="view">
-      <button class="_binding" bindtap="scan" id="scan">开始扫码绑定</button>
+      <!-- <button class="_binding" bindtap="scan" id="scan">开始扫码绑定</button> -->
+      <button class="_binding" open-type="getUserInfo" id="scan" bindgetuserinfo="bindGetUserInfo">开始扫码绑定</button>
     </view>
   </view>
   <view class="{{devices?'binding':'none'}} " bindtap="navigateto">绑定新设备</view>
@@ -36,24 +37,11 @@
     </view>
     <view class="device-top-right">
       <image wx:if="{{item.bindStatus == 1}}" class="device-model" src="../../images/binding.png"></image>
-      <view data-deviceid='{{item.deviceId}}' bindtap="binding" wx:else>绑定</view>
+      <view data-deviceid='{{item.deviceId}}' bindtap="handleBindTap" wx:else>绑定</view>
     </view>
   </view>
 </view>
-<!-- 弹窗 -->
-<view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
-<view class="modal-dialog" wx:if="{{showModal}}">
-  <view class="modal-title">
-    <image src="../../images/gantanhao-_icon.png"></image>
-  </view>
-  <view class="modal-content">
-    <text>确定取消酷开账号的绑定吗</text>
-  </view>
-  <view class="modal-footer">
-    <view class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</view>
-    <view class="btn-confirm" bindtap="onConfirm" data-status="confirm">确定</view>
-  </view>
-</view>
+<!-- 遥控器组件 -->
 <view>
   <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}"></remotecontrol>
 </view>

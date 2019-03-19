@@ -1,336 +1,73 @@
-/* pages/my/my.wxss */
-
-page {
-  background-color: #fff;
+/* 清除button默认样式 */
+button::after {
+  border:none;
 }
-.container{
-  font-size: 0
-}
-.none{
-  display: none
-}
-.mylabel{
+.mylabel {
+  position: relative;
+  width: 750rpx;
   height: 88rpx;
-  line-height: 88rpx;
+  display: flex;
+  align-items: center;
   padding: 0 30rpx;
-  width: 100%;
   box-sizing: border-box;
-  background: none;
-  text-align: left
-
+  background: #fff;
 }
-.mylabel .title{
-  color: #333;
-  font-size: 30rpx;
-  display: inline-block; 
-  margin-left: 10rpx
+.mylabel .title {
+  position: absolute;
+  left: 100rpx;
+  font-size: 32rpx;
+  color: #000000;
+  letter-spacing: 0;
 }
-.mylabel .more{
-  float: right;
+.mylabel .more {
+  position: absolute;
   font-size:28rpx;
   color:#999;
+  right: 50rpx;
 }
-.mylabel .arrow{
+.mylabel .arrow {
+  position: absolute;
   height: 26rpx;
   width: 14rpx;
-  vertical-align: middle;
-  display: inline-block;
-  float: right;
-  margin-top: 31rpx;
-  margin-left: 10rpx
+  right: 20rpx;
 }
-.my_icon{
+.mylabel .my_icon {
   width: 42rpx;
   height: 42rpx;
-  display: inline-block; 
-  vertical-align: middle;
-  float:left;
-  margin-top: 26rpx
 }
 .userinfo {
-  width: 100%;
+  position: relative;
+  width: 750rpx;
   height: 266rpx;
-  display: block;
-  text-align: center;
-  background-color: #fff;
+}
+.userinfo .avatar-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 750rpx;
   position: relative;
-  overflow: hidden
 }
-.user-bg{
-  width: 100%;
-  height: 100%;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background: rgba(0, 0, 0, 0.15);
-  filter: blur(45px); 
+.avatar-wrapper .avatar {
   position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1
-}
-.info-bg{
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-}
-.user-msg{
-  position: relative;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 3
-}
-
-.userinfo-avatar {
   width: 132rpx;
   height: 132rpx;
   border-radius: 50%;
-  border: 2px solid white;
-  margin-top: 40rpx
+  border: 25rpx solid white;
 }
-
-.userinfo-nickname {
-  display: block;
+.avatar-wrapper .name {
+  position: absolute;
+  margin-top: 100rpx;
   font-size: 30rpx;
   color: #333;
-  margin: 10rpx 0 10rpx 0;
 }
-.coocaa-name,.onLine{
-  /* display: inline-block; */
-  font-size: 22rpx;
-  color: #fff;
-  /* background:none !important;
-  border: none; */
-}
-.feedback{
-  position: absolute;
-  right: 30rpx;
-  top: 30rpx;
-  /* width: 40rpx; */
-  height: auto;
-  z-index: 3
-  /* text-align: center */
-}
-.feedback>image{
-  width: 40rpx;
-  height: 40rpx;
-  display: block;
-  margin-left:9px;
-}
-.feedback>text{
-  color: #fff;
-  font-size: 20rpx
-}
-
-/*tab css*/
-.swiper-tab{ 
-  width: 100%; 
-  height: 100rpx;
-  background: #fff;
-  border-bottom: 1rpx solid #eaeaea;  
-  text-align: center; 
-  /* line-height: 100rpx; */
-  overflow: hidden;
-  box-sizing: border-box
-} 
-.swiper-tab-list{ 
-  font-size: 28rpx; 
-  display: inline-block; 
-  width: 33%; 
-  color: #444; 
-  text-align: center;
-  height:90rpx;
-} 
-.ontext{
-  display: block;
-  text-align: center;
-  width: 80%;
-  margin: 0 auto;
-  padding: 30rpx 0;
-}
-.on{ 
-  color: #fc4c00; 
-  border-bottom: 6rpx solid #fc4c00;
-} 
-.swiper-box{ 
-  display: block; 
-  width: 100%;
-  overflow-y: scroll;
-  /* height: 300px; */
-} 
-.swiper-box view{ 
-  text-align: center; 
-} 
-.no-article{
-  color: #c8c8c8;
-  font-size: 28rpx;
-  margin-top: 30%;
-}
-
-.article-item{
-  position: relative;
-  margin: 20rpx 0;
-}
-.article-bg{
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 1
-}
-.article_img{
-  width: 100%;
-  height: 180rpx;
-  position: relative
-}
-.article-text{
-  position: absolute;
-  top: 75rpx;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  color: #fff;
-  font-size: 32rpx; 
-}
-.article-text text{
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden
-}
-.no-coocaa{
-  color: #c8c8c8;
-  margin-top: 20%;
-}
-.no-title{
-  font-size: 28rpx;
-  display: block
-}
-.no-subtitle{
-  font-size: 22rpx;
-  margin: 20rpx 0 60rpx 0;
-  display: block
-}
-.no-bind{
-  width: 300rpx;
-  height: 60rpx;
-  line-height: 60rpx;
-  color: #444;
-  background: #fff;
-  border-radius: 5rpx !important;
-  font-size: 26rpx;
-
-}
-.no-topic{
-  left: 0;
-  margin-top: 30%;
-  font-size: 28rpx;
-  color: #c8c8c8;
-}
-.no-movie{
-  left: 0;
-  margin-top: 30%;
-  font-size: 28rpx;
-  color: #c8c8c8;
-}
-.movie view{
-  text-align: left
-}
-scroll-view{
-  /* background: rgb(248, 248, 248) */
-}
-.topic-item{
-  margin: 20rpx auto;
-  width: 100%;
-  background: #fff;
-  height: 160rpx;
-  /* overflow: hidden; */
-  font-size: 0;
-  padding-top: 10rpx;
-}
-.topic-type{
-  font-size: 26rpx;
-  display: block;
-  color: #444;
-  /* margin-top: 18rpx;  */
-}
-.topic-title{
-  font-size: 30rpx;
-  margin: 20rpx auto;
-  display: block;
-  color: #444;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden
-}
-.topic-time{
-  font-size: 20rpx;
-  color: #c8c8c8;
-  display: block
-}
-/* .topic-item text{
-  display: block;
-  color: #444;
-  font-size: 28rpx;
-  line-height: 70rpx;
-} */
-.movie-item{
-  width: 100%;
-  border-bottom: 1rpx solid #eaeaea;
-  padding: 20rpx 0 20rpx 20rpx;
-}
-.movie_img{
-  height: 150rpx;
-  width: 110rpx;
-  margin-left: 0;
-  margin-right: 20rpx;
-}
-.movie-text{
-  display: inline-block;
-  padding-top: 10rpx;
-  text-align: left;
-}
-.movie-name{
-  font-size: 26rpx;
-  color: #444;
-  display: block;
-  text-align: left
-}
-.movie-score{
-  font-size: 22rpx;
-  color: #a8a8a8;
-  display: block;
-  margin: 14rpx 0 50rpx 0;
-  text-align: left
-}
-.movie-tags{
-  font-size: 22rpx;
-  color: #a8a8a8;
-  display: block;
-  text-align: left
-}
-.topic-main{
-  background: #f5f5f5;
-}
-
-/* 授权按钮样式 */
-/* .onLine{} */
-.getuser,.aut{height: 60rpx;margin-top:-6%;opacity: 0;}
-.onLine{color: #fc4c00;}
-
-
 .section{
-width: 100%;
-overflow: hidden;
-white-space: nowrap;
-padding: 0 30rpx;
-box-sizing: border-box;
-margin-bottom: 10rpx
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 0 30rpx;
+  box-sizing: border-box;
+  margin-bottom: 10rpx
 }
 .item_list{
   width: 210rpx;
@@ -353,8 +90,8 @@ margin-bottom: 10rpx
   margin-top: 5rpx
 }
 .inaline{
-    overflow:hidden;
-    white-space:nowrap;
-    text-overflow:ellipsis
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis
 }
 

@@ -257,7 +257,6 @@ Component({
 
     handlePushController(e) {
       const curId = e.currentTarget.id;
-      console.time('timeTap')
       console.log('遥控按键按住', curId)
       switch (curId) {
         case 'ok':
@@ -329,13 +328,12 @@ Component({
           break
       }
       
-      var bTVReady = false;
-      bTVReady = this.isBindedTVStatusReady()
-      if(!bTVReady) {
-        console.log('TV not ready')
-        return 
-      }
-
+      // var bTVReady = false;
+      // bTVReady = this.isBindedTVStatusReady()
+      // if(!bTVReady) {
+      //   console.log('TV not ready')
+      //   return 
+      // }
       console.log('TV ready: activeid:' + this.data.activeid + ',action:' + curId)
       const data = {
         activeid: this.data.activeid,
@@ -345,7 +343,6 @@ Component({
         data: data,
         success: function (res) {
           console.log('pushController done!', res)
-          console.timeEnd('timeTap')
         }
       })
     },
@@ -365,7 +362,6 @@ Component({
 
     //处理遥控器相关事件
     handleRecorderManagerStart() {
-      console.time('timeVoice')
       if (!this.data.isShowMask) {
         console.log('refresh tv status.')
         this.refreshBindedTVStatus()
@@ -377,13 +373,16 @@ Component({
     handleRecorderManagerStop(event) {
       console.log('语音键 touch end, 是否等待语音结果: ' + this.data.waitVoiceResult + ",是否为长按状态: " + this.data.longtapStatus 
               + '是否开始录制:' +this.data.bStartRecord);
-      var bTVReady = false;
-      bTVReady = this.isBindedTVStatusReady()
-      if (!bTVReady) {
-        console.log('TV not ready')
-        return
+      
+      if(this.data.longtapStatus == false) { 
+        var bTVReady = false;
+        bTVReady = this.isBindedTVStatusReady()
+        if (!bTVReady) {
+          console.log('tap TV not ready')
+          return
+        }
       }
-      console.timeEnd('timeVoice')
+
       try {
         //当处理语音过程中，不处理任何事件, 注意不能直接返回，需处理第一次情况
         if (!this.data.waitVoiceResult) {
@@ -456,7 +455,7 @@ Component({
       var bTVReady = false;
       bTVReady = this.isBindedTVStatusReady({type: 'longpress'})
       if (!bTVReady) {
-        console.log('TV not ready')
+        console.log('longpress TV not ready')
         return
       }
       
