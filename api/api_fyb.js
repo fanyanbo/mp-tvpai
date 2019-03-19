@@ -15,6 +15,8 @@ const getRecommendListUrl = baseUrl_tvpai + "video/client/longvideo/recommendlis
 const getBindDeviceListUrl = baseUrl_wx + "wxUserDeviceAPI/bindDeviceList.coocaa";//获取已绑定设备列表
 const pushMediaUrl = baseUrl_wx + "articleMoviesAPI/devicesPush.coocaa";//推送影视内容
 const getBannerDataUrl = baseUrl_wx + "spread/getStreams.coocaa";//获取Banner数据
+const getSessionUrl = baseUrl_wx + "appletAPI/getSession.coocaa";//使用登录凭证code等参数获取session_key和openid
+const getUserInfoUrl = baseUrl_wx + "appletAPI/getuserinfo.coocaa";//微信小程序API接口
 
 module.exports = {
   searchByKeywordUrl: searchByKeywordUrl,
@@ -26,5 +28,7 @@ module.exports = {
   getRecommendListUrl: getRecommendListUrl,
   getBindDeviceListUrl: getBindDeviceListUrl,
   pushMediaUrl: pushMediaUrl,
-  getBannerDataUrl: getBannerDataUrl
+  getBannerDataUrl: getBannerDataUrl,
+  getSessionUrl: getSessionUrl,
+  getUserInfoUrl: getUserInfoUrl
 }
