@@ -19,14 +19,12 @@ Page({
     // currentContent: 'search-input-content',
     hotKeywordsList: [],
     historyWordsList: ['小猪佩奇', '奇葩说'], // 后台接口关联账户信息，所以先做本地缓存处理
-    resultTitleList: [
-      '影片',
-      '文章'
-    ],
+    resultTitleList: ['影片','文章'],
     activeIndex: 0,
     searchResultList: [],
     hasMore: 0, //1表示有下一页，2表示无下一页
-    isLike: false
+    isLike: false,
+    canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
   upper: function (event) {
     console.log('trigger upper');
@@ -143,7 +141,7 @@ Page({
     this.searchByKeyword(1, this.data.inputValue, this.data.curPageIndex);
   },
   // 页面onLoad生命周期事件
-  onLoad(options) {
+  onLoad() {
     console.log('search onLoad监听页面加载');
     let cacheKeywords = wx.getStorageSync('history_keywords');
     console.log(cacheKeywords);
@@ -196,7 +194,7 @@ Page({
         console.log('success', res.data)
         wx.hideLoading()
         if (res && res.data && res.data.data && res.data.data.length != 0) {
-          // 组装数据
+          // 加载'更多'数据进行组装
           let tmpData = that.data.searchResultList.concat(res.data.data);
           console.log(tmpData)
           that.setData({
@@ -287,6 +285,65 @@ Page({
       function (res) {
         console.log('getBindDeviceList complete')
       })
+  },
+
+  // 当设备id为空无法推送时处理获取设备id的流程，判断授权后跳转至设备绑定页面
+  handleDeviceBindFlow: function () {
+    let ccsession = wx.getStorageSync('cksession');
+    if (ccsession == null || ccsession === '') {
+
+    }
+  },
+
+  bindGetUserInfo(e) {
+    console.log('canIUse', this.data.canIUse, e)
+    let ccsession = wx.getStorageSync("cksession");
+    console.log('bindGetUserInfo ccsession', ccsession);
+    if (ccsession == null || ccsession === '') {
+      wx.login({
+        success: function (res) {
+          console.log('code', res);
+          utils.getSessionByCode(res.code, function (res) {
+            console.log('success', res);
+            if (res.data.result && res.data.data) {
+              let ccsession = res.data.data.ccsession;
+              let wxopenid = res.data.data.wxopenid;
+              wx.setStorageSync('cksession', ccsession);
+              wx.setStorageSync('wxopenid', wxopenid);
+              console.log('setStorage, session = ' + ccsession + ',openid = ' + wxopenid);
+              wx.navigateTo({url: '../home/home'});
+            }
+          }, function (res) {
+            console.log('error', res)
+          });
+        }
+      });
+    } else {
+      if (e.currentTarget.dataset.type === 'episode' || e.currentTarget.dataset.type === 'other') {
+        this.setData({
+          curIndex: e.currentTarget.dataset.keyword.segment_index,
+          curThirdId: e.currentTarget.dataset.keyword.video_third_id
+        });
+        let third_album_id = e.currentTarget.dataset.keyword.third_album_id;
+        let segment_index = e.currentTarget.dataset.keyword.segment_index - 1;
+        console.log(app.globalData.deviceId, third_album_id);
+        if (app.globalData.deviceId != null) {
+          this.pushEpisode(app.globalData.deviceId, third_album_id, segment_index);
+        } else {
+          wx.navigateTo({url: "../home/home"});
+        }
+      } else if (e.currentTarget.dataset.type === 'movie') {
+        let third_album_id = e.currentTarget.dataset.keyword.video_detail.third_album_id;
+        console.log(app.globalData.deviceId, third_album_id);
+        if (app.globalData.deviceId != null) {
+          this.pushMovie(app.globalData.deviceId, third_album_id);
+        } else {
+          wx.navigateTo({url: "../home/home"});
+        }
+      } else {
+        wx.navigateTo({url: "../home/home"});
+      }
+    }
   },
 
   // 推送电视剧

@@ -261,16 +261,21 @@
 }
 .scroll-view-item .idx {
   font-size: 32rpx;
+  height: 45rpx;
+  line-height: 45rpx;
   font-weight: bold;
 }
-.desc {
-  /* font-size: 24rpx;
-  width: 100%;
-  height: 60%;
-  letter-spacing: 0;
-  overflow: hidden;
+.scroll-view-item .desc {
+  /* width: 285rpx;
+  height: 68rpx;
+  font-size:24rpx;
+  overflow:hidden;
+  white-space: pre-wrap;
   text-overflow: ellipsis;
-  border: 1px solid salmon; */
+  display:-webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  color: #666666; */
   width: 285rpx;
   height: 68rpx;
   font-size:24rpx;
@@ -395,24 +400,6 @@
   color: transparent;
 }
 
-
-/* .bgViewYellow {
-  width: 300rpx;
-  height: 300rpx;
-  margin: 0 auto;
-  background: #FFD71C;
-  margin-top: 10rpx;
-}
-
-.scroll-view_H {
-  border: 1rpx solid red;
-  display: flex;
-  white-space: nowrap;
-  height: 300rpx;
-}
- */
-
-
  .box{
   width:400rpx;
   height:80rpx;
@@ -423,3 +410,16 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
  }
+/* 清除默认样式 */
+button::after {
+  border:none;
+}
+button {
+  padding-left:0px;
+  padding-right:0px;
+  box-sizing:border-box;
+  text-align:center;
+  text-decoration:none;
+  line-height:34rpx;
+  overflow:hidden;
+}

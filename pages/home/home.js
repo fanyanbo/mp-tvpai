@@ -183,7 +183,7 @@ function getDevices(that, message) {
       for (let i = 0; i < res.data.data.length; i++) {
         if (res.data.data[i].bindStatus === 1) {
           console.log(res.data.data[i].deviceId);
-          wx.setStorageSync('deviceId', res.data.data[i].deviceId);
+          wx.setStorageSync('deviceId', res.data.data[i].deviceId + '');
           // 是否一定使用globaldata，用storage方案如何？
           app.globalData.activeId = res.data.data[i].device.serviceId;
           app.globalData.deviceId = res.data.data[i].deviceId + '',
