@@ -147,7 +147,6 @@ Page({
     console.log(cacheKeywords);
     this.setData({ historyWordsList: cacheKeywords ? cacheKeywords : [] });
     this.getHotKeyword();
-    // this.getBindedDevice();
     console.log('搜索页当前已绑定设备', app.globalData.deviceId);
   },
   onReady() {
@@ -295,6 +294,7 @@ Page({
     }
   },
 
+  // 推送时判断获取用户信息是否授权的流程，暂未使用
   bindGetUserInfo(e) {
     console.log('canIUse', this.data.canIUse, e)
     let ccsession = wx.getStorageSync("cksession");

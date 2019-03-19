@@ -95,12 +95,12 @@
                     <image class="icon" src="../../images/like_before.png"></image>
                   </block>
                 </view>
-                <!-- <view class="push" wx:if="{{item.episodes_list == null}}" data-keyword="{{item}}" bindtap="handleMovieTap">
+                <view class="push" wx:if="{{item.episodes_list == null}}" data-keyword="{{item}}" bindtap="handleMovieTap">
                   <image class="icon" src="../../images/collect_before.png" />
-                </view> -->
-                <button open-type="getUserInfo" class="push" wx:if="{{item.episodes_list == null}}" bindgetuserinfo="bindGetUserInfo" data-keyword="{{item}}" data-type="movie">
+                </view>
+                <!-- <button open-type="getUserInfo" class="push" wx:if="{{item.episodes_list == null}}" bindgetuserinfo="bindGetUserInfo" data-keyword="{{item}}" data-type="movie">
                   <image class="icon" src="../../images/collect_before.png" />
-                </button>
+                </button> -->
               </view>
             </view>
           </view>
@@ -113,12 +113,12 @@
             </view>
             <scroll-view class="episode2" scroll-x style="width: 100%">
               <block wx:for="{{item.episodes_list}}" wx:key="index">
-                <!-- <view class="scroll-view-item2 {{item.segment_index == curIndex? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" hover-class="noimplement">
+                <view class="scroll-view-item2 {{item.segment_index == curIndex? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" hover-class="noimplement">
                   {{item.segment_index}}
-                </view> -->
-                <button open-type="getUserInfo" class="scroll-view-item2 {{item.segment_index == curIndex? 'active' : 'inactive'}}" bindgetuserinfo="bindGetUserInfo" data-keyword="{{item}}" data-type="episode">
+                </view>
+                <!-- <button open-type="getUserInfo" class="scroll-view-item2 {{item.segment_index == curIndex? 'active' : 'inactive'}}" bindgetuserinfo="bindGetUserInfo" data-keyword="{{item}}" data-type="episode">
                   <text>{{item.segment_index}}</text>
-                </button>
+                </button> -->
               </block>
             </scroll-view>
           </view>
@@ -134,14 +134,14 @@
             <scroll-view class="episode" scroll-x style="width: 100%">
               <block wx:for="{{item.episodes_list}}" wx:key="index">
                 <!-- 仅仅index还不能唯一标识一个资源 -->
-                <!-- <view class="scroll-view-item {{(item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" hover-class="noimplement">
+                <view class="scroll-view-item {{(item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" hover-class="noimplement">
                   <view class="idx">第 {{item.segment_index}} 集</view>
                   <view class="desc">{{item.video_title}}</view>
-                </view> -->
-                <button open-type="getUserInfo" class="scroll-view-item {{(item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindgetuserinfo="bindGetUserInfo" data-keyword="{{item}}" data-type="other">
+                </view>
+                <!-- <button open-type="getUserInfo" class="scroll-view-item {{(item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindgetuserinfo="bindGetUserInfo" data-keyword="{{item}}" data-type="other">
                   <view class="idx">第 {{item.segment_index}} 集</view>
                   <view class="desc">{{item.video_title}}</view>
-                </button>
+                </button> -->
               </block>
             </scroll-view>
           </view>
