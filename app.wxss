@@ -275,3 +275,15 @@ button::after {
   border: none;
   background: none
 }
+.nomv{
+  width: 100%;
+  text-align: center;
+  color: #666;
+  font-size: 38rpx;
+  padding-top: 200rpx
+}
+.nomv image{
+  width: 400rpx;
+  height: 274rpx;
+
+}

@@ -246,6 +246,7 @@ function movieDetail(that, movieId) {
   var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": movieId, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
   console.log(paramsStr);
   const sign = utils.encryptionIndex(paramsStr, secret)
+  console.log("签名" + sign);
   const url = api.getVideoDetailUrl
   let data = {
     appkey: app.globalData.appkey,

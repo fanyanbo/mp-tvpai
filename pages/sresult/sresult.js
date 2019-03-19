@@ -9,7 +9,8 @@ Page({
     tagListAbsolute: '',
     activeIndex: 0,
     active: 0,
-    pageIndex: 0
+    pageIndex: 0,
+    isShowDoc: false
   },
   tabClick: function (e) {
     console.log(e)
@@ -224,7 +225,8 @@ function searchContent(that, channelId, sorts, filters, extraCondition) {
           return
         }
       } else {
-        utils.showToastBox(res.data.message, "loading")
+        utils.showToastBox(res.data.message, "loading");
+        that.setData({ isShowDoc: true });
       }
 
     }

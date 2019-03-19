@@ -132,11 +132,12 @@ border-radius: 8rpx
   font-size: 28rpx;
   text-align: left;
   color: #333;
-  height: 80rpx;
+  height: 40rpx;
   width: 210rpx;
-  white-space:normal;
-  overflow:auto;
   display: block;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis
 }
 .banner-swiper {
  width: 100%;

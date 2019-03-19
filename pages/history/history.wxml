@@ -1,20 +1,67 @@
 <!--pages/history/history.wxml-->
-<view class="contant">
-  <view class="title">最近7天</view>
-  <view class="list" wx:for="{{withinList}}" wx:for-item="item">
+
+
+<view class="contant" wx:if="{{isShowDoc}}">
+  <!-- <view class="title">7天内</view> -->
+  <view class="list" wx:for="{{historyList}}" wx:for-item="item" data-id="{{index}}" bindtap='select'>
     <view class="img">
      <image src="{{item.poster_h}}" class="item_book_img" mode="aspectFill"></image>    
     </view>              
     <view class="item_book_text intwoline">{{item.title}}</view>
+    <view class="check">
+      <view  wx:if="{{management_good}}" class='lefts'>
+        <block wx-if="{{!item.checked}}">
+          <image src='../../images/check_befor.png'></image>
+        </block>
+        <block wx-if="{{item.checked}}">
+          <image src='../../images/check_after.png'></image>
+        </block>
+      </view>
+    </view>
   </view>
+
+<view class="bottom">
+    <view wx:if="{{!management_good}}" class='flex_center edit' bindtap='management'>
+      编辑
+    </view>
+    <view class="flex_center" wx:if="{{management_good}}">
+      <view class='left button' bindtap='finish_management'>
+        取消
+      </view>
+      <view class='middle button'>
+        <block wx:if="{{select_all}}">
+          <view bindtap='select_none'>
+              取消全选
+          </view>
+        </block>
+        <block wx:if="{{!select_all}}">
+          <view bindtap='select_all'>
+              全选
+          </view>
+        </block>
+      </view>
+      <view class='right button'>
+        <view bindtap='deleteitem' class='sure'>
+          删除
+        </view>
+      </view>
+    </view>
 </view>
 
-<view class="contant" wx:if="{{showoverList}}">
-  <view class="title">一周前</view>
-  <view class="list" wx:for="{{overList}}" wx:for-item="item">
-    <view class="img">
-     <image src="{{item.poster_h}}" class="item_book_img" mode="aspectFill"></image>    
-    </view>              
-    <view class="item_book_text intwoline">{{item.title}}</view>
-  </view>
 </view>
+
+
+<view class="nomv" wx:if="{{!isShowDoc}}">
+  <image src="../../images/no-result.png"></image>
+  <view>呜呜，这里什么都没有呢！</view>
+</view>
+
+
+
+<view>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}"></remotecontrol>
+</view>
+
+
+
+
