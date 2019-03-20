@@ -198,7 +198,7 @@ Page({
     var video_poster = e.currentTarget.poster
     var third_album_id = e.currentTarget.id
     const secret = app.globalData.secret
-    const params = { "appkey": app.globalData.appkey, "video_type": 1, "video_title": video_title, "video_poster": video_poster, "third_album_id": third_album_id, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
+    const params = { "appkey": app.globalData.appkey, "video_type": 1, "video_title": video_title, "video_poster": video_poster, "third_album_id": third_album_id, "time": app.globalData.time(), "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
     console.log(params);
     const sign = utils.encryptionIndex(params, secret)
     const url = api.addUrl + "add=1"
@@ -208,7 +208,7 @@ Page({
       video_title: video_title,
       video_poster: video_poster,
       third_album_id: third_album_id,
-      time: app.globalData.time,
+      time: app.globalData.time(),
       tv_source: app.globalData.tvSource,
       version_code: app.globalData.version_code,
       sign: sign
@@ -243,7 +243,7 @@ Page({
 
 function movieDetail(that, movieId) {
   const secret = app.globalData.secret
-  var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": movieId, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
+  var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": movieId, "time": app.globalData.time(), "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
   console.log(paramsStr);
   const sign = utils.encryptionIndex(paramsStr, secret)
   console.log("签名" + sign);
@@ -251,7 +251,7 @@ function movieDetail(that, movieId) {
   let data = {
     appkey: app.globalData.appkey,
     third_album_id: movieId,
-    time: app.globalData.time,
+    time: app.globalData.time(),
     tv_source: app.globalData.tvSource,
     version_code: app.globalData.version_code,
     sign: sign,
@@ -291,13 +291,13 @@ function movieDetail(that, movieId) {
 
 function likes(that, movieId) {
   const secret = app.globalData.secret
-  var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": movieId, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
+  var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": movieId, "time": app.globalData.time(), "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
   var sign = utils.encryptionIndex(paramsStr, secret)
   var url = api.relatelongUrl
   let data = {
     appkey: app.globalData.appkey,
     third_album_id: movieId,
-    time: app.globalData.time,
+    time: app.globalData.time(),
     tv_source: app.globalData.tvSource,
     version_code: app.globalData.version_code,
     sign: sign,
@@ -331,13 +331,13 @@ function likes(that, movieId) {
 
 function moviesItem(that, movieId) {
   const secret = app.globalData.secret
-  var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": movieId, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
+  var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": movieId, "time": app.globalData.time(), "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
   var sign = utils.encryptionIndex(paramsStr, secret)
   var url = api.getTvSegmentListUrl
   let data = {
     appkey: app.globalData.appkey,
     third_album_id: movieId,
-    time: app.globalData.time,
+    time: app.globalData.time(),
     tv_source: app.globalData.tvSource,
     version_code: app.globalData.version_code,
     sign: sign,
@@ -419,13 +419,13 @@ function push(that, movieId, deviceId, moviechildId, _type, tvid) {
 
 function addpushhistory(that, movieId, title, video_id) {
   const secret = app.globalData.secret
-  var paramsStr = { "appkey": app.globalData.appkey, "time": app.globalData.time, "version_code": app.globalData.version_code, "vuid": wx.getStorageSync("wxopenid") }
+  var paramsStr = { "appkey": app.globalData.appkey, "time": app.globalData.time(), "version_code": app.globalData.version_code, "vuid": wx.getStorageSync("wxopenid") }
   var sign = utils.encryptionIndex(paramsStr, secret)
   console.log("album_id：" + movieId + "===video_id:==" + video_id +"增加历史movieId：" + movieId)
   console.log(paramsStr)
   console.log(sign)
   wx.request({
-    url: api.addpushhistoryUrl + "?sign=" + sign + "&vuid=" + wx.getStorageSync("wxopenid") + "&version_code=33&time=" + app.globalData.time + "&appkey=" + app.globalData.appkey,
+    url: api.addpushhistoryUrl + "?sign=" + sign + "&vuid=" + wx.getStorageSync("wxopenid") + "&version_code=33&time=" + app.globalData.time() + "&appkey=" + app.globalData.appkey,
     method: "POST",
     data: {
       album_id: movieId,

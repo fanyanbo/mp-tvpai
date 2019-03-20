@@ -16,13 +16,13 @@ Page({
   onLoad: function (options) {
     let that = this
     const secret = app.globalData.secret
-    const params = { "appkey": app.globalData.appkey, "target_id": options.id, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code}
+    const params = { "appkey": app.globalData.appkey, "target_id": options.id, "time": app.globalData.time(), "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code}
     const sign = utils.encryptionIndex(params, secret)
     const url = api.recommendmorelistUrl
     let data = {
       appkey: app.globalData.appkey,
       target_id: options.id,
-      time: app.globalData.time,
+      time: app.globalData.time(),
       tv_source: app.globalData.tvSource,
       version_code: app.globalData.version_code,
       sign: sign,      

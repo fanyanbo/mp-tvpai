@@ -72,14 +72,14 @@ Page({
     }
 
     const secret = app.globalData.secret
-    var paramsStr = { "appkey": app.globalData.appkey, "del_ids": str, "time": app.globalData.time, "version_code": app.globalData.version_code, "vuid": wx.getStorageSync("wxopenid") }
+    var paramsStr = { "appkey": app.globalData.appkey, "del_ids": str, "time": app.globalData.time(), "version_code": app.globalData.version_code, "vuid": wx.getStorageSync("wxopenid") }
     var sign = utils.encryptionIndex(paramsStr, secret)
     console.log(paramsStr)
     const url = api.batchdelUrl
     let data = {
       appkey: app.globalData.appkey,
       del_ids: str,
-      time: app.globalData.time,
+      time: app.globalData.time(),
       version_code: app.globalData.version_code,
       vuid: wx.getStorageSync("wxopenid"),
       sign: sign,
@@ -167,14 +167,14 @@ Page({
     const secret = app.globalData.secret
     const vuid = wx.getStorageSync('wxopenid')
     console.log(vuid);
-    const params = { "appkey": app.globalData.appkey, "time": app.globalData.time, "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code, "vuid": vuid }
+    const params = { "appkey": app.globalData.appkey, "time": app.globalData.time(), "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code, "vuid": vuid }
     console.log(params);
     const sign = utils.encryptionIndex(params, secret)
     const url = api.pushhistorylistUrl
     let data = {
       appkey: app.globalData.appkey,
       vuid: vuid,
-      time: app.globalData.time,
+      time: app.globalData.time(),
       tv_source: app.globalData.tvSource,
       version_code: app.globalData.version_code,
       sign: sign
