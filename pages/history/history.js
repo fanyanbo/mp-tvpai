@@ -36,7 +36,10 @@ Page({
     var that = this;
     let arr2 = [];
     if (that.data.management_good == false) {
-      return;
+      var album_id = e.currentTarget.dataset.albumid; 
+      wx.navigateTo({
+        url: '../../pages/movieDetail/movieDetail?id=' + album_id,
+      });
     } else {
       var arr = that.data.historyList;
       var index = e.currentTarget.dataset.id; 

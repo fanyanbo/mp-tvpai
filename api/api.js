@@ -1,6 +1,8 @@
 // const baseUrl = 'https://wx.coocaa.com/'; 
 const baseUrl = 'https://beta-wx.coocaa.com/';
+//const _baseUrl = "https://tvpi.coocaa.com/";
 const _baseUrl ='https://beta-tvpi.coocaa.com/';
+
 
 const getDevicesUrl = baseUrl + "articleMoviesAPI/getDevices.coocaa";//获取设备信息
 const logoutUrl = baseUrl + "ccuserlogin/logout.coocaa";//登出酷开账号
