@@ -21,8 +21,8 @@ function setParams_tvpai(params) {
   if (isEmptyObject(params)) {
     return ""
   } else {
-    var result = '';
-    for (var key in params) {
+    let result = '';
+    for (let key in params) {
       if (params[key] === null || params[key] === "") continue;
       result += key + params[key];
     }
@@ -54,6 +54,20 @@ function paramsAssemble_tvpai(paramsObj = {}) {
   console.log(signStr);
   desSortedParams["sign"] = signStr;
   return desSortedParams;
+}
+// 处理url参数
+function urlAssemble_tvpai(url, params) {
+  if (isEmptyObject(params)) {
+    return url;
+  } else {
+    let result = '?';
+    for (let key in params) {
+      if (params[key] == null || params[key] === "") continue;
+      result += key + '=' + params[key] + '&';
+    }
+    let paramsStr = result.substr(0, result.length - 1);
+    return url + paramsStr;
+  }
 }
 
 // 以微信后台规则进行签名
@@ -168,7 +182,8 @@ module.exports = {
   paramsAssemble_tvpai: paramsAssemble_tvpai,
   paramsAssemble_wx: paramsAssemble_wx,
   getSessionByCode: getSessionByCode,
-  decryptUserInfo: decryptUserInfo
+  decryptUserInfo: decryptUserInfo,
+  urlAssemble_tvpai: urlAssemble_tvpai
 }
 
 

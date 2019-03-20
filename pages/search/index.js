@@ -8,7 +8,7 @@ Page({
     inputPlaceholder: '搜索视频、影评或话题',
     curIndex: 0, //当前剧集
     curThirdId: '',
-    curThirdAlbumId: '',
+    curThirdAlbumId: '', 
     curPageIndex: 0, //当前页索引，查看更多
     paddingTop: 0,
     scrollHeight: 0,
@@ -71,9 +71,7 @@ Page({
   // 点击关键词进行搜索
   onKeywordTap: function (event) {
     console.log('选择关键字：', event.target.dataset.keyword);
-    let cacheKeywords = this.data.historyWordsList;
-    if(cacheKeywords.indexOf(event.target.dataset.keyword) < 0)
-      cacheKeywords.push(event.target.dataset.keyword);
+    let cacheKeywords = this.getCacheHistoryKeywords(event.target.dataset.keyword);
     this.setData({
       inputValue: event.target.dataset.keyword,
       isShowResult: true,
@@ -86,9 +84,7 @@ Page({
   query: function () {
     console.log('query')
     // 将搜索关键字缓存,去重
-    let cacheKeywords = this.data.historyWordsList;
-    if(cacheKeywords.indexOf(event.target.dataset.keyword) < 0)
-      cacheKeywords.push(this.data.inputValue);
+    let cacheKeywords = this.getCacheHistoryKeywords(this.data.inputValue);
     this.setData({
       searchResultList: [],
       isShowResult: true,
@@ -115,11 +111,13 @@ Page({
       curIndex: e.currentTarget.dataset.keyword.segment_index,
       curThirdId: e.currentTarget.dataset.keyword.video_third_id
     });
-    let third_album_id = e.currentTarget.dataset.keyword.third_album_id;
+    let third_album_id = e.currentTarget.dataset.keyword.third_album_id; 
     let segment_index = e.currentTarget.dataset.keyword.segment_index - 1;
-    console.log(app.globalData.deviceId, third_album_id);
+    let tvId = JSON.parse(e.currentTarget.dataset.keyword.video_url).tvId;//添加推送历史使用，不明白为什么有这些命名？
+    let video_title = e.currentTarget.dataset.keyword.video_title;
+    console.log(app.globalData.deviceId, third_album_id, tvId, video_title);
     if (app.globalData.deviceId != null) {
-      this.pushEpisode(app.globalData.deviceId, third_album_id, segment_index);
+      this.pushEpisode(app.globalData.deviceId, third_album_id, segment_index, tvId, video_title);
     } else {
       wx.navigateTo({url: "../home/home"});
     }
@@ -328,7 +326,7 @@ Page({
         let segment_index = e.currentTarget.dataset.keyword.segment_index - 1;
         console.log(app.globalData.deviceId, third_album_id);
         if (app.globalData.deviceId != null) {
-          this.pushEpisode(app.globalData.deviceId, third_album_id, segment_index);
+          this.pushEpisode(app.globalData.deviceId, third_album_id, segment_index); // 参数不全
         } else {
           wx.navigateTo({url: "../home/home"});
         }
@@ -347,7 +345,8 @@ Page({
   },
 
   // 推送电视剧
-  pushEpisode: function (deviceId, movieId, movieChildId) {
+  pushEpisode: function (deviceId, movieId, movieChildId, tvId, title) {
+    let that = this;
     let params = {
       ccsession: wx.getStorageSync('cksession'),
       deviceId: deviceId,
@@ -360,6 +359,7 @@ Page({
       function (res) {
         console.log('pushEpisode success', res.data);
         if (res.data.code === 200) {
+          that.addPushHistory(movieId, tvId, title);
           wx.showToast({
             title: '推送成功',
             icon: 'success',
@@ -439,10 +439,38 @@ Page({
       },
       function (res) {
         console.log('getCollectedList error', res)
+      }
+    )
+  },
+
+  // 添加推送历史
+  addPushHistory: function(album_id, title, tvid) {
+    let vuid = wx.getStorageSync("wxopenid");
+    console.log('addPushHistory vuid', vuid);
+    let srcParams = { "vuid": vuid };
+    let desParams = utils.paramsAssemble_tvpai(srcParams);
+    console.log(desParams);
+    let url = utils.urlAssemble_tvpai(api.addPushHistoryUrl, desParams);
+    console.log(url);
+    wx.request({
+      url: url,
+      method: "POST",
+      data: {
+        album_id: album_id,
+        title: title,
+        video_id: tvid,
+        video_type: "1",
       },
-      function (res) {
-        console.log('getCollectedList complete')
-      })
+      header: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      success: function (res) {
+        console.log('addPushHistory success', res);
+      },
+      error: function (res) {
+        console.log('addPushHistory error', res);
+      }
+    });
   },
 
   // 获取微信用户信息，需要用户授权
@@ -467,6 +495,22 @@ Page({
         console.log('getDevInfo err', err);
       }
     })
+  },
+
+  // 处理搜索历史排列顺序逻辑
+  getCacheHistoryKeywords: function(keyword) {
+    let cacheKeywords = this.data.historyWordsList;
+    let index = cacheKeywords.indexOf(keyword)
+    if(index > -1) {
+      cacheKeywords.splice(index, 1);
+      cacheKeywords.unshift(keyword);
+    } else {
+      cacheKeywords.unshift(keyword);
+    }
+    if(cacheKeywords.length > 10) {
+      cacheKeywords = cacheKeywords.slice(0,10);
+    }
+    return cacheKeywords; 
   }
   // 结束
 });
