@@ -202,7 +202,7 @@ Page({
       function (res) {
         console.log('success', res.data)
         wx.hideLoading()
-        if (res && res.data && res.data.data && res.data.data.length != 0) {
+        if (res && res.data && res.data.data && res.data.code === 0) {
           // 加载'更多'数据进行组装
           let tmpData = that.data.searchResultList.concat(res.data.data);
           console.log(tmpData)
