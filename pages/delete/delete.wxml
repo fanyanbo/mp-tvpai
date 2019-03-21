@@ -1,5 +1,4 @@
-    <view>
-      <form bindtap='chooseSezi'>
+    <view>      
         <view class="input-area">
           <text style="float:left">设备名称</text>
           <navigator class="edit" url="../edit/edit?deviceId={{deviceId}}&bind={{bind}}">
@@ -7,6 +6,7 @@
             <image class="arrow" src="../../images/arrow.png"></image>
           </navigator>
         </view>
+     <form bindtap='chooseSezi'>
         <button class="accountLog" form-type="submit">删除设备</button>
       </form>
     </view>

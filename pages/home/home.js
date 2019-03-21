@@ -27,7 +27,7 @@ Page({
         }, 2000)
       } else {
         wx.showToast({
-          title: '设备绑定失败',
+          title: '设备绑定失败' + res.data.code,
         })
       }
     })

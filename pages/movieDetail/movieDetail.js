@@ -24,7 +24,8 @@ Page({
     title:'',
     moviepush: false,
     video_url:'',
-    coocaa_m_id:''
+    coocaa_m_id:'',
+    isShowtitle:false
   },
 
   /**
@@ -150,13 +151,16 @@ Page({
       // 如果用户拒绝直接退出，下次依然会弹出授权框
       return;
     }
-    var index = e.currentTarget.dataset.index
+    var coocaamid = e.currentTarget.dataset.index
     var tvid = e.currentTarget.dataset.tvid
-    console.log(index+"=====coocaa_m_id===========")
+    var moviechildid = e.currentTarget.dataset.moviechildid
+    var movieId =  e.currentTarget.dataset.movieid
+    console.log(coocaamid + "=====coocaa_m_id===========" + moviechildid)
     var that = this
     that.setData({
-      moviechildId: index,//剧集
-      movieId: e.currentTarget.dataset.movieid
+      moviechildid: moviechildid,//剧集
+      coocaamid: coocaamid,
+      movieId: movieId
     })
 
     var ccsession = wx.getStorageSync("cksession")
@@ -165,7 +169,7 @@ Page({
     console.log("检测deviceid:" + deviceid);
     if (ccsession != null && ccsession != undefined && ccsession !== '') {
       if (deviceid != null && deviceid != undefined && deviceid !== ''){
-        push(that, that.data.movieId, deviceid, that.data.moviechildId, that.data.movieType, tvid)
+        push(that, movieId, deviceid, moviechildid, that.data.movieType, tvid,coocaamid)
       }else{
         getDevices(that, '获取设备中', tvid);
       }      
@@ -182,7 +186,7 @@ Page({
               wx.setStorageSync('wxopenid', wxopenid);
               console.log('setStorage, session = ' + ccsession + ',openid = ' + wxopenid);
               if (deviceid != null && deviceid != undefined && deviceid !== '') {
-                push(that, that.data.movieId, deviceid, that.data.moviechildId, that.data.movieType, tvid)
+                push(that, movieId, deviceid, moviechildId, that.data.movieType, tvid, coocaamid)
               } else {
                 getDevices(that, '获取设备中', tvid);
               }   
@@ -309,7 +313,7 @@ function likes(that, movieId) {
   utils.postLoading(url, 'GET', data, function (res) {
     console.log("相关联")
     console.log(res.data.data)
-    if (res.data.data) {
+    if (res.data.data.length>0) {
       var videoLike = []
       if (res.data.data.length > 9) {
         for (var k = 0; k < 9; k++) {
@@ -319,8 +323,13 @@ function likes(that, movieId) {
         videoLike = res.data.data
       }
       that.setData({
-        videoLike: videoLike
+        videoLike: videoLike,
+        isShowtitle:true
       })
+    }else{
+      that.setData({
+        isShowtitle: false
+      })    
     }
   }, function (res) {
     console.log('streams fail:')
@@ -374,7 +383,7 @@ function moviesItem(that, movieId) {
 }
 
 // 推送影视
-function push(that, movieId, deviceId, moviechildId, _type, tvid) {
+function push(that, movieId, deviceId, moviechildId, _type, tvid, coocaamid) {
   if (deviceId == null) {
     utils.showToastBox('无设备id!', "loading")
     return
@@ -383,7 +392,7 @@ function push(that, movieId, deviceId, moviechildId, _type, tvid) {
   if (moviechildId == undefined) {
     paramsStr = { "ccsession": wx.getStorageSync("cksession"), "deviceId": deviceId + '', "movieId": movieId }
   } else {
-    paramsStr = { "ccsession": wx.getStorageSync("cksession"), "deviceId": deviceId + '', "movieId": movieId, "moviechildId": moviechildId + '' }
+    paramsStr = { "ccsession": wx.getStorageSync("cksession"), "coocaamid": coocaamid, "deviceId": deviceId + '', "movieId": movieId, "moviechildId": moviechildId + ''}
   }
   console.log("参数")
   console.log(paramsStr)
@@ -406,7 +415,7 @@ function push(that, movieId, deviceId, moviechildId, _type, tvid) {
       console.log(res)
       if (res.data.result) {
         that.setData({
-          chioced: moviechildId,
+          chioced: coocaamid,
           moviepush: true
         })
         addpushhistory(that, movieId,that.data.title, tvid);//保存推送历史

@@ -90,6 +90,7 @@ Page({
       method: 'GET',
       success: function (res) {
         if (res.data.data != null) {
+          console.log("一级分类")
           console.log(res.data.data.sub_chn_list)
           that.setData({
             firstChn: res.data.data.sub_chn_list,
@@ -151,6 +152,8 @@ Page({
       activeIndex: e.currentTarget.dataset.isd,
       activeIndex2: 'aa',
     })
+    console.log("===================================")
+    console.log(filters)
     searchContent(that, channelId, sorts, filters, extraCondition)
   }
 })
@@ -178,6 +181,8 @@ function secondChn(that, channelId) {
         that.setData({
           secondchn: arr
         })
+        console.log("二级分类")
+        console.log(that.data.secondchn)
       } else {
         utils.showToastBox(res.data.message, "loading")
       }
@@ -190,12 +195,14 @@ function searchContent(that, channelId, sorts, filters, extraCondition) {
   var paramsStr = { "ccsession": ccsession, "channelId": channelId, "pageIndex": that.data.pageIndex }
   var sign = utils.encryption(paramsStr, app.globalData.key)
   var dataStr = utils.json2Form({ client_id: 'applet', sign: sign, param: '{"ccsession":"' + ccsession + '","channelId":"' + channelId + '","pageIndex":"' + that.data.pageIndex + '"}' })
+  console.log(filters);
   if (filters != undefined) {
     sorts = encodeURI(sorts, 'utf-8')
     filters = encodeURI(filters, 'utf-8')
     extraCondition = encodeURI(extraCondition, 'utf-8')
     console.log("条件筛选!")
     paramsStr = { "ccsession": ccsession, "channelId": channelId, "extraCondition": extraCondition, "filters": filters, "pageIndex": that.data.pageIndex, "sorts": sorts }
+    console.log(paramsStr)
     sign = utils.encryption(paramsStr, app.globalData.key)
     dataStr = utils.json2Form({ client_id: 'applet', sign: sign, param: '{"ccsession":"' + ccsession + '","channelId":"' + channelId + '","extraCondition":"' + extraCondition + '","filters":"' + filters + '","pageIndex":"' + that.data.pageIndex + '","sorts":"' + sorts + '"}' });
   }

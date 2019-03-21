@@ -165,6 +165,7 @@ Page({
     this.setData({
       isShowTips: app.globalData.isShowTips
     });
+    this.getBanners();
     console.log("onShow");
   },
 
