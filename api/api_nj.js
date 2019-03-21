@@ -24,8 +24,8 @@ class Api {
         console.log(url, error);
         fail && typeof fail === 'function' && fail(error);
       },
-      complete: function () {
-        complete && typeof complete === 'function' && fail(complete);
+      complete: function (msg) {
+        complete && typeof complete === 'function' && complete(msg);
       }
     })
   }
@@ -128,7 +128,7 @@ class Api {
    */
   isTVOnline(options) {
     let url = 'https://user.coocaa.com/tvpaiNew/push/checkOnline?activeId='
-    this._post(url + options.data.activeid, options.data, options.success, options.fail)
+    this._post(url + options.data.activeid, options.data, options.success, options.fail, options.complete)
   }
 }
 
