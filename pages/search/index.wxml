@@ -13,7 +13,7 @@
   <view class='search-wrapper'>
     <view class='search-box-wrapper'>
       <image class="search-icon" src='../../images/ser_icon.png' bindtap='query'></image>
-      <input name="input" class="search-text" placeholder="{{inputPlaceholder}}" confirm-type='search' focus="{{isFocus}}" value="{{inputValue}}" bindinput='inputBind' bindconfirm='query'></input>
+      <input name="input" class="search-text" placeholder="{{inputPlaceholder.keyword}}" confirm-type='search' focus="true" value="{{inputValue}}" bindinput='inputBind' bindconfirm='query'></input>
       <view class="delete-icon" bindtap='handleDeteteTap' wx:if="{{inputValue}}"></view>
     </view>
   </view>

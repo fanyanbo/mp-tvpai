@@ -5,7 +5,8 @@ const app = getApp();
 Page({
   data: {
     isShowTips: false,
-    inputPlaceholder: '搜索视频、影评或话题',
+    // inputPlaceholder: '搜索视频、影评或话题',
+    inputPlaceholder: {},
     curIndex: 0, //当前剧集
     curThirdId: '',
     curThirdAlbumId: '', 
@@ -149,6 +150,14 @@ Page({
     this.setData({ historyWordsList: cacheKeywords ? cacheKeywords : [] });
     this.getHotKeyword();
     console.log('搜索页当前已绑定设备', app.globalData.deviceId);
+
+    //为了解决奇葩bug，解决搜索框文字重影的问题
+    let that = this;
+    setTimeout(function() {
+      that.setData({
+        inputPlaceholder: {"keyword": "搜索视频、影评或话题"},
+      });
+    }, 600);
   },
   onReady() {
     console.log('search onReady监听页面初次渲染完成');
