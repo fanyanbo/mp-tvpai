@@ -10,6 +10,20 @@ function isEmptyObject(e) {
   return !0
 }  
 
+function showToast (type, title) {
+  if (type === 'failed') {
+    wx.showToast({
+      title: title,
+      icon: 'none',
+      image: '../images/close_icon.png'
+    })
+  } else {
+    wx.showToast({
+      title: title
+    })
+  }
+}
+
 // 以电视派后台规则进行签名
 function sign_tvpai(str, k) {
   let paramsStr = setParams_tvpai(str);
@@ -183,7 +197,8 @@ module.exports = {
   paramsAssemble_wx: paramsAssemble_wx,
   getSessionByCode: getSessionByCode,
   decryptUserInfo: decryptUserInfo,
-  urlAssemble_tvpai: urlAssemble_tvpai
+  urlAssemble_tvpai: urlAssemble_tvpai,
+  showToast: showToast
 }
 
 

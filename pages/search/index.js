@@ -12,9 +12,10 @@ Page({
     curPageIndex: 0, //当前页索引，查看更多
     paddingTop: 0,
     scrollHeight: 0,
-    isFocus: true,
+    isFocus: false, //搜索内容输入框焦点
     inputValue: '', //输入框内容
     isShowResult: false,
+    isShowNoResult: false, //是否显示无搜索结果图片
     currentContent: 'search-result-content',
     // currentContent: 'search-input-content',
     hotKeywordsList: [],
@@ -75,6 +76,7 @@ Page({
     this.setData({
       inputValue: event.target.dataset.keyword,
       isShowResult: true,
+      isShowNoResult: false,
       searchResultList: [],
       historyWordsList: cacheKeywords
     })
@@ -88,6 +90,7 @@ Page({
     this.setData({
       searchResultList: [],
       isShowResult: true,
+      isShowNoResult: false,
       historyWordsList: cacheKeywords
     })
     this.searchByKeyword(1, this.data.inputValue)
@@ -212,7 +215,8 @@ Page({
         console.log('error', res)
       },
       function (res) {
-        console.log('complete')
+        console.log('complete', res)
+        that.setData({isShowNoResult: true})
       })
   },
 

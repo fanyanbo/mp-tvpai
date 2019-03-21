@@ -1,4 +1,5 @@
 import utils from '../../utils/util';
+const utils_fyb = require('../../utils/util_fyb');
 const api = require('../../api/api.js');
 export {
   utils,
@@ -10,7 +11,7 @@ Page({
     contents: '',
     deviceId: '',
     bind: '',
-    deviceName:'',
+    deviceName: '',
     chooseSize: false,
     animationData: {}
   },
@@ -43,18 +44,13 @@ Page({
           })
         }, 1000)
       } else {
-        console.log('streams fail:')
-        wx.showToast({
-          title: '加载数据失败',
-        })
+        utils_fyb.showToast('failed', '删除设备失败[' + res.data.code + ']');
       }
     }, function (res) {
-      console.log('streams fail:', res)
-      wx.showToast({
-        title: '加载数据失败',
-      })
+      console.log('deleteDev fail:', res)
+      utils_fyb.showToast('failed', '删除设备失败');
     }, function (res) {
-      console.log('streams complete:', res)
+      console.log('deleteDev complete:', res)
     }, "")
   },
   chooseSezi: function (e) {
@@ -116,56 +112,12 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    console.log("返回")
-    let that = this;
-    that.setData({
+    this.setData({
       chooseSize: false
     })
-
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })

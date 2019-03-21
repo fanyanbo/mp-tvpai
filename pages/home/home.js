@@ -13,6 +13,7 @@ Page({
     block: ['block'],
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
+
   bindDevice: function (qrUrl) {
     let that = this;
     let ccsession = wx.getStorageSync('cksession');
@@ -22,13 +23,12 @@ Page({
     utils_fyb.request(api_fyb.bindDeviceUrl, 'GET', desParams, function (res) {
       console.log("绑定设备信息:", res)
       if (res.data.code == 200) {
+        utils_fyb.showToast('success', '设备绑定成功');
         setTimeout(function () {
           that.getDeviceList();
         }, 2000)
       } else {
-        wx.showToast({
-          title: '设备绑定失败',
-        })
+        utils_fyb.showToast('failed', '设备绑定失败');
       }
     })
   },
@@ -38,6 +38,7 @@ Page({
   },
 
   scanQRCode: function () {
+    wx.showLoading({ title: '绑定设备中' });
     wx.scanCode({
       success: (res) => {
         console.log("扫码结果", res.result);
@@ -93,45 +94,30 @@ Page({
 
   // 切换绑定时触发
   handleBindTap: function (event) {
-    console.log(event.currentTarget.dataset.deviceid)
-    const key = app.globalData.key
-    const ccsession = wx.getStorageSync('cksession')
-    var paramsStr = { bind: "1", "ccsession": ccsession, "deviceId": String(event.currentTarget.dataset.deviceid) }
-    console.log(paramsStr);
-    const sign = utils.encryption(paramsStr, key)
-    console.log(sign);
-    const url = api.changeDeviceStatusUrl
-    let data = {
-      client_id: app.globalData.client_id,
-      sign: sign,
-      param: paramsStr,
-      ccsession: ccsession,
-      bind: "1",
-      deviceId: String(event.currentTarget.dataset.deviceid),
-    }
-    utils.postLoading(url, 'GET', data, function (res) {
-      console.log(res)
-      if (res.data.code == 200) {
-        wx.showToast({
-          title: '绑定成功',
-        })
-        setTimeout(function () {
-          getDeviceList();
-        }, 1000)
-      } else {
-        console.log('streams fail:')
-        wx.showToast({
-          title: '绑定失败',
-        })
+    let that = this;
+    let ccsession = wx.getStorageSync('cksession');
+    let deviceid = event.currentTarget.dataset.deviceid + '';
+    console.log('handleBindTap', ccsession, deviceid);
+    let srcParams = { bind: "1", "ccsession": ccsession, "deviceId": deviceid };
+    let desParams = utils_fyb.paramsAssemble_wx(srcParams);
+    console.log(desParams);
+    utils_fyb.request(api_fyb.changeDeviceStatusUrl, 'GET', desParams, 
+      function (res) {
+        console.log('handleBindTap success', res);
+        if (res.data.code === 200) {
+          utils_fyb.showToast('success', '绑定成功');
+          setTimeout(function () {
+            that.getDeviceList();
+          }, 2000);
+        } else {
+          utils_fyb.showToast('failed', '绑定失败');
+        }
+      }, 
+      function (res) {
+        console.log('handleBindTap error', res);
+        utils_fyb.showToast('failed', '绑定失败');
       }
-    }, function (res) {
-      console.log('streams fail:', res)
-      wx.showToast({
-        title: '绑定失败',
-      })
-    }, function (res) {
-      console.log('streams complete:', res)
-    }, "")
+    )
   },
 
   // 获取绑定设备列表
@@ -146,7 +132,9 @@ Page({
     let srcParams = { "ccsession": ccsession };
     let desParams = utils_fyb.paramsAssemble_wx(srcParams);
     console.log(desParams);
+    wx.showLoading({ title: '获取设备中' });
     utils_fyb.request(api_fyb.getBindDeviceListUrl, 'GET', desParams, function (res) {
+      wx.hideLoading();
       console.log("获取设备信息:", res)
       if (res.data.result && res.data.data && res.data.data.length != 0) {
         that.setData({

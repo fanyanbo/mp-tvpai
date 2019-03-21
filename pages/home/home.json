@@ -1,6 +1,5 @@
 {
   "navigationBarTitleText": "设备绑定",
-  "enablePullDownRefresh": true,
   "usingComponents": {
     "remotecontrol": "../../components/remotecontrol/index"
   }

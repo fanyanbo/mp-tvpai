@@ -20,6 +20,7 @@ const getBannerDataUrl = baseUrl_wx + "spread/getStreams.coocaa";//获取Banner�
 const getSessionUrl = baseUrl_wx + "appletAPI/getSession.coocaa";//使用登录凭证code等参数获取session_key和openid
 const getUserInfoUrl = baseUrl_wx + "appletAPI/getuserinfo.coocaa";//微信小程序API接口
 const bindDeviceUrl = baseUrl_wx + "wxUserDeviceAPI/bindDevice.coocaa";//绑定设备
+const changeDeviceStatusUrl = baseUrl_wx + "wxUserDeviceAPI/changeDeviceStatus.coocaa";//修改设备名称或修改设备绑定状态接口
 
 module.exports = {
   searchByKeywordUrl: searchByKeywordUrl,
@@ -36,5 +37,6 @@ module.exports = {
   getUserInfoUrl: getUserInfoUrl,
   bindDeviceUrl: bindDeviceUrl,
   getHistoryListUrl: getHistoryListUrl,
-  addPushHistoryUrl: addPushHistoryUrl
+  addPushHistoryUrl: addPushHistoryUrl,
+  changeDeviceStatusUrl: changeDeviceStatusUrl
 }

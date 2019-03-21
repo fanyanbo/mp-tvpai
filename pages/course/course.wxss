@@ -1,29 +1,17 @@
-/**course.wxss**/
 page{
   background-color: rgb(248, 248, 248)
 }
-  
-.swiper-box{ display: block; height: 100%; width: 100%;overflow-y:scroll;}  
-.swiper-box view{  
-text-align: center;  
-}  
-.swiper_list .image1,.swiper_list .image2{
+
+.img_list {
+  display: flex;
+  flex-direction: column;
   width: 750rpx;
-  height: 1148rpx
+  box-sizing: border-box;
 }
-.swiper_list .image3{
-  width: 750rpx;
-  height: 1240rpx
+image {
+  width: 100%;
 }
-.swiper_list .image4{
-  width: 750rpx;
-  height: 2114rpx
-}
-.swiper_list image{
-  display: inline-block;
-  float: left
-}
-.binding{
+.binding {
   width: 90%;
   margin: 0 auto;
   margin-bottom: 80rpx;
