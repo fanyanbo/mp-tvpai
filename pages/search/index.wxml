@@ -142,7 +142,7 @@
         </view>
       </block>
       <!-- 点击查看更多 -->
-      <view class="content-more" bindtap="handleMoreTap" wx:if="{{hasMore === 1 && ！isShowNoResult}}">点击查看更多</view>
+      <view class="content-more" bindtap="handleMoreTap" wx:if="{{hasMore === 1 && !isShowNoResult}}">点击查看更多</view>
       <!-- 无搜索内容时显示 -->
       <block class="video-content-list" wx:if="{{searchResultList.length === 0 && isShowNoResult}}">
         <image class="no-result-icon" src='../../images/no-result@3x.png'></image>
