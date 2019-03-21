@@ -5,16 +5,18 @@ const app = getApp();
 Page({
   data: {
     isShowTips: false,
-    inputPlaceholder: '搜索视频、影评或话题',
+    // inputPlaceholder: '搜索视频、影评或话题',
+    inputPlaceholder: {},
     curIndex: 0, //当前剧集
     curThirdId: '',
     curThirdAlbumId: '', 
     curPageIndex: 0, //当前页索引，查看更多
     paddingTop: 0,
     scrollHeight: 0,
-    isFocus: true,
+    isFocus: false, //搜索内容输入框焦点
     inputValue: '', //输入框内容
     isShowResult: false,
+    isShowNoResult: false, //是否显示无搜索结果图片
     currentContent: 'search-result-content',
     // currentContent: 'search-input-content',
     hotKeywordsList: [],
@@ -75,6 +77,7 @@ Page({
     this.setData({
       inputValue: event.target.dataset.keyword,
       isShowResult: true,
+      isShowNoResult: false,
       searchResultList: [],
       historyWordsList: cacheKeywords
     })
@@ -88,6 +91,7 @@ Page({
     this.setData({
       searchResultList: [],
       isShowResult: true,
+      isShowNoResult: false,
       historyWordsList: cacheKeywords
     })
     this.searchByKeyword(1, this.data.inputValue)
@@ -146,6 +150,14 @@ Page({
     this.setData({ historyWordsList: cacheKeywords ? cacheKeywords : [] });
     this.getHotKeyword();
     console.log('搜索页当前已绑定设备', app.globalData.deviceId);
+
+    //为了解决奇葩bug，解决搜索框文字重影的问题
+    let that = this;
+    setTimeout(function() {
+      that.setData({
+        inputPlaceholder: {"keyword": "搜索视频、影评或话题"},
+      });
+    }, 600);
   },
   onReady() {
     console.log('search onReady监听页面初次渲染完成');
@@ -212,7 +224,8 @@ Page({
         console.log('error', res)
       },
       function (res) {
-        console.log('complete')
+        console.log('complete', res)
+        that.setData({isShowNoResult: true})
       })
   },
 
