@@ -72,6 +72,7 @@ Component({
     },
     _showModalUserAuthRecord(){//显示用户授权录音权限 modal
       console.log('显示模态授权框')
+      let that = this
       wx.showModal({
         title: '授权提示',
         content: '语音遥控需要小程序录音权限',
