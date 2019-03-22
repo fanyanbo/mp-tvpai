@@ -6,11 +6,7 @@ const authApi = require('../../api/api_auth')
 const app = getApp();
 
 Component({
-  options: {
-    multipleSlots: true // 在组件定义时的选项中启用多slot支持
-  },
   properties: {
-    fromPage: String, // 属性值可以在组件使用时指定
     isShowTips: {
       type: Boolean,
       value: true
@@ -18,11 +14,9 @@ Component({
   },
   data: {
     activeid: null, //设备激活id
-    activeidOld: null, //旧的激活id,每次发命令前判断一次激活id是否有变（以检测设备变更的情况）
     btnContent: '遥控器', 
     tipsContent: '提示：长按遥控器按钮，就能语音啦',
     query: '',
-    // isShowTips: true,
     isShowMask: false, // 是否显示遮罩层
     hasRecordAuth: null, //是否有录音权限
     // 遥控按键落焦标识
@@ -42,199 +36,362 @@ Component({
     bStartRecord: false,//是否开始录制音频
     voiceInputStatus: false, // 是否是语音输入状态
     waitVoiceResult: false,  // 等待语音结果状态
-    oneTip: '您可以说：“今天天气怎么样”',
+    oneTip: '您可以说：“今天天气怎么样”',//todo
     // 动画数据
     count: 0, // 设置 计数器 初始为0
     countTimer: null, // 设置 定时器 初始为null
     animationData: {} ,
+    //被绑定设备状态
     bBindedTVOnline: null, //绑定TV是否在线
     bBindedTVSupportMP: null,//绑定TV是否支持小程序
+    bBindedTVReady: false //绑定TV是否准备就绪
   },
-  methods: {
-    // 这里是一个自定义方法,供父组件调用
-    //绑定设备状态有更新时，刷新下被绑设备状态
-    refreshBindedTVStatus() {
-      this.data.activeidOld = this.data.activeid = app.globalData.activeId;
-      console.log('refreshBindedTVStatus new id:' + this.data.activeid)
-      let that = this;
-      let dataOnline = {
-        activeid: that.data.activeid
-      }
-      njApi.isTVOnline({
-        data: dataOnline,
+  methods: {  
+    _showModalUnbindTV() {//显示设备未绑定 modal 
+      wx.showModal({
+        title: "设备未绑定",
+        content: "您还未绑定设备，暂无法操作",
+        cancelText: "取消",
+        confirmText: "去绑定",
+        confirmColor: '#FDBE1A',
         success(res) {
-          console.log("isTVOnline success res:" + JSON.stringify(res))
-          if (res.status == "online") {
-            console.log("isTVOnline tv online.")
-            that.data.bBindedTVOnline = true
-          } else {//TV不在线
-            console.log("isTVOnline tv offline.")
-            that.data.bBindedTVOnline = false
-          }
-          if (res.supportApplet == "yes") {//TV小维AI版本不支持遥控
-            console.log("isTVOnline supportApplet yes.")
-            that.data.bBindedTVSupportMP = true
-          } else {
-            console.log("isTVOnline supportApplet no.")
-            that.data.bBindedTVSupportMP = false
+          console.log('设备未绑定 ShowModal success: ' + JSON.stringify(res))
+          if (res.confirm) {
+            console.log('用户选择确定,跳转到设备绑定页面')
+            wx.navigateTo({
+              url: '../../pages/home/home',
+            })
+          } else if (res.cancel) {
+            console.log('用户选择取消')
           }
         },
         fail(res) {
-          console.log("isTVOnline fail:" + res)
+          console.log('设备未绑定 ShowModal fail: ' + res)
         }
-      });
-    },    
-    //判断当前绑定设备状态，是否满足遥控器操作需要的条件
-    //1. 是否绑定设备
-    //2. 是否在线 & 支持小程序
-    //3. 是否有录音权限
-    //默认只判断状态，不现实提示弹窗； 如需显示，请传参{type:'longpress'}
-   isBindedTVStatusReady({type = 'tap'} = {}) {
-    //正常流程
-    this.data.activeid = app.globalData.activeId;//实时获取最新激活id
-    if(this.data.activeidOld != this.data.activeid) { //激活id有变
-      this.refreshBindedTVStatus()
-      this.data.activeidOld = this.data.activeid
-    }
-    if (!!this.data.activeid && !!this.data.bBindedTVOnline && !!this.data.bBindedTVSupportMP) {
-      if (type == 'tap') {
-        console.log('tap tv ready.')
-        return true
-      }
-      if (!!this.data.hasRecordAuth) { //长按才需要判断录音权限，短按不需要
-        console.log('longpress tv ready.')
-        return true
-      }
-    }
-
-      //step 1: 是否绑定设备
-      // this.data.activeid = 31140974; //yuanbotest only
-      if (this.data.activeid == null) {
-        //显示 设备未绑定 modal 
-        wx.showModal({
-          title: "设备未绑定",
-          content: "您还未绑定设备，暂无法操作",
-          cancelText: "取消",
-          confirmText: "去绑定",
-          confirmColor: '#FDBE1A',
+      })
+    },
+    _showModalUserAuthRecord(){//显示用户授权录音权限 modal
+      console.log('显示模态授权框')
+      wx.showModal({
+        title: '授权提示',
+        content: '语音遥控需要小程序录音权限',
+        cancelText: '取消',
+        confirmText: '确定',
+        comfirmColor: '#21c0ae',
+        success: function (res) {
+          console.log('showModal success ', res)
+          if (res.confirm) {
+            wx.openSetting({//打开权限设置页
+              success: (res) => {
+                console.log('openSetting success', res);
+                if (!!res.authSetting['scope.record']) {
+                  console.log('录音授权成功')
+                  that.setData({
+                    hasRecordAuth: true
+                  });
+                }
+              },
+              fail: (res) => {
+                console.log('openSetting fail', res);
+              }
+            })
+          } else {
+            console.log('showModal cancel')
+          }
+        },
+        fail: function (res) {
+          console.log('showModal fail', res)
+        }
+      })
+    },
+    _checkUserRecordAuthStatus(){//检查用户录音权限授权状态
+      console.log('没有录音权限，引导用户进行授权')
+      let that = this;
+      authApi.checkRecordPriority({
+        success: (hasPriority) => {
+          console.log('checkRecordPriority ', hasPriority);
+          if (!hasPriority) {
+            wx.authorize({
+              scope: 'scope.record',
+              success: () => {
+                console.log('录音授权成功')
+                that.setData({
+                  hasRecordAuth: true
+                });
+                return true;
+              },
+              fail: (res) => {
+                console.log('录音授权失败', res);
+                that.setData({
+                  hasRecordAuth: false
+                });
+                if (true) { //(res.errCode == '-12006') { //如果用户已经拒绝过授权录音，之后再调wx.authorize会直接fail,所以需要再用modal引导用户授权
+                  this._showModalUserAuthRecord()
+                } else {
+                  wx.showToast({  // 申请录音权限失败
+                    title: '语音遥控需要小程序录音权限',
+                    icon: 'none',
+                    duration: 2000,
+                  })
+                }
+                return false
+              }
+            })
+          } else {
+            that.setData({
+              hasRecordAuth: true
+            });
+            console.log('hasRecordAuth: true')
+            return true
+          }
+        }
+      })
+    },
+    _refreshBindedTVStatusAsync() {//刷新设备状态
+      let that = this;
+      return new Promise(function (resolve, reject) {
+        that.data.activeid = app.globalData.activeId;//获取最新绑定设备激活ID
+        console.log('refresh tv status, activeid:' + that.data.activeid)
+        let dataOnline = {
+          activeid: that.data.activeid
+        }
+        njApi.isTVOnline({
+          data: dataOnline,
           success(res) {
-            console.log('设备未绑定 ShowModal success: ' + JSON.stringify(res))
-            if (res.confirm) {
-              console.log('用户选择确定,跳转到设备绑定页面')
-              wx.navigateTo({
-                url: '../../pages/home/home',
-              })
-            } else if (res.cancel) {
-              console.log('用户选择取消')
+            console.log("isTVOnline success res:" + JSON.stringify(res))
+            if (res.status == "online") {//TV在线
+              that.data.bBindedTVOnline = true
+            } else {
+              that.data.bBindedTVOnline = false
             }
+            if (res.supportApplet == "yes") {//TV小维AI版本支持遥控
+              that.data.bBindedTVSupportMP = true
+            } else {
+              that.data.bBindedTVSupportMP = false
+            }
+            resolve()
           },
           fail(res) {
-            console.log('设备未绑定 ShowModal fail: ' + res)
+            console.log("isTVOnline fail:" + res)
+            wx.showToast({
+              title: '加载失败请重试',
+              icon: 'none',
+              image: '../../images/components/remotecontrol/close@3x.png'
+            })
+            reject()//fail时，如何toast提示用户？
           }
-        })
+        });
+      })
+    },    
+    //检查当前绑定设备状态，是否满足遥控器操作需要的条件: 1. 是否已绑定设备 2. 是否支持小程序 3.是否在线  4. (长按录音时）是否有录音权限
+   _checkBindedTVStatus({type = 'tap'} = {}) {
+      console.log('_checkBindedTVStatus in, type: '+type)
+      //step 1: 是否绑定设备
+      if (this.data.activeid == null) {
+        this._showModalUnbindTV()
         return false
       }
-
-      //step 2:是否在线 & 支持小程序
+      //step 2:是否支持小程序
+     if (!this.data.bBindedTVSupportMP) {
+       console.log("  bBindedTVSupportMP false.")
+       wx.showToast({
+         title: '抱歉，当前绑定的设备暂不支持遥控，\r\n请先安装升级小维AI',
+         icon: 'none'
+       })
+       return false
+     }
+      //step 3:是否在线
       if (!this.data.bBindedTVOnline) {
-        console.log("bBindedTVOnline false.")
+        console.log(" bBindedTVOnline false.")
         wx.showToast({
           title: '抱歉，当前绑定的设备不在线，\r\n请确认是否开机联网',
           icon: 'none'
         })
         return false
       }
-      if (!this.data.bBindedTVSupportMP) {
-        console.log("bBindedTVSupportMP false.")
-        wx.showToast({
-          title: '抱歉，当前绑定的设备暂不支持遥控，\r\n请先安装升级小维AI',
-          icon: 'none'
-        })
-        return false
-      }
       if( type == 'tap') {
-        console.log('type:tap tv ready')
+        console.log(' type:tap tv ready')
         return true
       }
-      //Step 3: 录音权限判断（长按才需要判断录音权限，短按不需要）
+      //Step 4: 录音权限判断（长按才需要判断录音权限，短按不需要）
       if (!this.data.hasRecordAuth) {
-        console.log('没有录音权限，引导用户进行授权')
-        let that = this;
-        authApi.checkRecordPriority({
-          success: (hasPriority) => {
-            console.log('checkPriorityCallback ', hasPriority);
-            if (!hasPriority) {
-              wx.authorize({
-                scope: 'scope.record',
-                success: () => {
-                  console.log('录音授权成功')
-                  that.setData({
-                    hasRecordAuth: true
-                  });
-                },
-                fail: (res) => {
-                  console.log('录音授权失败', res);
-                  that.setData({
-                    hasRecordAuth: false
-                  });
-                  //如果用户已经拒绝过授权录音，之后再调wx.authorize会直接fail,所以需要再用modal引导用户授权
-                  if (true) { //(res.errCode == '-12006') {
-                    console.log('显示模态授权框')
-                    wx.showModal({
-                      title: '授权提示',
-                      content: '语音遥控需要小程序录音权限',
-                      cancelText: '取消',
-                      confirmText: '确定',
-                      comfirmColor: '#21c0ae',
-                      success: function (res) {
-                        console.log('showModal success ', res)
-                        if (res.confirm) {
-                          wx.openSetting({
-                            success: (res) => {
-                              console.log('openSetting success', res);
-                              if (!!res.authSetting['scope.record']) {
-                                console.log('录音授权成功')
-                                that.setData({
-                                  hasRecordAuth: true
-                                });
-                              }
-                            },
-                            fail: (res) => {
-                              console.log('openSetting fail', res);
-                            }
-                          })
-                        } else {
-                          console.log('showModal cancel')
-                        }
-                      },
-                      fail: function (res) {
-                        console.log('showModal fail', res)
-                      }
-                    })
-                  } else {
-                    // 申请录音权限失败
-                    wx.showToast({
-                      title: '语音遥控需要小程序录音权限',
-                      icon: 'none',
-                      duration: 2000,
-                    })
-                  }
-
-                }
-              })
-              return false
-            } else {
-              that.setData({
-                hasRecordAuth: true
-              });
-              console.log('type:longpress tv ready')
-              return true
-            }
-          }
+        return this._checkUserRecordAuthStatus();
+      }
+      return true
+    },
+    _checkBindedTVStatusAsync({ type = 'tap' } = {}) {//检查当前绑定设备状态(异步)
+      console.log('_checkBindedTVStatusAsync')
+      let that = this
+      return new Promise(function (resolve, reject) {
+        if (that._checkBindedTVStatus({type})) {
+          that.setData({ bBindedTVReady: true })
+          resolve()
+        } else {
+          that.setData({ bBindedTVReady: false })
+          reject()
+        }
+      })
+    },
+    _toggleMainPanel() { //打开或关闭遥控器主面板
+      if (this.data.isShowMask) {
+        this.setData({
+          // indexStatus: '',
+          isShowMask: false,
+          curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
+          btnContent: '遥控器'
         })
+        this.showExitAnimation()
+      } else {
+        // wx.hideTabBar({});
+        this.setData({
+          indexStatus: 'RemoteControl',
+          isShowMask: true,
+          curBtnImg: '../../images/components/remotecontrol/voice@3x.png',
+          btnContent: '按住说话'
+        })
+        this.showEnterAnimaiton()
       }
     },
-    hideRemoteControl() {
+    //处理遥控器相关事件
+    handleRecorderManagerStart() { //touch start
+      console.log('语音键 touch start activeid：' + this.data.activeid);
+      this.data.longtapStatus = false;//reset each time
+    },
+    handleRecorderManagerStop(event) { //touch end
+      console.log('语音键 touch end, 是否等待语音结果: ' + this.data.waitVoiceResult 
+                  + ", 是否长按状态: " + this.data.longtapStatus
+                  + ', 是否开始录制:' + this.data.bStartRecord);
+      let that = this
+      if (!that.data.longtapStatus && !that.data.isShowMask) {//每次 Tap 进入遥控器前，刷新一次被绑定TV状态:
+        console.log('tap enter rc, refresh tv status...')
+        that.setData({ bBindedTVReady: false }); //reset status
+        that._refreshBindedTVStatusAsync()
+          .then( () => that._checkBindedTVStatusAsync() )
+          .then( () => processTouchEnd() )
+          .catch( () => console.warn('tap promise error...bBindedTVReady:' + that.data.bBindedTVReady) )
+      } else {  //longpress or 进入遥控器后的tap
+        processTouchEnd()
+      }
+      function processTouchEnd() {
+        if (!that.data.bBindedTVReady) {
+          console.log('TV not ready, return.')
+          return
+        }else {
+          console.log('TV ready, go on...')
+        }
+        try {
+          if (!that.data.waitVoiceResult) { //当处理语音过程中，不处理任何事件, 注意不能直接返回，需处理第一次情况
+            if (that.data.bStartRecord) { //当长按时手指松开，设置按钮样式，显示语音结果版面
+              console.log('longpress 手指松开，停止录音，停止超时倒计时，停止录音动画，等待解析结果...');
+              that._stopRecordingSite()
+            } else { //当短按手指松开，显示遥控版面
+              console.log('tap 手指松开');
+              that._toggleMainPanel()
+            }
+          }
+        }
+        catch (err) {
+          console.log('processTouchEnd catch err ', err);
+        }
+      }
+    },
+    handleButtonLongTap(event) { //longpress 遥控器按钮长按事件
+      console.log('longpress 语音键...')
+      this.setData({
+        longtapStatus: true
+      })
+      let that = this
+
+      if (!this.data.isShowMask) { //进入遥控器主面板前，长按语音键，先判断一次设备状态 
+        console.log('longpress, refresh tv status...')
+        that.setData({ bBindedTVReady: false }); //reset status
+        that._refreshBindedTVStatusAsync()
+          .then( () => that._checkBindedTVStatusAsync({type: 'longpress'}) )
+          .then( () => processStartRecord() )
+          .catch( () => console.warn('longpress promise error...bBindedTVReady:' + that.data.bBindedTVReady))
+      } else {
+        processStartRecord()
+      }
+      function processStartRecord() {
+        if (!that.data.bBindedTVReady) {
+          console.log('longpress TV not ready')
+          return
+        }else {
+          console.log('longpress TV ready')
+        }
+        console.log('已经有录音权限');
+
+        if(that.data.isShowTips) {//如果用户已经录过一次音了，关闭提示语
+          that.handleBtnTipsClosed()
+        }
+
+        that.startRecord();
+      }
+    },
+    handleBtnTipsClosed() { //关闭提示语
+      console.log('handleBtnTipsClosed()')
+      app.globalData.isShowTips = false
+      this.setData({ isShowTips: false })
+    },
+    _toggleGeneralKeyStatus({id, status}) {  //处理遥控器一般按键UI显示状态
+      switch (id) {
+        case 'ok':
+          this.setData({ isOKFocus: status })
+          break
+        case 'home':
+          this.setData({ isHomeFocus: status })
+          break
+        case 'back':
+          this.setData({ isBackFocus: status })
+          break
+        case 'menu':
+          this.setData({ isMenuFocus: status })
+          break
+        case 'shutdown':
+          this.setData({ isShutdownFocus: status })
+          break
+        case 'volume_minus':
+          this.setData({ isVoldownFocus: status })
+          break
+        case 'volume_plus':
+          this.setData({ isVolupFocus: status })
+          break
+        case 'up':
+        case 'down':
+        case 'left':
+        case 'right':
+          let img = status ? ('../../images/components/remotecontrol/director-' + id + '.png') : ('../../images/components/remotecontrol/director-normal.png');
+          this.setData( {curDirectorImg: img} )
+          break
+      }
+    },
+    handlePushController(e) { //遥控器一般按键 按下
+      const curId = e.currentTarget.id;
+      this._toggleGeneralKeyStatus({id:curId,status:true})
+      console.log('遥控按键按住: ', curId)
+    },
+    handlePushControllerEnd(e) { //遥控器一般按键 松开
+      const curId = e.currentTarget.id;
+      this._toggleGeneralKeyStatus({ id: curId, status: false })
+      console.log('遥控按键松开', curId);
+      const data = {
+        activeid: this.data.activeid,
+        action: curId
+      }
+      njApi.pushController({
+        data: data,
+        success: function (res) {
+          console.log('pushController done!', res)
+        }
+      })
+    },
+    handleTapMask(e) {  //处理遮罩层点击事件,等待语音解析过程不处理该事件
+      console.log('触发mask点击事件', e);
+      if (!this.data.waitVoiceResult && this.data.isShowMask) {
+        this._toggleMainPanel()
+      }
+    },
+    _hideRemoteControl() {
       console.log('hideRemoteControl()')
       this.setData({
         curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
@@ -248,221 +405,6 @@ Component({
         query: ''
       })
     },
-
-    handleBtnTipsClosed() {
-      console.log('handleBtnTipsClosed()')
-      app.globalData.isShowTips = false
-      this.setData({isShowTips: false})
-    },
-
-    handlePushController(e) {
-      const curId = e.currentTarget.id;
-      console.log('遥控按键按住', curId)
-      switch (curId) {
-        case 'ok':
-          this.setData({ isOKFocus: true })
-          break
-        case 'home':
-          this.setData({ isHomeFocus: true })
-          break
-        case 'back':
-          this.setData({ isBackFocus: true })
-          break
-        case 'menu':
-          this.setData({ isMenuFocus: true })
-          break
-        case 'shutdown':
-          this.setData({ isShutdownFocus: true })
-          break
-        case 'volume_minus':
-          this.setData({ isVoldownFocus: true })
-          break
-        case 'volume_plus':
-          this.setData({ isVolupFocus: true })
-          break
-        case 'up':
-          this.setData({ curDirectorImg: '../../images/components/remotecontrol/director-up.png' })
-          break;
-        case 'down':
-          this.setData({ curDirectorImg: '../../images/components/remotecontrol/director-down.png' })
-          break;
-        case 'left':
-          this.setData({ curDirectorImg: '../../images/components/remotecontrol/director-left.png' })
-          break;
-        case 'right':
-          this.setData({ curDirectorImg: '../../images/components/remotecontrol/director-right.png' })
-          break;
-      }
-      // 调用后台推送接口
-    },
-    handlePushControllerEnd(e) {
-      const curId = e.currentTarget.id;
-      console.log('遥控按键松开', curId);
-      switch (curId) {
-        case 'ok':
-          this.setData({ isOKFocus: false })
-          break
-        case 'home':
-          this.setData({ isHomeFocus: false })
-          break
-        case 'back':
-          this.setData({ isBackFocus: false })
-          break
-        case 'menu':
-          this.setData({ isMenuFocus: false })
-          break
-        case 'shutdown':
-          this.setData({ isShutdownFocus: false })
-          break
-        case 'volume_minus':
-          this.setData({ isVoldownFocus: false })
-          break
-        case 'volume_plus':
-          this.setData({ isVolupFocus: false })
-          break
-        case 'up':
-        case 'down':
-        case 'left':
-        case 'right':
-          this.setData({ curDirectorImg: '../../images/components/remotecontrol/director-normal.png' })
-          break
-      }
-      
-      // var bTVReady = false;
-      // bTVReady = this.isBindedTVStatusReady()
-      // if(!bTVReady) {
-      //   console.log('TV not ready')
-      //   return 
-      // }
-      console.log('TV ready: activeid:' + this.data.activeid + ',action:' + curId)
-      const data = {
-        activeid: this.data.activeid,
-        action: curId
-      }
-      njApi.pushController({
-        data: data,
-        success: function (res) {
-          console.log('pushController done!', res)
-        }
-      })
-    },
-
-    // 处理遮罩层点击事件,等待语音解析过程不处理该事件
-    handleTapMask(e) {
-      console.log('触发mask点击事件', e);
-      if (!this.data.waitVoiceResult && this.data.isShowMask) {
-        this.setData({
-          isShowMask: false,
-          curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
-          btnContent: '遥控器'
-        })
-        this.showExitAnimation()
-      }
-    },
-
-    //处理遥控器相关事件
-    handleRecorderManagerStart() {
-      if (!this.data.isShowMask) {
-        console.log('refresh tv status.')
-        this.refreshBindedTVStatus()
-      }
-      console.log('语音键 touch start 目标设备：' + this.data.activeid);
-      //每次进入遥控器面板前，刷新一次设备状态
-    },
-
-    handleRecorderManagerStop(event) {
-      console.log('语音键 touch end, 是否等待语音结果: ' + this.data.waitVoiceResult + ",是否为长按状态: " + this.data.longtapStatus 
-              + '是否开始录制:' +this.data.bStartRecord);
-      
-      if(this.data.longtapStatus == false) { 
-        var bTVReady = false;
-        bTVReady = this.isBindedTVStatusReady()
-        if (!bTVReady) {
-          console.log('tap TV not ready')
-          return
-        }
-      }
-
-      try {
-        //当处理语音过程中，不处理任何事件, 注意不能直接返回，需处理第一次情况
-        if (!this.data.waitVoiceResult) {
-          if (this.data.bStartRecord){ //当长按时手指松开，设置按钮样式，显示语音结果版面
-            console.log('处理长按手指松开，停止录音，停止超时倒计时，停止录音动画，等待解析结果');
-            this.stopRecordTimer()
-            this.stopRecordAnimation()
-            this.stopRecord()
-            this.setData({
-              indexStatus: 'VoiceResult',
-              longtapStatus:false,
-              bStartRecord: false,
-              voiceInputStatus: false,
-              waitVoiceResult: true, //等待语音结果
-              curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
-              btnContent: '遥控器'
-            })
-            //等待5S，模拟语音处理，然后重置参数
-            // setTimeout(() => {
-            //   this.setData({
-            //     indexStatus: '',
-            //     longtapStatus: false,
-            //     waitVoiceResult: false,
-            //     isShowMask: false,
-            //     query: ''
-            //   })
-            // }, 5000)
-          } else if (!!this.data.longtapStatus) {
-            this.setData({
-              longtapStatus: false,
-            })
-          }else { //当短按手指松开，显示遥控版面
-            console.log('处理短按手指松开');
-            if (this.data.isShowMask) {
-              this.setData({
-                // indexStatus: '',
-                isShowMask: false,
-                curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
-                btnContent: '遥控器'
-              })
-              this.showExitAnimation()
-            } else {
-              // wx.hideTabBar({});
-              this.setData({
-                indexStatus: 'RemoteControl',
-                isShowMask: true,
-                curBtnImg: '../../images/components/remotecontrol/voice@3x.png',
-                btnContent: '按住说话'
-              })
-              this.showEnterAnimaiton()
-            }
-          }
-        } else if (!!this.data.longtapStatus) {
-          this.setData({
-            longtapStatus: false,
-          })
-        }
-      }
-      catch (err) {
-        console.log('handleRecorderManagerStop catch err ', err);
-      }
-    },
-
-    // 遥控器按钮长按事件
-    handleButtonLongTap(event) {
-      console.log('语音键 longpress ...') 
-      this.setData({
-        longtapStatus: true
-      })
-      var bTVReady = false;
-      bTVReady = this.isBindedTVStatusReady({type: 'longpress'})
-      if (!bTVReady) {
-        console.log('longpress TV not ready')
-        return
-      }
-      
-      console.log('已经有录音权限');
-      this.startRecord();     
-    },
-
     //处理录音流程，目前仅使用腾讯方案，百度方案后续补充
     startRecord() {
       // 显示语音输入版面，设置相关状态
@@ -484,7 +426,30 @@ Component({
     stopRecord() {
       manager.stop();
     },
-
+    _stopRecordingSite(){ //停止录制现场所有动作（包括配套计时器 UI 后台处理 以及 状态复位等）
+      this.stopRecordTimer()
+      this.stopRecordAnimation()
+      this.stopRecord()
+      this.setData({
+        indexStatus: 'VoiceResult',
+        longtapStatus: false,
+        bStartRecord: false,
+        voiceInputStatus: false,
+        waitVoiceResult: true, //等待语音结果
+        curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
+        btnContent: '遥控器'
+      })
+      //等待5S，模拟语音处理，然后重置参数
+      // setTimeout(() => {
+      //   that.setData({
+      //     indexStatus: '',
+      //     longtapStatus: false,
+      //     waitVoiceResult: false,
+      //     isShowMask: false,
+      //     query: ''
+      //   })
+      // }, 5000)
+    },
     handleTencentRecorder() {
       const that = this
       manager.onRecognize = function (res) {
@@ -501,17 +466,7 @@ Component({
             icon: 'none',
             duration: 1000,
           })
-          that.setData({
-            curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
-            btnContent: '遥控器',
-            voiceInputStatus: false,
-            indexStatus: '',
-            longtapStatus: false,
-            bStartRecord:false,
-            waitVoiceResult: false,
-            isShowMask: false,
-            query: ''
-          })
+          that._hideRemoteControl()
         } else {
           // 语音结果面板显示解析结果
           that.setData({
@@ -530,19 +485,7 @@ Component({
             }
           })
           // 2s后回到主页面
-          setTimeout(() => {
-            that.setData({
-              curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
-              btnContent: '遥控器',
-              voiceInputStatus: false,
-              indexStatus: '',
-              longtapStatus: false,
-              bStartRecord: false,
-              waitVoiceResult: false,
-              isShowMask: false,
-              query: ''
-            })
-          }, 2000)
+          setTimeout(() => that._hideRemoteControl(), 2000)
         }
       }
       manager.onStart = function (res) {
@@ -679,7 +622,7 @@ Component({
       console.log('activeid null')
       return
     }
-    this.refreshBindedTVStatus()
+    this._refreshBindedTVStatusAsync()
 
   },
   // 组件移动的时候执行
@@ -691,3 +634,13 @@ Component({
     console.log('remotecontrol component detached()')
   }
 })
+
+ const f = () => console.log('now');
+ (
+   () => new Promise(
+     resolve => resolve(f())
+   )
+ )();
+
+ console.log('next')
+ 
