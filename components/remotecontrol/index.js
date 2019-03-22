@@ -16,8 +16,8 @@ Component({
     activeid: null, //设备激活id
     btnContent: '遥控器', 
     tipsContent: '提示：长按遥控器按钮，就能语音啦',
-    query: '',
-    isShowMask: false, // 是否显示遮罩层
+    query: '你可以说: \r\n \r\n 声音调到10 \r\n 刘德华 \r\n 我想看世界杯 \r\n 返回主页 \r\n 创维的客服电话是多少',
+    isShowMainPanel: false, // 是否显示遥控器主面板
     hasRecordAuth: null, //是否有录音权限
     // 遥控按键落焦标识
     isOKFocus: false,
@@ -233,19 +233,21 @@ Component({
       })
     },
     _toggleMainPanel() { //打开或关闭遥控器主面板
-      if (this.data.isShowMask) {
+      console.log('mainpanel: ' + this.data.isShowMainPanel)
+      if (this.data.isShowMainPanel) {
         this.setData({
-          // indexStatus: '',
-          isShowMask: false,
+          indexStatus: '',
+          isShowMainPanel: false,
           curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
-          btnContent: '遥控器'
+          btnContent: '遥控器',
+          query:''
         })
         this.showExitAnimation()
       } else {
         // wx.hideTabBar({});
         this.setData({
           indexStatus: 'RemoteControl',
-          isShowMask: true,
+          isShowMainPanel: true,
           curBtnImg: '../../images/components/remotecontrol/voice@3x.png',
           btnContent: '按住说话'
         })
@@ -262,7 +264,7 @@ Component({
                   + ", 是否长按状态: " + this.data.longtapStatus
                   + ', 是否开始录制:' + this.data.bStartRecord);
       let that = this
-      if (!that.data.longtapStatus && !that.data.isShowMask) {//每次 Tap 进入遥控器前，刷新一次被绑定TV状态:
+      if (!that.data.longtapStatus && !that.data.isShowMainPanel) {//每次 Tap 进入遥控器前，刷新一次被绑定TV状态:
         console.log('tap enter rc, refresh tv status...')
         that.setData({ bBindedTVReady: false }); //reset status
         that._refreshBindedTVStatusAsync()
@@ -300,33 +302,16 @@ Component({
       this.setData({
         longtapStatus: true
       })
-      let that = this
-
-      if (!this.data.isShowMask) { //进入遥控器主面板前，长按语音键，先判断一次设备状态 
-        console.log('longpress, refresh tv status...')
-        that.setData({ bBindedTVReady: false }); //reset status
-        that._refreshBindedTVStatusAsync()
-          .then( () => that._checkBindedTVStatusAsync({type: 'longpress'}) )
-          .then( () => processStartRecord() )
-          .catch( () => console.warn('longpress promise error...bBindedTVReady:' + that.data.bBindedTVReady))
-      } else {
-        processStartRecord()
+      if (!this._checkBindedTVStatus({ type: 'longpress' }))
+      {
+        console.log('longpress TV not ready')
+        return
+      } 
+      console.log('longpress TV ready 有录音权限')
+      if (this.data.isShowTips) {//如果用户已经录过一次音了，关闭提示语
+        this.handleBtnTipsClosed()
       }
-      function processStartRecord() {
-        if (!that.data.bBindedTVReady) {
-          console.log('longpress TV not ready')
-          return
-        }else {
-          console.log('longpress TV ready')
-        }
-        console.log('已经有录音权限');
-
-        if(that.data.isShowTips) {//如果用户已经录过一次音了，关闭提示语
-          that.handleBtnTipsClosed()
-        }
-
-        that.startRecord();
-      }
+      this.startRecord();
     },
     handleBtnTipsClosed() { //关闭提示语
       console.log('handleBtnTipsClosed()')
@@ -387,22 +372,15 @@ Component({
     },
     handleTapMask(e) {  //处理遮罩层点击事件,等待语音解析过程不处理该事件
       console.log('触发mask点击事件', e);
-      if (!this.data.waitVoiceResult && this.data.isShowMask) {
+      if (!this.data.waitVoiceResult && this.data.isShowMainPanel) {
         this._toggleMainPanel()
       }
     },
-    _hideRemoteControl() {
+    _resetRecordPanelStatus() {
       console.log('hideRemoteControl()')
       this.setData({
-        curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
-        btnContent: '遥控器',
-        voiceInputStatus: false,
-        indexStatus: '',
-        longtapStatus: false,
-        bStartRecord: false,
-        waitVoiceResult: false,
-        isShowMask: false,
-        query: ''
+        query: '你可以说: \r\n \r\n 声音调到10 \r\n 刘德华 \r\n 我想看世界杯 \r\n 返回主页 \r\n 创维的客服电话是多少',
+        waitVoiceResult: false
       })
     },
     //处理录音流程，目前仅使用腾讯方案，百度方案后续补充
@@ -411,7 +389,7 @@ Component({
       this.setData({
         indexStatus: 'VoiceInput',
         voiceInputStatus: true,
-        isShowMask: true,
+        isShowMainPanel: true,
         curBtnImg: '../../images/components/remotecontrol/voice@3x.png',
         btnContent: '松开结束',
         bStartRecord: true
@@ -430,6 +408,7 @@ Component({
       this.stopRecordTimer()
       this.stopRecordAnimation()
       this.stopRecord()
+      console.log('_stopRecordingSite 1 waitVoiceResult: ' + this.data.waitVoiceResult)
       this.setData({
         indexStatus: 'VoiceResult',
         longtapStatus: false,
@@ -437,17 +416,18 @@ Component({
         voiceInputStatus: false,
         waitVoiceResult: true, //等待语音结果
         curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
-        btnContent: '遥控器'
+        btnContent: '按住说话'
       })
+      console.log('_stopRecordingSite 2 waitVoiceResult: ' + this.data.waitVoiceResult)
       //等待5S，模拟语音处理，然后重置参数
       // setTimeout(() => {
       //   that.setData({
       //     indexStatus: '',
       //     longtapStatus: false,
       //     waitVoiceResult: false,
-      //     isShowMask: false,
+      //     isShowMainPanel: false,
       //     query: ''
-      //   })
+      //   }) 
       // }, 5000)
     },
     handleTencentRecorder() {
@@ -466,7 +446,7 @@ Component({
             icon: 'none',
             duration: 1000,
           })
-          that._hideRemoteControl()
+          that._resetRecordPanelStatus()
         } else {
           // 语音结果面板显示解析结果
           that.setData({
@@ -479,13 +459,12 @@ Component({
           }
           njApi.pushText({
             data: data,
-            success(res) {
-              // 文本推送成功；
+            success(res) { // 文本推送成功
               console.log('pushText done!',res)
             }
           })
           // 2s后回到主页面
-          setTimeout(() => that._hideRemoteControl(), 2000)
+          setTimeout(() => that._resetRecordPanelStatus(), 2000)
         }
       }
       manager.onStart = function (res) {
@@ -494,21 +473,11 @@ Component({
       manager.onError = function (res) {
         console.log("onError", res)
         wx.showToast({
-          title: '报错，请再说一遍' + res.retcode,
+          title: '报错，请再说一遍\r\n' + res.retcode,
           icon: 'none',
           duration: 1000,
         })
-        // 2s后回到主页面
-        setTimeout(() => {
-          that.setData({
-            indexStatus: '',
-            longtapStatus: false,
-            bStartRecord: false,
-            waitVoiceResult: false,
-            isShowMask: false,
-            query: ''
-          })
-        }, 2000)
+        setTimeout(() => that._resetRecordPanelStatus(), 2000)
       }
       manager.start({ duration: 10000, lang: "zh_CN" }) // 这里超时会回调onstop
     },
@@ -615,15 +584,6 @@ Component({
         }
       })
     }
-
-    //进到每个页面时获取一次最新设备id，刷新一次设备状态
-    this.data.activeidOld = this.data.activeid = app.globalData.activeId
-    if (this.data.activeid == null) {
-      console.log('activeid null')
-      return
-    }
-    this._refreshBindedTVStatusAsync()
-
   },
   // 组件移动的时候执行
   moved() {

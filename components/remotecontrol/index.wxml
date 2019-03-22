@@ -1,7 +1,7 @@
 <!--components/remotecontrol/index.wxml-->
 
 <view>
-  <view class="remoter-panel-mask" wx:if="{{isShowMask}}" bindtap="handleTapMask">
+  <view class="remoter-panel-mask" wx:if="{{isShowMainPanel}}" bindtap="handleTapMask">
   </view>
   <!-- 按键遥控器版面 -->
   <view class="remoter-panel-wrapper origin-pos" animation="{{animationData}}" wx:if="{{indexStatus === 'RemoteControl'}}" >
