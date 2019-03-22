@@ -574,7 +574,7 @@ Component({
   },
   // 组件挂载后执行
   ready() {
-    console.log('remotecontrol component ready()')
+    console.log('remotecontrol component ready() hasRecordAuth:' + this.data.hasRecordAuth)
 
     //是否有录音权限
     if (this.data.hasRecordAuth == null) {
