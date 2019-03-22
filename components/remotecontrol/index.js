@@ -286,6 +286,10 @@ Component({
             if (that.data.bStartRecord) { //当长按时手指松开，设置按钮样式，显示语音结果版面
               console.log('longpress 手指松开，停止录音，停止超时倒计时，停止录音动画，等待解析结果...');
               that._stopRecordingSite()
+            }else if(that.data.longtapStatus){
+              that.setData({
+                longtapStatus: false
+              })
             } else { //当短按手指松开，显示遥控版面
               console.log('tap 手指松开');
               that._toggleMainPanel()
@@ -408,7 +412,6 @@ Component({
       this.stopRecordTimer()
       this.stopRecordAnimation()
       this.stopRecord()
-      console.log('_stopRecordingSite 1 waitVoiceResult: ' + this.data.waitVoiceResult)
       this.setData({
         indexStatus: 'VoiceResult',
         longtapStatus: false,
@@ -416,9 +419,9 @@ Component({
         voiceInputStatus: false,
         waitVoiceResult: true, //等待语音结果
         curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
-        btnContent: '按住说话'
+        btnContent: '按住说话',
+        query:''
       })
-      console.log('_stopRecordingSite 2 waitVoiceResult: ' + this.data.waitVoiceResult)
       //等待5S，模拟语音处理，然后重置参数
       // setTimeout(() => {
       //   that.setData({
