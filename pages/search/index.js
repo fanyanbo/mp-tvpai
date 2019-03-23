@@ -157,7 +157,7 @@ Page({
       that.setData({
         inputPlaceholder: {"keyword": "搜索视频、影评或话题"},
       });
-    }, 600);
+    }, 500);
   },
   onReady() {
     console.log('search onReady监听页面初次渲染完成');
@@ -190,7 +190,7 @@ Page({
   searchByKeyword: function (videoType, keyword, pageIndex = 0) {
     let that = this;
     console.log('searchByKeyword videoType:' + videoType + ',keyword:' + keyword + ',pageIndex:' + pageIndex)
-    wx.showLoading({ title: '加载中...' })
+    wx.showLoading({ title: '搜索中...' })
     let params = {
       "video_type": videoType,
       "keyword": keyword,
