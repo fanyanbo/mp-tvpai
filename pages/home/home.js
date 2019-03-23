@@ -38,7 +38,7 @@ Page({
   },
 
   scanQRCode: function () {
-    wx.showLoading({ title: '绑定设备中' });
+    wx.showLoading({ title: '扫码绑定中' });
     wx.scanCode({
       success: (res) => {
         console.log("扫码结果", res.result);
@@ -49,6 +49,7 @@ Page({
       },
       fail: (res) => {
         console.log(res);
+        utils_fyb.showToast('failed', '扫码失败');
       }
     })
   },
