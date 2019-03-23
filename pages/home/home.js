@@ -23,12 +23,12 @@ Page({
     utils_fyb.request(api_fyb.bindDeviceUrl, 'GET', desParams, function (res) {
       console.log("绑定设备信息:", res)
       if (res.data.code == 200) {
-        utils_fyb.showToast('success', '设备绑定成功');
+        utils_fyb.showSuccessToast('设备绑定成功');
         setTimeout(function () {
           that.getDeviceList();
         }, 2000)
       } else {
-        utils_fyb.showToast('failed', '设备绑定失败');
+        utils_fyb.showFailedToast('设备绑定失败', '../../images/close_icon.png');
       }
     })
   },
@@ -49,7 +49,7 @@ Page({
       },
       fail: (res) => {
         console.log(res);
-        utils_fyb.showToast('failed', '扫码失败');
+        utils_fyb.showFailedToast('扫码失败', '../../images/close_icon.png');
       }
     })
   },
@@ -106,17 +106,17 @@ Page({
       function (res) {
         console.log('handleBindTap success', res);
         if (res.data.code === 200) {
-          utils_fyb.showToast('success', '绑定成功');
+          utils_fyb.showSuccessToast('绑定成功');
           setTimeout(function () {
             that.getDeviceList();
           }, 2000);
         } else {
-          utils_fyb.showToast('failed', '绑定失败');
+          utils_fyb.showFailedToast('绑定失败', '../../images/close_icon.png');
         }
       }, 
       function (res) {
         console.log('handleBindTap error', res);
-        utils_fyb.showToast('failed', '绑定失败');
+        utils_fyb.showFailedToast('绑定失败', '../../images/close_icon.png');
       }
     )
   },

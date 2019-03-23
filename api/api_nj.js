@@ -52,8 +52,8 @@ class Api {
   }
   /**
    * detail:{
-   *  code: xxx, // wx.login的数据
-   *  wxUserInfo: xxx, // 解密的数据
+   *  code: close_icon, // wx.login的数据
+   *  wxUserInfo: close_icon, // 解密的数据
    * }
    */
   parseWxUser({data,success,fail}){
