@@ -46,6 +46,7 @@ function setParams_tvpai(params) {
 }
 // 预处理请求参数
 function paramsAssemble_tvpai(paramsObj = {}) {
+  getTvsource()
   let orignParams = {
     "appkey": '5cc090ddad6e4544815a0026e9a735a4',
     "time": Math.round(new Date().getTime() / 1000).toString(),

@@ -57,7 +57,12 @@ Page({
       })
     }
   },
-
+  // 跳转设备绑定页面
+  jumpHomePage: function () {
+    wx.navigateTo({
+      url: '../home/home',
+    })
+  },
 
 
   getMovieHistoryList: function () {
