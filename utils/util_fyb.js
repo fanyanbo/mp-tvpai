@@ -53,12 +53,11 @@ function setParams_tvpai(params) {
 }
 // 预处理请求参数
 function paramsAssemble_tvpai(paramsObj = {}) {
-  getTvsource()
   let orignParams = {
     "appkey": '5cc090ddad6e4544815a0026e9a735a4',
     "time": Math.round(new Date().getTime() / 1000).toString(),
     // "tv_source": 'iqiyi',
-    "tv_source": wx.getStorageSync("tvSource"),
+    "tv_source": getTvsource(),
     "version_code": 33,
     // 'token': 'fanyanbo',
     // "vuid": 'fanyanbo'
@@ -219,10 +218,12 @@ function decryptUserInfo(params) {
 
 //判断设备源是否为空
 function getTvsource() {
-  var tvSource = wx.getStorageSync("tvSource")
-  if (tvSource == null || tvSource === '' || tvSource == undefined) {
-    wx.setStorageSync('tvSource', 'iqiyi')
+  let tvSource = wx.getStorageSync("tvSource")
+  if (tvSource == null || tvSource === '') {
+    // wx.setStorageSync('tvSource', 'iqiyi')
+    tvSource = "iqiyi"
   }
+  return tvSource;
 }
 
 
