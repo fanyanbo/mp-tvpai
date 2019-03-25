@@ -1,3 +1,10 @@
+// author:fanyanbo
+// email:fanyanbo@coocaa.com
+// todo:
+// 1.promise化
+// 2.proxy化
+// 2.解构
+
 const md5 = require('md5_fyb.js');
 const api = require('../api/api_fyb');
 const app = getApp();
