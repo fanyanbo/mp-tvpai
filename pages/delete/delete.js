@@ -44,11 +44,11 @@ Page({
           })
         }, 1000)
       } else {
-        utils_fyb.showToast('failed', '删除设备失败[' + res.data.code + ']');
+        utils_fyb.showFailedToast('删除设备失败[' + res.data.code + ']', '../../images/close_icon.png');
       }
     }, function (res) {
       console.log('deleteDev fail:', res)
-      utils_fyb.showToast('failed', '删除设备失败');
+      utils_fyb.showFailedToast('删除设备失败', '../../images/close_icon.png');
     }, function (res) {
       console.log('deleteDev complete:', res)
     }, "")

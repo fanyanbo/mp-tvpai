@@ -8,20 +8,20 @@ function isEmptyObject(e) {
   for (t in e)
     return !1;
   return !0
-}  
+}
 
-function showToast (type, title) {
-  if (type === 'failed') {
-    wx.showToast({
-      title: title,
-      icon: 'none',
-      image: '../images/close_icon.png'
-    })
-  } else {
-    wx.showToast({
-      title: title
-    })
-  }
+function showSuccessToast(title) {
+  wx.showToast({
+    title: title
+  })
+}
+
+function showFailedToast(title, imgUrl) {
+  wx.showToast({
+    title: title,
+    icon: 'none',
+    image: imgUrl
+  })
 }
 
 // 以电视派后台规则进行签名
@@ -31,6 +31,7 @@ function sign_tvpai(str, k) {
   console.log(paramsStr + k, signedStr);
   return signedStr;
 }
+
 function setParams_tvpai(params) {
   if (isEmptyObject(params)) {
     return ""
@@ -60,7 +61,7 @@ function paramsAssemble_tvpai(paramsObj = {}) {
   // console.log(desArray);
   let desSortedParams = {};
   // 注意中文编码
-  for(let i in desArray) {
+  for (let i in desArray) {
     // desSortedParams[desArray[i]] = encodeURIComponent(desParams[desArray[i]]);
     desSortedParams[desArray[i]] = desParams[desArray[i]];
   }
@@ -91,10 +92,11 @@ function sign_wx(str, k) {
   console.log(paramsStr + k, signedStr);
   return signedStr;
 }
-function setParams_wx(params){
-  if ( isEmptyObject(params) ) {
+
+function setParams_wx(params) {
+  if (isEmptyObject(params)) {
     return "";
-  }else {
+  } else {
     var result = '';
     for (var key in params) {
       if (params[key] === null || params[key] === "") continue;
@@ -103,6 +105,7 @@ function setParams_wx(params){
     return result.substr(0, result.length - 1);
   }
 }
+
 function paramsAssemble_wx(paramsObj = {}) {
   // let ccsession = wx.getStorageSync('cksession');
   // let paramsStr = { "ccsession": ccsession };
@@ -144,9 +147,12 @@ function request(url, method, params, success, fail, complete) {
 // 参数包括rawData, code, encryptedData, iv, signature
 function getSessionByCode(code, success, fail, complete) {
   console.log("getSession code", code);
-  let srcParams = { "appid": "wx35b9e9a99fd089a9", "jscode": code } 
+  let srcParams = {
+    "appid": "wx35b9e9a99fd089a9",
+    "jscode": code
+  }
   let desParams = paramsAssemble_wx(srcParams);
-  this.request(api.getSessionUrl, 'GET', desParams, 
+  this.request(api.getSessionUrl, 'GET', desParams,
     function (res) {
       return typeof success == 'function' && success(res)
     },
@@ -164,10 +170,20 @@ const utils = require('./util')
 function decryptUserInfo(params) {
   console.log('decryptUserInfo', params);
   let rawData = encodeURI(params.rawData, 'utf-8');
-  let paramsStr = { "ccsession": params.ccsession, "encryptedData": params.encryptedData, "iv": params.iv, "rawData": rawData, "signature": params.signature }
+  let paramsStr = {
+    "ccsession": params.ccsession,
+    "encryptedData": params.encryptedData,
+    "iv": params.iv,
+    "rawData": rawData,
+    "signature": params.signature
+  }
   let sign = utils.encryption(paramsStr, getApp().globalData.key);
   console.log(sign);
-  let dataStr = utils.json2Form({ client_id: 'applet', sign: sign, param: '{"ccsession":"' + params.ccsession + '","encryptedData":"' + params.encryptedData + '","iv":"' + params.iv + '","rawData":"' + rawData + '","signature":"' + params.signature + '"}' })
+  let dataStr = utils.json2Form({
+    client_id: 'applet',
+    sign: sign,
+    param: '{"ccsession":"' + params.ccsession + '","encryptedData":"' + params.encryptedData + '","iv":"' + params.iv + '","rawData":"' + rawData + '","signature":"' + params.signature + '"}'
+  })
   console.log(dataStr);
   // let rawData = encodeURI(params.rawData, 'utf-8');
   // let srcParams = { "ccsession": params.ccsession, "encryptedData": params.encryptedData, "iv": params.iv, "rawData": rawData, "signature": params.signature };
@@ -198,8 +214,6 @@ module.exports = {
   getSessionByCode: getSessionByCode,
   decryptUserInfo: decryptUserInfo,
   urlAssemble_tvpai: urlAssemble_tvpai,
-  showToast: showToast
+  showSuccessToast: showSuccessToast,
+  showFailedToast: showFailedToast
 }
-
-
-

@@ -16,14 +16,14 @@ Page({
     utils_fyb.request(api_fyb.bindDeviceUrl, 'GET', desParams, function (res) {
       console.log("绑定设备信息:", res)
       if (res.data.code == 200) {
-        utils_fyb.showToast('success', '设备绑定成功');
+        utils_fyb.showSuccessToast('设备绑定成功');
         setTimeout(function () {
           wx.navigateTo({
             url: '../../pages/home/home',
           });
         }, 2000)
       } else {
-        utils_fyb.showToast('failed', '设备绑定失败');
+        utils_fyb.showFailedToast('设备绑定失败', '../../images/close_icon.png');
       }
     })
   },
