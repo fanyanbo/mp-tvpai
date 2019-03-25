@@ -9,18 +9,22 @@
     <view class="banner-swiper">
       <swiper autoplay="{{autoplay}}" current='{{swiperCurrent}}' previous-margin="{{previousmargin}}" next-margin="{{nextmargin}}" bindchange="swiperChange">
         <block wx:for="{{streams}}" wx:key="key" class="banner_list">
-          <navigator wx:key="index" url="../cinecism/cinecism?id={{item.articleId}}">
+          <!-- <navigator wx:key="index" url="../cinecism/cinecism?id={{item.articleId}}"> -->          
             <swiper-item>
-              <image src="{{item.articlePicUrl}}" class="slide-image" bindchange="chuangEvent"></image>
+              <button open-type="getUserInfo" data-type="cinecism" data-id="{{item.articleId}}" bindgetuserinfo="bindGetUserInfo">
+                <image src="{{item.articlePicUrl}}" class="slide-image" bindchange="chuangEvent"></image>
+              </button>
             </swiper-item>
-          </navigator>
+          
+          <!-- </navigator> -->
         </block>
         <block wx:key="key" class="banner_list">
-          <navigator class="banner_list" url="../find/find">
-            <swiper-item>
+          <swiper-item>
+            <button open-type="getUserInfo" data-type="find" bindgetuserinfo="bindGetUserInfo">
               <image src="../../images/banner.jpg" class="slide-image"></image>
-            </swiper-item>
-          </navigator>
+              </button>
+          </swiper-item>
+
         </block>
       </swiper>
     </view>

@@ -67,7 +67,10 @@ Page({
     let str = "";  
     str = that.data.batchdel;
     str = "{"+str+"}"
-    console.log(str)
+    console.log(str.length)
+    if(str.length == 2){
+      return
+    }
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].checked == false) {
         arr2.push(arr[i]);
