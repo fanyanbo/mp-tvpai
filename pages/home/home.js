@@ -149,15 +149,16 @@ Page({
             // 是否一定使用globaldata，用storage方案如何？
             app.globalData.activeId = res.data.data[i].device.serviceId;
             app.globalData.deviceId = res.data.data[i].deviceId + '',
-              console.log("已绑定设备激活id-设备源:" + res.data.data[i].device.serviceId + res.data.data[i].device.source);
+            console.log("已绑定设备激活id-设备源:" + res.data.data[i].device.serviceId + res.data.data[i].device.source);
+            if (res.data.data[i].device.source == "tencent") {
+            //  app.globalData.tvSource = 'qq';
+              wx.setStorageSync('tvSource', 'qq')
+            } else {
+            //  app.globalData.tvSource = 'iqiyi';
+              wx.setStorageSync('tvSource', 'iqiyi')
+            }
           }
-          if (res.data.data[i].device.source == "tencent") {
-            app.globalData.tvSource = 'qq';
-            wx.setStorageSync('tvSource', 'qq')
-          } else {
-            app.globalData.tvSource = 'iqiyi';
-            wx.setStorageSync('tvSource', 'iqiyi')
-          }
+
         }
       }
     }, function () {

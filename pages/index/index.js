@@ -20,40 +20,64 @@ Page({
     recommandList: [],
     previousmargin: '20rpx',
     nextmargin: '40rpx',
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    type:""
   },
   swiperChange: function () {
     console.log('swiperChange');
   },
   // 获取一级标签分类
   oneclassify: function () {
+    utils_fyb.getTvsource();
+
+    console.log(app.globalData.deviceId + "============视频源==========" + wx.getStorageSync("tvSource"));
+
+
+
+
+
     let that = this
     let params = { "page_index": '0', "page_size": '30' };
     let desParams = utils_fyb.paramsAssemble_tvpai(params);
     utils_fyb.request(api_fyb.getOneClassifyUrl, 'GET', desParams,
       function (res) {
-        console.log('getOneClassifyUrl:', res.data);
+        console.log('获取一级标签分类:', res.data);
         let column1 = [], column2 = [], column3 = []
-        if (res.data.data) {
-          for (let i = 0; i < 30; i++) {
-            if (i < 10) {
-              column1.push(res.data.data[i])
-            } else if (i >= 10 && i < 20) {
-              column2.push(res.data.data[i])
-            } else {
-              column3.push(res.data.data[i])
+        if (wx.getStorageSync("tvSource") == "iqiyi"){
+          if (res.data.data) {
+            for (let i = 0; i < 30; i++) {
+              if (i < 10) {
+                column1.push(res.data.data[i])
+              } else if (i >= 10 && i < 20) {
+                column2.push(res.data.data[i])
+              } else {
+                column3.push(res.data.data[i])
+              }
             }
+            that.setData({
+              column1: column1,
+              column2: column2,
+              column3: column3,
+              type:"iqiyi"
+            })
+          } else {
+            wx.showToast({
+              title: res.data.message,
+            })
           }
-          that.setData({
-            column1: column1,
-            column2: column2,
-            column3: column3
-          })
-        } else {
-          wx.showToast({
-            title: res.data.message,
-          })
+        }else{
+          if (res.data.data) {
+            that.setData({
+              column: res.data.data,
+              type: "qq"
+            })
+          } else {
+            wx.showToast({
+              title: res.data.message,
+            })
+          }       
         }
+
       },
       function (res) {
         console.log('getOneClassifyUrl error', res)
@@ -167,6 +191,9 @@ Page({
       isShowTips: app.globalData.isShowTips
     });
     this.getBanners();
+    this.getBindedDevice();
+    this.oneclassify();
+    this.twoclassify();
     console.log("onShow");
   },
 

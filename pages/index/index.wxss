@@ -48,6 +48,15 @@
   margin: 40rpx auto !important;
   height: 360rpx;
 }
+.tx_label{
+width: 100%;
+overflow: hidden;
+white-space: nowrap;
+margin:30rpx 0
+}
+.tx_txt{
+  display: block
+}
 .column-item{
   display: inline-block;
   width: 110rpx;
