@@ -284,6 +284,9 @@ function ccsessionIs(){
   return true
 }
 
+
+
+
 //评论点赞时间处理
 function getDateDiff(dateTimeStamp) {
   var result;

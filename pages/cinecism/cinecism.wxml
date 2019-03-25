@@ -1,7 +1,7 @@
 <!-- cinecism.wxml -->
 <!-- height:{{scHeight-90}}px;overflow-y:{{isTrue}} -->
 <form bindsubmit="formSubmit" report-submit="true">
-  <button id="eventBbutton" name="collectEvent" formType="submit" bindtap='collectEvent' class="button-hover" hover-class="other-button-hover"></button>
+  <button id="eventBbutton" name="collectEvent" formType="submit" bindgetuserinfo='bindgetuserinfo' class="button-hover" hover-class="other-button-hover"></button>
   <label for="eventBbutton">
     <view class="container" style="">
       <view class="relativePostion">

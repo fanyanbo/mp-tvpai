@@ -42,11 +42,9 @@ Page({
               wx.setStorageSync('cksession', ccsession);
               wx.setStorageSync('wxopenid', wxopenid);
               console.log('setStorage, session = ' + ccsession + ',openid = ' + wxopenid);
-              if (e.currentTarget.dataset.type == 'home') {
-                that.jumpHomePage();
-              } else if (e.currentTarget.dataset.type == 'history') {
-                that.jumpHistoryPage();
-              }
+              wx.navigateTo({
+                url: '../history/history',
+              })
             }
           }, function (res) {
             console.log('getSessionByCode error', res)
@@ -54,11 +52,9 @@ Page({
         }
       });
     } else {
-      if (e.currentTarget.dataset.type == 'home') {
-        that.jumpHomePage();
-      } else if (e.currentTarget.dataset.type == 'history') {
-        that.jumpHistoryPage();
-      }
+      wx.navigateTo({
+        url: '../history/history',
+      })
     }
   },
   // 跳转设备绑定页面
@@ -68,12 +64,6 @@ Page({
     })
   },
 
-  // 跳转播放历史页面
-  jumpHistoryPage: function () {
-    wx.navigateTo({
-      url: '../history/history',
-    })
-  },
 
   getMovieHistoryList: function () {
     let that = this;

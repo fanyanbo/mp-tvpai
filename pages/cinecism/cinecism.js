@@ -39,19 +39,18 @@ Page({
     hidden1: 'true',
     hidden2: 'true',
     hidden3: 'true',
-    isDisabled:[],
+    isDisabled: [],
     virtual: [],
     virtual2: [],
     topicContent: '',
     cicleMany: [],
     starArrays: [],
-    lenIs:false
+    lenIs: false
     // mydata:''
   },
   onLoad: function (options) {
     this.setData({
       allId: options.id
-    //  allId: "367"
     })
     getArtical(this)
     getAboutMovie(this)
@@ -77,7 +76,7 @@ Page({
     // var currPage = pages[pages.length - 1]; //当前页面
     // console.log("currPage") 
     // console.log(currPage.data.mydata) 
-    if (wx.getStorageSync('userid') === '' || wx.getStorageSync('userid')===null) {
+    if (wx.getStorageSync('userid') === '' || wx.getStorageSync('userid') === null) {
       utils.checkUsers()
     }
   },
@@ -100,36 +99,32 @@ Page({
     var that = this
     return {
       title: that.data.articleTitle,
-      path: 'pages/cinecism/cinecism?id='+that.data.articlesId
+      path: 'pages/cinecism/cinecism?id=' + that.data.articlesId
     }
   },
-  formSubmit:function(e){
+  formSubmit: function (e) {
     console.log("formid：")
-    console.log(e.detail.formId) 
+    console.log(e.detail.formId)
     wx.setStorageSync("formid", e.detail.formId)
   },
   collect(e) {
     movieidArray = []
-    if (!e.detail.userInfo) {
-      // 如果用户拒绝直接退出，下次依然会弹出授权框
-      return;
-    }
     //判断ccsession是否为空
-  //  if (utils.ccsessionIs() == null) return
+    if (utils.ccsessionIs() == null) return
     //点击收藏时判断用户是否登录酷开账号
-  //  if (utils.coocaaLogin() == null) return
+    if (utils.coocaaLogin() == null) return
     var that = this
     var newZu2 = ''
     var url = api.appletCollectVideoUrl
     var key = app.globalData.key
     var ccsession = wx.getStorageSync("cksession")
-   // var moviesId = options.currentTarget.dataset.moviesid
+    // var moviesId = options.currentTarget.dataset.moviesid
     contentId = e.currentTarget.dataset.contentid
     var index = e.currentTarget.dataset.contentid
- 
+
     console.log("contentArray")
     console.log(contentArray)
-    if (that.data.starArrays[index] == 'starIcon' || that.data.starArrays[index]==undefined){
+    if (that.data.starArrays[index] == 'starIcon' || that.data.starArrays[index] == undefined) {
       if (contentArray != null && contentArray != undefined) {
         for (var i = 0; i < contentArray.length; i++) {
           if (contentArray[i].contentId == contentId) {
@@ -143,12 +138,12 @@ Page({
           }
         }
       }
-      newZu2 = newZu2.substr(0,newZu2.length-1)
+      newZu2 = newZu2.substr(0, newZu2.length - 1)
       console.log("movieidArray")
       console.log(movieidArray)
       console.log("newZu2")
       console.log(newZu2)
-      
+
       if (movieidArray != null && movieidArray.length > 0) {
         newZu = []
         for (var k = 0; k < movieidArray.length; k++) {
@@ -176,7 +171,7 @@ Page({
           console.log(res)
           if (res.data.result) {
             console.log("获取收藏影片接口成功")
-           // var index = e.currentTarget.dataset.contentid
+            // var index = e.currentTarget.dataset.contentid
             that.data.starArrays[index] = 'starIcon1'
             that.data.isDisabled[index] = true
             that.setData({
@@ -184,11 +179,11 @@ Page({
               isDisabled: that.data.isDisabled
             })
             utils.showToastBox("收藏成功", "success")
-           var type = "movieCollect"
-          //  console.log("从缓存中取得的formid")
-          //  console.log(formId)
+            var type = "movieCollect"
+            //  console.log("从缓存中取得的formid")
+            //  console.log(formId)
 
-          utils.eventCollect(type, newZu2)
+            utils.eventCollect(type, newZu2)
           } else {
             //  utils.showFailToast(this, "操作失败，请重试")
             utils.showToastBox(res.data.message, "loading")
@@ -203,7 +198,7 @@ Page({
   },
   handClick(e) {
     //判断ccsession是否为空
- //   if (utils.ccsessionIs() == null) return
+    if (utils.ccsessionIs() == null) return
     var commentid = e.currentTarget.dataset.commentid
     console.log("commentId:" + commentid)
     var that = this
@@ -251,7 +246,7 @@ Page({
             // console.log("从缓存中取得的formid")
             // console.log(formId)
             utils.eventCollect(type, commentid)
-           
+
           }
         }
       },
@@ -278,7 +273,7 @@ Page({
   },
   clickLike: function (e) {
     //判断ccsession是否为空
- //   if (utils.ccsessionIs() == null) return
+    if (utils.ccsessionIs() == null) return
     console.log("收藏文章按钮")
     a++
     var that = this
@@ -286,7 +281,7 @@ Page({
     var index = parseInt(that.data.collectNum)
     var indexAdd = index + 1
     var indexRediuce = index - 1
-    var url = api.appletEmpCollectArticleUrl  
+    var url = api.appletEmpCollectArticleUrl
     var key = app.globalData.key
     var ccsession = wx.getStorageSync("cksession")
     var articleId = e.currentTarget.dataset.articleid
@@ -344,12 +339,12 @@ Page({
   },
   commentClick: function (e) {
     var that = this
-  //  if (utils.ccsessionIs() == null) return
+    if (utils.ccsessionIs() == null) return
     that.setData({
       hidden1: 'false',
       focus: true
     })
-   
+
   },
   bindconfirm: function (e) {
     var likeClass = new Array()
@@ -383,7 +378,7 @@ Page({
         success: res => {
           if (res.data.result) {
             //获取评论高度
-       
+
             // console.log("scrollsTop:")
             // console.log(scrollsTop)
             // var selfHeight = winHeight - scrollsTop
@@ -468,7 +463,7 @@ Page({
     that.setData({
       hidden: 'true',
       scHeight: 'auto',
-      isTrue:'scroll'
+      isTrue: 'scroll'
     })
   },
   closeGray1: function () {
@@ -483,7 +478,7 @@ Page({
     var that = this
     that.setData({
       hidden2: 'true',
-      scHeight:'auto',
+      scHeight: 'auto',
       isTrue: 'scroll'
     })
   },
@@ -535,7 +530,7 @@ Page({
     console.log(that.data.optionIds)
   },
   voteVs: function (e) {
-  //  if (utils.ccsessionIs() == null) return
+    if (utils.ccsessionIs() == null) return
     var that = this
     that.data.optionIds = []
     for (var key in that.data.cicleMany) { // 将其他投票选项置空
@@ -553,8 +548,8 @@ Page({
   },
   voteArray: function (e) {
     console.log("投票2")
-
-  //  if (utils.ccsessionIs() == null) return
+    console.log(utils.ccsessionIs() == null)
+    if (utils.ccsessionIs() == null) return
     var that = this
     var url = api.saveUserVoteUrl
     var key = app.globalData.key
@@ -611,16 +606,16 @@ Page({
     })
 
   },
-  collectEvent:function(e){
-    console.log("触发了1"); 
+  collectEvent: function (e) {
+    console.log("触发了1");
   },
   pushVideo: function (e) {
     contentId = e.currentTarget.dataset.contentid
     var that = this
     moviechildId = null
     //判断ccsession是否为空
-    // if (utils.ccsessionIs() == null) return
-    // if (utils.coocaaLogin() == null) return
+    if (utils.ccsessionIs() == null) return
+    if (utils.coocaaLogin() == null) return
     console.log("获取设备列表")
     // movieId = e.currentTarget.dataset.movieid
     var allcount = e.currentTarget.dataset.allcount
@@ -652,7 +647,7 @@ Page({
       videotype: videotype,
       scHeight: scHeight,
       isTrue: 'hidden',
-      tvChioced:'zzzzz'
+      tvChioced: 'zzzzz'
     })
     var cksession = wx.getStorageSync("cksession")
     //console.log(cksession != null && cksession != undefined && cksession !== '');
@@ -687,14 +682,14 @@ Page({
     var source = e.currentTarget.dataset.source
     console.log("source")
     console.log(source)
-    if (contentArray != null && contentArray!=undefined){
+    if (contentArray != null && contentArray != undefined) {
       for (var i = 0; i < contentArray.length; i++) {
         if (contentArray[i].contentId == contentId) {
           if (contentArray[i].movieIdsList != null && contentArray[i].movieIdsList != undefined) {
             for (var j = 0; j < contentArray[i].movieIdsList.length; j++) {
-              if (contentArray[i].movieIdsList[j].source == source){
-                  movieId = contentArray[i].movieIdsList[j].movieId
-                  break
+              if (contentArray[i].movieIdsList[j].source == source) {
+                movieId = contentArray[i].movieIdsList[j].movieId
+                break
               }
             }
           }
@@ -717,24 +712,24 @@ Page({
     if ((e.currentTarget.dataset.serviceid == null || e.currentTarget.dataset.serviceid == undefined) && (serviceidspare == null || serviceidspare == undefined)) {
       // utils.showToastBox("电视不支持播放", "loading")
       that.setData({
-        hidden3:'false',
+        hidden3: 'false',
         // hidden:'true',
-        hidden2:'true'
+        hidden2: 'true'
       })
-      
+
     } else {
       pushMovies(this, movieId, deviceId, moviechildId)
     }
   },
-  closeFailBox:function(){
+  closeFailBox: function () {
     var that = this
     that.setData({
       hidden3: 'true'
     })
   },
-  detailTo:function(e){
+  detailTo: function (e) {
     movieidArray = []
-    var articleid = e.currentTarget.dataset.articleid 
+    var articleid = e.currentTarget.dataset.articleid
     contentId = e.currentTarget.dataset.contentid
     var movietypes = e.currentTarget.dataset.movietypes
     var movieID
@@ -748,7 +743,7 @@ Page({
               movieidArray.push(contentArray[i].movieIdsList[j].movieId)
               if (contentArray[i].movieIdsList[j].source == 'iqiyi') {
                 movieID = contentArray[i].movieIdsList[j].movieId
-              }else{
+              } else {
                 movieID = contentArray[i].movieIdsList[0].movieId
               }
             }
@@ -757,10 +752,10 @@ Page({
         }
       }
     }
-    
+
     console.log("跳转movieID")
     console.log(movieID)
- 
+
     getApp().globalData.movieIdsList = movieIdsArrays
     console.log("movieIdsList")
     console.log(getApp().globalData.movieIdsList)
@@ -777,12 +772,12 @@ function pushMovies(that, movieId, deviceId, moviechildId) {
   var url = api.devicesPushUrl
   var key = app.globalData.key
   var ccsession = wx.getStorageSync("cksession")
-  if (moviechildId == null || moviechildId == undefined || moviechildId === ''){
-    paramsStr = { "ccsession": ccsession, "deviceId": deviceId + '', "movieId": movieId}
-  }else{
+  if (moviechildId == null || moviechildId == undefined || moviechildId === '') {
+    paramsStr = { "ccsession": ccsession, "deviceId": deviceId + '', "movieId": movieId }
+  } else {
     paramsStr = { "ccsession": ccsession, "deviceId": deviceId + '', "movieId": movieId, "moviechildId": moviechildId + '' }
   }
-   var sign = utils.encryption(paramsStr, key)
+  var sign = utils.encryption(paramsStr, key)
   wx.request({
     url: url,
     data: {
@@ -863,7 +858,7 @@ function serviceList(that) {
               }
             }
           })
-          
+
         } else {
           for (var i = 0, len = data.length; i < len; i++) {
             if (data[i].source == 'yinhe') {
@@ -944,7 +939,7 @@ function getArtical(that) {
             img = '1'
             a = '1'
           }
-          var timestamp = Date.parse(new Date())/1000; 
+          var timestamp = Date.parse(new Date()) / 1000;
           console.log("当前时间")
           console.log(timestamp)
           // if (votesList != null && votesList!=undefined){
@@ -958,7 +953,7 @@ function getArtical(that) {
           //     endTime.push(votesList[i].voteEndtime) 
           //   }
           // }
-        
+
 
           if (data.articleContactList != null && data.articleContactList != undefined) {
             for (var j = 0; j < data.articleContactList.length; j++) {
@@ -1129,14 +1124,14 @@ function getAboutMovie(that) {
         console.log("data1:")
         console.log(data1)
         if (data1 != null && data1 != undefined) {
-         starArray = []
+          starArray = []
           for (var i = 0; i < data1.length; i++) {
             contentArray.push(data1[i])
-            
-            if (data1[i].moviesDetail!=null){
-                that.setData({
-                  lenIs:true
-                })
+
+            if (data1[i].moviesDetail != null) {
+              that.setData({
+                lenIs: true
+              })
               var pingfen = data1[i].moviesDetail.videoData.base_info.score
               //评分
               utils.starGrade(pingfen, i, starClass0, starClass1, starClass2, starClass3, starClass4)
@@ -1150,7 +1145,7 @@ function getAboutMovie(that) {
                 //评分
 
                 clooectList.push(data1[i])
-               
+
                 if (data1[i].moviesDetail.videoData.base_info.video_type == '电影') {
                   movieType = data1[i].moviesDetail.videoData.base_info.video_type
                 }
@@ -1167,25 +1162,25 @@ function getAboutMovie(that) {
                 // 如果影片中没有树图，将填充一个undefined填位，防止图片串位
                 if (!haveVImg) imgV.push("undefined")
               }
-   
+
               if (starArray != null && starArray != undefined) {
-                for (var n = 0; n < starArray.length; n++) {     
-                    if (starArray[n].moviesDetail.isCollectionMovie == "yes") {
-                      starClass.push('starIcon1')
-                    } else if (starArray[n].moviesDetail.isCollectionMovie == "no") {
-                      starClass.push('starIcon')
-                    }                            
+                for (var n = 0; n < starArray.length; n++) {
+                  if (starArray[n].moviesDetail.isCollectionMovie == "yes") {
+                    starClass.push('starIcon1')
+                  } else if (starArray[n].moviesDetail.isCollectionMovie == "no") {
+                    starClass.push('starIcon')
+                  }
                 }
               }
-            }else{
+            } else {
               imgV.push("undefined")
             }
-          
-            }
+
+          }
           console.log("imgV")
           console.log(imgV)
-            
-     
+
+
           console.log("starClass:")
           console.log(that.data.starClass)
           that.setData({
