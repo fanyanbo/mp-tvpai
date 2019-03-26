@@ -8,6 +8,7 @@ Page({
   data: {
     isShowDoc: false,
     isShowTips: false,
+    errIconUrl: '../../images/close_icon.png',
     devices: "",
     mydevices: [],
     block: ['block'],
@@ -15,20 +16,19 @@ Page({
   },
 
   bindDevice: function (qrUrl) {
-    let that = this;
     let ccsession = wx.getStorageSync('cksession');
     let srcParams = { "ccsession": ccsession, "qrUrl": qrUrl };
     let desParams = utils_fyb.paramsAssemble_wx(srcParams);
     console.log(desParams);
-    utils_fyb.request(api_fyb.bindDeviceUrl, 'GET', desParams, function (res) {
+    utils_fyb.requestP(api_fyb.bindDeviceUrl, desParams).then(res => {
       console.log("绑定设备信息:", res)
       if (res.data.code === 200) {
         utils_fyb.showSuccessToast('设备绑定成功');
-        setTimeout(function () {
-          that.getDeviceList();
+        setTimeout(() => {
+          this.getDeviceList();
         }, 2000)
       } else {
-        utils_fyb.showFailedToast('设备绑定失败', '../../images/close_icon.png');
+        utils_fyb.showFailedToast('设备绑定失败', this.data.errIconUrl);
       }
     })
   },
@@ -72,54 +72,42 @@ Page({
     console.log('iv:' + iv)
     console.log('rawData:' + rawData)
     console.log('signature:' + signature)
+
     let ccsession = wx.getStorageSync("cksession");
     console.log('bindGetUserInfo ccsession', ccsession);
-    if (ccsession == null || ccsession === '') {
-      wx.login({
-        success: function (res) {
-          console.log('code', res);
-          utils_fyb.getSessionByCode(res.code, function (res) {
-            console.log('success', res);
-            if (res.data.result && res.data.data) {
-              let ccsession = res.data.data.ccsession;
-              let wxopenid = res.data.data.wxopenid;
-              wx.setStorageSync('cksession', ccsession);
-              wx.setStorageSync('wxopenid', wxopenid);
-              console.log('setStorage, session = ' + ccsession + ',openid = ' + wxopenid);
 
-              let url = api.getuserinfoUrl
-              let key = getApp().globalData.key
-              rawData = encodeURI(rawData, 'utf-8')
-              let paramsStr = { "ccsession": ccsession, "encryptedData": encryptedData, "iv": iv, "rawData": rawData, "signature": signature }
-              let sign = utils.encryption(paramsStr, key)
-              let dataStr = utils.json2Form({ client_id: 'applet', sign: sign, param: '{"ccsession":"' + ccsession + '","encryptedData":"' + encryptedData + '","iv":"' + iv + '","rawData":"' + rawData + '","signature":"' + signature + '"}' })
-              wx.request({
-                url: url,
-                data: dataStr,
-                method: 'post',
-                header: {
-                  'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                success: res => {
-                  console.log('解密用户信息成功', res);
-                  that.scanQRCode();
-                },
-                fail: () => {
-                  console.log("解密用户信息失败")
-                }
-              })
-            }
-          }, function (res) {
-            console.log('error', res)
-          });
+    if (ccsession == null || ccsession === '') {
+      wx.showLoading({ title: '授权校验中' });
+      utils_fyb.wxLogin().then(res => {
+        console.log('wxLogin res=', res)
+        return utils_fyb.getSessionByCodeP(res.code)
+      }).then(res => {
+        console.log('getSessionByCode res=', res)
+        if (res.data.result && res.data.data) {
+          let ccsession = res.data.data.ccsession;
+          let wxopenid = res.data.data.wxopenid;
+          wx.setStorageSync('cksession', ccsession);
+          wx.setStorageSync('wxopenid', wxopenid);
+          console.log('setStorage, session = ' + ccsession + ',openid = ' + wxopenid);
+          let url = api.getuserinfoUrl
+          rawData = encodeURI(rawData, 'utf-8')
+          let paramsStr = { "ccsession": ccsession, "encryptedData": encryptedData, "iv": iv, "rawData": rawData, "signature": signature }
+          let sign = utils.encryption(paramsStr, '9acd4f7d5d9b87468575b240d824eb4f')
+          let dataStr = utils.json2Form({ client_id: 'applet', sign: sign, param: '{"ccsession":"' + ccsession + '","encryptedData":"' + encryptedData + '","iv":"' + iv + '","rawData":"' + rawData + '","signature":"' + signature + '"}' })
+          return utils_fyb.requestP(url, dataStr, 'post');
         }
-      });
+      }).then(res => {
+        console.log('解密用户信息成功', res)
+        this.scanQRCode();
+      }).catch(res => {
+        console.log('catch res = ' + res)
+      })
     } else {
       this.scanQRCode();
     }
   },
 
-  //跳转教程页面
+  // 跳转教程页面
   navigateto() {
     wx.navigateTo({ url: '../course/course' })
   },
@@ -182,10 +170,8 @@ Page({
             app.globalData.deviceId = res.data.data[i].deviceId + '',
             console.log("已绑定设备激活id-设备源:" + res.data.data[i].device.serviceId + res.data.data[i].device.source);
             if (res.data.data[i].device.source == "tencent") {
-            //  app.globalData.tvSource = 'qq';
               wx.setStorageSync('tvSource', 'qq')
             } else {
-            //  app.globalData.tvSource = 'iqiyi';
               wx.setStorageSync('tvSource', 'iqiyi')
             }
           }else{

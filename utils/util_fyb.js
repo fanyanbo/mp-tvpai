@@ -44,6 +44,20 @@ function showLoadingToast(title = '加载中', isShow = true) {
   }
 }
 
+// 微信登录
+function wxLogin() {
+  return new Promise(function(resolve, reject) {
+    wx.login({
+      success: function(res) {
+        resolve(res)
+      },
+      error: function(res) {
+        reject(res)
+      }
+    })
+  })
+}
+
 // 以电视派后台规则进行签名
 function sign_tvpai(str, k) {
   let paramsStr = setParams_tvpai(str);
@@ -187,7 +201,7 @@ function requestP(url, params, method = 'GET') {
   })
 }
 
-// 参数包括rawData, code, encryptedData, iv, signature
+// 获取session和openid
 function getSessionByCode(code, success, fail, complete) {
   console.log("getSession code", code);
   let srcParams = {
@@ -206,6 +220,15 @@ function getSessionByCode(code, success, fail, complete) {
       return typeof complete == 'function' && complete(res)
     }
   );
+}
+
+function getSessionByCodeP(code) {
+  console.log("getSession code", code);
+  let srcParams = {
+    "appid": "wx35b9e9a99fd089a9",
+    "jscode": code
+  }
+  return this.requestP(api.getSessionUrl, paramsAssemble_wx(srcParams));
 }
 
 const utils = require('./util')
@@ -262,9 +285,11 @@ function getTvsource() {
 module.exports = {
   request: request,
   requestP: requestP,
+  wxLogin: wxLogin,
   paramsAssemble_tvpai: paramsAssemble_tvpai,
   paramsAssemble_wx: paramsAssemble_wx,
   getSessionByCode: getSessionByCode,
+  getSessionByCodeP: getSessionByCodeP,
   decryptUserInfo: decryptUserInfo,
   urlAssemble_tvpai: urlAssemble_tvpai,
   showSuccessToast: showSuccessToast,

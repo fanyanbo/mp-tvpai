@@ -218,7 +218,7 @@ Page({
     this.getHotKeyword();
     console.log('搜索页当前已绑定设备', app.globalData.deviceId);
 
-    //为了解决奇葩bug，解决搜索框文字重影的问题
+    //为了解决奇葩bug，设置一个延时效果会好一点，处理搜索框文字重影的问题
     let that = this;
     setTimeout(function () {
       that.setData({
