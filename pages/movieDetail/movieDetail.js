@@ -25,7 +25,8 @@ Page({
     moviepush: false,
     video_url:'',
     coocaa_m_id:'',
-    isShowtitle:false
+    isShowtitle:false,
+    tvId:""
   },
 
   /**
@@ -151,10 +152,11 @@ Page({
       // 如果用户拒绝直接退出，下次依然会弹出授权框
       return;
     }
-    let coocaamid = e.currentTarget.dataset.index
+    let coocaamid = e.currentTarget.dataset.coocaamid
     var tvid = e.currentTarget.dataset.tvid
     var moviechildid = e.currentTarget.dataset.moviechildid
     var movieId =  e.currentTarget.dataset.movieid
+    var title = e.currentTarget.dataset.title
     console.log(coocaamid + "=====coocaa_m_id===========" + moviechildid)
     var that = this
     that.setData({
@@ -169,9 +171,9 @@ Page({
     console.log("检测deviceid:" + deviceid);
     if (ccsession != null && ccsession != undefined && ccsession !== '') {
       if (deviceid != null && deviceid != undefined && deviceid !== ''){
-        push(that, movieId, deviceid, moviechildid, that.data.movieType, tvid, coocaamid)
+        push(that, movieId, deviceid, moviechildid, that.data.movieType, tvid, coocaamid, title)
       }else{
-        getDevices(that, '获取设备中', tvid, coocaamid);
+        getDevices(that, '获取设备中', tvid, coocaamid, title);
       }      
     } else {
       wx.login({
@@ -186,9 +188,9 @@ Page({
               wx.setStorageSync('wxopenid', wxopenid);
               console.log('setStorage, session = ' + ccsession + ',openid = ' + wxopenid);
               if (deviceid != null && deviceid != undefined && deviceid !== '') {
-                push(that, movieId, deviceid, moviechildId, that.data.movieType, tvid, coocaamid)
+                push(that, movieId, deviceid, moviechildid, that.data.movieType, tvid, coocaamid, title)
               } else {
-                getDevices(that, '获取设备中', tvid, coocaamid);
+                getDevices(that, '获取设备中', tvid, coocaamid, title);
               }   
             }
           }, function (res) {
@@ -268,9 +270,9 @@ function movieDetail(that, movieId) {
         movieData: res.data.data,
         tags: tagArr,
         movieType: res.data.data.video_type,
-        title: res.data.data.album_title,
         prompt_info: res.data.data.prompt_info,
-        coocaa_m_id:res.data.data.play_source.coocaa_m_id
+        coocaa_m_id:res.data.data.play_source.coocaa_m_id,
+        tvId: res.data.data.play_source.video_third_id
       })
       likes(that, movieId)
       moviesItem(that, movieId)
@@ -350,7 +352,7 @@ function moviesItem(that, movieId) {
 }
 
 // 推送影视
-function push(that, movieId, deviceId, moviechildId, _type, tvid, coocaamid) {
+function push(that, movieId, deviceId, moviechildId, _type, tvid, coocaamid, title) {
   if (deviceId == null) {
     utils.showToastBox('无设备id!', "loading")
     return
@@ -378,14 +380,14 @@ function push(that, movieId, deviceId, moviechildId, _type, tvid, coocaamid) {
     success: function (res) {
       var type = "moviePush"
       utils.eventCollect(type, movieId)
-      console.log("===============-------推送影视" + tvid)
+      console.log(title+"===============-------推送影视" + tvid)
       console.log(res)
       if (res.data.result) {
         that.setData({
           chioced: coocaamid,
           moviepush: true
         })
-        addpushhistory(that, movieId,that.data.title, tvid);//保存推送历史
+        addpushhistory(that, movieId,title, tvid);//保存推送历史
         utils.showToastBox("推送成功", "success")
       } else {
         utils_fyb.showFailedToast(res.data.message, '../../images/close_icon.png');
@@ -401,7 +403,7 @@ function addpushhistory(that, movieId, title, video_id) {
   const secret = app.globalData.secret
   var paramsStr = { "appkey": app.globalData.appkey, "time": app.globalData.time(), "version_code": app.globalData.version_code, "vuid": wx.getStorageSync("wxopenid") }
   var sign = utils.encryptionIndex(paramsStr, secret)
-  console.log("album_id：" + movieId + "===video_id:==" + video_id +"增加历史")
+  console.log("album_id：" + movieId + "===video_id:==" + video_id + "增加历史" + "========" + title + "========" + video_id)
   console.log(paramsStr)
   console.log(sign)
   wx.request({
@@ -424,7 +426,7 @@ function addpushhistory(that, movieId, title, video_id) {
 
 
 
-function getDevices(that, message, tvid, coocaamid) {
+function getDevices(that, message, tvid, coocaamid, title) {
   const ccsession = wx.getStorageSync('cksession')
   const url = api.bindDeviceListUrl
   const key = app.globalData.key
@@ -446,7 +448,7 @@ function getDevices(that, message, tvid, coocaamid) {
           console.log("有绑定中的设备")
           console.log(res.data.data[ii].deviceId);
           wx.setStorageSync('deviceId', res.data.data[ii].deviceId)
-          push(that, that.data.movieId, res.data.data[ii].deviceId, that.data.moviechildId, that.data.movieType, tvid, coocaamid)
+          push(that, that.data.movieId, res.data.data[ii].deviceId, that.data.moviechildId, that.data.movieType, tvid, coocaamid, title)
         }else{
           //跳转教程页面
           wx.redirectTo({
