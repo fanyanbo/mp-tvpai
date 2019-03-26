@@ -56,7 +56,6 @@ function paramsAssemble_tvpai(paramsObj = {}) {
   let orignParams = {
     "appkey": '5cc090ddad6e4544815a0026e9a735a4',
     "time": Math.round(new Date().getTime() / 1000).toString(),
-    // "tv_source": 'iqiyi',
     "tv_source": getTvsource(),
     "version_code": 33,
     // 'token': 'fanyanbo',
@@ -114,15 +113,12 @@ function setParams_wx(params) {
 }
 
 function paramsAssemble_wx(paramsObj = {}) {
-  // let ccsession = wx.getStorageSync('cksession');
-  // let paramsStr = { "ccsession": ccsession };
   let paramsStr = paramsObj;
   let signedStr = sign_wx(paramsStr, '9acd4f7d5d9b87468575b240d824eb4f');
   let orignParams = {
     client_id: 'applet',
     sign: signedStr,
     param: paramsStr
-    // ccsession: ccsession
   };
   let desParams = Object.assign(orignParams, paramsObj);
   return desParams;
@@ -214,18 +210,14 @@ function decryptUserInfo(params) {
   })
 }
 
-
-
 //判断设备源是否为空
 function getTvsource() {
   let tvSource = wx.getStorageSync("tvSource")
   if (tvSource == null || tvSource === '') {
-    // wx.setStorageSync('tvSource', 'iqiyi')
     tvSource = "iqiyi"
   }
   return tvSource;
 }
-
 
 module.exports = {
   request: request,

@@ -18,8 +18,6 @@ Page({
     inputValue: '', //输入框内容
     isShowResult: false,
     isShowNoResult: false, //是否显示无搜索结果图片
-    currentContent: 'search-result-content',
-    // currentContent: 'search-input-content',
     hotKeywordsList: [],
     historyWordsList: ['小猪佩奇', '奇葩说'], // 后台接口关联账户信息，所以先做本地缓存处理
     resultTitleList: ['影片', '文章'],
@@ -111,10 +109,13 @@ Page({
       activeIndex: val
     })
   },
-  // 推送电视剧
+  // 推送电视剧，先判断是否绑定设备，再判断电视是否在线，注意先后顺序
   handleEpisodeTap: function (e) {
     console.log('推送剧集', e);
     let that = this;
+    if (app.globalData.deviceId == null) {
+      return wx.navigateTo({url: "../home/home"});
+    }
     new Promise(function (resolve, reject) {
         let dataOnline = {
           activeid: app.globalData.activeId //获取最新绑定设备激活ID
@@ -126,12 +127,12 @@ Page({
             if (res.status == "online") { //TV在线
               resolve();
             } else {
-              reject();
+              reject(res);
             }
           },
           fail(res) {
             console.log("isTVOnline fail:" + res)
-            reject()
+            reject(res)
           }
         });
       })
@@ -148,46 +149,52 @@ Page({
         let tvId = JSON.parse(e.currentTarget.dataset.keyword.video_url).tvId; //添加推送历史使用，不明白为什么有这些命名？
         let video_title = e.currentTarget.dataset.keyword.video_title;
         console.log(app.globalData.deviceId, third_album_id, tvId, video_title);
-        if (app.globalData.deviceId != null) {
-          that.pushEpisode(app.globalData.deviceId, third_album_id, segment_index, tvId, video_title);
-        } else {
-          wx.navigateTo({
-            url: "../home/home"
-          });
-        }
+        that.pushEpisode(app.globalData.deviceId, third_album_id, segment_index, tvId, video_title);
       })
-      .catch(function () {
-        console.log('catch...')
+      .catch(function (res) {
+        console.log('catch...' + res)
         utils.showFailedToast('电视不在线', '../../images/close_icon.png');
       })
-
-    // this.setData({
-    //   curIndex: e.currentTarget.dataset.keyword.segment_index,
-    //   curThirdId: e.currentTarget.dataset.keyword.video_third_id
-    // });
-    // let third_album_id = e.currentTarget.dataset.keyword.third_album_id; 
-    // let segment_index = e.currentTarget.dataset.keyword.segment_index - 1;
-    // let tvId = JSON.parse(e.currentTarget.dataset.keyword.video_url).tvId;//添加推送历史使用，不明白为什么有这些命名？
-    // let video_title = e.currentTarget.dataset.keyword.video_title;
-    // console.log(app.globalData.deviceId, third_album_id, tvId, video_title);
-    // if (app.globalData.deviceId != null) {
-    //   this.pushEpisode(app.globalData.deviceId, third_album_id, segment_index, tvId, video_title);
-    // } else {
-    //   wx.navigateTo({url: "../home/home"});
-    // }
   },
   // 推送电影
   handleMovieTap: function (e) {
     console.log('推送电影', e);
-    let third_album_id = e.currentTarget.dataset.keyword.video_detail.third_album_id;
-    console.log(app.globalData.deviceId, third_album_id);
-    if (app.globalData.deviceId != null) {
-      this.pushMovie(app.globalData.deviceId, third_album_id);
-    } else {
-      wx.navigateTo({
-        url: "../home/home"
-      });
+    let that = this;
+    if (app.globalData.deviceId == null) {
+      return wx.navigateTo({url: "../home/home"});
     }
+    new Promise(function (resolve, reject) {
+      let dataOnline = {
+        activeid: app.globalData.activeId //获取最新绑定设备激活ID
+      }
+      api_nj.isTVOnline({
+        data: dataOnline,
+        success(res) {
+          console.log("isTVOnline success res:" + JSON.stringify(res))
+          if (res.status == "online") { //TV在线
+            resolve();
+          } else {
+            reject(res);
+          }
+        },
+        fail(res) {
+          console.log("isTVOnline fail:" + res)
+          reject(res)
+        }
+      });
+    })
+    .then(function () {
+      wx.showLoading({
+        title: '推送中...'
+      })
+      let third_album_id = e.currentTarget.dataset.keyword.video_detail.third_album_id;
+      console.log(app.globalData.deviceId, third_album_id);
+      that.pushMovie(app.globalData.deviceId, third_album_id);
+    })
+    .catch(function (res) {
+      console.log('catch...' + res)
+      utils.showFailedToast('电视不在线', '../../images/close_icon.png');
+    })
   },
   handleMoreTap: function (e) {
     console.log('handleMoreTap', e);
