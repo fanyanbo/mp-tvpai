@@ -175,7 +175,7 @@ Component({
           fail(res) {
             console.log("isTVOnline fail:" + res)
             wx.showToast({
-              title: '加载失败请重试',
+              title: '获取失败请重试',
               icon: 'none',
               image: '../../images/components/remotecontrol/close@3x.png'
             })
@@ -302,6 +302,9 @@ Component({
         }
       }
     },
+    handleRecorderManagerMove(event) {
+      console.log('touchmove e:'+event)
+    },
     handleButtonLongTap(event) { //longpress 遥控器按钮长按事件
       console.log('longpress 语音键...')
       this.setData({
@@ -338,7 +341,11 @@ Component({
           this.setData({ isMenuFocus: status })
           break
         case 'shutdown':
-          this.setData({ isShutdownFocus: status })
+          // this.setData({ isShutdownFocus: status })
+          wx.showToast({
+            title: '当前版本暂不支持开关机功能',
+            icon:'none'
+          })
           break
         case 'volume_minus':
           this.setData({ isVoldownFocus: status })
