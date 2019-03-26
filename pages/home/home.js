@@ -12,7 +12,6 @@ Page({
     mydevices: [],
     block: ['block'],
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    judgeBool: true
   },
 
   bindDevice: function (qrUrl) {
@@ -104,9 +103,6 @@ Page({
     let deviceName = e.currentTarget.dataset.name;
     wx.navigateTo({url: '../delete/delete?deviceId=' + deviceId + '&bind=' + bindStatus + '&deviceName=' + deviceName})
     let that = this;
-    that.setData({
-      judgeBool: false
-    })
   },
   // 切换绑定时触发
   handleBindTap: function (event) {
@@ -182,6 +178,7 @@ Page({
           devices: false,
           mydevices: res.data.data
         })
+        wx.setStorageSync('deviceId', '');
       }
     }, function () {
       console.log('getDeviceList error');

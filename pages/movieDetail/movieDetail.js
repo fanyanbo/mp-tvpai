@@ -151,7 +151,7 @@ Page({
       // 如果用户拒绝直接退出，下次依然会弹出授权框
       return;
     }
-    var coocaamid = e.currentTarget.dataset.index
+    let coocaamid = e.currentTarget.dataset.index
     var tvid = e.currentTarget.dataset.tvid
     var moviechildid = e.currentTarget.dataset.moviechildid
     var movieId =  e.currentTarget.dataset.movieid
@@ -169,9 +169,9 @@ Page({
     console.log("检测deviceid:" + deviceid);
     if (ccsession != null && ccsession != undefined && ccsession !== '') {
       if (deviceid != null && deviceid != undefined && deviceid !== ''){
-        push(that, movieId, deviceid, moviechildid, that.data.movieType, tvid,coocaamid)
+        push(that, movieId, deviceid, moviechildid, that.data.movieType, tvid, coocaamid)
       }else{
-        getDevices(that, '获取设备中', tvid);
+        getDevices(that, '获取设备中', tvid, coocaamid);
       }      
     } else {
       wx.login({
@@ -188,7 +188,7 @@ Page({
               if (deviceid != null && deviceid != undefined && deviceid !== '') {
                 push(that, movieId, deviceid, moviechildId, that.data.movieType, tvid, coocaamid)
               } else {
-                getDevices(that, '获取设备中', tvid);
+                getDevices(that, '获取设备中', tvid, coocaamid);
               }   
             }
           }, function (res) {
@@ -424,7 +424,7 @@ function addpushhistory(that, movieId, title, video_id) {
 
 
 
-function getDevices(that, message,tvid) {
+function getDevices(that, message, tvid, coocaamid) {
   const ccsession = wx.getStorageSync('cksession')
   const url = api.bindDeviceListUrl
   const key = app.globalData.key
@@ -440,47 +440,41 @@ function getDevices(that, message,tvid) {
   utils.postLoading(url, 'GET', data, function (res) {
     console.log("获取设备信息:" + tvid)
     console.log(res)
-    if (res.data.data.length != 0) {
+    if (res.data.data) {
       for (var ii = 0; ii < res.data.data.length; ii++) {
         if (res.data.data[ii].bindStatus === 1) {
           console.log("有绑定中的设备")
           console.log(res.data.data[ii].deviceId);
           wx.setStorageSync('deviceId', res.data.data[ii].deviceId)
-          push(that, that.data.movieId, res.data.data[ii].deviceId, that.data.moviechildId, that.data.movieType,tvid)
+          push(that, that.data.movieId, res.data.data[ii].deviceId, that.data.moviechildId, that.data.movieType, tvid, coocaamid)
         }else{
-          wx.showModal({
-            title: '无法推送',
-            content: '您关联的设备还未绑定',
-            success: function (res) {
-              if (res.confirm) {
-                console.log('用户点击确定')
-                //跳转教程页面
-                wx.navigateTo({
-                  url: '../home/home'
-                })
-              } else if (res.cancel) {
-                console.log('用户点击取消')
-              }
-            }
+          //跳转教程页面
+          wx.redirectTo({
+            url: '../home/home'
           })
         }
       }
     } else {
-      wx.showModal({
-        title: '无法推送',
-        content: '您未关联任何设备,请查看教程',
-        success: function (res) {
-          if (res.confirm) {
-            console.log('用户点击确定')
-            //跳转教程页面
-            wx.navigateTo({
-              url: '../course/course'
-            })
-          } else if (res.cancel) {
-            console.log('用户点击取消')
-          }
-        }
+      //跳转教程页面
+      wx.redirectTo({
+        url: '../home/home'
       })
+      // wx.showModal({
+      //   title: '无法推送',
+      //   content: '您未关联任何设备,请查看教程',
+      //   success: function (res) {
+      //     if (res.confirm) {
+      //       console.log('用户点击确定')
+      //       //跳转教程页面
+      //       wx.redirectTo({
+      //         url: '../course/course'
+      //       })
+      //     } else if (res.cancel) {
+      //       console.log('用户点击取消')
+      //     }
+      //   }
+      // })
+
     }
   }, function (res) {
 
