@@ -49,12 +49,11 @@
     height: 60rpx;
   }
   
-  .shutdown-icon, .home-icon {
+  .shutdown-icon,.home-icon {
     position: absolute;
     left: 60rpx;
     top: 40rpx;
   }
-  
   .volup-icon, .return-icon {
     position: absolute;
     left: 346rpx;
