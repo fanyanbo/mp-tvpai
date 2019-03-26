@@ -63,7 +63,6 @@ Page({
       // 如果用户拒绝直接退出，下次依然会弹出授权框
       return;
     }
-    let that = this;
     let encryptedData = e.detail.encryptedData;
     let iv = e.detail.iv;
     let rawData = e.detail.rawData;
@@ -77,7 +76,7 @@ Page({
     console.log('bindGetUserInfo ccsession', ccsession);
 
     if (ccsession == null || ccsession === '') {
-      wx.showLoading({ title: '授权校验中' });
+      utils_fyb.showLoadingToast('授权校验中')
       utils_fyb.wxLogin().then(res => {
         console.log('wxLogin res=', res)
         return utils_fyb.getSessionByCodeP(res.code)
@@ -152,9 +151,9 @@ Page({
     let srcParams = { "ccsession": ccsession };
     let desParams = utils_fyb.paramsAssemble_wx(srcParams);
     console.log(desParams);
-    wx.showLoading({ title: '获取设备中' });
+    utils_fyb.showLoadingToast('获取设备中');
     utils_fyb.request(api_fyb.getBindDeviceListUrl, 'GET', desParams, function (res) {
-      wx.hideLoading();
+      utils_fyb.showLoadingToast('', false);
       console.log("获取设备信息:", res)
       if (res.data.result && res.data.data && res.data.data.length != 0) {
         that.setData({
