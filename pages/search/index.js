@@ -218,7 +218,7 @@ Page({
     this.getHotKeyword();
     console.log('搜索页当前已绑定设备', app.globalData.deviceId);
 
-    //为了解决奇葩bug，解决搜索框文字重影的问题
+    //为了解决奇葩bug，设置一个延时效果会好一点，处理搜索框文字重影的问题
     let that = this;
     setTimeout(function () {
       that.setData({
@@ -440,30 +440,6 @@ Page({
     });
   },
 
-  // 获取微信用户信息，需要用户授权
-  getUserInfo: function () {
-    wx.getUserInfo({
-      success(res) {
-        console.log('getUserInfo success', res);
-      },
-      fail(err) {
-        console.log('getUserInfo err', err);
-      }
-    })
-  },
-
-  // 获取系统信息
-  getSystemInfo: function () {
-    wx.getSystemInfo({
-      success(res) {
-        console.log('getDevInfo success', res);
-      },
-      fail(err) {
-        console.log('getDevInfo err', err);
-      }
-    })
-  },
-
   // 处理搜索历史排列顺序逻辑
   getCacheHistoryKeywords: function (keyword) {
     let cacheKeywords = this.data.historyWordsList;
@@ -478,66 +454,6 @@ Page({
       cacheKeywords = cacheKeywords.slice(0, 10);
     }
     return cacheKeywords;
-  },
-
-  // 推送时判断获取用户信息是否授权的流程，暂未使用
-  bindGetUserInfo(e) {
-    console.log('canIUse', this.data.canIUse, e)
-    let ccsession = wx.getStorageSync("cksession");
-    console.log('bindGetUserInfo ccsession', ccsession);
-    if (ccsession == null || ccsession === '') {
-      wx.login({
-        success: function (res) {
-          console.log('code', res);
-          utils.getSessionByCode(res.code, function (res) {
-            console.log('success', res);
-            if (res.data.result && res.data.data) {
-              let ccsession = res.data.data.ccsession;
-              let wxopenid = res.data.data.wxopenid;
-              wx.setStorageSync('cksession', ccsession);
-              wx.setStorageSync('wxopenid', wxopenid);
-              console.log('setStorage, session = ' + ccsession + ',openid = ' + wxopenid);
-              wx.navigateTo({
-                url: '../home/home'
-              });
-            }
-          }, function (res) {
-            console.log('error', res)
-          });
-        }
-      });
-    } else {
-      if (e.currentTarget.dataset.type === 'episode' || e.currentTarget.dataset.type === 'other') {
-        this.setData({
-          curIndex: e.currentTarget.dataset.keyword.segment_index,
-          curThirdId: e.currentTarget.dataset.keyword.video_third_id
-        });
-        let third_album_id = e.currentTarget.dataset.keyword.third_album_id;
-        let segment_index = e.currentTarget.dataset.keyword.segment_index - 1;
-        console.log(app.globalData.deviceId, third_album_id);
-        if (app.globalData.deviceId != null) {
-          this.pushEpisode(app.globalData.deviceId, third_album_id, segment_index); // 参数不全
-        } else {
-          wx.navigateTo({
-            url: "../home/home"
-          });
-        }
-      } else if (e.currentTarget.dataset.type === 'movie') {
-        let third_album_id = e.currentTarget.dataset.keyword.video_detail.third_album_id;
-        console.log(app.globalData.deviceId, third_album_id);
-        if (app.globalData.deviceId != null) {
-          this.pushMovie(app.globalData.deviceId, third_album_id);
-        } else {
-          wx.navigateTo({
-            url: "../home/home"
-          });
-        }
-      } else {
-        wx.navigateTo({
-          url: "../home/home"
-        });
-      }
-    }
-  },
+  }
   // 结束
 });
