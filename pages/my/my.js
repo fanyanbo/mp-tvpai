@@ -27,7 +27,6 @@ Page({
       // 用户拒绝直接返回授权框
       return;
     }
-    let that = this;
     let ccsession = wx.getStorageSync("cksession");
     console.log('bindGetUserInfo ccsession', ccsession);
     if (ccsession == null || ccsession === '') {
@@ -64,6 +63,11 @@ Page({
     })
   },
 
+  clearStorage: function () {
+    wx.setStorageSync('cksession', '');
+    let ccsession = wx.getStorageSync("cksession");
+    console.log('clearStorage ccsession', ccsession);
+  },
 
   getMovieHistoryList: function () {
     let that = this;
