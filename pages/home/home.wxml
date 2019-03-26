@@ -19,9 +19,9 @@
     <view class="device-item device-top-left">
       <view class="device-top">
         <text class="device-name inaline">{{item.device.deviceName}}</text>
-        <navigator class="edit" url="../delete/delete?deviceId={{item.deviceId}}&bind={{item.bindStatus}}&deviceName={{item.device.deviceName}}">
+        <view class="edit" bindtap="deleteto" data-id="{{item.deviceId}}" data-status="{{item.bindStatus}}" data-name="{{item.device.deviceName}}">
           编辑
-        </navigator>
+        </view>
       </view>
       <view class="{{block[index]}}">
         <view class="device-content">

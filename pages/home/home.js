@@ -11,7 +11,8 @@ Page({
     devices: "",
     mydevices: [],
     block: ['block'],
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    judgeBool: true
   },
 
   bindDevice: function (qrUrl) {
@@ -36,8 +37,10 @@ Page({
   onLoad: function () {
     this.getDeviceList();
   },
-  onshow: function () {
-    this.getDeviceList();
+  onShow: function () {
+    console.log("onshow==========")
+    let that = this
+    that.getDeviceList();
   }, 
   scanQRCode: function () {
     wx.showLoading({ title: '扫码绑定中' });
@@ -94,7 +97,17 @@ Page({
   navigateto() {
     wx.navigateTo({ url: '../course/course' })
   },
-
+  //跳转删除页面
+  deleteto(e) {
+    let deviceId = e.currentTarget.dataset.id;
+    let bindStatus = e.currentTarget.dataset.status;
+    let deviceName = e.currentTarget.dataset.name;
+    wx.navigateTo({url: '../delete/delete?deviceId=' + deviceId + '&bind=' + bindStatus + '&deviceName=' + deviceName})
+    let that = this;
+    that.setData({
+      judgeBool: false
+    })
+  },
   // 切换绑定时触发
   handleBindTap: function (event) {
     let that = this;
@@ -164,6 +177,11 @@ Page({
           }
 
         }
+      }else{
+        that.setData({
+          devices: false,
+          mydevices: res.data.data
+        })
       }
     }, function () {
       console.log('getDeviceList error');
