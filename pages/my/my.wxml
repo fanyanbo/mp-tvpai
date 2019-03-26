@@ -19,6 +19,11 @@
     <text class="more">全部</text>
     <image class="arrow" src="../../images/arrow.png"></image>
   </button>
+  <button class='history mylabel' bindtap="clearStorage">
+    <image class='my_icon' src="../../images/history.png"></image>
+    <text class="title">清除缓存</text>
+    <image class="arrow" src="../../images/arrow.png"></image>
+  </button>
   <view class="scroll_box section">
     <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">
       <navigator wx:for="{{historyList}}" wx:key="index" wx:for-item="item" class="item_list" url="../movieDetail/movieDetail?id={{item.album_id}}">

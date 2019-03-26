@@ -1,6 +1,6 @@
 const utils = require('../../utils/util');
 const utils_fyb = require('../../utils/util_fyb');
-const api = require('../../api/api.js');
+const api = require('../../api/api');
 const api_fyb = require('../../api/api_fyb');
 const app = getApp();
 
@@ -22,7 +22,7 @@ Page({
     console.log(desParams);
     utils_fyb.request(api_fyb.bindDeviceUrl, 'GET', desParams, function (res) {
       console.log("绑定设备信息:", res)
-      if (res.data.code == 200) {
+      if (res.data.code === 200) {
         utils_fyb.showSuccessToast('设备绑定成功');
         setTimeout(function () {
           that.getDeviceList();
@@ -64,6 +64,14 @@ Page({
       return;
     }
     let that = this;
+    let encryptedData = e.detail.encryptedData;
+    let iv = e.detail.iv;
+    let rawData = e.detail.rawData;
+    let signature = e.detail.signature;
+    console.log('encryptedData:' + encryptedData)
+    console.log('iv:' + iv)
+    console.log('rawData:' + rawData)
+    console.log('signature:' + signature)
     let ccsession = wx.getStorageSync("cksession");
     console.log('bindGetUserInfo ccsession', ccsession);
     if (ccsession == null || ccsession === '') {
@@ -78,7 +86,28 @@ Page({
               wx.setStorageSync('cksession', ccsession);
               wx.setStorageSync('wxopenid', wxopenid);
               console.log('setStorage, session = ' + ccsession + ',openid = ' + wxopenid);
-              that.scanQRCode();
+
+              let url = api.getuserinfoUrl
+              let key = getApp().globalData.key
+              rawData = encodeURI(rawData, 'utf-8')
+              let paramsStr = { "ccsession": ccsession, "encryptedData": encryptedData, "iv": iv, "rawData": rawData, "signature": signature }
+              let sign = utils.encryption(paramsStr, key)
+              let dataStr = utils.json2Form({ client_id: 'applet', sign: sign, param: '{"ccsession":"' + ccsession + '","encryptedData":"' + encryptedData + '","iv":"' + iv + '","rawData":"' + rawData + '","signature":"' + signature + '"}' })
+              wx.request({
+                url: url,
+                data: dataStr,
+                method: 'post',
+                header: {
+                  'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                success: res => {
+                  console.log('解密用户信息成功', res);
+                  that.scanQRCode();
+                },
+                fail: () => {
+                  console.log("解密用户信息失败")
+                }
+              })
             }
           }, function (res) {
             console.log('error', res)
