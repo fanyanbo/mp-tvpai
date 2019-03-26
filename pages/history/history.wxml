@@ -6,8 +6,7 @@
   <view class="title">{{item.time}}</view>
   <view class="list" wx:for="{{item.list}}" data-albumid="{{item.album_id}}" data-id="{{index}}" bindtap='select'>
     <view class="img">
-     <!-- <image src="{{item.poster_h}}" class="item_book_img" mode="aspectFill"></image>     -->
-       <image src="../../images/banner.jpg" class="item_book_img" mode="aspectFill"></image> 
+     <image src="{{item.poster_h}}" class="item_book_img" mode="aspectFill"></image>    
     </view>              
     <view class="item_book_text intwoline">{{item.title}}</view>
     <view class="check">
