@@ -188,16 +188,30 @@ Page({
     utils.postLoading(url, 'GET', data, function (res) {
       console.log(res.data)
       if (res.data.data) {
+        let _withinObj = {}
+        let _overObj = {}
         let withinList = res.data.data.movies_within_serven_days
         let overList = res.data.data.movies_over_serven_days
-
-        for (let i = 0; i < res.data.data.movies_within_serven_days.length; i++){
+        for (let i = 0; i < res.data.data.movies_within_serven_days.length; i++) {
           withinList[i].checked = false;
         }
         for (let i = 0; i < res.data.data.movies_over_serven_days.length; i++) {
           overList[i].checked = false;
         }
-        var historyList = withinList.concat(overList);
+
+        var key = "time";
+        var _key = "list";
+        _withinObj[key] = "一周内";
+        _withinObj[_key] = withinList;
+        _overObj[key] = "更早";
+        _overObj[_key] = overList;
+
+        var historyList = []
+        historyList.push(_withinObj)
+        if (overList.length != 0){
+          historyList.push(_overObj)
+        }
+        
         console.log(historyList);
         if (historyList.length == 0){
           that.setData({

@@ -187,8 +187,8 @@ Page({
             console.log(res.data.data[i].deviceId);
             wx.setStorageSync('deviceId', res.data.data[i].deviceId + '');
             // 是否一定使用globaldata，用storage方案如何？
-            app.globalData.activeId = res.data.data[i].device.serviceId;
-            app.globalData.deviceId = res.data.data[i].deviceId + '',
+            app.globalData.activeId = res.data.data[i].device.serviceId;//激活ID
+            app.globalData.deviceId = res.data.data[i].deviceId + '',//设备ID
             console.log("已绑定设备激活id-设备源:" + res.data.data[i].device.serviceId + res.data.data[i].device.source);
             if (res.data.data[i].device.source == "tencent") {
             //  app.globalData.tvSource = 'qq';
@@ -199,6 +199,7 @@ Page({
             }
           }else{
             wx.setStorageSync('deviceId', '');
+            app.globalData.activeId = null;
           }
 
         }
@@ -208,6 +209,7 @@ Page({
           mydevices: res.data.data
         })
         wx.setStorageSync('deviceId', '');
+        app.globalData.activeId = null;
       }
     }, function () {
       console.log('getDeviceList error');

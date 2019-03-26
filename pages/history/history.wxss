@@ -1,6 +1,7 @@
 /* pages/history/history.wxss */
 .contant{
-  padding:0 40rpx
+  padding:0 40rpx;
+  padding-bottom: 200rpx
 }
 .title{
   font-size: 32rpx;
@@ -9,7 +10,8 @@
   line-height: 90rpx
 }
 .list{
-  display: flex
+  display: flex;
+  margin-bottom: 20rpx
 }
 .img{
   flex: 1;

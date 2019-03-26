@@ -4,6 +4,7 @@ let utils = require('../../utils/util.js');
 let api = require('../../api/api.js');
 let utils_fyb = require('../../utils/util_fyb');
 let appJs = require('../../app');
+let api_nj = require('../../api/api_nj');
 let app = getApp()
 Page({
 
@@ -171,7 +172,38 @@ Page({
     console.log("检测deviceid:" + deviceid);
     if (ccsession != null && ccsession != undefined && ccsession !== '') {
       if (deviceid != null && deviceid != undefined && deviceid !== ''){
-        push(that, movieId, deviceid, moviechildid, that.data.movieType, tvid, coocaamid, title)
+        new Promise(function (resolve, reject) {
+          let dataOnline = {
+            activeid: wx.getStorageSync("deviceId") //获取最新绑定设备激活ID
+          }
+          api_nj.isTVOnline({
+            data: dataOnline,
+            success(res) {
+              console.log("isTVOnline success res:" + JSON.stringify(res))
+              if (res.status == "online") { //TV在线
+                resolve();
+              } else {
+                reject(res);
+              }
+            },
+            fail(res) {
+              console.log("isTVOnline fail:" + res)
+              reject(res)
+            }
+          });
+        })
+          .then(function () {
+            wx.showLoading({
+              title: '推送中...'
+            })
+            push(that, movieId, deviceid, moviechildid, that.data.movieType, tvid, coocaamid, title)
+          })
+          .catch(function (res) {
+            console.log('catch...' + res)
+            utils_fyb.showFailedToast('电视不在线', '../../images/close_icon.png');
+          })
+
+        
       }else{
         getDevices(that, '获取设备中', tvid, coocaamid, title);
       }      
@@ -200,7 +232,7 @@ Page({
       });
     }
   }, 
-  
+  //收藏喜欢（未开发）
   like: function (event) {
     let that = this
     var video_title = e.currentTarget.title
@@ -380,7 +412,6 @@ function push(that, movieId, deviceId, moviechildId, _type, tvid, coocaamid, tit
     success: function (res) {
       var type = "moviePush"
       utils.eventCollect(type, movieId)
-      console.log(title+"===============-------推送影视" + tvid)
       console.log(res)
       if (res.data.result) {
         that.setData({
@@ -403,9 +434,7 @@ function addpushhistory(that, movieId, title, video_id) {
   const secret = app.globalData.secret
   var paramsStr = { "appkey": app.globalData.appkey, "time": app.globalData.time(), "version_code": app.globalData.version_code, "vuid": wx.getStorageSync("wxopenid") }
   var sign = utils.encryptionIndex(paramsStr, secret)
-  console.log("album_id：" + movieId + "===video_id:==" + video_id + "增加历史" + "========" + title + "========" + video_id)
   console.log(paramsStr)
-  console.log(sign)
   wx.request({
     url: api.addpushhistoryUrl + "?sign=" + sign + "&vuid=" + wx.getStorageSync("wxopenid") + "&version_code=33&time=" + app.globalData.time() + "&appkey=" + app.globalData.appkey,
     method: "POST",
@@ -425,7 +454,7 @@ function addpushhistory(that, movieId, title, video_id) {
 }
 
 
-
+//获取设备信息
 function getDevices(that, message, tvid, coocaamid, title) {
   const ccsession = wx.getStorageSync('cksession')
   const url = api.bindDeviceListUrl
