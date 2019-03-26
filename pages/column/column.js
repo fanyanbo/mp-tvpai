@@ -1,5 +1,6 @@
 const utils = require('../../utils/util.js');
 const api = require('../../api/api.js');
+const utils_fyb = require('../../utils/util_fyb');
 const app = getApp()
 Page({
   /**
@@ -14,20 +15,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    utils.showToastBox('加载中...', "loading")
     let that = this
-    const secret = app.globalData.secret
-    const params = { "appkey": app.globalData.appkey, "target_id": options.id, "time": app.globalData.time(), "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code}
-    const sign = utils.encryptionIndex(params, secret)
-    const url = api.recommendmorelistUrl
-    let data = {
-      appkey: app.globalData.appkey,
-      target_id: options.id,
-      time: app.globalData.time(),
-      tv_source: app.globalData.tvSource,
-      version_code: app.globalData.version_code,
-      sign: sign,      
-    }
-    utils.postLoading(url, 'GET', data, function (res) {
+    let params = { "target_id": options.id};
+      let desParams = utils_fyb.paramsAssemble_tvpai(params);
+    utils_fyb.request(api.recommendmorelistUrl, 'GET', desParams, function (res) {
       console.log(res)
       if (res.data.data) {
           that.setData({

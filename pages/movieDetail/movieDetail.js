@@ -2,7 +2,7 @@
 
 let utils = require('../../utils/util.js');
 let api = require('../../api/api.js');
-const utils_fyb = require('../../utils/util_fyb');
+let utils_fyb = require('../../utils/util_fyb');
 let appJs = require('../../app');
 let app = getApp()
 Page({
@@ -205,7 +205,7 @@ Page({
     var video_poster = e.currentTarget.poster
     var third_album_id = e.currentTarget.id
     const secret = app.globalData.secret
-    const params = { "appkey": app.globalData.appkey, "video_type": 1, "video_title": video_title, "video_poster": video_poster, "third_album_id": third_album_id, "time": app.globalData.time(), "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
+    const params = { "appkey": app.globalData.appkey, "video_type": 1, "video_title": video_title, "video_poster": video_poster, "third_album_id": third_album_id, "time": app.globalData.time(), "tv_source": utils_fyb.getTvsource(), "version_code": app.globalData.version_code }
     console.log(params);
     const sign = utils.encryptionIndex(params, secret)
     const url = api.addUrl + "add=1"
@@ -216,7 +216,7 @@ Page({
       video_poster: video_poster,
       third_album_id: third_album_id,
       time: app.globalData.time(),
-      tv_source: app.globalData.tvSource,
+      tv_source: utils_fyb.getTvsource(),
       version_code: app.globalData.version_code,
       sign: sign
     }
@@ -249,21 +249,9 @@ Page({
 })
 
 function movieDetail(that, movieId) {
-  const secret = app.globalData.secret
-  var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": movieId, "time": app.globalData.time(), "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
-  console.log(paramsStr);
-  const sign = utils.encryptionIndex(paramsStr, secret)
-  console.log("签名" + sign);
-  const url = api.getVideoDetailUrl
-  let data = {
-    appkey: app.globalData.appkey,
-    third_album_id: movieId,
-    time: app.globalData.time(),
-    tv_source: app.globalData.tvSource,
-    version_code: app.globalData.version_code,
-    sign: sign,
-  }
-  utils.postLoading(url, 'GET', data, function (res) {
+  let params = { "third_album_id": movieId};
+  let desParams = utils_fyb.paramsAssemble_tvpai(params);
+  utils_fyb.request(api.getVideoDetailUrl, 'GET', desParams, function (res) {
     console.log("影片详情====")
     console.log(res)
     var ccsession = wx.getStorageSync("cksession")
@@ -298,19 +286,9 @@ function movieDetail(that, movieId) {
 }
 
 function likes(that, movieId) {
-  const secret = app.globalData.secret
-  var paramsStr = { "appkey": app.globalData.appkey, "third_album_id": movieId, "time": app.globalData.time(), "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
-  var sign = utils.encryptionIndex(paramsStr, secret)
-  var url = api.relatelongUrl
-  let data = {
-    appkey: app.globalData.appkey,
-    third_album_id: movieId,
-    time: app.globalData.time(),
-    tv_source: app.globalData.tvSource,
-    version_code: app.globalData.version_code,
-    sign: sign,
-  }
-  utils.postLoading(url, 'GET', data, function (res) {
+  let params = { "third_album_id": movieId,"page_size":"30"};
+  let desParams = utils_fyb.paramsAssemble_tvpai(params);
+  utils_fyb.request(api.relatelongUrl, 'GET', desParams, function (res) {
     console.log("相关联")
     console.log(res.data.data)
     if (res.data.data.length>0) {
@@ -343,20 +321,9 @@ function likes(that, movieId) {
 }
 
 function moviesItem(that, movieId) {
-  const secret = app.globalData.secret
-  var paramsStr = { "appkey": app.globalData.appkey, "page_size": 100, "third_album_id": movieId, "time": app.globalData.time(), "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code }
-  var sign = utils.encryptionIndex(paramsStr, secret)
-  var url = api.getTvSegmentListUrl
-  let data = {
-    appkey: app.globalData.appkey,
-    third_album_id: movieId,
-    time: app.globalData.time(),
-    tv_source: app.globalData.tvSource,
-    version_code: app.globalData.version_code,
-    page_size:100,
-    sign: sign,
-  }
-  utils.postLoading(url, 'GET', data, function (res) {
+  let params = { "third_album_id": movieId, "page_size": "300" };
+  let desParams = utils_fyb.paramsAssemble_tvpai(params);
+  utils_fyb.request(api.getTvSegmentListUrl, 'GET', desParams,  function (res) {
     console.log("===============-------剧集")
     console.log(res.data.data)
     if (res.data.data) {
@@ -451,14 +418,6 @@ function addpushhistory(that, movieId, title, video_id) {
     },
     success: function (res) {
       console.log(res.data);
-      // wx.navigateBack({
-      //   delta: 1  //小程序关闭当前页面返回上一页面
-      // })
-      // wx.showToast({
-      //   title: '评教成功！',
-      //   icon: 'success',
-      //   duration: 2000
-      // })
     },
   })
 }

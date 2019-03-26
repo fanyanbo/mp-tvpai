@@ -30,7 +30,7 @@ Page({
   oneclassify: function () {
     utils_fyb.getTvsource();
 
-    console.log(app.globalData.deviceId + "============视频源==========" + wx.getStorageSync("tvSource"));
+    console.log(utils_fyb.getTvsource() + "============视频源==========" + wx.getStorageSync("tvSource"));
 
 
 
@@ -43,7 +43,7 @@ Page({
       function (res) {
         console.log('获取一级标签分类:', res.data);
         let column1 = [], column2 = [], column3 = []
-        if (wx.getStorageSync("tvSource") == "iqiyi"){
+        if (utils_fyb.getTvsource() == "iqiyi"){
           if (res.data.data) {
             for (let i = 0; i < 30; i++) {
               if (i < 10) {
