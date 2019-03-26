@@ -17,18 +17,31 @@ function isEmptyObject(e) {
   return !0
 }
 
+// 显示成功弹窗
 function showSuccessToast(title) {
   wx.showToast({
     title: title
   })
 }
 
+// 显示失败弹窗
 function showFailedToast(title, imgUrl) {
   wx.showToast({
     title: title,
     icon: 'none',
     image: imgUrl
   })
+}
+
+// 显示等待弹窗
+function showLoadingToast(title = '加载中', isShow = true) {
+  if (isShow) {
+    wx.showLoading({
+      title: title
+    })
+  } else {
+    wx.hideLoading()
+  }
 }
 
 // 以电视派后台规则进行签名
@@ -147,6 +160,33 @@ function request(url, method, params, success, fail, complete) {
   })
 }
 
+function requestP(url, params, method = 'GET') {
+  return new Promise(function(resolve, reject) {
+    wx.request({
+      url: url,
+      data: params,
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+        // 这里可定义访问令牌和登录令牌
+      },
+      method: method,
+      success: function (res) {
+        if (res.statusCode != 200) {
+          reject({ error: '服务器忙，请稍后重试', code: 500});
+          return;
+        }
+        resolve(res);
+      },
+      fail (res) {
+        reject(res);
+      },
+      complete: function (res) {
+        // noimplement
+      }
+    })
+  })
+}
+
 // 参数包括rawData, code, encryptedData, iv, signature
 function getSessionByCode(code, success, fail, complete) {
   console.log("getSession code", code);
@@ -221,6 +261,7 @@ function getTvsource() {
 
 module.exports = {
   request: request,
+  requestP: requestP,
   paramsAssemble_tvpai: paramsAssemble_tvpai,
   paramsAssemble_wx: paramsAssemble_wx,
   getSessionByCode: getSessionByCode,
@@ -228,5 +269,6 @@ module.exports = {
   urlAssemble_tvpai: urlAssemble_tvpai,
   showSuccessToast: showSuccessToast,
   showFailedToast: showFailedToast,
+  showLoadingToast: showLoadingToast,
   getTvsource: getTvsource
 }
