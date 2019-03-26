@@ -36,7 +36,9 @@ Page({
   onLoad: function () {
     this.getDeviceList();
   },
-
+  onshow: function () {
+    this.getDeviceList();
+  }, 
   scanQRCode: function () {
     wx.showLoading({ title: '扫码绑定中' });
     wx.scanCode({
@@ -157,6 +159,8 @@ Page({
             //  app.globalData.tvSource = 'iqiyi';
               wx.setStorageSync('tvSource', 'iqiyi')
             }
+          }else{
+            wx.setStorageSync('deviceId', '');
           }
 
         }

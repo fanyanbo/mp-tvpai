@@ -388,11 +388,11 @@ function push(that, movieId, deviceId, moviechildId, _type, tvid, coocaamid) {
         addpushhistory(that, movieId,that.data.title, tvid);//保存推送历史
         utils.showToastBox("推送成功", "success")
       } else {
-        utils.showToastBox(res.data.message)
+        utils_fyb.showFailedToast(res.data.message, '../../images/close_icon.png');
       }
     },
     fail: function (res) {
-      utils.showToastBox(res.data.message)
+      utils_fyb.showFailedToast(res.data.message, '../../images/close_icon.png');
     }
   })
 }
@@ -440,13 +440,29 @@ function getDevices(that, message,tvid) {
   utils.postLoading(url, 'GET', data, function (res) {
     console.log("获取设备信息:" + tvid)
     console.log(res)
-    if (res.data.result && res.data.data) {
+    if (res.data.data.length != 0) {
       for (var ii = 0; ii < res.data.data.length; ii++) {
         if (res.data.data[ii].bindStatus === 1) {
           console.log("有绑定中的设备")
           console.log(res.data.data[ii].deviceId);
           wx.setStorageSync('deviceId', res.data.data[ii].deviceId)
           push(that, that.data.movieId, res.data.data[ii].deviceId, that.data.moviechildId, that.data.movieType,tvid)
+        }else{
+          wx.showModal({
+            title: '无法推送',
+            content: '您关联的设备还未绑定',
+            success: function (res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+                //跳转教程页面
+                wx.navigateTo({
+                  url: '../home/home'
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
         }
       }
     } else {

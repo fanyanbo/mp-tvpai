@@ -10,7 +10,7 @@
       <li><span class="score">{{movieData.score}}分</span>{{movieData.video_tags}}</li>
       <li style="margin-top:50rpx">
         <!-- <button class="like" open-type="getUserInfo" bindtap='like' data-title="{{movieData.album_title}}" data-poster="{{movieData.video_poster}}" data-id="{{movieData.third_album_id}}"><image src='../../images/like_before1.png'></image></button> -->
-        <button class='collect' open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" data-moviechildid="{{item.segment_index}}" data-movieid="{{movieData.third_album_id}}"  data-tvid="{{video_url.tvId}}" data-index="{{coocaa_m_id}}" wx:if="{{movieData.video_type == '电影'}}">
+        <button class='collect' open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" data-moviechildid="{{item.segment_index}}" data-movieid="{{movieData.third_album_id}}"  data-tvid="{{video_url.vid}}" data-index="{{coocaa_m_id}}" wx:if="{{movieData.video_type == '电影'}}">
           <image wx:if="{{moviepush == false}}" src='../../images/collect_before.png'></image>
           <image wx:else="{{moviepush == true}}" src='../../images/collect_after.png'></image>
         </button>
@@ -25,10 +25,10 @@
   <view class='scroll' wx:if="{{movieType !='电影'}}">
     <view wx:for="{{moviesItem}}" wx:for-item="item" >
     <view wx:if="{{movieType == '综艺'}}" class='xs zy {{chioced==item.coocaa_m_id? "active":""}}'>
-      <button class="segmeng" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" data-moviechildid="{{item.segment_index}}" data-movieid="{{item.third_album_id}}" data-index="{{item.coocaa_m_id}}" data-tvid="{{video_url.tvId}}" >第{{item.segment_index}}期</button>        
+      <button class="segmeng" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" data-moviechildid="{{item.segment_index}}" data-movieid="{{item.third_album_id}}" data-index="{{item.coocaa_m_id}}" data-tvid="{{video_url.vid}}" >第{{item.segment_index}}期</button>        
       <text class="subtitle moviesItem intwoline">{{item.video_title}}</text>
     </view>
-      <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" data-moviechildid="{{item.segment_index}}" data-movieid="{{item.third_album_id}}" data-index="{{item.coocaa_m_id}}" data-tvid="{{video_url.tvId}}" class='xs dsj {{chioced==item.coocaa_m_id? "active":""}}' wx:else>
+      <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" data-moviechildid="{{item.segment_index}}" data-movieid="{{item.third_album_id}}" data-index="{{item.coocaa_m_id}}" data-tvid="{{video_url.vid}}" class='xs dsj {{chioced==item.coocaa_m_id? "active":""}}' wx:else>
       <text class="segmeng moviesItem">{{item.segment_index}}</text>
       </button>   
     </view>
@@ -87,11 +87,11 @@
     scroll-top="{{scrollTop}}">
   <view class="tvlist" wx:for="{{moviesItem}}" wx:for-item="item">
     <view wx:if="{{movieType == '综艺'}}" class='xs zy {{chioced==item.coocaa_m_id? "active":""}}'>
-      <button class="segmeng" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" data-movieid="{{item.third_album_id}}" data-moviechildid="{{item.segment_index}}" data-index="{{item.coocaa_m_id}}" data-tvid="{{video_url.tvId}}" >第{{item.segment_index}}期</button>        
+      <button class="segmeng" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" data-movieid="{{item.third_album_id}}" data-moviechildid="{{item.segment_index}}" data-index="{{item.coocaa_m_id}}" data-tvid="{{video_url.vid}}" >第{{item.segment_index}}期</button>        
       <text class="subtitle moviesItem intwoline">{{item.video_title}}</text>
     </view>
 
-      <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" data-movieid="{{item.third_album_id}}" data-moviechildid="{{item.segment_index}}" data-index="{{item.coocaa_m_id}}" data-tvid="{{video_url.tvId}}" class='xs dsj {{chioced==item.coocaa_m_id? "active":""}}' wx:else>
+      <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" data-movieid="{{item.third_album_id}}" data-moviechildid="{{item.segment_index}}" data-index="{{item.coocaa_m_id}}" data-tvid="{{video_url.vid}}" class='xs dsj {{chioced==item.coocaa_m_id? "active":""}}' wx:else>
       <text class="segmeng moviesItem">{{item.segment_index}}</text>
       </button>  
   </view>
