@@ -6,7 +6,7 @@ const app = getApp();
 Page({
   data: {
     isShowTips: false,
-    // inputPlaceholder: '搜索视频、影评或话题',
+    errIconUrl: '../../images/close_icon.png',
     inputPlaceholder: {},
     curIndex: 0, //当前剧集
     curThirdId: '',
@@ -114,7 +114,9 @@ Page({
     console.log('推送剧集', e);
     let that = this;
     if (app.globalData.deviceId == null) {
-      return wx.navigateTo({url: "../home/home"});
+      return wx.navigateTo({
+        url: "../home/home"
+      });
     }
     new Promise(function (resolve, reject) {
         let dataOnline = {
@@ -161,40 +163,42 @@ Page({
     console.log('推送电影', e);
     let that = this;
     if (app.globalData.deviceId == null) {
-      return wx.navigateTo({url: "../home/home"});
+      return wx.navigateTo({
+        url: "../home/home"
+      });
     }
     new Promise(function (resolve, reject) {
-      let dataOnline = {
-        activeid: app.globalData.activeId //获取最新绑定设备激活ID
-      }
-      api_nj.isTVOnline({
-        data: dataOnline,
-        success(res) {
-          console.log("isTVOnline success res:" + JSON.stringify(res))
-          if (res.status == "online") { //TV在线
-            resolve();
-          } else {
-            reject(res);
-          }
-        },
-        fail(res) {
-          console.log("isTVOnline fail:" + res)
-          reject(res)
+        let dataOnline = {
+          activeid: app.globalData.activeId //获取最新绑定设备激活ID
         }
-      });
-    })
-    .then(function () {
-      wx.showLoading({
-        title: '推送中...'
+        api_nj.isTVOnline({
+          data: dataOnline,
+          success(res) {
+            console.log("isTVOnline success res:" + JSON.stringify(res))
+            if (res.status == "online") { //TV在线
+              resolve();
+            } else {
+              reject(res);
+            }
+          },
+          fail(res) {
+            console.log("isTVOnline fail:" + res)
+            reject(res)
+          }
+        });
       })
-      let third_album_id = e.currentTarget.dataset.keyword.video_detail.third_album_id;
-      console.log(app.globalData.deviceId, third_album_id);
-      that.pushMovie(app.globalData.deviceId, third_album_id);
-    })
-    .catch(function (res) {
-      console.log('catch...' + res)
-      utils.showFailedToast('电视不在线', '../../images/close_icon.png');
-    })
+      .then(function () {
+        wx.showLoading({
+          title: '推送中...'
+        })
+        let third_album_id = e.currentTarget.dataset.keyword.video_detail.third_album_id;
+        console.log(app.globalData.deviceId, third_album_id);
+        that.pushMovie(app.globalData.deviceId, third_album_id);
+      })
+      .catch(function (res) {
+        console.log('catch...' + res)
+        utils.showFailedToast('电视不在线', '../../images/close_icon.png');
+      })
   },
   handleMoreTap: function (e) {
     console.log('handleMoreTap', e);
@@ -253,11 +257,7 @@ Page({
 
   // 根据关键词搜索内容
   searchByKeyword: function (videoType, keyword, pageIndex = 0) {
-    let that = this;
     console.log('searchByKeyword videoType:' + videoType + ',keyword:' + keyword + ',pageIndex:' + pageIndex)
-    wx.showLoading({
-      title: '搜索中...'
-    })
     let params = {
       "video_type": videoType,
       "keyword": keyword,
@@ -265,167 +265,79 @@ Page({
     };
     let desParams = utils.paramsAssemble_tvpai(params);
     console.log(desParams);
-    utils.request(api.searchByKeywordUrl, 'GET', desParams,
-      function (res) {
-        console.log('success', res.data)
-        wx.hideLoading()
-        if (res && res.data && res.data.data && res.data.code === 0) {
-          // 加载'更多'数据进行组装
-          let tmpData = that.data.searchResultList.concat(res.data.data);
-          console.log(tmpData)
-          that.setData({
-            searchResultList: tmpData,
-            hasMore: res.data.has_more
-          })
-        } else {
-          console.log('服务器开小差')
-          let errMsg = res.data.msg + "[" + res.data.code + "]";
-          wx.showToast({
-            title: errMsg,
-            icon: 'none',
-            duration: 2000
-          })
-        }
-      },
-      function (res) {
-        console.log('error', res)
-      },
-      function (res) {
-        console.log('complete', res)
-        that.setData({
-          isShowNoResult: true
+    utils.showLoadingToast('搜索中...')
+    utils.requestP(api.searchByKeywordUrl, desParams).then(res => {
+      console.log('searchByKeyword success', res.data)
+      utils.showLoadingToast('',false)
+      if (res && res.data && res.data.data && res.data.code === 0) {
+        // 加载'更多'数据进行组装
+        let tmpData = this.data.searchResultList.concat(res.data.data);
+        console.log(tmpData)
+        this.setData({
+          searchResultList: tmpData,
+          hasMore: res.data.has_more
         })
+      } else {
+        console.log('searchByKeyword failed')
+        let errMsg = res.data.msg + "[" + res.data.code + "]";
+        utils.showFailedToast(errMsg, this.data.errIconUrl)
+      }
+      this.setData({
+        isShowNoResult: true
       })
+    }).catch(res => {
+      console.log('searchByKeyword error', res)
+      utils.showFailedToast('获取失败', this.data.errIconUrl)
+    })
   },
 
   // 获取热门搜索关键词
   getHotKeyword: function () {
-    let that = this;
-    utils.request(api.getHotKeywordUrl, 'GET', utils.paramsAssemble_tvpai(),
-      function (res) {
-        console.log('getHotKeyword success', res.data)
-        if (res.data && res.data.data) {
-          that.setData({
-            hotKeywordsList: res.data.data
-          })
-        } else {
-          console.log('服务器开小差')
-          let errMsg = res.data.msg + "[" + res.data.code + "]";
-          wx.showToast({
-            title: errMsg,
-            icon: 'none',
-            duration: 2000
-          })
-        }
-      },
-      function (res) {
-        console.log('getHotKeyword error', res)
-      },
-      function (res) {
-        console.log('getHotKeyword complete')
-      })
+    utils.requestP(api.getHotKeywordUrl, utils.paramsAssemble_tvpai()).then(res => {
+      console.log('getHotKeyword success', res.data)
+      if (res.data && res.data.data) {
+        this.setData({
+          hotKeywordsList: res.data.data
+        })
+      } else {
+        console.log('getHotKeyword failed')
+        let errMsg = res.data.msg + "[" + res.data.code + "]";
+        utils.showFailedToast(errMsg, this.data.errIconUrl)
+      }
+    }).catch(res => {
+      console.log('getHotKeyword error', res)
+    })
   },
 
   // 获取搜索历史关键词
   getHistoryKeyword: function () {
-    utils.request(api.getHistoryKeywordUrl, 'GET', utils.paramsAssemble_tvpai(),
-      function (res) {
-        console.log('getHistoryKeyword success', res.data)
-      },
-      function (res) {
-        console.log('getHistoryKeyword error', res)
-      },
-      function (res) {
-        console.log('getHistoryKeyword complete')
-      })
+    utils.requestP(api.getHistoryKeywordUrl, utils.paramsAssemble_tvpai()).then(res => {
+      console.log('getHistoryKeyword success', res.data)
+    }).catch(res => {
+      console.log('getHistoryKeyword error', res)
+    })
   },
 
   // 获取已绑定的设备信息
   getBindedDevice: function () {
-    let that = this;
     let params = {
       ccsession: wx.getStorageSync('cksession')
     };
     let desParams = utils.paramsAssemble_wx(params);
     console.log('getBindDeviceList params', desParams);
-    utils.request(api.getBindDeviceListUrl, 'GET', desParams,
-      function (res) {
-        console.log('getBindDeviceList success', res.data);
-        if (res.data.data) {
-          for (let i = 0; i < res.data.data.length; i++) {
-            if (res.data.data[i].bindStatus === 1) {
-              console.log('当前绑定的设备id', res.data.data[i].deviceId);
-              break;
-            }
+    utils.requestP(api.getBindDeviceListUrl, desParams).then(res => {
+      console.log('getBindDeviceList success', res.data);
+      if (res.data.data) {
+        for (let i = 0; i < res.data.data.length; i++) {
+          if (res.data.data[i].bindStatus === 1) {
+            console.log('当前绑定的设备id', res.data.data[i].deviceId);
+            break;
           }
         }
-      },
-      function (res) {
-        console.log('getBindDeviceList error', res)
-      },
-      function (res) {
-        console.log('getBindDeviceList complete')
-      })
-  },
-
-  // 推送时判断获取用户信息是否授权的流程，暂未使用
-  bindGetUserInfo(e) {
-    console.log('canIUse', this.data.canIUse, e)
-    let ccsession = wx.getStorageSync("cksession");
-    console.log('bindGetUserInfo ccsession', ccsession);
-    if (ccsession == null || ccsession === '') {
-      wx.login({
-        success: function (res) {
-          console.log('code', res);
-          utils.getSessionByCode(res.code, function (res) {
-            console.log('success', res);
-            if (res.data.result && res.data.data) {
-              let ccsession = res.data.data.ccsession;
-              let wxopenid = res.data.data.wxopenid;
-              wx.setStorageSync('cksession', ccsession);
-              wx.setStorageSync('wxopenid', wxopenid);
-              console.log('setStorage, session = ' + ccsession + ',openid = ' + wxopenid);
-              wx.navigateTo({
-                url: '../home/home'
-              });
-            }
-          }, function (res) {
-            console.log('error', res)
-          });
-        }
-      });
-    } else {
-      if (e.currentTarget.dataset.type === 'episode' || e.currentTarget.dataset.type === 'other') {
-        this.setData({
-          curIndex: e.currentTarget.dataset.keyword.segment_index,
-          curThirdId: e.currentTarget.dataset.keyword.video_third_id
-        });
-        let third_album_id = e.currentTarget.dataset.keyword.third_album_id;
-        let segment_index = e.currentTarget.dataset.keyword.segment_index - 1;
-        console.log(app.globalData.deviceId, third_album_id);
-        if (app.globalData.deviceId != null) {
-          this.pushEpisode(app.globalData.deviceId, third_album_id, segment_index); // 参数不全
-        } else {
-          wx.navigateTo({
-            url: "../home/home"
-          });
-        }
-      } else if (e.currentTarget.dataset.type === 'movie') {
-        let third_album_id = e.currentTarget.dataset.keyword.video_detail.third_album_id;
-        console.log(app.globalData.deviceId, third_album_id);
-        if (app.globalData.deviceId != null) {
-          this.pushMovie(app.globalData.deviceId, third_album_id);
-        } else {
-          wx.navigateTo({
-            url: "../home/home"
-          });
-        }
-      } else {
-        wx.navigateTo({
-          url: "../home/home"
-        });
       }
-    }
+    }).catch(res => {
+      console.log('getBindDeviceList error', res)
+    })
   },
 
   // 推送电视剧
@@ -439,36 +351,25 @@ Page({
     };
     let desParams = utils.paramsAssemble_wx(params);
     console.log('pushEpisode params', desParams);
-    utils.request(api.pushMediaUrl, 'GET', desParams,
-      function (res) {
-        console.log('pushEpisode success', res.data);
-        if (res.data.code === 200) {
-          that.addPushHistory(movieId, tvId, title);
-          wx.showToast({
-            title: '推送成功',
-            icon: 'success',
-            duration: 2000
-          });
-        } else {
-          console.log('推送剧集失败');
-          let errMsg = res.data.message + "[" + res.data.code + "]";
-          wx.showToast({
-            title: errMsg,
-            icon: 'none',
-            duration: 2000
-          });
-        }
-      },
-      function (res) {
-        console.log('pushEpisode error', res)
-      },
-      function (res) {
-        console.log('pushEpisode complete')
-      })
+    utils.requestP(api.pushMediaUrl, desParams).then(res => {
+      console.log('pushEpisode success', res.data);
+      if (res.data.code === 200) {
+        that.addPushHistory(movieId, tvId, title);
+        utils.showSuccessToast('推送成功')
+      } else {
+        console.log('pushEpisode failed');
+        let errMsg = res.data.message + "[" + res.data.code + "]";
+        utils.showFailedToast(errMsg, that.data.errIconUrl);
+      }
+    }).catch(res => {
+      console.log('pushEpisode catch:' + res);
+      utils.showFailedToast('推送失败', that.data.errIconUrl);
+    })
   },
 
   // 推送电影
   pushMovie: function (deviceId, movieId) {
+    let that = this;
     let params = {
       ccsession: wx.getStorageSync('cksession'),
       deviceId: deviceId,
@@ -476,31 +377,19 @@ Page({
     };
     let desParams = utils.paramsAssemble_wx(params);
     console.log('pushMovie params', desParams);
-    utils.request(api.pushMediaUrl, 'GET', desParams,
-      function (res) {
-        console.log('pushMovie success', res.data);
-        if (res.data && res.data.code === 200) {
-          wx.showToast({
-            title: '推送成功',
-            icon: 'success',
-            duration: 2000
-          });
-        } else {
-          console.log('推送电影失败');
-          let errMsg = res.data.message + "[" + res.data.code + "]";
-          wx.showToast({
-            title: errMsg,
-            icon: 'none',
-            duration: 2000
-          });
-        }
-      },
-      function (res) {
-        console.log('pushMovie error', res)
-      },
-      function (res) {
-        console.log('pushMovie complete')
-      })
+    utils.requestP(api.pushMediaUrl, desParams).then(res => {
+      console.log('pushMovie success', res.data);
+      if (res.data && res.data.code === 200) {
+        utils.showSuccessToast('推送成功')
+      } else {
+        console.log('pushMovie failed');
+        let errMsg = res.data.message + "[" + res.data.code + "]";
+        utils.showFailedToast(errMsg, that.data.errIconUrl)
+      }
+    }).catch(res => {
+      console.log('pushMovie catch' + res);
+      utils.showFailedToast('推送失败', that.data.errIconUrl)
+    })
   },
 
   // 获取收藏影片列表
@@ -512,14 +401,11 @@ Page({
     }
     let desParams = utils.paramsAssemble_tvpai(params);
     console.log(desParams);
-    utils.request(api.getCollectedListUrl, 'GET', desParams,
-      function (res) {
-        console.log('getCollectedList success', res.data)
-      },
-      function (res) {
-        console.log('getCollectedList error', res)
-      }
-    )
+    utils.requestP(api.getCollectedListUrl, desParams).then(res => {
+      console.log('getCollectedList success', res.data)
+    }).catch(res => {
+      console.log('getCollectedList error', res)
+    })
   },
 
   // 添加推送历史
@@ -592,6 +478,66 @@ Page({
       cacheKeywords = cacheKeywords.slice(0, 10);
     }
     return cacheKeywords;
-  }
+  },
+
+  // 推送时判断获取用户信息是否授权的流程，暂未使用
+  bindGetUserInfo(e) {
+    console.log('canIUse', this.data.canIUse, e)
+    let ccsession = wx.getStorageSync("cksession");
+    console.log('bindGetUserInfo ccsession', ccsession);
+    if (ccsession == null || ccsession === '') {
+      wx.login({
+        success: function (res) {
+          console.log('code', res);
+          utils.getSessionByCode(res.code, function (res) {
+            console.log('success', res);
+            if (res.data.result && res.data.data) {
+              let ccsession = res.data.data.ccsession;
+              let wxopenid = res.data.data.wxopenid;
+              wx.setStorageSync('cksession', ccsession);
+              wx.setStorageSync('wxopenid', wxopenid);
+              console.log('setStorage, session = ' + ccsession + ',openid = ' + wxopenid);
+              wx.navigateTo({
+                url: '../home/home'
+              });
+            }
+          }, function (res) {
+            console.log('error', res)
+          });
+        }
+      });
+    } else {
+      if (e.currentTarget.dataset.type === 'episode' || e.currentTarget.dataset.type === 'other') {
+        this.setData({
+          curIndex: e.currentTarget.dataset.keyword.segment_index,
+          curThirdId: e.currentTarget.dataset.keyword.video_third_id
+        });
+        let third_album_id = e.currentTarget.dataset.keyword.third_album_id;
+        let segment_index = e.currentTarget.dataset.keyword.segment_index - 1;
+        console.log(app.globalData.deviceId, third_album_id);
+        if (app.globalData.deviceId != null) {
+          this.pushEpisode(app.globalData.deviceId, third_album_id, segment_index); // 参数不全
+        } else {
+          wx.navigateTo({
+            url: "../home/home"
+          });
+        }
+      } else if (e.currentTarget.dataset.type === 'movie') {
+        let third_album_id = e.currentTarget.dataset.keyword.video_detail.third_album_id;
+        console.log(app.globalData.deviceId, third_album_id);
+        if (app.globalData.deviceId != null) {
+          this.pushMovie(app.globalData.deviceId, third_album_id);
+        } else {
+          wx.navigateTo({
+            url: "../home/home"
+          });
+        }
+      } else {
+        wx.navigateTo({
+          url: "../home/home"
+        });
+      }
+    }
+  },
   // 结束
 });

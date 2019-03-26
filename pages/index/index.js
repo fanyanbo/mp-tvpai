@@ -5,6 +5,7 @@ const app = getApp();
 Page({
   data: {
     searchContent: '搜索视频、影评或话题',
+    errIconUrl: '../../images/close_icon.png',
     isShowTips: true,
     pageSize: '30',
     indicatorDots: true,
@@ -28,14 +29,7 @@ Page({
   },
   // 获取一级标签分类
   oneclassify: function () {
-    utils_fyb.getTvsource();
-
-    console.log(utils_fyb.getTvsource() + "============视频源==========" + wx.getStorageSync("tvSource"));
-
-
-
-
-
+    console.log("============视频源==========" + utils_fyb.getTvsource());
     let that = this
     let params = { "page_index": '0', "page_size": '30' };
     let desParams = utils_fyb.paramsAssemble_tvpai(params);
@@ -81,9 +75,7 @@ Page({
       },
       function (res) {
         console.log('getOneClassifyUrl error', res)
-        wx.showToast({
-          title: '加载数据失败',
-        })
+        utils_fyb.showFailedToast('加载数据失败', that.data.errIconUrl)
       }
     );
   },
@@ -113,9 +105,7 @@ Page({
       },
       function (res) {
         console.log('getRecommendListUrl error', res)
-        wx.showToast({
-          title: '加载数据失败',
-        })
+        utils_fyb.showFailedToast('加载数据失败', that.data.errIconUrl)
       }
     );
   },
@@ -156,9 +146,7 @@ Page({
       },
       function (res) {
         console.log('getBannerDataUrl error', res);
-        wx.showToast({
-          title: '加载数据失败',
-        });
+        utils_fyb.showFailedToast('加载数据失败', that.data.errIconUrl)
       }
     )
   },
