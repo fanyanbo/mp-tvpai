@@ -415,34 +415,20 @@ Page({
 
   // 添加推送历史
   addPushHistory: function (album_id, title, tvid) {
-    let vuid = wx.getStorageSync("wxopenid");
-    console.log('addPushHistory vuid', vuid);
-    let srcParams = {
-      "vuid": vuid
-    };
-    let desParams = utils.paramsAssemble_tvpai(srcParams);
-    console.log(desParams);
-    let url = utils.urlAssemble_tvpai(api.addPushHistoryUrl, desParams);
-    console.log(url);
-    wx.request({
-      url: url,
-      method: "POST",
-      data: {
-        album_id: album_id,
-        title: title,
-        video_id: tvid,
-        video_type: "1",
-      },
-      header: {
-        "Content-Type": "application/json; charset=utf-8"
-      },
-      success: function (res) {
-        console.log('addPushHistory success', res);
-      },
-      error: function (res) {
-        console.log('addPushHistory error', res);
-      }
-    });
+    let urlParams = { "vuid": wx.getStorageSync("wxopenid") };
+    let url = utils.urlAssemble_tvpai(api.addPushHistoryUrl, utils.paramsAssemble_tvpai(urlParams));
+    console.log("addPushHistory", url);
+    let data = {
+      album_id: album_id,
+      title: title,
+      video_id: tvid,
+      video_type: "1"
+    }
+    utils.requestP(url, data, 'POST', 'application/json; charset=utf-8').then( res => {
+      console.log('addPushHistory success', res);
+    }).catch( res => {
+      console.log('addPushHistory error', res);
+    })
   },
 
   // 处理搜索历史排列顺序逻辑

@@ -181,13 +181,13 @@ function request(url, method, params, success, fail, complete) {
   })
 }
 
-function requestP(url, params, method = 'GET') {
+function requestP(url, params, method = 'GET', contentType = 'application/x-www-form-urlencoded') {
   return new Promise(function(resolve, reject) {
     wx.request({
       url: url,
       data: params,
       header: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': contentType
         // 这里可定义访问令牌和登录令牌
       },
       method: method,
