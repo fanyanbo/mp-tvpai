@@ -57,10 +57,24 @@ Page({
     }
   },
   // 跳转设备绑定页面
-  jumpHomePage: function () {
-    wx.navigateTo({
-      url: '../home/home',
-    })
+  handleJumpPage: function (e) {
+    console.log(e.currentTarget.dataset.type);
+    if (e.currentTarget.dataset.type === 'home') {
+      wx.navigateTo({
+        url: '../home/home',
+      })
+    } else if (e.currentTarget.dataset.type === 'history') {
+      let ccsession = wx.getStorageSync("cksession")
+      if (ccsession == null || ccsession === '') {
+        wx.navigateTo({
+          url: '../home/home',
+        })
+      } else {
+        wx.navigateTo({
+          url: '../history/history',
+        })
+      }
+    }
   },
 
   // 测试使用，后续会废弃

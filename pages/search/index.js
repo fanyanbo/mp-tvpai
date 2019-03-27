@@ -298,7 +298,6 @@ Page({
   // 获取热门搜索关键词
   getHotKeyword: function () {
     utils.requestP(api.getHotKeywordUrl, utils.paramsAssemble_tvpai()).then(res => {
-      console.log('getHotKeyword url', api.getHotKeywordUrl)
       console.log('getHotKeyword success', res.data)
       if (res.data && res.data.data) {
         this.setData({
