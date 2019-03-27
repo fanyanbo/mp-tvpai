@@ -298,6 +298,7 @@ Page({
   // 获取热门搜索关键词
   getHotKeyword: function () {
     utils.requestP(api.getHotKeywordUrl, utils.paramsAssemble_tvpai()).then(res => {
+      console.log('getHotKeyword url', api.getHotKeywordUrl)
       console.log('getHotKeyword success', res.data)
       if (res.data && res.data.data) {
         this.setData({
@@ -394,22 +395,6 @@ Page({
     }).catch(res => {
       console.log('pushMovie catch' + res);
       utils.showFailedToast('推送失败', this.data.errIconUrl)
-    })
-  },
-
-  // 获取收藏影片列表
-  getCollectedList: function () {
-    let params = {
-      page_index: 0,
-      page_size: 10,
-      video_type: 1
-    }
-    let desParams = utils.paramsAssemble_tvpai(params);
-    console.log(desParams);
-    utils.requestP(api.getCollectedListUrl, desParams).then(res => {
-      console.log('getCollectedList success', res.data)
-    }).catch(res => {
-      console.log('getCollectedList error', res)
     })
   },
 

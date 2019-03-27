@@ -170,4 +170,8 @@ height: 300rpx
  margin-top:0rpx;
  height: 300rpx;
 }
-
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
