@@ -12,7 +12,7 @@ Page({
 
   onLoad: function () {
     console.log('onLoad');
-    this.getMovieHistoryList();
+    // this.getMovieHistoryList();
   },
 
   onShow: function () {
@@ -20,7 +20,7 @@ Page({
     this.getMovieHistoryList();
   },
 
-  // 设备绑定入口暂未使用，但推送历史需要使用
+  // 设备绑定和推送历史入口暂未使用
   bindGetUserInfo(e) {
     console.log('canIUse', this.data.canIUse, e)
     if (!e.detail.userInfo) {
@@ -57,47 +57,52 @@ Page({
     }
   },
   // 跳转设备绑定页面
-  jumpHomePage: function () {
-    wx.navigateTo({
-      url: '../home/home',
-    })
+  handleJumpPage: function (e) {
+    console.log(e.currentTarget.dataset.type);
+    if (e.currentTarget.dataset.type === 'home') {
+      wx.navigateTo({
+        url: '../home/home',
+      })
+    } else if (e.currentTarget.dataset.type === 'history') {
+      let ccsession = wx.getStorageSync("cksession")
+      if (ccsession == null || ccsession === '') {
+        wx.navigateTo({
+          url: '../home/home',
+        })
+      } else {
+        wx.navigateTo({
+          url: '../history/history',
+        })
+      }
+    }
   },
 
-  clearStorage: function () {
-    wx.setStorageSync('cksession', '');
-    let ccsession = wx.getStorageSync("cksession");
-    console.log('clearStorage ccsession', ccsession);
-  },
-
+  // 获取推送历史列表
   getMovieHistoryList: function () {
-    let that = this;
     let vuid = wx.getStorageSync('wxopenid');
     console.log('vuid:',vuid);
     if (vuid == null || vuid === '') return;
     let srcParams = {"vuid": vuid };
     let desParams = utils_fyb.paramsAssemble_tvpai(srcParams);
     console.log(desParams);
-    utils_fyb.request(api_fyb.getHistoryListUrl, 'GET', desParams, 
-      function (res) {
-        console.log("getMovieHistoryList success", res);
-        if (res.data.data) {
-          let withinList = res.data.data.movies_within_serven_days
-          let overList = res.data.data.movies_over_serven_days
-          if (withinList.length == 0) {
-            that.setData({
-              historyList: overList
-            })
-          } else {
-            that.setData({
-              historyList: withinList
-            })
-          }
+    utils_fyb.requestP(api_fyb.getHistoryListUrl, desParams).then(res => {
+      console.log("getMovieHistoryList success", res);
+      if (res.data.data) {
+        let withinList = res.data.data.movies_within_serven_days
+        let overList = res.data.data.movies_over_serven_days
+        if (withinList.length === 0) {
+          this.setData({
+            historyList: overList
+          })
+        } else {
+          this.setData({
+            historyList: withinList
+          })
         }
-      },
-      function (res) {
-        console.log("getMovieHistoryList error", res);
       }
-    )
+    }).catch(res => {
+      console.log("getMovieHistoryList error", res);
+    })
   },
 })
 

@@ -1,37 +1,31 @@
-const utils_fyb = require('../../utils/util_fyb');
-const api_fyb = require('../../api/api_fyb');
-const app = getApp();
-
+const utils = require('../../utils/util_fyb');
+const api = require('../../api/api_fyb');
 
 Page({
-  data: {
-
-  },
+  data: {},
 
   bindDevice: function (qrUrl) {
     let ccsession = wx.getStorageSync('cksession');
     let srcParams = { "ccsession": ccsession, "qrUrl": qrUrl };
-    let desParams = utils_fyb.paramsAssemble_wx(srcParams);
+    let desParams = utils.paramsAssemble_wx(srcParams);
     console.log(desParams);
-    utils_fyb.request(api_fyb.bindDeviceUrl, 'GET', desParams, function (res) {
+    utils.showLoadingToast('设备绑定中');
+    utils.requestP(api.bindDeviceUrl, desParams).then( res => {
       console.log("绑定设备信息:", res)
-      if (res.data.code == 200) {
-        utils_fyb.showSuccessToast('设备绑定成功');
-        setTimeout(function () {
-          setTimeout(function () {
-            wx.navigateBack({
-              delta: 1
-            })
-          }, 1000)
-        }, 2000)
+      if (res.data.code === 200) {
+        utils.showSuccessToast('设备绑定成功');
+        setTimeout(() => {
+          wx.navigateBack({
+            delta: 1
+          })
+        }, 1000)
       } else {
-        utils_fyb.showFailedToast('设备绑定失败', '../../images/close_icon.png');
+        utils.showFailedToast('设备绑定失败', '../../images/close_icon.png');
       }
     })
   },
 
-  scanQRCode() {
-    wx.showLoading({ title: '绑定设备中' });
+  scanQRCode() {  
     wx.scanCode({
       success: (res) => {
         console.log("scanQRCode result", res.result);

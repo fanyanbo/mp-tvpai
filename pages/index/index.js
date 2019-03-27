@@ -153,15 +153,14 @@ Page({
 
   onLoad() {
     console.log('onLoad');
-    this.getBindedDevice();
-    this.oneclassify();
-    this.twoclassify();
-    this.getBanners();
+    // this.getBindedDevice();
+    // this.oneclassify();
+    // this.twoclassify();
+    // this.getBanners();
   },
 
   onReady() {
     console.log('onReady');
-    let that = this;
     wx.getSystemInfo({
       success: function(res) {
         console.log(res);

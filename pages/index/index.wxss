@@ -174,6 +174,7 @@ height: 300rpx
  height: 300rpx;
 }
 
+
 .arrow{
   height: 24rpx;
   width: 24rpx;
@@ -181,3 +182,10 @@ height: 300rpx
   display: inline-block;
   padding-bottom: 3rpx
 }
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+

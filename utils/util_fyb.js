@@ -139,13 +139,20 @@ function setParams_wx(params) {
   }
 }
 
+// 注意少军后台接口，需要对传入参数进行排序
 function paramsAssemble_wx(paramsObj = {}) {
-  let paramsStr = paramsObj;
-  let signedStr = sign_wx(paramsStr, '9acd4f7d5d9b87468575b240d824eb4f');
+  // let paramsStr = paramsObj;
+  // 需要对paramsObj进行排序
+  let desArray = Object.keys(paramsObj).sort();
+  let desSortedParams = {};
+  for (let i in desArray) {
+    desSortedParams[desArray[i]] = paramsObj[desArray[i]];
+  }
+  let signedStr = sign_wx(desSortedParams, '9acd4f7d5d9b87468575b240d824eb4f');
   let orignParams = {
     client_id: 'applet',
     sign: signedStr,
-    param: paramsStr
+    param: desSortedParams
   };
   let desParams = Object.assign(orignParams, paramsObj);
   return desParams;
@@ -174,13 +181,13 @@ function request(url, method, params, success, fail, complete) {
   })
 }
 
-function requestP(url, params, method = 'GET') {
+function requestP(url, params, method = 'GET', contentType = 'application/x-www-form-urlencoded') {
   return new Promise(function(resolve, reject) {
     wx.request({
       url: url,
       data: params,
       header: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': contentType
         // 这里可定义访问令牌和登录令牌
       },
       method: method,
