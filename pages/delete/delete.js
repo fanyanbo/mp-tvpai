@@ -39,8 +39,8 @@ Page({
           title: '删除成功',
         })
         setTimeout(function () {
-          wx.redirectTo({
-            url: '../../pages/home/home',
+          wx.navigateBack({
+            delta: 1
           })
         }, 1000)
       } else {

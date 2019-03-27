@@ -12,7 +12,7 @@ Page({
     devices: "",
     mydevices: [],
     block: ['block'],
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
   },
 
   bindDevice: function (qrUrl) {
@@ -36,8 +36,10 @@ Page({
   onLoad: function () {
     this.getDeviceList();
   },
-  onshow: function () {
-    this.getDeviceList();
+  onShow: function () {
+    console.log("onshow==========")
+    let that = this
+    that.getDeviceList();
   }, 
   scanQRCode: function () {
     wx.showLoading({ title: '扫码绑定中' });
@@ -110,7 +112,14 @@ Page({
   navigateto() {
     wx.navigateTo({ url: '../course/course' })
   },
-
+  //跳转删除页面
+  deleteto(e) {
+    let deviceId = e.currentTarget.dataset.id;
+    let bindStatus = e.currentTarget.dataset.status;
+    let deviceName = e.currentTarget.dataset.name;
+    wx.navigateTo({url: '../delete/delete?deviceId=' + deviceId + '&bind=' + bindStatus + '&deviceName=' + deviceName})
+    let that = this;
+  },
   // 切换绑定时触发
   handleBindTap: function (event) {
     let that = this;
@@ -165,8 +174,8 @@ Page({
             console.log(res.data.data[i].deviceId);
             wx.setStorageSync('deviceId', res.data.data[i].deviceId + '');
             // 是否一定使用globaldata，用storage方案如何？
-            app.globalData.activeId = res.data.data[i].device.serviceId;
-            app.globalData.deviceId = res.data.data[i].deviceId + '',
+            app.globalData.activeId = res.data.data[i].device.serviceId;//激活ID
+            app.globalData.deviceId = res.data.data[i].deviceId + '',//设备ID
             console.log("已绑定设备激活id-设备源:" + res.data.data[i].device.serviceId + res.data.data[i].device.source);
             if (res.data.data[i].device.source == "tencent") {
               wx.setStorageSync('tvSource', 'qq')
@@ -175,9 +184,17 @@ Page({
             }
           }else{
             wx.setStorageSync('deviceId', '');
+            app.globalData.activeId = null;
           }
 
         }
+      }else{
+        that.setData({
+          devices: false,
+          mydevices: res.data.data
+        })
+        wx.setStorageSync('deviceId', '');
+        app.globalData.activeId = null;
       }
     }, function () {
       console.log('getDeviceList error');

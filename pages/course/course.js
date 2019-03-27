@@ -18,9 +18,11 @@ Page({
       if (res.data.code == 200) {
         utils_fyb.showSuccessToast('设备绑定成功');
         setTimeout(function () {
-          wx.navigateTo({
-            url: '../../pages/home/home',
-          });
+          setTimeout(function () {
+            wx.navigateBack({
+              delta: 1
+            })
+          }, 1000)
         }, 2000)
       } else {
         utils_fyb.showFailedToast('设备绑定失败', '../../images/close_icon.png');

@@ -1,9 +1,10 @@
 <!--pages/history/history.wxml-->
 
 
-<view class="contant" wx:if="{{isShowDoc}}">
-  <!-- <view class="title">7天内</view> -->
-  <view class="list" wx:for="{{historyList}}" wx:for-item="item" data-albumid="{{item.album_id}}" data-id="{{index}}" bindtap='select'>
+<view class="contant" wx:for-item="item" wx:if="{{isShowDoc}}">
+<view wx:for="{{historyList}}">
+  <view class="title">{{item.time}}</view>
+  <view class="list" wx:for="{{item.list}}" data-albumid="{{item.album_id}}" data-id="{{index}}" bindtap='select'>
     <view class="img">
      <image src="{{item.poster_h}}" class="item_book_img" mode="aspectFill"></image>    
     </view>              
@@ -18,6 +19,7 @@
         </block>
       </view>
     </view>
+  </view>
   </view>
 
 <view class="bottom">
