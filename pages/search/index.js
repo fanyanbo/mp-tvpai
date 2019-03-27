@@ -112,7 +112,6 @@ Page({
   // 推送电视剧，先判断是否绑定设备，再判断电视是否在线，注意先后顺序
   handleEpisodeTap: function (e) {
     console.log('推送剧集', e);
-    let that = this;
     if (app.globalData.deviceId == null) {
       return wx.navigateTo({
         url: "../home/home"
@@ -126,7 +125,7 @@ Page({
           data: dataOnline,
           success(res) {
             console.log("isTVOnline success res:" + JSON.stringify(res))
-            if (res.status == "online") { //TV在线
+            if (res.status === "online") { //TV在线
               resolve();
             } else {
               reject(res);
@@ -138,11 +137,11 @@ Page({
           }
         });
       })
-      .then(function () {
+      .then( () => {
         wx.showLoading({
           title: '推送中...'
         })
-        that.setData({
+        this.setData({
           curIndex: e.currentTarget.dataset.keyword.segment_index,
           curThirdId: e.currentTarget.dataset.keyword.video_third_id
         })
@@ -152,17 +151,16 @@ Page({
         let video_title = e.currentTarget.dataset.keyword.video_title;
         let coocaa_m_id = e.currentTarget.dataset.keyword.coocaa_m_id;
         console.log(app.globalData.deviceId, third_album_id, tvId, video_title, coocaa_m_id);
-        that.pushEpisode(app.globalData.deviceId, third_album_id, segment_index, tvId, video_title, coocaa_m_id);
+        this.pushEpisode(app.globalData.deviceId, third_album_id, segment_index, tvId, video_title, coocaa_m_id);
       })
-      .catch(function (res) {
-        console.log('catch...' + res)
-        utils.showFailedToast('电视不在线', '../../images/close_icon.png');
+      .catch( res => {
+        console.log('catch...', res)
+        utils.showFailedToast('电视不在线', this.data.errIconUrl);
       })
   },
   // 推送电影
   handleMovieTap: function (e) {
     console.log('推送电影', e);
-    let that = this;
     if (app.globalData.deviceId == null) {
       return wx.navigateTo({
         url: "../home/home"
@@ -176,7 +174,7 @@ Page({
           data: dataOnline,
           success(res) {
             console.log("isTVOnline success res:" + JSON.stringify(res))
-            if (res.status == "online") { //TV在线
+            if (res.status === "online") { //TV在线
               resolve();
             } else {
               reject(res);
@@ -188,7 +186,7 @@ Page({
           }
         });
       })
-      .then(function () {
+      .then( () => {
         wx.showLoading({
           title: '推送中...'
         })
@@ -197,11 +195,11 @@ Page({
         let coocaa_m_id = e.currentTarget.dataset.keyword.video_detail.play_source.coocaa_m_id;
         let tvId = JSON.parse(e.currentTarget.dataset.keyword.video_detail.play_source.video_url).tvId;
         console.log(app.globalData.deviceId, third_album_id, video_title, coocaa_m_id, tvId);
-        that.pushMovie(app.globalData.deviceId, third_album_id, video_title, tvId, coocaa_m_id);
+        this.pushMovie(app.globalData.deviceId, third_album_id, video_title, tvId, coocaa_m_id);
       })
-      .catch(function (res) {
-        console.log('catch...' + res)
-        utils.showFailedToast('电视不在线', '../../images/close_icon.png');
+      .catch( res => {
+        console.log('catch...', res)
+        utils.showFailedToast('电视不在线', this.data.errIconUrl);
       })
   },
   handleMoreTap: function (e) {
@@ -366,7 +364,7 @@ Page({
         utils.showFailedToast(errMsg, this.data.errIconUrl);
       }
     }).catch(res => {
-      console.log('pushEpisode catch:' + res);
+      console.log('pushEpisode catch:', res);
       utils.showFailedToast('推送失败', this.data.errIconUrl);
     })
   },
@@ -392,7 +390,7 @@ Page({
         utils.showFailedToast(errMsg, this.data.errIconUrl)
       }
     }).catch(res => {
-      console.log('pushMovie catch' + res);
+      console.log('pushMovie catch', res);
       utils.showFailedToast('推送失败', this.data.errIconUrl)
     })
   },

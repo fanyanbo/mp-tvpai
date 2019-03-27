@@ -77,13 +77,6 @@ Page({
     }
   },
 
-  // 测试使用，后续会废弃
-  clearStorage: function () {
-    wx.setStorageSync('cksession', '');
-    let ccsession = wx.getStorageSync("cksession");
-    console.log('clearStorage ccsession', ccsession);
-  },
-
   // 获取推送历史列表
   getMovieHistoryList: function () {
     let vuid = wx.getStorageSync('wxopenid');

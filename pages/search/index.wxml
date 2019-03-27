@@ -110,7 +110,7 @@
             </view>
             <scroll-view class="episode2" scroll-x style="width: 100%">
               <block wx:for="{{item.episodes_list}}" wx:key="index">
-                <view class="scroll-view-item2 {{item.segment_index == curIndex? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" hover-class="noimplement">
+                <view class="scroll-view-item2 {{ (item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" hover-class="noimplement">
                   {{item.segment_index}}
                 </view>
               </block>
