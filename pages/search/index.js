@@ -147,11 +147,12 @@ Page({
           curThirdId: e.currentTarget.dataset.keyword.video_third_id
         })
         let third_album_id = e.currentTarget.dataset.keyword.third_album_id;
-        let segment_index = e.currentTarget.dataset.keyword.segment_index - 1;
+        let segment_index = e.currentTarget.dataset.keyword.segment_index; //需不需要减1？
         let tvId = JSON.parse(e.currentTarget.dataset.keyword.video_url).tvId; //添加推送历史使用，不明白为什么有这些命名？
         let video_title = e.currentTarget.dataset.keyword.video_title;
-        console.log(app.globalData.deviceId, third_album_id, tvId, video_title);
-        that.pushEpisode(app.globalData.deviceId, third_album_id, segment_index, tvId, video_title);
+        let coocaa_m_id = e.currentTarget.dataset.keyword.coocaa_m_id;
+        console.log(app.globalData.deviceId, third_album_id, tvId, video_title, coocaa_m_id);
+        that.pushEpisode(app.globalData.deviceId, third_album_id, segment_index, tvId, video_title, coocaa_m_id);
       })
       .catch(function (res) {
         console.log('catch...' + res)
@@ -192,8 +193,11 @@ Page({
           title: '推送中...'
         })
         let third_album_id = e.currentTarget.dataset.keyword.video_detail.third_album_id;
-        console.log(app.globalData.deviceId, third_album_id);
-        that.pushMovie(app.globalData.deviceId, third_album_id);
+        let video_title = e.currentTarget.dataset.keyword.video_title;
+        let coocaa_m_id = e.currentTarget.dataset.keyword.video_detail.play_source.coocaa_m_id;
+        let tvId = JSON.parse(e.currentTarget.dataset.keyword.video_detail.play_source.video_url).tvId;
+        console.log(app.globalData.deviceId, third_album_id, video_title, coocaa_m_id, tvId);
+        that.pushMovie(app.globalData.deviceId, third_album_id, video_title, tvId, coocaa_m_id);
       })
       .catch(function (res) {
         console.log('catch...' + res)
@@ -341,39 +345,39 @@ Page({
   },
 
   // 推送电视剧
-  pushEpisode: function (deviceId, movieId, movieChildId, tvId, title) {
-    let that = this;
+  pushEpisode: function (deviceId, movieId, movieChildId, tvId, title, coocaa_m_id) {
     let params = {
       ccsession: wx.getStorageSync('cksession'),
       deviceId: deviceId,
       movieId: movieId,
-      moviechildId: movieChildId + ''
+      moviechildId: movieChildId + '',
+      coocaamid: coocaa_m_id
     };
     let desParams = utils.paramsAssemble_wx(params);
     console.log('pushEpisode params', desParams);
     utils.requestP(api.pushMediaUrl, desParams).then(res => {
       console.log('pushEpisode success', res.data);
       if (res.data.code === 200) {
-        that.addPushHistory(movieId, tvId, title);
+        this.addPushHistory(movieId, title, tvId);
         utils.showSuccessToast('推送成功')
       } else {
         console.log('pushEpisode failed');
         let errMsg = res.data.message + "[" + res.data.code + "]";
-        utils.showFailedToast(errMsg, that.data.errIconUrl);
+        utils.showFailedToast(errMsg, this.data.errIconUrl);
       }
     }).catch(res => {
       console.log('pushEpisode catch:' + res);
-      utils.showFailedToast('推送失败', that.data.errIconUrl);
+      utils.showFailedToast('推送失败', this.data.errIconUrl);
     })
   },
 
   // 推送电影
-  pushMovie: function (deviceId, movieId) {
-    let that = this;
+  pushMovie: function (deviceId, movieId, title, tvId, coocaa_m_id) {
     let params = {
       ccsession: wx.getStorageSync('cksession'),
       deviceId: deviceId,
-      movieId: movieId
+      movieId: movieId, 
+      coocaamid: coocaa_m_id
     };
     let desParams = utils.paramsAssemble_wx(params);
     console.log('pushMovie params', desParams);
@@ -381,14 +385,15 @@ Page({
       console.log('pushMovie success', res.data);
       if (res.data && res.data.code === 200) {
         utils.showSuccessToast('推送成功')
+        this.addPushHistory(movieId, title, tvId)
       } else {
         console.log('pushMovie failed');
-        let errMsg = res.data.message + "[" + res.data.code + "]";
-        utils.showFailedToast(errMsg, that.data.errIconUrl)
+        let errMsg = res.data.message + (res.data.code == null ? "" : "[" + res.data.code + "]");
+        utils.showFailedToast(errMsg, this.data.errIconUrl)
       }
     }).catch(res => {
       console.log('pushMovie catch' + res);
-      utils.showFailedToast('推送失败', that.data.errIconUrl)
+      utils.showFailedToast('推送失败', this.data.errIconUrl)
     })
   },
 
