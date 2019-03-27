@@ -14,6 +14,7 @@ Page({
     management_good: false,
     select_all: false,
     batchdel:"",
+    length:0
 
   },
 
@@ -43,38 +44,41 @@ Page({
     } else {
       var arr = that.data.historyList;
       var index = e.currentTarget.dataset.id; 
-      var str="";     
-      arr[index].checked = !arr[index].checked; 
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i].checked) {
-          arr2.push(arr[i].video_id)
-        }
-      };
+      var str=""; 
+      console.log(arr)
+      console.log("=============="+index)
+      for (var k = 0; k < arr.length; k++) {
+        var list = that.data.historyList[k].list;
+        for (let i = 0; i < list.length; i++) {
+          if (list[i].id == index) {
+            console.log("------------")
+            list[i].checked = !list[i].checked;
+          }
+          if (list[i].checked) {
+            arr2.push(list[i].video_id)
+          }
+        };
+
+      }
       str = arr2.join(",")
       console.log(str);
       that.setData({
         historyList: arr,
-        batchdel: str
+        batchdel: str,
+        length: arr2.length
       })
 
     }
   },
   // 删除
   deleteitem: function () {
-    var that = this;
-    let arr = that.data.historyList;
-    let arr2 = [];   
+    var that = this; 
     let str = "";  
     str = that.data.batchdel;
     str = "{"+str+"}"
     console.log(str.length)
-    if(str.length == 2){
+    if(str.length == 2){//没有选择
       return
-    }
-    for (let i = 0; i < arr.length; i++) {
-      if (arr[i].checked == false) {
-        arr2.push(arr[i]);
-      }
     }
 
     const secret = app.globalData.secret
@@ -93,18 +97,10 @@ Page({
     utils.postLoading(url, 'GET', data, function (res) {
       console.log(res.data);
       if (res.data.code == 0) {
-        that.setData({
-          historyList: arr2,
-          batchdel: ""
-        })
         wx.showToast({
           title: '删除成功',
         })
-        if (arr2.length == 0){
-          that.setData({
-            isShowDoc: false,
-          })    
-        }
+        that.historyList();
       }
     }, function (res) {
       console.log('streams fail:')
@@ -130,20 +126,22 @@ Page({
       let arr3 = [];
       let str = "";
       for (let i = 0; i < arr.length; i++) {
-        if (arr[i].checked == true) {
-          arr2.push(arr[i]);
-          arr3.push(arr[i].video_id);
-        } else {
-          arr[i].checked = true;
-          arr2.push(arr[i]);
-          arr3.push(arr[i].video_id);
-        }
+        var list = arr[i].list;
+        for (let i = 0; i < list.length; i++) {
+          if (list[i].checked == true) {
+            arr3.push(list[i].video_id);
+          } else {            
+            list[i].checked = true;
+            arr3.push(list[i].video_id);
+          }
+        };
       }
       str = arr3.join(",")
       console.log(str);
       that.setData({
-        historyList: arr2,
-        batchdel: arr3
+        historyList: arr,
+        batchdel: arr3,
+        length: arr3.length
       })
     }
   },
@@ -154,13 +152,16 @@ Page({
       select_all: !that.data.select_all
     })
     let arr = that.data.historyList;
-    let arr2 = [];
     for (let i = 0; i < arr.length; i++) {
-      arr[i].checked = false;
-      arr2.push(arr[i]);
+      var list = arr[i].list;
+      for (let i = 0; i < list.length; i++) {
+        list[i].checked = false;
+      };
     }
     that.setData({
-      historyList: arr2,
+      historyList: arr,
+      batchdel:'',
+      length: 0
     })
   },
 
@@ -194,9 +195,11 @@ Page({
         let overList = res.data.data.movies_over_serven_days
         for (let i = 0; i < res.data.data.movies_within_serven_days.length; i++) {
           withinList[i].checked = false;
+          withinList[i].id = i;
         }
         for (let i = 0; i < res.data.data.movies_over_serven_days.length; i++) {
           overList[i].checked = false;
+          overList[i].id = res.data.data.movies_within_serven_days.length+i;
         }
 
         var key = "time";
@@ -213,7 +216,7 @@ Page({
         }
         
         console.log(historyList);
-        if (historyList.length == 0){
+        if (withinList.length == 0 && overList==0){
           that.setData({
             isShowDoc: false,
           }) 

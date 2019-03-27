@@ -1,5 +1,6 @@
 import utils from '../../utils/util';
 const api = require('../../api/api.js');
+const utils_fyb = require('../../utils/util_fyb');
 export {
   utils,
 }
@@ -15,7 +16,12 @@ Page({
   let that = this
   const key = app.globalData.key
   const _data = e.detail.value
- const deviceName = encodeURI(_data.deviceName)
+  console.log(_data.deviceName)
+  if(_data.deviceName == ""){
+    utils_fyb.showFailedToast('请填写设备名称', '../../images/close_icon.png');
+    return
+  }
+  const deviceName = encodeURI(_data.deviceName)
   const ccsession = wx.getStorageSync('cksession')
   var paramsStr = { "ccsession": ccsession, "deviceId": that.data.deviceId, "deviceName":deviceName}
   console.log(paramsStr);
@@ -37,8 +43,8 @@ Page({
         title: '修改成功',
       })
       setTimeout(function () {
-        wx.redirectTo({
-          url: '../../pages/home/home',
+        wx.navigateBack({
+          delta: 2
         })
       }, 1000)
     } else {

@@ -10,14 +10,14 @@
       <swiper autoplay="{{autoplay}}" current='{{swiperCurrent}}' previous-margin="{{previousmargin}}" next-margin="{{nextmargin}}" bindchange="swiperChange">
         <block wx:for="{{streams}}" wx:key="key" class="banner_list">    
             <swiper-item>
-              <button open-type="getUserInfo" data-type="cinecism" data-id="{{item.articleId}}" bindgetuserinfo="bindGetUserInfo">
+              <button data-type="cinecism" data-id="{{item.articleId}}" bindtap="jumpFind">
                 <image src="{{item.articlePicUrl}}" class="slide-image" bindchange="chuangEvent"></image>
               </button>
             </swiper-item>
         </block>
         <block wx:key="key" class="banner_list">
           <swiper-item>
-            <button open-type="getUserInfo" data-type="find" bindgetuserinfo="bindGetUserInfo">
+            <button data-type="find" bindtap="jumpFind">
               <image src="../../images/banner.jpg" class="slide-image"></image>
               </button>
           </swiper-item>
@@ -69,7 +69,7 @@
       <view class="title">
         {{item.title}}
         <navigator class="more" url="../column/column?id={{item.tag_id}}&title={{item.title}}">
-          更多>
+          更多<image class="arrow" src="../../images/index_arraw.png" mode="aspectFill"></image>
         </navigator>
       </view>
       <view class="scroll_box section">

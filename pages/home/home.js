@@ -169,6 +169,8 @@ Page({
           devices: true,
           mydevices: res.data.data
         })
+        wx.setStorageSync('deviceId', '');
+        app.globalData.activeId = null;
         for (let i = 0; i < res.data.data.length; i++) {
           if (res.data.data[i].bindStatus === 1) {
             console.log(res.data.data[i].deviceId);
@@ -182,11 +184,7 @@ Page({
             } else {
               wx.setStorageSync('tvSource', 'iqiyi')
             }
-          }else{
-            wx.setStorageSync('deviceId', '');
-            app.globalData.activeId = null;
           }
-
         }
       }else{
         that.setData({

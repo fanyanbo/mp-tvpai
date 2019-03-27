@@ -213,54 +213,25 @@ Page({
     });
   },
   // 授权校验，授权或拒绝都会执行
-  bindGetUserInfo(e) {
-    console.log('canIUse', this.data.canIUse, e)
-    console.log(e.currentTarget.dataset.type)
-    if (!e.detail.userInfo) {
-      // 如果用户拒绝直接退出，下次依然会弹出授权框
-      return;
+  jumpFind(e) {
+    if (app.globalData.deviceId == null) {
+      return wx.navigateTo({
+        url: "../home/home"
+      });
     }
     let that = this;
     let ccsession = wx.getStorageSync("cksession");
     console.log('bindGetUserInfo ccsession', ccsession);
-    if (ccsession == null || ccsession === '') {
-      wx.login({
-        success: function (res) {
-          console.log('code', res);
-          utils_fyb.getSessionByCode(res.code, function (res) {
-            console.log('success', res);
-            if (res.data.result && res.data.data) {
-              let ccsession = res.data.data.ccsession;
-              let wxopenid = res.data.data.wxopenid;
-              wx.setStorageSync('cksession', ccsession);
-              wx.setStorageSync('wxopenid', wxopenid);
-              console.log('setStorage, session = ' + ccsession + ',openid = ' + wxopenid);
-              if (e.currentTarget.dataset.type == 'cinecism') {
-                wx.navigateTo({
-                  url: '../../pages/cinecism/cinecism?id='+e.currentTarget.dataset.id,
-                })
-              } else if (e.currentTarget.dataset.type == 'find') {
-                wx.navigateTo({
-                  url: '../../pages/find/find',
-                })
-              }
-            }
-          }, function (res) {
-            console.log('error', res)
-          });
-        }
-      });
-    } else {
-      if (e.currentTarget.dataset.type == 'cinecism') {
-        wx.navigateTo({
-          url: '../../pages/cinecism/cinecism?id=' + e.currentTarget.dataset.id,
-        })
-      } else if (e.currentTarget.dataset.type == 'find') {
-        wx.navigateTo({
-          url: '../../pages/ind/find',
-        })
-      }
+    if (e.currentTarget.dataset.type == 'cinecism') {
+      wx.navigateTo({
+        url: '../../pages/cinecism/cinecism?id=' + e.currentTarget.dataset.id,
+      })
+    } else if (e.currentTarget.dataset.type == 'find') {
+      wx.navigateTo({
+        url: '../../pages/find/find',
+      })
     }
+
   },
 
 

@@ -148,10 +148,11 @@ Page({
       }
     }, 200)
   },
-  bindGetUserInfo(e) {
-    if (!e.detail.userInfo) {
-      // 如果用户拒绝直接退出，下次依然会弹出授权框
-      return;
+  push(e) {
+    if (app.globalData.deviceId == null) {
+      return wx.navigateTo({
+        url: "../home/home"
+      });
     }
     let coocaamid = e.currentTarget.dataset.coocaamid
     var tvid = e.currentTarget.dataset.tvid
@@ -170,67 +171,38 @@ Page({
     var deviceid = wx.getStorageSync("deviceId")
     console.log("检测ccsession:" + ccsession);
     console.log("检测deviceid:" + deviceid);
-    if (ccsession != null && ccsession != undefined && ccsession !== '') {
-      if (deviceid != null && deviceid != undefined && deviceid !== ''){
-        new Promise(function (resolve, reject) {
-          let dataOnline = {
-            activeid: wx.getStorageSync("deviceId") //获取最新绑定设备激活ID
-          }
-          api_nj.isTVOnline({
-            data: dataOnline,
-            success(res) {
-              console.log("isTVOnline success res:" + JSON.stringify(res))
-              if (res.status == "online") { //TV在线
-                resolve();
-              } else {
-                reject(res);
-              }
-            },
-            fail(res) {
-              console.log("isTVOnline fail:" + res)
-              reject(res)
-            }
-          });
-        })
-          .then(function () {
-            wx.showLoading({
-              title: '推送中...'
-            })
-            push(that, movieId, deviceid, moviechildid, that.data.movieType, tvid, coocaamid, title)
-          })
-          .catch(function (res) {
-            console.log('catch...' + res)
-            utils_fyb.showFailedToast('电视不在线', '../../images/close_icon.png');
-          })
 
-        
-      }else{
-        getDevices(that, '获取设备中', tvid, coocaamid, title);
-      }      
-    } else {
-      wx.login({
-        success: function (res) {
-          console.log('code', res);
-          utils_fyb.getSessionByCode(res.code, function (res) {
-            console.log('success', res);
-            if (res.data.result && res.data.data) {
-              let ccsession = res.data.data.ccsession;
-              let wxopenid = res.data.data.wxopenid;
-              wx.setStorageSync('cksession', ccsession);
-              wx.setStorageSync('wxopenid', wxopenid);
-              console.log('setStorage, session = ' + ccsession + ',openid = ' + wxopenid);
-              if (deviceid != null && deviceid != undefined && deviceid !== '') {
-                push(that, movieId, deviceid, moviechildid, that.data.movieType, tvid, coocaamid, title)
-              } else {
-                getDevices(that, '获取设备中', tvid, coocaamid, title);
-              }   
-            }
-          }, function (res) {
-            console.log('error', res)
-          });
+    new Promise(function (resolve, reject) {
+      let dataOnline = {
+        activeid: app.globalData.activeId //获取最新绑定设备激活ID
+      }
+      api_nj.isTVOnline({
+        data: dataOnline,
+        success(res) {
+          console.log("isTVOnline success res:" + JSON.stringify(res))
+          if (res.status == "online") { //TV在线
+            resolve();
+          } else {
+            reject(res);
+          }
+        },
+        fail(res) {
+          console.log("isTVOnline fail:" + res)
+          reject(res)
         }
       });
-    }
+    })
+    .then(function () {
+      wx.showLoading({
+        title: '推送中...'
+      })
+      push(that, movieId, deviceid, moviechildid, that.data.movieType, tvid, coocaamid, title)
+    })
+    .catch(function (res) {
+      console.log('catch...' + res)
+      utils_fyb.showFailedToast('电视不在线', '../../images/close_icon.png');
+    })        
+
   }, 
   //收藏喜欢（未开发）
   like: function (event) {

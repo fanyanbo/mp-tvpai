@@ -134,9 +134,12 @@ border-radius: 8rpx
   color: #000;
 }
 .category .more{
+  color:#999;
   float: right;
   font-size: 26rpx;
-  color:#666
+  height: 40rpx;
+  line-height: 40rpx;
+  display: block;
 }
 .category .item_book_text{
   font-size: 28rpx;
@@ -171,3 +174,10 @@ height: 300rpx
  height: 300rpx;
 }
 
+.arrow{
+  height: 24rpx;
+  width: 24rpx;
+  vertical-align: middle;
+  display: inline-block;
+  padding-bottom: 3rpx
+}
