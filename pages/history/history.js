@@ -223,7 +223,8 @@ Page({
         }else{
           that.setData({
             historyList: historyList,
-            isShowDoc: true
+            isShowDoc: true,
+            length: 0
           })
         }
       }
