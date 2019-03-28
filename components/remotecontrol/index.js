@@ -16,7 +16,7 @@ Component({
     activeid: null, //设备激活id
     btnContent: '遥控器', 
     tipsContent: '提示：长按遥控器按钮，就能语音啦',
-    query: '你可以说: \r\n \r\n 声音调到10 \r\n 刘德华 \r\n 我想看世界杯 \r\n 返回主页 \r\n 创维的客服电话是多少',
+    query: '',
     isShowMainPanel: false, // 是否显示遥控器主面板
     hasRecordAuth: null, //是否有录音权限
     // 遥控按键落焦标识
@@ -44,7 +44,8 @@ Component({
     //被绑定设备状态
     bBindedTVOnline: null, //绑定TV是否在线
     bBindedTVSupportMP: null,//绑定TV是否支持小程序
-    bBindedTVReady: false //绑定TV是否准备就绪
+    bBindedTVReady: false, //绑定TV是否准备就绪
+    aInputTips: []
   },
   methods: {  
     _showModalUnbindTV() {//显示设备未绑定 modal 
@@ -390,9 +391,20 @@ Component({
     },
     _resetRecordPanelStatus() {
       console.log('hideRemoteControl()')
+      this._resetAnimationCircle();
       this.setData({
-        query: '你可以说: \r\n \r\n 声音调到10 \r\n 刘德华 \r\n 我想看世界杯 \r\n 返回主页 \r\n 创维的客服电话是多少',
+        // query: '',
         waitVoiceResult: false
+      })
+    },
+    //语音输入页面
+    _showInputTips() { //随机显示语音输入提示语
+      var aRecordTips = [['\"返回主页\"', '\"今天天气怎么样\"', '\"声音调到10\"', '\"打开网络设置\"']
+        , ['\"猫用英语怎么说\"', '\"暂停/继续播放\"', '\"我想听周杰伦的晴天\"', '\"现在几点了\"']
+        , ['\"鱼香肉丝\"', '\"这个人是谁\"', '\"我想看都挺好第五集\"', '\"深圳到北京的飞机票\"']];
+      var index = Math.floor(Math.random()*3);
+      this.setData({
+        aInputTips: aRecordTips[index]
       })
     },
     //处理录音流程，目前仅使用腾讯方案，百度方案后续补充
@@ -404,9 +416,11 @@ Component({
         isShowMainPanel: true,
         curBtnImg: '../../images/components/remotecontrol/voice@3x.png',
         btnContent: '松开结束',
-        bStartRecord: true
+        bStartRecord: true,
+        query: ''
       })
       console.log('开始执行语音输入动画和版面进场动画');
+      this._showInputTips();
       this.startRecordAnimation();   
       this.showEnterAnimaiton()
       console.log('开始录音，并倒计时');
@@ -417,19 +431,20 @@ Component({
       manager.stop();
     },
     _stopRecordingSite(){ //停止录制现场所有动作（包括配套计时器 UI 后台处理 以及 状态复位等）
-      this.stopRecordTimer()
-      this.stopRecordAnimation()
-      this.stopRecord()
+      console.log('_stopRecordingSite...')
       this.setData({
-        indexStatus: 'VoiceResult',
+        // indexStatus: 'VoiceResult',
         longtapStatus: false,
         bStartRecord: false,
         voiceInputStatus: false,
         waitVoiceResult: true, //等待语音结果
         curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
         btnContent: '按住说话',
-        query:''
       })
+      this.stopRecordTimer()
+      this.stopRecordAnimation()
+      this.stopRecord()
+
       //等待5S，模拟语音处理，然后重置参数
       // setTimeout(() => {
       //   that.setData({
@@ -474,8 +489,15 @@ Component({
               console.log('pushText done!',res)
             }
           })
+          that._resetRecordPanelStatus()
+          setTimeout(() => {
+            that.setData({
+              indexStatus: 'VoiceResult'
+            })
+          }, 2000)
+
           // 2s后回到主页面
-          setTimeout(() => that._resetRecordPanelStatus(), 2000)
+          // setTimeout(() => that._resetRecordPanelStatus(), 2000)
         }
       }
       manager.onStart = function (res) {
@@ -488,7 +510,8 @@ Component({
           icon: 'none',
           duration: 1000,
         })
-        setTimeout(() => that._resetRecordPanelStatus(), 2000)
+        that._resetRecordPanelStatus()
+        // setTimeout(() => that._resetRecordPanelStatus(), 2000)
       }
       manager.start({ duration: 10000, lang: "zh_CN" }) // 这里超时会回调onstop
     },
@@ -536,33 +559,31 @@ Component({
         clearInterval(this.interval);
       }
     },
+    _drawingCanvasCircle(s, e) { //画语音输入的圆形进度条
+      var me = this;
+      var cxt2 = wx.createCanvasContext('canvasCircle', me);
+      cxt2.setLineWidth(4);
+      cxt2.setStrokeStyle('#FFD600');// 动态圆的颜色
+      cxt2.setLineCap('round');
+      cxt2.beginPath();
+      cxt2.arc(30, 30, 29, s, e, false);
+      cxt2.stroke();
+      cxt2.draw();
+    },
+    _resetAnimationCircle() {
+      console.log('reset circle ..')
+      this._drawingCanvasCircle(0,0);
+    },
     startRecordAnimation() {
       var me = this;
-      var cxt = wx.createCanvasContext('canvasCircle',this);
-      cxt.setLineWidth(6);
-      cxt.setStrokeStyle('#eeeeee'); //圆的颜色
-      cxt.setLineCap('round');
-      cxt.beginPath();
-      cxt.arc(100, 100, 96, 0, 2 * Math.PI, false);
-      cxt.stroke();
-      cxt.draw();
       //加载动画
-      var steps = 1,startAngle = 1.5 * Math.PI,endAngle = 0,speed = 100,sec = 100;
-      function drawing (s, e) {
-          var cxt2 = wx.createCanvasContext('canvasRing',me);
-          cxt2.setLineWidth(6);
-          cxt2.setStrokeStyle('#FFD71C');// 动态圆的颜色
-          cxt2.setLineCap('round');
-          cxt2.beginPath();
-          cxt2.arc(100, 100, 96, s, e, false);
-          cxt2.stroke();
-          cxt2.draw();
-      }
+      var startAngle = 1.5 * Math.PI, endAngle = 0;
+      var steps = 1,speed = 100,sec = 100;
       function drawLoading () {
           if(steps < 101){
               //这里用me,同步数据,渲染页面
               endAngle = steps * 2 * Math.PI / speed + startAngle;
-              drawing(startAngle, endAngle);
+              me._drawingCanvasCircle(startAngle, endAngle);
               steps++;
               console.log(steps);
           }else{

@@ -38,24 +38,28 @@
 
   <!-- 语音输入版面 -->
   <view class="remoter-panel-wrapper" wx:if="{{indexStatus === 'VoiceInput'}}">
-    <view class="voice-input-wrapper">
-      <canvas class="canvas" canvas-id="canvasCircle"></canvas>
-      <canvas class="canvas-mask" canvas-id="canvasRing"></canvas>
-      <view class="canvas_icon">
-        <image class="icon-mic" src="../../images/components/remotecontrol/Icons-mic.png"></image>
-      </view> 
+    <view class='voice-input-wrapper'>
+      <view class='input-progress-zone'>
+        <image class='input-icon' src="../../images/components/remotecontrol/icon-mic@2x.png"></image>
+        <canvas canvas-id='canvasCircle' class='input-progressbar'></canvas>
+      </view>
+      <view class='input-content-zone'>
+        {{ query }}
+      </view>
+      <view class='input-tips-zone'>
+        <view wx:for="{{aInputTips}}">
+          {{item}}
+        </view>
+      </view>
     </view>
   </view>
 
   <!-- 语音结果版面 -->
   <view class="remoter-panel-wrapper" wx:if="{{indexStatus === 'VoiceResult'}}">
-    <view class="loading-wrapper" wx:if="{{!query}}">
-      <image src="../../images/components/remotecontrol/Icons-loading.png" class="icon-loading"></image>
-      <text class='loading-text'>数据处理中，请稍后</text>
-    </view> 
-    <view class="content-wrapper" wx:if="{{query}}">
-      <text>{{query}}</text>
-    </view>
+  <view class='voice-result-wrapper'>
+    <image src="../../images/components/remotecontrol/icon-voiceok@2x.png" class='voice-result-ok'></image>
+    <text>语音已发送</text>
+  </view>
   </view>
 
 </view>
