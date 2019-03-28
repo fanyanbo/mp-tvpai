@@ -34,12 +34,11 @@ Page({
   },
 
   onLoad: function () {
-    this.getDeviceList();
+    // this.getDeviceList();
   },
   onShow: function () {
-    console.log("onshow==========")
-    let that = this
-    that.getDeviceList();
+    console.log("onshow")
+    this.getDeviceList();
   }, 
   scanQRCode: function () {
     wx.showLoading({ title: '扫码绑定中' });
@@ -78,7 +77,7 @@ Page({
     console.log('bindGetUserInfo ccsession', ccsession);
 
     if (ccsession == null || ccsession === '') {
-      utils_fyb.showLoadingToast('授权校验中')
+      utils_fyb.showLoadingToast()
       utils_fyb.wxLogin().then(res => {
         console.log('wxLogin res=', res)
         return utils_fyb.getSessionByCodeP(res.code)
@@ -101,7 +100,7 @@ Page({
         console.log('解密用户信息成功', res)
         this.scanQRCode();
       }).catch(res => {
-        console.log('catch res = ' + res)
+        console.log('catch res = ', res)
       })
     } else {
       this.scanQRCode();
@@ -112,7 +111,8 @@ Page({
   navigateto() {
     wx.navigateTo({ url: '../course/course' })
   },
-  //跳转删除页面
+
+  // 跳转删除页面
   deleteto(e) {
     let deviceId = e.currentTarget.dataset.id;
     let bindStatus = e.currentTarget.dataset.status;
@@ -120,6 +120,7 @@ Page({
     wx.navigateTo({url: '../delete/delete?deviceId=' + deviceId + '&bind=' + bindStatus + '&deviceName=' + deviceName})
     let that = this;
   },
+  
   // 切换绑定时触发
   handleBindTap: function (event) {
     let that = this;
@@ -129,23 +130,21 @@ Page({
     let srcParams = { bind: "1", "ccsession": ccsession, "deviceId": deviceid };
     let desParams = utils_fyb.paramsAssemble_wx(srcParams);
     console.log(desParams);
-    utils_fyb.request(api_fyb.changeDeviceStatusUrl, 'GET', desParams, 
-      function (res) {
-        console.log('handleBindTap success', res);
-        if (res.data.code === 200) {
-          utils_fyb.showSuccessToast('绑定成功');
-          setTimeout(function () {
-            that.getDeviceList();
-          }, 2000);
-        } else {
-          utils_fyb.showFailedToast('绑定失败', '../../images/close_icon.png');
-        }
-      }, 
-      function (res) {
-        console.log('handleBindTap error', res);
-        utils_fyb.showFailedToast('绑定失败', '../../images/close_icon.png');
+    utils_fyb.showLoadingToast();
+    utils_fyb.requestP(api_fyb.changeDeviceStatusUrl, desParams).then( res => {
+      console.log('handleBindTap success', res);
+      if (res.data.code === 200) {
+        utils_fyb.showSuccessToast('绑定成功');
+        setTimeout(() => {
+          this.getDeviceList();
+        }, 2000);
+      } else {
+        utils_fyb.showFailedToast('绑定失败', this.data.errIconUrl);
       }
-    )
+    }).catch( res => {
+      console.log('handleBindTap error', res);
+      utils_fyb.showFailedToast('绑定失败', this.data.errIconUrl);
+    })
   },
 
   // 获取绑定设备列表

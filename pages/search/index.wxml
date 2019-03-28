@@ -110,7 +110,7 @@
             </view>
             <scroll-view class="episode2" scroll-x style="width: 100%">
               <block wx:for="{{item.episodes_list}}" wx:key="index">
-                <view class="scroll-view-item2 {{ (item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" hover-class="noimplement">
+                <view class="scroll-view-item2 {{ (item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" data-index="{{index}}" hover-class="noimplement">
                   {{item.segment_index}}
                 </view>
               </block>
@@ -128,7 +128,7 @@
             <scroll-view class="episode" scroll-x style="width: 100%">
               <block wx:for="{{item.episodes_list}}" wx:key="index">
                 <!-- 仅仅index还不能唯一标识一个资源 -->
-                <view class="scroll-view-item {{(item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" hover-class="noimplement">
+                <view class="scroll-view-item {{(item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" data-index="{{index}}" hover-class="noimplement">
                   <view class="idx">第 {{item.segment_index}} 集</view>
                   <view class="desc">{{item.video_title}}</view>
                 </view>

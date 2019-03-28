@@ -46,6 +46,10 @@ Page({
     var sorts = e.currentTarget.dataset.sortvalue
     var filters = e.currentTarget.dataset.filtervalue
     var extraCondition = e.currentTarget.dataset.exvalue
+    console.log('channelId', channelId)
+    console.log('sorts', sorts)
+    console.log('filters', filters)
+    console.log('extraCondition', extraCondition)
     that.setData({
       pageIndex: 0,
       contentAll: [],
@@ -62,7 +66,6 @@ Page({
     wx.setStorageSync("formid", e.detail.formId)
     utils.eventCollect(type, channelId)
     searchContent(that, channelId, sorts, filters, extraCondition)
-
   },
   radioChange: function (e) {
     console.log('======radio发生change事件，携带value值为：', e.detail.value)
@@ -108,22 +111,6 @@ Page({
     })
   },
 
-  onReady: function () {
-
-  },
-
-  onShow: function () {
-
-  },
-
-  onHide: function () {
-
-  },
-
-  onUnload: function () {
-
-  },
-
   onPullDownRefresh: function () {
     console.log('onPullDownRefresh')
   },
@@ -134,15 +121,18 @@ Page({
     searchContent(that, that.data.channelId, that.data.sorts, that.data.filters, that.data.extraCondition)
   },
 
-  onShareAppMessage: function () {
-
-  },
   chioceChn: function (e) {
     var that = this
     var channelId = that.data.channelId
     var sorts = e.currentTarget.dataset.sortvalue
     var filters = e.currentTarget.dataset.filtervalue
     var extraCondition = e.currentTarget.dataset.exvalue
+    console.log('channelId', channelId)
+    console.log('sorts', sorts)
+    console.log('filters', filters)
+    console.log('extraCondition', extraCondition)
+    // 按年搜索的filters:2019-2019~must;year, 2015-2015~must;year
+    // 按国家搜索的filters:印度~must;area
     that.setData({
       pageIndex: 0,
       contentAll: [],
