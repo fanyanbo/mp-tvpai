@@ -117,46 +117,18 @@ Page({
         url: "../home/home"
       });
     }
-    new Promise(function (resolve, reject) {
-        let dataOnline = {
-          activeid: app.globalData.activeId //获取最新绑定设备激活ID
-        }
-        api_nj.isTVOnline({
-          data: dataOnline,
-          success(res) {
-            console.log("isTVOnline success res:" + JSON.stringify(res))
-            if (res.status === "online") { //TV在线
-              resolve();
-            } else {
-              reject(res);
-            }
-          },
-          fail(res) {
-            console.log("isTVOnline fail:" + res)
-            reject(res)
-          }
-        });
-      })
-      .then( () => {
-        wx.showLoading({
-          title: '推送中...'
-        })
-        this.setData({
-          curIndex: e.currentTarget.dataset.keyword.segment_index,
-          curThirdId: e.currentTarget.dataset.keyword.video_third_id
-        })
-        let third_album_id = e.currentTarget.dataset.keyword.third_album_id;
-        let segment_index = e.currentTarget.dataset.keyword.segment_index; //需不需要减1？
-        let tvId = JSON.parse(e.currentTarget.dataset.keyword.video_url).tvId; //添加推送历史使用，不明白为什么有这些命名？
-        let video_title = e.currentTarget.dataset.keyword.video_title;
-        let coocaa_m_id = e.currentTarget.dataset.keyword.coocaa_m_id;
-        console.log(app.globalData.deviceId, third_album_id, tvId, video_title, coocaa_m_id);
-        this.pushEpisode(app.globalData.deviceId, third_album_id, segment_index, tvId, video_title, coocaa_m_id);
-      })
-      .catch( res => {
-        console.log('catch...', res)
-        utils.showFailedToast('电视不在线', this.data.errIconUrl);
-      })
+    utils.showLoadingToast('推送中...')
+    this.setData({
+      curIndex: e.currentTarget.dataset.keyword.segment_index,
+      curThirdId: e.currentTarget.dataset.keyword.video_third_id
+    })
+    let third_album_id = e.currentTarget.dataset.keyword.third_album_id;
+    let segment_index = e.currentTarget.dataset.index; // 更换了一种方式，直接用索引值
+    let tvId = JSON.parse(e.currentTarget.dataset.keyword.video_url).tvId; //添加推送历史使用，不明白为什么有这些命名？
+    let video_title = e.currentTarget.dataset.keyword.video_title;
+    let coocaa_m_id = e.currentTarget.dataset.keyword.coocaa_m_id;
+    console.log(app.globalData.deviceId, third_album_id, tvId, video_title, coocaa_m_id);
+    this.pushEpisode(app.globalData.deviceId, third_album_id, segment_index, tvId, video_title, coocaa_m_id);
   },
   // 推送电影
   handleMovieTap: function (e) {
@@ -166,41 +138,13 @@ Page({
         url: "../home/home"
       });
     }
-    new Promise(function (resolve, reject) {
-        let dataOnline = {
-          activeid: app.globalData.activeId //获取最新绑定设备激活ID
-        }
-        api_nj.isTVOnline({
-          data: dataOnline,
-          success(res) {
-            console.log("isTVOnline success res:" + JSON.stringify(res))
-            if (res.status === "online") { //TV在线
-              resolve();
-            } else {
-              reject(res);
-            }
-          },
-          fail(res) {
-            console.log("isTVOnline fail:" + res)
-            reject(res)
-          }
-        });
-      })
-      .then( () => {
-        wx.showLoading({
-          title: '推送中...'
-        })
-        let third_album_id = e.currentTarget.dataset.keyword.video_detail.third_album_id;
-        let video_title = e.currentTarget.dataset.keyword.video_title;
-        let coocaa_m_id = e.currentTarget.dataset.keyword.video_detail.play_source.coocaa_m_id;
-        let tvId = JSON.parse(e.currentTarget.dataset.keyword.video_detail.play_source.video_url).tvId;
-        console.log(app.globalData.deviceId, third_album_id, video_title, coocaa_m_id, tvId);
-        this.pushMovie(app.globalData.deviceId, third_album_id, video_title, tvId, coocaa_m_id);
-      })
-      .catch( res => {
-        console.log('catch...', res)
-        utils.showFailedToast('电视不在线', this.data.errIconUrl);
-      })
+    utils.showLoadingToast('推送中...')
+    let third_album_id = e.currentTarget.dataset.keyword.video_detail.third_album_id;
+    let video_title = e.currentTarget.dataset.keyword.video_title;
+    let coocaa_m_id = e.currentTarget.dataset.keyword.video_detail.play_source.coocaa_m_id;
+    let tvId = JSON.parse(e.currentTarget.dataset.keyword.video_detail.play_source.video_url).tvId;
+    console.log(app.globalData.deviceId, third_album_id, video_title, coocaa_m_id, tvId);
+    this.pushMovie(app.globalData.deviceId, third_album_id, video_title, tvId, coocaa_m_id);
   },
   handleMoreTap: function (e) {
     console.log('handleMoreTap', e);

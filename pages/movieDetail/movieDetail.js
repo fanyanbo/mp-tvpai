@@ -172,36 +172,42 @@ Page({
     console.log("检测ccsession:" + ccsession);
     console.log("检测deviceid:" + deviceid);
 
-    new Promise(function (resolve, reject) {
-      let dataOnline = {
-        activeid: app.globalData.activeId //获取最新绑定设备激活ID
-      }
-      api_nj.isTVOnline({
-        data: dataOnline,
-        success(res) {
-          console.log("isTVOnline success res:" + JSON.stringify(res))
-          if (res.status == "online") { //TV在线
-            resolve();
-          } else {
-            reject(res);
-          }
-        },
-        fail(res) {
-          console.log("isTVOnline fail:" + res)
-          reject(res)
-        }
-      });
+    wx.showLoading({
+      title: '推送中...'
     })
-    .then(function () {
-      wx.showLoading({
-        title: '推送中...'
-      })
-      push(that, movieId, deviceid, moviechildid, that.data.movieType, tvid, coocaamid, title)
-    })
-    .catch(function (res) {
-      console.log('catch...' + res)
-      utils_fyb.showFailedToast('电视不在线', '../../images/close_icon.png');
-    })        
+    push(that, movieId, deviceid, moviechildid, that.data.movieType, tvid, coocaamid, title)
+
+
+    // new Promise(function (resolve, reject) {
+    //   let dataOnline = {
+    //     activeid: app.globalData.activeId //获取最新绑定设备激活ID
+    //   }
+    //   api_nj.isTVOnline({
+    //     data: dataOnline,
+    //     success(res) {
+    //       console.log("isTVOnline success res:" + JSON.stringify(res))
+    //       if (res.status == "online") { //TV在线
+    //         resolve();
+    //       } else {
+    //         reject(res);
+    //       }
+    //     },
+    //     fail(res) {
+    //       console.log("isTVOnline fail:" + res)
+    //       reject(res)
+    //     }
+    //   });
+    // })
+    // .then(function () {
+    //   wx.showLoading({
+    //     title: '推送中...'
+    //   })
+    //   push(that, movieId, deviceid, moviechildid, that.data.movieType, tvid, coocaamid, title)
+    // })
+    // .catch(function (res) {
+    //   console.log('catch...' + res)
+    //   utils_fyb.showFailedToast('电视不在线', '../../images/close_icon.png');
+    // })        
 
   }, 
   //收藏喜欢（未开发）
@@ -362,10 +368,11 @@ function push(that, movieId, deviceId, moviechildId, _type, tvid, coocaamid, tit
     return
   }
   var paramsStr
-  if (moviechildId == undefined) {
+  console.log(_type)
+  if (_type == "电影") {
     paramsStr = { "ccsession": wx.getStorageSync("cksession"), "deviceId": deviceId + '', "movieId": movieId }
   } else {
-    paramsStr = { "ccsession": wx.getStorageSync("cksession"), "coocaamid": coocaamid, "deviceId": deviceId + '', "movieId": movieId, "moviechildId": moviechildId + ''}
+    paramsStr = { "ccsession": wx.getStorageSync("cksession"), "coocaamid": coocaamid, "deviceId": deviceId + '', "movieId": movieId, "moviechildId": moviechildId + '' }
   }
   console.log("参数")
   console.log(paramsStr)
@@ -424,6 +431,7 @@ function addpushhistory(that, movieId, title, video_id) {
     },
   })
 }
+
 
 
 //获取设备信息
