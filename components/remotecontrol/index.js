@@ -42,7 +42,6 @@ Component({
     countTimer: null, // 设置 定时器 初始为null
     animationData: {} ,
     //被绑定设备状态
-    bBindedTVOnline: null, //绑定TV是否在线
     bBindedTVSupportMP: null,//绑定TV是否支持小程序
     bBindedTVReady: false, //绑定TV是否准备就绪
     aInputTips: []
@@ -161,11 +160,6 @@ Component({
           data: dataOnline,
           success(res) {
             console.log("isTVOnline success res:" + JSON.stringify(res))
-            if (res.status == "online") {//TV在线
-              that.data.bBindedTVOnline = true
-            } else {
-              that.data.bBindedTVOnline = false
-            }
             if (res.supportApplet == "yes") {//TV小维AI版本支持遥控
               that.data.bBindedTVSupportMP = true
             } else {
@@ -202,15 +196,6 @@ Component({
        })
        return false
      }
-      //step 3:是否在线
-      if (!this.data.bBindedTVOnline) {
-        console.log(" bBindedTVOnline false.")
-        wx.showToast({
-          title: '抱歉，当前绑定的设备不在线，\r\n请确认是否开机联网',
-          icon: 'none'
-        })
-        return false
-      }
       if( type == 'tap') {
         console.log(' type:tap tv ready')
         return true
