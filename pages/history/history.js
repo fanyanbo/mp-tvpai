@@ -1,5 +1,6 @@
 import utils from '../../utils/util';
 const api = require('../../api/api.js');
+const utils_fyb = require('../../utils/util_fyb');
 export {
   utils,
 }
@@ -113,6 +114,33 @@ Page({
 
 
 
+
+
+    // let params = { "del_ids": str, "vuid": wx.getStorageSync("wxopenid")}
+    // let desParams = utils_fyb.paramsAssemble_wx(params);
+    // utils_fyb.request(api.batchdelUrl, 'GET', desParams,
+    //   function (res) {
+    //     console.log('batchdelUrl success', res.data);
+    //     if (res.data.result) {
+    //       if (res.data.code == 0) {
+    //         wx.showToast({
+    //           title: '删除成功',
+    //         })
+    //         that.historyList();
+    //       }
+    //     } else {
+    //       wx.showToast({
+    //         title: res.data.message,
+    //       })
+    //     }
+    //   },
+    //   function (res) {
+    //     console.log('batchdelUrl error', res);
+    //     utils_fyb.showFailedToast('加载数据失败', that.data.errIconUrl)
+    //   }
+    // )
+
+
   },
   // 全选
   select_all: function () {
@@ -174,7 +202,7 @@ Page({
     const secret = app.globalData.secret
     const vuid = wx.getStorageSync('wxopenid')
     console.log(vuid);
-    const params = { "appkey": app.globalData.appkey, "time": app.globalData.time(), "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code, "vuid": vuid }
+    const params = { "appkey": app.globalData.appkey, "time": app.globalData.time(), "tv_source": utils_fyb.getTvsource(), "version_code": app.globalData.version_code, "vuid": vuid }
     console.log(params);
     const sign = utils.encryptionIndex(params, secret)
     const url = api.pushhistorylistUrl
@@ -182,7 +210,7 @@ Page({
       appkey: app.globalData.appkey,
       vuid: vuid,
       time: app.globalData.time(),
-      tv_source: app.globalData.tvSource,
+      tv_source: utils_fyb.getTvsource(),
       version_code: app.globalData.version_code,
       sign: sign
     }
@@ -210,7 +238,9 @@ Page({
         _overObj[_key] = overList;
 
         var historyList = []
-        historyList.push(_withinObj)
+        if (withinList.length != 0) {
+          historyList.push(_withinObj)
+        }
         if (overList.length != 0){
           historyList.push(_overObj)
         }
