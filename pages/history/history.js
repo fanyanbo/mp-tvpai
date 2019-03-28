@@ -8,17 +8,15 @@ const app = getApp()
 Page({
   data: {
     isShowTips: false,
-    showoverList:false,
-    isShowDoc:false,
-    historyList:[],
+    showoverList: false,
+    isShowDoc: false,
+    historyList: [],
     management_good: false,
     select_all: false,
-    batchdel:"",
-    length:0
+    batchdel: "",
+    length: 0
 
   },
-
-
   // 管理纪录
   management: function () {
     let that = this;
@@ -37,16 +35,16 @@ Page({
     var that = this;
     let arr2 = [];
     if (that.data.management_good == false) {
-      var album_id = e.currentTarget.dataset.albumid; 
+      var album_id = e.currentTarget.dataset.albumid;
       wx.navigateTo({
         url: '../../pages/movieDetail/movieDetail?id=' + album_id,
       });
     } else {
       var arr = that.data.historyList;
-      var index = e.currentTarget.dataset.id; 
-      var str=""; 
+      var index = e.currentTarget.dataset.id;
+      var str = "";
       console.log(arr)
-      console.log("=============="+index)
+      console.log("==============" + index)
       for (var k = 0; k < arr.length; k++) {
         var list = that.data.historyList[k].list;
         for (let i = 0; i < list.length; i++) {
@@ -72,17 +70,23 @@ Page({
   },
   // 删除
   deleteitem: function () {
-    var that = this; 
-    let str = "";  
+    var that = this;
+    let str = "";
     str = that.data.batchdel;
-    str = "{"+str+"}"
+    str = "{" + str + "}"
     console.log(str.length)
-    if(str.length == 2){//没有选择
+    if (str.length == 2) { //没有选择
       return
     }
 
     const secret = app.globalData.secret
-    var paramsStr = { "appkey": app.globalData.appkey, "del_ids": str, "time": app.globalData.time(), "version_code": app.globalData.version_code, "vuid": wx.getStorageSync("wxopenid") }
+    var paramsStr = {
+      "appkey": app.globalData.appkey,
+      "del_ids": str,
+      "time": app.globalData.time(),
+      "version_code": app.globalData.version_code,
+      "vuid": wx.getStorageSync("wxopenid")
+    }
     var sign = utils.encryptionIndex(paramsStr, secret)
     console.log(paramsStr)
     const url = api.batchdelUrl
@@ -110,9 +114,6 @@ Page({
       console.log('streams complete:')
       console.log(res)
     }, "")
-
-
-
   },
   // 全选
   select_all: function () {
@@ -130,7 +131,7 @@ Page({
         for (let i = 0; i < list.length; i++) {
           if (list[i].checked == true) {
             arr3.push(list[i].video_id);
-          } else {            
+          } else {
             list[i].checked = true;
             arr3.push(list[i].video_id);
           }
@@ -160,21 +161,23 @@ Page({
     }
     that.setData({
       historyList: arr,
-      batchdel:'',
+      batchdel: '',
       length: 0
     })
   },
-
-
-
-
 
   historyList: function (e) {
     let that = this
     const secret = app.globalData.secret
     const vuid = wx.getStorageSync('wxopenid')
     console.log(vuid);
-    const params = { "appkey": app.globalData.appkey, "time": app.globalData.time(), "tv_source": app.globalData.tvSource, "version_code": app.globalData.version_code, "vuid": vuid }
+    const params = {
+      "appkey": app.globalData.appkey,
+      "time": app.globalData.time(),
+      "tv_source": app.globalData.tvSource,
+      "version_code": app.globalData.version_code,
+      "vuid": vuid
+    }
     console.log(params);
     const sign = utils.encryptionIndex(params, secret)
     const url = api.pushhistorylistUrl
@@ -199,7 +202,7 @@ Page({
         }
         for (let i = 0; i < res.data.data.movies_over_serven_days.length; i++) {
           overList[i].checked = false;
-          overList[i].id = res.data.data.movies_within_serven_days.length+i;
+          overList[i].id = res.data.data.movies_within_serven_days.length + i;
         }
 
         var key = "time";
@@ -211,16 +214,16 @@ Page({
 
         var historyList = []
         historyList.push(_withinObj)
-        if (overList.length != 0){
+        if (overList.length != 0) {
           historyList.push(_overObj)
         }
-        
+
         console.log(historyList);
-        if (withinList.length == 0 && overList==0){
+        if (withinList.length == 0 && overList == 0) {
           that.setData({
             isShowDoc: false,
-          }) 
-        }else{
+          })
+        } else {
           that.setData({
             historyList: historyList,
             isShowDoc: true
@@ -241,62 +244,7 @@ Page({
     }, '')
   },
 
-
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    let that = this
-    that.historyList();
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  onLoad: function () {
+    this.historyList();
   }
 })
