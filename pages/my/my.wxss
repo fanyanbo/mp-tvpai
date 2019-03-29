@@ -53,7 +53,7 @@ button::after {
   width: 132rpx;
   height: 132rpx;
   border-radius: 50%;
-  border: 25rpx solid white;
+  border: 35rpx solid white;
 }
 .avatar-wrapper .name {
   position: absolute;
