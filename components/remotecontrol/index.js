@@ -46,7 +46,99 @@ Component({
     bBindedTVReady: false, //绑定TV是否准备就绪
     aInputTips: []
   },
-  methods: {  
+  methods: {
+    //处理一般按键和提示语的接口 -start-
+    _toggleMainPanel() { //打开或关闭遥控器主面板
+      console.log('mainpanel: ' + this.data.isShowMainPanel)
+      if (this.data.isShowMainPanel) {
+        this.setData({
+          indexStatus: '',
+          isShowMainPanel: false,
+          curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
+          btnContent: '遥控器',
+          query: ''
+        })
+        this.showExitAnimation()
+      } else {
+        // wx.hideTabBar({});
+        this.setData({
+          indexStatus: 'RemoteControl',
+          isShowMainPanel: true,
+          curBtnImg: '../../images/components/remotecontrol/voice@3x.png',
+          btnContent: '按住说话'
+        })
+        this.showEnterAnimaiton()
+      }
+    },    
+    handleTapMask(e) {  //处理遮罩层点击事件,等待语音解析过程不处理该事件
+      console.log('触发mask点击事件', e);
+      if (!this.data.waitVoiceResult && this.data.isShowMainPanel) {
+        this._toggleMainPanel()
+      }
+    },  
+    handleBtnTipsClosed() { //关闭录音提示语
+      console.log('handleBtnTipsClosed()')
+      app.globalData.isShowTips = false
+      this.setData({ isShowTips: false })
+    },
+    _toggleGeneralKeyStatus({ id, status }) {  //切换遥控器一般按键显示状态
+      switch (id) {
+        case 'ok':
+          this.setData({ isOKFocus: status })
+          break
+        case 'home':
+          this.setData({ isHomeFocus: status })
+          break
+        case 'back':
+          this.setData({ isBackFocus: status })
+          break
+        case 'menu':
+          this.setData({ isMenuFocus: status })
+          break
+        case 'shutdown':
+          // this.setData({ isShutdownFocus: status })
+          wx.showToast({
+            title: '当前版本暂不支持开关机功能',
+            icon: 'none'
+          })
+          break
+        case 'volume_minus':
+          this.setData({ isVoldownFocus: status })
+          break
+        case 'volume_plus':
+          this.setData({ isVolupFocus: status })
+          break
+        case 'up':
+        case 'down':
+        case 'left':
+        case 'right':
+          let img = status ? ('../../images/components/remotecontrol/director-' + id + '.png') : ('../../images/components/remotecontrol/director-normal.png');
+          this.setData({ curDirectorImg: img })
+          break
+      }
+    },
+    handlePushController(e) { //遥控器一般按键 按下
+      const curId = e.currentTarget.id;
+      this._toggleGeneralKeyStatus({ id: curId, status: true })
+      console.log('遥控按键按住: ', curId)
+    },
+    handlePushControllerEnd(e) { //遥控器一般按键 松开
+      const curId = e.currentTarget.id;
+      this._toggleGeneralKeyStatus({ id: curId, status: false })
+      console.log('遥控按键松开', curId);
+      const data = {
+        activeid: this.data.activeid,
+        action: curId
+      }
+      njApi.pushController({
+        data: data,
+        success: function (res) {
+          console.log('pushController done!', res)
+        }
+      })
+    },
+    //处理一般按键和提示语的接口 -end-
+    //处理被绑定设备状态的接口 -start-
     _showModalUnbindTV() {//显示设备未绑定 modal 
       wx.showModal({
         title: "设备未绑定",
@@ -213,29 +305,8 @@ Component({
         }
       })
     },
-    _toggleMainPanel() { //打开或关闭遥控器主面板
-      console.log('mainpanel: ' + this.data.isShowMainPanel)
-      if (this.data.isShowMainPanel) {
-        this.setData({
-          indexStatus: '',
-          isShowMainPanel: false,
-          curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
-          btnContent: '遥控器',
-          query:''
-        })
-        this.showExitAnimation()
-      } else {
-        // wx.hideTabBar({});
-        this.setData({
-          indexStatus: 'RemoteControl',
-          isShowMainPanel: true,
-          curBtnImg: '../../images/components/remotecontrol/voice@3x.png',
-          btnContent: '按住说话'
-        })
-        this.showEnterAnimaiton()
-      }
-    },
-    //处理遥控器相关事件
+    //处理被绑定设备状态的接口 -end-
+    //处理遥控器remoter-btn相关事件 -start-
     handleRecorderManagerStart() { //touch start
       console.log('语音键 touch start activeid：' + this.data.activeid);
       this.data.longtapStatus = false;//reset each time
@@ -301,73 +372,8 @@ Component({
       }
       this.startRecord();
     },
-    handleBtnTipsClosed() { //关闭提示语
-      console.log('handleBtnTipsClosed()')
-      app.globalData.isShowTips = false
-      this.setData({ isShowTips: false })
-    },
-    _toggleGeneralKeyStatus({id, status}) {  //处理遥控器一般按键UI显示状态
-      switch (id) {
-        case 'ok':
-          this.setData({ isOKFocus: status })
-          break
-        case 'home':
-          this.setData({ isHomeFocus: status })
-          break
-        case 'back':
-          this.setData({ isBackFocus: status })
-          break
-        case 'menu':
-          this.setData({ isMenuFocus: status })
-          break
-        case 'shutdown':
-          // this.setData({ isShutdownFocus: status })
-          wx.showToast({
-            title: '当前版本暂不支持开关机功能',
-            icon:'none'
-          })
-          break
-        case 'volume_minus':
-          this.setData({ isVoldownFocus: status })
-          break
-        case 'volume_plus':
-          this.setData({ isVolupFocus: status })
-          break
-        case 'up':
-        case 'down':
-        case 'left':
-        case 'right':
-          let img = status ? ('../../images/components/remotecontrol/director-' + id + '.png') : ('../../images/components/remotecontrol/director-normal.png');
-          this.setData( {curDirectorImg: img} )
-          break
-      }
-    },
-    handlePushController(e) { //遥控器一般按键 按下
-      const curId = e.currentTarget.id;
-      this._toggleGeneralKeyStatus({id:curId,status:true})
-      console.log('遥控按键按住: ', curId)
-    },
-    handlePushControllerEnd(e) { //遥控器一般按键 松开
-      const curId = e.currentTarget.id;
-      this._toggleGeneralKeyStatus({ id: curId, status: false })
-      console.log('遥控按键松开', curId);
-      const data = {
-        activeid: this.data.activeid,
-        action: curId
-      }
-      njApi.pushController({
-        data: data,
-        success: function (res) {
-          console.log('pushController done!', res)
-        }
-      })
-    },
-    handleTapMask(e) {  //处理遮罩层点击事件,等待语音解析过程不处理该事件
-      console.log('触发mask点击事件', e);
-      if (!this.data.waitVoiceResult && this.data.isShowMainPanel) {
-        this._toggleMainPanel()
-      }
-    },
+    //处理遥控器remoter-btn相关事件 -end-
+
     _resetRecordPanelStatus() {
       console.log('hideRemoteControl()')
       this._resetAnimationCircle();
@@ -376,7 +382,6 @@ Component({
         waitVoiceResult: false
       })
     },
-    //语音输入页面
     _showInputTips() { //随机显示语音输入提示语
       var aRecordTips = [['\"返回主页\"', '\"今天天气怎么样\"', '\"声音调到10\"', '\"打开网络设置\"']
         , ['\"猫用英语怎么说\"', '\"暂停/继续播放\"', '\"我想听周杰伦的晴天\"', '\"现在几点了\"']
@@ -423,17 +428,6 @@ Component({
       this.stopRecordTimer()
       this.stopRecordAnimation()
       this.stopRecord()
-
-      //等待5S，模拟语音处理，然后重置参数
-      // setTimeout(() => {
-      //   that.setData({
-      //     indexStatus: '',
-      //     longtapStatus: false,
-      //     waitVoiceResult: false,
-      //     isShowMainPanel: false,
-      //     query: ''
-      //   }) 
-      // }, 5000)
     },
     handleTencentRecorder() {
       const that = this
@@ -506,7 +500,7 @@ Component({
       }
     },
 
-    // 动画相关的方法
+    // 动画相关的方法 -start-
     showEnterAnimaiton() {
       let animation = wx.createAnimation({
         duration: 200
@@ -571,6 +565,7 @@ Component({
       }
       this.interval = setInterval(drawLoading,sec);
     }
+    // 动画相关的方法 -end-
   },
   // 组件在内存中创建完毕执行
   created() {
