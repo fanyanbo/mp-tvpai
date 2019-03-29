@@ -198,7 +198,7 @@ Component({
       })
     },
     _checkUserRecordAuthStatus(){//检查用户录音权限授权状态
-      console.log('检查录音权限')
+      console.log('check record auth..')
       let that = this;
       authApi.checkRecordPriority({
         success: (hasPriority) => {
@@ -578,6 +578,18 @@ Component({
   // 组件挂载后执行
   ready() {
     console.log('remotecontrol component ready() hasRecordAuth:' + this.data.hasRecordAuth)
+
+    //是否有录音权限
+    if (this.data.hasRecordAuth == null) {
+      authApi.checkRecordPriority({
+        success: (hasPriority) => {
+          console.log('ready(),checkRecordPriority hasPriority=' + hasPriority)
+          this.setData({
+            hasRecordAuth: hasPriority
+          })
+        }
+      })
+    }
   },
   // 组件移动的时候执行
   moved() {
