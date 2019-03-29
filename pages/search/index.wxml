@@ -1,12 +1,9 @@
-<!-- 
-  author:fanyanbo
+<!-- author:fanyanbo
   email:fanyanbo@coocaa.com
   todo:
   1.搜索关键字高亮，可抽成组件
   2.加载更多，可抽成组件
-  3.每集介绍待优化，支持指定行数显示 
--->
-
+  3.每集介绍待优化，支持指定行数显示 -->
 <wxs src="./index.wxs" module="tools" />
 <view class="main-wrapper">
   <!-- 搜索框 -->
@@ -63,12 +60,12 @@
               <image class="left-img" src="{{item.video_poster}}" />
             </view>
             <view class="item-poster-right">
-              <!-- 高亮关键字 这种写法显示会有问题，待研究-->
+              <!-- 高亮关键字 这种写法显示会有问题，待研究 -->
               <!-- <view class='right-title-wrapper'>
                 <text wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="{{index}}" class="{{item == inputValue ? 'searchHigh' : '' }}">{{item}}</text>
               </view> -->
               <view class='right-title-wrapper' bindtap="handleJumpTap" data-item="{{item}}">
-                <block wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="{{index}}" >
+                <block wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="{{index}}">
                   <text class="{{item == inputValue ? 'searchHigh' : '' }}">{{item}}</text>
                 </block>
               </view>
@@ -118,7 +115,7 @@
           </view>
           <!-- 电影推送布局,啥都不显示 -->
           <view wx:elif="{{item.video_detail.video_type == '电影'}}"></view>
-          <!-- 综艺、游戏、儿童，生活等类目推送布局，剧集有介绍-->
+          <!-- 综艺、游戏、儿童，生活等类目推送布局，剧集有介绍 -->
           <view class="item-push" wx:else>
             <view class="tips" bindtap="handleJumpTap" data-item="{{item}}">
               <image class="left" src="../../images/push.png"></image>
@@ -142,7 +139,9 @@
         </view>
       </block>
       <!-- 点击查看更多 -->
-      <view class="content-more" bindtap="handleMoreTap" wx:if="{{searchResultList.length !== 0 && hasMore === 1}}">点击查看更多</view>
+      <view class="content-more" bindtap="handleMoreTap" wx:if="{{searchResultList.length !== 0 && hasMore === 1}}">
+        点击查看更多
+      </view>
       <!-- 无搜索内容时显示 -->
       <block class="video-content-list" wx:if="{{searchResultList.length === 0 && isShowNoResult}}">
         <image class="no-result-icon" src='../../images/no-result@3x.png'></image>
@@ -155,6 +154,7 @@
     </scroll-view>
   </view>
 </view>
+<!-- 遥控器 -->
 <view>
   <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}"></remotecontrol>
 </view>
