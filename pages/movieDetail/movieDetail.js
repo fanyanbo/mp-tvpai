@@ -151,7 +151,7 @@ Page({
   },
   push(e) {
     if (app.globalData.deviceId == null) {
-      return wx.navigateTo({
+      return wx.redirectTo({
         url: "../home/home"
       });
     }
@@ -160,7 +160,6 @@ Page({
     var moviechildid = e.currentTarget.dataset.moviechildid
     var movieId =  e.currentTarget.dataset.movieid
     var title = e.currentTarget.dataset.title
-    console.log(coocaamid + "=====coocaa_m_id===========" + moviechildid)
     var that = this
     that.setData({
       moviechildid: moviechildid,//剧集
@@ -172,7 +171,6 @@ Page({
     var deviceid = wx.getStorageSync("deviceId")
     console.log("检测ccsession:" + ccsession);
     console.log("检测deviceid:" + deviceid);
-
     wx.showLoading({
       title: '推送中...'
     })

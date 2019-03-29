@@ -1,6 +1,7 @@
 <view class="container">
   <view class="{{devices?'none':'no-devices'}}" wx:if="{{isShowDoc}}">
     <view class="swiper_list">
+      <image src="../../images/help/0.jpg" class="image0"></image>
       <image src="../../images/help/1.jpg" class="image1"></image>
       <image src="../../images/help/2.jpg" class="image2"></image>
       <image src="../../images/help/3.jpg" class="image3"></image>
