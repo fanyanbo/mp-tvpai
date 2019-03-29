@@ -71,7 +71,7 @@ Component({
       })
     },
     _showModalUserAuthRecord(){//显示用户授权录音权限 modal
-      console.log('显示模态授权框')
+      console.log('没有录音权限，引导用户进行授权')
       let that = this
       wx.showModal({
         title: '授权提示',
@@ -106,7 +106,7 @@ Component({
       })
     },
     _checkUserRecordAuthStatus(){//检查用户录音权限授权状态
-      console.log('没有录音权限，引导用户进行授权')
+      console.log('检查录音权限')
       let that = this;
       authApi.checkRecordPriority({
         success: (hasPriority) => {
@@ -128,12 +128,6 @@ Component({
                 });
                 if (true) { //(res.errCode == '-12006') { //如果用户已经拒绝过授权录音，之后再调wx.authorize会直接fail,所以需要再用modal引导用户授权
                   this._showModalUserAuthRecord()
-                } else {
-                  wx.showToast({  // 申请录音权限失败
-                    title: '语音遥控需要小程序录音权限',
-                    icon: 'none',
-                    duration: 2000,
-                  })
                 }
                 return false
               }
@@ -589,18 +583,6 @@ Component({
   // 组件挂载后执行
   ready() {
     console.log('remotecontrol component ready() hasRecordAuth:' + this.data.hasRecordAuth)
-
-    //是否有录音权限
-    if (this.data.hasRecordAuth == null) {
-      authApi.checkRecordPriority({
-        success: (hasPriority) => {
-          console.log('ready(),checkRecordPriority hasPriority=' + hasPriority)
-          this.setData({
-            hasRecordAuth: hasPriority
-          })
-        }
-      })
-    }
   },
   // 组件移动的时候执行
   moved() {
