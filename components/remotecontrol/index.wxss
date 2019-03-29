@@ -26,7 +26,7 @@
   .origin-pos {
     transform:translateY(100%);
   }
-  
+ 
   /* 遥控器面板 */
   .header-wrapper {
     position: absolute;
@@ -167,79 +167,75 @@
   
   /* 语音输入面板 */
   .voice-input-wrapper {
-    z-index: 0;
-    position: relative;
-    margin: 100px auto 20px;
-    width: 200px;
-    height: 200px;
+     position: relative;
+     width: 100%;
+     height: 718rpx;
+  } 
+  .input-progress-zone {
+    position: absolute;
+    top: 100rpx;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120rpx;
+    height: 120rpx;
   }
-  .canvas {
+  .input-icon,.input-progressbar {
+    position: absolute;
+    width: 120rpx;
+    height: 120rpx;
+  }
+  .input-progressbar {
     z-index: 1;
-    width: 200px;
-    height: 200px;
   }
-  .canvas-mask {
-    z-index: 2;
+  .input-content-zone {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 200px;
-    height: 200px;
-  }
-  .canvas_icon{ 
-    position: absolute;
+    top: 260rpx;
     left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
-    display: flex;  
-    align-items: center;
-    justify-content: center;
-  }
-  .icon-mic{
-    width: 320rpx;
-    height: 320rpx;
-  }
-  
-  /* 语音结果版面 */
-  .loading-wrapper {
-    position: absolute;
-    width: 450rpx;
-    height: 450rpx;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-  }
-  
-  .icon-loading {
-    width: 60rpx;
-    height: 60rpx;
-    animation: rotate 1s linear infinite;
-  }
-  @keyframes rotate{
-    0% {transform: rotate(0deg);}
-    50% {transform: rotate(180deg);}
-    100% {transform: rotate(360deg);}
-  }
-  
-  .loading-text{
-    margin-top: 40rpx;
-    color: #C2C1C7;
-    font-size: 28rpx;
-  }
-  
-  .content-wrapper {
-    position: absolute;
-    width: 750rpx;
-    top: 150rpx;
-    font-family: PingFangSC-Regular;
-    font-size: 36rpx;
-    color: #999999;
+    transform: translateX(-50%);
+    width: 650rpx;
+    max-height: 112rpx;
+    line-height: 56rpx;
+    font-family: 'PingFangSC-Regular';
+    font-size: 16px;
+    color: #333333;
     letter-spacing: 0;
     text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
+.input-tips-zone {
+  position: absolute;
+  top: 400rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-family: 'PingFangSC-Regular';
+  font-size: 16px;
+  color: #CCCCCC;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+
+  /* 语音结果版面 */
+.voice-result-wrapper { 
+  width: 100%;
+  height: 100%;
+  font-family: "PingFangSC-Regular";
+  font-size: 20px;
+  color: #FFD71C;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.voice-result-ok {
+  width: 120rpx;
+  height: 120rpx;
+  margin-bottom: 40rpx;
+}
   
   /* 遥控器按钮 */
   .remoter-btn-wrapper {

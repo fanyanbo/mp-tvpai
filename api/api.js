@@ -47,6 +47,7 @@ const getVideoDetailUrl = _baseUrl + "video/client/longvideo/videodetail";//获�
 const relatelongUrl = _baseUrl + "video/client/longvideo/relatelong";//相关正片
 const getTvSegmentListUrl = _baseUrl + "video/client/longvideo/episodeslist";//获取剧集列表接口
 const addUrl = _baseUrl + "video/client/collect/add";//收藏接口
+const collectlistUrl = _baseUrl + "video/client/collect/list";//收藏列表接口
 const addpushhistoryUrl = _baseUrl + "video/client/pushhistory/add";//添加推送历史
 const pushhistorylistUrl = _baseUrl + "video/client/pushhistory/list";//查询推送历史
 const batchdelUrl = _baseUrl + "video/client/pushhistory/batchdel";//删除推送历史
@@ -93,5 +94,6 @@ module.exports = {
   addUrl: addUrl,
   addpushhistoryUrl: addpushhistoryUrl,
   pushhistorylistUrl: pushhistorylistUrl,
-  batchdelUrl: batchdelUrl
+  batchdelUrl: batchdelUrl,
+  collectlistUrl: collectlistUrl
 }

@@ -27,7 +27,8 @@ Page({
     video_url:'',
     coocaa_m_id:'',
     isShowtitle:false,
-    tvId:""
+    tvId:"",
+    likeShow:false//是否收藏
   },
 
   /**
@@ -172,86 +173,72 @@ Page({
     console.log("检测ccsession:" + ccsession);
     console.log("检测deviceid:" + deviceid);
 
-    new Promise(function (resolve, reject) {
-      let dataOnline = {
-        activeid: app.globalData.activeId //获取最新绑定设备激活ID
-      }
-      api_nj.isTVOnline({
-        data: dataOnline,
-        success(res) {
-          console.log("isTVOnline success res:" + JSON.stringify(res))
-          if (res.status == "online") { //TV在线
-            resolve();
-          } else {
-            reject(res);
-          }
-        },
-        fail(res) {
-          console.log("isTVOnline fail:" + res)
-          reject(res)
-        }
-      });
+    wx.showLoading({
+      title: '推送中...'
     })
-    .then(function () {
-      wx.showLoading({
-        title: '推送中...'
-      })
-      push(that, movieId, deviceid, moviechildid, that.data.movieType, tvid, coocaamid, title)
-    })
-    .catch(function (res) {
-      console.log('catch...' + res)
-      utils_fyb.showFailedToast('电视不在线', '../../images/close_icon.png');
-    })        
+    push(that, movieId, deviceid, moviechildid, that.data.movieType, tvid, coocaamid, title)
+
+
+    // new Promise(function (resolve, reject) {
+    //   let dataOnline = {
+    //     activeid: app.globalData.activeId //获取最新绑定设备激活ID
+    //   }
+    //   api_nj.isTVOnline({
+    //     data: dataOnline,
+    //     success(res) {
+    //       console.log("isTVOnline success res:" + JSON.stringify(res))
+    //       if (res.status == "online") { //TV在线
+    //         resolve();
+    //       } else {
+    //         reject(res);
+    //       }
+    //     },
+    //     fail(res) {
+    //       console.log("isTVOnline fail:" + res)
+    //       reject(res)
+    //     }
+    //   });
+    // })
+    // .then(function () {
+    //   wx.showLoading({
+    //     title: '推送中...'
+    //   })
+    //   push(that, movieId, deviceid, moviechildid, that.data.movieType, tvid, coocaamid, title)
+    // })
+    // .catch(function (res) {
+    //   console.log('catch...' + res)
+    //   utils_fyb.showFailedToast('电视不在线', '../../images/close_icon.png');
+    // })        
 
   }, 
   //收藏喜欢（未开发）
-  like: function (event) {
+  like: function (e) {
     let that = this
-    var video_title = e.currentTarget.title
-    var video_poster = e.currentTarget.poster
-    var third_album_id = e.currentTarget.id
+    var video_title = e.currentTarget.dataset.title
+    var video_poster = e.currentTarget.dataset.poster
+    var third_album_id = e.currentTarget.dataset.id
+
     const secret = app.globalData.secret
-    const params = { "appkey": app.globalData.appkey, "video_type": 1, "video_title": video_title, "video_poster": video_poster, "third_album_id": third_album_id, "time": app.globalData.time(), "tv_source": utils_fyb.getTvsource(), "version_code": app.globalData.version_code }
-    console.log(params);
-    const sign = utils.encryptionIndex(params, secret)
-    const url = api.addUrl + "add=1"
-    let data = {
-      appkey: app.globalData.appkey,
-      video_type: 1,
-      video_title: video_title,
-      video_poster: video_poster,
-      third_album_id: third_album_id,
-      time: app.globalData.time(),
-      tv_source: utils_fyb.getTvsource(),
-      version_code: app.globalData.version_code,
-      sign: sign
-    }
-    utils.postLoading(url, 'GET', data, function (res) {
-      console.log(res)
-      if (res.data.code == 200) {
-        wx.showToast({
-          title: '添加成功',
-        })
-      } else {
-        console.log('streams fail:')
-        wx.showToast({
-          title: '添加失败',
-        })
-      }
-    }, function (res) {
-      console.log('streams fail:', res)
-      wx.showToast({
-        title: '添加失败',
-      })
-    }, function (res) {
-      console.log('streams complete:', res)
-    }, "")
-  },
-  boxshdawclick: function () {
-    this.setData({
-      flag: true,
-    })
-  }
+    var paramsStr = { "appkey": app.globalData.appkey, "collect_type": 1, "time": app.globalData.time(), "token": wx.getStorageSync("wxopenid"), "version_code": app.globalData.version_code }
+    var sign = utils.encryptionIndex(paramsStr, secret)
+    console.log(paramsStr)
+    wx.request({
+      url: api.addUrl + "?collect_type=1&sign=" + sign + "&token=" + wx.getStorageSync("wxopenid") + "&version_code=" + app.globalData.version_code+"&time=" + app.globalData.time() + "&appkey=" + app.globalData.appkey,
+      method: "POST",
+      data: {
+        third_album_id: third_album_id,
+        title: video_title,
+        video_poster: video_poster,
+        video_type: "1",
+      },
+      header: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      success: function (res) {
+        console.log(res.data);
+      },
+    }) 
+}
 })
 
 function movieDetail(that, movieId) {
@@ -269,6 +256,15 @@ function movieDetail(that, movieId) {
       if (tags != null && tags.length > 3) {
         var temp = tags[0] + '.' + tags[1] + '.' + tags[2]
         tagArr.push(temp)
+      }
+      if (res.data.data.is_collect == 1) {//是否收藏
+        that.setData({
+          likeShow:true
+        })
+      } else if (res.data.data.is_collect == 2){
+        that.setData({
+          likeShow: false
+        })    
       }
       that.setData({
         movieData: res.data.data,
@@ -362,10 +358,11 @@ function push(that, movieId, deviceId, moviechildId, _type, tvid, coocaamid, tit
     return
   }
   var paramsStr
-  if (moviechildId == undefined) {
+  console.log(_type)
+  if (_type == "电影") {
     paramsStr = { "ccsession": wx.getStorageSync("cksession"), "deviceId": deviceId + '', "movieId": movieId }
   } else {
-    paramsStr = { "ccsession": wx.getStorageSync("cksession"), "coocaamid": coocaamid, "deviceId": deviceId + '', "movieId": movieId, "moviechildId": moviechildId + ''}
+    paramsStr = { "ccsession": wx.getStorageSync("cksession"), "coocaamid": coocaamid, "deviceId": deviceId + '', "movieId": movieId, "moviechildId": moviechildId + '' }
   }
   console.log("参数")
   console.log(paramsStr)
@@ -424,6 +421,7 @@ function addpushhistory(that, movieId, title, video_id) {
     },
   })
 }
+
 
 
 //获取设备信息
