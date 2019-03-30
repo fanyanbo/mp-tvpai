@@ -13,13 +13,7 @@ Component({
     }
   },
   data: {
-    activeid: null, //设备激活id
-    btnContent: '遥控器', 
-    tipsContent: '提示：长按遥控器按钮，就能语音啦',
-    query: '',
-    isShowMainPanel: false, // 是否显示遥控器主面板
-    hasRecordAuth: null, //是否有录音权限
-    // 遥控按键落焦标识
+    //遥控按键落焦标识
     isOKFocus: false,
     isShutdownFocus: false,
     isVolupFocus: false,
@@ -27,24 +21,37 @@ Component({
     isHomeFocus: false,
     isBackFocus: false,
     isMenuFocus: false,
-    // 方向icon路径
-    curDirectorImg: '../../images/components/remotecontrol/director-normal.png',
-    // 遥控器按钮icon路径
-    curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
+    curDirectorImg: '../../images/components/remotecontrol/director-normal.png',    // 方向icon路径
+    curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',    // 遥控器按钮icon路径
+    
+    //被绑定设备状态 
+    activeid: null, //设备激活id
+    hasRecordAuth: null, //是否有录音权限
+    bBindedTVSupportMP: null,//绑定TV是否支持小程序
+    bBindedTVReady: false, //绑定TV是否准备就绪
+
+    //遥控器面板显示内容
+    tipsContent: '提示：长按遥控器按钮，就能语音啦',
+    aInputTips: [], //随机语音提示语数组
+    btnContent: '遥控器',
+    query: '', //用户语音输入内容
+
+    //遥控器UI显示flag
+    isShowMainPanel: false, // 是否显示遥控器主面板
+    isShowMainPanelBakup: false,//是否显示遥控器主面板-上次状态备份，语音输入后需要恢复之前状态
     indexStatus: '',  // 当前显示版面
+    indexStatusBakup: '',//当前显示版面-上次状态备份，语音输入后需要恢复之前状态
+    
+    //语音输入流程控制flag
     longtapStatus: false, // 是否是长按状态
     bStartRecord: false,//是否开始录制音频
     voiceInputStatus: false, // 是否是语音输入状态
     waitVoiceResult: false,  // 等待语音结果状态
-    oneTip: '您可以说：“今天天气怎么样”',//todo
-    // 动画数据
+
+    //语音输入动画数据
     count: 0, // 设置 计数器 初始为0
     countTimer: null, // 设置 定时器 初始为null
     animationData: {} ,
-    //被绑定设备状态
-    bBindedTVSupportMP: null,//绑定TV是否支持小程序
-    bBindedTVReady: false, //绑定TV是否准备就绪
-    aInputTips: []
   },
   methods: {
     //处理一般按键和提示语的接口 -start-
@@ -373,6 +380,20 @@ Component({
       this.startRecord();
     },
     //处理遥控器remoter-btn相关事件 -end-
+
+    //语音输入相关接口 -start-
+    _saveStatusBeforeRecord() { //保存录音前的遥控器页面状态，录音完后要恢复
+      console.log('_saveStatusBeforeRecord()...')
+      this.data.indexStatusBakup = this.data.indexStatus;
+      this.data.isShowMainPanelBakup = this.data.isShowMainPanel;
+    },
+    _restoreStatusAfterRecord() { //恢复录音前的遥控器页面状态
+      console.log('_restoreStatusAfterRecord()...')
+      this.setData({
+        indexStatus: this.data.indexStatusBakup,
+        isShowMainPanel: this.data.isShowMainPanelBakup
+      })
+    },
 
     _resetRecordPanelStatus() {
       console.log('hideRemoteControl()')
