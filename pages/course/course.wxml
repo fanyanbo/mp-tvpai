@@ -1,4 +1,5 @@
 <view class="img_list">
+  <image src="../../images/help/0.jpg" mode="widthFix"></image>
   <image src="../../images/help/1.jpg" mode="widthFix"></image>
   <image src="../../images/help/2.jpg" mode="widthFix"></image>
   <image src="../../images/help/3.jpg" mode="widthFix"></image>

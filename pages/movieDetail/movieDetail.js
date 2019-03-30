@@ -27,7 +27,8 @@ Page({
     video_url:'',
     coocaa_m_id:'',
     isShowtitle:false,
-    tvId:""
+    tvId:"",
+    likeShow:false//是否收藏
   },
 
   /**
@@ -150,7 +151,7 @@ Page({
   },
   push(e) {
     if (app.globalData.deviceId == null) {
-      return wx.navigateTo({
+      return wx.redirectTo({
         url: "../home/home"
       });
     }
@@ -159,7 +160,6 @@ Page({
     var moviechildid = e.currentTarget.dataset.moviechildid
     var movieId =  e.currentTarget.dataset.movieid
     var title = e.currentTarget.dataset.title
-    console.log(coocaamid + "=====coocaa_m_id===========" + moviechildid)
     var that = this
     that.setData({
       moviechildid: moviechildid,//剧集
@@ -171,7 +171,6 @@ Page({
     var deviceid = wx.getStorageSync("deviceId")
     console.log("检测ccsession:" + ccsession);
     console.log("检测deviceid:" + deviceid);
-
     wx.showLoading({
       title: '推送中...'
     })
@@ -211,53 +210,33 @@ Page({
 
   }, 
   //收藏喜欢（未开发）
-  like: function (event) {
+  like: function (e) {
     let that = this
-    var video_title = e.currentTarget.title
-    var video_poster = e.currentTarget.poster
-    var third_album_id = e.currentTarget.id
+    var video_title = e.currentTarget.dataset.title
+    var video_poster = e.currentTarget.dataset.poster
+    var third_album_id = e.currentTarget.dataset.id
+
     const secret = app.globalData.secret
-    const params = { "appkey": app.globalData.appkey, "video_type": 1, "video_title": video_title, "video_poster": video_poster, "third_album_id": third_album_id, "time": app.globalData.time(), "tv_source": utils_fyb.getTvsource(), "version_code": app.globalData.version_code }
-    console.log(params);
-    const sign = utils.encryptionIndex(params, secret)
-    const url = api.addUrl + "add=1"
-    let data = {
-      appkey: app.globalData.appkey,
-      video_type: 1,
-      video_title: video_title,
-      video_poster: video_poster,
-      third_album_id: third_album_id,
-      time: app.globalData.time(),
-      tv_source: utils_fyb.getTvsource(),
-      version_code: app.globalData.version_code,
-      sign: sign
-    }
-    utils.postLoading(url, 'GET', data, function (res) {
-      console.log(res)
-      if (res.data.code == 200) {
-        wx.showToast({
-          title: '添加成功',
-        })
-      } else {
-        console.log('streams fail:')
-        wx.showToast({
-          title: '添加失败',
-        })
-      }
-    }, function (res) {
-      console.log('streams fail:', res)
-      wx.showToast({
-        title: '添加失败',
-      })
-    }, function (res) {
-      console.log('streams complete:', res)
-    }, "")
-  },
-  boxshdawclick: function () {
-    this.setData({
-      flag: true,
-    })
-  }
+    var paramsStr = { "appkey": app.globalData.appkey, "collect_type": 1, "time": app.globalData.time(), "token": wx.getStorageSync("wxopenid"), "version_code": app.globalData.version_code }
+    var sign = utils.encryptionIndex(paramsStr, secret)
+    console.log(paramsStr)
+    wx.request({
+      url: api.addUrl + "?collect_type=1&sign=" + sign + "&token=" + wx.getStorageSync("wxopenid") + "&version_code=" + app.globalData.version_code+"&time=" + app.globalData.time() + "&appkey=" + app.globalData.appkey,
+      method: "POST",
+      data: {
+        third_album_id: third_album_id,
+        title: video_title,
+        video_poster: video_poster,
+        video_type: "1",
+      },
+      header: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      success: function (res) {
+        console.log(res.data);
+      },
+    }) 
+}
 })
 
 function movieDetail(that, movieId) {
@@ -275,6 +254,15 @@ function movieDetail(that, movieId) {
       if (tags != null && tags.length > 3) {
         var temp = tags[0] + '.' + tags[1] + '.' + tags[2]
         tagArr.push(temp)
+      }
+      if (res.data.data.is_collect == 1) {//是否收藏
+        that.setData({
+          likeShow:true
+        })
+      } else if (res.data.data.is_collect == 2){
+        that.setData({
+          likeShow: false
+        })    
       }
       that.setData({
         movieData: res.data.data,
