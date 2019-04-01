@@ -41,7 +41,7 @@
     </scroll-view>
   </view>
 
-    <button class='history mylabel' data-type="history" bindtap="handleJumpPage">
+    <!-- <button class='history mylabel' data-type="history" bindtap="handleJumpPage">
       <image class='my_icon' src="../../images/like.png"></image>
       <text class="title">我的喜欢</text>
       <text class="more">全部</text>
@@ -56,7 +56,7 @@
         </view>
       </navigator>
     </scroll-view>
-  </view>
+  </view> -->
 
 
 </view>
