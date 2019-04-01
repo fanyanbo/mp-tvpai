@@ -86,7 +86,7 @@ function paramsAssemble_tvpai(paramsObj = {}) {
     "tv_source": getTvsource(),
     "version_code": 33,
     // 'token': 'fanyanbo',
-    // "vuid": 'fanyanbo'
+    "vuid": wx.getStorageSync("wxopenid")
   }
   let desParams = Object.assign(orignParams, paramsObj);
   // console.log(desParams);

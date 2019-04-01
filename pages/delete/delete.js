@@ -18,7 +18,7 @@ Page({
   deleteName: function (e) {
     let that = this
     const key = app.globalData.key
-    const ccsession = wx.getStorageSync('cksession')
+    const ccsession = wx.getStorageSync('new_cksession')
     var paramsStr = { "ccsession": ccsession, "delete": "1", "deviceId": that.data.deviceId }
     console.log(paramsStr);
     const sign = utils.encryption(paramsStr, key)

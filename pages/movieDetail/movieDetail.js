@@ -167,8 +167,8 @@ Page({
       movieId: movieId
     })
 
-    var ccsession = wx.getStorageSync("cksession")
-    var deviceid = wx.getStorageSync("deviceId")
+    var ccsession = wx.getStorageSync("new_cksession")
+    var deviceid = app.globalData.deviceId
     console.log("检测ccsession:" + ccsession);
     console.log("检测deviceid:" + deviceid);
     wx.showLoading({
@@ -210,30 +210,41 @@ Page({
 
   }, 
   //收藏喜欢（未开发）
-  like: function (e) {
+  like (e) {
+    app.globalData.deviceId = 5552755
+    if (app.globalData.deviceId == null) {
+      return wx.redirectTo({
+        url: "../home/home"
+      });
+    }
     let that = this
     var video_title = e.currentTarget.dataset.title
     var video_poster = e.currentTarget.dataset.poster
     var third_album_id = e.currentTarget.dataset.id
 
     const secret = app.globalData.secret
-    var paramsStr = { "appkey": app.globalData.appkey, "collect_type": 1, "time": app.globalData.time(), "token": wx.getStorageSync("wxopenid"), "version_code": app.globalData.version_code }
+    var paramsStr = { "appkey": app.globalData.appkey, "collect_type": 1, "time": app.globalData.time(), "version_code": app.globalData.version_code, "vuid": wx.getStorageSync("wxopenid")}
     var sign = utils.encryptionIndex(paramsStr, secret)
+    console.log(third_album_id)
     console.log(paramsStr)
     wx.request({
-      url: api.addUrl + "?collect_type=1&sign=" + sign + "&token=" + wx.getStorageSync("wxopenid") + "&version_code=" + app.globalData.version_code+"&time=" + app.globalData.time() + "&appkey=" + app.globalData.appkey,
+      url: api.addUrl + "?collect_type=1&sign=" + sign + "&vuid=" + wx.getStorageSync("wxopenid") + "&version_code=" + app.globalData.version_code+"&time=" + app.globalData.time() + "&appkey=" + app.globalData.appkey,
       method: "POST",
       data: {
         third_album_id: third_album_id,
         title: video_title,
         video_poster: video_poster,
-        video_type: "1",
+        video_type: 1,
+        vuid: wx.getStorageSync("wxopenid")
       },
       header: {
         "Content-Type": "application/json; charset=utf-8"
       },
       success: function (res) {
         console.log(res.data);
+        that.setData({
+          likeShow: true
+        })
       },
     }) 
 }
@@ -245,7 +256,7 @@ function movieDetail(that, movieId) {
   utils_fyb.request(api.getVideoDetailUrl, 'GET', desParams, function (res) {
     console.log("影片详情====")
     console.log(res)
-    var ccsession = wx.getStorageSync("cksession")
+    var ccsession = wx.getStorageSync("new_cksession")
     console.log("检测ccsession：" + ccsession);
     if (res.data.data) {
       var tags = res.data.data.video_tags
@@ -358,9 +369,9 @@ function push(that, movieId, deviceId, moviechildId, _type, tvid, coocaamid, tit
   var paramsStr
   console.log(_type)
   if (_type == "电影") {
-    paramsStr = { "ccsession": wx.getStorageSync("cksession"), "deviceId": deviceId + '', "movieId": movieId }
+    paramsStr = { "ccsession": wx.getStorageSync("new_cksession"), "deviceId": deviceId + '', "movieId": movieId }
   } else {
-    paramsStr = { "ccsession": wx.getStorageSync("cksession"), "coocaamid": coocaamid, "deviceId": deviceId + '', "movieId": movieId, "moviechildId": moviechildId + '' }
+    paramsStr = { "ccsession": wx.getStorageSync("new_cksession"), "coocaamid": coocaamid, "deviceId": deviceId + '', "movieId": movieId, "moviechildId": moviechildId + '' }
   }
   console.log("参数")
   console.log(paramsStr)
@@ -424,7 +435,7 @@ function addpushhistory(that, movieId, title, video_id) {
 
 //获取设备信息
 function getDevices(that, message, tvid, coocaamid, title) {
-  const ccsession = wx.getStorageSync('cksession')
+  const ccsession = wx.getStorageSync('new_cksession')
   const url = api.bindDeviceListUrl
   const key = app.globalData.key
   var paramsStr = { "ccsession": ccsession }

@@ -219,7 +219,7 @@ Page({
       });
     }
     let that = this;
-    let ccsession = wx.getStorageSync("cksession");
+    let ccsession = wx.getStorageSync("new_cksession");
     console.log('bindGetUserInfo ccsession', ccsession);
     if (e.currentTarget.dataset.type == 'cinecism') {
       wx.navigateTo({
@@ -235,7 +235,7 @@ Page({
 
 
   getBindedDevice: function () {
-    let ccsession = wx.getStorageSync('cksession');
+    let ccsession = wx.getStorageSync('new_cksession');
     console.log('getBindedDevice ccsession', ccsession);
     if (ccsession == null || ccsession === "") return;
     let params = { ccsession: ccsession };

@@ -117,7 +117,7 @@ Page({
     var newZu2 = ''
     var url = api.appletCollectVideoUrl
     var key = app.globalData.key
-    var ccsession = wx.getStorageSync("cksession")
+    var ccsession = wx.getStorageSync("new_cksession")
     // var moviesId = options.currentTarget.dataset.moviesid
     contentId = e.currentTarget.dataset.contentid
     var index = e.currentTarget.dataset.contentid
@@ -204,7 +204,7 @@ Page({
     var that = this
     var url = api.clickLikeUrl
     var key = app.globalData.key
-    var ccsession = wx.getStorageSync("cksession")
+    var ccsession = wx.getStorageSync("new_cksession")
     var paramsStr = { "ccsession": ccsession, "commentId": commentid + '' }
     var sign = utils.encryption(paramsStr, key)
     wx.request({
@@ -283,7 +283,7 @@ Page({
     var indexRediuce = index - 1
     var url = api.appletEmpCollectArticleUrl
     var key = app.globalData.key
-    var ccsession = wx.getStorageSync("cksession")
+    var ccsession = wx.getStorageSync("new_cksession")
     var articleId = e.currentTarget.dataset.articleid
     var paramsStr = { "articleId": articleId + '', "ccsession": ccsession }
     var sign = utils.encryption(paramsStr, key)
@@ -357,7 +357,7 @@ Page({
     var articleId = e.currentTarget.dataset.id
     var url = api.saveArticleCommentByUserUrl
     var key = app.globalData.key
-    var ccsession = wx.getStorageSync("cksession")
+    var ccsession = wx.getStorageSync("new_cksession")
     var paramsStr = { "articleId": articleId + '', "ccsession": ccsession, 'content': content }
     var sign = utils.encryption(paramsStr, key)
 
@@ -553,7 +553,7 @@ Page({
     var that = this
     var url = api.saveUserVoteUrl
     var key = app.globalData.key
-    var ccsession = wx.getStorageSync("cksession")
+    var ccsession = wx.getStorageSync("new_cksession")
     var voteId = e.currentTarget.dataset.vote
     console.log("voteId:" + voteId)
 
@@ -649,7 +649,7 @@ Page({
       isTrue: 'hidden',
       tvChioced: 'zzzzz'
     })
-    var cksession = wx.getStorageSync("cksession")
+    var cksession = wx.getStorageSync("new_cksession")
     //console.log(cksession != null && cksession != undefined && cksession !== '');
     if (cksession != null && cksession != undefined && cksession !== '') {
       serviceList(this)
@@ -771,7 +771,7 @@ function pushMovies(that, movieId, deviceId, moviechildId) {
   var paramsStr
   var url = api.devicesPushUrl
   var key = app.globalData.key
-  var ccsession = wx.getStorageSync("cksession")
+  var ccsession = wx.getStorageSync("new_cksession")
   if (moviechildId == null || moviechildId == undefined || moviechildId === '') {
     paramsStr = { "ccsession": ccsession, "deviceId": deviceId + '', "movieId": movieId }
   } else {
@@ -818,7 +818,7 @@ function pushMovies(that, movieId, deviceId, moviechildId) {
 function serviceList(that) {
   var url = api.getDevicesUrl
   var key = app.globalData.key
-  var ccsession = wx.getStorageSync("cksession")
+  var ccsession = wx.getStorageSync("new_cksession")
   console.log("ccsession" + ccsession)
   var paramsStr = { "ccsession": ccsession }
   var sign = utils.encryption(paramsStr, key)
@@ -904,7 +904,7 @@ function serviceList(that) {
 function getArtical(that) {
   var url = api.getArticleDetailUrl
   var key = app.globalData.key
-  var ccsession = wx.getStorageSync("cksession")
+  var ccsession = wx.getStorageSync("new_cksession")
   var paramsStr = { "articleId": that.data.allId, "ccsession": ccsession }
   var sign = utils.encryption(paramsStr, key)
   wx.request({
@@ -1018,7 +1018,7 @@ function getCommenList(that) {
   utils.showLoading();
   var url = api.getArticleCommentUrl
   var key = app.globalData.key
-  var ccsession = wx.getStorageSync("cksession");
+  var ccsession = wx.getStorageSync("new_cksession");
   var page = that.data.page;
 
   var paramsStr = { "articleId": that.data.allId, "ccsession": ccsession, "page": page + '', "pageSize": "10" };
@@ -1099,7 +1099,7 @@ function getCommenList(that) {
 function getAboutMovie(that) {
   var url = api.getArticleMoviesUrl
   var key = app.globalData.key
-  var ccsession = wx.getStorageSync("cksession")
+  var ccsession = wx.getStorageSync("new_cksession")
   var paramsStr = { "articleId": that.data.allId, "ccsession": ccsession }
   var sign = utils.encryption(paramsStr, key)
   wx.request({

@@ -18,6 +18,7 @@ Page({
   onShow: function () {
     console.log('onShow');
     this.getMovieHistoryList();
+    this.getLikeList();
   },
 
   // 设备绑定和推送历史入口暂未使用
@@ -27,7 +28,7 @@ Page({
       // 用户拒绝直接返回授权框
       return;
     }
-    let ccsession = wx.getStorageSync("cksession");
+    let ccsession = wx.getStorageSync("new_cksession");
     console.log('bindGetUserInfo ccsession', ccsession);
     if (ccsession == null || ccsession === '') {
       wx.login({
@@ -64,7 +65,7 @@ Page({
         url: '../home/home',
       })
     } else if (e.currentTarget.dataset.type === 'history') {
-      let ccsession = wx.getStorageSync("cksession")
+      let ccsession = wx.getStorageSync("new_cksession")
       if (ccsession == null || ccsession === '') {
         wx.navigateTo({
           url: '../home/home',
@@ -84,26 +85,47 @@ Page({
     if (vuid == null || vuid === '') return;
     let srcParams = {"vuid": vuid };
     let desParams = utils_fyb.paramsAssemble_tvpai(srcParams);
-    console.log(desParams);
+  //  console.log(desParams);
     utils_fyb.requestP(api_fyb.getHistoryListUrl, desParams).then(res => {
       console.log("getMovieHistoryList success", res);
       if (res.data.data) {
         let withinList = res.data.data.movies_within_serven_days
         let overList = res.data.data.movies_over_serven_days
-        if (withinList.length === 0) {
+        let historyList = withinList.concat(overList);
           this.setData({
-            historyList: overList
+            historyList: historyList
           })
-        } else {
-          this.setData({
-            historyList: withinList
-          })
-        }
+
       }
     }).catch(res => {
       console.log("getMovieHistoryList error", res);
     })
   },
+
+  // 获取推送历史列表
+  getLikeList: function () {
+    let vuid = wx.getStorageSync('wxopenid');
+    console.log('vuid:',vuid);
+    if (vuid == null || vuid === '') return;
+    let srcParams = { "vuid": vuid,"video_type":1};
+    let desParams = utils_fyb.paramsAssemble_tvpai(srcParams);
+    console.log(desParams);
+    utils_fyb.requestP(api_fyb.getCollectedListUrl, desParams).then(res => {
+      console.log("我的喜欢 success", res);
+      if (res.data.data) {
+          this.setData({
+            likeList: res.data.data
+          })
+
+      }
+    }).catch(res => {
+      console.log("getLikeList error", res);
+    })
+  },
+
+
+
+
 })
 
 

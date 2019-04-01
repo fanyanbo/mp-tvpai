@@ -22,7 +22,7 @@ Page({
   },
   getActiveId: function () {
     console.log('获取激活id中')
-    const ccsession = wx.getStorageSync('cksession')
+    const ccsession = wx.getStorageSync('new_cksession')
     const url = api.getDevicesUrl
     const key = app.globalData.key
     let paramsStr = { "ccsession": ccsession }

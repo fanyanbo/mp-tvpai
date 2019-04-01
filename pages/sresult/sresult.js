@@ -78,7 +78,7 @@ Page({
     utils.showToastBox('加载中...', "loading")
     console.log(options.category_id)
     var that = this
-    var paramsStr = { "ccsession": wx.getStorageSync("cksession"), "channelId": options.category_id }
+    var paramsStr = { "ccsession": wx.getStorageSync("new_cksession"), "channelId": options.category_id }
     var sign = utils.encryption(paramsStr, app.globalData.key)
     wx.request({
       url: api.getSubChnListUrl,
@@ -149,7 +149,7 @@ Page({
 })
 
 function secondChn(that, channelId) {
-  var paramsStr = { "ccsession": wx.getStorageSync("cksession"), "channelId": channelId }
+  var paramsStr = { "ccsession": wx.getStorageSync("new_cksession"), "channelId": channelId }
   var sign = utils.encryption(paramsStr, app.globalData.key)
   wx.request({
     url: api.getTagListUrl,
@@ -181,7 +181,7 @@ function secondChn(that, channelId) {
 }
 
 function searchContent(that, channelId, sorts, filters, extraCondition) {
-  var ccsession = wx.getStorageSync("cksession")
+  var ccsession = wx.getStorageSync("new_cksession")
   var paramsStr = { "ccsession": ccsession, "channelId": channelId, "pageIndex": that.data.pageIndex }
   var sign = utils.encryption(paramsStr, app.globalData.key)
   var dataStr = utils.json2Form({ client_id: 'applet', sign: sign, param: '{"ccsession":"' + ccsession + '","channelId":"' + channelId + '","pageIndex":"' + that.data.pageIndex + '"}' })
@@ -191,11 +191,11 @@ function searchContent(that, channelId, sorts, filters, extraCondition) {
     filters = encodeURI(filters, 'utf-8')
     extraCondition = encodeURI(extraCondition, 'utf-8')
     console.log("条件筛选!")
-    paramsStr = { "ccsession": ccsession, "channelId": channelId, "extraCondition": extraCondition, "filters": filters, "pageIndex": that.data.pageIndex, "sorts": sorts }
-    console.log(paramsStr)
+    paramsStr = { "ccsession": ccsession, "channelId": channelId, "extraCondition": extraCondition, "filters": filters, "pageIndex": that.data.pageIndex, "sorts": sorts }    
     sign = utils.encryption(paramsStr, app.globalData.key)
     dataStr = utils.json2Form({ client_id: 'applet', sign: sign, param: '{"ccsession":"' + ccsession + '","channelId":"' + channelId + '","extraCondition":"' + extraCondition + '","filters":"' + filters + '","pageIndex":"' + that.data.pageIndex + '","sorts":"' + sorts + '"}' });
   }
+  console.log(paramsStr)
   wx.request({
     url: api.getChnVideoListUrl,
     data: dataStr,

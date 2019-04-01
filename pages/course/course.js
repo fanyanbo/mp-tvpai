@@ -5,7 +5,7 @@ Page({
   data: {},
 
   bindDevice: function (qrUrl) {
-    let ccsession = wx.getStorageSync('cksession');
+    let ccsession = wx.getStorageSync('new_cksession');
     let srcParams = { "ccsession": ccsession, "qrUrl": qrUrl };
     let desParams = utils.paramsAssemble_wx(srcParams);
     console.log(desParams);

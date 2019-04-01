@@ -27,9 +27,9 @@ function login(rawData, code, encryptedData, iv, signature) {
         console.log(data.data.wxopenid+"----进来了----" + data.data.ccsession)
         let cksession = data.data.ccsession
         let wxopenid = data.data.wxopenid
-        wx.setStorageSync('cksession', cksession)
+        wx.setStorageSync('new_cksession', cksession)
         wx.setStorageSync('wxopenid', wxopenid)
-        getApp().globalData.ccsession = cksession
+        getApp().globalData.new_cksession = cksession
         console.log("setStorageSync cksession:" + cksession)
         decryptUser(rawData, encryptedData, iv, cksession, signature)
         console.log("登录返回数据：")
@@ -51,7 +51,7 @@ function login(rawData, code, encryptedData, iv, signature) {
 function decryptUser(rawData, encryptedData, iv, cksession, signature) {
   let url = api.getuserinfoUrl
   let key = getApp().globalData.key
-  cksession = wx.getStorageSync('cksession')
+  cksession = wx.getStorageSync('new_cksession')
   rawData = encodeURI(rawData, 'utf-8')
   let paramsStr = { "ccsession": cksession, "encryptedData": encryptedData, "iv": iv, "rawData": rawData, "signature": signature }
   let sign = utils.encryption(paramsStr, key)
@@ -88,7 +88,7 @@ App({
     }else{
       that.globalData.tvSource = wx.getStorageSync('tvSource')
     }
-    let ccsession = wx.getStorageSync("cksession")
+    let ccsession = wx.getStorageSync("new_cksession")
     if (ccsession == null || ccsession === '' || ccsession == undefined) {
       console.log("登录状态已过期" + ccsession)
       wx.clearStorageSync(that.globalData.userInfo)
@@ -130,7 +130,7 @@ App({
     movieIdsList: '',
     coocaaLogin: false,
     auhtSetting: false,
-    ccsession: '',
+    new_cksession: '',
     onLine: '',
     activeId: null, //语音遥控推送使用
     deviceId: null, //影片推送使用

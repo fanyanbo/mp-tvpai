@@ -267,7 +267,7 @@ Page({
   // 获取已绑定的设备信息
   getBindedDevice: function () {
     let params = {
-      ccsession: wx.getStorageSync('cksession')
+      ccsession: wx.getStorageSync('new_cksession')
     };
     let desParams = utils.paramsAssemble_wx(params);
     console.log('getBindDeviceList params', desParams);
@@ -289,7 +289,7 @@ Page({
   // 推送电视剧
   pushEpisode: function (deviceId, movieId, movieChildId, tvId, title, coocaa_m_id) {
     let params = {
-      ccsession: wx.getStorageSync('cksession'),
+      ccsession: wx.getStorageSync('new_cksession'),
       deviceId: deviceId,
       movieId: movieId,
       moviechildId: movieChildId + '',
@@ -316,7 +316,7 @@ Page({
   // 推送电影
   pushMovie: function (deviceId, movieId, title, tvId, coocaa_m_id) {
     let params = {
-      ccsession: wx.getStorageSync('cksession'),
+      ccsession: wx.getStorageSync('new_cksession'),
       deviceId: deviceId,
       movieId: movieId, 
       coocaamid: coocaa_m_id

@@ -38,5 +38,5 @@ module.exports = {
   bindDeviceUrl: bindDeviceUrl,
   getHistoryListUrl: getHistoryListUrl,
   addPushHistoryUrl: addPushHistoryUrl,
-  changeDeviceStatusUrl: changeDeviceStatusUrl
+  changeDeviceStatusUrl: changeDeviceStatusUrl,
 }

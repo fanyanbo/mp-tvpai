@@ -38,7 +38,7 @@ Page({
     utils.showLoading()
     var url = api.getMoviesDetailUrl
     var key = app.globalData.key
-    var ccsession = wx.getStorageSync("cksession")
+    var ccsession = wx.getStorageSync("new_cksession")
     console.log(page.data.articleId)
     console.log(page.data.movieId)
     var paramsStr = { "articleId": page.data.articleId + '', "ccsession": ccsession, "movieId": page.data.movieId}
@@ -168,7 +168,7 @@ Page({
     if (collectIcons=='1'){
       var url = api.appletCollectVideoUrl
       var key = app.globalData.key
-      var ccsession = wx.getStorageSync("cksession")
+      var ccsession = wx.getStorageSync("new_cksession")
       //var moviesId = e.currentTarget.dataset.moviesid
       console.log(" getApp().globalData.movieIdsList:")
       console.log(getApp().globalData.movieIdsList)
@@ -268,7 +268,7 @@ Page({
       username: wx.getStorageSync('username'),
      // movietypes: movietypes
     })
-    var cksession = wx.getStorageSync("cksession")
+    var cksession = wx.getStorageSync("new_cksession")
     if (cksession != null && cksession != undefined && cksession !== '') {
       serviceList(this)
     } else {
@@ -341,7 +341,7 @@ Page({
 function pushMovies(that, movieId, deviceId) {
   var url = api.devicesPushUrl
   var key = app.globalData.key
-  var ccsession = wx.getStorageSync("cksession")
+  var ccsession = wx.getStorageSync("new_cksession")
   var paramsStr
   if (that.data.tvChioced == undefined || that.data.tvChioced == null){
     paramsStr = { "ccsession": ccsession, "deviceId": deviceId + '', "movieId": movieId}
@@ -392,7 +392,7 @@ function pushMovies(that, movieId, deviceId) {
 function serviceList(that) {
   var url = api.getDevicesUrl
   var key = app.globalData.key
-  var ccsession = wx.getStorageSync("cksession")
+  var ccsession = wx.getStorageSync("new_cksession")
   console.log("ccsession" + ccsession)
   var paramsStr = { "ccsession": ccsession }
   var sign = utils.encryption(paramsStr, key)
