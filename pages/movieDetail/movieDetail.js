@@ -211,7 +211,6 @@ Page({
   }, 
   //收藏喜欢（未开发）
   like (e) {
-    app.globalData.deviceId = 5552755
     if (app.globalData.deviceId == null) {
       return wx.redirectTo({
         url: "../home/home"
