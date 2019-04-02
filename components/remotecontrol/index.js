@@ -327,6 +327,10 @@ Component({
       this.data.bTapStatus = true;
       this.data.bLongPressStatus = false;
     },
+    handleRecorderManagerCancel(event) {
+      console.log('[RC]touch cancel. call touch end directly. e:'+event)
+      handleRecorderManagerStop(event)
+    },
     handleRecorderManagerStop(event) { //touch end
       let that = this
       console.log('[RC] touch end, tap: %s, longpress: %s, start record: %s, waiting voice result: %s. ', 
