@@ -52,6 +52,7 @@ Component({
     count: 0, // 设置 计数器 初始为0
     countTimer: null, // 设置 定时器 初始为null
     animationData: {} ,
+    drawCircleObject: {x:75, y: 75, r:60},//rpx, 绘制进度圆的起点坐标、半径等,需要根据设备实际宽度换算
   },
   methods: {
     //处理一般按键和提示语的接口 -start-
@@ -186,9 +187,7 @@ Component({
                 console.log('openSetting success', res);
                 if (!!res.authSetting['scope.record']) {
                   console.log('录音授权成功')
-                  that.setData({
-                    hasRecordAuth: true
-                  });
+                  that.data.hasRecordAuth = true;
                 }
               },
               fail: (res) => {
@@ -215,16 +214,12 @@ Component({
               scope: 'scope.record',
               success: () => {
                 console.log('录音授权成功')
-                that.setData({
-                  hasRecordAuth: true
-                });
+                that.data.hasRecordAuth = true;
                 return true;
               },
               fail: (res) => {
                 console.log('录音授权失败', res);
-                that.setData({
-                  hasRecordAuth: false
-                });
+                that.data.hasRecordAuth = false;
                 if (true) { //(res.errCode == '-12006') { //如果用户已经拒绝过授权录音，之后再调wx.authorize会直接fail,所以需要再用modal引导用户授权
                   this._showModalUserAuthRecord()
                 }
@@ -232,9 +227,7 @@ Component({
               }
             })
           } else {
-            that.setData({
-              hasRecordAuth: true
-            });
+            that.data.hasRecordAuth = true;
             console.log('hasRecordAuth: true')
             return true
           }
@@ -310,10 +303,10 @@ Component({
       let that = this
       return new Promise(function (resolve, reject) {
         if (that._checkBindedTVStatus({type})) {
-          that.setData({ bBindedTVReady: true })
+          that.data.bBindedTVReady = true;
           resolve()
         } else {
-          that.setData({ bBindedTVReady: false })
+          that.data.bBindedTVReady = false;
           reject()
         }
       })
@@ -321,7 +314,7 @@ Component({
     //处理被绑定设备状态的接口 -end-
     //处理遥控器remoter-btn相关事件 -start-
     handleRecorderManagerMove(event) { //滑动手指取消录入，待做
-      console.log('touchmove e: %o.', event)
+      // console.log('touchmove e: %o.', event)
     },
     handleRecorderManagerStart() { //touch start
       console.log('[RC] touch start, activeid：' + this.data.activeid + ', bBindedTVReady:' + this.data.bBindedTVReady);
@@ -382,8 +375,8 @@ Component({
     _restoreStatusAfterRecord() { //恢复录音前的遥控器页面状态
       console.log('_restoreStatusAfterRecord()...')
       this.setData({
-        indexStatus: this.data.indexStatusBakup,
-        isShowMainPanel: this.data.isShowMainPanelBakup
+        indexStatus : this.data.indexStatusBakup,
+        isShowMainPanel : this.data.isShowMainPanelBakup
       })
       if(this.data.isShowMainPanel) {
         this.setData({
@@ -420,9 +413,9 @@ Component({
         isShowMainPanel: true,
         curBtnImg: '../../images/components/remotecontrol/voice@3x.png',
         btnContent: '松开结束',
-        bStartRecord: true,
         query: ''
       })
+      this.data.bStartRecord = true;
       console.log('开始执行语音输入动画和版面进场动画');
       this._showInputTips();
       this.startRecordAnimation();   
@@ -437,24 +430,18 @@ Component({
     _stopRecordingSite({type = 'manual'}={}){ //type: 'auto':wx后台自动stop; 停止录制现场所有动作（包括配套计时器 UI 后台处理 以及 状态复位等）
       console.log('[_stopRecordingSite] type:%s, bStartRecord:%s, bWaitVoiceResult:%s.', type, this.data.bStartRecord, this.data.bWaitVoiceResult)
       if (type == 'wxauto') { //如果是wx后台自动stop
-        this.setData({
-          bWaitVoiceResult: false
-        })
+        this.data.bWaitVoiceResult = false;
       }
       if(!this.data.bStartRecord) {
         console.log('_stopRecordingSite, not start, return...')
         return;
       }
       console.log('_stopRecordingSite begin...')
-      this.setData({
-        bStartRecord: false,
-      })
+      this.data.bStartRecord = false;
       this.stopRecordTimer()
       this.stopRecordAnimation()
       if (type == 'manual'){ //如果是用户松手手动stop
-        this.setData({
-          bWaitVoiceResult: true, //等待语音结果
-        })
+        this.data.bWaitVoiceResult = true;//等待语音结果
         this.stopRecord()
       }
     },
@@ -566,16 +553,16 @@ Component({
       }
       this._resetAnimationCircle();//复位动画效果
     },
-    _drawingCanvasCircle(s, e) { //画语音输入的圆形进度条
+    _drawingCanvasCircle(s, e, color) { //画语音输入的圆形进度条
       var me = this;
       var cxt2 = wx.createCanvasContext('canvasCircle', me);
-      cxt2.setLineWidth(4);
-      cxt2.setStrokeStyle('#FFD600');// 动态圆的颜色
-      cxt2.setLineCap('round');
+      cxt2.lineWidth = 4;
+      cxt2.strokeStyle = (!color ? '#FFD600' : color);// 动态圆的颜色
+      cxt2.lineCap = 'round';
       cxt2.beginPath();
-      cxt2.arc(30, 30, 29, s, e, false);
+      cxt2.arc(me.data.drawCircleObject.x, me.data.drawCircleObject.y, me.data.drawCircleObject.r, s, e, false);
       cxt2.stroke();
-      cxt2.draw();
+      cxt2.draw(true);
     },
     _resetAnimationCircle() {
       console.log('reset circle ..')
@@ -583,6 +570,8 @@ Component({
     },
     startRecordAnimation() {
       var me = this;
+      //先画底色圆
+      me._drawingCanvasCircle(0, 2 * Math.PI, '#EDEDED'); 
       //加载动画
       var startAngle = 1.5 * Math.PI, endAngle = 0;
       var steps = 1,speed = 100,sec = 100;
@@ -617,12 +606,21 @@ Component({
       authApi.checkRecordPriority({
         success: (hasPriority) => {
           console.log('ready(),checkRecordPriority hasPriority=' + hasPriority)
-          this.setData({
-            hasRecordAuth: hasPriority
-          })
+          that.data.hasRecordAuth = hasPriority;
         }
       })
     }
+    let that = this;
+    wx.getSystemInfo({
+      success: function(res) {
+        console.log(res)
+        that.data.phoneWindowWidth = res.windowWidth
+        that.data.drawCircleObject.x = Math.floor(that.data.drawCircleObject.x * res.windowWidth / 750);
+        that.data.drawCircleObject.y = that.data.drawCircleObject.x;
+        that.data.drawCircleObject.r = Math.floor(that.data.drawCircleObject.r * res.windowWidth / 750);
+        console.log('drawCircleObject: %o.', that.data.drawCircleObject)
+      },
+    })
   },
   // 组件移动的时候执行
   moved() {
