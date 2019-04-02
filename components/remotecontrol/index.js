@@ -614,7 +614,6 @@ Component({
     wx.getSystemInfo({
       success: function(res) {
         console.log(res)
-        that.data.phoneWindowWidth = res.windowWidth
         that.data.drawCircleObject.x = Math.floor(that.data.drawCircleObject.x * res.windowWidth / 750);
         that.data.drawCircleObject.y = that.data.drawCircleObject.x;
         that.data.drawCircleObject.r = Math.floor(that.data.drawCircleObject.r * res.windowWidth / 750);
