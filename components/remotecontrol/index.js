@@ -329,7 +329,7 @@ Component({
     },
     handleRecorderManagerCancel(event) {
       console.log('[RC]touch cancel. call touch end directly. e:'+event)
-      handleRecorderManagerStop(event)
+      this.handleRecorderManagerStop(event)
     },
     handleRecorderManagerStop(event) { //touch end
       let that = this
