@@ -379,6 +379,17 @@ Component({
         indexStatus: this.data.indexStatusBakup,
         isShowMainPanel: this.data.isShowMainPanelBakup
       })
+      if(this.data.isShowMainPanel) {
+        this.setData({
+          btnContent: '按住说话',
+          curBtnImg: '../../images/components/remotecontrol/voice@3x.png',
+        })
+      }else {
+        this.setData({
+          btnContent: '遥控器',
+          curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
+        })
+      }
     },
     _showInputTips() { //随机显示语音输入提示语
       var aRecordTips = [['\"返回主页\"', '\"今天天气怎么样\"', '\"声音调到10\"', '\"打开网络设置\"']
@@ -431,8 +442,6 @@ Component({
       console.log('_stopRecordingSite begin...')
       this.setData({
         bStartRecord: false,
-        curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
-        btnContent: '按住说话',
       })
       this.stopRecordTimer()
       this.stopRecordAnimation()
