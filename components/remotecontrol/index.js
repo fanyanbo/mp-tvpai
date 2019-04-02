@@ -250,6 +250,7 @@ Component({
           activeid: that.data.activeid
         }
         if (!that.data.activeid) {
+          resolve()
           return;
         }
         njApi.isTVOnline({
@@ -270,7 +271,7 @@ Component({
             //   icon: 'none',
             //   image: '../../images/components/remotecontrol/close@3x.png'
             // })
-            reject()//fail时，如何toast提示用户？
+            resolve()//fail时，如何toast提示用户？
           }
         });
       })
