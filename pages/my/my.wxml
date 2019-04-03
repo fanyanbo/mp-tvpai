@@ -61,5 +61,5 @@
 
 </view>
 <view>
-  <remotecontrol id="remotecontrol-id"></remotecontrol>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}"></remotecontrol>
 </view>
