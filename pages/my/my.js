@@ -20,7 +20,9 @@ Page({
     this.getMovieHistoryList();
     this.getLikeList();
   },
-
+  clearStorage:function(){
+    wx.setStorageSync('new_cksession', "");
+  },
   // 设备绑定和推送历史入口暂未使用
   bindGetUserInfo(e) {
     console.log('canIUse', this.data.canIUse, e)

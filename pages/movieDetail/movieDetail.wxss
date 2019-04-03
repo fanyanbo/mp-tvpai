@@ -2,11 +2,11 @@
 .top{width: 100%;margin: 0 auto; background: #333; padding-top: 40rpx;}
 .movieDetail{margin: 0 40rpx;}
 .movieDetail image.haibao{width: 30%;height: 280rpx;overflow: hidden; border-radius: 10rpx}
-.movieDetail .describe{margin-left: 5%;display: inline-block;width: 64%;vertical-align:top;color: #444;
-}
+.movieDetail .describe{margin-left: 5%;display: inline-block;width: 64%;vertical-align:top;color: #444; position: relative;height: 280rpx;}
 .movieDetail .describe ul li{font-size: 26rpx;display:block;color: #999}
-.movieDetail .describe ul li.title{font-size: 36rpx;margin-bottom: 3%; color: #fff; height: 100rpx; line-height: 50rpx}
+.movieDetail .describe ul li.title{font-size: 36rpx;margin-bottom: 3%; color: #fff; line-height: 50rpx}
 .movieDetail .describe ul li .like image{width:80rpx;height:80rpx;}
+.movieDetail .describe ul .click_button{position: absolute; bottom: 0;}
 .movieDetail .describe ul li .collect image{width:314rpx;height:80rpx;}
 /* .movieDetail .describe ul li .collect{margin-left: 20rpx} */
 .movieDetail .describe ul li em{position:absolute;top:20%;display:block;left:13%;font-size: 30rpx;}

@@ -163,6 +163,7 @@ function secondChn(that, channelId) {
     },
     method: 'GET',
     success: function (res) {
+      console.log(res.data)
       if (res.data.result && res.data.data != null) {
         var arr = [];
         for (var k in res.data.data.tags) {
@@ -172,7 +173,6 @@ function secondChn(that, channelId) {
           secondchn: arr
         })
         console.log("二级分类")
-        console.log(that.data.secondchn)
       } else {
         utils.showToastBox(res.data.message, "loading")
       }
@@ -223,7 +223,7 @@ function searchContent(that, channelId, sorts, filters, extraCondition) {
         }
       } else {
         utils.showToastBox(res.data.message, "loading");
-        that.setData({ isShowDoc: true });
+      //  that.setData({ isShowDoc: true });
       }
 
     }

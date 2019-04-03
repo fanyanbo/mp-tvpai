@@ -8,7 +8,7 @@
       <ul>
         <li class="intwoline title">{{movieData.album_title}}</li>
         <li><span class="score">{{movieData.score}}分</span>{{movieData.video_tags}}</li>
-        <li style="margin-top:50rpx">
+        <li class="click_button">
           <!-- <button class="like" bindtap='like' data-title="{{movieData.album_title}}" data-poster="{{movieData.video_poster}}" data-id="{{movieData.third_album_id}}">
             <image wx:if="{{likeShow == false}}" src='../../images/like_before1.png'></image>
             <image wx:if="{{likeShow == true}}" src='../../images/like_after.png'></image>
