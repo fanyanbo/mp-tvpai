@@ -35,6 +35,7 @@ Component({
     aInputTips: [], //随机语音提示语数组
     btnContent: '遥控器',
     query: '', //用户语音输入内容
+    bPlatformIphone: false,//根据手机平台（android or ios)适配遥控器高度
 
     //遥控器UI显示flag
     isShowMainPanel: false, // 是否显示遥控器主面板
@@ -618,6 +619,7 @@ Component({
         that.data.drawCircleObject.y = that.data.drawCircleObject.x;
         that.data.drawCircleObject.r = Math.floor(that.data.drawCircleObject.r * res.windowWidth / 750);
         console.log('drawCircleObject: %o.', that.data.drawCircleObject)
+        res.platform === 'ios' && that.setData({bPlatformIphone:true})
       },
     })
   },
