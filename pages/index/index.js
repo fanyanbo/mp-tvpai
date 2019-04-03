@@ -247,6 +247,9 @@ Page({
       function (res) {
         console.log('getBindDeviceList success', res.data);
         if (res.data.data) {
+          wx.setStorageSync('deviceId', '');
+          app.globalData.activeId = null;
+          app.globalData.deviceId = null;
           for (let i = 0; i < res.data.data.length; i++) {
             if (res.data.data[i].bindStatus === 1) {
               app.globalData.activeId = res.data.data[i].device.serviceId;
@@ -256,6 +259,10 @@ Page({
               break;
             }
           }
+        } else {
+          wx.setStorageSync('deviceId', '');
+          app.globalData.activeId = null;
+          app.globalData.deviceId = null;
         }
       },
       function (res) {

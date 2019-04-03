@@ -170,6 +170,7 @@ Page({
         })
         wx.setStorageSync('deviceId', '');
         app.globalData.activeId = null;
+        app.globalData.deviceId = null;
         for (let i = 0; i < res.data.data.length; i++) {
           if (res.data.data[i].bindStatus === 1) {
             console.log(res.data.data[i].deviceId);
@@ -193,6 +194,7 @@ Page({
         })
         wx.setStorageSync('deviceId', '');
         app.globalData.activeId = null;
+        app.globalData.deviceId = null;
       }
     }, function () {
       console.log('getDeviceList error');
