@@ -42,5 +42,5 @@
 </view>
 <!-- 遥控器组件 -->
 <view class="{{devices?'bottom':'none'}}">
-  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}"></remotecontrol>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
 </view>

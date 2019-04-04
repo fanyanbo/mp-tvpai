@@ -9,7 +9,9 @@ Page({
       avatarUrl: '../../images/man.png',
       isShow:false
     },
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    isShowTips:true,
+    bIphoneFullScreenModel:false
   },
 
   onLoad: function () {
@@ -25,6 +27,10 @@ Page({
 
   onShow: function () {
     console.log('onShow');
+    this.setData({
+      isShowTips: app.globalData.isShowTips,
+      bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
+    });
     this.getMovieHistoryList();
     this.getLikeList();
   },

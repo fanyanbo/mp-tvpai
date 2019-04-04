@@ -293,6 +293,11 @@ function getTvsource() {
   return tvSource;
 }
 
+//检测是否iphone 全面屏手机
+function checkIphoneFullScreenModel({ platform, model }) {
+  return !!(platform.match(/ios/i) && model.match(/iphone x/i))
+}
+
 module.exports = {
   request: request,
   requestP: requestP,
@@ -306,5 +311,6 @@ module.exports = {
   showSuccessToast: showSuccessToast,
   showFailedToast: showFailedToast,
   showLoadingToast: showLoadingToast,
-  getTvsource: getTvsource
+  getTvsource: getTvsource,
+  checkIphoneFullScreenModel: checkIphoneFullScreenModel
 }

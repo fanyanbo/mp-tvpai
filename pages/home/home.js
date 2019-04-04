@@ -8,6 +8,7 @@ Page({
   data: {
     isShowDoc: false,
     isShowTips: false,
+    bIphoneFullScreenModel:false,
     errIconUrl: '../../images/close_icon.png',
     devices: "",
     mydevices: [],
@@ -38,6 +39,10 @@ Page({
   },
   onShow: function () {
     console.log("onshow")
+    this.setData({
+      isShowTips: app.globalData.isShowTips,
+      bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
+    });
     this.getDeviceList();
   }, 
   scanQRCode: function () {

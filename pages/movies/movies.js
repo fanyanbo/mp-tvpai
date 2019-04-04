@@ -4,6 +4,7 @@ var app = getApp()
 Page({
   data: {
     isShowTips: true,
+    bIphoneFullScreenModel:false,
     focus: false,
     flag: true,
     inputValue: '',
@@ -53,8 +54,9 @@ Page({
   onShow: function () {
     console.log('onShow()')
     this.setData({
-      isShowTips: app.globalData.isShowTips
-    })
+      isShowTips: app.globalData.isShowTips,
+      bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
+    });
   },
   onLoad: function () { 
     console.log('onLoad')
