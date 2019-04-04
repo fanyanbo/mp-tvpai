@@ -238,6 +238,9 @@ Page({
     }).catch(res => {
       console.log('searchByKeyword error', res)
       utils.showFailedToast('获取失败', this.data.errIconUrl)
+      this.setData({
+        isShowNoResult: true
+      })
     })
   },
 

@@ -11,7 +11,8 @@
     <view class='search-box-wrapper'>
       <image class="search-icon" src='../../images/ser_icon.png' bindtap='query'></image>
       <input name="input" class="search-text" placeholder="{{inputPlaceholder.keyword}}" confirm-type='search' focus="true" value="{{inputValue}}" bindinput='inputBind' bindconfirm='query'></input>
-      <view class="delete-icon" bindtap='handleDeteteTap' wx:if="{{inputValue}}"></view>
+      <!-- <view class="delete-icon" bindtap='handleDeteteTap' wx:if="{{inputValue}}"></view> -->
+      <image class="delete-icon" src='../../images/delete@2x.png' bindtap='handleDeteteTap' wx:if="{{inputValue}}"></image>
     </view>
   </view>
   <!-- 搜索输入内容版面（包括搜索历史，热门搜索） -->
@@ -53,7 +54,7 @@
     <scroll-view scroll-y="true" style="height: {{scrollHeight}}px" bindscrolltoupper="upper" bindscrolltolower="lower">
       <block class="video-content-list" wx:for="{{searchResultList}}" wx:key="index">
         <!-- 每一大项布局 -->
-        <view class="video-content-item">
+        <view class="video-content-item {{ index === 0 ? 'item-first' : ''}}">
           <!-- 影片海报布局 -->
           <view class="item-poster">
             <view class="item-poster-left" bindtap="handleJumpTap" data-item="{{item}}">
@@ -101,9 +102,9 @@
           <!-- 电视剧推送布局,剧集只显示数字，1,2,3 -->
           <view class="item-push" wx:if="{{item.video_detail.video_type == '电视剧'}}">
             <view class="tips" bindtap="handleJumpTap" data-item="{{item}}">
-              <image class="left" src="../../images/push.png"></image>
+              <image class="left" src="../../images/push@2x.png"></image>
               <text class="center">投屏</text>
-              <image class="right" src="../../images/arrow.png"></image>
+              <image class="right" src="../../images/arrow@2x.png"></image>
             </view>
             <scroll-view class="episode2" scroll-x style="width: 100%">
               <block wx:for="{{item.episodes_list}}" wx:key="index" wx:for-item="item2">
@@ -118,9 +119,9 @@
           <!-- 综艺、游戏、儿童，生活等类目推送布局，剧集有介绍 -->
           <view class="item-push" wx:else>
             <view class="tips" bindtap="handleJumpTap" data-item="{{item}}">
-              <image class="left" src="../../images/push.png"></image>
+              <image class="left" src="../../images/push@2x.png"></image>
               <text class="center">投屏</text>
-              <image class="right" src="../../images/arrow.png"></image>
+              <image class="right" src="../../images/arrow@2x.png"></image>
             </view>
             <scroll-view class="episode" scroll-x style="width: 100%">
               <block wx:for="{{item.episodes_list}}" wx:key="index">
