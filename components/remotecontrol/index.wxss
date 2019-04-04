@@ -50,8 +50,8 @@
   }
   .control-icon {
     position: absolute;
-    top: 10rpx;
-    left: 10rpx;
+    top: 15rpx;
+    left: 15rpx;
     width: 60rpx;
     height: 60rpx;
   }
@@ -60,23 +60,23 @@
     position: absolute;
     left: 50rpx;
     top: 30rpx;
-    width: 80rpx;
-    height: 80rpx;
+    width: 90rpx;
+    height: 90rpx;
   }
   .volup-icon, .return-icon {
     position: absolute;
     left: 336rpx;
     top: 30rpx;
-    width: 80rpx;
-    height: 80rpx;
+    width: 90rpx;
+    height: 90rpx;
   }
   
   .voldown-icon, .menu-icon {
     position: absolute;
     left: 620rpx;
     top: 30rpx;
-    width: 80rpx;
-    height: 80rpx;    
+    width: 90rpx;
+    height: 90rpx;    
   }
   
   .center-wrapper {
@@ -173,8 +173,8 @@
     top:50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    width: 90rpx;
-    height: 90rpx;
+    width: 64rpx;
+    height: 64rpx;
   }
   .input-progressbar {
     position: absolute;

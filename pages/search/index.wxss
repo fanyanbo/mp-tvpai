@@ -29,9 +29,14 @@
   font-size:28rpx;
   /* font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
   padding-left:20rpx; 
-  width: 540rpx;
+  width: 550rpx;
+  font-weight: bold;
 }
 .delete-icon {
+  width:30rpx;
+  height:30rpx;
+}
+/* .delete-icon {
   width:35rpx;
   height:35rpx;
   line-height: 35rpx;
@@ -43,7 +48,7 @@
 }
 .delete-icon::before {
   content: "\2716";
-}
+} */
 .search-input-wrapper {
   position: fixed;
   width: 750rpx;
@@ -58,16 +63,16 @@
   align-items: center;
 }
 .title-wrapper .title {
-  margin-left: 20rpx;
-  width: 650rpx;
+  margin-left: 40rpx;
+  width: 622rpx;
   font-size: 32rpx;
   font-weight: bold;
   color: black;
   letter-spacing: 0;
 }
 .title-wrapper .icon-clear {
-  width: 40rpx;
-  height: 40rpx;
+  width: 50rpx;
+  height: 50rpx;
 }
 /* 历史搜索关键词 */
 .items-wrapper {
@@ -100,10 +105,10 @@
   flex-wrap: wrap;
 }
 .hot-words {
-  width: 355rpx;
+  width: 335rpx;
   height: 50rpx;
   margin-top: 20rpx;
-  padding-left: 20rpx;
+  padding-left: 40rpx;
   font-size: 28rpx;
   display: flex;
   justify-content: flex-start;
@@ -161,7 +166,7 @@
   border-bottom: 6rpx solid #FFD71C;
   color: #333333;
 }
-.video-content{
+.video-content {
   width: 750rpx;
   margin-top: 184rpx;
   margin-bottom: 110rpx;
@@ -170,8 +175,11 @@
   display: flex;
   flex-flow: column nowrap;
   width: 750rpx;
-  margin-top: 20rpx;
+  margin-top: 80rpx;
   box-sizing: border-box;
+}
+.item-first {
+  margin-top: 40rpx;
 }
 .item-poster {
   display: flex;
@@ -180,10 +188,10 @@
 .item-poster .item-poster-left {
   width: 216rpx;
   height: 302rpx;
-  margin-left: 4%;
+  margin-left: 40rpx;
   margin-top: 1.2%;
   background-color: gainsboro;
-  border-radius: 4px;
+  border-radius: 16rpx;
 }
 .left-img {
   width: 100%;
@@ -202,7 +210,7 @@
 }
 .tips .left {
   position: absolute;
-  left: 38rpx;
+  left: 40rpx;
   top: 22rpx;
   width: 45rpx;
   height: 45rpx;
@@ -219,8 +227,8 @@
   position: absolute;
   left: 700rpx;
   top: 32rpx;
-  width: 15rpx;
-  height: 25rpx;
+  width: 24rpx;
+  height: 24rpx;
 }
 .item-push .episode {
   display: flex;
@@ -229,12 +237,12 @@
 }
 .episode .scroll-view-item {
   display: inline-block; 
-  width: 304rpx;
-  height: 124rpx;
-  margin-left: 30rpx;
-  border-radius: 4px;
+  width: 280rpx;
+  height: 128rpx;
+  margin-left: 40rpx;
+  border-radius: 12rpx;
   box-sizing: border-box;
-  padding: 10rpx;
+  /* padding: 10rpx; */
 }
 .item-push .episode2 {
   display: flex;
@@ -247,7 +255,7 @@
   height: 108rpx;
   line-height: 108rpx;
   margin-left: 30rpx;
-  border-radius: 4px;
+  border-radius: 12rpx;
   box-sizing: border-box;
   text-align: center;
   font-size: 32rpx;
@@ -263,7 +271,8 @@
   font-size: 32rpx;
   height: 45rpx;
   line-height: 45rpx;
-  font-weight: bold;
+  margin-left: 20rpx;
+  margin-top: 10rpx;
 }
 .scroll-view-item .desc {
   /* width: 285rpx;
@@ -276,7 +285,7 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   color: #666666; */
-  width: 285rpx;
+  width: 240rpx;
   height: 68rpx;
   font-size:24rpx;
   overflow:hidden;
@@ -286,6 +295,7 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   color: #666666;
+  margin-left: 20rpx;
 }
 .item-poster .item-poster-right {
   position: relative;

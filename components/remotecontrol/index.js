@@ -58,7 +58,7 @@ Component({
     count: 0, // 设置 计数器 初始为0
     countTimer: null, // 设置 定时器 初始为null
     animationData: {} ,
-    drawCircleObject: {x:75, y: 75, r:60},//rpx, 绘制进度圆的起点坐标、半径等,需要根据设备实际宽度换算
+    drawCircleObject: {x:75, y: 75, r:60, lw: 4},//rpx, 绘制进度圆的起点坐标、半径、线宽等,需要根据设备实际宽度换算
   },
   methods: {
     //处理一般按键和提示语的接口 -start-
@@ -573,7 +573,7 @@ Component({
     _drawingCanvasCircle(s, e, color) { //画语音输入的圆形进度条
       var me = this;
       var cxt2 = wx.createCanvasContext('canvasCircle', me);
-      cxt2.lineWidth = 4;
+      cxt2.lineWidth = me.data.drawCircleObject.lw;
       cxt2.strokeStyle = (!color ? '#FFD600' : color);// 动态圆的颜色
       cxt2.lineCap = 'round';
       cxt2.beginPath();
@@ -634,6 +634,7 @@ Component({
         that.data.drawCircleObject.x = Math.floor(that.data.drawCircleObject.x * res.windowWidth / 750);
         that.data.drawCircleObject.y = that.data.drawCircleObject.x;
         that.data.drawCircleObject.r = Math.floor(that.data.drawCircleObject.r * res.windowWidth / 750);
+        that.data.drawCircleObject.lw = Math.floor(that.data.drawCircleObject.lw * res.windowWidth / 750);
         console.log('drawCircleObject: %o.', that.data.drawCircleObject)
       },
     })
