@@ -27,6 +27,11 @@ Page({
     console.log('onShow');
     this.getMovieHistoryList();
     this.getLikeList();
+    if (app.globalData.deviceId != null) {
+      this.setData({
+        isShow: true
+      })
+    }
   },
   clearStorage:function(){
     wx.setStorageSync('new_cksession', "");

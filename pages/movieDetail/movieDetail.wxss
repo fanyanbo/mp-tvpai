@@ -29,8 +29,10 @@
 .tvLists .scroll view{display: inline-block;}
 .push{padding-left: 40rpx; margin-top:-20rpx; font-size: 32rpx;color: #999; height: 88rpx;line-height: 88rpx; background:#333}
 .pushIcon{width: 40rpx; height: 40rpx; vertical-align: middle; display: inline-block; margin-right: 12rpx}
-.content{font-size: 28rpx; margin: 40rpx; color:#666}
-.content .label{color: #333}
+.content{font-size: 28rpx; margin: 40rpx; color:#666; margin-bottom: 80rpx; }
+.content .content_list{display: flex}
+.content .label{color: #333; display: block; flex: 1}
+.content .info{flex: 8}
 .movieList{margin:40rpx auto; margin-bottom:120rpx; padding:0 20rpx; box-sizing: border-box}
 
 .service{position: fixed;bottom:0;width: 100%;background:#fff;padding-bottom:10rpx;border-top:1rpx solid #eee;z-index: 99;height:50%;overflow-y:scroll;}
@@ -129,10 +131,9 @@
 .like_image{
   border-radius: 8rpx
 }
-.arrow{
+.arrow_1{
   height: 24rpx;
   width: 24rpx;
   vertical-align: middle;
   display: inline-block;
-  margin-top: 34rpx;
 }
