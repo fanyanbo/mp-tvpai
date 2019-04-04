@@ -77,6 +77,11 @@ Page({
     }
   },
 
+  // clearStorage: function () {
+  //   wx.setStorageSync("cksession", "");
+  //   console.log('clearStorage session = ' + wx.getStorageSync("cksession"))
+  // },
+
   // 获取推送历史列表
   getMovieHistoryList: function () {
     let vuid = wx.getStorageSync('wxopenid');
