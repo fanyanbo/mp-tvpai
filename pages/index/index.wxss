@@ -111,7 +111,7 @@ margin:30rpx 0
 width: 100%;
 overflow: hidden;
 white-space: nowrap;
-margin-top:10px
+margin-top:35rpx
 }
 .item_list{
 width: 210rpx;
@@ -127,10 +127,10 @@ border-radius: 8rpx
 }
 .category .title{
   font-size: 32rpx;
-  height: 30rpx;
-  line-height: 30rpx;
+  height: 28rpx;
+  line-height: 28rpx;
   border-left: #FFD71C 3px solid;
-  padding-left: 8px;
+  padding-left: 6px;
   color: #000;
 }
 .category .more{

@@ -22,7 +22,7 @@
     </view>
   </view>
 <!--剧集  -->
-  <view data-tap='push' bindtap='chooseSezi' class="push" wx:if="{{movieType !='电影'}}" ><image class="pushIcon" src='../../images/push.png'></image>投屏<span class="length">{{prompt_info}} ></span></view>
+  <view data-tap='push' bindtap='chooseSezi' class="push" wx:if="{{movieType !='电影'}}" ><image class="pushIcon" src='../../images/push.png'></image>投屏<span class="length">{{prompt_info}} <image class="arrow" src="../../images/index_arraw.png" mode="aspectFill"></image></span></view>
   <view class='tvLists'>
     <view class='scroll' wx:if="{{movieType !='电影'}}">
       <view wx:for="{{moviesItem}}" wx:key="key" wx:for-item="item" >
@@ -50,7 +50,7 @@
 <view class='movieList'>
   <view class='item' wx:for="{{videoLike}}" wx:key="index" wx:for-item="item">
     <navigator url="../movieDetail/movieDetail?id={{item.third_album_id}}">
-      <image src='{{item.video_poster}}'></image>
+      <image class="like_image" src='{{item.video_poster}}'></image>
       <text class='describe'>{{item.album_title}}</text>
     </navigator>
   </view>

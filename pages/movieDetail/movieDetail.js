@@ -28,13 +28,16 @@ Page({
     coocaa_m_id:'',
     isShowtitle:false,
     tvId:"",
-    likeShow:false//是否收藏
+    updated_segment:1,
+    likeShow:false//是否收藏,
+    
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    utils.showToastBox('加载中...', "loading")
     movieDetail(this, options.id)
   },
 
@@ -280,7 +283,8 @@ function movieDetail(that, movieId) {
         movieType: res.data.data.video_type,
         prompt_info: res.data.data.prompt_info,
         coocaa_m_id:res.data.data.play_source.coocaa_m_id,
-        tvId: res.data.data.play_source.video_third_id
+        tvId: res.data.data.play_source.video_third_id,
+        updated_segment: res.data.data.updated_segment
       })
       likes(that, movieId)
       moviesItem(that, movieId)
@@ -331,11 +335,13 @@ function likes(that, movieId) {
 }
 
 function moviesItem(that, movieId) {
-  let params = { "third_album_id": movieId, "page_size": "300" };
+  let updated_segment = that.data.updated_segment
+  let params = { "third_album_id": movieId, "page_size": updated_segment };
   let desParams = utils_fyb.paramsAssemble_tvpai(params);
   utils_fyb.request(api.getTvSegmentListUrl, 'GET', desParams,  function (res) {
     console.log("===============-------剧集")
     console.log(res.data.data)
+
     if (res.data.data) {
       console.log(res.data.data.length)
       that.setData({

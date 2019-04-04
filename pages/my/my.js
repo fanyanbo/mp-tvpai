@@ -1,17 +1,25 @@
 const utils_fyb = require('../../utils/util_fyb');
 const api_fyb = require('../../api/api_fyb');
-
+let appJs = require('../../app');
+let app = getApp()
 Page({
   data: {
     userInfo: {
       nickName: '你好',
-      avatarUrl: '../../images/man.png'
+      avatarUrl: '../../images/man.png',
+      isShow:false
     },
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
 
   onLoad: function () {
     console.log('onLoad');
+    if (app.globalData.deviceId != null) {
+      this.setData({
+        isShow: true
+      })
+    }
+
     // this.getMovieHistoryList();
   },
 

@@ -20,8 +20,8 @@ Page({
     column2: [],
     column3: [],
     recommandList: [],
-    previousmargin: '20rpx',
-    nextmargin: '40rpx',
+    previousmargin: '30rpx',
+    nextmargin: '30rpx',
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     type:""
   },

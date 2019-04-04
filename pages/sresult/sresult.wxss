@@ -1,12 +1,12 @@
 .container{text-align: center;}
-.tabParents{width: 95%;margin-left:2%;overflow-x: scroll;overflow-y: hidden;text-align:center;background:#fff;}
+.tabParents{width: 100%; padding: 0 30rpx; overflow-x: scroll;overflow-y: hidden;text-align:center;background:#fff;}
 .tabScroll{width:100%;position: relative;height: 70rpx;white-space:nowrap;margin:0 auto;text-align:left;background:#fff;}
 .tabScroll view{display: inline;padding: 6rpx 15rpx;font-size: 30rpx;color: #999;}
 .tabScroll view.active{color: #000;border-bottom: 2rpx solid #FFD71C;background:#fff;}
 .tabAll,.tabOpen{font-size: 32rpx;margin-top: 70rpx;}
 .tabOpen{position:absolute;z-index:99;bottom:5%;left:45%;}
 .tagListAbsolute{position: absolute;z-index: 9;background: #fff;}
-.movieList{margin:18% auto;}
+.movieList{margin:18% auto;padding: 0 25rpx; box-sizing: border-box}
 .tagList{position:fixed;top:0;width: 100%;}
 .tagAll{position:absolute;z-index:9;overflow-y:scroll;background:#fff;width: 100%;border-bottom: 1rpx solid #ccc;padding-bottom:60rpx;}
 /* radio{opacity: 0}
@@ -16,3 +16,7 @@ label.active{color: red;}
 .tabAll{position: fixed;top:-1%;width:100%;display: block;background:#fff;}
 .click{font-size: 28rpx}
 .nomv{margin: 60% auto;}
+.movieImg{border-radius: 8rpx}
+.item{
+  margin-bottom: 30rpx
+}

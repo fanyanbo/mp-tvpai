@@ -256,7 +256,8 @@ Page({
           that.setData({
             historyList: historyList,
             isShowDoc: true,
-            length: 0
+            length: 0,
+            management_good: false,
           })
         }
       }

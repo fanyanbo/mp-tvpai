@@ -52,7 +52,7 @@ Page({
       },
       fail: (res) => {
         console.log(res);
-        utils_fyb.showFailedToast('扫码失败', '../../images/close_icon.png');
+      //  utils_fyb.showFailedToast('扫码失败', '../../images/close_icon.png');
       }
     })
   },

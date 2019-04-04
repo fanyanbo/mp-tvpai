@@ -110,7 +110,7 @@ Page({
   collect(e) {
     movieidArray = []
     //判断ccsession是否为空
-    if (utils.ccsessionIs() == null) return
+   // if (utils.ccsessionIs() == null) return
     //点击收藏时判断用户是否登录酷开账号
     if (utils.coocaaLogin() == null) return
     var that = this
@@ -198,7 +198,7 @@ Page({
   },
   handClick(e) {
     //判断ccsession是否为空
-    if (utils.ccsessionIs() == null) return
+  //  if (utils.ccsessionIs() == null) return
     var commentid = e.currentTarget.dataset.commentid
     console.log("commentId:" + commentid)
     var that = this
@@ -273,7 +273,7 @@ Page({
   },
   clickLike: function (e) {
     //判断ccsession是否为空
-    if (utils.ccsessionIs() == null) return
+  //  if (utils.ccsessionIs() == null) return
     console.log("收藏文章按钮")
     a++
     var that = this
@@ -339,7 +339,7 @@ Page({
   },
   commentClick: function (e) {
     var that = this
-    if (utils.ccsessionIs() == null) return
+  //  if (utils.ccsessionIs() == null) return
     that.setData({
       hidden1: 'false',
       focus: true
@@ -530,7 +530,7 @@ Page({
     console.log(that.data.optionIds)
   },
   voteVs: function (e) {
-    if (utils.ccsessionIs() == null) return
+  //  if (utils.ccsessionIs() == null) return
     var that = this
     that.data.optionIds = []
     for (var key in that.data.cicleMany) { // 将其他投票选项置空
@@ -549,7 +549,7 @@ Page({
   voteArray: function (e) {
     console.log("投票2")
     console.log(utils.ccsessionIs() == null)
-    if (utils.ccsessionIs() == null) return
+  //  if (utils.ccsessionIs() == null) return
     var that = this
     var url = api.saveUserVoteUrl
     var key = app.globalData.key
@@ -614,8 +614,8 @@ Page({
     var that = this
     moviechildId = null
     //判断ccsession是否为空
-    if (utils.ccsessionIs() == null) return
-    if (utils.coocaaLogin() == null) return
+  //  if (utils.ccsessionIs() == null) return
+  //  if (utils.coocaaLogin() == null) return
     console.log("获取设备列表")
     // movieId = e.currentTarget.dataset.movieid
     var allcount = e.currentTarget.dataset.allcount
