@@ -1,5 +1,6 @@
 const utils = require('utils/util.js');
 const api = require('api/api.js');
+const utils_fyb = require('utils/util_fyb.js');
 
 // 使用登录凭证 code 获取 session_key 和 openid
 function login(rawData, code, encryptedData, iv, signature) {
@@ -73,6 +74,14 @@ function decryptUser(rawData, encryptedData, iv, cksession, signature) {
 
 App({
   onLaunch: function () {
+    console.log('onLaunch.')
+    let that = this;
+    wx.getSystemInfo({
+      success: function(res) {
+        that.globalData.bIphoneFullScreenModel = utils_fyb.checkIphoneFullScreenModel({ platform: res.platform, model: res.model })
+        console.log('bIphoneFullScreenModel: ', that.globalData.bIphoneFullScreenModel)
+      },
+    })
   },
   onLoad: function () {
   },
@@ -138,6 +147,7 @@ App({
     secret: 'cd8a62acc6164b27a9af4d29de8eeebd',
 //    tvSource: wx.getStorageSync("tvSource"),
     version_code: 33,
+    bIphoneFullScreenModel:false,
   }
 })
 
