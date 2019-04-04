@@ -100,8 +100,8 @@ Page({
   },
 
   // clearStorage: function () {
-  //   wx.setStorageSync("cksession", "");
-  //   console.log('clearStorage session = ' + wx.getStorageSync("cksession"))
+  //   wx.setStorageSync("new_cksession", "");
+  //   console.log('clearStorage session = ' + wx.getStorageSync("new_cksession"))
   // },
 
   // 获取推送历史列表
@@ -148,10 +148,6 @@ Page({
       console.log("getLikeList error", res);
     })
   },
-
-
-
-
 })
 
 

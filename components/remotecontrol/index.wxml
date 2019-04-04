@@ -8,31 +8,42 @@
 
     <!-- 上面区域-->
     <view class="header-wrapper">
-      <image src="../../images/components/remotecontrol/shutdown@3x.png" class="control-icon shutdown-icon {{isShutdownFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="shutdown"></image>
-      <image src="../../images/components/remotecontrol/volup@3x.png" class="control-icon volup-icon {{isVolupFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="volume_plus"></image>
-      <image src="../../images/components/remotecontrol/voldown@3x.png" class="control-icon voldown-icon {{isVoldownFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="volume_minus"></image>
+      <view class="shutdown-icon {{isShutdownFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd"  id="shutdown">
+        <image src="../../images/components/remotecontrol/shutdown@3x.png" class="control-icon"></image>
+      </view>
+      <view class=" volup-icon {{isVolupFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="volume_plus">
+      <image src="{{curVolUpImg}}" class="control-icon"></image>
+      </view>
+      <view class=" voldown-icon {{isVoldownFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="volume_minus">
+      <image src="{{curVolDownImg}}" class="control-icon"></image>
+      </view>
     </view>
 
     <!-- 中间区域-->
     <view class="center-wrapper">
       <view class="center-control">
-        <view class="center-control-left" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="left"></view>
-        <view class="center-control-right" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="right"></view>
-        <view class="center-control-up" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="up"></view>
-        <view class="center-control-down" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="down"></view>
+        <view class="center-control-left" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="left"></view>
+        <view class="center-control-right" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="right"></view>
+        <view class="center-control-up" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="up"></view>
+        <view class="center-control-down" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="down"></view>
         <image class="center-control-icon" src="{{curDirectorImg}}" ></image>
-        <view class="center-ok {{isOKFocus ? 'ok-focus' : ''}}" catchtouchstart="handlePushController" catchtouchend="handlePushControllerEnd" id="ok">
-          <image class="center-ok-icon" wx:if="{{isOKFocus}}" src="../../images/components/remotecontrol/director-center.png"></image>
-          <text class="center-ok-text {{isOKFocus ? 'ok-text-focus' : ''}}">确定</text>
+        <view class="center-ok" catchtouchstart="handlePushController" catchtouchend="handlePushControllerEnd" catchtouchcancel="handlePushControllerEnd" id="ok">
+          <image class="center-ok-icon"src="{{curConfirmImg}}"></image>
         </view>
       </view>
     </view>
 
     <!-- 下面区域-->
     <view class="footer-wrapper">
-      <image src="../../images/components/remotecontrol/home@3x.png" class="control-icon home-icon {{isHomeFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="home"></image>
-      <image src="../../images/components/remotecontrol/return@3x.png" class="control-icon return-icon {{isBackFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="back"></image>
-      <image src="../../images/components/remotecontrol/menu@3x.png" class="control-icon menu-icon {{isMenuFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="menu"></image>
+    <view class=" home-icon {{isHomeFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="home">
+      <image src="{{curHomeImg}}" class="control-icon"></image>
+      </view>
+      <view class=" return-icon {{isBackFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="back">
+      <image src="{{curBackImg}}" class="control-icon"></image>
+      </view>
+      <view class=" menu-icon {{isMenuFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="menu">
+      <image src="{{curMenuImg}}" class="control-icon"></image>
+      </view>
     </view>
   </view>
 
@@ -71,7 +82,7 @@
     <image class="remoter-tips-icon" bindtap="handleBtnTipsClosed" src="../../images/components/remotecontrol/close@3x.png" ></image>
   </view>
    <!-- bindtap="handleButtonTap" -->
-  <view class="remoter-btn {{bStartRecord ? 'btn-input-status' : ''}}" bindlongpress="handleButtonLongPress" bindtouchstart="handleRecorderManagerStart" bindtouchend="handleRecorderManagerStop" bindtouchcancel="handleRecorderManagerCancel" bindtouchmove='handleRecorderManagerMove'>   
+  <view class="remoter-btn {{bStartRecord ? 'btn-input-status' : ''}} {{isShowMainPanel ? 'btn-show-panel-status' : ''}}" bindlongpress="handleButtonLongPress" bindtouchstart="handleRecorderManagerStart" bindtouchend="handleRecorderManagerStop" bindtouchcancel="handleRecorderManagerCancel" bindtouchmove='handleRecorderManagerMove'>   
     <image class="remoter-btn-icon" src="{{curBtnImg}}" ></image>
     <text class="remoter-btn-text">{{btnContent}}</text>
   </view>

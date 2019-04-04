@@ -106,9 +106,9 @@
               <image class="right" src="../../images/arrow.png"></image>
             </view>
             <scroll-view class="episode2" scroll-x style="width: 100%">
-              <block wx:for="{{item.episodes_list}}" wx:key="index">
-                <view class="scroll-view-item2 {{ (item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" data-index="{{index}}" hover-class="noimplement">
-                  {{item.segment_index}}
+              <block wx:for="{{item.episodes_list}}" wx:key="index" wx:for-item="item2">
+                <view wx:if="{{index < item.video_detail.updated_segment}}" class="scroll-view-item2 {{ (item2.segment_index == curIndex && item2.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item2}}" data-index="{{index}}" hover-class="noimplement">
+                  {{item2.segment_index}}
                 </view>
               </block>
             </scroll-view>

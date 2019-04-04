@@ -1,6 +1,5 @@
 const utils = require('../../utils/util_fyb');
 const api = require('../../api/api_fyb');
-const api_nj = require('../../api/api_nj');
 const app = getApp();
 
 Page({

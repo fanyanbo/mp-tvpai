@@ -15,16 +15,21 @@ Component({
   },
   data: {
     //遥控按键落焦标识
-    isOKFocus: false,
-    isShutdownFocus: false,
-    isVolupFocus: false,
-    isVoldownFocus: false,
+    curVolUpImg: '../../images/components/remotecontrol/volup@3x.png',
+    curVolDownImg: '../../images/components/remotecontrol/voldown@3x.png',
+    curHomeImg: '../../images/components/remotecontrol/home@3x.png',
+    curMenuImg: '../../images/components/remotecontrol/menu@3x.png',
+    curBackImg: '../../images/components/remotecontrol/return@3x.png',
+    curDirectorImg: '../../images/components/remotecontrol/director-normal.png',    // 方向icon
+    curConfirmImg: '../../images/components/remotecontrol/director-center.png', //确认icon
+    curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',    // 遥控器按钮icon
+    isShutdownFocus:false,
+    isVolupFocus:false,
+    isVoldownFocus:false,
     isHomeFocus: false,
     isBackFocus: false,
     isMenuFocus: false,
-    curDirectorImg: '../../images/components/remotecontrol/director-normal.png',    // 方向icon路径
-    curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',    // 遥控器按钮icon路径
-    
+
     //被绑定设备状态 
     activeid: null, //设备激活id
     hasRecordAuth: null, //是否有录音权限
@@ -91,39 +96,48 @@ Component({
       this.setData({ isShowTips: false })
     },
     _toggleGeneralKeyStatus({ id, status }) {  //切换遥控器一般按键显示状态
+      let path = '../../images/components/remotecontrol/';
+      let image = '';
       switch (id) {
         case 'ok':
-          this.setData({ isOKFocus: status })
+          image = status ? (path + 'director-centerF.png') : (path+'director-center.png');
+          this.setData({ curConfirmImg: image })
           break
         case 'home':
-          this.setData({ isHomeFocus: status })
+          image = status ? (path + 'homeF@3x.png') : (path + 'home@3x.png');
+          this.setData({ curHomeImg: image, isHomeFocus: status })
           break
         case 'back':
-          this.setData({ isBackFocus: status })
+          image = status ? (path + 'returnF@3x.png') : (path + 'return@3x.png');
+          this.setData({ curBackImg: image, isBackFocus: status })
           break
         case 'menu':
-          this.setData({ isMenuFocus: status })
-          break
-        case 'shutdown':
-          // this.setData({ isShutdownFocus: status })
-          wx.showToast({
-            title: '当前版本暂不支持开关机功能',
-            icon: 'none'
-          })
+          image = status ? (path + 'menuF@3x.png') : (path + 'menu@3x.png');
+          this.setData({ curMenuImg: image, isMenuFocus: status })
           break
         case 'volume_minus':
-          this.setData({ isVoldownFocus: status })
+          image = status ? (path + 'voldownF@3x.png') : (path + 'voldown@3x.png');
+          this.setData({ curVolDownImg: image, isVoldownFocus : status })
           break
         case 'volume_plus':
-          this.setData({ isVolupFocus: status })
+          image = status ? (path + 'volupF@3x.png') : (path + 'volup@3x.png');
+          this.setData({ curVolUpImg: image, isVolupFocus: status })
           break
         case 'up':
         case 'down':
         case 'left':
         case 'right':
-          let img = status ? ('../../images/components/remotecontrol/director-' + id + '.png') : ('../../images/components/remotecontrol/director-normal.png');
-          this.setData({ curDirectorImg: img })
+          image = status ? (path + 'director-' + id + '.png') : (path+'director-normal.png');
+          this.setData({ curDirectorImg: image })
           break
+        case 'shutdown':
+          // this.setData({ isShutdownFocus: status })
+          wx.showToast({
+            title: '当前版本暂不支持开关机功能',
+            icon: 'none',
+            duration: 1000
+          })
+          break 
       }
     },
     handlePushController(e) { //遥控器一般按键 按下
@@ -410,13 +424,13 @@ Component({
       this._saveStatusBeforeRecord()
       // 显示语音输入版面，设置相关状态
       this.setData({
+        bStartRecord:true,
         indexStatus: 'VoiceInput',
         isShowMainPanel: true,
         curBtnImg: '../../images/components/remotecontrol/voice@3x.png',
         btnContent: '松开结束',
         query: ''
       })
-      this.data.bStartRecord = true;
       console.log('开始执行语音输入动画和版面进场动画');
       this._showInputTips();
       this.startRecordAnimation();   
@@ -438,7 +452,9 @@ Component({
         return;
       }
       console.log('_stopRecordingSite begin...')
-      this.data.bStartRecord = false;
+      this.setData({
+        bStartRecord:false
+      })
       this.stopRecordTimer()
       this.stopRecordAnimation()
       if (type == 'manual'){ //如果是用户松手手动stop
