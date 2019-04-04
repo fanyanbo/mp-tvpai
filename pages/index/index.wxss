@@ -31,7 +31,7 @@
   letter-spacing: 0;
 }
 .main-wrapper {
-  margin-bottom:100rpx;
+  padding-bottom:110rpx;
 }
 .banner_list{
   width: 670rpx;
@@ -45,8 +45,9 @@
 .label{
   box-sizing: border-box;
   text-align: center;
-  margin: 40rpx auto !important;
-  height: 370rpx;
+  margin-top: 40rpx;
+  height: 358rpx;
+  margin-bottom: 20rpx
 }
 .tx_label{
 width: 100%;
@@ -59,17 +60,23 @@ margin:30rpx 0
 }
 .column-item{
   display: inline-block;
-  width: 110rpx;
-  height:100rpx;
+  width: 104rpx;
+  height:140rpx;
   text-align: center;
-  border-radius: 100%;
   font-size: 26rpx;
   color: #333;
-  margin:10rpx 20rpx;  
+  margin:0rpx 20rpx;  
+  margin-bottom: 20rpx
 }
 .column-item image{
-  width: 100rpx;
-  height:100rpx
+  width: 104rpx;
+  height:104rpx;
+  border-radius: 100%;
+  display: flex
+}
+.column-item .label_text{
+  height: 36rpx;
+  line-height: 36rpx;
 }
 .movie-container{
   display: flex;
@@ -104,41 +111,52 @@ margin:30rpx 0
   padding-top: 50px;
   height: 400px;
 }
-.category{
-  padding:20rpx 40rpx;
-}
+
 .section{
 width: 100%;
 overflow: hidden;
 white-space: nowrap;
-margin-top:35rpx
+margin-bottom: 80rpx
 }
 .item_list{
 width: 210rpx;
 height: 374rpx;
-margin-right: 23rpx;
+margin-left: 20rpx;
 display: inline-block;
 border-radius: 8rpx
+}
+.scroll-view_x .item_list:nth-child(1){
+  margin-left: 40rpx
 }
 .item_book_img{
   width: 210rpx;
   height: 294rpx;
-  border-radius: 8rpx
+  border-radius: 12rpx
 }
 .category .title{
   font-size: 32rpx;
-  height: 28rpx;
-  line-height: 28rpx;
-  border-left: #FFD71C 3px solid;
-  padding-left: 6px;
+  height: 88rpx;
+  line-height: 88rpx;
   color: #000;
+  padding:0rpx 40rpx;
+
+}
+.category .line{
+  width: 6rpx;
+  height: 36rpx;
+  display: inline-block;
+  background: #FFD71C;
+  margin-right: 6px;
+  margin-top: 26rpx;
+  float: left
+
 }
 .category .more{
   color:#999;
   float: right;
   font-size: 26rpx;
-  height: 40rpx;
-  line-height: 40rpx;
+  height: 80rpx;
+  line-height: 80rpx;
   display: block;
 }
 .category .item_book_text{
@@ -165,7 +183,7 @@ swiper {
 .slide-image {
  display: block;
  margin: 0 auto;
-border-radius: 8rpx;
+border-radius: 16rpx;
 width: 670rpx;
 height: 300rpx
 }
@@ -189,3 +207,21 @@ height: 300rpx
   color: transparent;
 }
 
+
+
+
+.swiper-box .wx-swiper-dot{
+    width:20rpx;
+    display: inline-flex;
+    height: 6rpx;
+    justify-content:space-between;
+}
+.swiper-box .wx-swiper-dot::before{
+    content: '';
+    flex-grow: 1; 
+    background:#ECECEC;
+    border-radius: 8rpx
+}
+.swiper-box .wx-swiper-dot-active::before{
+    background:#FFD71C;   
+}

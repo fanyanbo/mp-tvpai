@@ -41,7 +41,7 @@ Page({
     this.getDeviceList();
   }, 
   scanQRCode: function () {
-    wx.showLoading({ title: '扫码绑定中' });
+    utils.showToastBox('扫码绑定中...', "loading")
     wx.scanCode({
       success: (res) => {
         console.log("扫码结果", res.result);

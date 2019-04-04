@@ -129,7 +129,7 @@
   display: block
 }
 .like_image{
-  border-radius: 8rpx
+  border-radius: 12rpx
 }
 .arrow_1{
   height: 24rpx;
