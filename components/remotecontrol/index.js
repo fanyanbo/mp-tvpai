@@ -110,7 +110,8 @@ Component({
           // this.setData({ isShutdownFocus: status })
           wx.showToast({
             title: '当前版本暂不支持开关机功能',
-            icon: 'none'
+            icon: 'none',
+            duration:1000
           })
           break
         case 'volume_minus':
