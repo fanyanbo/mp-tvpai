@@ -11,7 +11,8 @@ Page({
     indicatorDots: true,
     autoplay: false,
     interval: 5000,
-    duration: 1000,
+    duration:600,
+    circular:true,
     indicatorColor: '#ECECEC',
     indicatorActiveColor: "#FFD71C",
     banners: [],
@@ -19,8 +20,8 @@ Page({
     column2: [],
     column3: [],
     recommandList: [],
-    previousmargin: '20rpx',
-    nextmargin: '40rpx',
+    previousmargin: '30rpx',
+    nextmargin: '30rpx',
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     type:""
   },
@@ -219,7 +220,7 @@ Page({
       });
     }
     let that = this;
-    let ccsession = wx.getStorageSync("cksession");
+    let ccsession = wx.getStorageSync("new_cksession");
     console.log('bindGetUserInfo ccsession', ccsession);
     if (e.currentTarget.dataset.type == 'cinecism') {
       wx.navigateTo({
@@ -235,7 +236,7 @@ Page({
 
 
   getBindedDevice: function () {
-    let ccsession = wx.getStorageSync('cksession');
+    let ccsession = wx.getStorageSync('new_cksession');
     console.log('getBindedDevice ccsession', ccsession);
     if (ccsession == null || ccsession === "") return;
     let params = { ccsession: ccsession };
@@ -246,6 +247,9 @@ Page({
       function (res) {
         console.log('getBindDeviceList success', res.data);
         if (res.data.data) {
+          wx.setStorageSync('deviceId', '');
+          app.globalData.activeId = null;
+          app.globalData.deviceId = null;
           for (let i = 0; i < res.data.data.length; i++) {
             if (res.data.data[i].bindStatus === 1) {
               app.globalData.activeId = res.data.data[i].device.serviceId;
@@ -255,6 +259,10 @@ Page({
               break;
             }
           }
+        } else {
+          wx.setStorageSync('deviceId', '');
+          app.globalData.activeId = null;
+          app.globalData.deviceId = null;
         }
       },
       function (res) {

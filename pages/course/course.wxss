@@ -1,5 +1,5 @@
 page{
-  background-color: rgb(248, 248, 248)
+  background-color: #f4f4f4
 }
 
 .img_list {
@@ -7,6 +7,7 @@ page{
   flex-direction: column;
   width: 750rpx;
   box-sizing: border-box;
+  padding-bottom: 100rpx
 }
 image {
   width: 100%;
@@ -14,7 +15,11 @@ image {
 .binding {
   width: 90%;
   margin: 0 auto;
-  margin-bottom: 80rpx;
   background: #FFD71C;
   color: #333
+}
+.view{
+  position: fixed;
+  bottom: 30rpx;
+  width: 100%;
 }

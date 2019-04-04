@@ -16,7 +16,7 @@ Page({
   },
 
   bindDevice: function (qrUrl) {
-    let ccsession = wx.getStorageSync('cksession');
+    let ccsession = wx.getStorageSync('new_cksession');
     let srcParams = { "ccsession": ccsession, "qrUrl": qrUrl };
     let desParams = utils_fyb.paramsAssemble_wx(srcParams);
     console.log(desParams);
@@ -52,7 +52,7 @@ Page({
       },
       fail: (res) => {
         console.log(res);
-        utils_fyb.showFailedToast('扫码失败', '../../images/close_icon.png');
+      //  utils_fyb.showFailedToast('扫码失败', '../../images/close_icon.png');
       }
     })
   },
@@ -73,7 +73,7 @@ Page({
     console.log('rawData:' + rawData)
     console.log('signature:' + signature)
 
-    let ccsession = wx.getStorageSync("cksession");
+    let ccsession = wx.getStorageSync("new_cksession");
     console.log('bindGetUserInfo ccsession', ccsession);
 
     if (ccsession == null || ccsession === '') {
@@ -86,7 +86,7 @@ Page({
         if (res.data.result && res.data.data) {
           let ccsession = res.data.data.ccsession;
           let wxopenid = res.data.data.wxopenid;
-          wx.setStorageSync('cksession', ccsession);
+          wx.setStorageSync('new_cksession', ccsession);
           wx.setStorageSync('wxopenid', wxopenid);
           console.log('setStorage, session = ' + ccsession + ',openid = ' + wxopenid);
           let url = api.getuserinfoUrl
@@ -124,7 +124,7 @@ Page({
   // 切换绑定时触发
   handleBindTap: function (event) {
     let that = this;
-    let ccsession = wx.getStorageSync('cksession');
+    let ccsession = wx.getStorageSync('new_cksession');
     let deviceid = event.currentTarget.dataset.deviceid + '';
     console.log('handleBindTap', ccsession, deviceid);
     let srcParams = { bind: "1", "ccsession": ccsession, "deviceId": deviceid };
@@ -150,7 +150,7 @@ Page({
   // 获取绑定设备列表
   getDeviceList: function() {
     let that = this;
-    const ccsession = wx.getStorageSync('cksession');
+    const ccsession = wx.getStorageSync('new_cksession');
     console.log("ccsession:", ccsession);
     if (ccsession == null || ccsession === '') {
       this.setData({ isShowDoc: true });
@@ -170,6 +170,7 @@ Page({
         })
         wx.setStorageSync('deviceId', '');
         app.globalData.activeId = null;
+        app.globalData.deviceId = null;
         for (let i = 0; i < res.data.data.length; i++) {
           if (res.data.data[i].bindStatus === 1) {
             console.log(res.data.data[i].deviceId);
@@ -177,13 +178,14 @@ Page({
             // 是否一定使用globaldata，用storage方案如何？
             app.globalData.activeId = res.data.data[i].device.serviceId;//激活ID
             app.globalData.deviceId = res.data.data[i].deviceId + '',//设备ID
-            console.log("已绑定设备激活id-设备源:" + res.data.data[i].device.serviceId + res.data.data[i].device.source);
+              console.log(res.data.data[i].deviceId+"已绑定设备激活id-设备源:" + res.data.data[i].device.serviceId + res.data.data[i].device.source);
             if (res.data.data[i].device.source == "tencent") {
               wx.setStorageSync('tvSource', 'qq')
             } else {
               wx.setStorageSync('tvSource', 'iqiyi')
             }
           }
+
         }
       }else{
         that.setData({
@@ -192,6 +194,7 @@ Page({
         })
         wx.setStorageSync('deviceId', '');
         app.globalData.activeId = null;
+        app.globalData.deviceId = null;
       }
     }, function () {
       console.log('getDeviceList error');

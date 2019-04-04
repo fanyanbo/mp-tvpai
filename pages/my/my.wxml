@@ -11,6 +11,8 @@
   <button class='binding mylabel' data-type="home" bindtap="handleJumpPage">
     <image class='my_icon' src="../../images/search_tv.png"></image>
     <text class="title">设备绑定</text>
+    <text class="more" wx:if="{{!isShow}}">未连接</text>
+    <text class="more" wx:if="{{isShow}}">已连接</text>
     <image class="arrow" src="../../images/arrow.png"></image>
   </button>
   <button class='history mylabel' data-type="history" bindtap="handleJumpPage">
@@ -40,7 +42,26 @@
       </navigator>
     </scroll-view>
   </view>
+
+    <!-- <button class='history mylabel' data-type="history" bindtap="handleJumpPage">
+      <image class='my_icon' src="../../images/like.png"></image>
+      <text class="title">我的喜欢</text>
+      <text class="more">全部</text>
+      <image class="arrow" src="../../images/arrow.png"></image>
+    </button>
+    <view class="scroll_box section">
+    <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">
+      <navigator wx:for="{{likeList}}" wx:key="index" wx:for-item="item" class="item_list" url="../movieDetail/movieDetail?id={{item.album_id}}">
+        <view>
+          <image src="{{item.poster_h}}" class="item_book_img" mode="aspectFill"></image>
+          <view class="item_book_text inaline">{{item.title}}</view>
+        </view>
+      </navigator>
+    </scroll-view>
+  </view> -->
+
+
 </view>
 <view>
-  <remotecontrol id="remotecontrol-id"></remotecontrol>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}"></remotecontrol>
 </view>

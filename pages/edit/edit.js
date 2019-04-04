@@ -22,7 +22,7 @@ Page({
     return
   }
   const deviceName = encodeURI(_data.deviceName)
-  const ccsession = wx.getStorageSync('cksession')
+    const ccsession = wx.getStorageSync('new_cksession')
   var paramsStr = { "ccsession": ccsession, "deviceId": that.data.deviceId, "deviceName":deviceName}
   console.log(paramsStr);
   const sign = utils.encryption(paramsStr, key)

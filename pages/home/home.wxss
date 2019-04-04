@@ -7,10 +7,7 @@ page{
 .block{
   display: block;
 }
-.container{
-  font-size: 0;
-  padding-bottom: 100rpx;
-}
+
 .mydevices{
   height: 90rpx;
   line-height: 90rpx;
@@ -22,6 +19,8 @@ page{
 }
 .no-devices{
   width: 100%;
+  height: auto;
+
 }
 .devices{
   background: #fff;
@@ -42,6 +41,7 @@ page{
   box-sizing: border-box;
   font-size: 36rpx;
   color: #444;
+  margin-bottom:20rpx
 }
 .device-name{
   width: 350rpx;
@@ -51,11 +51,11 @@ page{
   background: #ECECEC;
   color:#999;
   font-size:26rpx;
-  width: 80rpx;
+  width: 90rpx;
   height: 40rpx;
   line-height: 40rpx;
   text-align: center;
-  margin-left: 50rpx;
+  margin-left: 20rpx;
 }
 .device-top-left{
   width: 510rpx;
@@ -138,26 +138,25 @@ page{
 .swiper-box view{  
 text-align: center;  
 }  
-.swiper_list .image1,.swiper_list .image2{
+.swiper_list{
+  display: flex;
+  flex-direction: column;
   width: 750rpx;
-  height: 1148rpx
+  box-sizing: border-box;
+  padding-bottom: 100rpx
 }
-.swiper_list .image3{
-  width: 750rpx;
-  height: 1240rpx
-}
-.swiper_list .image4{
-  width: 750rpx;
-  height: 2114rpx
-}
+
 .swiper_list image{
-  display: inline-block;
-  float: left
+  width: 100%;
 }
 ._binding{
   width: 90%;
   margin: 0 auto;
-  margin-bottom: 80rpx;
   background: #FFD71C;
   color: #333
+}
+.view{
+  position: fixed;
+  width: 100%;
+  bottom:30rpx
 }

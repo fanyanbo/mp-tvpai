@@ -2,15 +2,15 @@
 .top{width: 100%;margin: 0 auto; background: #333; padding-top: 40rpx;}
 .movieDetail{margin: 0 40rpx;}
 .movieDetail image.haibao{width: 30%;height: 280rpx;overflow: hidden; border-radius: 10rpx}
-.movieDetail .describe{margin-left: 5%;display: inline-block;width: 64%;vertical-align:top;color: #444;
-}
+.movieDetail .describe{margin-left: 5%;display: inline-block;width: 64%;vertical-align:top;color: #444; position: relative;height: 280rpx;}
 .movieDetail .describe ul li{font-size: 26rpx;display:block;color: #999}
-.movieDetail .describe ul li.title{font-size: 36rpx;margin-bottom: 3%; color: #fff; height: 100rpx; line-height: 50rpx}
+.movieDetail .describe ul li.title{font-size: 36rpx;margin-bottom: 3%; color: #fff; line-height: 50rpx}
 .movieDetail .describe ul li .like image{width:80rpx;height:80rpx;}
+.movieDetail .describe ul .click_button{position: absolute; bottom: 0;}
 .movieDetail .describe ul li .collect image{width:314rpx;height:80rpx;}
 /* .movieDetail .describe ul li .collect{margin-left: 20rpx} */
 .movieDetail .describe ul li em{position:absolute;top:20%;display:block;left:13%;font-size: 30rpx;}
-.movieDetail .describe button{ display: inline-block; height: 80rpx; padding: 0; background: none}
+.movieDetail .describe .push_button{ display: inline-block; height: 80rpx; padding: 0; background: none}
 /* .movieDetail .describe ul li:last-child{margin-top: 10%;position: relative;} */
 .intwoline{
     display:-webkit-box !important;
@@ -51,7 +51,7 @@
 .tvLists .dsj{display: block; width: 108rpx; height: 108rpx; text-align: center; line-height: 108rpx; color: #999; font-size: 32rpx}
 .tvLists .segmeng{font-size: 32rpx; color: #999}
 .zy button{position: absolute; top: 0; left: 0;width: 260rpx; height: 115rpx; line-height: 50rpx; background: none; z-index: 2}
-.zy .subtitle{font-size: 24rpx; color:#666;  z-index: 1; width: 260rpx; padding: 0 10rpx; box-sizing: border-box; white-space:normal;  height: 60rpx; position: absolute; top: 50rpx}
+.zy .subtitle{font-size: 24rpx; color:#666;  z-index: 1; width: 260rpx; padding: 0 10rpx; box-sizing: border-box; white-space:normal;  height: 60rpx; line-height: 30rpx; position: absolute; top: 50rpx}
 .intwoline{
     display:-webkit-box !important;
     overflow:hidden;
@@ -125,4 +125,14 @@
 .none{display: none}
 .videoBlock{
   display: block
+}
+.like_image{
+  border-radius: 8rpx
+}
+.arrow{
+  height: 24rpx;
+  width: 24rpx;
+  vertical-align: middle;
+  display: inline-block;
+  margin-top: 34rpx;
 }

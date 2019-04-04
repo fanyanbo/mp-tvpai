@@ -210,7 +210,7 @@ function json2Form(json) {
 //checkUsers
 function checkUsers() {
   let key = getApp().globalData.key
-  let ccsession = wx.getStorageSync('cksession')
+  let ccsession = wx.getStorageSync('new_cksession')
   let paramsStr = { "ccsession": ccsession }
   let sign = encryption(paramsStr, key)
   console.log(getApp().globalData.client_id + sign + paramsStr);

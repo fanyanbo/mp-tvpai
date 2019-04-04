@@ -27,7 +27,7 @@
     <view class='item' wx:for="{{contentAll}}" wx:for-item="item" wx:key="index">
       <form bindsubmit="movieclick">
         <navigator url="../movieDetail/movieDetail?id={{item.id}}" bindtap="movieclick" hover-class="none" data-id="{{item.id}}">
-          <image src='{{item.images[0].url}}'></image>
+          <image class="movieImg" src='{{item.images[0].url}}'></image>
           <text class='describe'>{{item.title}}</text>
         </navigator>
       </form>
@@ -35,7 +35,7 @@
   </view>
   <view class="nomv" wx:if="{{isShowDoc}}">暂无相关影片</view>
 </view>
-<view class='search-body' hidden="{{flag ? true : false}}">
+<view style="display:none" class='search-body' hidden="{{flag ? true : false}}">
   <view class="title">热门搜索</view>
   <view class="list">
     <ul>

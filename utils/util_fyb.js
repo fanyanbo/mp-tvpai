@@ -80,13 +80,17 @@ function setParams_tvpai(params) {
 }
 // 预处理请求参数
 function paramsAssemble_tvpai(paramsObj = {}) {
+  let vuid = wx.getStorageSync("wxopenid")
+  if (vuid === "" || vuid == null){
+    vuid = "1111";//无实际意义，传空会报错
+  }
   let orignParams = {
     "appkey": '5cc090ddad6e4544815a0026e9a735a4',
     "time": Math.round(new Date().getTime() / 1000).toString(),
     "tv_source": getTvsource(),
     "version_code": 33,
     // 'token': 'fanyanbo',
-    // "vuid": 'fanyanbo'
+    "vuid": vuid
   }
   let desParams = Object.assign(orignParams, paramsObj);
   // console.log(desParams);

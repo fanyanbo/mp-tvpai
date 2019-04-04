@@ -2,8 +2,8 @@
  * author : fanyanbo@coocaa.com
  */
 
-// const env = 'prod';
-const env = 'dev';
+const env = 'prod';
+// const env = 'dev';
 
 const config = (env === 'prod') ? {
     baseUrl_nj: "https://user.coocaa.com/",

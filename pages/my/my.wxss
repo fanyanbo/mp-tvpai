@@ -35,6 +35,9 @@ button::after {
   width: 42rpx;
   height: 42rpx;
 }
+.binding{
+  margin-bottom: 30rpx
+}
 .userinfo {
   position: relative;
   width: 750rpx;

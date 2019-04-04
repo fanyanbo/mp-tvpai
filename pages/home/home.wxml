@@ -1,10 +1,11 @@
 <view class="container">
   <view class="{{devices?'none':'no-devices'}}" wx:if="{{isShowDoc}}">
     <view class="swiper_list">
-      <image src="../../images/help/1.jpg" class="image1"></image>
-      <image src="../../images/help/2.jpg" class="image2"></image>
-      <image src="../../images/help/3.jpg" class="image3"></image>
-      <image src="../../images/help/4.jpg" class="image4"></image>
+      <image src="../../images/help/0.jpg"  mode="widthFix"></image>
+      <image src="../../images/help/1.jpg"  mode="widthFix"></image>
+      <image src="../../images/help/2.jpg"  mode="widthFix"></image>
+      <image src="../../images/help/3.jpg"  mode="widthFix"></image>
+      <image src="../../images/help/4.jpg"  mode="widthFix"></image>
     </view>
     <view class="view">
       <!-- <button class="_binding" bindtap="scan" id="scan">开始扫码绑定</button> -->
@@ -19,11 +20,9 @@
     <view class="device-item device-top-left">
       <view class="device-top">
         <text class="device-name inaline">{{item.device.deviceName}}</text>
-        <view class="edit" bindtap="deleteto" data-id="{{item.deviceId}}" data-status="{{item.bindStatus}}" data-name="{{item.device.deviceName}}">
-          编辑
-        </view>
+        <view class="edit" bindtap="deleteto" data-id="{{item.deviceId}}" data-status="{{item.bindStatus}}" data-name="{{item.device.deviceName}}">编辑</view>
       </view>
-      <view class="{{block[index]}}">
+      <view class="device_info">
         <view class="device-content">
           <text class="device-content-left">型号：{{item.device.model}}</text>
         </view>
@@ -42,6 +41,6 @@
   </view>
 </view>
 <!-- 遥控器组件 -->
-<view>
+<view class="{{devices?'bottom':'none'}}">
   <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}"></remotecontrol>
 </view>

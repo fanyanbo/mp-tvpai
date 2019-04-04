@@ -70,7 +70,7 @@ Page({
 
 function searchMovie(that, keyword) {
   var url = api.searchUrl
-  var ccsession = wx.getStorageSync("cksession")
+  var ccsession = wx.getStorageSync("new_cksession")
   that.setData({
     tvTilte: keyword
   })
@@ -109,7 +109,7 @@ function searchMovie(that, keyword) {
 }
 
 function hotSearch(that) {
-  var paramsStr = { "ccsession": wx.getStorageSync("cksession") }
+  var paramsStr = { "ccsession": wx.getStorageSync("new_cksession") }
   var sign = utils.encryption(paramsStr, app.globalData.key)
   wx.request({
     url: api.getHotSearchListUrl,

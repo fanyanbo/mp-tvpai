@@ -66,12 +66,12 @@
 
 <!-- 遥控器按钮 -->
 <view class="remoter-btn-wrapper">
-  <view class="remoter-btn-tips" wx:if="{{isShowTips && !voiceInputStatus}}">      
+  <view class="remoter-btn-tips" wx:if="{{isShowTips && !bStartRecord}}">      
     <text class="remoter-tips-text">{{tipsContent}}</text>
     <image class="remoter-tips-icon" bindtap="handleBtnTipsClosed" src="../../images/components/remotecontrol/close@3x.png" ></image>
   </view>
    <!-- bindtap="handleButtonTap" -->
-  <view class="remoter-btn {{voiceInputStatus ? 'btn-input-status' : ''}}" bindlongpress="handleButtonLongTap" bindtouchstart="handleRecorderManagerStart" bindtouchend="handleRecorderManagerStop" bindtouchmove='handleRecorderManagerMove'>   
+  <view class="remoter-btn {{bStartRecord ? 'btn-input-status' : ''}}" bindlongpress="handleButtonLongPress" bindtouchstart="handleRecorderManagerStart" bindtouchend="handleRecorderManagerStop" bindtouchcancel="handleRecorderManagerCancel" bindtouchmove='handleRecorderManagerMove'>   
     <image class="remoter-btn-icon" src="{{curBtnImg}}" ></image>
     <text class="remoter-btn-text">{{btnContent}}</text>
   </view>

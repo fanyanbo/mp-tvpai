@@ -176,13 +176,24 @@
     top: 100rpx;
     left: 50%;
     transform: translateX(-50%);
-    width: 120rpx;
-    height: 120rpx;
+    width: 180rpx;
+    height: 180rpx;
   }
-  .input-icon,.input-progressbar {
+  .input-icon{
     position: absolute;
-    width: 120rpx;
-    height: 120rpx;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 90rpx;
+    height: 90rpx;
+  }
+  .input-progressbar {
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 150rpx;
+    height: 150rpx;
   }
   .input-progressbar {
     z-index: 1;

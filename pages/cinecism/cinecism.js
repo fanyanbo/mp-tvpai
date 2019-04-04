@@ -110,14 +110,14 @@ Page({
   collect(e) {
     movieidArray = []
     //判断ccsession是否为空
-    if (utils.ccsessionIs() == null) return
+   // if (utils.ccsessionIs() == null) return
     //点击收藏时判断用户是否登录酷开账号
     if (utils.coocaaLogin() == null) return
     var that = this
     var newZu2 = ''
     var url = api.appletCollectVideoUrl
     var key = app.globalData.key
-    var ccsession = wx.getStorageSync("cksession")
+    var ccsession = wx.getStorageSync("new_cksession")
     // var moviesId = options.currentTarget.dataset.moviesid
     contentId = e.currentTarget.dataset.contentid
     var index = e.currentTarget.dataset.contentid
@@ -198,13 +198,13 @@ Page({
   },
   handClick(e) {
     //判断ccsession是否为空
-    if (utils.ccsessionIs() == null) return
+  //  if (utils.ccsessionIs() == null) return
     var commentid = e.currentTarget.dataset.commentid
     console.log("commentId:" + commentid)
     var that = this
     var url = api.clickLikeUrl
     var key = app.globalData.key
-    var ccsession = wx.getStorageSync("cksession")
+    var ccsession = wx.getStorageSync("new_cksession")
     var paramsStr = { "ccsession": ccsession, "commentId": commentid + '' }
     var sign = utils.encryption(paramsStr, key)
     wx.request({
@@ -273,7 +273,7 @@ Page({
   },
   clickLike: function (e) {
     //判断ccsession是否为空
-    if (utils.ccsessionIs() == null) return
+  //  if (utils.ccsessionIs() == null) return
     console.log("收藏文章按钮")
     a++
     var that = this
@@ -283,7 +283,7 @@ Page({
     var indexRediuce = index - 1
     var url = api.appletEmpCollectArticleUrl
     var key = app.globalData.key
-    var ccsession = wx.getStorageSync("cksession")
+    var ccsession = wx.getStorageSync("new_cksession")
     var articleId = e.currentTarget.dataset.articleid
     var paramsStr = { "articleId": articleId + '', "ccsession": ccsession }
     var sign = utils.encryption(paramsStr, key)
@@ -339,7 +339,7 @@ Page({
   },
   commentClick: function (e) {
     var that = this
-    if (utils.ccsessionIs() == null) return
+  //  if (utils.ccsessionIs() == null) return
     that.setData({
       hidden1: 'false',
       focus: true
@@ -357,7 +357,7 @@ Page({
     var articleId = e.currentTarget.dataset.id
     var url = api.saveArticleCommentByUserUrl
     var key = app.globalData.key
-    var ccsession = wx.getStorageSync("cksession")
+    var ccsession = wx.getStorageSync("new_cksession")
     var paramsStr = { "articleId": articleId + '', "ccsession": ccsession, 'content': content }
     var sign = utils.encryption(paramsStr, key)
 
@@ -530,7 +530,7 @@ Page({
     console.log(that.data.optionIds)
   },
   voteVs: function (e) {
-    if (utils.ccsessionIs() == null) return
+  //  if (utils.ccsessionIs() == null) return
     var that = this
     that.data.optionIds = []
     for (var key in that.data.cicleMany) { // 将其他投票选项置空
@@ -549,11 +549,11 @@ Page({
   voteArray: function (e) {
     console.log("投票2")
     console.log(utils.ccsessionIs() == null)
-    if (utils.ccsessionIs() == null) return
+  //  if (utils.ccsessionIs() == null) return
     var that = this
     var url = api.saveUserVoteUrl
     var key = app.globalData.key
-    var ccsession = wx.getStorageSync("cksession")
+    var ccsession = wx.getStorageSync("new_cksession")
     var voteId = e.currentTarget.dataset.vote
     console.log("voteId:" + voteId)
 
@@ -614,8 +614,8 @@ Page({
     var that = this
     moviechildId = null
     //判断ccsession是否为空
-    if (utils.ccsessionIs() == null) return
-    if (utils.coocaaLogin() == null) return
+  //  if (utils.ccsessionIs() == null) return
+  //  if (utils.coocaaLogin() == null) return
     console.log("获取设备列表")
     // movieId = e.currentTarget.dataset.movieid
     var allcount = e.currentTarget.dataset.allcount
@@ -649,7 +649,7 @@ Page({
       isTrue: 'hidden',
       tvChioced: 'zzzzz'
     })
-    var cksession = wx.getStorageSync("cksession")
+    var cksession = wx.getStorageSync("new_cksession")
     //console.log(cksession != null && cksession != undefined && cksession !== '');
     if (cksession != null && cksession != undefined && cksession !== '') {
       serviceList(this)
@@ -771,7 +771,7 @@ function pushMovies(that, movieId, deviceId, moviechildId) {
   var paramsStr
   var url = api.devicesPushUrl
   var key = app.globalData.key
-  var ccsession = wx.getStorageSync("cksession")
+  var ccsession = wx.getStorageSync("new_cksession")
   if (moviechildId == null || moviechildId == undefined || moviechildId === '') {
     paramsStr = { "ccsession": ccsession, "deviceId": deviceId + '', "movieId": movieId }
   } else {
@@ -818,7 +818,7 @@ function pushMovies(that, movieId, deviceId, moviechildId) {
 function serviceList(that) {
   var url = api.getDevicesUrl
   var key = app.globalData.key
-  var ccsession = wx.getStorageSync("cksession")
+  var ccsession = wx.getStorageSync("new_cksession")
   console.log("ccsession" + ccsession)
   var paramsStr = { "ccsession": ccsession }
   var sign = utils.encryption(paramsStr, key)
@@ -904,7 +904,7 @@ function serviceList(that) {
 function getArtical(that) {
   var url = api.getArticleDetailUrl
   var key = app.globalData.key
-  var ccsession = wx.getStorageSync("cksession")
+  var ccsession = wx.getStorageSync("new_cksession")
   var paramsStr = { "articleId": that.data.allId, "ccsession": ccsession }
   var sign = utils.encryption(paramsStr, key)
   wx.request({
@@ -1018,7 +1018,7 @@ function getCommenList(that) {
   utils.showLoading();
   var url = api.getArticleCommentUrl
   var key = app.globalData.key
-  var ccsession = wx.getStorageSync("cksession");
+  var ccsession = wx.getStorageSync("new_cksession");
   var page = that.data.page;
 
   var paramsStr = { "articleId": that.data.allId, "ccsession": ccsession, "page": page + '', "pageSize": "10" };
@@ -1099,7 +1099,7 @@ function getCommenList(that) {
 function getAboutMovie(that) {
   var url = api.getArticleMoviesUrl
   var key = app.globalData.key
-  var ccsession = wx.getStorageSync("cksession")
+  var ccsession = wx.getStorageSync("new_cksession")
   var paramsStr = { "articleId": that.data.allId, "ccsession": ccsession }
   var sign = utils.encryption(paramsStr, key)
   wx.request({
