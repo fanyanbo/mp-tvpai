@@ -21,9 +21,8 @@
         <view class="center-control-up" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="up"></view>
         <view class="center-control-down" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="down"></view>
         <image class="center-control-icon" src="{{curDirectorImg}}" ></image>
-        <view class="center-ok {{isOKFocus ? 'ok-focus' : ''}}" catchtouchstart="handlePushController" catchtouchend="handlePushControllerEnd" id="ok">
-          <image class="center-ok-icon" wx:if="{{isOKFocus}}" src="../../images/components/remotecontrol/director-center.png"></image>
-          <text class="center-ok-text {{isOKFocus ? 'ok-text-focus' : ''}}">确定</text>
+        <view class="center-ok" catchtouchstart="handlePushController" catchtouchend="handlePushControllerEnd" id="ok">
+          <image class="center-ok-icon"src="{{curConfirmImg}}"></image>
         </view>
       </view>
     </view>

@@ -15,15 +15,15 @@ Component({
   },
   data: {
     //遥控按键落焦标识
-    isOKFocus: false,
     isShutdownFocus: false,
     isVolupFocus: false,
     isVoldownFocus: false,
     isHomeFocus: false,
     isBackFocus: false,
     isMenuFocus: false,
-    curDirectorImg: '../../images/components/remotecontrol/director-normal.png',    // 方向icon路径
-    curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',    // 遥控器按钮icon路径
+    curDirectorImg: '../../images/components/remotecontrol/director-normal.png',    // 方向icon
+    curConfirmImg: '../../images/components/remotecontrol/director-center.png', //确认icon
+    curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',    // 遥控器按钮icon
     
     //被绑定设备状态 
     activeid: null, //设备激活id
@@ -93,7 +93,9 @@ Component({
     _toggleGeneralKeyStatus({ id, status }) {  //切换遥控器一般按键显示状态
       switch (id) {
         case 'ok':
-          this.setData({ isOKFocus: status })
+          let path = '../../images/components/remotecontrol/';
+          let image = status ? (path + 'director-centerF.png') : (path+'director-center.png');
+          this.setData({ curConfirmImg: image })
           break
         case 'home':
           this.setData({ isHomeFocus: status })
@@ -410,13 +412,13 @@ Component({
       this._saveStatusBeforeRecord()
       // 显示语音输入版面，设置相关状态
       this.setData({
+        bStartRecord:true,
         indexStatus: 'VoiceInput',
         isShowMainPanel: true,
         curBtnImg: '../../images/components/remotecontrol/voice@3x.png',
         btnContent: '松开结束',
         query: ''
       })
-      this.data.bStartRecord = true;
       console.log('开始执行语音输入动画和版面进场动画');
       this._showInputTips();
       this.startRecordAnimation();   
@@ -438,7 +440,9 @@ Component({
         return;
       }
       console.log('_stopRecordingSite begin...')
-      this.data.bStartRecord = false;
+      this.setData({
+        bStartRecord:false
+      })
       this.stopRecordTimer()
       this.stopRecordAnimation()
       if (type == 'manual'){ //如果是用户松手手动stop
