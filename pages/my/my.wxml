@@ -13,13 +13,13 @@
     <text class="title">设备绑定</text>
     <text class="more" wx:if="{{!isShow}}">未连接</text>
     <text class="more" wx:if="{{isShow}}">已连接</text>
-    <image class="arrow" src="../../images/arrow.png"></image>
+    <image class="arrow" src="../../images/my_arrow.png"></image>
   </button>
   <button class='history mylabel' data-type="history" bindtap="handleJumpPage">
     <image class='my_icon' src="../../images/history.png"></image>
     <text class="title">推送历史</text>
     <text class="more">全部</text>
-    <image class="arrow" src="../../images/arrow.png"></image>
+    <image class="arrow" src="../../images/my_arrow.png"></image>
   </button>
   <!-- <button open-type="getUserInfo" class='history mylabel' data-type="history" bindgetuserinfo="bindGetUserInfo">
     <image class='my_icon' src="../../images/history.png"></image>

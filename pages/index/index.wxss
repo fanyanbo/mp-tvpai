@@ -134,12 +134,11 @@ border-radius: 8rpx
   border-radius: 12rpx
 }
 .category .title{
-  font-size: 32rpx;
+  font-size: 36rpx;
   height: 88rpx;
   line-height: 88rpx;
   color: #000;
   padding:0rpx 40rpx;
-
 }
 .category .line{
   width: 6rpx;

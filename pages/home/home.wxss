@@ -153,10 +153,14 @@ text-align: center;
   width: 90%;
   margin: 0 auto;
   background: #FFD71C;
-  color: #333
+  color: #333;
+  height: 86rpx;
+  border-radius: 16rpx
 }
 .view{
   position: fixed;
+  bottom: 0rpx;
   width: 100%;
-  bottom:30rpx
+  background: #fff;
+  padding: 12rpx 0
 }
