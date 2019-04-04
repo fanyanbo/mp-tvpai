@@ -10,7 +10,8 @@ Component({
     isShowTips: {
       type: Boolean,
       value: true
-    }
+    },
+    bIphoneFullScreenModel: Boolean
   },
   data: {
     //遥控按键落焦标识

@@ -9,6 +9,7 @@ const app = getApp()
 Page({
   data: {
     isShowTips: false,
+    bIphoneFullScreenModel: false,
     showoverList: false,
     isShowDoc: false,
     historyList: [],
@@ -277,5 +278,11 @@ Page({
 
   onLoad: function () {
     this.historyList();
+  },
+  onShow: function() {
+    this.setData({
+      isShowTips: app.globalData.isShowTips,
+      bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
+    });
   }
 })

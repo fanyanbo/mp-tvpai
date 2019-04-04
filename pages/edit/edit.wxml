@@ -15,5 +15,5 @@
       </form>
     </view>
 <view>
-  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}"></remotecontrol>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
 </view>

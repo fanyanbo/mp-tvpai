@@ -13,6 +13,7 @@ Page({
    */
   data: {
     isShowTips: true,
+    bIphoneFullScreenModel:false,
     proInfoWindow: false,
     flag: true,
     flagOpen: false,
@@ -52,7 +53,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.setData({
+      isShowTips: app.globalData.isShowTips,
+      bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
+    });
   },
 
   /**
