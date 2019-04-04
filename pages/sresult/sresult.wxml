@@ -3,9 +3,7 @@
     <view class='tabParents'>
       <view class='tabScroll'>
         <form bindsubmit="tagClick">
-          <view wx:for="{{firstChn}}" wx:for-item="item" wx:key="index" data-exvalue="{{item.extra_condition}}" data-filtervalue="{{item.filter_value}}" data-sortvalue="{{item.sort_value}}" data-index="{{index}}" bindtap='chioceChn' class="{{activeIndex2 == index? 'active':''}}" bindtap='tagClick'>
-            {{item.title}}
-          </view>
+          <view wx:for="{{firstChn}}" wx:for-item="item" wx:key="index" data-exvalue="{{item.extra_condition}}" data-filtervalue="{{item.filter_value}}" data-sortvalue="{{item.sort_value}}" data-index="{{index}}" bindtap='chioceChn' class="{{activeIndex2 == index? 'active':''}}" bindtap='tagClick'>{{item.title}}</view>
         </form>
       </view>
     </view>
@@ -17,11 +15,11 @@
           </view>
         </view>
       </view>
-      <view class='{{tabAll}} click' data-tab='{{tabShow}}' bindtap='tabClick'>收起</view>
+      <view class='{{tabAll}} click' data-tab='{{tabShow}}' bindtap='tabClick'><image src="../../images/close.png" class="icon_img" mode="widthFix"></image>收起</view>
     </view>
   </view>
   <view class='{{tabAll}} click' hidden="{{flag ? false : true}}" data-tab='{{tabShow}}' bindtap='tabClick'>
-    全部
+   <image src="../../images/open.png" class="icon_img" mode="widthFix"></image>全部
   </view>
   <view class='movieList' wx:if="{{contentAll!=null&&contentAll.length>0}}">
     <view class='item' wx:for="{{contentAll}}" wx:for-item="item" wx:key="index">
@@ -44,4 +42,8 @@
       </li>
     </ul>
   </view>
+</view>
+
+<view>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
 </view>

@@ -37,7 +37,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 7,
+			"current": 8,
 			"list": [
 				{
 					"id": -1,
@@ -91,6 +91,13 @@
 					"id": -1,
 					"name": "影评",
 					"pathName": "pages/cinecism/cinecism",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "电影",
+					"pathName": "pages/sresult/sresult",
 					"query": "",
 					"scene": null
 				}

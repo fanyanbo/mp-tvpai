@@ -10,7 +10,7 @@ button::after {
   align-items: center;
   padding: 0 30rpx;
   box-sizing: border-box;
-  background: #fff;
+  background: #fff
 }
 .mylabel .title {
   position: absolute;
@@ -36,7 +36,7 @@ button::after {
   height: 42rpx;
 }
 .binding{
-  margin-bottom: 30rpx
+  margin-bottom: 40rpx
 }
 .userinfo {
   position: relative;
@@ -56,32 +56,39 @@ button::after {
   width: 132rpx;
   height: 132rpx;
   border-radius: 50%;
-  border: 35rpx solid white;
+  margin-top: -10rpx;
+  border: 30rpx solid white;
 }
 .avatar-wrapper .name {
   position: absolute;
-  margin-top: 100rpx;
+  margin-top: 80rpx;
   font-size: 30rpx;
+  height: 44rpx;
+  line-height: 44rpx;
   color: #333;
+  font-weight: 400
 }
 .section{
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
-  padding: 0 30rpx;
   box-sizing: border-box;
-  margin-bottom: 10rpx
+  height: 208rpx;
 }
 .item_list{
   width: 210rpx;
   height: 168rpx;
-  margin:10rpx 10rpx;
+  margin-left:20rpx;
   display: inline-block;
+}
+.scroll_box .item_list:nth-child(1){
+  margin-left: 40rpx
 }
 .item_book_img{
   width: 210rpx;
   height: 118rpx;
-  border-radius: 10rpx
+  border-radius: 12rpx;
+  margin: 20rpx 0 10rpx 0
 }
 .item_book_text{
   font-size: 28rpx;
@@ -90,7 +97,6 @@ button::after {
   height: 40rpx;
   line-height: 40rpx;
   width: 210rpx;
-  margin-top: 5rpx
 }
 .inaline{
   overflow:hidden;

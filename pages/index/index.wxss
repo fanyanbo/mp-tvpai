@@ -31,7 +31,7 @@
   letter-spacing: 0;
 }
 .main-wrapper {
-  padding-bottom:110rpx;
+  padding-bottom:178rpx;
 }
 .banner_list{
   width: 670rpx;

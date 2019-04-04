@@ -3,6 +3,7 @@ var api = require('../../api/api.js')
 var app = getApp()
 Page({
   data: {
+    isShowTips: true,
     flag: true,
     tabAll: 'tabAll',
     tabShow: 'show',

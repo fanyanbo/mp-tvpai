@@ -263,10 +263,7 @@ padding:20rpx 0 0 0;
 .footer_failPrompt contact-button:nth-child(4){right:60rpx;}
 .footer_failPrompt contact-button:nth-child(5){right:15rpx;}
 
-/*新增样式  */
-.tabAll,.tabOpen{display: inline-block;}
-.tabAll:before,.tabOpen:before{display: inline-block;content:'';background: url(https://img2.coocaa.com/ui/weixin/public/icon/toggle.png) no-repeat;background-size:contain;width: 30rpx;height: 22rpx;margin-right: 15rpx;vertical-align: middle;}
-.tabOpen:before{background: url(https://img2.coocaa.com/ui/weixin/public/icon/toggle1.png) no-repeat;background-size:contain;}
+
 
 
 /*猜你喜欢  */

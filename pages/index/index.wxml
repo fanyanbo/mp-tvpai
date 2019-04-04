@@ -66,8 +66,7 @@
       <view class="scroll_box section">
         <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">
           <navigator wx:for="{{item.video_list}}" wx:key="index" class="item_list" url="../movieDetail/movieDetail?id={{item.third_album_id}}">
-            <!-- <image src="{{item.video_poster}}" class="item_book_img"></image> -->
-            <image src="../../images/banner.jpg" class="item_book_img"></image>
+            <image src="{{item.video_poster}}" class="item_book_img"></image>
             <text class="item_book_text">{{item.album_title}}</text>
           </navigator>
         </scroll-view>
