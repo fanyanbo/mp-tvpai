@@ -22,8 +22,8 @@
     left: 0;
     z-index: 101;
   }
-  .platform-iphone>.remoter-panel-wrapper {
-    height: 958rpx;
+  .iphone-fullscreen-model>.remoter-panel-wrapper {
+    height: 976rpx;
   }
   .origin-pos {
     transform:translateY(100%);
@@ -45,8 +45,8 @@
     left: 0;
     bottom: 110rpx;
   }
-  .platform-iphone .footer-wrapper {
-    bottom: 160rpx;
+  .iphone-fullscreen-model .footer-wrapper {
+    bottom: 178rpx;
   }
   .control-icon {
     width: 60rpx;
@@ -269,8 +269,8 @@
     position: absolute;
     bottom: 110rpx;
   }
- .platform-iphone .remoter-btn-tips {
-    bottom: 160rpx;
+ .iphone-fullscreen-model .remoter-btn-tips {
+    bottom: 178rpx;
   }  
   .remoter-tips-text {
     font-family: PingFangSC-Regular;
@@ -300,8 +300,8 @@
     position: absolute;
     bottom: 0;
   }
- .platform-iphone .remoter-btn {
-    height: 160rpx;
+ .iphone-fullscreen-model .remoter-btn {
+    height: 178rpx;
   }    
   .remoter-btn-icon {
     width: 45.2rpx;
@@ -311,7 +311,9 @@
     top: 50%;
     transform: translateY(-50%);
   }
-  
+ .iphone-fullscreen-model .remoter-btn-icon {
+    top: 30%;
+  }    
   .remoter-btn-text {
     /* width: 96rpx; */
     height: 44rpx;
@@ -324,7 +326,9 @@
     top: 50%;
     transform: translateY(-50%);
   }
-  
+.iphone-fullscreen-model .remoter-btn-text {
+    top: 30%;
+  }      
   .btn-input-status {
     background-color: #FFD71C;
   }

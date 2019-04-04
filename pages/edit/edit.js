@@ -8,6 +8,7 @@ const app = getApp()
 Page({
   data: {
     isShowTips: true,
+    bIphoneFullScreenModel: false,
     contents: '',
     deviceId:'',
     bind:'',
@@ -103,7 +104,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.setData({
+      isShowTips: app.globalData.isShowTips,
+      bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
+    });
   },
 
   /**

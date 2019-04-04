@@ -1,10 +1,10 @@
 <!--components/remotecontrol/index.wxml-->
 
-<view class="{{bPlatformIphone ? 'platform-iphone' : ''}}">
+<view class="{{bIphoneFullScreenModel ? 'iphone-fullscreen-model' : ''}}">
   <view class="remoter-panel-mask" wx:if="{{isShowMainPanel}}" bindtap="handleTapMask">
   </view>
   <!-- 按键遥控器版面 -->
-  <view class="remoter-panel-wrapper origin-pos {{bPlatformIphone ? 'platform-iphone' : ''}}" animation="{{animationData}}" wx:if="{{indexStatus === 'RemoteControl'}}" >
+  <view class="remoter-panel-wrapper origin-pos {{bIphoneFullScreenModel ? 'iphone-fullscreen-model' : ''}}" animation="{{animationData}}" wx:if="{{indexStatus === 'RemoteControl'}}" >
 
     <!-- 上面区域-->
     <view class="header-wrapper">
@@ -65,7 +65,7 @@
 </view>
 
 <!-- 遥控器按钮 -->
-<view class="remoter-btn-wrapper {{bPlatformIphone ? 'platform-iphone' : ''}}">
+<view class="remoter-btn-wrapper {{bIphoneFullScreenModel ? 'iphone-fullscreen-model' : ''}}">
   <view class="remoter-btn-tips" wx:if="{{isShowTips && !bStartRecord}}">      
     <text class="remoter-tips-text">{{tipsContent}}</text>
     <image class="remoter-tips-icon" bindtap="handleBtnTipsClosed" src="../../images/components/remotecontrol/close@3x.png" ></image>

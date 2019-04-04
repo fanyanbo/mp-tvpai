@@ -5,7 +5,8 @@ const app = getApp();
 
 Page({
   data: {
-    isShowTips: false,
+    isShowTips: true,
+    bIphoneFullScreenModel:false,
     errIconUrl: '../../images/close_icon.png',
     inputPlaceholder: {},
     curIndex: 0, //当前剧集
@@ -179,6 +180,10 @@ Page({
   },
   onShow() {
     console.log('search onShow监听页面显示');
+    this.setData({
+      isShowTips: app.globalData.isShowTips,
+      bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
+    });
     wx.getSystemInfo({
       success: (res) => {
         // 屏幕宽度和高度

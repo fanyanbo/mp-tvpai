@@ -8,6 +8,7 @@ const app = getApp()
 Page({
   data: {
     isShowTips: true,
+    bIphoneFullScreenModel:false,
     contents: '',
     deviceId: '',
     bind: '',
@@ -116,7 +117,9 @@ Page({
    */
   onShow: function () {
     this.setData({
-      chooseSize: false
+      chooseSize: false,
+      isShowTips: app.globalData.isShowTips,
+      bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
     })
   },
 

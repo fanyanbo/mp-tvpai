@@ -7,6 +7,7 @@ Page({
     searchContent: '搜索视频、影评或话题',
     errIconUrl: '../../images/close_icon.png',
     isShowTips: true,
+    bIphoneFullScreenModel: false,
     pageSize: '30',
     indicatorDots: true,
     autoplay: false,
@@ -176,7 +177,8 @@ Page({
 
   onShow() {
     this.setData({
-      isShowTips: app.globalData.isShowTips
+      isShowTips: app.globalData.isShowTips,
+      bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
     });
     this.getBanners();
     this.getBindedDevice();

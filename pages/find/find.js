@@ -6,6 +6,7 @@ let app = getApp()
 Page({
   data: {
     isShowTips : true,
+    bIphoneFullScreenModel: false,
     page: '1',
     pageSize: '10',
     banners: [],
@@ -155,7 +156,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.setData({
+      isShowTips: app.globalData.isShowTips,
+      bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
+    });
   },
   /**
    * 生命周期函数--监听页面隐藏
