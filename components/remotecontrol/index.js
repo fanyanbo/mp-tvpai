@@ -91,10 +91,11 @@ Component({
       this.setData({ isShowTips: false })
     },
     _toggleGeneralKeyStatus({ id, status }) {  //切换遥控器一般按键显示状态
+      let path = '../../images/components/remotecontrol/';
+      let image = '';
       switch (id) {
         case 'ok':
-          let path = '../../images/components/remotecontrol/';
-          let image = status ? (path + 'director-centerF.png') : (path+'director-center.png');
+          image = status ? (path + 'director-centerF.png') : (path+'director-center.png');
           this.setData({ curConfirmImg: image })
           break
         case 'home':
@@ -106,14 +107,6 @@ Component({
         case 'menu':
           this.setData({ isMenuFocus: status })
           break
-        case 'shutdown':
-          // this.setData({ isShutdownFocus: status })
-          wx.showToast({
-            title: '当前版本暂不支持开关机功能',
-            icon: 'none',
-            duration:1000
-          })
-          break
         case 'volume_minus':
           this.setData({ isVoldownFocus: status })
           break
@@ -124,9 +117,17 @@ Component({
         case 'down':
         case 'left':
         case 'right':
-          let img = status ? ('../../images/components/remotecontrol/director-' + id + '.png') : ('../../images/components/remotecontrol/director-normal.png');
-          this.setData({ curDirectorImg: img })
+          image = status ? (path + 'director-' + id + '.png') : (path+'director-normal.png');
+          this.setData({ curDirectorImg: image })
           break
+        case 'shutdown':
+          // this.setData({ isShutdownFocus: status })
+          wx.showToast({
+            title: '当前版本暂不支持开关机功能',
+            icon: 'none',
+            duration: 1000
+          })
+          break 
       }
     },
     handlePushController(e) { //遥控器一般按键 按下

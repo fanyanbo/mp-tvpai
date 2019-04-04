@@ -139,6 +139,7 @@
     height: 180rpx;
     left: 50%;
     top: 50%;
+    border-radius: 50%;
     background-color: white;
     transform: translate(-50%,-50%);
   }
