@@ -150,9 +150,8 @@
   }
  
   .control-focus {
-    background-color: #FFD71C;
+    background: rgba(253,190,26,0.30);
     border-radius: 50%;
-    opacity: 0.5;
   }
   
   /* 语音输入面板 */

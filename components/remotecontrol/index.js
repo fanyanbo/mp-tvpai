@@ -15,16 +15,21 @@ Component({
   },
   data: {
     //遥控按键落焦标识
-    isShutdownFocus: false,
-    isVolupFocus: false,
-    isVoldownFocus: false,
-    isHomeFocus: false,
-    isBackFocus: false,
-    isMenuFocus: false,
+    curVolUpImg: '../../images/components/remotecontrol/volup@3x.png',
+    curVolDownImg: '../../images/components/remotecontrol/voldown@3x.png',
+    curHomeImg: '../../images/components/remotecontrol/home@3x.png',
+    curMenuImg: '../../images/components/remotecontrol/menu@3x.png',
+    curBackImg: '../../images/components/remotecontrol/return@3x.png',
     curDirectorImg: '../../images/components/remotecontrol/director-normal.png',    // 方向icon
     curConfirmImg: '../../images/components/remotecontrol/director-center.png', //确认icon
     curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',    // 遥控器按钮icon
-    
+    isShutdownFocus:false,
+    isVolupFocus:false,
+    isVoldownFocus:false,
+    isHomeFocus: false,
+    isBackFocus: false,
+    isMenuFocus: false,
+
     //被绑定设备状态 
     activeid: null, //设备激活id
     hasRecordAuth: null, //是否有录音权限
@@ -99,19 +104,24 @@ Component({
           this.setData({ curConfirmImg: image })
           break
         case 'home':
-          this.setData({ isHomeFocus: status })
+          image = status ? (path + 'homeF@3x.png') : (path + 'home@3x.png');
+          this.setData({ curHomeImg: image, isHomeFocus: status })
           break
         case 'back':
-          this.setData({ isBackFocus: status })
+          image = status ? (path + 'returnF@3x.png') : (path + 'return@3x.png');
+          this.setData({ curBackImg: image, isBackFocus: status })
           break
         case 'menu':
-          this.setData({ isMenuFocus: status })
+          image = status ? (path + 'menuF@3x.png') : (path + 'menu@3x.png');
+          this.setData({ curMenuImg: image, isMenuFocus: status })
           break
         case 'volume_minus':
-          this.setData({ isVoldownFocus: status })
+          image = status ? (path + 'voldownF@3x.png') : (path + 'voldown@3x.png');
+          this.setData({ curVolDownImg: image, isVoldownFocus : status })
           break
         case 'volume_plus':
-          this.setData({ isVolupFocus: status })
+          image = status ? (path + 'volupF@3x.png') : (path + 'volup@3x.png');
+          this.setData({ curVolUpImg: image, isVolupFocus: status })
           break
         case 'up':
         case 'down':

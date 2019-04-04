@@ -12,10 +12,10 @@
         <image src="../../images/components/remotecontrol/shutdown@3x.png" class="control-icon"></image>
       </view>
       <view class=" volup-icon {{isVolupFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="volume_plus">
-      <image src="../../images/components/remotecontrol/volup@3x.png" class="control-icon"></image>
+      <image src="{{curVolUpImg}}" class="control-icon"></image>
       </view>
       <view class=" voldown-icon {{isVoldownFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="volume_minus">
-      <image src="../../images/components/remotecontrol/voldown@3x.png" class="control-icon"></image>
+      <image src="{{curVolDownImg}}" class="control-icon"></image>
       </view>
     </view>
 
@@ -36,13 +36,13 @@
     <!-- 下面区域-->
     <view class="footer-wrapper">
     <view class=" home-icon {{isHomeFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="home">
-      <image src="../../images/components/remotecontrol/home@3x.png" class="control-icon"></image>
+      <image src="{{curHomeImg}}" class="control-icon"></image>
       </view>
       <view class=" return-icon {{isBackFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="back">
-      <image src="../../images/components/remotecontrol/return@3x.png" class="control-icon"></image>
+      <image src="{{curBackImg}}" class="control-icon"></image>
       </view>
       <view class=" menu-icon {{isMenuFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="menu">
-      <image src="../../images/components/remotecontrol/menu@3x.png" class="control-icon"></image>
+      <image src="{{curMenuImg}}" class="control-icon"></image>
       </view>
     </view>
   </view>
