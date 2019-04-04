@@ -1,6 +1,5 @@
 const utils = require('utils/util.js');
 const api = require('api/api.js');
-const { WeToast } = require('components/toast/wetoast.js');
 
 // 使用登录凭证 code 获取 session_key 和 openid
 function login(rawData, code, encryptedData, iv, signature) {
@@ -73,7 +72,6 @@ function decryptUser(rawData, encryptedData, iv, cksession, signature) {
 }
 
 App({
-  WeToast,
   onLaunch: function () {
   },
   onLoad: function () {
