@@ -22,7 +22,9 @@
     left: 0;
     z-index: 101;
   }
-  
+  .platform-iphone>.remoter-panel-wrapper {
+    height: 958rpx;
+  }
   .origin-pos {
     transform:translateY(100%);
   }
@@ -43,7 +45,9 @@
     left: 0;
     bottom: 110rpx;
   }
-  
+  .platform-iphone .footer-wrapper {
+    bottom: 160rpx;
+  }
   .control-icon {
     width: 60rpx;
     height: 60rpx;
@@ -265,7 +269,9 @@
     position: absolute;
     bottom: 110rpx;
   }
-  
+ .platform-iphone .remoter-btn-tips {
+    bottom: 160rpx;
+  }  
   .remoter-tips-text {
     font-family: PingFangSC-Regular;
     font-size: 32rpx;
@@ -294,13 +300,16 @@
     position: absolute;
     bottom: 0;
   }
-  
+ .platform-iphone .remoter-btn {
+    height: 160rpx;
+  }    
   .remoter-btn-icon {
     width: 45.2rpx;
     height: 45.2rpx;
     position: absolute;
     left: 291.4rpx;
-    bottom: 31.4rpx;
+    top: 50%;
+    transform: translateY(-50%);
   }
   
   .remoter-btn-text {
@@ -312,7 +321,8 @@
     font-family: PingFangSC-Regular;
     color: #000000;
     letter-spacing: 0;
-    bottom: 32rpx;
+    top: 50%;
+    transform: translateY(-50%);
   }
   
   .btn-input-status {
