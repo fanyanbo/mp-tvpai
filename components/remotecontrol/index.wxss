@@ -162,7 +162,7 @@
   } 
   .input-progress-zone {
     position: absolute;
-    top: 100rpx;
+    top: 70rpx;
     left: 50%;
     transform: translateX(-50%);
     width: 180rpx;
