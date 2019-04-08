@@ -760,7 +760,7 @@ Page({
     console.log("movieIdsList")
     console.log(getApp().globalData.movieIdsList)
     wx.navigateTo({
-      url: '../detail/detail?articleId=' + articleid + '&movieId=' + movieID + '&movietypes=' + movietypes
+      url: '../movieDetail/movieDetail?id=' + movieID
     })
   }
 })
