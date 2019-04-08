@@ -26,15 +26,20 @@
   padding-left:20rpx;
 }
 .search-text {
-  font-size:28rpx;
+  font-size: 28rpx;
   /* font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
-  padding-left:20rpx; 
+  padding-left: 20rpx; 
   width: 550rpx;
-  font-weight: bold;
+  height: 64rpx;
+  line-height: 64rpx;
+  color: #000000;
+} 
+.place-holder {
+  color: #999999;
 }
 .delete-icon {
-  width:30rpx;
-  height:30rpx;
+  width: 30rpx;
+  height: 30rpx;
 }
 /* .delete-icon {
   width:35rpx;
@@ -79,7 +84,7 @@
   width: 750rpx;
   height: auto;
   overflow: hidden;
-  padding-left: 31.25rpx;
+  padding-left: 40rpx;
   margin-top: 20rpx;
 }
 .items-wrapper .history-words {
@@ -87,10 +92,11 @@
   width: auto;
   height: 48rpx;
   line-height: 48rpx;
-  padding:0 15rpx;
+  text-align: center;
+  padding:0 30rpx;
   background: #F5F6F8;
   border-radius: 50px;
-  margin: 0 30rpx 30rpx 0;
+  margin: 0 20rpx 20rpx 0;
   font-size: 28rpx;
   color: #666666;
   letter-spacing: 0;
@@ -191,12 +197,12 @@
   margin-left: 40rpx;
   margin-top: 1.2%;
   background-color: gainsboro;
-  border-radius: 16rpx;
+  border-radius: 12rpx;
 }
 .left-img {
   width: 100%;
   height: 100%;
-  border-radius: 4px;
+  border-radius: 12rpx;
 }
 .item-push {
   width: 750rpx;
@@ -225,7 +231,7 @@
 }
 .tips .right {
   position: absolute;
-  left: 700rpx;
+  left: 680rpx;
   top: 32rpx;
   width: 24rpx;
   height: 24rpx;
@@ -233,7 +239,7 @@
 .item-push .episode {
   display: flex;
   white-space: nowrap;
-  height: 124rpx;
+  height: 128rpx;
 }
 .episode .scroll-view-item {
   display: inline-block; 
@@ -242,7 +248,6 @@
   margin-left: 40rpx;
   border-radius: 12rpx;
   box-sizing: border-box;
-  /* padding: 10rpx; */
 }
 .item-push .episode2 {
   display: flex;
@@ -254,12 +259,15 @@
   width: 108rpx;
   height: 108rpx;
   line-height: 108rpx;
-  margin-left: 30rpx;
+  margin-left: 20rpx;
   border-radius: 12rpx;
   box-sizing: border-box;
   text-align: center;
   font-size: 32rpx;
   color: #333333;
+}
+.episode2 .episode-first {
+  margin-left: 40rpx;
 }
 .active {
   background: #FFD71C;
@@ -299,8 +307,8 @@
 }
 .item-poster .item-poster-right {
   position: relative;
-  width: 454rpx;
-  margin-left: 3%;
+  width: 414rpx;
+  margin-left: 40rpx;
   margin-top: 1.2%;
 }
 .right-title-wrapper {
@@ -357,7 +365,7 @@
   justify-content: center;
   width: 314rpx;
   height: 80rpx;
-  left: 110rpx;
+  left: 100rpx;
   border-radius: 50rpx;
   background-color: #FFD71C;
 }
