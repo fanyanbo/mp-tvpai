@@ -214,16 +214,10 @@ Page({
       url: '../../pages/search/index',
     });
   },
-  // 授权校验，授权或拒绝都会执行
+
+  // 点击banner跳转，这里不用获取用户授权，不用获取session值，因为影评内的收藏无法使用
   jumpFind(e) {
-    if (app.globalData.deviceId == null) {
-      return wx.navigateTo({
-        url: "../home/home"
-      });
-    }
-    let that = this;
-    let ccsession = wx.getStorageSync("new_cksession");
-    console.log('bindGetUserInfo ccsession', ccsession);
+    console.log('jumpFind ccsession', wx.getStorageSync("new_cksession"));
     if (e.currentTarget.dataset.type == 'cinecism') {
       wx.navigateTo({
         url: '../../pages/cinecism/cinecism?id=' + e.currentTarget.dataset.id,
@@ -233,9 +227,7 @@ Page({
         url: '../../pages/find/find',
       })
     }
-
   },
-
 
   getBindedDevice: function () {
     let ccsession = wx.getStorageSync('new_cksession');

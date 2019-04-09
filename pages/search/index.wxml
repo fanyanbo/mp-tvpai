@@ -65,24 +65,30 @@
               <!-- <view class='right-title-wrapper'>
                 <text wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="{{index}}" class="{{item == inputValue ? 'searchHigh' : '' }}">{{item}}</text>
               </view> -->
-              <view class='right-title-wrapper' bindtap="handleJumpTap" data-item="{{item}}">
-                <block wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="{{index}}">
-                  <text class="{{item == inputValue ? 'searchHigh' : '' }}">{{item}}</text>
-                </block>
-              </view>
-              <view class="right-detail-wrapper" bindtap="handleJumpTap" data-item="{{item}}">
-                <view class="right-detail" wx:if="{{item.video_detail.video_type == '电视剧'}}">
-                  {{item.video_detail.video_type}} {{item.video_detail.video_tags}}
+              <block wx:if="{{tools.getStrLength(item.video_title) > 22}}">
+                <view class='right-title-wrapper' bindtap="handleJumpTap" data-item="{{item}}">
+                  <block wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="{{index}}">
+                    <text class="{{item == inputValue ? 'searchHigh' : '' }}">{{item}}</text>
+                  </block>
                 </view>
-                <view class="right-detail" wx:elif="{{item.video_detail.video_type == '电影'}}">
+              </block>
+              <block wx:else>
+                <view class='right-title-wrapper2' bindtap="handleJumpTap" data-item="{{item}}">
+                  <block wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="{{index}}">
+                    <text class="{{item == inputValue ? 'searchHigh' : '' }}">{{item}}</text>
+                  </block>
+                </view>
+              </block>
+              <view class="right-detail-wrapper" bindtap="handleJumpTap" data-item="{{item}}">
+                <!-- 填坑：数据不完整 -->
+                <view class="right-score" wx:if="{{item.video_detail.score === '0.0'}}">8.5<span>分</span></view>
+                <view class="right-score" wx:else>{{item.video_detail.score}}<span>分</span></view>
+                <view class="right-detail" wx:if="{{item.video_detail.video_type == '电影'}}">
                   {{item.video_detail.video_type}} {{item.video_detail.video_tags}} {{item.video_detail.actor}}
                 </view>
                 <view class="right-detail" wx:else>
                   {{item.video_detail.video_type}} {{item.video_detail.video_tags}}
                 </view>
-                <!-- 填坑：数据不完整 -->
-                <view class="right-score" wx:if="{{item.video_detail.score === '0.0'}}">8.5</view>
-                <view class="right-score" wx:else>{{item.video_detail.score}}</view>
               </view>
               <view class="right-push-wrapper">
                 <view class="like" data-keyword="{{item.video_detail}}" bindtap="handleLikeTap">
