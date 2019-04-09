@@ -195,7 +195,7 @@
         <view wx:if="{{votesList !=null && votesList.length>0}}" class="pb20"></view>
         <!-- 影评模块 -->
         <view class="movies" wx:if="{{moviesData!=null&&moviesData.length>0}}">
-          <block wx:for="{{moviesData}}" wx:for-index="index">
+          <block wx:for="{{moviesData}}" wx:for-index="index" wx:key="index">
             <view class="moviesOne">
               <!-- 影评富文本 -->
               <rich-text nodes="{{item.content}}" wx:if="{{item.content!=null&&item.content!=''&&item.content!='<p><br></p>'}}"></rich-text>

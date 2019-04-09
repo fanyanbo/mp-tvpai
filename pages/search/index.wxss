@@ -26,15 +26,20 @@
   padding-left:20rpx;
 }
 .search-text {
-  font-size:28rpx;
+  font-size: 28rpx;
   /* font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
-  padding-left:20rpx; 
+  padding-left: 20rpx; 
   width: 550rpx;
-  font-weight: bold;
+  height: 64rpx;
+  line-height: 64rpx;
+  color: #000000;
+} 
+.place-holder {
+  color: #999999;
 }
 .delete-icon {
-  width:30rpx;
-  height:30rpx;
+  width: 30rpx;
+  height: 30rpx;
 }
 /* .delete-icon {
   width:35rpx;
@@ -79,7 +84,7 @@
   width: 750rpx;
   height: auto;
   overflow: hidden;
-  padding-left: 31.25rpx;
+  padding-left: 40rpx;
   margin-top: 20rpx;
 }
 .items-wrapper .history-words {
@@ -87,10 +92,11 @@
   width: auto;
   height: 48rpx;
   line-height: 48rpx;
-  padding:0 15rpx;
+  text-align: center;
+  padding:0 30rpx;
   background: #F5F6F8;
   border-radius: 50px;
-  margin: 0 30rpx 30rpx 0;
+  margin: 0 20rpx 20rpx 0;
   font-size: 28rpx;
   color: #666666;
   letter-spacing: 0;
@@ -191,12 +197,12 @@
   margin-left: 40rpx;
   margin-top: 1.2%;
   background-color: gainsboro;
-  border-radius: 16rpx;
+  border-radius: 12rpx;
 }
 .left-img {
   width: 100%;
   height: 100%;
-  border-radius: 4px;
+  border-radius: 12rpx;
 }
 .item-push {
   width: 750rpx;
@@ -225,7 +231,7 @@
 }
 .tips .right {
   position: absolute;
-  left: 700rpx;
+  left: 680rpx;
   top: 32rpx;
   width: 24rpx;
   height: 24rpx;
@@ -233,16 +239,18 @@
 .item-push .episode {
   display: flex;
   white-space: nowrap;
-  height: 124rpx;
+  height: 128rpx;
 }
 .episode .scroll-view-item {
   display: inline-block; 
   width: 280rpx;
   height: 128rpx;
-  margin-left: 40rpx;
+  margin-left: 20rpx;
   border-radius: 12rpx;
   box-sizing: border-box;
-  /* padding: 10rpx; */
+}
+.episode .episode-first {
+  margin-left: 40rpx;
 }
 .item-push .episode2 {
   display: flex;
@@ -254,12 +262,15 @@
   width: 108rpx;
   height: 108rpx;
   line-height: 108rpx;
-  margin-left: 30rpx;
+  margin-left: 20rpx;
   border-radius: 12rpx;
   box-sizing: border-box;
   text-align: center;
   font-size: 32rpx;
   color: #333333;
+}
+.episode2 .episode-first2 {
+  margin-left: 40rpx;
 }
 .active {
   background: #FFD71C;
@@ -299,13 +310,13 @@
 }
 .item-poster .item-poster-right {
   position: relative;
-  width: 454rpx;
-  margin-left: 3%;
+  width: 414rpx;
+  margin-left: 40rpx;
   margin-top: 1.2%;
 }
 .right-title-wrapper {
   width: 100%;
-  height:100rpx;
+  height:98rpx;
   font-size:36rpx;
   font-weight: bold;
   overflow:hidden;
@@ -314,25 +325,40 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
+.right-title-wrapper2 {
+  width: 100%;
+  height:50rpx;
+  font-size:36rpx;
+  font-weight: bold;
+  overflow:hidden;
+  text-overflow: ellipsis;
+}
 .searchHigh {
   font-size: 36rpx;
   color: #FDBE1A;
   letter-spacing: 0;
 }
-.right-score {
-  line-height: 44rpx;
-  font-size: 32rpx;
-  color: orangered;
-}
-.right-detail {
-  width: 100%;
+.right-detail-wrapper {
+  position: relative;
+  width: 750rpx;
   height: 34rpx;
   line-height: 34rpx;
+  margin-top: 10rpx;
+}
+.right-detail {
+  position: absolute;
+  width: 350rpx; 
+  left: 70rpx;
   font-size: 24rpx;
   color: #999999;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.right-score {
+  position: absolute;
+  font-size: 24rpx;
+  color: #FDBE1A;
 }
 .right-push-wrapper {
   position: absolute;
@@ -357,7 +383,7 @@
   justify-content: center;
   width: 314rpx;
   height: 80rpx;
-  left: 110rpx;
+  left: 100rpx;
   border-radius: 50rpx;
   background-color: #FFD71C;
 }

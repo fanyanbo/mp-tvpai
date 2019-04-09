@@ -10,7 +10,7 @@
   <view class='search-wrapper'>
     <view class='search-box-wrapper'>
       <image class="search-icon" src='../../images/ser_icon.png' bindtap='query'></image>
-      <input name="input" class="search-text" placeholder="{{inputPlaceholder.keyword}}" confirm-type='search' focus="true" value="{{inputValue}}" bindinput='inputBind' bindconfirm='query'></input>
+      <input name="input" class="search-text" placeholder-class="place-holder" placeholder="{{inputPlaceholder.keyword}}" confirm-type='search' focus="true" value="{{inputValue}}" bindinput='inputBind' bindconfirm='query'></input>
       <!-- <view class="delete-icon" bindtap='handleDeteteTap' wx:if="{{inputValue}}"></view> -->
       <image class="delete-icon" src='../../images/delete@2x.png' bindtap='handleDeteteTap' wx:if="{{inputValue}}"></image>
     </view>
@@ -65,24 +65,30 @@
               <!-- <view class='right-title-wrapper'>
                 <text wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="{{index}}" class="{{item == inputValue ? 'searchHigh' : '' }}">{{item}}</text>
               </view> -->
-              <view class='right-title-wrapper' bindtap="handleJumpTap" data-item="{{item}}">
-                <block wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="{{index}}">
-                  <text class="{{item == inputValue ? 'searchHigh' : '' }}">{{item}}</text>
-                </block>
-              </view>
-              <view class="right-detail-wrapper" bindtap="handleJumpTap" data-item="{{item}}">
-                <view class="right-detail" wx:if="{{item.video_detail.video_type == '电视剧'}}">
-                  {{item.video_detail.video_type}} {{item.video_detail.video_tags}}
+              <block wx:if="{{tools.getStrLength(item.video_title) > 22}}">
+                <view class='right-title-wrapper' bindtap="handleJumpTap" data-item="{{item}}">
+                  <block wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="{{index}}">
+                    <text class="{{item == inputValue ? 'searchHigh' : '' }}">{{item}}</text>
+                  </block>
                 </view>
-                <view class="right-detail" wx:elif="{{item.video_detail.video_type == '电影'}}">
+              </block>
+              <block wx:else>
+                <view class='right-title-wrapper2' bindtap="handleJumpTap" data-item="{{item}}">
+                  <block wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="{{index}}">
+                    <text class="{{item == inputValue ? 'searchHigh' : '' }}">{{item}}</text>
+                  </block>
+                </view>
+              </block>
+              <view class="right-detail-wrapper" bindtap="handleJumpTap" data-item="{{item}}">
+                <!-- 填坑：数据不完整 -->
+                <view class="right-score" wx:if="{{item.video_detail.score === '0.0'}}">8.5<span>分</span></view>
+                <view class="right-score" wx:else>{{item.video_detail.score}}<span>分</span></view>
+                <view class="right-detail" wx:if="{{item.video_detail.video_type == '电影'}}">
                   {{item.video_detail.video_type}} {{item.video_detail.video_tags}} {{item.video_detail.actor}}
                 </view>
                 <view class="right-detail" wx:else>
                   {{item.video_detail.video_type}} {{item.video_detail.video_tags}}
                 </view>
-                <!-- 填坑：数据不完整 -->
-                <view class="right-score" wx:if="{{item.video_detail.score === '0.0'}}">8.5</view>
-                <view class="right-score" wx:else>{{item.video_detail.score}}</view>
               </view>
               <view class="right-push-wrapper">
                 <view class="like" data-keyword="{{item.video_detail}}" bindtap="handleLikeTap">
@@ -108,7 +114,7 @@
             </view>
             <scroll-view class="episode2" scroll-x style="width: 100%">
               <block wx:for="{{item.episodes_list}}" wx:key="index" wx:for-item="item2">
-                <view wx:if="{{index < item.video_detail.updated_segment}}" class="scroll-view-item2 {{ (item2.segment_index == curIndex && item2.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item2}}" data-index="{{index}}" hover-class="noimplement">
+                <view wx:if="{{index < item.video_detail.updated_segment}}" class="scroll-view-item2 {{ index === 0 ? 'episode-first2' : '' }} {{ (item2.segment_index == curIndex && item2.video_third_id == curThirdId) ? 'active' : 'inactive' }}" bindtap="handleEpisodeTap" data-keyword="{{item2}}" data-index="{{index}}" hover-class="noimplement">
                   {{item2.segment_index}}
                 </view>
               </block>
@@ -126,7 +132,7 @@
             <scroll-view class="episode" scroll-x style="width: 100%">
               <block wx:for="{{item.episodes_list}}" wx:key="index">
                 <!-- 仅仅index还不能唯一标识一个资源 -->
-                <view class="scroll-view-item {{(item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" data-index="{{index}}" hover-class="noimplement">
+                <view class="scroll-view-item {{ index === 0 ? 'episode-first' : '' }} {{(item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" data-index="{{index}}" hover-class="noimplement">
                   <view class="idx">第 {{item.segment_index}} 集</view>
                   <view class="desc">{{item.video_title}}</view>
                 </view>

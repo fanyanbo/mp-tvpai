@@ -63,10 +63,8 @@ margin-bottom: 40rpx;
 }
 .service .no{text-align: center;width: 100%;padding: 50rpx;}
 .boxshdaw{height: 100%;position: fixed;width: 100%;background: rgba(0,0,0,.6);z-index: 9;top:0;}
-
 .openit,.scrollIt{width: 100%;text-align: center;font-size: 30rpx;color:#353535;}
 .open{height:75rpx;overflow:hidden;}
-
 .score{color: #FFD71C;  padding-right: 10rpx}
 .length{float: right; font-size: 24rpx; color: #666; margin-right: 3%}
 .zy{display: block; width: 260rpx; height: 115rpx;border: 1rpx solid #ccc; box-sizing: border-box; position: relative}
@@ -82,7 +80,6 @@ margin-bottom: 40rpx;
     -webkit-box-orient:vertical;
     -webkit-line-clamp:2;
 }
-
 .introduce{
   font-size: 36rpx;
   height: 88rpx;
@@ -156,14 +153,12 @@ margin-bottom: 40rpx;
 .videoBlock{
   display: block
 }
-
 .arrow_1{
   height: 24rpx;
   width: 24rpx;
   vertical-align: middle;
   display: inline-block;
 }
-
 .line{
   width: 6rpx;
   height: 36rpx;
@@ -172,5 +167,9 @@ margin-bottom: 40rpx;
   margin-right: 6px;
   margin-top: 26rpx;
   float: left
-
+}
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
 }
