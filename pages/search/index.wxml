@@ -9,7 +9,7 @@
   <!-- 搜索框 优化点：扩大点击区域-->
   <view class='search-wrapper'>
     <view class='search-box-wrapper'>
-      <image class="search-icon" src='../../images/ser_icon.png' bindtap='query'></image>
+      <view class="search-icon-wrapper" bindtap='query'><image class="search-icon" src='../../images/ser_icon.png'></image></view>
       <input name="input" class="search-text" placeholder-class="place-holder" placeholder="{{inputPlaceholder.keyword}}" confirm-type='search' focus="true" value="{{inputValue}}" bindinput='inputBind' bindconfirm='query'></input>
       <view class="delete-icon-wrapper" bindtap='handleDeteteTap' wx:if="{{inputValue}}"><image class="delete-icon" src='../../images/delete@2x.png'></image></view>
     </view>

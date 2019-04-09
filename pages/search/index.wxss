@@ -18,6 +18,12 @@
   border-radius: 32rpx;
   background: #F2F2F2;
 }
+.search-icon-wrapper {
+  width: 50rpx;
+  height: 50rpx;
+  display: flex;
+  align-items: center;
+}
 .search-icon { 
   width:30rpx;
   height:30rpx;

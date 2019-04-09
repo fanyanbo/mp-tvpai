@@ -30,6 +30,9 @@
     "provider": "wx069ba97219f66d99"
     }
   },
+  "networkTimeout": {
+    "request": 10000 
+  },
   "tabBar": {
     "selectedColor": "#FDBE1A",
     "color": "#333",
