@@ -8,7 +8,7 @@
       <ul>
         <li class="intwoline title">{{movieData.album_title}}</li>
         <!-- 填坑：数据不完整 -->
-        <li><span class="score" wx:if="{{movieData.score === '0.0'}}">8.5分</span><span class="score" wx:else>{{movieData.score}}分</span>{{movieData.video_tags}}</li>
+        <li class="tags"><span class="score" wx:if="{{movieData.score === '0.0'}}">8.5分</span><span class="score" wx:else>{{movieData.score}}分</span> · {{movieData.video_tags}}</li>
         <li class="click_button">
           <!-- <button class="like" bindtap='like' data-title="{{movieData.album_title}}" data-poster="{{movieData.video_poster}}" data-id="{{movieData.third_album_id}}">
             <image wx:if="{{likeShow == false}}" src='../../images/like_before1.png'></image>
@@ -23,7 +23,7 @@
     </view>
   </view>
 <!--剧集  -->
-  <view data-tap='push' bindtap='chooseSezi' class="push" wx:if="{{movieType !='电影'}}" ><image class="pushIcon" src='../../images/push.png'></image>投屏<span class="length">{{prompt_info}} <image class="arrow_1" src="../../images/index_arraw.png" mode="aspectFill"></image></span></view>
+  <view data-tap='push' bindtap='chooseSezi' class="push" wx:if="{{movieType !='电影'}}" ><image class="pushIcon" src='../../images/push.png'></image>投屏<span class="length">{{prompt_info}} <image class="arrow_1" src="../../images/info_arraw.png" mode="aspectFill"></image></span></view>
   <view class='tvLists' wx:if="{{movieType !='电影'}}">
     <view class='scroll'>
       <view wx:for="{{moviesItem}}" wx:key="key" wx:for-item="item" >
@@ -42,7 +42,7 @@
 
 <!--简介  -->
 <view class="introduce" data-tap='description' bindtap='chooseSezi'>
-    <view class="title">
+    <view class="title bold">
       <text class="line"></text>简介
       <image class="arrow" src="../../images/index_arraw.png" mode="aspectFill"></image>
     </view>
@@ -59,7 +59,7 @@
 </view>
 <!--猜你喜欢  -->
 <view class="introduce" wx:if="{{isShowtitle}}">
-    <view class="title">
+    <view class="title bold">
       <text class="line"></text>猜你喜欢
       <image class="arrow" src="../../images/index_arraw.png" mode="aspectFill"></image>
     </view>

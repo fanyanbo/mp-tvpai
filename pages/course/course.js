@@ -1,8 +1,10 @@
 const utils = require('../../utils/util_fyb');
 const api = require('../../api/api_fyb');
-
+const app = getApp();
 Page({
-  data: {},
+  data: {
+    bIphoneFullScreenModel: false,
+  },
 
   bindDevice: function (qrUrl) {
     let ccsession = wx.getStorageSync('new_cksession');
@@ -24,7 +26,12 @@ Page({
       }
     })
   },
+  onShow() {
+    this.setData({
+      bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
+    });
 
+  },
   scanQRCode() {  
     wx.scanCode({
       success: (res) => {

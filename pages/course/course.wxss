@@ -7,7 +7,7 @@ page{
   flex-direction: column;
   width: 750rpx;
   box-sizing: border-box;
-  padding-bottom: 100rpx
+  padding-bottom: 178rpx
 }
 image {
   width: 100%;
@@ -26,4 +26,12 @@ image {
   width: 100%;
   background: #fff;
   padding: 12rpx 0
+}
+.iphone-fullscreen-model{
+  position: fixed;
+  bottom: 0rpx;
+  width: 100%;
+  background: #fff;
+  padding: 12rpx 0 ;
+  padding-bottom: 68rpx
 }

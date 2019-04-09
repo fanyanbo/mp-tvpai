@@ -14,6 +14,7 @@ Page({
     mydevices: [],
     block: ['block'],
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    bIphoneFullScreenModel: false,
   },
 
   bindDevice: function (qrUrl) {

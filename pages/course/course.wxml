@@ -5,6 +5,6 @@
   <image src="../../images/help/3.jpg" mode="widthFix"></image>
   <image src="../../images/help/4.jpg" mode="widthFix"></image>
 </view>
-<view class="view">
+<view class="{{bIphoneFullScreenModel ? 'iphone-fullscreen-model' : 'view'}}">
   <button class="binding" bindtap="scanQRCode">开始扫码绑定</button>
 </view>

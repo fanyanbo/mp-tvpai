@@ -7,7 +7,7 @@
       <image src="../../images/help/3.jpg"  mode="widthFix"></image>
       <image src="../../images/help/4.jpg"  mode="widthFix"></image>
     </view>
-    <view class="view">
+    <view class="{{bIphoneFullScreenModel ? 'iphone-fullscreen-model' : 'view'}}">
       <!-- <button class="_binding" bindtap="scan" id="scan">开始扫码绑定</button> -->
       <button class="_binding" open-type="getUserInfo" id="scan" bindgetuserinfo="bindGetUserInfo">开始扫码绑定</button>
     </view>

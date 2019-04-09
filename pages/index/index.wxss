@@ -8,6 +8,7 @@
   height: 88rpx;
   align-items: center; 
   background: #FFFFFF;
+  margin:10rpx 0
 }
 .search-box {
   display: flex;
@@ -215,7 +216,9 @@ height: 300rpx
     width:20rpx;
     display: inline-flex;
     height: 6rpx;
+     margin-left: -2rpx;/*圆点间距 */
     justify-content:space-between;
+
 }
 .swiper-box .wx-swiper-dot::before{
     content: '';

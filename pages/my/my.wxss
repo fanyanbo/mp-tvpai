@@ -61,12 +61,12 @@ button::after {
 }
 .avatar-wrapper .name {
   position: absolute;
-  margin-top: 80rpx;
+  margin-top: 87rpx;
   font-size: 30rpx;
   height: 44rpx;
   line-height: 44rpx;
   color: #333;
-  font-weight: 400
+  font-weight: bold
 }
 .section{
   width: 100%;
