@@ -85,6 +85,7 @@ Page({
   // 输入法回车搜索
   query: function () {
     console.log('query')
+    if(!this.data.inputValue) return;
     // 将搜索关键字缓存,去重
     let cacheKeywords = this.getCacheHistoryKeywords(this.data.inputValue);
     this.setData({

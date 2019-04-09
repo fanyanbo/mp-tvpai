@@ -121,22 +121,17 @@ Page({
         console.log('getBannerDataUrl success', res.data);
         if (res.data.result) {
           if (res.data.data.pager.totalPage < 0) {
-            that.setData({
-              hasMoreData: false
-            })
             return false
           }
           let streams = res.data.data.list
           if (res.data.data.list) {
             if (streams.length < parseInt(that.data.pageSize)) {
               that.setData({
-                streams: res.data.data.list,
-                hasMoreData: false
+                streams: res.data.data.list
               })
             } else {
               that.setData({
-                streams: res.data.data.list,
-                hasMoreData: true,
+                streams: res.data.data.list
               })
             }
           }

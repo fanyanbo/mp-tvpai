@@ -320,7 +320,7 @@
           <view class="cinecism_comment" wx:if="{{loadData!=null&&loadData.length>0}}">
             <view class="cinecism_comment_topic">评论 {{commentData.pager.totalNum}}</view>
             <!-- 一条评论 -->
-            <block wx:for="{{loadData}}">
+            <block wx:for="{{loadData}}" wx:key="index">
               <view class="cinecism_comment_one">
                 <div class="comment_left">
                   <image src="{{item.headimgurl}}" mode="aspectFill"></image>

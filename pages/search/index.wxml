@@ -6,13 +6,12 @@
   3.每集介绍待优化，支持指定行数显示 -->
 <wxs src="./index.wxs" module="tools" />
 <view class="main-wrapper">
-  <!-- 搜索框 -->
+  <!-- 搜索框 优化点：扩大点击区域-->
   <view class='search-wrapper'>
     <view class='search-box-wrapper'>
       <image class="search-icon" src='../../images/ser_icon.png' bindtap='query'></image>
       <input name="input" class="search-text" placeholder-class="place-holder" placeholder="{{inputPlaceholder.keyword}}" confirm-type='search' focus="true" value="{{inputValue}}" bindinput='inputBind' bindconfirm='query'></input>
-      <!-- <view class="delete-icon" bindtap='handleDeteteTap' wx:if="{{inputValue}}"></view> -->
-      <image class="delete-icon" src='../../images/delete@2x.png' bindtap='handleDeteteTap' wx:if="{{inputValue}}"></image>
+      <view class="delete-icon-wrapper" bindtap='handleDeteteTap' wx:if="{{inputValue}}"><image class="delete-icon" src='../../images/delete@2x.png'></image></view>
     </view>
   </view>
   <!-- 搜索输入内容版面（包括搜索历史，热门搜索） -->
