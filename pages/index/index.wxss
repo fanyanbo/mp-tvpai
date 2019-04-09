@@ -116,7 +116,7 @@ margin:30rpx 0
 width: 100%;
 overflow: hidden;
 white-space: nowrap;
-margin-bottom: 80rpx
+margin-bottom: 60rpx
 }
 .item_list{
 width: 210rpx;
@@ -162,12 +162,18 @@ border-radius: 8rpx
   font-size: 28rpx;
   text-align: left;
   color: #333;
-  height: 40rpx;
+  height: 80rpx;
   width: 210rpx;
-  display: block;
-  overflow:hidden;
-  white-space:nowrap;
-  text-overflow:ellipsis
+}
+.intwoline{
+    display:-webkit-box !important;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    word-break:break-all;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
+
+white-space: pre-wrap;
 }
 .banner-swiper {
  width: 100%;
