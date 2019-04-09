@@ -59,7 +59,7 @@
       <view class="title">
         <text class="line"></text>{{item.title}}
         <navigator class="more" url="../column/column?id={{item.tag_id}}&title={{item.title}}">
-          更多
+          <span style="font-weight: normal">更多</span>
           <image class="arrow" src="../../images/index_arraw.png" mode="aspectFill"></image>
         </navigator>
       </view>
