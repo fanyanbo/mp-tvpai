@@ -135,10 +135,6 @@
                   <view class="idx">第 {{item.segment_index}} 集</view>
                   <view class="desc">{{item.video_title}}</view>
                 </view>
-                <!-- <button open-type="getUserInfo" class="scroll-view-item {{(item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindgetuserinfo="bindGetUserInfo" data-keyword="{{item}}" data-type="other">
-                  <view class="idx">第 {{item.segment_index}} 集</view>
-                  <view class="desc">{{item.video_title}}</view>
-                </button> -->
               </block>
             </scroll-view>
           </view>
