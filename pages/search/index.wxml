@@ -90,14 +90,14 @@
                 </view>
               </view>
               <view class="right-push-wrapper">
-                <view class="like" data-keyword="{{item.video_detail}}" bindtap="handleLikeTap">
+                <!-- <view class="like" data-keyword="{{item.video_detail}}" bindtap="handleLikeTap">
                   <block wx:if="{{isLike && item.video_detail.third_album_id == curThirdAlbumId}}">
                     <image class="icon" src="../../images/like_after.png"></image>
                   </block>
                   <block wx:else>
                     <image class="icon" src="../../images/like_before.png"></image>
                   </block>
-                </view>
+                </view> -->
                 <view class="push" wx:if="{{item.episodes_list == null}}" data-keyword="{{item}}" bindtap="handleMovieTap">
                   <image class="icon" src="../../images/collect_before.png" />
                 </view>
