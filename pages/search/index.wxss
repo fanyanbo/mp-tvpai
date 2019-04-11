@@ -235,6 +235,8 @@
 }
 .episode .scroll-view-item {
   display: inline-block; 
+  vertical-align: top; 
+  /* inline-block + vertical_align 非常重要 后续再深入学习*/
   width: 280rpx;
   height: 128rpx;
   margin-left: 20rpx;
@@ -303,7 +305,7 @@
   font-weight: bold;
   overflow:hidden;
   text-overflow: ellipsis;
-  display:-webkit-box;
+  display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }

@@ -177,20 +177,22 @@ Page({
   },
   onShow() {
     console.log('search onShow监听页面显示');
+    let that = this;
     this.setData({
-      // isShowTips: app.globalData.isShowTips,
       bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
     });
     wx.getSystemInfo({
       success: (res) => {
-        // 屏幕宽度和高度
-        console.log(res.screenWidth, res.screenHeight);
+        console.log(res);
+        let screenHeight = that.getContentHeight({ platform: res.platform, model: res.model })
+        if(screenHeight === 0)
+          screenHeight = res.screenHeight;
+        console.log(screenHeight);
         // 状态栏高度和屏幕宽度，单位都是px
-        console.log(res.statusBarHeight, res.windowWidth);
-        let scale = res.windowWidth / 375;
+        // let scale = res.windowWidth / 375;
         this.setData({
           paddingTop: res.statusBarHeight,
-          scrollHeight: res.screenHeight - 92,
+          scrollHeight: screenHeight - 92,
         })
       }
     })
@@ -379,6 +381,23 @@ Page({
       cacheKeywords = cacheKeywords.slice(0, 10);
     }
     return cacheKeywords;
+  },
+
+  //根据不同设备和型号获取不同内容高度
+  getContentHeight: function ({ platform, model }) {
+    if(platform.match(/ios/i)) {
+      if(model.match(/iPhone8/i)){
+        return 600;
+      }else if(model.match(/iPhone10/i)) {
+        return 630
+      }else if(model.match(/iPhone11/i)) {
+        return 700;
+      }else{
+        return 650;
+      }
+    } else {
+      return 0;
+    }
   }
   // 结束
 });

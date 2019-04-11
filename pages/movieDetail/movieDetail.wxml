@@ -64,15 +64,17 @@
       <image class="arrow" src="../../images/index_arraw.png" mode="aspectFill"></image>
     </view>
 </view> 
-
-  <view class='movieList'>
-    <view class='item' wx:for="{{videoLike}}" wx:for-item="item" wx:key="index">
-        <navigator url="../movieDetail/movieDetail?id={{item.third_album_id}}" hover-class="none">
-          <image class="like_image" src='{{item.video_poster}}'></image>
-          <text class='movieTitle'>{{item.album_title}}</text>
-        </navigator>
-    </view>
+<view class='movieList' >
+  <view class='item' wx:for="{{videoLike}}" wx:key="index" wx:for-item="item">
+    <navigator url="../movieDetail/movieDetail?id={{item.third_album_id}}">
+      <image class="like_image" src='{{item.video_poster}}'></image>
+     
+      <text class='movieTitle'>{{item.album_title}}</text>
+    </navigator>
   </view>
+</view>
+<view wx:if="{{bIphoneFullScreenModel}}" class='iphone-fullscreen-model'></view>
+
 <!--设备模板  -->
 <view class='boxshdaw' hidden="{{flag ? true : false}}" bindtap='boxshdawclick'></view>
 <view class="service" hidden="{{flag ? true : false}}">

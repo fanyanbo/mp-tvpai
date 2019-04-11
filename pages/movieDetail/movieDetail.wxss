@@ -36,9 +36,18 @@
 .content .content_list{display: flex; line-height: 40rpx}
 .content .label{color: #333; display: block; flex: 1; font-weight: bold}
 .content .info{flex: 8}
+
 .movieList{margin:0 auto;padding: 0rpx 20rpx 178rpx 20rpx; box-sizing: border-box;}
 .movieList .item{
   margin-bottom: 40rpx;
+}
+.iphone-fullscreen-model {height: 68rpx;}
+.movieBox{
+ height: 374rpx;
+ width: 210rpx;
+ display:inline-block;
+ margin: 0 10rpx;
+margin-bottom: 40rpx;
 }
 .like_image{
   border-radius: 12rpx;

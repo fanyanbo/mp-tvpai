@@ -83,21 +83,21 @@
                 <view class="right-score" wx:if="{{item.video_detail.score === '0.0'}}">8.5<span>分</span></view>
                 <view class="right-score" wx:else>{{item.video_detail.score}}<span>分</span></view>
                 <view class="right-detail" wx:if="{{item.video_detail.video_type == '电影'}}">
-                  {{item.video_detail.video_type}} {{item.video_detail.video_tags}} {{item.video_detail.actor}}
+                   · {{item.video_detail.video_type}} · {{item.video_detail.video_tags}} {{item.video_detail.actor}}
                 </view>
                 <view class="right-detail" wx:else>
-                  {{item.video_detail.video_type}} {{item.video_detail.video_tags}}
+                   · {{item.video_detail.video_type}} · {{item.video_detail.video_tags}}
                 </view>
               </view>
               <view class="right-push-wrapper">
-                <view class="like" data-keyword="{{item.video_detail}}" bindtap="handleLikeTap">
+                <!-- <view class="like" data-keyword="{{item.video_detail}}" bindtap="handleLikeTap">
                   <block wx:if="{{isLike && item.video_detail.third_album_id == curThirdAlbumId}}">
                     <image class="icon" src="../../images/like_after.png"></image>
                   </block>
                   <block wx:else>
                     <image class="icon" src="../../images/like_before.png"></image>
                   </block>
-                </view>
+                </view> -->
                 <view class="push" wx:if="{{item.episodes_list == null}}" data-keyword="{{item}}" bindtap="handleMovieTap">
                   <image class="icon" src="../../images/collect_before.png" />
                 </view>
@@ -135,10 +135,6 @@
                   <view class="idx">第 {{item.segment_index}} 集</view>
                   <view class="desc">{{item.video_title}}</view>
                 </view>
-                <!-- <button open-type="getUserInfo" class="scroll-view-item {{(item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindgetuserinfo="bindGetUserInfo" data-keyword="{{item}}" data-type="other">
-                  <view class="idx">第 {{item.segment_index}} 集</view>
-                  <view class="desc">{{item.video_title}}</view>
-                </button> -->
               </block>
             </scroll-view>
           </view>
