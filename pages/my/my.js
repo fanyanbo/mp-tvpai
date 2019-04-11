@@ -37,6 +37,10 @@ Page({
       this.setData({
         isShow: true
       })
+    }else {
+      this.setData({
+        isShow: false
+      })
     }
   },
   clearStorage:function(){
