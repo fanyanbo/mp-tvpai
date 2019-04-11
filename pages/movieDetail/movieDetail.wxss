@@ -35,6 +35,7 @@
 .content .label{color: #333; display: block; flex: 1; font-weight: bold}
 .content .info{flex: 8}
 .movieList{ margin-bottom:178rpx; padding:0 20rpx; box-sizing: border-box;}
+.iphone-fullscreen-model {height: 68rpx;}
 .movieBox{
  height: 374rpx;
  width: 210rpx;

@@ -4,6 +4,7 @@ var app = getApp()
 Page({
   data: {
     isShowTips: true,
+    bIphoneFullScreenModel:false,
     flag: true,
     tabAll: 'tabAll',
     tabShow: 'show',
@@ -111,7 +112,12 @@ Page({
       title: options.title
     })
   },
-
+  onShow: function () {
+    this.setData({
+      isShowTips: app.globalData.isShowTips,
+      bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
+    });
+  },
   onPullDownRefresh: function () {
     console.log('onPullDownRefresh')
   },
