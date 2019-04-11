@@ -83,10 +83,10 @@
                 <view class="right-score" wx:if="{{item.video_detail.score === '0.0'}}">8.5<span>分</span></view>
                 <view class="right-score" wx:else>{{item.video_detail.score}}<span>分</span></view>
                 <view class="right-detail" wx:if="{{item.video_detail.video_type == '电影'}}">
-                  {{item.video_detail.video_type}} {{item.video_detail.video_tags}} {{item.video_detail.actor}}
+                   · {{item.video_detail.video_type}} · {{item.video_detail.video_tags}} {{item.video_detail.actor}}
                 </view>
                 <view class="right-detail" wx:else>
-                  {{item.video_detail.video_type}} {{item.video_detail.video_tags}}
+                   · {{item.video_detail.video_type}} · {{item.video_detail.video_tags}}
                 </view>
               </view>
               <view class="right-push-wrapper">
