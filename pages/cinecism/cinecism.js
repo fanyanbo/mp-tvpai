@@ -1125,6 +1125,7 @@ function getAboutMovie(that) {
         console.log(data1)
         if (data1 != null && data1 != undefined) {
           starArray = []
+          var tags = []
           for (var i = 0; i < data1.length; i++) {
             contentArray.push(data1[i])
 
@@ -1137,11 +1138,10 @@ function getAboutMovie(that) {
               utils.starGrade(pingfen, i, starClass0, starClass1, starClass2, starClass3, starClass4)
               starArray.push(data1[i])
               if (data1[i].moviesDetail.videoData != null && data1[i].moviesDetail.videoData != undefined) {
-                var tags = data1[i].moviesDetail.videoData.base_info.video_tags
-                if (tags != null && tags != undefined) {
-                  tags = tags.split(",")[0]
+                tags[i] = data1[i].moviesDetail.videoData.base_info.video_tags
+                if (tags[i] != null && tags[i] != undefined) {
+                  tags[i] = tags[i].split(",")[0]
                 }
-
                 //评分
 
                 clooectList.push(data1[i])
@@ -1179,7 +1179,8 @@ function getAboutMovie(that) {
           }
           console.log("imgV")
           console.log(imgV)
-
+          console.log("tags")
+          console.log(tags)
 
           console.log("starClass:")
           console.log(that.data.starClass)

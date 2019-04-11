@@ -233,16 +233,10 @@
                         </ul>
                       </view>
                       <view class="font-size-xs">
-                        <text wx:if="{{item.moviesDetail.videoData.base_info.publish_date!=null&&item.moviesDetail.videoData.base_info.publish_date.length>0}}">
-                          {{item.moviesDetail.videoData.base_info.publish_date}} |
-                        </text>
-                        <text wx:if="{{item.moviesDetail.videoData.base_info.publish_area!=null&&item.moviesDetail.videoData.base_info.publish_area.length>0}}">
-                          {{item.moviesDetail.videoData.base_info.publish_area}} |
-                        </text>
-                        <text wx:if="{{tags!=null&&tags.length>0}}">{{tags}} |</text>
-                        <text wx:if="{{item.moviesDetail.videoData.base_info.sub_title!=null&&item.moviesDetail.videoData.base_info.sub_title.length>0}}">
-                          {{item.moviesDetail.videoData.base_info.sub_title}}
-                        </text>
+                        <text wx:if="{{item.moviesDetail.videoData.base_info.publish_date!=null&&item.moviesDetail.videoData.base_info.publish_date.length>0}}">{{item.moviesDetail.videoData.base_info.publish_date}} </text>
+                        <text wx:if="{{item.moviesDetail.videoData.base_info.publish_area!=null&&item.moviesDetail.videoData.base_info.publish_area.length>0}}">| {{item.moviesDetail.videoData.base_info.publish_area}} </text>
+                        <text wx:if="{{tags!=null&&tags.length>0}}">| {{tags[index]}} </text>
+                        <text wx:if="{{item.moviesDetail.videoData.base_info.sub_title!=null&&item.moviesDetail.videoData.base_info.sub_title.length>0}}">| {{item.moviesDetail.videoData.base_info.sub_title}}</text>
                       </view>
                     </view>
                     <!-- </navigator> -->
