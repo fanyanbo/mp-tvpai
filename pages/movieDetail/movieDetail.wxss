@@ -22,31 +22,28 @@
     -webkit-line-clamp:2;
 }
 
-.tvLists{width: 100%;margin: 0 auto; padding:0 40rpx; box-sizing: border-box; overflow-x: scroll;overflow-y:hidden; height: 115rpx;}
+.tvLists{width: 100%;margin: 0 auto; padding:0 40rpx; box-sizing: border-box; overflow-x: scroll;overflow-y:hidden;}
 .tvLists .xs{display: flex; float:left; border-radius: 8rpx; background: #444; font-size:26rpx;margin-right:20rpx;}
 .tvLists .xs text{display: block;}
 .tvLists .scroll{position:relative;white-space:nowrap;margin:0 auto;text-align:left;border: none;padding-left:0;}
 .tvLists .active{background: #FFD71C; color: #333 !important}
 .tvLists .scroll view{display: inline-block;}
+.variety{height: 128rpx}
+.tvplay{height: 108rpx}
 .push{padding:0 40rpx; font-size: 32rpx;color: #999; height: 88rpx;line-height: 88rpx;}
 .pushIcon{width: 40rpx; height: 40rpx; vertical-align: middle; display: inline-block; margin-right: 12rpx}
 .content{font-size: 28rpx; margin:0 40rpx; color:#666; margin-bottom: 60rpx; }
 .content .content_list{display: flex; line-height: 40rpx}
 .content .label{color: #333; display: block; flex: 1; font-weight: bold}
 .content .info{flex: 8}
-.movieList{ margin-bottom:178rpx; padding:0 20rpx; box-sizing: border-box;}
-.movieBox{
- height: 374rpx;
- width: 210rpx;
- display:inline-block;
- margin: 0 10rpx;
-margin-bottom: 40rpx;
+.movieList{margin:0 auto;padding: 0rpx 20rpx 178rpx 20rpx; box-sizing: border-box;}
+.movieList .item{
+  margin-bottom: 40rpx;
 }
 .like_image{
   border-radius: 12rpx;
   width: 210rpx;
   height: 294rpx;
-  display: flex
 }
 .movieTitle{
   width: 210rpx;
@@ -67,11 +64,13 @@ margin-bottom: 40rpx;
 .open{height:75rpx;overflow:hidden;}
 .score{color: #FFD71C; }
 .length{float: right; font-size: 24rpx; color: #666;}
-.zy{display: block; width: 260rpx; height: 115rpx;border: 1rpx solid #ccc; box-sizing: border-box; position: relative}
+.zy{display: block; width: 280rpx; height: 128rpx;box-sizing: border-box; position: relative}
 .tvLists .dsj{display: block; width: 108rpx; height: 108rpx; text-align: center; line-height: 108rpx; color: #999; font-size: 32rpx}
+.tvLists .active .segmeng,.tvLists .active .subtitle{color: #333}
+
 .tvLists .segmeng{font-size: 32rpx; color: #999}
-.zy button{position: absolute; top: 0; left: 0;width: 260rpx; height: 115rpx; line-height: 50rpx; background: none; z-index: 2}
-.zy .subtitle{font-size: 24rpx; color:#666;  z-index: 1; width: 260rpx; padding: 0 10rpx; box-sizing: border-box; white-space:normal;  height: 60rpx; line-height: 30rpx; position: absolute; top: 50rpx}
+.zy button{position: absolute; top: 0; left: 0;width: 280rpx; height: 128rpx; line-height: 50rpx; background: none; z-index: 2}
+.zy .subtitle{font-size: 24rpx; color:#666;  z-index: 1; width: 280rpx; padding: 0 10rpx; box-sizing: border-box; white-space:normal;  height: 68rpx; line-height: 34rpx; position: absolute; top: 50rpx}
 .intwoline{
     display:-webkit-box !important;
     overflow:hidden;

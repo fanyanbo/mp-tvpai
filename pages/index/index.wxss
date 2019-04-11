@@ -124,7 +124,9 @@ width: 210rpx;
 height: 374rpx;
 margin-left: 20rpx;
 display: inline-block;
-border-radius: 8rpx
+border-radius: 8rpx;
+vertical-align: top
+
 }
 .scroll-view_x .item_list:nth-child(1){
   margin-left: 40rpx
@@ -164,6 +166,7 @@ border-radius: 8rpx
   text-align: left;
   color: #333;
   height: 80rpx;
+  line-height: 34rpx;
   width: 210rpx;
 }
 .intwoline{

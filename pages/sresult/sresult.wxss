@@ -6,7 +6,7 @@
 .tabAll,.tabOpen{font-size: 32rpx;margin-top: 70rpx; }
 .tabOpen{position:absolute;z-index:99;bottom:5%;left:45%;}
 .tagListAbsolute{position: absolute;z-index: 9;background: #fff;}
-.movieList{margin:0 auto;padding: 0rpx 25rpx 178rpx 25rpx; box-sizing: border-box; margin-top: 120rpx}
+.movieList{margin:0 auto;padding: 0rpx 20rpx 178rpx 20rpx; box-sizing: border-box; margin-top: 120rpx}
 .tagList{position:fixed;top:0;width: 100%;}
 .tagAll{position:absolute;z-index:9;overflow-y:scroll;background:#fff;width: 100%;border-bottom: 1rpx solid #ccc;padding-bottom:60rpx;}
 /* radio{opacity: 0}
@@ -16,7 +16,11 @@ label.active{color: red;}
 .tabAll{position: fixed;top:-1%;width:100%;display: block;background:#fff;}
 .click{font-size: 28rpx; height: 40rpx; line-height: 40rpx }
 .nomv{margin: 60% auto;}
-.movieImg{border-radius: 12rpx}
+.movieImg{
+  border-radius: 12rpx;
+  width: 210rpx;
+  height: 294rpx;
+  }
 .item{
   margin-bottom: 30rpx
 }
