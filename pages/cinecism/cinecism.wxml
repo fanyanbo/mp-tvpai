@@ -316,7 +316,7 @@
         </view>
         <!-- 相关文章end -->
         <!-- 评论 start -->
-        <view id="cinecism_comment">
+        <view id="cinecism_comment" style="display:none" >
           <view class="cinecism_comment" wx:if="{{loadData!=null&&loadData.length>0}}">
             <view class="cinecism_comment_topic">评论 {{commentData.pager.totalNum}}</view>
             <!-- 一条评论 -->
@@ -347,7 +347,7 @@
         </view>
         <!-- 评论end -->
         <!-- 底部栏start -->
-        <view class="footer">
+        <view class="footer" style="display:none">
           <ul>
             <li class="footer_bar" style="display:none" bindtap="clickBar" wx:if="{{moviesData!=null&&moviesData.length>0&&lenIs}}">
               <image src="../../images/catalog_icon.png"></image>
