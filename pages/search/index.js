@@ -4,8 +4,8 @@ const app = getApp();
 
 Page({
   data: {
-    isShowTips: true,
-    bIphoneFullScreenModel:false,
+    isShowTips: false,
+    bIphoneFullScreenModel: false,
     errIconUrl: '../../images/close_icon.png',
     inputPlaceholder: {},
     curIndex: 0, //当前剧集
@@ -148,10 +148,7 @@ Page({
     this.pushMovie(app.globalData.deviceId, third_album_id, video_title, tvId, coocaa_m_id);
   },
   handleMoreTap: function (e) {
-    console.log('handleMoreTap', e);
-    this.setData({
-      curPageIndex: this.data.curPageIndex + 1
-    })
+    console.log('handleMoreTap pageIndex', this.data.curPageIndex);
     this.searchByKeyword(1, this.data.inputValue, this.data.curPageIndex);
   },
   // 页面onLoad生命周期事件
@@ -181,7 +178,7 @@ Page({
   onShow() {
     console.log('search onShow监听页面显示');
     this.setData({
-      isShowTips: app.globalData.isShowTips,
+      // isShowTips: app.globalData.isShowTips,
       bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
     });
     wx.getSystemInfo({
@@ -228,6 +225,9 @@ Page({
           searchResultList: tmpData,
           hasMore: res.data.has_more
         })
+        if(res.data.has_more === 1) {
+          this.data.curPageIndex += 1;
+        }
       } else {
         console.log('searchByKeyword failed')
         let errMsg = res.data.msg + "[" + res.data.code + "]";

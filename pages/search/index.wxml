@@ -113,7 +113,7 @@
             </view>
             <scroll-view class="episode2" scroll-x style="width: 100%">
               <block wx:for="{{item.episodes_list}}" wx:key="index" wx:for-item="item2">
-                <view wx:if="{{index < item.video_detail.updated_segment}}" class="scroll-view-item2 {{ index === 0 ? 'episode-first2' : '' }} {{ (item2.segment_index == curIndex && item2.video_third_id == curThirdId) ? 'active' : 'inactive' }}" bindtap="handleEpisodeTap" data-keyword="{{item2}}" data-index="{{index}}" hover-class="noimplement">
+                <view wx:if="{{(item.video_detail.updated_segment === 0) || (index < item.video_detail.updated_segment)}}" class="scroll-view-item2 {{ index === 0 ? 'episode-first2' : '' }} {{ (item2.segment_index == curIndex && item2.video_third_id == curThirdId) ? 'active' : 'inactive' }}" bindtap="handleEpisodeTap" data-keyword="{{item2}}" data-index="{{index}}" hover-class="noimplement">
                   {{item2.segment_index}}
                 </view>
               </block>
