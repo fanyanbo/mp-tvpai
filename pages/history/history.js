@@ -16,7 +16,7 @@ Page({
     management_good: false,
     select_all: false,
     batchdel: "",
-    length: 0
+    length: 0,
 
   },
   // 管理纪录

@@ -22,7 +22,7 @@
   </view>
   </view>
 
-<view class="bottom">
+<view class="bottom {{bIphoneFullScreenModel ? 'iphone-fullscreen-model' : ''}}">
     <view wx:if="{{!management_good}}" class='flex_center edit' bindtap='management'>
       编辑
     </view>

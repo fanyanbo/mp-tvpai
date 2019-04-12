@@ -1,7 +1,7 @@
 /* pages/history/history.wxss */
 .contant{
   padding:0 40rpx;
-  padding-bottom: 200rpx
+  padding-bottom: 274rpx
 }
 .title{
   font-size: 32rpx;
@@ -98,6 +98,9 @@
   position: fixed;
   left: 0rpx;
   bottom: 110rpx;
+}
+.iphone-fullscreen-model{
+  bottom: 178rpx !important
 }
 .bottom .left{
   margin-left: 25rpx;

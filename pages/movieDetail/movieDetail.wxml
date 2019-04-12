@@ -68,7 +68,7 @@
     <navigator url="../movieDetail/movieDetail?id={{item.third_album_id}}">
       <image class="like_image" src='{{item.video_poster}}'></image>
      
-      <text class='movieTitle'>{{item.album_title}}</text>
+      <text class='movieTitle intwoline'>{{item.album_title}}</text>
     </navigator>
   </view>
 </view>
