@@ -7,7 +7,9 @@ page{
 .block{
   display: block;
 }
-
+.container{
+  padding-bottom: 178rpx
+}
 .mydevices{
   height: 90rpx;
   line-height: 90rpx;

@@ -1,5 +1,5 @@
 .container{text-align: center;}
-.tabParents{width: 100%; padding: 0 30rpx; overflow-x: scroll;overflow-y: hidden;text-align:center;background:#fff;}
+.tabParents{width: 100%; padding: 0 30rpx; box-sizing: border-box; overflow-x: scroll;overflow-y: hidden;text-align:center;background:#fff;}
 .tabScroll{width:100%;position: relative;height: 70rpx;white-space:nowrap;margin:0 auto;text-align:left;background:#fff;}
 .tabScroll view{display: inline;margin: 6rpx 15rpx;font-size: 30rpx;color: #999; text-align: center;}
 .tabScroll view.active{color: #000;border-bottom: 8rpx solid #FFD71C;background:#fff;}
