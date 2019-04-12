@@ -61,7 +61,6 @@
 <view class="introduce" wx:if="{{isShowtitle}}">
     <view class="title bold">
       <text class="line"></text>猜你喜欢
-      <image class="arrow" src="../../images/index_arraw.png" mode="aspectFill"></image>
     </view>
 </view> 
 <view class='movieList' >
