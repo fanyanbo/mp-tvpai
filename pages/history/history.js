@@ -251,12 +251,12 @@ Page({
         console.log(historyList);
         if (withinList.length == 0 && overList == 0) {
           that.setData({
-            isShowDoc: false,
+            isShowDoc: true,
           })
         } else {
           that.setData({
             historyList: historyList,
-            isShowDoc: true,
+            isShowDoc: false,
             length: 0,
             management_good: false,
           })
@@ -269,7 +269,7 @@ Page({
         title: '加载数据失败',
       })
       that.setData({
-        isShowDoc: false,
+        isShowDoc: true,
       });
     }, function (res) {
       console.log('streams complete:')
@@ -277,6 +277,7 @@ Page({
   },
 
   onLoad: function () {
+    utils.showToastBox('加载中...', "loading")
     this.historyList();
   },
   onShow: function() {
