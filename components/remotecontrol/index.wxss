@@ -55,7 +55,19 @@
     width: 60rpx;
     height: 60rpx;
   }
-  
+  .first-btn-touch-zone,.snd-btn-touch-zone,.last-btn-touch-zone {
+    position: absolute;
+    top: 0rpx;
+    left: 0rpx;
+    width: 25%;
+    height: 100%;
+  }
+  .snd-btn-touch-zone {
+    left: 37.5%;
+  }
+  .last-btn-touch-zone {
+    left: 75%;
+  }  
   .shutdown-icon,.home-icon {
     position: absolute;
     left: 50rpx;
@@ -183,8 +195,6 @@
     transform: translate(-50%,-50%);
     width: 150rpx;
     height: 150rpx;
-  }
-  .input-progressbar {
     z-index: 1;
   }
   .input-content-zone {
