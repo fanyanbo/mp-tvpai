@@ -8,15 +8,18 @@
 
     <!-- 上面区域-->
     <view class="header-wrapper">
-      <view class="shutdown-icon {{isShutdownFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd"  id="shutdown">
+      <view class="shutdown-icon {{isShutdownFocus ? 'control-focus' : ''}}">
         <image src="../../images/components/remotecontrol/shutdown@3x.png" class="control-icon"></image>
       </view>
-      <view class=" volup-icon {{isVolupFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="volume_plus">
+      <view class='first-btn-touch-zone' bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd"  id="shutdown"></view>
+      <view class=" volup-icon {{isVolupFocus ? 'control-focus' : ''}}">
       <image src="{{curVolUpImg}}" class="control-icon"></image>
       </view>
-      <view class=" voldown-icon {{isVoldownFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="volume_minus">
+      <view class='snd-btn-touch-zone'  bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="volume_plus"></view>
+      <view class=" voldown-icon {{isVoldownFocus ? 'control-focus' : ''}}">
       <image src="{{curVolDownImg}}" class="control-icon"></image>
       </view>
+      <view class='last-btn-touch-zone' bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="volume_minus"></view>
     </view>
 
     <!-- 中间区域-->
@@ -35,15 +38,18 @@
 
     <!-- 下面区域-->
     <view class="footer-wrapper">
-    <view class=" home-icon {{isHomeFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="home">
+      <view class=" home-icon {{isHomeFocus ? 'control-focus' : ''}}" >
       <image src="{{curHomeImg}}" class="control-icon"></image>
       </view>
-      <view class=" return-icon {{isBackFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="back">
+      <view class='first-btn-touch-zone' bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="home"></view>
+      <view class=" return-icon {{isBackFocus ? 'control-focus' : ''}}">
       <image src="{{curBackImg}}" class="control-icon"></image>
       </view>
-      <view class=" menu-icon {{isMenuFocus ? 'control-focus' : ''}}" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="menu">
+      <view class='snd-btn-touch-zone'  bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="back"></view>
+      <view class=" menu-icon {{isMenuFocus ? 'control-focus' : ''}}">
       <image src="{{curMenuImg}}" class="control-icon"></image>
       </view>
+      <view class='last-btn-touch-zone'  bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="menu"></view>
     </view>
   </view>
 
