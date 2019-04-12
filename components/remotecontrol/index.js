@@ -294,14 +294,14 @@ Component({
       }
       //step 2:是否支持小程序
      if (!this.data.bBindedTVSupportMP) {
-       console.log("bBindedTVSupportMP false.")
+        console.log("bBindedTVSupportMP false.")
         wx.showModal({
           title: '温馨提示',
-          content: '当前绑定的电视暂不支持遥控\r\n请先到电视\"我的应用\"里\r\n安装升级\"小维AI\"',
+          content: '当前电视暂不支持遥控，请到电视\r\n\"我的应用-小维AI-关于我们\"\r\n检测升级',
           showCancel:false,
           confirmText:'知道了',
         })
-       return false
+        return false
      }
       if( type == 'tap') {
         console.log('type:tap tv ready')
