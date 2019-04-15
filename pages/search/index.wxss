@@ -387,15 +387,23 @@
   border-bottom: 1px solid #ECECEC;
   border-top: 1px solid #ECECEC;
 }
-.article-content {
+.video-noresult-wrapper {
   width: 750rpx;
-  height: 600rpx;
-  margin-top: 184rpx;
+  height: 700rpx;
+  display: flex;
+  justify-content: center;
 }
-.no-result-icon {
-  width: 420rpx;
-  height: 350rpx;
-  padding: 175rpx;
+.article-noresult-wrapper {
+  width: 750rpx;
+  height: 700rpx;
+  margin-top: 184rpx;
+  display: flex;
+  justify-content: center;
+}
+.noresult-icon {
+  width: 480rpx;
+  height: 480rpx;
+  margin-top: 100rpx;
 }
 ::-webkit-scrollbar{
   width: 0;

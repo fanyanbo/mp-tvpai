@@ -145,14 +145,16 @@
         点击查看更多
       </view>
       <!-- 无搜索内容时显示 -->
-      <block class="video-content-list" wx:if="{{searchResultList.length === 0 && isShowNoResult}}">
-        <image class="no-result-icon" src='../../images/no-result@3x.png'></image>
-      </block>
+      <view class="video-noresult-wrapper" wx:if="{{searchResultList.length === 0 && isShowNoResult}}">
+        <image class="noresult-icon" src='../../images/no-result@3x.png'></image>
+      </view>
     </scroll-view>
   </view>
-  <view class="article-content" wx:if="{{inputValue}}" style="display:{{activeIndex !== 1 ? 'none' : 'block'}}">
+  <view wx:if="{{inputValue}}" style="display:{{activeIndex !== 1 ? 'none' : 'block'}}">
     <scroll-view scroll-y="true" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll">
-      <image class="no-result-icon" src='../../images/no-result@3x.png'></image>
+      <view class="article-noresult-wrapper">
+        <image class="noresult-icon" src='../../images/no-result@3x.png'></image>
+      </view>
     </scroll-view>
   </view>
 </view>
