@@ -30,18 +30,20 @@
 .tvLists .scroll view{display: inline-block;}
 .variety{height: 128rpx}
 .tvplay{height: 108rpx}
-.push{padding:0 40rpx; font-size: 32rpx;color: #999; height: 88rpx;line-height: 88rpx;}
+.push{padding:0 40rpx; font-size: 32rpx;color: #999; height: 88rpx;line-height: 88rpx; margin-top: 10rpx}
 .pushIcon{width: 40rpx; height: 40rpx; vertical-align: middle; display: inline-block; margin-right: 12rpx}
 .content{font-size: 28rpx; margin:0 40rpx; color:#666; margin-bottom: 60rpx; }
 .content .content_list{display: flex; line-height: 40rpx}
 .content .label{color: #333; display: block; flex: 1; font-weight: bold}
 .content .info{flex: 8}
-
+.win_content{
+  margin: 20rpx 0 0  0!important
+}
 .movieList{margin:0 auto;padding: 0rpx 20rpx 178rpx 20rpx; box-sizing: border-box;}
 .movieList .item{
   margin-bottom: 40rpx;
 }
-.iphone-fullscreen-model {height: 68rpx;}
+.iphone-fullscreen-model {padding-bottom: 68rpx;}
 .movieBox{
  height: 374rpx;
  width: 210rpx;
@@ -125,13 +127,17 @@ margin-bottom: 40rpx;
   padding:40rpx;
   box-sizing: border-box;
   border-radius: 20rpx 20rpx 0 0;
-  height: 900rpx;
+  height: 908rpx;
+}
+.iphone-fullscreen-model{
+  height: 976rpx !important
 }
 .choose .title{
   color: #333;
-  height: 48rpx;
-  line-height: 48rpx;
-  font-weight: bold
+  height: 66rpx;
+  line-height: 66rpx;
+  font-weight: bold;
+  font-size: 48rpx
 }
 .choose .description{
   color: #666;
@@ -140,16 +146,49 @@ margin-bottom: 40rpx;
   margin-top: 20rpx;
   height: 800rpx;
 }
-.choose .tvlist{
-  margin-top: 20rpx;
+.choose .item{
+  width: 100%;
+  text-align: left;
 }
-.choose .xs{display: block;border: 1rpx solid #ccc; float:left; border-radius: 8rpx; background: #F2F2F2; font-size:26rpx;margin:10rpx;}
-.choose .xs  text{display: block;}
+.choose .tvlist{
+  margin-bottom: 20rpx;
+  display: inline-block; 
+  width: 20%;
+  text-align: center
+}
+.choose .zylist{
+  margin-bottom: 20rpx;
+  display: inline-block; 
+  text-align: center;
+  width: 48%;
+  margin-right: 4%;
+  box-sizing: border-box
+}
+.choose .prompt_info{
+  font-size: 26rpx;
+  color: #666666;
+  margin-bottom:40rpx
+}
+.choose .xs{
+  display: inline-block;
+  border: 1rpx solid #ccc;
+  border-radius: 8rpx;
+  background: #F2F2F2; 
+  font-size:26rpx;
+  vertical-align: top;
+  }
+/* .choose .xs  text{display: block;} */
 .choose .segmeng{font-size: 32rpx; color: #333}
 .choose .subtitle{font-size: 24rpx; color:#666; width: 270rpx;   white-space:normal;  overflow:auto;}
-.choose .zy{display: block; width: 260rpx; height: 115rpx;border: 1rpx solid #ccc;padding: 10rpx 20rpx;}
-.choose .dsj{display: block; width: 108rpx; height: 108rpx; text-align: center; line-height: 108rpx; color: #999; font-size: 32rpx}
+.choose .zy{width:100%; height: 128rpx;border: 1rpx solid #ccc;padding: 10rpx 20rpx; box-sizing: border-box}
+.choose .dsj{width:108rpx; height: 108rpx; text-align: center; margin: 0 auto; line-height: 108rpx; margin-bottom: 10rpx; color: #999; font-size: 32rpx}
 .choose .active{background: #FFD71C; color: #333 !important}
+.choose .dsj:nth-child(5n) {
+  margin-right: 0;
+}
+.choose .zylist:nth-child(2n) {
+  margin-right: 0;
+}
 .indexFixed{
   position: fixed;
   top:0;

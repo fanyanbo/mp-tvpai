@@ -4,36 +4,35 @@ button::after {
 }
 .mylabel {
   position: relative;
-  width: 750rpx;
   height: 88rpx;
   display: flex;
   align-items: center;
-  padding: 0 30rpx;
+  margin: 0 40rpx;
   box-sizing: border-box;
   background: #fff
 }
 .mylabel .title {
-  position: absolute;
-  left: 100rpx;
   font-size: 32rpx;
   color: #000000;
-  letter-spacing: 0;
+  margin-left: 20rpx
 }
 .mylabel .more {
   position: absolute;
   font-size:28rpx;
   color:#999;
-  right: 50rpx;
+  right: 24rpx;
 }
 .mylabel .arrow {
   position: absolute;
   height: 24rpx;
   width: 24rpx;
-  right: 20rpx;
+  right: 0rpx;
+  margin-top: 2rpx
 }
 .mylabel .my_icon {
   width: 48rpx;
   height: 48rpx;
+  margin-top: 8rpx
 }
 .binding{
   margin-bottom: 40rpx

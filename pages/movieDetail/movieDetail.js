@@ -40,6 +40,7 @@ Page({
   onLoad: function (options) {
     utils.showToastBox('加载中...', "loading")
     movieDetail(this, options.id)
+    //_oqy_225915601/_oqy_233071001
   },
 
   /**

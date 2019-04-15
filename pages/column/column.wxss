@@ -3,5 +3,9 @@
 .movieList{margin:0 auto; padding-bottom: 178rpx; width: 90%}
 .nomv{margin: 60% auto; text-align: center}
 
-.item{ margin-top: 25rpx;}
-.listImg{border-radius: 10rpx}
+.item{ margin-top: 30rpx;}
+.listImg{
+  width: 210rpx;
+  height: 294rpx;
+  border-radius: 12rpx
+  }
