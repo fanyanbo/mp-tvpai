@@ -1,0 +1,145 @@
+<!-- author:fanyanbo
+  email:fanyanbo@coocaa.com
+  todo:
+  1.搜索关键字高亮，可抽成组件
+  2.加载更多，可抽成组件
+  3.每集介绍待优化，支持指定行数显示 -->
+<wxs src="./index.wxs" module="tools" />
+<view class="main-wrapper">
+  <!-- 搜索框 -->
+  <view class='search-wrapper'>
+    <view class='search-box-wrapper'>
+      <image class="search-icon" src='../../images/ser_icon.png' bindtap='query'></image>
+      <input name="input" class="search-text" placeholder="{{inputPlaceholder.keyword}}" confirm-type='search' focus="true" value="{{inputValue}}" bindinput='inputBind' bindconfirm='query'></input>
+      <view class="delete-icon" bindtap='handleDeteteTap' wx:if="{{inputValue}}"></view>
+    </view>
+  </view>
+  <!-- 搜索输入内容版面（包括搜索历史，热门搜索） -->
+  <view class='search-input-wrapper' wx:if="{{!inputValue || !isShowResult}}">
+    <view class='search-history-wrapper' wx:if="{{historyWordsList && historyWordsList.length != 0}}">
+      <view class='title-wrapper'>
+        <view class='title'>历史搜索</view>
+        <image class="icon-clear" src='../../images/delete@3x.png' bindtap='handleClearTap'></image>
+      </view>
+      <view class='items-wrapper'>
+        <view class='history-words' bindtap="onKeywordTap" data-keyword="{{item}}" wx:for="{{historyWordsList}}" wx:key="index">
+          {{item}}
+        </view>
+      </view>
+    </view>
+    <view class='hot-search-wrapper' wx:if="{{hotKeywordsList && hotKeywordsList.length != 0}}">
+      <view class='title-wrapper'>
+        <view class='title'>热门搜索</view>
+      </view>
+      <!-- 1.可以考虑使用伪类 2.可以考虑使用wxs 3.可以考虑用if-else -->
+      <view class="content-wrapper">
+        <view class='hot-words' wx:for="{{hotKeywordsList}}" wx:key="index">
+          <!-- wxs写法：<view class="item-key {{tools.getStyleClass(index)}}">{{index+1}}</view> -->
+          <text class="item-key">{{index+1}}</text>
+          <view class="item-value" bindtap="onKeywordTap" data-keyword="{{item.keyword}}">
+            {{item.keyword}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- scoll-view不支持弹性布局，里面加一层view -->
+  <scroll-view scroll-x="true" scroll-left="{{navScrollLeft}}" scroll-with-animation="{{true}}" wx:if="{{inputValue && isShowResult}}">
+    <view class="nav">
+      <block wx:for="{{navData}}" wx:for-index="idx" wx:for-item="navItem" wx:key="idx">
+        <view class="nav-item {{currentTab == idx ?'active2':''}}" data-current="{{idx}}" bindtap="switchNav">
+          {{navItem.text}}
+        </view>
+      </block>
+    </view>
+  </scroll-view>
+  <!-- 页面内容 -->
+  <swiper class="tab-box" current="{{currentTab}}" duration="300" bindchange="switchTab" wx:if="{{inputValue && isShowResult}}">
+    <swiper-item wx:for="{{[0,1,2,13,4,5,6]}}" wx:key="index" class="tab-content">
+      <scroll-view wx:if="{{item == 13}}" scroll-y="true" style="height: {{scrollHeight}}px" bindscrolltoupper="upper" bindscrolltolower="lower">
+        <block class="video-content-list" wx:for="{{searchResultList}}" wx:key="index">
+          <view class="video-content-item">
+            <view class="item-poster">
+              <view class="item-poster-left" bindtap="handleJumpTap" data-item="{{item}}">
+                <image class="left-img" src="{{item.video_poster}}" />
+              </view>
+              <view class="item-poster-right">
+                <view class='right-title-wrapper' bindtap="handleJumpTap" data-item="{{item}}">
+                  <block wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="{{index}}">
+                    <text class="{{item == inputValue ? 'searchHigh' : '' }}">{{item}}</text>
+                  </block>
+                </view>
+                <view class="right-detail-wrapper" bindtap="handleJumpTap" data-item="{{item}}">
+                  <view class="right-detail" wx:if="{{item.video_detail.video_type == '电视剧'}}">
+                    {{item.video_detail.video_type}} {{item.video_detail.video_tags}}
+                  </view>
+                  <view class="right-detail" wx:elif="{{item.video_detail.video_type == '电影'}}">
+                    {{item.video_detail.video_type}} {{item.video_detail.video_tags}} {{item.video_detail.actor}}
+                  </view>
+                  <view class="right-detail" wx:else>
+                    {{item.video_detail.video_type}} {{item.video_detail.video_tags}}
+                  </view>
+                  <view class="right-score" wx:if="{{item.video_detail.score === '0.0'}}">8.5</view>
+                  <view class="right-score" wx:else>{{item.video_detail.score}}</view>
+                </view>
+                <view class="right-push-wrapper">
+                  <view class="like" data-keyword="{{item.video_detail}}" bindtap="handleLikeTap">
+                    <block wx:if="{{isLike && item.video_detail.third_album_id == curThirdAlbumId}}">
+                      <image class="icon" src="../../images/like_after.png"></image>
+                    </block>
+                    <block wx:else>
+                      <image class="icon" src="../../images/like_before.png"></image>
+                    </block>
+                  </view>
+                  <view class="push" wx:if="{{item.episodes_list == null}}" data-keyword="{{item}}" bindtap="handleMovieTap">
+                    <image class="icon" src="../../images/collect_before.png" />
+                  </view>
+                </view>
+              </view>
+            </view>
+            <view class="item-push" wx:if="{{item.video_detail.video_type == '电视剧'}}">
+              <view class="tips" bindtap="handleJumpTap" data-item="{{item}}">
+                <image class="left" src="../../images/push.png"></image>
+                <text class="center">投屏</text>
+                <image class="right" src="../../images/arrow.png"></image>
+              </view>
+              <scroll-view class="episode2" scroll-x style="width: 100%">
+                <block wx:for="{{item.episodes_list}}" wx:key="index">
+                  <view class="scroll-view-item2 {{ (item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" data-index="{{index}}" hover-class="noimplement">
+                    {{item.segment_index}}
+                  </view>
+                </block>
+              </scroll-view>
+            </view>
+            <view wx:elif="{{item.video_detail.video_type == '电影'}}"></view>
+            <view class="item-push" wx:else>
+              <view class="tips" bindtap="handleJumpTap" data-item="{{item}}">
+                <image class="left" src="../../images/push.png"></image>
+                <text class="center">投屏</text>
+                <image class="right" src="../../images/arrow.png"></image>
+              </view>
+              <scroll-view class="episode" scroll-x style="width: 100%">
+                <block wx:for="{{item.episodes_list}}" wx:key="index">
+                  <view class="scroll-view-item {{(item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" data-index="{{index}}" hover-class="noimplement">
+                    <view class="idx">第 {{item.segment_index}} 集</view>
+                    <view class="desc">{{item.video_title}}</view>
+                  </view>
+                </block>
+              </scroll-view>
+            </view>
+          </view>
+        </block>
+        <!-- <view class="content-more" bindtap="handleMoreTap" wx:if="{{searchResultList.length !== 0 && hasMore === 1}}">
+          点击查看更多
+        </view> -->
+        <block class="video-content-list" wx:if="{{searchResultList.length === 0 && isShowNoResult}}">
+          <image class="no-result-icon" src='../../images/no-result@3x.png'></image>
+        </block>
+      </scroll-view>
+    </swiper-item>
+  </swiper>
+</view>
+<!-- 遥控器 -->
+<view>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}"></remotecontrol>
+</view>

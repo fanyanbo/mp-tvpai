@@ -1,6 +1,44 @@
-/* pages/my/my.wxss */
-.mainwrapper {
-  position: absolute;
+/**index.wxss**/
+page{
+  width: 100%;
+  height: 100%;
+}
+.container{
+  width: 100%;
+  height: 100%;
+}
+.nav {
+  height: 80rpx;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  line-height: 80rpx;
+  background: #f7f7f7;
+  font-size: 16px;
+  white-space: nowrap;
+  position: fixed;
+  top: 0;
   left: 0;
-  top: 500rpx;
+  z-index: 99;
+}
+.nav-item {
+  width: 20%;
+  display: inline-block;
+  text-align: center;
+}
+.nav-item.active{
+  color: red;
+}
+.tab-box{
+  background: greenyellow;
+  position: fixed;
+  top: 100rpx;
+  left: 0;
+  width: 100%;
+  height: 80%;
+  box-sizing: border-box;
+  border: 5rpx solid red;
+}
+.tab-content{
+  overflow-y: scroll;
 }
