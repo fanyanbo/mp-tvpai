@@ -43,7 +43,7 @@
 .movieList .item{
   margin-bottom: 40rpx;
 }
-.iphone-fullscreen-model {padding-bottom: 68rpx;}
+.iphone-fullscreen {padding-bottom: 68rpx;}
 .movieBox{
  height: 374rpx;
  width: 210rpx;

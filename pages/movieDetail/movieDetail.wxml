@@ -72,7 +72,7 @@
     </navigator>
   </view>
 </view>
-<view wx:if="{{bIphoneFullScreenModel}}" class='iphone-fullscreen-model'></view>
+<view wx:if="{{bIphoneFullScreenModel}}" class='iphone-fullscreen'></view>
 
 <!--设备模板  -->
 <view class='boxshdaw' hidden="{{flag ? true : false}}" bindtap='boxshdawclick'></view>
@@ -88,7 +88,7 @@
 <view class="title">简介</view>
 <scroll-view
     scroll-y
-    style="height: 860rpx;"
+    style="height: 782rpx;"
     bindscrolltoupper="upper"
     bindscrolltolower="lower"
     bindscroll="scroll"
