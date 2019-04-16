@@ -25,7 +25,7 @@ Page({
     chioced: '',
     title:'',
     moviepush: false,
-    video_url:'',
+    video_url:[],
     coocaa_m_id:'',
     isShowtitle:false,
     tvId:"",
@@ -349,15 +349,16 @@ function moviesItem(that, movieId) {
 
     if (res.data.data) {
       console.log(res.data.data.length)
+      for (let i = 0; i < res.data.data.length; i++) {
+        that.data.video_url.push(JSON.parse(res.data.data[i].video_url).tvId)
+      }
       that.setData({
         moviesItem: res.data.data,
         length: res.data.data.length,
-      })
-      for (let i = 0; i < res.data.data.length; i++){
-        that.setData({
-          video_url: JSON.parse(res.data.data[i].video_url)
-        })  
-      }
+        video_url: that.data.video_url
+      })  
+      console.log('video_url:', that.data.video_url)
+
     }
   }, function (res) {
     console.log('streams fail:')
