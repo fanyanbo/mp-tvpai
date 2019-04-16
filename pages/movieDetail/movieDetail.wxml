@@ -64,7 +64,7 @@
     </view>
 </view> 
 <view class='movieList' >
-  <view class='item' wx:for="{{videoLike}}" wx:key="index" wx:for-item="item">
+  <view class='item' wx:for="{{videoLike}}" wx:key="third_album_id" wx:for-item="item">
     <navigator url="../movieDetail/movieDetail?id={{item.third_album_id}}">
       <image class="like_image" src='{{item.video_poster}}'></image>
      
