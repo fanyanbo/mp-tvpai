@@ -367,8 +367,10 @@ Page({
     })
   },
 
-  // 处理搜索历史排列顺序逻辑
+  // 处理搜索历史关键词长度过长，排列顺序等逻辑
   getCacheHistoryKeywords: function (keyword) {
+    keyword = this.getCutStr(keyword, 40)
+    console.log(keyword)
     let cacheKeywords = this.data.historyWordsList;
     let index = cacheKeywords.indexOf(keyword)
     if (index > -1) {
@@ -381,6 +383,27 @@ Page({
       cacheKeywords = cacheKeywords.slice(0, 10);
     }
     return cacheKeywords;
+  },
+
+  getCutStr: function(str, cutLen) {
+    let realLength = 0, len = str.length, charCode = -1;  
+    let str_cut = '';
+    for (let i = 0; i < len; i++) {  
+        // charCode = str.charCodeAt(i);  
+        charCode = str.charAt(i);  
+        if (escape(charCode).length > 4) {
+          realLength += 2;  
+        } else {
+          realLength += 1;  
+        }
+        str_cut = str_cut.concat(charCode);
+        if (realLength > cutLen) {
+          str_cut = str_cut.concat('...')
+          return str_cut;
+        }
+    }  
+    if (realLength <= cutLen)
+      return str;
   },
 
   //根据不同设备和型号获取不同内容高度
