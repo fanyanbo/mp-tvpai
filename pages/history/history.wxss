@@ -48,9 +48,19 @@
   width: 48rpx;
   height: 48rpx
 }
+.noresult-icon {
+  width: 480rpx;
+  height: 480rpx;
+}
 
 
-
+.null {
+  width: 100%;
+  text-align: center;
+  color: #666;
+  font-size: 38rpx;
+  padding-top: 200rpx
+}
 
 
 

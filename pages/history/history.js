@@ -247,11 +247,15 @@ Page({
         if (overList.length != 0){
           historyList.push(_overObj)
         }
-
+        console.log(withinList.length)
+        console.log(overList.length)
         console.log(historyList);
         if (withinList.length == 0 && overList == 0) {
           that.setData({
             isShowDoc: true,
+            historyList: historyList,
+            management_good: false,
+            length: 0,
           })
         } else {
           that.setData({
