@@ -286,7 +286,6 @@ Page({
   },
   onShow: function() {
     this.setData({
-      isShowTips: app.globalData.isShowTips,
       bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
     });
   }
