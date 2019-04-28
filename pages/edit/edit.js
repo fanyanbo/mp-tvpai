@@ -80,7 +80,14 @@ Page({
       }
     })
   },
-
+  onRCShowEvent: function (e) {
+    console.log('onRCShowEvent..e:', e.detail)
+    //遥控器面板显示时，宿主页面不响应上下滑动；
+    this.setData({
+      bWholePageFixed: (e && e.detail.brcshow) ? true : false
+    })
+    console.log('onRCShowEvent..bWholePageFixed:', this.data.bWholePageFixed)
+  },
   /**
    * 生命周期函数--监听页面加载
    */

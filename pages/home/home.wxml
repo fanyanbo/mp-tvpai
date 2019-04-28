@@ -1,4 +1,4 @@
-<view class="container">
+<view class='container {{bWholePageFixed ? "indexFixed" : ""}}'>
   <view class="{{devices?'none':'no-devices'}}" wx:if="{{isShowDoc}}">
     <view class="swiper_list">
       <image src="../../images/help/0.jpg"  mode="widthFix"></image>
@@ -42,5 +42,5 @@
 </view>
 <!-- 遥控器组件 -->
 <view class="{{devices?'bottom':'none'}}">
-  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}" bindrcshowevent='onRCShowEvent'></remotecontrol>
 </view>

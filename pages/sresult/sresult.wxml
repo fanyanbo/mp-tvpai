@@ -1,4 +1,4 @@
-<view class='container'>
+<view class='container {{bWholePageFixed ? "indexFixed" : ""}}'>
   <view class='tagList {{tagListAbsolute}}'>
     <view class='tabParents'>
       <view class='tabScroll'>
@@ -45,5 +45,5 @@
 </view>
 
 <view>
-  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}" bindrcshowevent='onRCShowEvent'></remotecontrol>
 </view>

@@ -5,7 +5,7 @@
   2.加载更多，可抽成组件
   3.每集介绍待优化，支持指定行数显示 -->
 <wxs src="./index.wxs" module="tools" />
-<view class="main-wrapper">
+<view class='main-wrapper {{bWholePageFixed ? "indexFixed" : ""}}'>
   <!-- 搜索框 优化点：扩大点击区域-->
   <view class='search-wrapper'>
     <view class='search-box-wrapper'>
@@ -160,5 +160,5 @@
 </view>
 <!-- 遥控器 -->
 <view>
-  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}" bindrcshowevent='onRCShowEvent'></remotecontrol>
 </view>

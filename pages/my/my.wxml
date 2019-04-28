@@ -1,4 +1,4 @@
-<view class="container">
+<view class='container {{bWholePageFixed ? "indexFixed" : ""}}'>
   <view class="userinfo">
     <view class="avatar-wrapper">
       <open-data class="avatar" type="userAvatarUrl"></open-data>
@@ -63,5 +63,5 @@
 
 </view>
 <view>
-  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}" bindrcshowevent='onRCShowEvent'></remotecontrol>
 </view>

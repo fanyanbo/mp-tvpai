@@ -646,5 +646,12 @@ Component({
   // 组件移除执行
   detached() {
     console.log('remotecontrol component detached()')
+  },
+  observers: {
+    'isShowMainPanel' : function (isShowMainPanel) {
+      console.log('rc observers: mainpanelshow: ' + this.data.isShowMainPanel)
+      const detail = { 'brcshow': this.data.isShowMainPanel }
+      this.triggerEvent('rcshowevent', detail)
+    }
   }
 })
