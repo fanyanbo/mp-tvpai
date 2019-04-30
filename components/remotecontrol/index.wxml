@@ -88,7 +88,7 @@
     <image class="remoter-tips-icon" bindtap="handleBtnTipsClosed" src="../../images/components/remotecontrol/close@3x.png" ></image>
   </view>
    <!-- bindtap="handleButtonTap" -->
-  <view class="remoter-btn {{bStartRecord ? 'btn-input-status' : ''}} {{isShowMainPanel ? 'btn-show-panel-status' : ''}}" bindlongpress="handleButtonLongPress" bindtouchstart="handleRecorderManagerStart" bindtouchend="handleRecorderManagerStop" bindtouchcancel="handleRecorderManagerCancel" bindtouchmove='handleRecorderManagerMove'>   
+  <view class="remoter-btn {{bStartRecord ? 'btn-input-status' : ''}} {{isShowMainPanel ? 'btn-show-panel-status' : ''}}" bindlongpress="handleButtonLongPress" bindtouchstart="handleRecorderManagerStart" bindtouchend="handleRecorderManagerStop" bindtouchcancel="handleRecorderManagerCancel" catchtouchmove='handleRecorderManagerMove'>   
     <image class="remoter-btn-icon" src="{{curBtnImg}}" ></image>
     <text class="remoter-btn-text">{{btnContent}}</text>
   </view>
