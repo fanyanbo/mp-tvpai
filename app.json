@@ -31,14 +31,14 @@
     }
   },
   "networkTimeout": {
-    "request": 20000 
+    "request": 20000
   },
   "tabBar": {
     "selectedColor": "#FDBE1A",
     "color": "#333",
-    "position":"top",
-    "backgroundColor":"#fff",
-    "borderStyle":"black",
+    "position": "top",
+    "backgroundColor": "#fff",
+    "borderStyle": "black",
     "list": [
       {
         "pagePath": "pages/index/index",
@@ -49,5 +49,6 @@
         "text": "我的"
       }
     ]
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }

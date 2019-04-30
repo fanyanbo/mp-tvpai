@@ -125,8 +125,7 @@ height: 374rpx;
 margin-left: 20rpx;
 display: inline-block;
 border-radius: 8rpx;
-vertical-align: top
-
+vertical-align: top;
 }
 .scroll-view_x .item_list:nth-child(1){
   margin-left: 40rpx

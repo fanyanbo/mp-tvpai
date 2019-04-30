@@ -1,6 +1,6 @@
 <!--影片列表  -->
 <view class='movieList' wx:if="{{contentAll!=null&&contentAll.length>0}}">
-  <view class='item' wx:for="{{contentAll}}" wx:for-item="item">
+  <view class='item' wx:for="{{contentAll}}" wx:for-item="item" wx:if="{{item.album_title != ''}}">
     <form bindsubmit="movieclick">
     <navigator url="../movieDetail/movieDetail?id={{item.third_album_id}}" bindtap="movieclick" hover-class="none" data-id="{{item.third_album_id}}">
       <image class="listImg" src='{{item.video_poster}}'></image>
