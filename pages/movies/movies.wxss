@@ -17,10 +17,3 @@ input{width: 94%;margin: 0 auto;height: 75rpx;line-height: 75rpx;background: #ee
 
 .movieList{overflow-y:scroll;height:90%;}
 .movieList .item{margin-top: 5%;}
-.indexFixed{
-  position: fixed;
-  top:0;
-  left:0;
-  bottom:0;
-  right:0;
-}

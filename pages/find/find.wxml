@@ -1,4 +1,4 @@
-<view class='container {{bWholePageFixed ? "indexFixed" : ""}}'>
+<view class="container">
   <!--banners  -->
   <view class="banner">
     <swiper indicator-dots="{{indicatorDots}}" circular="true" autoplay="{{autoplay}}" indicator-color="{{indicatorColor}}" indicator-active-color="{{indicatorActiveColor}}" interval="{{interval}}" duration="{{duration}}" bindchange="listenSwiper">
@@ -41,5 +41,5 @@
 </view>
 
 <view>
-  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}" bindrcshowevent='onRCShowEvent'></remotecontrol>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
 </view>

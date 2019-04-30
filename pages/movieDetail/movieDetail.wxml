@@ -1,5 +1,5 @@
 <!--pages/movieDetail.wxml-->
-<view class='cntainer {{(proInfoWindow || bWholePageFixed)?"indexFixed":""}}' >
+<view class='cntainer {{proInfoWindow?"indexFixed":""}}' >
 <!--影片信息  -->
 <view class="top">
   <view class='movieDetail'>
@@ -80,7 +80,7 @@
 </view>
 </view>
 <view>
-  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}" bindrcshowevent='onRCShowEvent'></remotecontrol>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
 </view>
 <!--详情弹窗 -->
 <view wx:if="{{chooseSize}}" class='maskLayer' data-tap='description' bindtap='hideModal'></view>

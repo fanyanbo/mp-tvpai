@@ -31,13 +31,7 @@ label.active{color: red;}
   vertical-align: middle;
   margin-top: -10rpx
 }
-.indexFixed{
-  position: fixed;
-  top:0;
-  left:0;
-  bottom:0;
-  right:0;
-}
+
 /*新增样式  */
 /* .tabAll,.tabOpen{display: inline-block;}
 .tabAll:before,.tabOpen:before{display: inline-block;content:'';background: url(../../images/open.png) no-repeat;background-size:contain;width: 30rpx;height: 22rpx;margin-right: 15rpx;vertical-align: middle;}

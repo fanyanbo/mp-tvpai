@@ -1,7 +1,7 @@
 <!--pages/history/history.wxml-->
 
 
-<view class='contant {{bWholePageFixed ? "indexFixed" : ""}}' wx:if="{{historyList!=null&&historyList.length>0}}">
+<view class="contant" wx:if="{{historyList!=null&&historyList.length>0}}">
 <view wx:for="{{historyList}}" wx:key="key">
   <view class="title">{{item.time}}</view>
   <view class="list" wx:for="{{item.list}}" wx:key="key" data-albumid="{{item.album_id}}" data-id="{{item.id}}" bindtap='select'>
@@ -56,5 +56,9 @@
 </view>
 
 <view>
-  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}" bindrcshowevent='onRCShowEvent'></remotecontrol>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
 </view>
+
+
+
+

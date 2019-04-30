@@ -1,4 +1,4 @@
-    <view class='{{bWholePageFixed ? "indexFixed" : ""}}'>      
+    <view>      
         <view class="input-area">
           <text style="float:left">设备名称</text>
           <navigator class="edit" url="../edit/edit?deviceId={{deviceId}}&bind={{bind}}">
@@ -11,7 +11,7 @@
       </form>
     </view>
     <view>
-      <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}" bindrcshowevent='onRCShowEvent'></remotecontrol>
+      <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
     </view>
     <!-- 弹窗 -->
     <view wx:if="{{chooseSize}}" class='maskLayer' bindtap='hideModal'></view>

@@ -1,4 +1,4 @@
-<view class='main-wrapper {{bWholePageFixed ? "indexFixed" : ""}}'>
+<view class="main-wrapper">
   <view class="search-box-wrapper">
     <view class="search-box" bindtap='handleSearchTap'>
       <image src="../../images/ser_icon.png" class="search-icon"></image>
@@ -77,5 +77,5 @@
   </scroll-view>
 </view>
 <view>
-  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}" bindrcshowevent='onRCShowEvent'></remotecontrol>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
 </view>
