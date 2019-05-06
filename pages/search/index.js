@@ -128,7 +128,7 @@ Page({
     let tvId = JSON.parse(e.currentTarget.dataset.keyword.video_url).tvId; //添加推送历史使用，不明白为什么有这些命名？
     let video_title = e.currentTarget.dataset.keyword.video_title;
     let coocaa_m_id = e.currentTarget.dataset.keyword.coocaa_m_id;
-    console.log(app.globalData.deviceId, third_album_id, tvId, video_title, coocaa_m_id);
+    console.log(app.globalData.deviceId, third_album_id, segment_index, tvId, video_title, coocaa_m_id);
     this.pushEpisode(app.globalData.deviceId, third_album_id, segment_index, tvId, video_title, coocaa_m_id);
   },
   // 推送电影
