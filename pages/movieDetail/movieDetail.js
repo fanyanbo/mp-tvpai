@@ -40,7 +40,7 @@ Page({
   onLoad: function (options) {
     utils.showToastBox('加载中...', "loading")
     movieDetail(this, options.id)
-    //_oqy_225915601/_oqy_233071001
+    //_oqy_225915601/_oqy_47vnmfes0000
   },
 
   /**
@@ -344,21 +344,22 @@ function moviesItem(that, movieId) {
   let params = { "third_album_id": movieId, "page_size": updated_segment };
   let desParams = utils_fyb.paramsAssemble_tvpai(params);
   utils_fyb.request(api.getTvSegmentListUrl, 'GET', desParams,  function (res) {
-    console.log("===============-------剧集")
-    console.log(res.data.data)
-
+    console.log("===============-------剧集")    
+    if (that.data.movieType == "纪录片"){
+      console.log(res.data.data.reverse())
+    }else{
+      console.log(res.data.data)
+    }    
     if (res.data.data) {
-      console.log(res.data.data.length)
       for (let i = 0; i < res.data.data.length; i++) {
         that.data.video_url.push(JSON.parse(res.data.data[i].video_url).tvId)
       }
+
       that.setData({
         moviesItem: res.data.data,
         length: res.data.data.length,
         video_url: that.data.video_url
-      })  
-      console.log('video_url:', that.data.video_url)
-
+      })
     }
   }, function (res) {
     console.log('streams fail:')
@@ -385,6 +386,7 @@ function push(that, movieId, deviceId, moviechildId, _type, tvid, coocaamid, tit
     paramsStr = { "ccsession": wx.getStorageSync("new_cksession"), "coocaamid": coocaamid, "deviceId": deviceId + '', "movieId": movieId, "moviechildId": moviechildId + '' }
   }
   console.log("参数")
+  console.log(moviechildId)
   console.log(paramsStr)
   var sign = utils.encryption(paramsStr, app.globalData.key)
   wx.request({
