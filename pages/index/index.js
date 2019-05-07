@@ -1,5 +1,6 @@
 const utils_fyb = require('../../utils/util_fyb');
 const api_fyb = require('../../api/api_fyb');
+const njApi = require('../../api/api_nj.js');
 const app = getApp();
 
 Page({
@@ -253,11 +254,12 @@ Page({
           app.globalData.activeId = null;
           app.globalData.deviceId = null;
         }
+        utils_fyb.storeBindedTVStatus(app.globalData.activeId);
       },
       function (res) {
         console.log('getBindDeviceList error', res)
+        utils_fyb.storeBindedTVStatus(app.globalData.activeId);
       }
     )
   }
 });
-

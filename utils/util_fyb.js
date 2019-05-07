@@ -7,6 +7,7 @@
 
 const md5 = require('md5_fyb.js');
 const api = require('../api/api_fyb');
+const njApi = require('../api/api_nj');
 const app = getApp();
 
 // 公共方法
@@ -298,6 +299,23 @@ function checkIphoneFullScreenModel({ platform, model }) {
   return !!(platform.match(/ios/i) && model.match(/iphone x/i))
 }
 
+//存储被绑定设备状态： 小维AI版本是否支持小程序
+function storeBindedTVStatus(activeId) {
+  console.log('storeBindedTVStatus. activeId: ', activeId);
+  function storage(bSupport) {
+    console.log('storeBindedTVStatus bBindedTVSupportMP:' + bSupport);
+    wx.setStorageSync('bBindedTVSupportMP', bSupport);
+  }
+  njApi.refreshBindedTVStatusAsync(activeId)
+    .then(storage)
+    .catch(() => console.log('storeBindedTVStatus storage error.'));
+}
+function getBindedTVStatus(){
+  let res = !!wx.getStorageSync('bBindedTVSupportMP');
+  console.log('getBindedTVStatus bBindedTVSupportMP:' + res);
+  return res;
+}
+
 //判断字符串是否是json格式：如果parse能够转换成功，转换后类型为object且不等于null
 function isJson (str) {
   if (typeof str == 'string') {
@@ -331,5 +349,7 @@ module.exports = {
   showLoadingToast: showLoadingToast,
   getTvsource: getTvsource,
   checkIphoneFullScreenModel: checkIphoneFullScreenModel,
+  storeBindedTVStatus: storeBindedTVStatus,
+  getBindedTVStatus: getBindedTVStatus,
   isJson: isJson
 }
