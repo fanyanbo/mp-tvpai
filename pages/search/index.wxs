@@ -20,7 +20,12 @@ function getStrLength(str) {
     return realLength;
 }
 
+function getReverse(arr) {
+    return arr.reverse();
+}
+
 module.exports = {
     getHighLightItems: getHighLightItems,
-    getStrLength: getStrLength
+    getStrLength: getStrLength,
+    getReverse: getReverse
 }
