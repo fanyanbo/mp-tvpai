@@ -288,6 +288,7 @@ Component({
    _checkBindedTVStatus({type = 'tap'} = {}) {
       console.log('_checkBindedTVStatus in, type: '+type)
       //step 1: 是否绑定设备
+      this.data.activeid = app.globalData.activeId;
       if (this.data.activeid == null) {
         this._showModalUnbindTV()
         return false
