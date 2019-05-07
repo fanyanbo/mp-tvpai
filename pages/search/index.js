@@ -125,7 +125,7 @@ Page({
     })
     let third_album_id = e.currentTarget.dataset.keyword.third_album_id;
     let segment_index = e.currentTarget.dataset.index; // 更换了一种方式，直接用索引值
-    let video_url = e.currentTarget.dataset.keyword.video_detail.play_source.video_url;
+    let video_url = e.currentTarget.dataset.keyword.video_url;
     let tvId = utils.isJson(video_url) ? JSON.parse(video_url).tvId : ""; //添加推送历史使用，不明白为什么有这些命名？
     let video_title = e.currentTarget.dataset.keyword.video_title;
     let coocaa_m_id = e.currentTarget.dataset.keyword.coocaa_m_id;
