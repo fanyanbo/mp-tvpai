@@ -298,6 +298,24 @@ function checkIphoneFullScreenModel({ platform, model }) {
   return !!(platform.match(/ios/i) && model.match(/iphone x/i))
 }
 
+//判断字符串是否是json格式：如果parse能够转换成功，转换后类型为object且不等于null
+function isJson (str) {
+  if (typeof str == 'string') {
+    try {
+      let obj = JSON.parse(str);
+      if (typeof obj == 'object' && obj) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      console.log('error: ' + str + '!!!' + e);
+      return false;
+    }
+  }
+  return false;
+}
+
 module.exports = {
   request: request,
   requestP: requestP,
@@ -312,5 +330,6 @@ module.exports = {
   showFailedToast: showFailedToast,
   showLoadingToast: showLoadingToast,
   getTvsource: getTvsource,
-  checkIphoneFullScreenModel: checkIphoneFullScreenModel
+  checkIphoneFullScreenModel: checkIphoneFullScreenModel,
+  isJson: isJson
 }
