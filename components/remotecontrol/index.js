@@ -262,9 +262,13 @@ Component({
       //step 2:是否支持小程序
      if (!this.data.bBindedTVSupportMP) {
         console.log("bBindedTVSupportMP false.")
+       let tips = '当前电视暂不支持遥控，请到电视\r\n\"我的应用-小维AI-关于我们\"\r\n检测升级';
+       if(type == 'longpress'){
+         tips = '当前电视暂不支持遥控，请到电视\r\n\"我的应用-小维AI-关于我们\"检测升级,升级后请重新进入小程序';
+       }
         wx.showModal({
           title: '温馨提示',
-          content: '当前电视暂不支持遥控，请到电视\r\n\"我的应用-小维AI-关于我们\"\r\n检测升级',
+          content: tips,
           showCancel:false,
           confirmText:'知道了',
         })
