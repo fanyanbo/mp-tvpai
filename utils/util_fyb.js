@@ -7,6 +7,7 @@
 
 const md5 = require('md5_fyb.js');
 const api = require('../api/api_fyb');
+const njApi = require('../api/api_nj');
 const app = getApp();
 
 // 公共方法
@@ -298,6 +299,44 @@ function checkIphoneFullScreenModel({ platform, model }) {
   return !!(platform.match(/ios/i) && model.match(/iphone x/i))
 }
 
+//刷新并存储被绑定设备状态： 
+function refreshBindedTVStatus(activeId) {
+  console.log('refreshBindedTVStatus. activeId: ', activeId);
+  return new Promise(function(resolve,reject){
+    njApi.isTVSupportMP(activeId)
+      .then((res) => { storeBindedTVStatus(res); resolve(res); })
+      .catch(() => console.log('refreshBindedTVStatus storage error.'));
+  })
+}
+//存储被绑定设备状态： 小维AI版本是否支持小程序
+function storeBindedTVStatus(bSupport) {
+  console.log('storeBindedTVStatus. bSupport: ', bSupport);
+  wx.setStorageSync('bBindedTVSupportMP', bSupport);
+}
+function getBindedTVStatus(){
+  let res = !!wx.getStorageSync('bBindedTVSupportMP');
+  console.log('getBindedTVStatus bBindedTVSupportMP:' + res);
+  return res;
+}
+
+//判断字符串是否是json格式：如果parse能够转换成功，转换后类型为object且不等于null
+function isJson (str) {
+  if (typeof str == 'string') {
+    try {
+      let obj = JSON.parse(str);
+      if (typeof obj == 'object' && obj) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      console.log('error: ' + str + '!!!' + e);
+      return false;
+    }
+  }
+  return false;
+}
+
 module.exports = {
   request: request,
   requestP: requestP,
@@ -312,5 +351,9 @@ module.exports = {
   showFailedToast: showFailedToast,
   showLoadingToast: showLoadingToast,
   getTvsource: getTvsource,
-  checkIphoneFullScreenModel: checkIphoneFullScreenModel
+  checkIphoneFullScreenModel: checkIphoneFullScreenModel,
+  refreshBindedTVStatus: refreshBindedTVStatus,
+  storeBindedTVStatus: storeBindedTVStatus,
+  getBindedTVStatus: getBindedTVStatus,
+  isJson: isJson
 }

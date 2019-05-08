@@ -130,6 +130,43 @@ class Api {
     let url = 'https://user.coocaa.com/tvpaiNew/push/checkOnline?activeId='
     this._post(url + options.data.activeid, options.data, options.success, options.fail, options.complete)
   }
+
+  //刷新被绑定设备状态（小维AI版本是否支持小程序）
+  isTVSupportMP(activeid) {
+    let that = this;
+    return new Promise(function (resolve, reject) {
+      console.log('isTVSupportMP, activeid:' + activeid)
+      let bBindedTVSupportMP = false;
+      if (!activeid) { //如果没绑定设备，不获取直接resolve交给后续流程
+        resolve(bBindedTVSupportMP)
+        return;
+      }
+      let dataOnline = {
+        activeid: activeid
+      }
+      that.isTVOnline({
+        data: dataOnline,
+        success(res) {
+          console.log("isTVOnline success res:" + JSON.stringify(res))
+          if (res.supportApplet == "yes") {//TV小维AI版本支持遥控
+            bBindedTVSupportMP = true
+          } else {
+            bBindedTVSupportMP = false
+          }
+          resolve(bBindedTVSupportMP)
+        },
+        fail(res) {
+          console.log("isTVOnline fail:" + res)
+          // wx.showToast({
+          //   title: '获取失败请重试',
+          //   icon: 'none',
+          //   image: '../../images/components/remotecontrol/close@3x.png'
+          // })
+          resolve(bBindedTVSupportMP)//fail时，如何toast提示用户？
+        }
+      });
+    })
+  } 
 }
 
 module.exports = new Api();

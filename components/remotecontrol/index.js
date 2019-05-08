@@ -3,6 +3,7 @@ let plugin = requirePlugin("WechatSI")
 let manager = plugin.getRecordRecognitionManager()
 const njApi = require('../../api/api_nj')
 const authApi = require('../../api/api_auth')
+const utils_fyb = require('../../utils/util_fyb')
 const app = getApp();
 
 Component({
@@ -249,45 +250,11 @@ Component({
         }
       })
     },
-    _refreshBindedTVStatusAsync() {//刷新设备状态
-      let that = this;
-      return new Promise(function (resolve, reject) {
-        that.data.activeid = app.globalData.activeId;//获取最新绑定设备激活ID
-        console.log('refresh tv status, activeid:' + that.data.activeid)
-        let dataOnline = {
-          activeid: that.data.activeid
-        }
-        if (!that.data.activeid) {
-          resolve()
-          return;
-        }
-        njApi.isTVOnline({
-          data: dataOnline,
-          success(res) {
-            console.log("isTVOnline success res:" + JSON.stringify(res))
-            if (res.supportApplet == "yes") {//TV小维AI版本支持遥控
-              that.data.bBindedTVSupportMP = true
-            } else {
-              that.data.bBindedTVSupportMP = false
-            }
-            resolve()
-          },
-          fail(res) {
-            console.log("isTVOnline fail:" + res)
-            // wx.showToast({
-            //   title: '获取失败请重试',
-            //   icon: 'none',
-            //   image: '../../images/components/remotecontrol/close@3x.png'
-            // })
-            resolve()//fail时，如何toast提示用户？
-          }
-        });
-      })
-    },    
     //检查当前绑定设备状态，是否满足遥控器操作需要的条件: 1. 是否已绑定设备 2. 是否支持小程序 3.是否在线  4. (长按录音时）是否有录音权限
    _checkBindedTVStatus({type = 'tap'} = {}) {
       console.log('_checkBindedTVStatus in, type: '+type)
       //step 1: 是否绑定设备
+      this.data.activeid = app.globalData.activeId;
       if (this.data.activeid == null) {
         this._showModalUnbindTV()
         return false
@@ -295,9 +262,13 @@ Component({
       //step 2:是否支持小程序
      if (!this.data.bBindedTVSupportMP) {
         console.log("bBindedTVSupportMP false.")
+       let tips = '当前电视暂不支持遥控，请到电视\r\n\"我的应用-小维AI-关于我们\"\r\n检测升级';
+       if(type == 'longpress'){
+         tips = '当前电视暂不支持遥控，请到电视\r\n\"我的应用-小维AI-关于我们\"检测升级,升级后请重新进入小程序';
+       }
         wx.showModal({
           title: '温馨提示',
-          content: '当前电视暂不支持遥控，请到电视\r\n\"我的应用-小维AI-关于我们\"\r\n检测升级',
+          content: tips,
           showCancel:false,
           confirmText:'知道了',
         })
@@ -313,9 +284,10 @@ Component({
       }
       return true
     },
-    _checkBindedTVStatusAsync({ type = 'tap' } = {}) {//检查当前绑定设备状态(异步)
-      console.log('_checkBindedTVStatusAsync')
+    _checkBindedTVStatusAsync({ type = 'tap', bSupportMP = false } = {}) {//检查当前绑定设备状态(异步)
+      console.log('_checkBindedTVStatusAsync, type:' + type + ', bSupportMP: ' + bSupportMP)
       let that = this
+      that.data.bBindedTVSupportMP = bSupportMP;
       return new Promise(function (resolve, reject) {
         if (that._checkBindedTVStatus({type})) {
           that.data.bBindedTVReady = true;
@@ -351,8 +323,8 @@ Component({
         //fix 2: 如果一直是支持的，但没有去初始化状态，导致第一次tap时会去后台获取状态，但ui没反应。
         if (that.data.bTapStatus) { //tap 
           if(!that.data.isShowMainPanel){
-            that._refreshBindedTVStatusAsync()
-              .then(() => that._checkBindedTVStatusAsync())
+            utils_fyb.refreshBindedTVStatus(app.globalData.activeId)
+              .then((res) => that._checkBindedTVStatusAsync({ bSupportMP:res}))
               .then(() => that._toggleMainPanel())
               .catch(() => console.warn('tap promise. bBindedTVReady:' + that.data.bBindedTVReady))
           }else {
@@ -370,6 +342,9 @@ Component({
       console.log('[RC] longpress ...')
       this.data.bTapStatus = false;
       this.data.bLongPressStatus = true;
+      if (!this.data.isShowMainPanel){
+        this.data.bBindedTVSupportMP = utils_fyb.getBindedTVStatus();//长按前从本地存储获取一次状态
+      }
       if (!this._checkBindedTVStatus({ type: 'longpress' })) {
         console.log('[RC]longpress TV not ready')
         return
