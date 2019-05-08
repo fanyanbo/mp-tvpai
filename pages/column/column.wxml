@@ -3,7 +3,7 @@
   <view class='item' wx:for="{{contentAll}}" wx:for-item="item" wx:if="{{item.album_title != ''}}">
     <form bindsubmit="movieclick">
     <navigator url="../movieDetail/movieDetail?id={{item.third_album_id}}" bindtap="movieclick" hover-class="none" data-id="{{item.third_album_id}}">
-      <image class="listImg" src='{{item.video_poster}}'></image>
+      <image class="listImg" src='{{item.video_poster}}' mode="aspectFill"></image>
       <text class='describe'>{{item.album_title}}</text>
     </navigator>
     </form>
