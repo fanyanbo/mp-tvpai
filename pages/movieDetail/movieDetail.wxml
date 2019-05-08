@@ -3,7 +3,7 @@
 <!--影片信息  -->
 <view class="top">
   <view class='movieDetail'>
-    <image src='{{movieData.video_poster}}' class='haibao'></image>
+    <image src='{{movieData.video_poster}}' class='haibao' mode="aspectFill"></image>
     <view class='describe'>
       <ul>
         <li class="intwoline title">{{movieData.album_title}}</li>
