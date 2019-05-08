@@ -132,10 +132,10 @@ class Api {
   }
 
   //刷新被绑定设备状态（小维AI版本是否支持小程序）
-  refreshBindedTVStatusAsync(activeid) {
+  isTVSupportMP(activeid) {
     let that = this;
     return new Promise(function (resolve, reject) {
-      console.log('refresh tv status, activeid:' + activeid)
+      console.log('isTVSupportMP, activeid:' + activeid)
       let bBindedTVSupportMP = false;
       if (!activeid) { //如果没绑定设备，不获取直接resolve交给后续流程
         resolve(bBindedTVSupportMP)

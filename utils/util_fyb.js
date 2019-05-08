@@ -299,16 +299,19 @@ function checkIphoneFullScreenModel({ platform, model }) {
   return !!(platform.match(/ios/i) && model.match(/iphone x/i))
 }
 
+//刷新并存储被绑定设备状态： 
+function refreshBindedTVStatus(activeId) {
+  console.log('refreshBindedTVStatus. activeId: ', activeId);
+  return new Promise(function(resolve,reject){
+    njApi.isTVSupportMP(activeId)
+      .then((res) => { storeBindedTVStatus(res); resolve(res); })
+      .catch(() => console.log('refreshBindedTVStatus storage error.'));
+  })
+}
 //存储被绑定设备状态： 小维AI版本是否支持小程序
-function storeBindedTVStatus(activeId) {
-  console.log('storeBindedTVStatus. activeId: ', activeId);
-  function storage(bSupport) {
-    console.log('storeBindedTVStatus bBindedTVSupportMP:' + bSupport);
-    wx.setStorageSync('bBindedTVSupportMP', bSupport);
-  }
-  njApi.refreshBindedTVStatusAsync(activeId)
-    .then(storage)
-    .catch(() => console.log('storeBindedTVStatus storage error.'));
+function storeBindedTVStatus(bSupport) {
+  console.log('storeBindedTVStatus. bSupport: ', bSupport);
+  wx.setStorageSync('bBindedTVSupportMP', bSupport);
 }
 function getBindedTVStatus(){
   let res = !!wx.getStorageSync('bBindedTVSupportMP');
@@ -349,6 +352,7 @@ module.exports = {
   showLoadingToast: showLoadingToast,
   getTvsource: getTvsource,
   checkIphoneFullScreenModel: checkIphoneFullScreenModel,
+  refreshBindedTVStatus: refreshBindedTVStatus,
   storeBindedTVStatus: storeBindedTVStatus,
   getBindedTVStatus: getBindedTVStatus,
   isJson: isJson

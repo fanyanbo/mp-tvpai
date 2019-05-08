@@ -319,7 +319,7 @@ Component({
         //fix 2: 如果一直是支持的，但没有去初始化状态，导致第一次tap时会去后台获取状态，但ui没反应。
         if (that.data.bTapStatus) { //tap 
           if(!that.data.isShowMainPanel){
-            njApi.refreshBindedTVStatusAsync(app.globalData.activeId)
+            utils_fyb.refreshBindedTVStatus(app.globalData.activeId)
               .then((res) => that._checkBindedTVStatusAsync({ bSupportMP:res}))
               .then(() => that._toggleMainPanel())
               .catch(() => console.warn('tap promise. bBindedTVReady:' + that.data.bBindedTVReady))
@@ -338,7 +338,9 @@ Component({
       console.log('[RC] longpress ...')
       this.data.bTapStatus = false;
       this.data.bLongPressStatus = true;
-      this.data.bBindedTVSupportMP = utils_fyb.getBindedTVStatus();//长按前从本地存储获取一次状态
+      if (!this.data.isShowMainPanel){
+        this.data.bBindedTVSupportMP = utils_fyb.getBindedTVStatus();//长按前从本地存储获取一次状态
+      }
       if (!this._checkBindedTVStatus({ type: 'longpress' })) {
         console.log('[RC]longpress TV not ready')
         return

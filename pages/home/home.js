@@ -202,7 +202,7 @@ Page({
         app.globalData.activeId = null;
         app.globalData.deviceId = null;
       }
-      utils_fyb.storeBindedTVStatus(app.globalData.activeId);
+      utils_fyb.refreshBindedTVStatus(app.globalData.activeId);
     }, function () {
       console.log('getDeviceList error');
     }, function () {
