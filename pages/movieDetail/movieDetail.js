@@ -412,11 +412,11 @@ function push(that, movieId, deviceId, moviechildId, _type, tvid, coocaamid, tit
         addpushhistory(that, movieId,title, tvid);//保存推送历史
         utils.showToastBox("推送成功", "success")
       } else {
-        utils_fyb.showFailedToast(res.data.message, '../../images/close_icon.png');
+        utils_fyb.showFailedToast('推送失败请重试', '../../images/close_icon.png');
       }
     },
     fail: function (res) {
-      utils_fyb.showFailedToast(res.data.message, '../../images/close_icon.png');
+      utils_fyb.showFailedToast('推送失败请重试', '../../images/close_icon.png');
     }
   })
 }
