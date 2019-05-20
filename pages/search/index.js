@@ -143,8 +143,9 @@ Page({
     utils.showLoadingToast('推送中...')
     let third_album_id = e.currentTarget.dataset.keyword.video_detail.third_album_id;
     let video_title = e.currentTarget.dataset.keyword.video_title;
-    let coocaa_m_id = e.currentTarget.dataset.keyword.video_detail.play_source.coocaa_m_id;
-    let video_url = e.currentTarget.dataset.keyword.video_detail.play_source.video_url;
+    let video_detail = e.currentTarget.dataset.keyword.video_detail;
+    let coocaa_m_id = (video_detail.play_source && video_detail.play_source.coocaa_m_id) ? video_detail.play_source.coocaa_m_id : "";
+    let video_url = video_detail.play_source.video_url;
     let tvId = utils.isJson(video_url) ? JSON.parse(video_url).tvId : "";
     console.log(app.globalData.deviceId, third_album_id, video_title, coocaa_m_id, tvId);
     this.pushMovie(app.globalData.deviceId, third_album_id, video_title, tvId, coocaa_m_id);

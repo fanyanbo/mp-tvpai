@@ -261,16 +261,15 @@ function movieDetail(that, movieId) {
   let params = { "third_album_id": movieId};
   let desParams = utils_fyb.paramsAssemble_tvpai(params);
   utils_fyb.request(api.getVideoDetailUrl, 'GET', desParams, function (res) {
-    console.log("影片详情====")
-    console.log(res)
-    var ccsession = wx.getStorageSync("new_cksession")
-    console.log("检测ccsession：" + ccsession);
+    console.log("影片详情结果:", res)
+    let ccsession = wx.getStorageSync("new_cksession")
+    console.log("检测ccsession:" + ccsession);
     if (res.data.data) {
-      var tags = res.data.data.video_tags
+      let tags = res.data.data.video_tags
       tags = tags.toString().split(',')
-      var tagArr = []
+      let tagArr = []
       if (tags != null && tags.length > 3) {
-        var temp = tags[0] + '.' + tags[1] + '.' + tags[2]
+        let temp = tags[0] + '.' + tags[1] + '.' + tags[2]
         tagArr.push(temp)
       }
       if (res.data.data.is_collect == 1) {//是否收藏
@@ -282,13 +281,15 @@ function movieDetail(that, movieId) {
           likeShow: false
         })    
       }
+      let _coocaa_m_id = (res.data.data.play_source && res.data.data.play_source.coocaa_m_id) ? res.data.data.play_source.coocaa_m_id : ""
+      let _tvId = (res.data.data.play_source && res.data.data.play_source.video_third_id) ? res.data.data.play_source.video_third_id : ""
       that.setData({
         movieData: res.data.data,
         tags: tagArr,
         movieType: res.data.data.video_type,
         prompt_info: res.data.data.prompt_info,
-        coocaa_m_id:res.data.data.play_source.coocaa_m_id,
-        tvId: res.data.data.play_source.video_third_id,
+        coocaa_m_id: _coocaa_m_id,
+        tvId: _tvId,
         updated_segment: res.data.data.updated_segment
       })
       likes(that, movieId)
@@ -344,7 +345,7 @@ function moviesItem(that, movieId) {
   let params = { "third_album_id": movieId, "page_size": updated_segment };
   let desParams = utils_fyb.paramsAssemble_tvpai(params);
   utils_fyb.request(api.getTvSegmentListUrl, 'GET', desParams,  function (res) {
-    console.log("===============-------剧集")    
+    console.log("剧集结果：", res)    
     if (that.data.movieType == "纪录片"){
       console.log(res.data.data.reverse())
     }else{
