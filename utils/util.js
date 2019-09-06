@@ -1,4 +1,8 @@
 var md5 = require('md5.js')
+const api = require('../api/api.js');
+var app = getApp()
+
+
 
 function formatTime( date ) {
   var year = date.getFullYear()
@@ -90,20 +94,40 @@ function setParams(params){
   }else {
     var result = '';
     for (var key in params) {
-      if (params[key] == null || params[key] == "") continue;
-      result += key + params[key];
+      if (params[key] == null || params[key] === "") continue;
+      result += key + '=' + params[key] + '&';
     }
-    return result.substr(0, result.length);
+    return result.substr(0, result.length - 1);
   }
 
 }
 //md5加密
-function encryption(paramsStr, k){
-  var str = setParams(paramsStr) + k
-  var sign = md5.hexMD5(str)
-   console.log(sign)
+function encryption(paramsStr, k) {
+  var str = setParams(paramsStr)
+  var sign = md5.hexMD5(str + k)
   return sign
 }
+
+//首页调用
+function setParamsIndex(params) {
+  if (isEmptyObject(params)) {
+    return ""
+  } else {
+    var result = '';
+    for (var key in params) {
+      if (params[key] === null || params[key] === "") continue;
+      result += key + params[key];
+    }
+    return result.substr(0, result.length);
+  }
+}
+
+function encryptionIndex(paramsStr, k) {
+  var str = setParamsIndex(paramsStr)
+  var sign = md5.hexMD5(str + k)
+  return sign
+}
+
 
 //数组查找操作
 function contains(a, obj) {
@@ -182,168 +206,87 @@ function json2Form(json) {
   }
   return str.join("&");
 }
-//判断用户是否登录酷开账号
+
+//checkUsers
+function checkUsers() {
+  let key = getApp().globalData.key
+  let ccsession = wx.getStorageSync('new_cksession')
+  let paramsStr = { "ccsession": ccsession }
+  let sign = encryption(paramsStr, key)
+  console.log(getApp().globalData.client_id + sign + paramsStr);
+  wx.request({
+    url: api.checkUserUrl,
+    method: 'GET',
+    data: {
+      client_id: getApp().globalData.client_id,
+      sign: sign,
+      param: paramsStr
+    },
+    success: function (res) {
+      
+      if (res.data && res.data.result) {
+        console.log("checkUser:")
+        console.log(res)
+        wx.setStorageSync('userid', res.data.data.userid)
+        wx.setStorageSync('username', res.data.data.username)
+        wx.setStorageSync('mobile', res.data.data.mobile)
+      }
+    },
+    error:function(){
+    
+    }
+  })
+}
+
+
 function coocaaLogin() {
   var mobile = wx.getStorageSync('mobile')
-  var username = wx.getStorageSync('username')
+  var userid = wx.getStorageSync('userid')
   console.log("mobile" + mobile)
-  if (username != null && username != '') {
+  if (userid != null && userid != '') {
     return true
   } else {
     showToastBox("去登陆酷开账号", "loading")
     //去登陆酷开账号
-    wx.navigateTo({
-      url: '../login/coocaa'
-    });
+    setTimeout(function(){
+      wx.navigateTo({
+        url: '../login/coocaa'
+      });
+    },1000)
     return null
   }
 }
 
 //操作前判断ccsession是否为空
 function ccsessionIs(){
-  var ccsession = wx.getStorageSync("cksession");
+  var ccsession = wx.getStorageSync("cksession")
+  var userInfo = wx.getStorageSync("userInfo")
   //console.log(ccsession == null || ccsession === '' || ccsession == undefined)
-  if (ccsession == null || ccsession === '' || ccsession == undefined) {
-   showToastBox("返回点我的", "loading")
+  if (ccsession == null || ccsession === '' || ccsession == undefined) {  
+  //  if (userInfo == null || userInfo == undefined || userInfo == ''){
+     if (!getApp().globalData.auhtSetting && getApp().globalData.onLine){        
+          getApp().getUserInfo()
+          // showToastBox("去授权登录！", "loading")
+          // wx.switchTab({
+          //   url: '../index/index',
+          // })
+     } else{
+          showToastBox("去授权登录！", "loading")
+          wx.switchTab({
+            url: '../my/my',
+          })
+        }
+    //  return null
+  //  }
+  //  showToastBox("返回点我的", "loading")
     return null
   }
   return true
 }
 
-// countdown
-class CountDown {
-  constructor(options = {}){
-    Object.assign(this, {
-      options,
-    })
-    this.__init()
-  }
-  // 初始化
-  __init(){
-    this.page = getCurrentPages()[getCurrentPages().length - 1]
-    this.setData = this.page.setData.bind(this.page)
-    this.restart(this.options)
-  }
-  // 默认参数
-  setDefaults(){
-    return {
-      date: 'June 10,2022 14:47:48',
-      refresh: 1000,
-      offset: 0,
-      onEnd() {},
-      render(date) {},
-    }
-  }
-  // 合并参数
-  mergeOptions(options){
-    const defaultOptions = this.setDefaults()
-    for (let i in defaultOptions) {
-      if (defaultOptions.hasOwnProperty(i)) {
-        this.options[i] = typeof options[i] !== 'undefined' ? options[i] : defaultOptions[i]
 
-        if (i == 'date' && typeof this.options.date !== 'object'){
-          this.options.date = new Date(this.options.date)
-        }
 
-        if(typeof this.options[i] === 'function'){
-          this.options[i] = this.options[i].bind(this)
-        }
-      }
 
-    }
-    if(typeof this.options.date !== 'object'){
-      this.options.date = new Date(this.options.date)
-    }
-  }
-
-  // 计算日期差
-  getDiffDate() {
-    let diff = (this.options.date.getTime() - Date.now() + this.options.offset) / 1000
-    let dateData = {
-      years: 0,
-      days: 0,
-      hours: 0,
-      min: 0,
-      sec: 0,
-      millisec: 0,
-    }
-    if(diff <= 0){
-      if (this.interval){
-        this.stop()
-        this.options.onEnd()
-      }
-      return dateData
-    }
-    if(diff >= (365.25 * 86400)){
-      dateData.years = Math.floor(diff / (365.25 * 86400))
-      diff -= dateData.years * 365.25 * 86400
-    }
-    if(diff >= 86400) {
-      dateData.days = Math.floor(diff / 86400)
-      diff -= dateData.days * 86400
-    }
-    if(diff >= 3600){
-      dateData.hours = Math.floor(diff / 3600)
-      diff -= dateData.hours * 3600
-    }
-    if(diff >= 60){
-      dateData.min = Math.floor(diff / 60)
-      diff -= dateData.min * 60
-    }
-    dateData.sec = Math.round(diff)
-    dateData.millisec = diff%1*1000
-
-    return dateData
-  }
-  // 补零
-  leadingZeros(num, length = 2){
-    num = String(num)
-    if(num.length > length) return num
-    return (Array(length + 1).join('0') + num).substr(-length)
-  }
-  // 更新组件
-  update(newDate) {
-    this.options.date = typeof newDate != 'object' ? new Date(newDate) : newDate
-    this.render()
-    return this
-  }
-  // 停止倒计时
-  stop(){
-    if(this.interval){
-      clearInterval(this.interval)
-      this.interval = !1
-    }
-    return this
-  }
-  // 渲染组件
-  render(){
-    this.options.render(this.getDiffDate())
-    return this
-  }
-  // 启动倒计时
-  start(){
-    if(this.interval) return !1
-    this.render()
-    if(this.options.refresh){
-      this.interval = setInterval( () => {
-        this.render()
-      },this.options.refresh)
-    }
-    return this
-  }
-  // 更新ofset
-  updateOffset(offset){
-    this.options.offset = offset
-    return this
-  }
-  // 重启倒计时
-  restart(options = {}){
-    this.mergeOptions(options)
-    this.interval = !1
-    this.start()
-    return this
-  }
-}
 //评论点赞时间处理
 function getDateDiff(dateTimeStamp) {
   var result;
@@ -412,15 +355,8 @@ function starGrade(pingfen,i, starClass0, starClass1, starClass2, starClass3, st
   }
 }
 
-
-
-
-
-
 // network post data
-
 function postLoading(url, method, params, success, fail, complete, message){
-  console.log("zy======="+JSON.stringify(params))
   wx.showNavigationBarLoading()
   if (message != '') {
     wx.showLoading({
@@ -459,17 +395,61 @@ function postLoading(url, method, params, success, fail, complete, message){
   })
 }
 
+// 事件收集
+function eventCollect(type, contactId){
+  var that = this
+  const url = api.saveEventLogUrl
+  const key = getApp().globalData.key
+  var ccsession = wx.getStorageSync("cksession")
+  var createTime = Date.parse(new Date())/1000
+  var appid = "wx35b9e9a99fd089a9"
+  var formId = wx.getStorageSync("formid")
+  var paramsStr = { "appid": appid, "ccsession": ccsession,"contactId": contactId +'', "formId": formId +'', "type": type, "wxCreateTime": createTime+''}
+  var sign = encryption(paramsStr, key)
+  var data = {
+    client_id: getApp().globalData.client_id,
+    sign: sign,
+    param: paramsStr
+  }
+  wx.request({
+    url: url,
+    data: {
+      client_id: 'applet',
+      sign: sign,
+      param: paramsStr
+    },
+    method: 'get',
+    header: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    success:res => {
+      if(res.data.result === true){
+        console.log('enevtCollect success!')
+      }
+    },
+    fail: function () {
+      console.log("获取formid失败")
+    },
+    complete:function(){
+      console.log("事件表单接口请求完成")
+    }
+  })
+}
+
 module.exports = {
   formatTime: formatTime,
   isFunction: isFunction,
   parseInteger: parseInt,
+  eventCollect: eventCollect,
   encodeUTF8: encodeUTF8,
   sha1: sha1,
   showLoading: showLoading,
   hideLoading: hideLoading,
   showFailToast: showFailToast,
   setParams: setParams,
+  setParamsIndex: setParamsIndex,
   encryption: encryption,
+  encryptionIndex: encryptionIndex,
   contains: contains,
   toDate: toDate,
   showToastBox: showToastBox,
@@ -477,11 +457,11 @@ module.exports = {
   removeByValue: removeByValue,
   coocaaLogin: coocaaLogin,
   ccsessionIs: ccsessionIs,
-  countDown: CountDown,
   getDateDiff: getDateDiff,
   starGrade: starGrade,
   getDateDiff: getDateDiff,
-  postLoading: postLoading
+  postLoading: postLoading,
+  checkUsers: checkUsers
 }
 
 // export default CountDown

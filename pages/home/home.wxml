@@ -1,0 +1,46 @@
+<view class="container">
+  <view class="{{devices?'none':'no-devices'}}" wx:if="{{isShowDoc}}">
+    <view class="swiper_list">
+      <image src="../../images/help/0.jpg"  mode="widthFix"></image>
+      <image src="../../images/help/1.jpg"  mode="widthFix"></image>
+      <image src="../../images/help/2.jpg"  mode="widthFix"></image>
+      <image src="../../images/help/3.jpg"  mode="widthFix"></image>
+      <image src="../../images/help/4.jpg"  mode="widthFix"></image>
+    </view>
+    <view class="{{bIphoneFullScreenModel ? 'iphone-fullscreen-model' : 'view'}}">
+      <!-- <button class="_binding" bindtap="scan" id="scan">开始扫码绑定</button> -->
+      <button class="_binding" open-type="getUserInfo" id="scan" bindgetuserinfo="bindGetUserInfo">开始扫码绑定</button>
+    </view>
+  </view>
+  <view class="{{devices?'binding':'none'}} " bindtap="navigateto">绑定新设备</view>
+  <view class="{{devices?'mydevices':'none'}} ">
+    <text>我的设备</text>
+  </view>
+  <view wx:for="{{mydevices}}" wx:key="index" class="{{devices?'devices':'none'}}">
+    <view class="device-item device-top-left">
+      <view class="device-top">
+        <text class="device-name inaline">{{item.device.deviceName}}</text>
+        <view class="edit" bindtap="deleteto" data-id="{{item.deviceId}}" data-status="{{item.bindStatus}}" data-name="{{item.device.deviceName}}">编辑</view>
+      </view>
+      <view class="device_info">
+        <view class="device-content">
+          <text class="device-content-left">型号：{{item.device.model}}</text>
+        </view>
+        <view class="device-content">
+          <text class="device-content-left">MAC：{{item.device.devMac}}</text>
+        </view>
+        <view class="device-content">
+          <text class="device-content-left">激活ID：{{item.device.serviceId}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="device-top-right">
+      <image wx:if="{{item.bindStatus == 1}}" class="device-model" src="../../images/binding.png"></image>
+      <view data-deviceid='{{item.deviceId}}' bindtap="handleBindTap" wx:else>绑定</view>
+    </view>
+  </view>
+</view>
+<!-- 遥控器组件 -->
+<view class="{{devices?'bottom':'none'}}">
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
+</view>

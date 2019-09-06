@@ -1,87 +1,180 @@
-<!-- <wxs src="./index.wxs" module="tools" /> -->
-
-<view class="main-wrapper" bindtap='handleMainTap'>
-<!-- 返回-->
-<view class="return-box-wrapper">
-  <view class="return-box" style="top:{{paddingTop}}px" bindtap='handleReturnTap'>
-    <image class="return-icon" src="../../images/Icons-back.png" ></image>
-    <text class="return-text">{{titleContent}}</text>
-  </view>
-</view>
-
-<!-- 搜索框-->
-<view class='search-wrapper'>
-  <view class='search-box-wrapper'>
-    <image class="search-icon" src='../../images/scan.png' bindtap='query'></image>
-    <input class="search-text" type='text' placeholder='输入你想要的内容' confirm-type='search' focus="{{isFocus}}" value="{{inputValue}}" bindinput='inputBind' bindconfirm='query'></input>
-    <image class="delete-icon" src='../../images/Icons-menu.png' bindtap='handleDeteteTap' wx:if="{{inputValue}}"></image>
-  </view>
-  <text class="btn-text" bindtap='handleCancelTap'>取消</text>
-</view>
-
-<!-- 搜索输入内容-->
-<view class='search-input-wrapper' wx:if="{{currentContent === 'search-input-content'}}">
-  <view class='search-history-wrapper'>
-    <view class='title-wrapper'>
-      <view class='title'>搜索历史</view>
-      <view class='clear' bindtap='handleClearTap'>清空历史</view>
+<!-- author:fanyanbo
+  email:fanyanbo@coocaa.com
+  todo:
+  1.搜索关键字高亮，可抽成组件
+  2.加载更多，可抽成组件
+  3.每集介绍待优化，支持指定行数显示 -->
+<wxs src="./index.wxs" module="tools" />
+<view class="main-wrapper">
+  <!-- 搜索框 优化点：扩大点击区域-->
+  <view class='search-wrapper'>
+    <view class='search-box-wrapper'>
+      <view class="search-icon-wrapper" bindtap='query'><image class="search-icon" src='../../images/ser_icon.png'></image></view>
+      <input name="input" class="search-text" placeholder-class="place-holder" placeholder="{{inputPlaceholder.keyword}}" confirm-type='search' focus="true" value="{{inputValue}}" bindinput='inputBind' bindconfirm='query'></input>
+      <view class="delete-icon-wrapper" bindtap='handleDeteteTap' wx:if="{{inputValue}}"><image class="delete-icon" src='../../images/delete@2x.png'></image></view>
     </view>
-    <view class='line'></view>
-    <view class='content-wrapper'>
-      <view class='history-words' wx:for="{{historyWordsList}}" wx:key="index">
-        <view class="item-value">{{item}}</view>
+  </view>
+  <!-- 搜索输入内容版面（包括搜索历史，热门搜索） -->
+  <view class='search-input-wrapper' wx:if="{{!inputValue || !isShowResult}}">
+    <view class='search-history-wrapper' wx:if="{{historyWordsList && historyWordsList.length != 0}}">
+      <view class='title-wrapper'>
+        <view class='title'>历史搜索</view>
+        <image class="icon-clear" src='../../images/delete@3x.png' bindtap='handleClearTap'></image>
+      </view>
+      <view class='items-wrapper'>
+        <view class='history-words' bindtap="onKeywordTap" data-keyword="{{item}}" wx:for="{{historyWordsList}}" wx:key="index">
+          {{item}}
+        </view>
+      </view>
+    </view>
+    <view class='hot-search-wrapper' wx:if="{{hotKeywordsList && hotKeywordsList.length != 0}}">
+      <view class='title-wrapper'>
+        <view class='title'>热门搜索</view>
+      </view>
+      <!-- 1.可以考虑使用伪类 2.可以考虑使用wxs 3.可以考虑用if-else -->
+      <view class="content-wrapper">
+        <view class='hot-words' wx:for="{{hotKeywordsList}}" wx:key="index">
+          <!-- wxs写法：<view class="item-key {{tools.getStyleClass(index)}}">{{index+1}}</view> -->
+          <text class="item-key">{{index+1}}</text>
+          <view class="item-value" bindtap="onKeywordTap" data-keyword="{{item.keyword}}">
+            {{item.keyword}}
+          </view>
+        </view>
       </view>
     </view>
   </view>
-  <view class='hot-search-wrapper'>
-    <view class='title'>热门搜索</view>
-    <view class='line'></view>
-    <!-- 1.可以考虑使用伪类 2.可以考虑使用wxs 3.可以考虑用if-else -->
-    <view class="content-wrapper">
-      <view class='hot-words' wx:for="{{hotWordsList}}" 
-    wx:key="index">
-        <!-- wxs写法：<view class="item-key {{tools.getStyleClass(index)}}">{{index+1}}</view> -->
-        <view class="item-key">{{index+1}}</view>
-        <view class="item-value">{{item}}</view>
-      </view>
+  <!-- 搜索结果内容版面 -->
+  <view class="result-title-wrapper" wx:if="{{inputValue && isShowResult}}">
+    <view wx:for="{{resultTitleList}}" wx:key="index" class="list_item {{activeIndex == index ? 'on' : ''}}" bindtap="handleTabClick" data-index="{{index}}">
+      {{item}}
     </view>
   </view>
-</view>
-
-<!-- 搜索结果内容-->
-<view class='search-result-wrapper' wx:if="{{currentContent === 'search-result-content'}}">
-  <view class="result-title-wrapper">
-    <view wx:for="{{resultTitleList}}" wx:key="index" class="list_item {{activeIndex == index ? 'on' : ''}}" bindtap="handleTabClick" data-index="{{index}}">{{item}}</view>
-  </view>
-  <view class="search-content-wrapper">
-    <view class="video-content" style="display:{{activeIndex !== 0 ? 'none' : 'block'}}">
-      <block class="video-content-list" wx:for="{{videoContentList}}" wx:key="index">
-        <view class="video-content-item" >
-          <view class="video-content-left">
-            <image class="left-img" src="{{item.videoItemImg}}" />
-          </view>  
-          <view class="video-content-right" >
-            <view class="right-title-wrapper">
-              <text class="right-title">{{item.videoItemTitle}}</text>
-              <text class="right-score">{{item.videoItemScore}}</text>
-            </view> 
-            <view class="right-detail-wrapper">
-              <view class="right-detail">{{item.VideoItemDetail.year}}</view>
-              <view class="right-detail">{{item.VideoItemDetail.director}}</view>
-              <view class="right-detail">{{item.VideoItemDetail.actor}}</view>
-              <view class="right-detail">{{item.VideoItemDetail.type}}</view>
+  <view class="video-content" wx:if="{{inputValue && isShowResult}}" style="display:{{activeIndex !== 0 ? 'none' : 'block'}}">
+    <scroll-view scroll-y="true" style="height: {{scrollHeight}}px" bindscrolltoupper="upper" bindscrolltolower="lower">
+      <block class="video-content-list" wx:for="{{searchResultList}}" wx:key="index">
+        <!-- 每一大项布局 -->
+        <view class="video-content-item {{ index === 0 ? 'item-first' : ''}}">
+          <!-- 影片海报布局 -->
+          <view class="item-poster">
+            <view class="item-poster-left" bindtap="handleJumpTap" data-item="{{item}}">
+              <image class="left-img" src="{{item.video_poster}}" />
             </view>
-            <view class="right-push">{{pushText}}</view>
+            <view class="item-poster-right">
+              <!-- 高亮关键字 这种写法显示会有问题，待研究 -->
+              <!-- <view class='right-title-wrapper'>
+                <text wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="{{index}}" class="{{item == inputValue ? 'searchHigh' : '' }}">{{item}}</text>
+              </view> -->
+              <block wx:if="{{tools.getStrLength(item.video_title) > 22}}">
+                <view class='right-title-wrapper' bindtap="handleJumpTap" data-item="{{item}}">
+                  <block wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="{{index}}">
+                    <text class="{{item == inputValue ? 'searchHigh' : '' }}">{{item}}</text>
+                  </block>
+                </view>
+              </block>
+              <block wx:else>
+                <view class='right-title-wrapper2' bindtap="handleJumpTap" data-item="{{item}}">
+                  <block wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="{{index}}">
+                    <text class="{{item == inputValue ? 'searchHigh' : '' }}">{{item}}</text>
+                  </block>
+                </view>
+              </block>
+              <view class="right-detail-wrapper" bindtap="handleJumpTap" data-item="{{item}}">
+                <!-- 填坑：数据不完整 -->
+                <view class="right-score" wx:if="{{item.video_detail.score === '0.0'}}">8.5<span>分</span></view>
+                <view class="right-score" wx:else>{{item.video_detail.score}}<span>分</span></view>
+                <view class="right-detail" wx:if="{{item.video_detail.video_type == '电影'}}">
+                   · {{item.video_detail.video_type}} · {{item.video_detail.video_tags}} {{item.video_detail.actor}}
+                </view>
+                <view class="right-detail" wx:else>
+                   · {{item.video_detail.video_type}} · {{item.video_detail.video_tags}}
+                </view>
+              </view>
+              <view class="right-push-wrapper">
+                <!-- <view class="like" data-keyword="{{item.video_detail}}" bindtap="handleLikeTap">
+                  <block wx:if="{{isLike && item.video_detail.third_album_id == curThirdAlbumId}}">
+                    <image class="icon" src="../../images/like_after.png"></image>
+                  </block>
+                  <block wx:else>
+                    <image class="icon" src="../../images/like_before.png"></image>
+                  </block>
+                </view> -->
+                <view class="push" wx:if="{{item.episodes_list == null}}" data-keyword="{{item}}" bindtap="handleMovieTap">
+                  <image class="icon" src="../../images/collect_before.png" />
+                </view>
+              </view>
+            </view>
+          </view>
+          <!-- 电视剧推送布局,剧集只显示数字，1,2,3 -->
+          <view class="item-push" wx:if="{{item.video_detail.video_type == '电视剧'}}">
+            <view class="tips" bindtap="handleJumpTap" data-item="{{item}}">
+              <image class="left" src="../../images/push@2x.png"></image>
+              <text class="center">投屏</text>
+              <image class="right" src="../../images/arrow@2x.png"></image>
+            </view>
+            <scroll-view class="episode2" scroll-x style="width: 100%">
+              <block wx:for="{{item.episodes_list}}" wx:key="index" wx:for-item="item2">
+                <view wx:if="{{(item.video_detail.updated_segment === 0) || (index < item.video_detail.updated_segment)}}" class="scroll-view-item2 {{ index === 0 ? 'episode-first2' : '' }} {{ (item2.segment_index == curIndex && item2.video_third_id == curThirdId) ? 'active' : 'inactive' }}" bindtap="handleEpisodeTap" data-keyword="{{item2}}" data-index="{{index}}" hover-class="noimplement">
+                  {{item2.segment_index}}
+                </view>
+              </block>
+            </scroll-view>
+          </view>
+          <!-- 电影推送布局,啥都不显示 -->
+          <view wx:elif="{{item.video_detail.video_type == '电影'}}"></view>
+          <!-- 纪录片推送布局，倒序排列 -->
+          <view class="item-push" wx:elif="{{item.video_detail.video_type == '纪录片'}}">
+            <view class="tips" bindtap="handleJumpTap" data-item="{{item}}">
+              <image class="left" src="../../images/push@2x.png"></image>
+              <text class="center">投屏</text>
+              <image class="right" src="../../images/arrow@2x.png"></image>
+            </view>
+            <scroll-view class="episode" scroll-x style="width: 100%">
+              <block wx:for="{{tools.getReverse(item.episodes_list)}}" wx:key="index">
+                <view class="scroll-view-item {{ index === 0 ? 'episode-first' : '' }} {{(item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" data-index="{{index}}" hover-class="noimplement">
+                  <view class="idx">第 {{item.segment_index}} 期</view>
+                  <view class="desc">{{item.video_title}}</view>
+                </view>
+              </block>
+            </scroll-view>
+          </view>
+          <!-- 综艺、游戏、儿童，生活等类目推送布局，剧集有介绍 -->
+          <view class="item-push" wx:else>
+            <view class="tips" bindtap="handleJumpTap" data-item="{{item}}">
+              <image class="left" src="../../images/push@2x.png"></image>
+              <text class="center">投屏</text>
+              <image class="right" src="../../images/arrow@2x.png"></image>
+            </view>
+            <scroll-view class="episode" scroll-x style="width: 100%">
+              <block wx:for="{{item.episodes_list}}" wx:key="index">
+                <!-- 仅仅index还不能唯一标识一个资源 -->
+                <view class="scroll-view-item {{ index === 0 ? 'episode-first' : '' }} {{(item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" data-index="{{index}}" hover-class="noimplement">
+                  <view class="idx">第 {{item.segment_index}} 期</view>
+                  <view class="desc">{{item.video_title}}</view>
+                </view>
+              </block>
+            </scroll-view>
           </view>
         </view>
       </block>
-    </view>
-    <view class="article-content" style="display:{{activeIndex !== 1 ? 'none' : 'block'}}">1</view>
+      <!-- 点击查看更多 -->
+      <view class="content-more" bindtap="handleMoreTap" wx:if="{{searchResultList.length !== 0 && hasMore === 1}}">
+        点击查看更多
+      </view>
+      <!-- 无搜索内容时显示 -->
+      <view class="video-noresult-wrapper" wx:if="{{searchResultList.length === 0 && isShowNoResult}}">
+        <image class="noresult-icon" src='../../images/no-result@3x.png'></image>
+      </view>
+    </scroll-view>
+  </view>
+  <view wx:if="{{inputValue}}" style="display:{{activeIndex !== 1 ? 'none' : 'block'}}">
+    <scroll-view scroll-y="true" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll">
+      <view class="article-noresult-wrapper">
+        <image class="noresult-icon" src='../../images/no-result@3x.png'></image>
+      </view>
+    </scroll-view>
   </view>
 </view>
-
-</view>
-
+<!-- 遥控器 -->
 <view>
-  <remotecontrol id="remotecontrol-id"></remotecontrol>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
 </view>

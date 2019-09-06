@@ -1,5 +1,45 @@
-<!--pages/find/find.wxml-->
-<text>pages/find/find.wxml</text>
+<view class="container">
+  <!--banners  -->
+  <view class="banner">
+    <swiper indicator-dots="{{indicatorDots}}" circular="true" autoplay="{{autoplay}}" indicator-color="{{indicatorColor}}" indicator-active-color="{{indicatorActiveColor}}" interval="{{interval}}" duration="{{duration}}" bindchange="listenSwiper">
+      <block wx:for="{{banners}}" wx:key="">
+        <navigator url="../cinecism/cinecism?id={{item.articleId}}">
+          <swiper-item>    
+            <image class="slide-image" src="{{item.articlePicUrl}}"></image>
+            <text class="banner-text">{{item.articleTitle}} </text>
+          </swiper-item>
+        </navigator>
+      </block>
+    </swiper>
+  </view>
+  <!--streams  -->
+  <view class="stream">
+    <block wx:for="{{streams}}" wx:key="*this">
+      <view class="{{item.createTime == 'period' ? 'none' : 'period'}}">
+        <text>{{item.createTime ? item.createTime : ''}}</text>
+      </view>
+      <navigator url="../cinecism/cinecism?id={{item.articleId}}">
+        <view class="{{item.articleType == 0?'stream-item':'none'}}">
+          <image src="{{item.articlePicUrl}}" mode="aspectFill" class="stream-img"></image>
+          <view class="stream-item-title">
+            <text class="stream-title">{{item.articleTitle}}</text>
+            <text class="stream-time">{{item.articleReadTime}}分钟可读完</text><span class="verticalLine"> | </span><text class="stream-time stream-time-left">作者：{{item.articleAuthor}}</text>
+          </view>
+        </view>
+        <view class="{{item.articleType == 1?'stream-topic-item':'none'}}">
+            <text class="topic-item-type">话题</text>
+            <text class="topic-item-title">{{item.articleTitle}}</text>
+            <text class="topic-item-time">{{item.articleReadTime}}分钟可读完</text>
+        </view>
+      </navigator>
+    </block>
+  </view>
+  <!--no more data  -->
+  <view class="{{hasMoreData?'none':'more-data'}}">
+    <text>没有更多内容</text>
+  </view>
+</view>
+
 <view>
-  <remotecontrol></remotecontrol>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
 </view>

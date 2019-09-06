@@ -1,79 +1,95 @@
 <!--components/remotecontrol/index.wxml-->
-<view>
+
+<view class="{{bIphoneFullScreenModel ? 'iphone-fullscreen-model' : ''}}">
+  <view class="remoter-panel-mask" wx:if="{{isShowMainPanel}}" bindtap="handleTapMask">
+  </view>
   <!-- 按键遥控器版面 -->
-  <view class="remoter-panel-wrapper" wx:if="{{indexStatus === 'RemoteControl'}}">
-    <view class="voice-control-wrapper">
-      <image  src="../../images/btn-activity.png" class="btn-add btn-control" wx:if="{{homeActivity}}"></image>
-      <image  src="../../images/btn-normal.png" class="btn-add btn-control" wx:else="{{homeActivity}}"></image>
-      <image  src="../../images/btn-activity.png" class="btn-control" wx:if="{{backActivity}}"></image>
-      <image  src="../../images/btn-normal.png" class="btn-control" wx:else="{{backActivity}}"></image>
-      <image  src="../../images/btn-activity.png" class="btn-redce btn-control" wx:if="{{menuActivity}}"></image>
-      <image  src="../../images/btn-normal.png" class="btn-redce btn-control" wx:else="{{menuActivity}}"></image>
-      <image  src="../../images/Icons-home.png" class="btn-add-icon" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="home"></image>
-      <image  src="../../images/Icons-back.png" class="btn-back-icon" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="back"></image>
-      <image  src="../../images/Icons-menu.png" class="btn-redce-icon" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="menu"></image>
+  <view class="remoter-panel-wrapper origin-pos {{bIphoneFullScreenModel ? 'iphone-fullscreen-model' : ''}}" animation="{{animationData}}" wx:if="{{indexStatus === 'RemoteControl'}}" >
+
+    <!-- 上面区域-->
+    <view class="header-wrapper">
+      <view class="shutdown-icon {{isShutdownFocus ? 'control-focus' : ''}}">
+        <image src="../../images/components/remotecontrol/shutdown@3x.png" class="control-icon"></image>
+      </view>
+      <view class='first-btn-touch-zone' bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd"  id="shutdown"></view>
+      <view class=" volup-icon {{isVolupFocus ? 'control-focus' : ''}}">
+      <image src="{{curVolUpImg}}" class="control-icon"></image>
+      </view>
+      <view class='snd-btn-touch-zone'  bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="volume_plus"></view>
+      <view class=" voldown-icon {{isVoldownFocus ? 'control-focus' : ''}}">
+      <image src="{{curVolDownImg}}" class="control-icon"></image>
+      </view>
+      <view class='last-btn-touch-zone' bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="volume_minus"></view>
     </view>
-    <!-- 上下左右按钮 -->
+
+    <!-- 中间区域-->
     <view class="center-wrapper">
-      <view class="center-btn-up-wrapper" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="up">
+      <view class="center-control">
+        <view class="center-control-left" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="left"></view>
+        <view class="center-control-right" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="right"></view>
+        <view class="center-control-up" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="up"></view>
+        <view class="center-control-down" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="down"></view>
+        <image class="center-control-icon" src="{{curDirectorImg}}" ></image>
+        <view class="center-ok" catchtouchstart="handlePushController" catchtouchend="handlePushControllerEnd" catchtouchcancel="handlePushControllerEnd" id="ok">
+          <image class="center-ok-icon"src="{{curConfirmImg}}"></image>
+        </view>
       </view>
-      <image  src="../../images/Button_up_activity.png" class="center-btn-up" wx:if="{{upActivity}}"></image>
-      <image  src="../../images/Button_up.png" class="center-btn-up" wx:else="{{upActivity}}"></image>
-      <view class="center-btn-down-wrapper"  bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="down">
-      </view>
-      <image  src="../../images/Button_down_activity.png" class="center-btn-down" wx:if="{{downActivity}}"></image>
-      <image  src="../../images/Button_down.png" class="center-btn-down" wx:else="{{downActivity}}"></image>
-      <view class="center-btn-left-wrapper"  bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd"  id="left">
-      </view>
-      <image  src="../../images/Button_left_activity.png" class="center-btn-left" wx:if="{{leftActivity}}"></image>
-      <image  src="../../images/Button_left.png" class="center-btn-left" wx:else="{{leftActivity}}"></image>
-      <view class="center-btn-right-wrapper"  bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="right">
-      </view>
-      <image  src="../../images/Button_right_activity.png" class="center-btn-right" wx:if="{{rightActivity}}"></image>
-      <image  src="../../images/Button_right.png" class="center-btn-right" wx:else="{{rightActivity}}"></image>
-      <view class='centers-wrapper'  id="ok" catchtouchstart="handlePushController" catchtouchend="handlePushControllerEnd">
-        
-      </view>
-        <image  src="../../images/btn-activity.png" class="center-background-activity" wx:if="{{centerActivity}}"></image> 
-        <image  src="../../images/btn-normal.png" class="center-background" wx:else></image>
     </view>
-    <view class="voice-control-wrapper">
-      <image  src="../../images/btn-activity.png" class="btn-add btn-control" wx:if="{{volumePlusActivity}}"></image>
-      <image  src="../../images/btn-normal.png" class="btn-add btn-control" wx:else="{{volumePlusActivity}}"></image>
-      <image  src="../../images/btn-activity.png" class="btn-redce btn-control" wx:if="{{volumeMinusActivity}}"></image>
-      <image  src="../../images/btn-normal.png" class="btn-redce btn-control" wx:else="{{volumeMinusActivity}}"></image>
-      <image  src="../../images/Icons-volume-add.png" class="btn-add-icon" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="volume_plus"></image>
-      <image  src="../../images/Icons-volume-reduce.png" class="btn-redce-icon" bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" id="volume_minus"></image>
+
+    <!-- 下面区域-->
+    <view class="footer-wrapper">
+      <view class=" home-icon {{isHomeFocus ? 'control-focus' : ''}}" >
+      <image src="{{curHomeImg}}" class="control-icon"></image>
+      </view>
+      <view class='first-btn-touch-zone' bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="home"></view>
+      <view class=" return-icon {{isBackFocus ? 'control-focus' : ''}}">
+      <image src="{{curBackImg}}" class="control-icon"></image>
+      </view>
+      <view class='snd-btn-touch-zone'  bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="back"></view>
+      <view class=" menu-icon {{isMenuFocus ? 'control-focus' : ''}}">
+      <image src="{{curMenuImg}}" class="control-icon"></image>
+      </view>
+      <view class='last-btn-touch-zone'  bindtouchstart="handlePushController" bindtouchend="handlePushControllerEnd" bindtouchcancel="handlePushControllerEnd" id="menu"></view>
     </view>
   </view>
 
   <!-- 语音输入版面 -->
   <view class="remoter-panel-wrapper" wx:if="{{indexStatus === 'VoiceInput'}}">
-    <view class="voice_icon_wrapper">
-      <image  src="../../images/Icons-mic.png" class="icon-mic"></image>
-    </view> 
-    <view class="tip-wrapper">
-      <text class="tip-text">{{oneTip}}</text>
+    <view class='voice-input-wrapper'>
+      <view class='input-progress-zone'>
+        <image class='input-icon' src="../../images/components/remotecontrol/icon-mic@2x.png"></image>
+        <canvas canvas-id='canvasCircle' class='input-progressbar'></canvas>
+      </view>
+      <view class='input-content-zone'>
+        {{ query }}
+      </view>
+      <view class='input-tips-zone'>
+        <view wx:for="{{aInputTips}}">
+          {{item}}
+        </view>
+      </view>
     </view>
   </view>
 
   <!-- 语音结果版面 -->
   <view class="remoter-panel-wrapper" wx:if="{{indexStatus === 'VoiceResult'}}">
-    <view class="voice_icon_wrapper">
-      <image  src="../../images/Icons-loading.png" class="icon-loading"></image>
-    </view> 
-    <view class="tip-wrapper">
-      <text class="tip-text">{{oneTip}}</text>
-    </view>
+  <view class='voice-result-wrapper'>
+    <image src="../../images/components/remotecontrol/icon-voiceok@2x.png" class='voice-result-ok'></image>
+    <text>语音已发送</text>
+  </view>
   </view>
 
 </view>
 
 <!-- 遥控器按钮 -->
-<view class="remoter-btn-wrapper">
-  <image  src="../../images/Button_disable.png" class="remoter-btn-bg"></image>
-  <view class="remoter-btn {{voiceInputStatus ? 'remoter-btn-voice' : ''}}" bindtap="handleTap" bindlongpress="handleLongTap" bindtouchstart="handleRecorderManagerStart" bindtouchend="handleRecorderManagerStop">
-    <image  src="../../images/Icons_voice.png" class="remoter-btn-icon"></image>
-    <text class="remoter-btn-text {{voiceInputStatus ? 'remoter-btn-text-voice' : ''}}">{{btnContent}}</text>
+<view class="remoter-btn-wrapper {{bIphoneFullScreenModel ? 'iphone-fullscreen-model' : ''}}">
+  <view class="remoter-btn-tips" wx:if="{{isShowTips && !bStartRecord}}">      
+    <text class="remoter-tips-text">{{tipsContent}}</text>
+    <image class="remoter-tips-icon" bindtap="handleBtnTipsClosed" src="../../images/components/remotecontrol/close@3x.png" ></image>
+  </view>
+   <!-- bindtap="handleButtonTap" -->
+  <view class="remoter-btn {{bStartRecord ? 'btn-input-status' : ''}} {{isShowMainPanel ? 'btn-show-panel-status' : ''}}" bindlongpress="handleButtonLongPress" bindtouchstart="handleRecorderManagerStart" bindtouchend="handleRecorderManagerStop" bindtouchcancel="handleRecorderManagerCancel" catchtouchmove='handleRecorderManagerMove'>   
+    <image class="remoter-btn-icon" src="{{curBtnImg}}" ></image>
+    <text class="remoter-btn-text">{{btnContent}}</text>
   </view>
 </view>

@@ -1,14 +1,14 @@
-//app.jss
-
-var utils = require('utils/util.js');
-let { WeToast } = require('toast/wetoast.js')
+const utils = require('utils/util.js');
+const api = require('api/api.js');
+const utils_fyb = require('utils/util_fyb.js');
 
 // 使用登录凭证 code 获取 session_key 和 openid
 function login(rawData, code, encryptedData, iv, signature) {
-  var url = getApp().globalData.ROOTUrl + 'appletAPI/getSession.coocaa'
-  var paramsStr = { "appid": "wx45e46c7c955eebf1", "jscode": code }
-  var key = getApp().globalData.key
-  var sign = utils.encryption(paramsStr, key)
+  console.log("code：" + code);
+  let url = api.getSessionUrl
+  let paramsStr = { "appid": "wx35b9e9a99fd089a9", "jscode": code } //wx45e46c7c955eebf1 wx35b9e9a99fd089a9
+  let key = getApp().globalData.key
+  let sign = utils.encryption(paramsStr, key)
   wx.request({
     url: url,
     data: {
@@ -21,28 +21,24 @@ function login(rawData, code, encryptedData, iv, signature) {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     success: res => {
-      var data = res.data;
+      let data = res.data;
       if (data.result) {
-        console.log("进来了")
-
-        var cksession = data.data.ccsession
-        console.log("返回数据")
-        console.log(data)
-        wx.setStorageSync('cksession', cksession)
-        getApp().globalData.ccsession = cksession
-        //定时器判断ccsession是否失效
-        //countTime()
+        console.log(res)
+        console.log(data.data.wxopenid+"----进来了----" + data.data.ccsession)
+        let cksession = data.data.ccsession
+        let wxopenid = data.data.wxopenid
+        wx.setStorageSync('new_cksession', cksession)
+        wx.setStorageSync('wxopenid', wxopenid)
+        getApp().globalData.new_cksession = cksession
         console.log("setStorageSync cksession:" + cksession)
         decryptUser(rawData, encryptedData, iv, cksession, signature)
         console.log("登录返回数据：")
         console.log(data.data.mobile)
-        var mobile = data.data.mobile
-        var username = data.data.username
-        //把mobile和username存下来
+        let mobile = data.data.mobile
+        let username = data.data.username
         wx.setStorageSync('mobile', mobile)
         wx.setStorageSync('username', username)
-        console.log(mobile)
-        utils.showToastBox("成功", "success")
+        wx.setStorageSync('userid', data.data.userid)
       }
     },
     fail: function () {
@@ -53,15 +49,13 @@ function login(rawData, code, encryptedData, iv, signature) {
 
 //解密获取用户数据
 function decryptUser(rawData, encryptedData, iv, cksession, signature) {
-  var url = getApp().globalData.ROOTUrl + 'appletAPI/getuserinfo.coocaa'
-  var key = getApp().globalData.key
-  cksession = wx.getStorageSync('cksession')
-  // console.log("getStorageSync cksession:" + cksession)
+  let url = api.getuserinfoUrl
+  let key = getApp().globalData.key
+  cksession = wx.getStorageSync('new_cksession')
   rawData = encodeURI(rawData, 'utf-8')
-  var paramsStr = { "ccsession": cksession, "encryptedData": encryptedData, "iv": iv, "rawData": rawData, "signature": signature }
-  var sign = utils.encryption(paramsStr, key)
-  //console.log("cksession" + cksession)
-  var dataStr = utils.json2Form({ client_id: 'applet', sign: sign, param: '{"ccsession":"' + cksession + '","encryptedData":"' + encryptedData + '","iv":"' + iv + '","rawData":"' + rawData + '","signature":"' + signature + '"}' })
+  let paramsStr = { "ccsession": cksession, "encryptedData": encryptedData, "iv": iv, "rawData": rawData, "signature": signature }
+  let sign = utils.encryption(paramsStr, key)
+  let dataStr = utils.json2Form({ client_id: 'applet', sign: sign, param: '{"ccsession":"' + cksession + '","encryptedData":"' + encryptedData + '","iv":"' + iv + '","rawData":"' + rawData + '","signature":"' + signature + '"}' })
   wx.request({
     url: url,
     data: dataStr,
@@ -70,155 +64,93 @@ function decryptUser(rawData, encryptedData, iv, cksession, signature) {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     success: res => {
-      var data = res.data;
-      console.log(data.message)
+      console.log('解密用户信息成功', res)
     },
     fail: function () {
-      console.log("解密用户信息失败!")
+      console.log("解密用户信息失败")
     }
   })
 }
 
-
-function countTime() {
-  var count = 0;
-  var n = wx.getStorageSync('cksession')
-  var i = setInterval(function () {
-    var d = new Date()
-    if (n === null || n === '') {
-      count++;
-      console.log(d.toLocaleString() + "---------------失效了")
-      if (count == 3) {
-        clearInterval(i);
-      }
-    } else {
-      console.log(d.toLocaleString() + "---------------" + n)
-    }
-  }, 1000)
-}
-
-
 App({
-  WeToast,
   onLaunch: function () {
-    var that = this
-
-    // that.globalData.source = wx.getStorageSync('source')
-
-    //调用API从本地缓存中获取数据
-    wx.getStorageInfo({
-      success: function (res) {
-
-      }
+    console.log('onLaunch.')
+    let that = this;
+    wx.getSystemInfo({
+      success: function(res) {
+        that.globalData.bIphoneFullScreenModel = utils_fyb.checkIphoneFullScreenModel({ platform: res.platform, model: res.model })
+        console.log('bIphoneFullScreenModel: ', that.globalData.bIphoneFullScreenModel)
+      },
     })
   },
   onLoad: function () {
-
   },
   onShow: function () {
-    this.getUserInfo()
-  },
-  getlocalUserSecret: function () {
-    var that = this
-    wx.getStorage({
-      key: 'userSecret',
-      success: function (res) {
-        if (res.data) {
-          console.log('get userSecret from storage:' + res.data)
-          that.debug('get userSecret from storage:' + res.data)
-          that.globalData.userSecret = res.data
-          that.getBindStatus()
-        } else {
-          wx.removeStorage({
-            key: 'userSecret',
-            success: function (res) {
-              console.log(res.data)
-            }
-          })
-          that.getUserID()
-        }
-      },
-      fail: function () {
-        console.log('get userSecret from storage failed')
-        that.debug('get userSecret from storage failed')
-        that.getUserID()
-      }
-    })
   },
   getUserInfo: function (cb) {
-    var that = this
-    // wx.clearStorageSync(that.globalData.userInfo)
-    wx.checkSession({
-      success: function (res) {
-        that.globalData.username = wx.getStorageSync('username')
-        console.log("登录状态没过期")
-        console.log(res)
-      },
-      fail: function (res) {
-        console.log("登录状态已过期")
-        wx.clearStorageSync(that.globalData.userInfo)
-        //重新登录
-        wx.login({
-          success: function (e) {
-            // console.log(e)
-            var code = e.code
-            wx.getUserInfo({
-              success: function (res) {
-                console.log(res)
-                var encryptedData = res.encryptedData
-                var iv = res.iv;
-                var rawData = res.rawData
-                var signature = res.signature
-                that.globalData.userInfo = res.userInfo
-                wx.setStorageSync('that.globalData.userInfo', that.globalData.userInfo)
-                typeof cb == "function" && cb(that.globalData.userInfo)
-                login(rawData, code, encryptedData, iv, signature)
-              }
-            })
-          }
-        })
-      }
-    })
-  },
-  debug: function (log) {
-    var date = new Date()
-    var year = date.getFullYear()
-    var month = date.getMonth() + 1
-    var day = date.getDate()
-
-    var hour = date.getHours()
-    var minute = date.getMinutes()
-    var second = date.getSeconds()
-
-    var time = year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second + '  '
-    // console.log(time)
-
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(time + log)
-    wx.setStorageSync('logs', logs)
+    let that = this
+    let tvSource = wx.getStorageSync("tvSource");
+    if (tvSource == null || tvSource === '' || tvSource == undefined){
+      wx.setStorageSync('tvSource', 'iqiyi')
+    }else{
+      that.globalData.tvSource = wx.getStorageSync('tvSource')
+    }
+    let ccsession = wx.getStorageSync("new_cksession")
+    if (ccsession == null || ccsession === '' || ccsession == undefined) {
+      console.log("登录状态已过期" + ccsession)
+      wx.clearStorageSync(that.globalData.userInfo)
+      wx.login({
+        success: function (e) {
+          let code = e.code
+          wx.getUserInfo({
+            success: function (res) {
+              console.log(res)
+              let encryptedData = res.encryptedData
+              let iv = res.iv;
+              let rawData = res.rawData
+              let signature = res.signature
+              that.globalData.userInfo = res.userInfo
+              wx.setStorageSync('userInfo', res.userInfo)
+              typeof cb == "function" && cb(that.globalData.userInfo)
+              login(rawData, code, encryptedData, iv, signature)
+            },
+            fail: function () {
+              console.log("未获得用户信息")
+            }
+          })
+        }
+      })
+    } else {
+      that.globalData.username = wx.getStorageSync('username')
+      console.log("登录状态没过期")
+    }
   },
   globalData: {
-    ROOTUrl: 'https://tvpi.coocaa.com',
     username: wx.getStorageSync("username"),
     mobile: null,
     userInfo: null,
     userSecret: null,
     devicesID: null,
     source: null,
-    appkey: '5cc090ddad6e4544815a0026e9a735a4',
-    secret:'cd8a62acc6164b27a9af4d29de8eeebd',
+    key: '9acd4f7d5d9b87468575b240d824eb4f',
     client_id: 'applet',
     movieIdsList: '',
     coocaaLogin: false,
-    ccsession: '',
-    time: Math.round(new Date().getTime() / 1000).toString()
+    auhtSetting: false,
+    new_cksession: '',
+    onLine: '',
+    activeId: null, //语音遥控推送使用
+    deviceId: null, //影片推送使用
+    isShowTips: true,
+    time: () => {return Math.round(new Date().getTime() / 1000).toString();},
+    appkey: '5cc090ddad6e4544815a0026e9a735a4',
+    secret: 'cd8a62acc6164b27a9af4d29de8eeebd',
+//    tvSource: wx.getStorageSync("tvSource"),
+    version_code: 33,
+    bIphoneFullScreenModel:false,
   }
 })
 
-
-
-
 module.exports = {
-  login: login,
-  countTime: countTime
+  login: login
 }

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "推送历史",
+  "usingComponents": {
+    "remotecontrol": "../../components/remotecontrol/index"
+  } 
+}

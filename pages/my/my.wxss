@@ -1,44 +1,110 @@
-/**index.wxss**/
-page{
-  width: 100%;
-  height: 100%;
+/* 清除button默认样式 */
+button::after {
+  border:none;
 }
-.container{
-  width: 100%;
-  height: 100%;
-}
-.nav {
-  height: 80rpx;
-  width: 100%;
+.mylabel {
+  position: relative;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  margin: 0 40rpx;
   box-sizing: border-box;
+  background: #fff
+}
+.mylabel .title {
+  font-size: 32rpx;
+  color: #000000;
+  margin-left: 20rpx
+}
+.mylabel .more {
+  position: absolute;
+  font-size:28rpx;
+  color:#999;
+  right: 24rpx;
+}
+.mylabel .arrow {
+  position: absolute;
+  height: 24rpx;
+  width: 24rpx;
+  right: 0rpx;
+  margin-top: 2rpx
+}
+.mylabel .my_icon {
+  width: 48rpx;
+  height: 48rpx;
+  margin-top: 8rpx
+}
+.binding{
+  margin-bottom: 40rpx
+}
+.userinfo {
+  position: relative;
+  width: 750rpx;
+  height: 266rpx;
+}
+.userinfo .avatar-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 750rpx;
+  position: relative;
+}
+.avatar-wrapper .avatar {
+  position: absolute;
+  width: 132rpx;
+  height: 132rpx;
+  border-radius: 50%;
+  margin-top: -10rpx;
+  border: 30rpx solid white;
+}
+.avatar-wrapper .name {
+  position: absolute;
+  margin-top: 87rpx;
+  font-size: 30rpx;
+  height: 44rpx;
+  line-height: 44rpx;
+  color: #333;
+  font-weight: bold
+}
+.section{
+  width: 100%;
   overflow: hidden;
-  line-height: 80rpx;
-  background: #f7f7f7;
-  font-size: 16px;
   white-space: nowrap;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 99;
-}
-.nav-item {
-  width: 20%;
-  display: inline-block;
-  text-align: center;
-}
-.nav-item.active{
-  color: red;
-}
-.tab-box{
-  background: greenyellow;
-  position: fixed;
-  top: 100rpx;
-  left: 0;
-  width: 100%;
-  height: 80%;
   box-sizing: border-box;
-  border: 5rpx solid red;
+  height: 208rpx;
 }
-.tab-content{
-  overflow-y: scroll;
+.item_list{
+  width: 210rpx;
+  height: 168rpx;
+  margin-left:20rpx;
+  display: inline-block;
 }
+.scroll_box .item_list:nth-child(1){
+  margin-left: 40rpx
+}
+.item_book_img{
+  width: 210rpx;
+  height: 118rpx;
+  border-radius: 12rpx;
+  margin: 20rpx 0 10rpx 0
+}
+.item_book_text{
+  font-size: 28rpx;
+  text-align: left;
+  color: #666;
+  height: 40rpx;
+  line-height: 40rpx;
+  width: 210rpx;
+}
+.inaline{
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis
+}
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+

@@ -1,0 +1,255 @@
+<!--pages/detail/detail.wxml-->
+<form bindsubmit="formSubmit" report-submit="true">
+   <button id="eventBbutton" name="collectEvent" formType="submit" bindtap='collectEvent'class="button-hover" hover-class="other-button-hover"></button>
+   <label for="eventBbutton">
+<view class="container">
+
+
+ <view class="cinecism">
+
+<view class="cinecism_relative">
+ <view class="floatRight">
+       <view class="title font-size-xl">{{movieData.title}}</view> 
+
+    <!--描述  -->
+      <!-- <text class="font-size-xs">{{movieData.publish_date}}|{{movieData.publish_area}}|{{movieData.video_tags}}|{{movieData.sub_title}}</text>  -->
+       <view class="font-size-xs">
+       <text wx:if="{{movieData.publish_date!=null&&movieData.publish_date.length>0}}">{{movieData.publish_date}} | </text>
+       <text wx:if="{{movieData.publish_area!=null&&movieData.publish_area.length>0}}">{{movieData.publish_area}} | </text>
+       <text wx:if="{{tags!=null&&tags.length>0}}">{{tags}} | </text>
+       <text wx:if="{{movieData.sub_title!=null&&movieData.sub_title.length>0}}">{{movieData.sub_title}}</text>
+       
+       </view>
+       
+</view>   
+<view class="grayBlack"></view>
+    <!--评分-->
+<view class="pingfen">
+      <ul>
+      <li class="{{starClass0 ? 'starAll':'starGray'}}"></li>
+      <li class="{{starClass1 ? 'starAll':'starGray'}}"></li>
+      <li class="{{starClass2 ? 'starAll':'starGray'}}"></li>
+      <li class="{{starClass3 ? 'starAll':'starGray'}}"></li>
+      <li class="{{starClass4 ? 'starAll':'starGray'}}"></li>
+      <li class="font-size-xs" data-pingfen="{{movieData.score}}" >{{movieData.score}}</li>
+      <div class="clear"></div>
+      </ul>
+ </view>
+<!--封面-->
+ <image class="cinecism_img" src="{{imgH[0]}}" mode="aspectFill"/> 
+</view> 
+<!--标题-->
+<view class="cinecism_title font-size-xl">
+{{movieData.source_name}}
+</view>
+<view class="cinecism_content font-size-ns">
+{{contentData.attributes[2].text}}
+</view>
+
+</view>  
+
+
+
+<!--影视card-->
+
+<view class="cinecism_card">
+  <view class="cinecism_card_footer">
+    <!--收藏影片-->
+    <view data-moviesid="{{movieData.id}}" bindtap="collectMovie" class="inline" wx:if="{{loadData.isCollectionMovie == 'no'}}">
+       <view class="collect_logo">
+          <image src="{{collectIcon == '1'?'../../images/collect_icon.png':'../../images/collect_icon2.png'}}" data-title="" data-mediaid="" data-index="2" />
+      </view>
+      <view class="cinecism_card_collect">
+          <text class="cinecism_card_star font-size-small">收藏影片</text>
+      </view> 
+    </view>
+     <view data-moviesid="{{movieData.id}}" class="inline" wx:else>
+      <view class="collect_logo">
+          <image src="../../images/collect_icon2.png" />
+      </view>
+      <view class="cinecism_card_collect">
+          <text class="cinecism_card_star font-size-small">收藏影片</text>
+      </view> 
+    </view>
+  <!--收藏影片end-->
+
+  <!--推送到电视-->
+    <view class="inline" data-movietypes="{{loadData.videoData.base_info.source}}" data-movieid="{{movieData.id}}" data-allcount="{{movieData.publist_segment}}" data-nowcount="{{movieData.current_segment}}" data-videotype="{{movieData.video_type}}" bindtap="pushVideo" >
+     <view class="push_logo">
+		    <image src="../../images/propell_icon.png" />
+		</view>
+
+    <view class="cinecism_card_push">
+    <text class="cinecism_card_tv font-size-small">推送到电视</text>
+    </view> 
+</view>
+  <!--推送到电视end-->
+  </view>
+
+ <!-- <view class="userList" wx:for="{{items}}" wx:key="{{item.userId}}" wx:for-index="id">
+        <view class="{{activeClass==id?'starIcon1':'starIcon'}}" data-id="{{id}}" bindtap="clloect"></view>
+</view>  -->
+<view class="height20"></view>
+<text class="articalTitle" wx:if="{{aboutArtical!=null&&aboutArtical.length>0}}">相关文章</text>
+<block wx:for="{{aboutArtical}}" > 
+<!--相关文章-->
+<view class="cinecism_article" wx:if="{{item.contactArticle.type == '0'}}">
+<!--一篇文章-->
+<navigator url="../cinecism/cinecism?id={{item.contactArticle.id}}">
+<view class="box" >
+<view class="gray">{{item.contactArticle.articleTitle}}</view>
+<image src="{{item.contactArticle.picUrl}}" mode="aspectFill"></image>
+</view>
+</navigator>
+<!--一篇文章end-->
+</view>
+<!--相关文章end-->
+
+<!--话题-->
+<!-- <view class="cinecism_article" wx:else>
+<navigator url="../cinecism/cinecism?id={{item.contactArticle.id}}">
+<view class="cinecism_topic">
+<text class="font-size-ns">#话题</text>
+<view class="font-size-large">{{item.contactArticle.articleTitle}}</view>
+</view>
+</navigator>
+</view>-->
+<!--话题end-->
+</block> 
+
+</view>
+
+
+
+
+
+<!--push推送展开栏  -->
+<view class="grayBox grayBox2 {{hidden2 == 'true'?'hide':''}}"></view>
+<view class="pushBar {{hidden2 == 'true'?'hide':''}}">
+
+<view class="countName">酷开账号：{{username}}<li bindtap="closeList" class="right"><image src="../../images/close_icon.png"></image></li></view>
+<view class="mg">
+<!--电视剧剧集列表  -->
+<view wx:if="{{clooectList.videoData.base_info.publist_segment!='0'&&clooectList.videoData.base_info.video_type!='电影'}}">
+<view class="mg_title">请选择推送剧集</view>
+  <view class="tvList">
+    <view>
+    <li data-index="{{index}}" bindtap="chioceService" class="{{tvChioced == index ? 'tvChioced':''}}" wx:for="{{tvCount}}" wx:for-index="index">{{index+1}}</li>
+     <div class="clear"></div> 
+    </view>
+  </view>
+</view>
+<view wx:else></view>
+<!--电视剧剧集列表end  -->
+
+
+
+<view class="device">
+<!--爱奇异视频源  -->
+<view class="" wx:if="{{movietypes=='iqiyi'||movietypes=='iqiyiTencent'}}">
+ <view class="aiqiyi" wx:if="{{qiyiList!=null&&qiyiList.length>0}}">
+  <div wx:for="{{qiyiList}}" wx:for-index="index" wx:if="{{item.source=='yinhe'&&index == '0'}}" class="aiqiyi_title">爱奇艺视频源</div>
+  <div>
+    <ul>
+      <li wx:for="{{qiyiList}}" wx:if="{{item.source=='yinhe'}}">{{item.model}} {{item.deviceName}}<text data-source="iqiyi" class="pushRight" data-serviceidspare="{{item.serviceIdSpare}}" data-serviceid="{{item.serviceid}}" data-id="{{item.id}}"data-serviceid="{{item.devMac}}" data-id="{{item.id}}" bindtap="pushMovies">推送</text></li>
+    </ul>
+  </div>
+</view> 
+<view wx:else>
+  <div class="aiqiyi_title"></div>
+      <div>
+        <ul>
+          <li wx:if="{{movietypes!='iqiyiTencent'}}">暂无相关设备</li>
+        </ul>
+    </div>
+  </view>
+</view>
+<!--腾讯视频源  -->
+
+<view wx:if="{{movietypes=='tencent'||movietypes=='iqiyiTencent'}}">
+<view class="aiqiyi" wx:if="{{tencentList!=null&&tencentList.length>0}}">
+   <div wx:for="{{tencentList}}" wx:for-index="index" wx:if="{{item.source=='tencent' && index == '0'}}"  class="aiqiyi_title">腾讯视频源</div>
+   <div>
+      <ul>
+        <li wx:for="{{tencentList}}" wx:if="{{item.source=='tencent'}}">{{item.model}} {{item.deviceName}}<text class="pushRight" data-serviceidspare="{{item.serviceIdSpare}}" data-serviceid="{{item.serviceId}}" data-id="{{item.id}}" data-source="tencent" bindtap="pushMovies">推送</text></li>
+      </ul>
+    </div>
+</view> 
+<view wx:else>
+    <div class="aiqiyi_title"></div>
+        <div>
+          <ul>
+            <li wx:if="{{movietypes!='iqiyiTencent'}}">暂无相关设备</li>
+          </ul>
+      </div>
+  </view>
+</view>
+<!--创维视频源  -->
+<view wx:if="{{movietypes=='sky'}}">
+<view class="aiqiyi" wx:if="{{skyList!=null&&skyList.length>0}}">
+  <div wx:for="{{skyList}}" wx:for-index="index" wx:if="{{item.source=='sky'&&index=='0'}}" class="tencent_title">创维聚合视频源</div>
+    <div>
+      <ul>
+       <li wx:for="{{skyList}}" wx:if="{{item.source=='sky'}}">{{item.model}} {{item.deviceName}}<text class="pushRight" data-serviceidspare="{{item.serviceIdSpare}}" data-serviceid="{{item.serviceid}}" data-id="{{item.id}}" bindtap="pushMovies">推送</text></li>
+      </ul>
+    </div>
+</view> 
+<view wx:else>
+    <div class="aiqiyi_title"></div>
+        <div>
+          <ul>
+            <li>暂无相关设备</li>
+          </ul>
+      </div>
+  </view>
+</view>
+<!--优朋视频源  -->
+<view wx:if="{{movietypes=='voole'}}">
+<view class="aiqiyi"  wx:if="{{vooleList!=null&&vooleList.length>0}}">
+  <div wx:for="{{vooleList}}" wx:for-index="index" wx:if="{{item.source=='voole'&&index=='0'}}" class="tencent_title">优朋视频源</div>
+    <div>
+      <ul>
+       <li wx:for="{{vooleList}}" wx:if="{{item.source=='voole'}}">{{item.model}} {{item.deviceName}}<text class="pushRight" data-serviceidspare="{{item.serviceIdSpare}}" data-serviceid="{{item.serviceId}}" data-id="{{item.id}}" bindtap="pushMovies">推送</text></li>
+      </ul>
+    </div>
+</view> 
+<view wx:else>
+    <div class="aiqiyi_title"></div>
+        <div>
+          <ul>
+            <li>暂无相关设备</li>
+          </ul>
+      </div>
+  </view>
+</view>
+</view>
+
+</view>
+</view>
+<!--push推送展开栏end  -->
+
+<!--推送失败弹出框  -->
+<view class="grayBox grayBox3 {{hidden3 == 'true'?'hide':''}}"></view>
+<view class="failPrompt {{hidden3 == 'true'?'hide':''}}">
+<text>推送失败</text>
+<ul>
+<li>1、如果您未推送成功，请等待3-5分钟重试；</li>
+<li>2、若仍未成功：5.2以下系统请恢复出厂，5.2以上系统请升级系统；</li>
+<li>3、详询酷开会员微信号在线客服。</li>
+</ul>
+  <div class="footer_failPrompt">
+    <div bindtap="closeFailBox">我知道了</div>
+    <div>客服咨询
+    <contact-button class="contact" type="default-light" size="27" session-from="weapp"></contact-button>
+    <contact-button class="contact" type="default-light" size="27" session-from="weapp"></contact-button>
+    <contact-button class="contact" type="default-light" size="27" session-from="weapp"> </contact-button>
+    <contact-button class="contact" type="default-light" size="27" session-from="weapp"></contact-button>
+     <contact-button class="contact" type="default-light" size="27" session-from="weapp"></contact-button>
+    </div>
+  </div>
+</view>
+
+</view>
+
+</label>
+</form>

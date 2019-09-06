@@ -1,0 +1,64 @@
+<!--pages/history/history.wxml-->
+
+
+<view class="contant" wx:if="{{historyList!=null&&historyList.length>0}}">
+<view wx:for="{{historyList}}" wx:key="key">
+  <view class="title">{{item.time}}</view>
+  <view class="list" wx:for="{{item.list}}" wx:key="key" data-albumid="{{item.album_id}}" data-id="{{item.id}}" bindtap='select'>
+    <view class="img">
+     <image src="{{item.poster_h}}" class="item_book_img" mode="aspectFill"></image>    
+    </view>              
+    <view class="item_book_text intwoline">{{item.title}}</view>
+    <view class="check">
+      <view  wx:if="{{management_good}}" class='lefts'>
+        <block wx-if="{{!item.checked}}">
+          <image src='../../images/check_befor.png'></image>
+        </block>
+        <block wx-if="{{item.checked}}">
+          <image src='../../images/check_after.png'></image>
+        </block>
+      </view>
+    </view>
+  </view>
+  </view>
+
+<view class="bottom {{bIphoneFullScreenModel ? 'iphone-fullscreen-model' : ''}}">
+    <view wx:if="{{!management_good}}" class='flex_center edit' bindtap='management'>
+      编辑
+    </view>
+    <view class="flex_center" wx:if="{{management_good}}">
+      <view class='left button' bindtap='finish_management'>
+        取消
+      </view>
+      <view class='middle button'>
+        <block wx:if="{{select_all}}">
+          <view bindtap='select_none'>
+              取消全选
+          </view>
+        </block>
+        <block wx:if="{{!select_all}}">
+          <view bindtap='select_all'>
+              全选
+          </view>
+        </block>
+      </view>
+      <view class='right button'>
+        <view bindtap='deleteitem' class='sure'>
+          删除<text wx:if="{{length !=0}}">({{length}})</text>
+        </view>
+      </view>
+    </view>
+</view>
+</view>
+
+<view class="null" wx:if="{{isShowDoc}}">
+  <image class="noresult-icon" src="../../images/no-result@3x.png"></image>
+</view>
+
+<view>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
+</view>
+
+
+
+

@@ -1,15 +1,31 @@
-function getStyleClass(index) {
-    if (index === 0) {
-        return 'aa';
-    }else if (index === 1) {
-        return 'bb';
-    }else if (index ===2) {
-        return 'cc';
-    }else {
-        return 'dd';
-    }
+// wxs目前不支持es6语法
+// const getInf = (str, key) => str.replace(new RegExp(`${key}`, 'g'), `%%${key}%%`).split('%%');
+
+function getInf (str, key) {
+    var regexp = getRegExp(key, "g");
+    return str.replace(regexp, "%%" + key + "%%").split("%%");
+}
+
+function getHighLightItems(str, key) {
+    return getInf(str, key);
+}
+
+function getStrLength(str) {
+    var realLength = 0, len = str.length, charCode = -1;  
+    for (var i = 0; i < len; i++) {  
+        charCode = str.charCodeAt(i);  
+        if (charCode >= 0 && charCode <= 128) realLength += 1;  
+        else realLength += 2;  
+    }  
+    return realLength;
+}
+
+function getReverse(arr) {
+    return arr.reverse();
 }
 
 module.exports = {
-    getStyleClass: getStyleClass
+    getHighLightItems: getHighLightItems,
+    getStrLength: getStrLength,
+    getReverse: getReverse
 }

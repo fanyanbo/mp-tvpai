@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "设备绑定",
+  "usingComponents": {
+    "remotecontrol": "../../components/remotecontrol/index"
+  }
+}

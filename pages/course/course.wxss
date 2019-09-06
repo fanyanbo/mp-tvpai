@@ -1,0 +1,37 @@
+page{
+  background-color: #f4f4f4
+}
+
+.img_list {
+  display: flex;
+  flex-direction: column;
+  width: 750rpx;
+  box-sizing: border-box;
+  padding-bottom: 178rpx
+}
+image {
+  width: 100%;
+}
+.binding {
+  width: 90%;
+  margin: 0 auto;
+  background: #FFD71C;
+  color: #333;
+  height: 86rpx;
+  border-radius: 16rpx
+}
+.view{
+  position: fixed;
+  bottom: 0rpx;
+  width: 100%;
+  background: #fff;
+  padding: 12rpx 0
+}
+.iphone-fullscreen-model{
+  position: fixed;
+  bottom: 0rpx;
+  width: 100%;
+  background: #fff;
+  padding: 12rpx 0 ;
+  padding-bottom: 68rpx
+}
