@@ -1,7 +1,6 @@
-const utils_fyb = require('../../utils/util_fyb');
-const api_fyb = require('../../api/api_fyb');
-const njApi = require('../../api/api_nj.js');
-const app = getApp();
+const utils_fyb = require('../../utils/util_fyb')
+const api_fyb = require('../../api/api_fyb')
+const app = getApp()
 
 Page({
   data: {
@@ -25,20 +24,20 @@ Page({
     previousmargin: '30rpx',
     nextmargin: '30rpx',
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    type:""
+    type: ""
   },
   swiperChange: function () {
-    console.log('swiperChange');
+    console.log('swiperChange')
   },
-  // 获取一级标签分类
-  oneclassify: function () {
-    console.log("============视频源==========" + utils_fyb.getTvsource());
+  // 获取标签分类
+  getLabelClassify: function () {
+    console.log("当前设备视频源（未绑定时默认为iqiyi):" + utils_fyb.getTvsource());
     let that = this
     let params = { "page_index": '0', "page_size": '30' };
     let desParams = utils_fyb.paramsAssemble_tvpai(params);
     utils_fyb.request(api_fyb.getOneClassifyUrl, 'GET', desParams,
       function (res) {
-        console.log('获取一级标签分类:', res.data);
+        console.log('获取标签分类数据:', res.data);
         let column1 = [], column2 = [], column3 = []
         if (utils_fyb.getTvsource() == "iqiyi"){
           if (res.data.data) {
@@ -77,7 +76,7 @@ Page({
 
       },
       function (res) {
-        console.log('getOneClassifyUrl error', res)
+        console.log('获取标签分类数据发生错误', res)
         utils_fyb.showFailedToast('加载数据失败', that.data.errIconUrl)
       }
     );
@@ -91,11 +90,11 @@ Page({
     });
   },
   // 获取首页推荐分类和影片
-  twoclassify: function () {
+  getRecommendClassify: function () {
     let that = this;
     utils_fyb.request(api_fyb.getRecommendListUrl, 'GET', utils_fyb.paramsAssemble_tvpai(),
       function (res) {
-        console.log('getRecommendListUrl:', res.data.data)
+        console.log('获取推荐分类及影片数据:', res.data.data)
         if (res.data.data) {
           that.setData({
             recommandList: res.data.data
@@ -107,19 +106,19 @@ Page({
         }
       },
       function (res) {
-        console.log('getRecommendListUrl error', res)
+        console.log('获取推荐分类及影片数据发生错误', res)
         utils_fyb.showFailedToast('加载数据失败', that.data.errIconUrl)
       }
     );
   },
   // 获取轮播图数据
-  getBanners: function () {
+  getBannerData: function () {
     let that = this;
     let params = { "page": '0', "pageSize": '3' }
     let desParams = utils_fyb.paramsAssemble_wx(params);
     utils_fyb.request(api_fyb.getBannerDataUrl, 'GET', desParams,
       function (res) {
-        console.log('getBannerDataUrl success', res.data);
+        console.log('获取轮播图数据:', res.data);
         if (res.data.result) {
           if (res.data.data.pager.totalPage < 0) {
             return false
@@ -143,22 +142,18 @@ Page({
         }
       },
       function (res) {
-        console.log('getBannerDataUrl error', res);
+        console.log('获取轮播图数据发生错误', res);
         utils_fyb.showFailedToast('加载数据失败', that.data.errIconUrl)
       }
     )
   },
 
   onLoad() {
-    console.log('onLoad');
-    // this.getBindedDevice();
-    // this.oneclassify();
-    // this.twoclassify();
-    // this.getBanners();
+    console.log('onLoad')
   },
 
   onReady() {
-    console.log('onReady');
+    console.log('onReady')
     wx.getSystemInfo({
       success: function(res) {
         console.log(res);
@@ -172,40 +167,37 @@ Page({
   },
 
   onShow() {
+    console.log('onShow')
     this.setData({
       isShowTips: app.globalData.isShowTips,
       bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
-    });
-    this.getBanners();
-    this.getBindedDevice();
-    this.oneclassify();
-    this.twoclassify();
-    console.log("onShow");
+    })
+    this.getBannerData()
+    this.getBindedDevice()
+    this.getLabelClassify()
+    this.getRecommendClassify()
   },
 
   onHide() {
-    console.log('onHide');
+    console.log('onHide')
   },
 
   onUnload() {
-    console.log('onUnload');
+    console.log('onUnload')
   },
 
+  // 分享转发
   onShareAppMessage: function (res) {
     return {
       title: '电视派',
       path: 'pages/index/index',
-      success: function (res) {
-        // 转发成功
-      },
-      fail: function (res) {
-        // 转发失败
-      }
+      success: function (res) { },
+      fail: function (res) { }
     }
   },
 
+  // 跳转至搜索页面
   handleSearchTap: function () {
-    console.log('跳转至搜索页面');
     wx.navigateTo({
       url: '../../pages/search/index',
     });
@@ -227,7 +219,7 @@ Page({
 
   getBindedDevice: function () {
     let ccsession = wx.getStorageSync('new_cksession');
-    console.log('getBindedDevice ccsession', ccsession);
+    console.log('监测当前是否有session值（无则获取不到绑定设备列表):', ccsession);
     if (ccsession == null || ccsession === "") return;
     let params = { ccsession: ccsession };
     let desParams = utils_fyb.paramsAssemble_wx(params);
@@ -235,7 +227,7 @@ Page({
     console.log('getBindedDevice url', api_fyb.getBindDeviceListUrl);
     utils_fyb.request(api_fyb.getBindDeviceListUrl, 'GET', desParams,
       function (res) {
-        console.log('getBindDeviceList success', res.data);
+        console.log('获取绑定设备列表：', res.data);
         if (res.data.data) {
           wx.setStorageSync('deviceId', '');
           app.globalData.activeId = null;
@@ -257,7 +249,7 @@ Page({
         utils_fyb.refreshBindedTVStatus(app.globalData.activeId);
       },
       function (res) {
-        console.log('getBindDeviceList error', res)
+        console.log('获取绑定设备列表发生错误', res)
         utils_fyb.refreshBindedTVStatus(app.globalData.activeId);
       }
     )

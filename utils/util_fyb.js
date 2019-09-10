@@ -3,12 +3,11 @@
 // todo:
 // 1.promise化
 // 2.proxy化
-// 2.解构
+// 3.解构
 
-const md5 = require('md5_fyb.js');
-const api = require('../api/api_fyb');
-const njApi = require('../api/api_nj');
-const app = getApp();
+const md5 = require('md5_fyb.js')
+const api = require('../api/api_fyb')
+const njApi = require('../api/api_nj')
 
 // 公共方法
 function isEmptyObject(e) {
@@ -290,6 +289,7 @@ function getTvsource() {
   let tvSource = wx.getStorageSync("tvSource")
   if (tvSource == null || tvSource === '') {
     tvSource = "iqiyi"
+    // tvSource = "qq"
   }
   return tvSource;
 }

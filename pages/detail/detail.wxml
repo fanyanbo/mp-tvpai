@@ -91,7 +91,7 @@
 </view>  -->
 <view class="height20"></view>
 <text class="articalTitle" wx:if="{{aboutArtical!=null&&aboutArtical.length>0}}">相关文章</text>
-<block wx:for="{{aboutArtical}}" > 
+<block wx:for="{{aboutArtical}}" wx:key="index"> 
 <!--相关文章-->
 <view class="cinecism_article" wx:if="{{item.contactArticle.type == '0'}}">
 <!--一篇文章-->
