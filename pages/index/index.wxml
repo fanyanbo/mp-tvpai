@@ -10,12 +10,12 @@
       <swiper autoplay="{{autoplay}}" current='{{swiperCurrent}}' previous-margin="{{previousmargin}}" next-margin="{{nextmargin}}" bindchange="swiperChange">
         <block wx:for="{{streams}}" wx:key="key" class="banner-item">
           <swiper-item data-type="cinecism" data-id="{{item.articleId}}" bindtap="jumpFind">
-              <image src="{{item.articlePicUrl}}" class="slide-image" bindchange="chuangEvent"></image>
+            <image src="{{item.articlePicUrl}}" class="slide-image" bindchange="chuangEvent"></image>
           </swiper-item>
         </block>
         <block wx:key="key" class="banner-item">
           <swiper-item data-type="find" bindtap="jumpFind">
-              <image src="../../images/banner.jpg" class="slide-image"></image>
+            <image src="../../images/banner.jpg" class="slide-image"></image>
           </swiper-item>
         </block>
       </swiper>
@@ -55,6 +55,34 @@
       </scroll-view>
     </view>
 
+    <!-- demo：片单列表 -->
+    <view class="topic-wrapper">
+      <view class="topic-title">
+        <text class="line"></text>
+        <text class="text">精彩片单</text>
+      </view>
+      <view class="topic-content">
+        <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">
+          <view class="topic-item" wx:for="{{topicList}}"  wx:key="index">
+            <view class="maintitle">片单主标题</view>
+            <view class="subtitle">xxx个节目</view>
+            <view class="list">
+              <view class="list-item" wx:for="{{item.movieList}}"  wx:key="index">
+                <view class="list-item-content">
+                  <image class="list-item-img" mode="aspectFill" src="http://pic3.iqiyipic.com/image/20190911/da/a1/v_114411383_m_601_m9_260_360.jpg"></image>
+                  <view class="list-item-right">
+                    <view class="list-item-title">影片名称</view>
+                    <view class="list-item-tag">2019-地区-风格</view>
+                    <view class="list-item-desc">"一句话描述影片"</view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+    </view>
+
     <view class="category" wx:for="{{recommandList}}" wx:key="index">
       <view class="title">
         <text class="line"></text>
@@ -66,9 +94,10 @@
       </view>
       <view class="section">
         <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">
-          <view wx:for="{{item.video_list}}" wx:if="{{item.album_title != ''}}" wx:key="index" class="item_list">
+          <view wx:for="{{item.video_list}}" wx:if="{{item.album_title != ''}}" wx:key="index" class="poster-item">
             <navigator url="../movieDetail/movieDetail?id={{item.third_album_id}}">
               <image src="{{item.video_poster}}" mode="aspectFill" class="poster-img"></image>
+              <view class="poster-corner">{{item.video_detail.base_info.score}}</view>
               <view class="poster-text">{{item.album_title}}</view>
             </navigator>
           </view>

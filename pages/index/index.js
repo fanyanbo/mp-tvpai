@@ -12,8 +12,8 @@ Page({
     indicatorDots: true,
     autoplay: false,
     interval: 5000,
-    duration:600,
-    circular:true,
+    duration: 600,
+    circular: true,
     indicatorColor: '#ECECEC',
     indicatorActiveColor: "#FFD71C",
     banners: [],
@@ -24,7 +24,8 @@ Page({
     previousmargin: '30rpx',
     nextmargin: '30rpx',
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    type: ""
+    type: '',
+    topicList: [{movieList: ['1','2','3']}, {movieList: ['1','2','3']}, {movieList: ['1','2','3']}] //片单数据
   },
   swiperChange: function () {
     console.log('swiperChange')
