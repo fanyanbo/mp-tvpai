@@ -25,7 +25,7 @@ Page({
     nextmargin: '30rpx',
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     type: '',
-    topicList: [{movieList: ['1','2','3']}, {movieList: ['1','2','3']}, {movieList: ['1','2','3']}] //片单数据
+    topicList: [{title: '片单1', movieList: ['1','2','3']}, {title: '片单2', movieList: ['1','2','3']}, {title: '片单3', movieList: ['1','2','3']}] //片单数据
   },
   swiperChange: function () {
     console.log('swiperChange')

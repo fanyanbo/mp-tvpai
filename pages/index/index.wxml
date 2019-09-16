@@ -1,4 +1,12 @@
+<!-- author:fanyanbo
+  email: fanyanbo@coocaa.com
+  date: 2019-09-11
+  desc: 首页
+  todo:
+  1.优化首屏加载速度 -->
+
 <view class="main-wrapper">
+  <!-- 搜索框，非固定位置 -->
   <view class="search-box-wrapper">
     <view class="search-box" bindtap='handleSearchTap'>
       <image src="../../images/ser_icon.png" class="search-icon"></image>
@@ -6,6 +14,7 @@
     </view>
   </view>
   <scroll-view scroll-y="true" style="height: auto" bindscrolltoupper="upper" bindscrolltolower="lower">
+    <!-- banner区域，运营重点区域 -->
     <view class="banner-wrapper">
       <swiper autoplay="{{autoplay}}" current='{{swiperCurrent}}' previous-margin="{{previousmargin}}" next-margin="{{nextmargin}}" bindchange="swiperChange">
         <block wx:for="{{streams}}" wx:key="key" class="banner-item">
@@ -20,6 +29,8 @@
         </block>
       </swiper>
     </view>
+
+    <!-- 区分腾讯源和爱奇艺源标签分类，因为标签个数不同，它们的布局不同 -->
     <swiper wx:if="{{type == 'iqiyi'}}" class="iqiyi-label swiper-box" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-active-color="{{indicatorActiveColor}}" indicator-color="{{indicatorColor}}">
       <block>
         <swiper-item>
@@ -63,26 +74,29 @@
       </view>
       <view class="topic-content">
         <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">
-          <view class="topic-item" wx:for="{{topicList}}"  wx:key="index">
-            <view class="maintitle">片单主标题</view>
-            <view class="subtitle">xxx个节目</view>
-            <view class="list">
-              <view class="list-item" wx:for="{{item.movieList}}"  wx:key="index">
-                <view class="list-item-content">
-                  <image class="list-item-img" mode="aspectFill" src="http://pic3.iqiyipic.com/image/20190911/da/a1/v_114411383_m_601_m9_260_360.jpg"></image>
-                  <view class="list-item-right">
-                    <view class="list-item-title">影片名称</view>
-                    <view class="list-item-tag">2019-地区-风格</view>
-                    <view class="list-item-desc">"一句话描述影片"</view>
+          <view class="topic-item" wx:for="{{topicList}}" wx:key="index">
+            <navigator url="../topic/topic?title={{item.title}}">
+              <view class="maintitle">片单主标题</view>
+              <view class="subtitle">xxx个节目</view>
+              <view class="list">
+                <view class="list-item" wx:for="{{item.movieList}}"  wx:key="index">
+                  <view class="list-item-content">
+                    <image class="list-item-img" mode="aspectFill" src="http://pic3.iqiyipic.com/image/20190911/da/a1/v_114411383_m_601_m9_260_360.jpg"></image>
+                    <view class="list-item-right">
+                      <view class="list-item-title">影片名称</view>
+                      <view class="list-item-tag">2019-地区-风格</view>
+                      <view class="list-item-desc">"一句话描述影片"</view>
+                    </view>
                   </view>
                 </view>
               </view>
-            </view>
+            </navigator>
           </view>
         </scroll-view>
       </view>
     </view>
 
+    <!-- 推荐分类及影片 -->
     <view class="category" wx:for="{{recommandList}}" wx:key="index">
       <view class="title">
         <text class="line"></text>
@@ -106,6 +120,8 @@
     </view>
   </scroll-view>
 </view>
+
+<!-- 遥控器组件 -->
 <view>
   <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
 </view>

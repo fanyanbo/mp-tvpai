@@ -1,7 +1,8 @@
-const utils = require('../../utils/util.js');
-const api = require('../../api/api.js');
-const utils_fyb = require('../../utils/util_fyb');
+const utils = require('../../utils/util.js')
+const api = require('../../api/api.js')
+const utils_fyb = require('../../utils/util_fyb')
 const app = getApp()
+
 Page({
   /**
    * 页面的初始数据

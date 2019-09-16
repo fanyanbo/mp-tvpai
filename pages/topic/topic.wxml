@@ -1,0 +1,31 @@
+<!-- author:fanyanbo
+  email: fanyanbo@coocaa.com
+  date: 2019-09-12
+  desc: 片单详情页 -->
+<view class="main-wrapper">
+  <view class="title-wrapper">
+    <view class="title-main">片单主标题</view>
+    <view class="title-sub">片单副标题</view>
+    <view class="title-desc">片单描述</view>
+    <view class="title-share">分享片单</view>
+  </view>
+  <view class="content-wrapper">
+    <scroll-view scroll-y="true" style="height: {{scrollHeight}}px" bindscrolltoupper="upper" bindscrolltolower="lower">
+      <block class="content-list" wx:for="{{contentList}}" wx:key="index">
+        <view class="content-item">
+          <image src="http://pic3.iqiyipic.com/image/20190911/da/a1/v_114411383_m_601_m9_260_360.jpg" class="content-item-poster"/>
+          <view class="content-item-right">
+            <view class="right-title">影片名称</view>
+            <view class="right-tag">2019-地区-风格</view>
+            <view class="right-actor">演员1/演员2/演员3/演员4</view>
+            <view class="right-desc">“一句话描述”</view>
+            <view class="right-button">
+              <view class="button push">投屏</view>
+              <view class="button favorite">收藏</view>
+            </view>
+          </view>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+</view>
