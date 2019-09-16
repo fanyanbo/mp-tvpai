@@ -15,7 +15,8 @@
     "pages/delete/delete",
     "pages/search/index",
     "pages/history/history",
-    "pages/topic/topic"
+    "pages/topic/topic",
+    "pages/webview/webview"
   ],
   "window": {
     "backgroundTextStyle": "light",

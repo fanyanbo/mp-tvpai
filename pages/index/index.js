@@ -25,7 +25,7 @@ Page({
     nextmargin: '30rpx',
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     type: '',
-    topicList: [{title: '片单1', movieList: ['1','2','3']}, {title: '片单2', movieList: ['1','2','3']}, {title: '片单3', movieList: ['1','2','3']}] //片单数据
+    topicList: [{ title: '片单1', movieList: ['1', '2', '3'] }, { title: '片单2', movieList: ['1', '2', '3'] }, { title: '片单3', movieList: ['1', '2', '3'] }] //片单数据
   },
   swiperChange: function () {
     console.log('swiperChange')
@@ -40,7 +40,7 @@ Page({
       function (res) {
         console.log('获取标签分类数据:', res.data);
         let column1 = [], column2 = [], column3 = []
-        if (utils_fyb.getTvsource() == "iqiyi"){
+        if (utils_fyb.getTvsource() == "iqiyi") {
           if (res.data.data) {
             for (let i = 0; i < 30; i++) {
               if (i < 10) {
@@ -55,14 +55,14 @@ Page({
               column1: column1,
               column2: column2,
               column3: column3,
-              type:"iqiyi"
+              type: "iqiyi"
             })
           } else {
             wx.showToast({
               title: res.data.message,
             })
           }
-        }else{
+        } else {
           if (res.data.data) {
             that.setData({
               column: res.data.data,
@@ -72,7 +72,7 @@ Page({
             wx.showToast({
               title: res.data.message,
             })
-          }       
+          }
         }
 
       },
@@ -156,13 +156,13 @@ Page({
   onReady() {
     console.log('onReady')
     wx.getSystemInfo({
-      success: function(res) {
+      success: function (res) {
         console.log(res);
         // custom模式测试，在真机上screenHeight和windowHeight高度一样，导致marginTop为0；模拟器上正常
         let screenHeight = res.screenHeight;
         let windowHeight = res.windowHeight;
         let marginTop = screenHeight - windowHeight;
-        console.log("marginTop",marginTop)
+        console.log("marginTop", marginTop)
       }
     })
   },
@@ -200,7 +200,15 @@ Page({
   // 跳转至搜索页面
   handleSearchTap: function () {
     wx.navigateTo({
-      url: '../../pages/search/index',
+      url: '../search/index',
+    });
+  },
+
+  // 跳转至片单详情页
+  handleTopicTap: function (e) {
+    console.log('handleTopicTap', e)
+    wx.navigateTo({
+      url: `../webview/webview?title=${e.currentTarget.dataset.title}`,
     });
   },
 
@@ -237,7 +245,7 @@ Page({
             if (res.data.data[i].bindStatus === 1) {
               app.globalData.activeId = res.data.data[i].device.serviceId;
               app.globalData.deviceId = res.data.data[i].deviceId + '',
-              wx.setStorageSync('deviceId', res.data.data[i].deviceId + '');
+                wx.setStorageSync('deviceId', res.data.data[i].deviceId + '');
               console.log('getBindedDevice: activeId = ' + app.globalData.activeId + ", deviceId = " + app.globalData.deviceId);
               break;
             }

@@ -74,8 +74,8 @@
       </view>
       <view class="topic-content">
         <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">
-          <view class="topic-item" wx:for="{{topicList}}" wx:key="index">
-            <navigator url="../topic/topic?title={{item.title}}">
+          <view class="topic-item" wx:for="{{topicList}}" wx:key="index" data-title="{{item.title}}" bindtap="handleTopicTap">
+            <!-- <navigator url="../webview/webview?title={{item.title}}"> -->
               <view class="maintitle">片单主标题</view>
               <view class="subtitle">xxx个节目</view>
               <view class="list">
@@ -90,7 +90,7 @@
                   </view>
                 </view>
               </view>
-            </navigator>
+            <!-- </navigator> -->
           </view>
         </scroll-view>
       </view>
