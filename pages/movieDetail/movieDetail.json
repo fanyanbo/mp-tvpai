@@ -3,7 +3,6 @@
   "navigationBarBackgroundColor":"#333",
   "navigationBarTextStyle":"white",
   "usingComponents": {
-    "remotecontrol": "../../components/remotecontrol/index",
-    "search": "../../components/search/index"
+    "remotecontrol": "../../components/remotecontrol/index"
   }
 }

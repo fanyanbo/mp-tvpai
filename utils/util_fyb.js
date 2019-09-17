@@ -62,7 +62,7 @@ function wxLogin() {
 function sign_tvpai(str, k) {
   let paramsStr = setParams_tvpai(str);
   let signedStr = md5.MD5(paramsStr + k);
-  console.log(paramsStr + k, signedStr);
+  // console.log(paramsStr + k, signedStr);
   return signedStr;
 }
 
@@ -103,7 +103,7 @@ function paramsAssemble_tvpai(paramsObj = {}) {
     desSortedParams[desArray[i]] = desParams[desArray[i]];
   }
   let signStr = sign_tvpai(desSortedParams, 'cd8a62acc6164b27a9af4d29de8eeebd');
-  console.log(signStr);
+  // console.log(signStr);
   desSortedParams["sign"] = signStr;
   return desSortedParams;
 }
@@ -126,7 +126,7 @@ function urlAssemble_tvpai(url, params) {
 function sign_wx(str, k) {
   var paramsStr = setParams_wx(str);
   var signedStr = md5.MD5(paramsStr + k);
-  console.log(paramsStr + k, signedStr);
+  // console.log(paramsStr + k, signedStr);
   return signedStr;
 }
 
