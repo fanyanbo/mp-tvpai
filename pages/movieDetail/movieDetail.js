@@ -13,19 +13,15 @@ Page({
     isShowTips: true, //是否显示遥控器提示
     bIphoneFullScreenModel: false,
     isFixedWindow: false, //是否固定窗口
-    length: 0,
-    movieType: "",
-    prompt_info: "",
+    videoType: "", //影片类型
+    selected: '', //选中的剧集
+    isPushDone: false, //是否推送成功
+    isShowFavorite: false, //是否显示收藏
+    vidList: [], //里面全是空，待确认字段
     movieId: "",
-    chioced: '',
-    title: '',
-    moviepush: false,
-    video_url: [],
     coocaa_m_id: '',
-    isShowtitle: false,
     tvId: "",
     updated_segment: 1,
-    likeShow: false, //是否收藏
     errIconUrl: '../../images/close_icon.png',
   },
 
@@ -102,11 +98,10 @@ Page({
         let _coocaa_m_id = (res.data.data.play_source && res.data.data.play_source.coocaa_m_id) ? res.data.data.play_source.coocaa_m_id : ""
         let _tvId = (res.data.data.play_source && res.data.data.play_source.video_third_id) ? res.data.data.play_source.video_third_id : ""
         this.setData({
-          likeShow: res.data.data.is_collect === 1 ? true : false, // 1表示收藏, 2表示无收藏
-          movieData: res.data.data,
+          isShowFavorite: res.data.data.is_collect === 1 ? true : false, // 1表示收藏, 2表示无收藏
+          videoDetailData: res.data.data,
           tags: _tags, // 这个属性有用到么？
-          movieType: res.data.data.video_type,
-          prompt_info: res.data.data.prompt_info,
+          videoType: res.data.data.video_type,
           coocaa_m_id: _coocaa_m_id,
           tvId: _tvId,
           updated_segment: res.data.data.updated_segment
@@ -128,10 +123,9 @@ Page({
     utils.requestP(api.getRelatedVideoUrl, desParams).then(res => {
       console.log("获取关联影片:", res.data.data)
       if (res.data.data && res.data.data.length > 0) {
-        let _relatedFilms = res.data.data.length > 9 ? res.data.data.slice(0, 9) : res.data.data
+        let _relatedVideo = res.data.data.length > 9 ? res.data.data.slice(0, 9) : res.data.data
         this.setData({
-          videoLike: _relatedFilms,
-          isShowtitle: true
+          relatedVideoList: _relatedVideo
         })
       }
     }).catch(res => {
@@ -147,19 +141,18 @@ Page({
     let desParams = utils.paramsAssemble_tvpai(params);
     utils.requestP(api.getSegmentListUrl, desParams).then(res => {
       console.log("获取剧集数据:", res)
-      if (this.data.movieType === "纪录片") {
+      if (this.data.videoType === "纪录片") {
         console.log("纪录片剧集列表:", res.data.data.reverse())
       } else {
         console.log("非纪录片剧集列表:", res.data.data)
       }
       if (res.data.data) {
         for (let i = 0; i < res.data.data.length; i++) {
-          this.data.video_url.push(JSON.parse(res.data.data[i].video_url).tvId)
+          this.data.vidList.push(JSON.parse(res.data.data[i].video_url).tvId)
         }
         this.setData({
           moviesItem: res.data.data,
-          length: res.data.data.length,
-          video_url: this.data.video_url
+          vidList: this.data.vidList
         })
       }
     }).catch(res => {
@@ -235,6 +228,7 @@ Page({
       });
     }
     let { coocaamid, tvid, moviechildid, movieid, title } = e.currentTarget.dataset
+    console.log('tvid === ' + tvid)
     this.setData({
       moviechildid: moviechildid,
       coocaamid: coocaamid,
@@ -249,7 +243,7 @@ Page({
       return
     }
 
-    let params = this.data.movieType === "电影" ?
+    let params = this.data.videoType === "电影" ?
       {
         "ccsession": _session,
         "deviceId": _deviceId + '',
@@ -270,8 +264,8 @@ Page({
       console.log('推送成功', res.data);
       if (res.data && res.data.code === 200) {
         this.setData({
-          chioced: coocaamid,
-          moviepush: true
+          selected: coocaamid,
+          isPushDone: true
         })
         this.addPushHistory(movieid, title, tvid)
         utils.showSuccessToast('推送成功')
