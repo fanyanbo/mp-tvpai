@@ -14,7 +14,7 @@
             · {{videoDetailData.video_tags}}
           </li>
           <li class="click_button">
-            <view class='collect' bindtap="push" data-moviechildid="1" data-movieid="{{videoDetailData.third_album_id}}" data-tvid="{{tvId}}" data-coocaamid="{{coocaa_m_id}}" data-title="{{videoDetailData.album_title}}" wx:if="{{videoDetailData.video_type === '电影'}}">
+            <view class='collect' bindtap="push" data-moviechildid="1" data-movieid="{{videoDetailData.third_album_id}}" data-videoid="{{videoId}}" data-coocaamid="{{coocaa_m_id}}" data-title="{{videoDetailData.album_title}}" wx:if="{{videoDetailData.video_type === '电影'}}">
               <image wx:if="{{!isPushDone}}" src='../../images/collect_before.png'></image>
               <image wx:else src='../../images/collect_after.png'></image>
             </view>
@@ -35,12 +35,12 @@
       <view class='scroll'>
         <view wx:for="{{moviesItem}}" wx:for-item="item" wx:key="coocaa_m_id">
           <view wx:if="{{videoType === '综艺' || videoType === '纪录片'}}" class='xs zy {{selected === item.coocaa_m_id ? "active" : ""}}'>
-            <button class="segmeng" bindtap="push" data-moviechildid="{{index}}" data-movieid="{{item.third_album_id}}" data-coocaamid="{{item.coocaa_m_id}}" data-tvid="{{vidList[index]}}" data-title="{{item.video_title}}">
+            <button class="segmeng" bindtap="push" data-moviechildid="{{index}}" data-movieid="{{item.third_album_id}}" data-coocaamid="{{item.coocaa_m_id}}" data-videoid="{{vidList[index]}}" data-title="{{item.video_title}}">
               第{{item.segment_index}}期
             </button>
             <text class="subtitle moviesItem intwoline">{{item.video_title}}</text>
           </view>
-          <button bindtap="push" data-moviechildid="{{index}}" data-movieid="{{item.third_album_id}}" data-coocaamid="{{item.coocaa_m_id}}" data-tvid="{{vidList[index]}}" data-title="{{item.video_title}}" class='xs dsj {{selected === item.coocaa_m_id ? "active" : ""}}' wx:else>
+          <button bindtap="push" data-moviechildid="{{index}}" data-movieid="{{item.third_album_id}}" data-coocaamid="{{item.coocaa_m_id}}" data-videoid="{{vidList[index]}}" data-title="{{item.video_title}}" class='xs dsj {{selected === item.coocaa_m_id ? "active" : ""}}' wx:else>
             <text class="segmeng moviesItem">{{item.segment_index}}</text>
           </button>
         </view>
@@ -112,14 +112,14 @@
     <view class="item">
       <view wx:if="{{videoType === '综艺'}}" class="zylist" wx:for="{{moviesItem}}" wx:for-item="item" wx:key="coocaa_m_id">
         <view class='xs zy {{selected === item.coocaa_m_id ? "active" : ""}}'>
-          <button class="segmeng" bindtap="push" data-movieid="{{item.third_album_id}}" data-moviechildid="{{index}}" data-coocaamid="{{item.coocaa_m_id}}" data-tvid="{{vidList[index]}}" data-title="{{item.video_title}}">
+          <button class="segmeng" bindtap="push" data-movieid="{{item.third_album_id}}" data-moviechildid="{{index}}" data-coocaamid="{{item.coocaa_m_id}}" data-videoid="{{vidList[index]}}" data-title="{{item.video_title}}">
             第{{item.segment_index}}期
           </button>
           <text class="subtitle moviesItem intwoline">{{item.video_title}}</text>
         </view>
       </view>
       <view wx:if="{{videoType !== '综艺'}}" class="tvlist" wx:for="{{moviesItem}}" wx:for-item="item" wx:key="coocaa_m_id">
-        <view bindtap="push" data-movieid="{{item.third_album_id}}" data-moviechildid="{{index}}" data-coocaamid="{{item.coocaa_m_id}}" data-tvid="{{vidList[index]}}" data-title="{{item.video_title}}" class='xs dsj {{selected === item.coocaa_m_id ? "active" : ""}}'>
+        <view bindtap="push" data-movieid="{{item.third_album_id}}" data-moviechildid="{{index}}" data-coocaamid="{{item.coocaa_m_id}}" data-videoid="{{vidList[index]}}" data-title="{{item.video_title}}" class='xs dsj {{selected === item.coocaa_m_id ? "active" : ""}}'>
           <text class="segmeng moviesItem">{{item.segment_index}}</text>
         </view>
       </view>

@@ -20,7 +20,7 @@ Page({
     vidList: [], //里面全是空，待确认字段
     movieId: "",
     coocaa_m_id: '',
-    tvId: "",
+    videoId: "",
     updated_segment: 1,
     errIconUrl: '../../images/close_icon.png',
   },
@@ -96,14 +96,14 @@ Page({
         let _tagsTemp = res.data.data.video_tags.toString().split(',')
         let _tags = _tagsTemp && _tagsTemp.length >= 3 ? [_tagsTemp.slice(0, 3).join(' · ')] : []
         let _coocaa_m_id = (res.data.data.play_source && res.data.data.play_source.coocaa_m_id) ? res.data.data.play_source.coocaa_m_id : ""
-        let _tvId = (res.data.data.play_source && res.data.data.play_source.video_third_id) ? res.data.data.play_source.video_third_id : ""
+        let _videoId = (res.data.data.play_source && res.data.data.play_source.video_third_id) ? res.data.data.play_source.video_third_id : ""
         this.setData({
           isShowFavorite: res.data.data.is_collect === 1 ? true : false, // 1表示收藏, 2表示无收藏
           videoDetailData: res.data.data,
           tags: _tags, // 这个属性有用到么？
           videoType: res.data.data.video_type,
           coocaa_m_id: _coocaa_m_id,
-          tvId: _tvId,
+          videoId: _videoId,
           updated_segment: res.data.data.updated_segment
         })
         this.renderRelatedFilms(movieId)
@@ -148,7 +148,7 @@ Page({
       }
       if (res.data.data) {
         for (let i = 0; i < res.data.data.length; i++) {
-          this.data.vidList.push(JSON.parse(res.data.data[i].video_url).tvId)
+          this.data.vidList.push(JSON.parse(res.data.data[i].video_url).vid) 
         }
         this.setData({
           moviesItem: res.data.data,
@@ -227,8 +227,7 @@ Page({
         url: "../home/home"
       });
     }
-    let { coocaamid, tvid, moviechildid, movieid, title } = e.currentTarget.dataset
-    console.log('tvid === ' + tvid)
+    let { coocaamid, videoid, moviechildid, movieid, title } = e.currentTarget.dataset
     this.setData({
       moviechildid: moviechildid,
       coocaamid: coocaamid,
@@ -267,7 +266,7 @@ Page({
           selected: coocaamid,
           isPushDone: true
         })
-        this.addPushHistory(movieid, title, tvid)
+        this.addPushHistory(movieid, title, videoid)
         utils.showSuccessToast('推送成功')
       } else {
         console.log('推送失败');
@@ -281,13 +280,13 @@ Page({
   },
 
   // 添加历史
-  addPushHistory: function (movieId, title, tvId) {
+  addPushHistory: function (movieId, title, videoId) {
     let urlParams = { "vuid": wx.getStorageSync("wxopenid") };
     let url = utils.urlAssemble_tvpai(api.addPushHistoryUrl, utils.paramsAssemble_tvpai(urlParams));
     let data = {
       album_id: movieId,
       title: title,
-      video_id: tvId,
+      video_id: videoId, //null会导致获取历史列表数据缺失
       video_type: "1"
     }
     utils.requestP(url, data, 'POST', 'application/json; charset=utf-8').then(res => {

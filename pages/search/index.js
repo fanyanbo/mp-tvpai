@@ -118,19 +118,16 @@ Page({
         url: "../home/home"
       });
     }
-    utils.showLoadingToast('推送中...')
+    utils.showLoadingToast('推送中...') 
+    let {segment_index, video_third_id, third_album_id, video_url, video_title, coocaa_m_id} = e.currentTarget.dataset.keyword;
+    let video_id = utils.isJson(video_url) ? JSON.parse(video_url).vid : ""; //添加推送历史使用，不明白为什么有这些命名？
     this.setData({
-      curIndex: e.currentTarget.dataset.keyword.segment_index,
-      curThirdId: e.currentTarget.dataset.keyword.video_third_id
-    })
-    let third_album_id = e.currentTarget.dataset.keyword.third_album_id;
-    let segment_index = e.currentTarget.dataset.index; // 更换了一种方式，直接用索引值
-    let video_url = e.currentTarget.dataset.keyword.video_url;
-    let tvId = utils.isJson(video_url) ? JSON.parse(video_url).tvId : ""; //添加推送历史使用，不明白为什么有这些命名？
-    let video_title = e.currentTarget.dataset.keyword.video_title;
-    let coocaa_m_id = e.currentTarget.dataset.keyword.coocaa_m_id;
-    console.log(app.globalData.deviceId, third_album_id, segment_index, tvId, video_title, coocaa_m_id);
-    this.pushEpisode(app.globalData.deviceId, third_album_id, segment_index, tvId, video_title, coocaa_m_id);
+      curIndex: segment_index,
+      curThirdId: video_third_id
+    })  
+    segment_index = e.currentTarget.dataset.index; // 更换了一种方式，直接用索引值，忘记更改原因了
+    console.log(app.globalData.deviceId, third_album_id, segment_index, video_id, video_title, coocaa_m_id);
+    this.pushEpisode(app.globalData.deviceId, third_album_id, segment_index, video_id, video_title, coocaa_m_id);
   },
   // 推送电影
   handleMovieTap: function (e) {
@@ -141,14 +138,13 @@ Page({
       });
     }
     utils.showLoadingToast('推送中...')
-    let third_album_id = e.currentTarget.dataset.keyword.video_detail.third_album_id;
-    let video_title = e.currentTarget.dataset.keyword.video_title;
-    let video_detail = e.currentTarget.dataset.keyword.video_detail;
+    let {video_title, video_detail} = e.currentTarget.dataset.keyword;
+    let third_album_id = video_detail.third_album_id;
     let coocaa_m_id = (video_detail.play_source && video_detail.play_source.coocaa_m_id) ? video_detail.play_source.coocaa_m_id : "";
     let video_url = video_detail.play_source.video_url;
-    let tvId = utils.isJson(video_url) ? JSON.parse(video_url).tvId : "";
-    console.log(app.globalData.deviceId, third_album_id, video_title, coocaa_m_id, tvId);
-    this.pushMovie(app.globalData.deviceId, third_album_id, video_title, tvId, coocaa_m_id);
+    let video_id = utils.isJson(video_url) ? JSON.parse(video_url).vid : "";
+    console.log(app.globalData.deviceId, third_album_id, video_title, coocaa_m_id, video_id);
+    this.pushMovie(app.globalData.deviceId, third_album_id, video_title, video_id, coocaa_m_id);
   },
   handleMoreTap: function (e) {
     console.log('handleMoreTap pageIndex', this.data.curPageIndex);
@@ -300,7 +296,7 @@ Page({
   },
 
   // 推送电视剧
-  pushEpisode: function (deviceId, movieId, movieChildId, tvId, title, coocaa_m_id) {
+  pushEpisode: function (deviceId, movieId, movieChildId, vId, title, coocaa_m_id) {
     let params = {
       ccsession: wx.getStorageSync('new_cksession'),
       deviceId: deviceId,
@@ -313,7 +309,7 @@ Page({
     utils.requestP(api.pushMediaUrl, desParams).then(res => {
       console.log('pushEpisode success', res.data);
       if (res.data.code === 200) {
-        this.addPushHistory(movieId, title, tvId);
+        this.addPushHistory(movieId, title, vId);
         utils.showSuccessToast('推送成功')
       } else {
         console.log('pushEpisode failed');
@@ -327,7 +323,7 @@ Page({
   },
 
   // 推送电影
-  pushMovie: function (deviceId, movieId, title, tvId, coocaa_m_id) {
+  pushMovie: function (deviceId, movieId, title, vId, coocaa_m_id) {
     let params = {
       ccsession: wx.getStorageSync('new_cksession'),
       deviceId: deviceId,
@@ -340,7 +336,7 @@ Page({
       console.log('pushMovie success', res.data);
       if (res.data && res.data.code === 200) {
         utils.showSuccessToast('推送成功')
-        this.addPushHistory(movieId, title, tvId)
+        this.addPushHistory(movieId, title, vId)
       } else {
         console.log('pushMovie failed');
         let errMsg = res.data.message + (res.data.code == null ? "" : "[" + res.data.code + "]");
@@ -353,14 +349,14 @@ Page({
   },
 
   // 添加推送历史
-  addPushHistory: function (album_id, title, tvid) {
+  addPushHistory: function (album_id, title, vid) {
     let urlParams = { "vuid": wx.getStorageSync("wxopenid") };
     let url = utils.urlAssemble_tvpai(api.addPushHistoryUrl, utils.paramsAssemble_tvpai(urlParams));
     console.log("addPushHistory", url);
     let data = {
       album_id: album_id,
       title: title,
-      video_id: tvid,
+      video_id: vid,
       video_type: "1"
     }
     utils.requestP(url, data, 'POST', 'application/json; charset=utf-8').then( res => {
