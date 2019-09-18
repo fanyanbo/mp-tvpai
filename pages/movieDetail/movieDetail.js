@@ -108,10 +108,27 @@ Page({
         })
         this.renderRelatedFilms(movieId)
         this.renderSeries(movieId)
+        this.renderRelatedActors(movieId)
         utils.showLoadingToast('', false)
       }
     }).catch(res => {
       console.log('影片详情获取失败', res)
+      utils.showFailedToast('加载数据失败', this.data.errIconUrl)
+    })
+  },
+
+  // 渲染关联影人
+  renderRelatedActors: function (movieId) {
+    let params = { "third_album_id": movieId };
+    let url = utils.urlAssemble_tvpai(api.getRelatedActorsUrl, utils.paramsAssemble_tvpai(params));
+    console.log("获取相关影人url:" + url)
+    utils.requestP(url, null).then(res => {
+      console.log("获取关联影人:", res.data.data)
+      this.setData({
+        relatedActorsList: res.data.data.actors
+      })
+    }).catch(res => {
+      console.log('获取关联影人失败:', res)
       utils.showFailedToast('加载数据失败', this.data.errIconUrl)
     })
   },
@@ -161,6 +178,7 @@ Page({
     })
   },
 
+  // 显示浮窗
   showPopup: function (e) {
     let _whichPopup = e.currentTarget.dataset.tap;
     console.log("显示弹窗:" + _whichPopup)
@@ -192,6 +210,7 @@ Page({
     }, 200)
   },
 
+  // 隐藏浮窗
   hidePopup: function (e) {
     let _whichPopup = e.currentTarget.dataset.tap;
     let animation = wx.createAnimation({

@@ -221,3 +221,78 @@ margin-bottom: 40rpx;
   color: transparent;
 }
 .bold{font-weight: bold}
+
+.actors-wrapper {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid red;
+}
+
+.actors-title {
+  width: 100%;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+}
+
+.title-line {
+  width: 6rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  background: #FFD71C;
+  margin-left: 40rpx;
+}
+
+.title-text {
+  width: 100rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 36rpx;
+  margin-left: 10rpx;
+  font-weight: bold;
+}
+
+.title-img {
+  width: 50rpx;
+  height: 50rpx;
+  background: #000;
+  margin-left: 500rpx;
+}
+
+.actors-content {
+  width: 100%;
+  height: 150rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  background: #ECECEC;
+  margin-bottom: 60rpx;
+}
+
+.actors-list-item {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 150rpx;
+  height: 150rpx;
+  margin-left: 20rpx;
+  border: 1px solid red;
+  vertical-align: top;
+}
+
+.actor-avatal {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50rpx;
+  border: 1px solid green;
+}
+
+.actor-name {
+  text-align: center;
+  font-size: 28rpx;
+  margin-top: 5rpx;
+}
+
+.actors-content .actors-list-item:nth-child(1) {
+  margin-left: 40rpx
+}

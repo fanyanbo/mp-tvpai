@@ -15,6 +15,9 @@ const addPushHistoryUrl = baseUrl_tvpai + "video/client/pushhistory/add";//添�
 const getVideoDetailUrl = baseUrl_tvpai + "video/client/longvideo/videodetail";//获取影片详情
 const getRelatedVideoUrl = baseUrl_tvpai + "video/client/longvideo/relatelong";//获取相关正片
 const getSegmentListUrl = baseUrl_tvpai + "video/client/longvideo/episodeslist";//获取剧集列表
+const getRelatedActorsUrl = "https://beta-tvpi.coocaa.com/" + "video/client/longvideo/videorelateactors"; //获取相关影人信息
+const getRelatedVideoByActorUrl = "https://beta-tvpi.coocaa.com/" + "video/client/longvideo/actorrelatevideos"; //获取影人相关影片
+ 
 
 // 微信业务后台接口
 const getBindDeviceListUrl = baseUrl_wx + "wxUserDeviceAPI/bindDeviceList.coocaa";//获取已绑定设备列表
@@ -44,5 +47,7 @@ module.exports = {
   changeDeviceStatusUrl: changeDeviceStatusUrl,
   getVideoDetailUrl: getVideoDetailUrl,
   getRelatedVideoUrl: getRelatedVideoUrl,
-  getSegmentListUrl: getSegmentListUrl
+  getSegmentListUrl: getSegmentListUrl,
+  getRelatedActorsUrl: getRelatedActorsUrl,
+  getRelatedVideoByActorUrl: getRelatedVideoByActorUrl
 }

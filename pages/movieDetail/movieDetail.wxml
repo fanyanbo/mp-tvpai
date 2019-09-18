@@ -14,6 +14,7 @@
             · {{videoDetailData.video_tags}}
           </li>
           <li class="click_button">
+            <!-- 电影推送布局 -->
             <view class='collect' bindtap="push" data-moviechildid="1" data-movieid="{{videoDetailData.third_album_id}}" data-videoid="{{videoId}}" data-coocaamid="{{coocaa_m_id}}" data-title="{{videoDetailData.album_title}}" wx:if="{{videoDetailData.video_type === '电影'}}">
               <image wx:if="{{!isPushDone}}" src='../../images/collect_before.png'></image>
               <image wx:else src='../../images/collect_after.png'></image>
@@ -47,7 +48,7 @@
       </view>
     </view>
   </view>
-  <!-- 简介 -->
+  <!-- 影片简介 -->
   <view class="introduce" data-tap='desc' bindtap='showPopup'>
     <view class="title bold">
       <text class="line"></text>
@@ -65,11 +66,30 @@
       <view class="info">{{videoDetailData.actor}}</view>
     </view>
   </view>
-  <!-- 猜你喜欢 -->
+
+  <!-- 关联影人（demo） -->
+  <view class="actors-wrapper">
+    <view class="actors-title">
+      <text class="title-line"></text>
+      <text class="title-text">明星</text>
+      <image class="title-img" src="../../images/index_arraw.png" mode="aspectFill" />
+    </view>
+    <view class="actors-content">
+      <scroll-view scroll-x style="width: auto; overflow: hidden;">
+        <view class="actors-list-item" wx:for="{{relatedActorsList}}" wx:key="index" bindtap="handleActorTap">
+          <image class="actor-avatal" src="{{item.image_list[0].url}}" />
+          <text class="actor-name">{{item.name}}</text>
+        </view>
+        </scroll-view>
+    </view>
+  </view>
+
+
+  <!-- 关联影片（猜你喜欢） -->
   <view class="introduce" wx:if="{{relatedVideoList.length !== 0}}">
     <view class="title bold">
       <text class="line"></text>
-      猜你喜欢
+      <text>猜你喜欢</text>
     </view>
   </view>
   <view class='movieList'>
@@ -85,7 +105,7 @@
 <view>
   <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
 </view>
-<!-- 详情弹窗 -->
+<!-- 影片详情浮窗 -->
 <view wx:if="{{isShowDescPopup}}" class='maskLayer' data-tap='desc' bindtap='hidePopup'></view>
 <view wx:if="{{isShowDescPopup}}" class='choose {{bIphoneFullScreenModel ? "iphone-fullscreen-model" : ""}}' animation='{{animationData}}'>
   <view class="title">简介</view>
@@ -103,7 +123,7 @@
     <view class="description">{{videoDetailData.description}}</view>
   </scroll-view>
 </view>
-<!-- 剧集弹窗 -->
+<!-- 剧集推送浮窗 -->
 <view wx:if="{{isShowSeriesPopup}}" class='maskLayer' data-tap='series' bindtap='hidePopup'></view>
 <view wx:if="{{isShowSeriesPopup}}" class='choose {{bIphoneFullScreenModel ? "iphone-fullscreen-model" : ""}}' animation='{{animationData}}'>
   <view class="title">投屏</view>
