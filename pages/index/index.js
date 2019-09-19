@@ -151,6 +151,7 @@ Page({
 
   onLoad() {
     console.log('onLoad')
+
   },
 
   onReady() {
@@ -177,6 +178,12 @@ Page({
     this.getBindedDevice()
     this.getLabelClassify()
     this.getRecommendClassify()
+    //TabBar选中状态
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({
+        selected: 0
+      })
+    }
   },
 
   onHide() {

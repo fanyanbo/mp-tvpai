@@ -38,9 +38,11 @@
     "request": 20000
   },
   "usingComponents": {
-    "navBar": "/components/navBar/navBar"
+    "navBar": "/components/navBar/navBar",
+    "customTabBar": "/components/customTabBar/customTabBar"
   },
   "tabBar": {
+    "custom": true,
     "selectedColor": "#FDBE1A",
     "color": "#333",
     "position": "top",

@@ -10,6 +10,11 @@
   <navBar background='#fff' searchBar="{{true}}" bindsearch='searchAAA' />
 </view>
 
+<!-- tabBar组件 -->
+<view>
+  <customTabBar />
+</view>
+
 <view class="main-wrapper">
   <!-- 搜索框，非固定位置 -->
   <!-- <view class="search-box-wrapper">

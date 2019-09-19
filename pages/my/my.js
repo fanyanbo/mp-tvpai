@@ -42,6 +42,14 @@ Page({
         isShow: false
       })
     }
+
+    //TabBar选中状态
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({
+        selected: 1
+      })
+      console.log("页面切换到我的")
+    }
   },
   clearStorage:function(){
     wx.setStorageSync('new_cksession', "");
