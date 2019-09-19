@@ -24,6 +24,7 @@
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "电视派",
     "navigationBarTextStyle": "black",
+    "navigationStyle": "custom",
     "enablePullDownRefresh": false,
     "backgroundColor": "#fff"
   },
@@ -35,6 +36,9 @@
   },
   "networkTimeout": {
     "request": 20000
+  },
+  "usingComponents": {
+    "navBar": "/components/navBar/navBar"
   },
   "tabBar": {
     "selectedColor": "#FDBE1A",

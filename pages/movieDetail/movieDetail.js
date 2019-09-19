@@ -348,6 +348,21 @@ Page({
     })
   },
 
+  handleGohomeClick: function () {
+    console.log('handleGohomeClick')
+    // 注意:tabbar页面无法使用redirectTo和navigateTo进行跳转
+    wx.switchTab({
+      url: '../index/index'
+    })
+  },
+
+  handleGobackClick: function () {
+    console.log('handleGobackClick')
+    wx.navigateBack({
+      delta: 1
+    })
+  }
+
   //收藏喜欢（未开发）
   // favorite(e) {
   //   if (app.globalData.deviceId == null) {

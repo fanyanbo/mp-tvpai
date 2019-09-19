@@ -1,3 +1,8 @@
+
+<!-- 导航栏组件 -->
+<view>
+  <navBar title='深色背景详情页' background='#333' color='#fff' back="{{true}}" home="{{true}}" iconTheme='white' bindback="handleGobackClick" bindhome="handleGohomeClick" />
+</view>
 <view class='{{isFixedWindow ? "indexFixed" : ""}}'>
   <!-- 影片信息 -->
   <view class="top">

@@ -1,3 +1,9 @@
+
+<!-- 导航栏组件 -->
+<view>
+  <navBar background='#fff' searchBar="{{true}}" bindsearch='searchAAA' />
+</view>
+
 <view class="container">
   <view class="userinfo">
     <view class="avatar-wrapper">
@@ -59,7 +65,6 @@
       </navigator>
     </scroll-view>
   </view> -->
-
 
 </view>
 <view>

@@ -5,14 +5,19 @@
   todo:
   1.优化首屏加载速度 -->
 
+<!-- 导航栏组件 -->
+<view>
+  <navBar background='#fff' searchBar="{{true}}" bindsearch='searchAAA' />
+</view>
+
 <view class="main-wrapper">
   <!-- 搜索框，非固定位置 -->
-  <view class="search-box-wrapper">
+  <!-- <view class="search-box-wrapper">
     <view class="search-box" bindtap='handleSearchTap'>
       <image src="../../images/ser_icon.png" class="search-icon"></image>
       <text class="search-text">{{searchContent}}</text>
     </view>
-  </view>
+  </view> -->
   <scroll-view scroll-y="true" style="height: auto" bindscrolltoupper="upper" bindscrolltolower="lower">
     <!-- banner区域，运营重点区域 -->
     <view class="banner-wrapper">
