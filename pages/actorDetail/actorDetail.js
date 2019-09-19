@@ -9,10 +9,10 @@ Page({
   },
 
   onLoad: function (options) {
-    console.log(options)
-    wx.setNavigationBarTitle({
-      title: options.title || '片单详情'
-    })
+    this.getActorInfo(JSON.parse(options.info).id)
+    // wx.setNavigationBarTitle({
+    //   title: options.title || '片单详情'
+    // })
   },
 
   onShow() {
@@ -30,16 +30,16 @@ Page({
     })
   },
 
-  onShareAppMessage: function (res) {
-    console.log(res)
-    if (res.from === 'button') {
-      // 来自页面内转发按钮
-      console.log(res.target)
-    }
-    return {
-      title: '电视派',
-      path: 'pages/topic/topic'
-    }
+  getActorInfo: function (actorid) {
+    let params = { "actor_id": actorid };
+    let url = utils.urlAssemble_tvpai(api.getRelatedVideoByActorUrl, utils.paramsAssemble_tvpai(params));
+    console.log("获取影人信息url:" + url)
+    utils.requestP(url, null).then(res => {
+      console.log("获取影人信息:", res)
+    }).catch(res => {
+      console.log('获取影人信息失败:', res)
+      utils.showFailedToast('加载数据失败', this.data.errIconUrl)
+    })
   },
 
   //根据不同设备和型号获取不同内容高度

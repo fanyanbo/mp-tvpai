@@ -7,7 +7,7 @@
     <view class="title-main">片单主标题</view>
     <view class="title-sub">片单副标题</view>
     <view class="title-desc">片单描述</view>
-    <button class="title-share" open-type="share">分享片单</button>
+    <view class="title-share">分享片单</view>
   </view>
   <view class="content-wrapper">
     <scroll-view scroll-y="true" style="height: {{scrollHeight}}px" bindscrolltoupper="upper" bindscrolltolower="lower">

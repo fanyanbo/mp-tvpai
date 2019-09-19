@@ -16,7 +16,8 @@
     "pages/search/index",
     "pages/history/history",
     "pages/topic/topic",
-    "pages/webview/webview"
+    "pages/webview/webview",
+    "pages/actorDetail/actorDetail"
   ],
   "window": {
     "backgroundTextStyle": "light",

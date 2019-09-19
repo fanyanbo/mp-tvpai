@@ -207,8 +207,11 @@ Page({
   // 跳转至片单详情页
   handleTopicTap: function (e) {
     console.log('handleTopicTap', e)
+    // wx.navigateTo({
+    //   url: `../webview/webview?title=${e.currentTarget.dataset.title}`,
+    // });
     wx.navigateTo({
-      url: `../webview/webview?title=${e.currentTarget.dataset.title}`,
+      url: `../topic/topic?title=${e.currentTarget.dataset.title}`,
     });
   },
 

@@ -14,12 +14,12 @@ Page({
     bIphoneFullScreenModel: false,
     isFixedWindow: false, //是否固定窗口
     videoType: "", //影片类型
-    selected: '', //选中的剧集
+    selected: "", //选中的剧集
     isPushDone: false, //是否推送成功
     isShowFavorite: false, //是否显示收藏
     vidList: [], //里面全是空，待确认字段
     movieId: "",
-    coocaa_m_id: '',
+    coocaa_m_id: "",
     videoId: "",
     updated_segment: 1,
     errIconUrl: '../../images/close_icon.png',
@@ -325,7 +325,28 @@ Page({
 
   scrollToUpper: function (e) {
     console.log('触发scrollToUpper事件')
-  }
+  },
+  
+  handleActorTap: function (e) {
+    console.log('handleActorTap', e)
+    let {actorinfo} = e.currentTarget.dataset
+    // this.getActorInfo(actorinfo.id)
+    wx.navigateTo({
+      url: `../actorDetail/actorDetail?info=${JSON.stringify(actorinfo)}`,
+    })
+  },
+
+  getActorInfo: function (actorid) {
+    let params = { "actor_id": actorid };
+    let url = utils.urlAssemble_tvpai(api.getRelatedVideoByActorUrl, utils.paramsAssemble_tvpai(params));
+    console.log("获取影人信息url:" + url)
+    utils.requestP(url, null).then(res => {
+      console.log("获取影人信息:", res)
+    }).catch(res => {
+      console.log('获取影人信息失败:', res)
+      utils.showFailedToast('加载数据失败', this.data.errIconUrl)
+    })
+  },
 
   //收藏喜欢（未开发）
   // favorite(e) {

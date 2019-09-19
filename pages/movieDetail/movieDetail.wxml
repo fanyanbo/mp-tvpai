@@ -1,4 +1,3 @@
-
 <view class='{{isFixedWindow ? "indexFixed" : ""}}'>
   <!-- 影片信息 -->
   <view class="top">
@@ -32,7 +31,7 @@
         <image class="arrow_1" src="../../images/info_arraw.png" mode="aspectFill"></image>
       </span>
     </view>
-    <view wx:if="{{videoType !== '电影'}}" class='tvLists {{videoType === "综艺" || videoType === "纪录片" ? "variety":"tvplay"}}' >
+    <view wx:if="{{videoType !== '电影'}}" class='tvLists {{videoType === "综艺" || videoType === "纪录片" ? "variety":"tvplay"}}'>
       <view class='scroll'>
         <view wx:for="{{moviesItem}}" wx:for-item="item" wx:key="coocaa_m_id">
           <view wx:if="{{videoType === '综艺' || videoType === '纪录片'}}" class='xs zy {{selected === item.coocaa_m_id ? "active" : ""}}'>
@@ -66,7 +65,6 @@
       <view class="info">{{videoDetailData.actor}}</view>
     </view>
   </view>
-
   <!-- 关联影人（demo） -->
   <view class="actors-wrapper">
     <view class="actors-title">
@@ -76,15 +74,15 @@
     </view>
     <view class="actors-content">
       <scroll-view scroll-x style="width: auto; overflow: hidden;">
-        <view class="actors-list-item" wx:for="{{relatedActorsList}}" wx:key="index" bindtap="handleActorTap">
-          <image class="actor-avatal" src="{{item.image_list[0].url}}" />
-          <text class="actor-name">{{item.name}}</text>
-        </view>
-        </scroll-view>
+        <block wx:for="{{relatedActorsList}}" wx:key="index">
+          <view class="actors-list-item" data-actorinfo="{{item}}" bindtap="handleActorTap">
+            <image class="actor-avatal" src="{{item.image_list[0].url}}" />
+            <text class="actor-name">{{item.name}}</text>
+          </view>
+        </block>
+      </scroll-view>
     </view>
   </view>
-
-
   <!-- 关联影片（猜你喜欢） -->
   <view class="introduce" wx:if="{{relatedVideoList.length !== 0}}">
     <view class="title bold">
