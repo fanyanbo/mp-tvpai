@@ -337,6 +337,17 @@ function isJson (str) {
   return false;
 }
 
+// 获取导航栏高度（rpx和px）
+function getNavBarHeight () {
+  const {
+    navBarHeight,
+    navBarExtendHeight,
+  } = getApp().globalSystemInfo;
+  let pxNavBarHeight = navBarHeight + navBarExtendHeight
+  let rpxNavBarHeight = pxNavBarHeight * 750 /(wx.getSystemInfoSync().windowWidth) 
+  return {pxNavBarHeight: rpxNavBarHeight, rpxNavBarHeight: rpxNavBarHeight}
+}
+
 module.exports = {
   request: request,
   requestP: requestP,
@@ -355,5 +366,6 @@ module.exports = {
   refreshBindedTVStatus: refreshBindedTVStatus,
   storeBindedTVStatus: storeBindedTVStatus,
   getBindedTVStatus: getBindedTVStatus,
-  isJson: isJson
+  isJson: isJson,
+  getNavBarHeight: getNavBarHeight
 }

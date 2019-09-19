@@ -1,14 +1,16 @@
+
 .search-wrapper {
   position: fixed;
   width:750rpx;
   height:104rpx;
   left: 0;
-  top: 0;
+  /* top: 0; */
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #FFFFFF;
+  border: 1px solid green;
 }
 .search-box-wrapper {
   display: flex;
@@ -25,8 +27,8 @@
   align-items: center;
 }
 .search-icon { 
-  width:30rpx;
-  height:30rpx;
+  width: 50rpx;
+  height: 30rpx;
   padding-left:20rpx;
 }
 .search-text {
@@ -53,7 +55,7 @@
 .search-input-wrapper {
   position: fixed;
   width: 750rpx;
-  top: 104rpx;
+  /* top: 104rpx; */
   left: 0;
 }
 .title-wrapper {
@@ -142,7 +144,7 @@
 .result-title-wrapper {
   position: fixed;
   width: 750rpx;
-  top: 104rpx;
+  /* top: 104rpx; */
   left: 0;
   z-index: 1000;
   display: flex;

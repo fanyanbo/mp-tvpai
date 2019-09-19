@@ -7,7 +7,7 @@
 
 <!-- 导航栏组件 -->
 <view>
-  <navBar background='#fff' searchBar="{{true}}" bindsearch='searchAAA' />
+  <navBar background='#fff' searchBar="{{true}}" bindsearch='handleSearchTap' />
 </view>
 
 <!-- tabBar组件 -->
@@ -132,6 +132,6 @@
 </view>
 
 <!-- 遥控器组件 -->
-<view>
+<!-- <view>
   <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
-</view>
+</view> -->

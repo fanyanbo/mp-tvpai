@@ -45,6 +45,11 @@ Page({
       isShowResult: false
     })
   },
+  handleGobackClick() {
+    wx.navigateBack({
+      delta: 1
+    })
+  },
   // 点击收藏
   handleLikeTap(e) {
     console.log('handleLikeTap', e);
@@ -173,6 +178,27 @@ Page({
   },
   onReady() {
     console.log('search onReady监听页面初次渲染完成');
+    // const {
+    //   navBarHeight,
+    //   navBarExtendHeight,
+    // } = getApp().globalSystemInfo;
+    // let pxNavBarHeight = navBarHeight + navBarExtendHeight
+    // let rpxNavBarHeight = pxNavBarHeight * 750 /(wx.getSystemInfoSync().windowWidth) 
+    const {
+      pxNavBarHeight,
+      rpxNavBarHeight
+    } = utils.getNavBarHeight();
+    console.log(pxNavBarHeight, rpxNavBarHeight)
+    let rpxSearchBoxHeigth = 104
+    let resultTitleStyle = `top:${rpxNavBarHeight + rpxSearchBoxHeigth}rpx`
+    let searchInputStyle = resultTitleStyle
+    let searchBoxStyle = `top: ${rpxNavBarHeight}rpx`
+    console.log(resultTitleStyle, searchInputStyle, searchBoxStyle)
+    this.setData({
+      resultTitleStyle,
+      searchInputStyle,
+      searchBoxStyle
+    });
   },
   onShow() {
     console.log('search onShow监听页面显示');
