@@ -39,7 +39,7 @@
   },
   "usingComponents": {
     "navBar": "/components/navBar/navBar",
-    "customTabBar": "/components/customTabBar/customTabBar"
+    "customTabBar": "/custom-tab-bar/index"
   },
   "tabBar": {
     "custom": true,
