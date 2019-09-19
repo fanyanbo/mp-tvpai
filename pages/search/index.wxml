@@ -5,9 +5,13 @@
   2.加载更多，可抽成组件
   3.每集介绍待优化，支持指定行数显示 -->
 <wxs src="./index.wxs" module="tools" />
+<!-- 导航栏组件 -->
+<view>
+  <navBar title='搜索' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
+</view>
 <view class="main-wrapper">
   <!-- 搜索框 优化点：扩大点击区域-->
-  <view class='search-wrapper'>
+  <view class='search-wrapper' style="{{searchBoxStyle}}">
     <view class='search-box-wrapper'>
       <view class="search-icon-wrapper" bindtap='query'><image class="search-icon" src='../../images/ser_icon.png'></image></view>
       <input name="input" class="search-text" placeholder-class="place-holder" placeholder="{{inputPlaceholder.keyword}}" confirm-type='search' focus="true" value="{{inputValue}}" bindinput='inputBind' bindconfirm='query'></input>
@@ -15,7 +19,7 @@
     </view>
   </view>
   <!-- 搜索输入内容版面（包括搜索历史，热门搜索） -->
-  <view class='search-input-wrapper' wx:if="{{!inputValue || !isShowResult}}">
+  <view class='search-input-wrapper' style="{{searchInputStyle}}" wx:if="{{!inputValue || !isShowResult}}">
     <view class='search-history-wrapper' wx:if="{{historyWordsList && historyWordsList.length != 0}}">
       <view class='title-wrapper'>
         <view class='title'>历史搜索</view>
@@ -44,7 +48,7 @@
     </view>
   </view>
   <!-- 搜索结果内容版面 -->
-  <view class="result-title-wrapper" wx:if="{{inputValue && isShowResult}}">
+  <view class="result-title-wrapper" wx:if="{{inputValue && isShowResult}}" style="{{resultTitleStyle}}">
     <view wx:for="{{resultTitleList}}" wx:key="index" class="list_item {{activeIndex == index ? 'on' : ''}}" bindtap="handleTabClick" data-index="{{index}}">
       {{item}}
     </view>

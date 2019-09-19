@@ -1,6 +1,5 @@
 {
     "usingComponents": {
       "remotecontrol": "../../components/remotecontrol/index"
-    },
-    "navigationBarTitleText": "搜索"
+    }
 }

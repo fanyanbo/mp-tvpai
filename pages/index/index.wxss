@@ -37,6 +37,7 @@
 }
 
 .main-wrapper {
+  padding-top: 20rpx;
   padding-bottom: 178rpx;
 }
 
