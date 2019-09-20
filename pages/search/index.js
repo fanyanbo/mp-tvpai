@@ -178,12 +178,6 @@ Page({
   },
   onReady() {
     console.log('search onReady监听页面初次渲染完成');
-    // const {
-    //   navBarHeight,
-    //   navBarExtendHeight,
-    // } = getApp().globalSystemInfo;
-    // let pxNavBarHeight = navBarHeight + navBarExtendHeight
-    // let rpxNavBarHeight = pxNavBarHeight * 750 /(wx.getSystemInfoSync().windowWidth) 
     const {
       pxNavBarHeight,
       rpxNavBarHeight
@@ -410,6 +404,7 @@ Page({
     return cacheKeywords;
   },
 
+  // 处理字符串长度（兼容中文字符）
   getCutStr: function(str, cutLen) {
     let realLength = 0, len = str.length, charCode = -1;  
     let str_cut = '';

@@ -343,9 +343,10 @@ function getNavBarHeight () {
     navBarHeight,
     navBarExtendHeight,
   } = getApp().globalSystemInfo;
-  let pxNavBarHeight = navBarHeight + navBarExtendHeight
-  let rpxNavBarHeight = pxNavBarHeight * 750 /(wx.getSystemInfoSync().windowWidth) 
-  return {pxNavBarHeight: rpxNavBarHeight, rpxNavBarHeight: rpxNavBarHeight}
+  let _pxNavBarHeight = navBarHeight + navBarExtendHeight
+  let _winWidth = wx.getSystemInfoSync().windowWidth
+  let _rpxNavBarHeight = _pxNavBarHeight * 750 / _winWidth 
+  return {pxNavBarHeight: _pxNavBarHeight, rpxNavBarHeight: _rpxNavBarHeight}
 }
 
 module.exports = {

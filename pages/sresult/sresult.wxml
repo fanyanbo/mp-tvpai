@@ -1,5 +1,9 @@
+<!-- 导航栏组件 -->
+<view>
+  <navBar title='{{navBarTitle}}' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
+</view>
 <view class='container'>
-  <view class='tagList {{tagListAbsolute}}'>
+  <view class='tagList {{tagListAbsolute}}' style="{{tagListStyle}}">
     <view class='tabParents'>
       <view class='tabScroll'>
         <form bindsubmit="tagClick">
