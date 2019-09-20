@@ -1,4 +1,7 @@
-<!-- pages/history/history.wxml -->
+<!-- 导航栏组件 -->
+<view>
+  <navBar title='设备绑定' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
+</view>
 <view class="contant" wx:if="{{historyList!=null&&historyList.length>0}}">
   <view wx:for="{{historyList}}" wx:key="key">
     <view class="title">{{item.time}}</view>

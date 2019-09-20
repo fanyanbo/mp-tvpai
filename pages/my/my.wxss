@@ -52,7 +52,6 @@ button::after {
   position: relative;
   width: 750rpx;
   height: 266rpx;
-  border: 1px solid green;
 }
 
 .userinfo .avatar-wrapper {

@@ -117,30 +117,6 @@ Page({
       console.log(res)
     }, "")
 
-    // let params = { "del_ids": str, "vuid": wx.getStorageSync("wxopenid")}
-    // let desParams = utils_fyb.paramsAssemble_wx(params);
-    // utils_fyb.request(api.batchdelUrl, 'GET', desParams,
-    //   function (res) {
-    //     console.log('batchdelUrl success', res.data);
-    //     if (res.data.result) {
-    //       if (res.data.code == 0) {
-    //         wx.showToast({
-    //           title: '删除成功',
-    //         })
-    //         that.historyList();
-    //       }
-    //     } else {
-    //       wx.showToast({
-    //         title: res.data.message,
-    //       })
-    //     }
-    //   },
-    //   function (res) {
-    //     console.log('batchdelUrl error', res);
-    //     utils_fyb.showFailedToast('加载数据失败', that.data.errIconUrl)
-    //   }
-    // )
-
   },
   // 全选
   select_all: function () {
@@ -244,7 +220,7 @@ Page({
         if (withinList.length != 0) {
           historyList.push(_withinObj)
         }
-        if (overList.length != 0){
+        if (overList.length != 0) {
           historyList.push(_overObj)
         }
         console.log(withinList.length)
@@ -284,9 +260,17 @@ Page({
     utils.showToastBox('加载中...', "loading")
     this.historyList();
   },
-  onShow: function() {
+  
+  onShow: function () {
     this.setData({
       bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
     });
+  },
+
+  handleGobackClick: function () {
+    console.log('handleGobackClick')
+    wx.navigateBack({
+      delta: 1
+    })
   }
 })

@@ -124,7 +124,13 @@ Page({
     let bindStatus = e.currentTarget.dataset.status;
     let deviceName = e.currentTarget.dataset.name;
     wx.navigateTo({url: '../delete/delete?deviceId=' + deviceId + '&bind=' + bindStatus + '&deviceName=' + deviceName})
-    let that = this;
+  },
+
+  handleGobackClick: function () {
+    console.log('handleGobackClick')
+    wx.navigateBack({
+      delta: 1
+    })
   },
   
   // 切换绑定时触发

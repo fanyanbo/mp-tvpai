@@ -1,3 +1,8 @@
+<!-- 导航栏组件 -->
+<view>
+  <navBar title='设备绑定' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
+</view>
+<!-- 页面内容 -->
 <view class="container">
   <view class="{{devices?'none':'no-devices'}}" wx:if="{{isShowDoc}}">
     <view class="swiper_list">
