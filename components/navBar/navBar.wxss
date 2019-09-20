@@ -29,7 +29,7 @@ page {
   padding-right: var(--right);
   width: 100%;
   padding-bottom: var(--navBarExtendHeight);
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 .lxy-nav-bar__inner .lxy-nav-bar__left {
   position: relative;

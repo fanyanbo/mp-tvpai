@@ -1,6 +1,6 @@
-const utils = require('../../utils/util_fyb');
-const api = require('../../api/api_fyb');
-const app = getApp();
+const utils = require('../../utils/util_fyb')
+const api = require('../../api/api_fyb')
+const app = getApp()
 
 Page({
   data: {

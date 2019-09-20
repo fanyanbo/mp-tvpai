@@ -12,6 +12,25 @@ Component({
     }]
   },
   attached() {
+    console.log('custom-tab-bar attached')
+  },
+  ready() {
+    console.log('custom-tab-bar ready')
+    const {
+      navBarHeight,
+      navBarExtendHeight,
+    } = getApp().globalSystemInfo;
+    let _pxNavBarHeight = navBarHeight + navBarExtendHeight
+    let _winWidth = wx.getSystemInfoSync().windowWidth
+    let _rpxNavBarHeight = _pxNavBarHeight * 750 / _winWidth 
+    let tabBarStyle = `top: ${_pxNavBarHeight}px`
+    console.log(_rpxNavBarHeight, _pxNavBarHeight, tabBarStyle)
+    this.setData({
+      tabBarStyle
+    });
+  },
+  created() {
+    console.log('custom-tab-bar created')
   },
   methods: {
     switchTab(e) {

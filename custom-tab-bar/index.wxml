@@ -1,4 +1,4 @@
-<view class="tab-bar">
+<view class="tab-bar" style="{{tabBarStyle}}">
   <view wx:for="{{list}}" wx:key="index" class="tab-bar-item" data-path="{{item.pagePath}}" data-index="{{index}}" bindtap="switchTab">
     <view style="color: {{selected === index ? selectedColor : color}}">{{item.text}}</view>
     <view class="bottom-rapper">

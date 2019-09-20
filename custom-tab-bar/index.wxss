@@ -1,6 +1,6 @@
 .tab-bar {
   position: fixed;
-  top: 68px;
+  /* top: 68px; */
   left: 0;
   right: 0;
   height: 48px;
