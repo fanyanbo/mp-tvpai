@@ -1,7 +1,12 @@
 /* 清除button默认样式 */
 button::after {
-  border:none;
+  border: none;
 }
+
+.main-wrapper {
+  margin-top: 48px;
+}
+
 .mylabel {
   position: relative;
   height: 88rpx;
@@ -11,17 +16,20 @@ button::after {
   box-sizing: border-box;
   background: #fff
 }
+
 .mylabel .title {
   font-size: 32rpx;
   color: #000000;
   margin-left: 20rpx
 }
+
 .mylabel .more {
   position: absolute;
-  font-size:28rpx;
-  color:#999;
+  font-size: 28rpx;
+  color: #999;
   right: 24rpx;
 }
+
 .mylabel .arrow {
   position: absolute;
   height: 24rpx;
@@ -29,67 +37,88 @@ button::after {
   right: 0rpx;
   margin-top: 2rpx
 }
+
 .mylabel .my_icon {
   width: 48rpx;
   height: 48rpx;
   margin-top: 8rpx
 }
-.binding{
+
+.binding {
   margin-bottom: 40rpx
 }
+
 .userinfo {
   position: relative;
   width: 750rpx;
   height: 266rpx;
+  border: 1px solid green;
 }
+
 .userinfo .avatar-wrapper {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
+  align-items: center;  
+  flex-direction: column;
+  box-sizing: border-box;
   width: 750rpx;
-  position: relative;
+  height: 266rpx;
 }
+
 .avatar-wrapper .avatar {
-  position: absolute;
   width: 132rpx;
   height: 132rpx;
   border-radius: 50%;
-  margin-top: -10rpx;
-  border: 30rpx solid white;
+  margin-top: 10rpx;
+  border: 30rpx solid #fff;
 }
-.avatar-wrapper .name {
+
+.avatar-wrapper .avatar2 {
   position: absolute;
-  margin-top: 87rpx;
+  box-sizing: content-box;
+  width: 132rpx;
+  height: 132rpx;
+  border-radius: 50%;
+  top: 10rpx;
+  border: 30rpx solid #fff;
+}
+
+.avatar-wrapper .name {
+  margin-top: -20rpx;
+  z-index: 100;
   font-size: 30rpx;
   height: 44rpx;
   line-height: 44rpx;
   color: #333;
   font-weight: bold
 }
-.section{
+
+.section {
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
   box-sizing: border-box;
   height: 208rpx;
 }
-.item_list{
+
+.item_list {
   width: 210rpx;
   height: 168rpx;
-  margin-left:20rpx;
+  margin-left: 20rpx;
   display: inline-block;
 }
-.scroll_box .item_list:nth-child(1){
+
+.scroll_box .item_list:nth-child(1) {
   margin-left: 40rpx
 }
-.item_book_img{
+
+.item_book_img {
   width: 210rpx;
   height: 118rpx;
   border-radius: 12rpx;
   margin: 20rpx 0 10rpx 0
 }
-.item_book_text{
+
+.item_book_text {
   font-size: 28rpx;
   text-align: left;
   color: #666;
@@ -97,14 +126,15 @@ button::after {
   line-height: 40rpx;
   width: 210rpx;
 }
-.inaline{
-  overflow:hidden;
-  white-space:nowrap;
-  text-overflow:ellipsis
+
+.inaline {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis
 }
+
 ::-webkit-scrollbar {
   width: 0;
   height: 0;
   color: transparent;
 }
-

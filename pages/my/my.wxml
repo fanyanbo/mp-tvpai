@@ -9,11 +9,11 @@
   <customTabBar />
 </view>
 
-<view class="container">
+<view class="main-wrapper">
   <view class="userinfo">
     <view class="avatar-wrapper">
       <open-data class="avatar" type="userAvatarUrl"></open-data>
-      <view class="avatar"></view>
+      <view class="avatar2"></view>
       <view class="name">
         <open-data class="nickname" type="userNickName"></open-data>
       </view>
@@ -22,8 +22,8 @@
   <view class='binding mylabel' data-type="home" bindtap="handleJumpPage">
     <image class='my_icon' src="../../images/search_tv.png"></image>
     <text class="title">设备绑定</text>
-    <text class="more" wx:if="{{!isShow}}">未连接</text>
-    <text class="more" wx:if="{{isShow}}">已连接</text>
+    <text class="more" wx:if="{{!isDevConnected}}">未连接</text>
+    <text class="more" wx:if="{{isDevConnected}}">已连接</text>
     <image class="arrow" src="../../images/my_arrow.png"></image>
   </view>
   <view class='history mylabel' data-type="history" bindtap="handleJumpPage">
@@ -72,6 +72,8 @@
   </view> -->
 
 </view>
+
+<!-- 遥控器组件 -->
 <view>
   <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
 </view>
