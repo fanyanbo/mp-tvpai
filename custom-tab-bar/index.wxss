@@ -8,6 +8,7 @@
   display: flex;
   padding-bottom: env(safe-area-inset-bottom);
   z-index: 9999;
+  box-sizing: border-box;
 }
 
 .tab-bar-item {
@@ -18,12 +19,18 @@
   align-items: center;
   flex-direction: column;
   font-size: 28rpx;
+  box-sizing: border-box;
 }
 
 .tab-bar-item .tab-bar-bottom {
-  margin-top: 8px;
   width: 40px;
   border-bottom-style: solid;
   border-width: 2px;
   border-color: #FDBE1A;
 }
+
+.tab-bar-item .bottom-rapper {
+  margin-top: 8px;
+  width: 40px;
+}
+
