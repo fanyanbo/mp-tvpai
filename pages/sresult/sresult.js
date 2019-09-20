@@ -1,10 +1,13 @@
-var utils = require('../../utils/util.js')
-var api = require('../../api/api.js')
-var app = getApp()
+const utils = require('../../utils/util.js')
+const utils_fyb = require('../../utils/util_fyb.js')
+const api_fyb = require('../../api/api_fyb.js')
+const api = require('../../api/api.js')
+const app = getApp()
+
 Page({
   data: {
     isShowTips: true,
-    bIphoneFullScreenModel:false,
+    bIphoneFullScreenModel: false,
     flag: true,
     tabAll: 'tabAll',
     tabShow: 'show',
@@ -13,6 +16,12 @@ Page({
     active: 0,
     pageIndex: 0,
     isShowDoc: false
+  },
+  handleGobackClick: function () {
+    console.log('handleGobackClick')
+    wx.navigateBack({
+      delta: 1
+    })
   },
   tabClick: function (e) {
     console.log(e)
@@ -69,16 +78,10 @@ Page({
     utils.eventCollect(type, channelId)
     searchContent(that, channelId, sorts, filters, extraCondition)
   },
-  radioChange: function (e) {
-    console.log('======radio发生change事件，携带value值为：', e.detail.value)
-    console.log(e)
-  },
-  secondTag: function (e) {
 
-  },
   onLoad: function (options) {
     utils.showToastBox('加载中...', "loading")
-    console.log(options.category_id)
+    console.log('分类id:', options.category_id)
     var that = this
     var paramsStr = { "ccsession": wx.getStorageSync("new_cksession"), "channelId": options.category_id }
     var sign = utils.encryption(paramsStr, app.globalData.key)
@@ -108,18 +111,23 @@ Page({
     })
     secondChn(that, options.category_id)
     searchContent(that, options.category_id)
-    wx.setNavigationBarTitle({
-      title: options.title
+    this.setData({
+      navBarTitle: options.title
     })
+  },
+  onReady: function () {
+    const { pxNavBarHeight
+    } = utils_fyb.getNavBarHeight()
+    let tagListStyle = `top: ${pxNavBarHeight}px`
+    this.setData({
+      tagListStyle
+    });
   },
   onShow: function () {
     this.setData({
       isShowTips: app.globalData.isShowTips,
       bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
     });
-  },
-  onPullDownRefresh: function () {
-    console.log('onPullDownRefresh')
   },
 
   onReachBottom: function () {
@@ -198,7 +206,7 @@ function searchContent(that, channelId, sorts, filters, extraCondition) {
     filters = encodeURI(filters, 'utf-8')
     extraCondition = encodeURI(extraCondition, 'utf-8')
     console.log("条件筛选!")
-    paramsStr = { "ccsession": ccsession, "channelId": channelId, "extraCondition": extraCondition, "filters": filters, "pageIndex": that.data.pageIndex, "sorts": sorts }    
+    paramsStr = { "ccsession": ccsession, "channelId": channelId, "extraCondition": extraCondition, "filters": filters, "pageIndex": that.data.pageIndex, "sorts": sorts }
     sign = utils.encryption(paramsStr, app.globalData.key)
     dataStr = utils.json2Form({ client_id: 'applet', sign: sign, param: '{"ccsession":"' + ccsession + '","channelId":"' + channelId + '","extraCondition":"' + extraCondition + '","filters":"' + filters + '","pageIndex":"' + that.data.pageIndex + '","sorts":"' + sorts + '"}' });
   }
@@ -230,9 +238,7 @@ function searchContent(that, channelId, sorts, filters, extraCondition) {
         }
       } else {
         utils.showToastBox(res.data.message, "loading");
-      //  that.setData({ isShowDoc: true });
       }
-
     }
   })
 }

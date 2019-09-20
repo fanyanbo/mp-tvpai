@@ -7,7 +7,7 @@
 .tabOpen{position:absolute;z-index:99;bottom:5%;left:45%;}
 .tagListAbsolute{position: absolute;z-index: 9;background: #fff;}
 .movieList{margin:0 auto;padding: 0rpx 20rpx 178rpx 20rpx; box-sizing: border-box; margin-top: 120rpx}
-.tagList{position:fixed;top:0;width: 100%;}
+.tagList{position:fixed; width: 100%;}
 .tagAll{position:absolute;z-index:9;overflow-y:scroll;background:#fff;width: 100%;border-bottom: 1rpx solid #ccc;padding-bottom:60rpx;}
 /* radio{opacity: 0}
 radio:checked{color:red;} */
