@@ -10,10 +10,11 @@
   <navBar background='#fff' searchBar="{{true}}" bindsearch='handleSearchTap' />
 </view>
 
-<!-- tabBar组件 -->
+<!-- tabBar组件
+不用引入，只用在app.json里面配置即可
 <view>
   <customTabBar />
-</view>
+</view> -->
 
 <view class="main-wrapper">
   <!-- 搜索框，非固定位置 -->

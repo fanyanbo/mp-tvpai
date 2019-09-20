@@ -4,10 +4,10 @@
   <navBar background='#fff' searchBar="{{true}}" bindsearch='searchAAA' />
 </view>
 
-<!-- tabBar组件 -->
+<!-- tabBar组件
 <view>
   <customTabBar />
-</view>
+</view> -->
 
 <view class="main-wrapper">
   <view class="userinfo">

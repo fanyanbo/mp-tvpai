@@ -38,14 +38,12 @@
     "request": 20000
   },
   "usingComponents": {
-    "navBar": "/components/navBar/navBar",
-    "customTabBar": "/custom-tab-bar/index"
+    "navBar": "/components/navBar/navBar"
   },
   "tabBar": {
     "custom": true,
     "selectedColor": "#FDBE1A",
     "color": "#333",
-    "position": "top",
     "backgroundColor": "#fff",
     "borderStyle": "black",
     "list": [

@@ -1,5 +1,6 @@
 <cover-view class="tab-bar">
   <cover-view wx:for="{{list}}" wx:key="index" class="tab-bar-item" data-path="{{item.pagePath}}" data-index="{{index}}" bindtap="switchTab">
     <cover-view style="color: {{selected === index ? selectedColor : color}}">{{item.text}}</cover-view>
+    <cover-view wx:if="{{selected === index}}" class="tab-bar-bottom"></cover-view>
   </cover-view>
 </cover-view>
