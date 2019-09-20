@@ -20,14 +20,13 @@
 }
 
 .tab-bar-item cover-view {
-  font-size: 32rpx;
+  font-size: 28rpx;
 }
 
 .tab-bar-item .tab-bar-bottom {
-  margin-top: 5px;
+  margin-top: 8px;
   width: 40px;
   border-bottom-style: solid;
   border-width: 2px;
   border-color: #FDBE1A;
-
 }
