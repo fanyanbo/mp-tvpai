@@ -358,9 +358,7 @@ Page({
 
   handleGobackClick: function () {
     console.log('handleGobackClick')
-    wx.navigateBack({
-      delta: 1
-    })
+    utils.navigateBack()
   }
 
   //收藏喜欢（未开发）

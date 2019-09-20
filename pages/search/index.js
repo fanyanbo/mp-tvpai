@@ -46,9 +46,7 @@ Page({
     })
   },
   handleGobackClick() {
-    wx.navigateBack({
-      delta: 1
-    })
+    utils.navigateBack()
   },
   // 点击收藏
   handleLikeTap(e) {

@@ -22,7 +22,7 @@ Component({
     },
     searchText: {
       type: String,
-      value: '点我搜索'
+      value: '搜索视频、影评或话题'
     },
     searchBar: {
       type: Boolean,

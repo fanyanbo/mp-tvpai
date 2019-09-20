@@ -349,6 +349,16 @@ function getNavBarHeight () {
   return {pxNavBarHeight: _pxNavBarHeight, rpxNavBarHeight: _rpxNavBarHeight}
 }
 
+function navigateBack (n = 1) {
+  wx.navigateBack({
+    delta: n
+  })
+}
+
+function navigateTo (url) {
+  wx.navigateTo({ url: url })
+}
+
 module.exports = {
   request: request,
   requestP: requestP,
@@ -368,5 +378,7 @@ module.exports = {
   storeBindedTVStatus: storeBindedTVStatus,
   getBindedTVStatus: getBindedTVStatus,
   isJson: isJson,
-  getNavBarHeight: getNavBarHeight
+  getNavBarHeight: getNavBarHeight,
+  navigateBack: navigateBack,
+  navigateTo: navigateTo
 }

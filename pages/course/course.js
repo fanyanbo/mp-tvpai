@@ -1,6 +1,7 @@
-const utils = require('../../utils/util_fyb');
-const api = require('../../api/api_fyb');
-const app = getApp();
+const utils = require('../../utils/util_fyb')
+const api = require('../../api/api_fyb')
+const app = getApp()
+
 Page({
   data: {
     bIphoneFullScreenModel: false,
@@ -12,27 +13,27 @@ Page({
     let desParams = utils.paramsAssemble_wx(srcParams);
     console.log(desParams);
     utils.showLoadingToast('设备绑定中');
-    utils.requestP(api.bindDeviceUrl, desParams).then( res => {
+    utils.requestP(api.bindDeviceUrl, desParams).then(res => {
       console.log("绑定设备信息:", res)
       if (res.data.code === 200) {
         utils.showSuccessToast('设备绑定成功');
         setTimeout(() => {
-          wx.navigateBack({
-            delta: 1
-          })
+          utils.navigateBack()
         }, 1000)
       } else {
         utils.showFailedToast('设备绑定失败', '../../images/close_icon.png');
       }
     })
   },
+
   onShow() {
     this.setData({
       bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
     });
 
   },
-  scanQRCode() {  
+
+  scanQRCode() {
     wx.scanCode({
       success: (res) => {
         console.log("scanQRCode result", res.result);
@@ -42,5 +43,10 @@ Page({
         console.log('scanQRCode error', res);
       }
     })
+  },
+
+  handleGobackClick: function () {
+    console.log('handleGobackClick')
+    utils.navigateBack()
   }
 })  

@@ -19,9 +19,7 @@ Page({
   },
   handleGobackClick: function () {
     console.log('handleGobackClick')
-    wx.navigateBack({
-      delta: 1
-    })
+    utils_fyb.navigateBack()
   },
   tabClick: function (e) {
     console.log(e)

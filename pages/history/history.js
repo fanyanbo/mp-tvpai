@@ -260,7 +260,7 @@ Page({
     utils.showToastBox('加载中...', "loading")
     this.historyList();
   },
-  
+
   onShow: function () {
     this.setData({
       bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
@@ -269,8 +269,6 @@ Page({
 
   handleGobackClick: function () {
     console.log('handleGobackClick')
-    wx.navigateBack({
-      delta: 1
-    })
+    utils_fyb.navigateBack()
   }
 })

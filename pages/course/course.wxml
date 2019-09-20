@@ -1,3 +1,6 @@
+<view>
+  <navBar title='教程' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
+</view>
 <view class="img_list">
   <image src="../../images/help/0.jpg" mode="widthFix"></image>
   <image src="../../images/help/1.jpg" mode="widthFix"></image>
