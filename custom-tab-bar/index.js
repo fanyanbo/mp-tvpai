@@ -38,9 +38,9 @@ Component({
       console.log("导航栏状态",data)
       const url = data.path
       wx.switchTab({ url })
-      this.setData({
-        selected: data.index
-      })
+      // this.setData({
+      //   selected: data.index
+      // })
     }
   }
 })

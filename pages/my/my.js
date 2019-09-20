@@ -3,8 +3,8 @@
 // date: 2019-09-20
 // todo: 1.命名优化，2.代码优化 3.适配自定义导航栏
 
-const utils_fyb = require('../../utils/util_fyb')
-const api_fyb = require('../../api/api_fyb')
+const utils = require('../../utils/util_fyb')
+const api = require('../../api/api_fyb')
 const app = getApp()
 
 Page({
@@ -30,21 +30,18 @@ Page({
 
   onShow: function () {
     console.log('onShow');
-
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       // 切换到“我的”tab，设置选中状态
       this.getTabBar().setData({
         selected: 1 // 这个数是tabBar从左到右的下标，从0开始
       })
     }
-
     let _isDevConnected = app.globalData.deviceId != null ? true : false
     this.setData({
       isShowTips: app.globalData.isShowTips,
       bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel,
       isDevConnected: _isDevConnected
     });
-
     // 获取历史和收藏列表
     this.getHistoryList();
     this.getFavoriteList();
@@ -53,6 +50,11 @@ Page({
   clearStorage: function () {
     wx.setStorageSync('new_cksession', "");
   },
+
+    // 跳转至搜索页面
+    handleSearchTap: function () {
+      utils.navigateTo('../search/index');
+    },
 
   // 设备绑定和推送历史入口暂未使用
   bindGetUserInfo(e) {
@@ -67,7 +69,7 @@ Page({
       wx.login({
         success: function (res) {
           console.log('code', res);
-          utils_fyb.getSessionByCode(res.code, function (res) {
+          utils.getSessionByCode(res.code, function (res) {
             console.log('success', res);
             if (res.data.result && res.data.data) {
               let ccsession = res.data.data.ccsession;
@@ -108,8 +110,8 @@ Page({
     console.log('获取openid：', vuid);
     if (vuid == null || vuid === '') return;
     let srcParams = { "vuid": vuid };
-    let desParams = utils_fyb.paramsAssemble_tvpai(srcParams);
-    utils_fyb.requestP(api_fyb.getHistoryListUrl, desParams).then(res => {
+    let desParams = utils.paramsAssemble_tvpai(srcParams);
+    utils.requestP(api.getHistoryListUrl, desParams).then(res => {
       console.log("获取历史列表成功：", res);
       if (res.data.data) {
         let withinList = res.data.data.movies_within_serven_days
@@ -130,9 +132,9 @@ Page({
     console.log('获取openid：', vuid);
     if (vuid == null || vuid === '') return;
     let srcParams = { "vuid": vuid, "video_type": 1 };
-    let desParams = utils_fyb.paramsAssemble_tvpai(srcParams);
+    let desParams = utils.paramsAssemble_tvpai(srcParams);
     console.log(desParams);
-    utils_fyb.requestP(api_fyb.getCollectedListUrl, desParams).then(res => {
+    utils.requestP(api.getCollectedListUrl, desParams).then(res => {
       console.log("获取收藏列表成功：", res);
       if (res.data.data) {
         this.setData({

@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: center;
   background: #FFFFFF;
-  border: 1px solid green;
+  /* border: 1px solid green; */
 }
 .search-box-wrapper {
   display: flex;

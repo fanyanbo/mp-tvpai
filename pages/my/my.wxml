@@ -1,7 +1,7 @@
 
 <!-- 导航栏组件 -->
 <view>
-  <navBar background='#fff' searchBar="{{true}}" bindsearch='searchAAA' />
+  <navBar background='#fff' searchBar="{{true}}" bindsearch='handleSearchTap' />
 </view>
 
 <!-- tabBar组件
