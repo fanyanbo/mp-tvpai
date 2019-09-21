@@ -21,6 +21,12 @@ Page({
   },
   listenSwiper: function (e) {
   },
+  handleGobackClick: function () {
+    console.log('handleGobackClick')
+    wx.navigateBack({
+      delta: 1
+    })
+  },
   getActiveId: function () {
     console.log('获取激活id中')
     const ccsession = wx.getStorageSync('new_cksession')

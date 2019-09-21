@@ -1,4 +1,7 @@
 <!-- cinecism.wxml -->
+<view>
+  <navBar title='电视派' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
+</view>
 <!-- height:{{scHeight-90}}px;overflow-y:{{isTrue}} -->
 <form bindsubmit="formSubmit" formSubmit="true">
   <!-- <button id="eventBbutton" name="collectEvent" formType="submit" bindgetuserinfo='bindgetuserinfo' class="button-hover" hover-class="other-button-hover"></button> -->

@@ -1,3 +1,7 @@
+<view>
+  <navBar title='电视派' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
+</view>
+
 <view class="container">
   <!--banners  -->
   <view class="banner">

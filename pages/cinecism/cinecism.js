@@ -196,6 +196,12 @@ Page({
     }
 
   },
+  handleGobackClick: function () {
+    console.log('handleGobackClick')
+    wx.navigateBack({
+      delta: 1
+    })
+  },
   handClick(e) {
     //判断ccsession是否为空
   //  if (utils.ccsessionIs() == null) return
