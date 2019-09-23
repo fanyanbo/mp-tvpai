@@ -248,7 +248,8 @@
                   </view>
                   <view class="cinecism_card_footer">
                     <!-- 收藏影片 -->
-                    <view class="inline" style="display:none">
+                    <!-- <view class="inline" style="display:none"> -->
+                    <view class="inline">
                       <view class="collect_logo">
                         <!-- <image src="../../images/collect_icon.png"/> -->
                         <li data-contentid="{{item.contentId}}" wx:if="{{item.moviesDetail.isCollectionMovie == 'no'}}" class="starIcon {{starArrays[item.contentId]}}" data-index="{{index}}" bindtap="collect"></li>
@@ -259,8 +260,8 @@
                       </view>
                     </view>
                     <!-- 收藏影片end -->
-                    <!-- 推送到电视 -->
-                    <view style="display:none" class="inline" data-movietypes="{{item.movieType}}" data-contentid="{{item.contentId}}" data-allcount="{{item.moviesDetail.videoData.base_info.publist_segment}}" data-nowcount="{{item.moviesDetail.videoData.base_info.current_segment}}" data-videotype="{{item.moviesDetail.videoData.base_info.video_type}}" bindtap="pushVideo">
+                    <!-- 推送到电视  style="display:none"-->
+                    <view class="inline" data-movietypes="{{item.movieType}}" data-contentid="{{item.contentId}}" data-allcount="{{item.moviesDetail.videoData.base_info.publist_segment}}" data-nowcount="{{item.moviesDetail.videoData.base_info.current_segment}}" data-videotype="{{item.moviesDetail.videoData.base_info.video_type}}" bindtap="pushVideo">
                       <!-- <button name="pushVideo" formType="submit">  </button> -->
                       <view class="push_logo">
                         <image src="../../images/propell_icon.png" />
@@ -313,7 +314,8 @@
         </view>
         <!-- 相关文章end -->
         <!-- 评论 start -->
-        <view id="cinecism_comment" style="display:none" >
+        <!-- <view id="cinecism_comment" style="display:none" > -->
+        <view id="cinecism_comment">
           <view class="cinecism_comment" wx:if="{{loadData!=null&&loadData.length>0}}">
             <view class="cinecism_comment_topic">评论 {{commentData.pager.totalNum}}</view>
             <!-- 一条评论 -->
@@ -344,9 +346,11 @@
         </view>
         <!-- 评论end -->
         <!-- 底部栏start -->
-        <view class="footer" style="display:none">
+        <!-- <view class="footer" style="display:none"> -->
+        <view class="footer">
           <ul>
-            <li class="footer_bar" style="display:none" bindtap="clickBar" wx:if="{{moviesData!=null&&moviesData.length>0&&lenIs}}">
+            <!-- style="display:none" -->
+            <li class="footer_bar" bindtap="clickBar" wx:if="{{moviesData!=null&&moviesData.length>0&&lenIs}}">
               <image src="../../images/catalog_icon.png"></image>
               <text>文中影片</text>
             </li>
