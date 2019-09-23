@@ -1,8 +1,6 @@
 Component({
   data: {
     selected: 0,
-    color: "#333",
-    selectedColor: "#FDBE1A",
     list: [{
       pagePath: "../../pages/index/index",
       text: "主页"

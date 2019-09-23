@@ -18,19 +18,30 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  font-size: 28rpx;
-  box-sizing: border-box;
+  font-size: 34rpx;
+  font-family: PingFangSC-Semibold, sans-serif;
+  font-weight: bold;
+}
+
+.tab-bar-item .tab-selected {
+  color: #333333;
+}
+
+.tab-bar-item .tab-noselected {
+  color: #999999;
 }
 
 .tab-bar-item .tab-bar-bottom {
-  width: 40px;
+  width: 14px;
   border-bottom-style: solid;
-  border-width: 2px;
-  border-color: #FDBE1A;
+  border-width: 3px;
+  border-color: #FFD71C;
 }
 
 .tab-bar-item .bottom-rapper {
+  height: 3px;
   margin-top: 8px;
-  width: 40px;
+  width: 14px;
+  box-sizing: border-box;
 }
 
