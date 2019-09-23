@@ -10,6 +10,7 @@ const collectUrl = baseUrl_tvpai + "video/client/collect/add"; //收藏或取消
 const getCollectedListUrl = baseUrl_tvpai + "video/client/collect/list"; //获取已收藏影片列表
 const getOneClassifyUrl = baseUrl_tvpai + "video/client/longvideo/oneclassify";// 获取一级标签分类
 const getRecommendListUrl = baseUrl_tvpai + "video/client/longvideo/recommendlist";// 获取首页推荐
+const getRecommendMoreListUrl = baseUrl_tvpai + "video/client/longvideo/recommendmorelist";// 获取首页推荐更多内容
 const getHistoryListUrl = baseUrl_tvpai + "video/client/pushhistory/list";//获取历史列表
 const addPushHistoryUrl = baseUrl_tvpai + "video/client/pushhistory/add";//添加推送历史项
 const getVideoDetailUrl = baseUrl_tvpai + "video/client/longvideo/videodetail";//获取影片详情
@@ -49,5 +50,6 @@ module.exports = {
   getRelatedVideoUrl: getRelatedVideoUrl,
   getSegmentListUrl: getSegmentListUrl,
   getRelatedActorsUrl: getRelatedActorsUrl,
-  getRelatedVideoByActorUrl: getRelatedVideoByActorUrl
+  getRelatedVideoByActorUrl: getRelatedVideoByActorUrl,
+  getRecommendMoreListUrl: getRecommendMoreListUrl
 }

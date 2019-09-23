@@ -1,15 +1,20 @@
-<!--影片列表  -->
-<view class='movieList' wx:if="{{contentAll!=null&&contentAll.length>0}}">
-  <view class='item' wx:for="{{contentAll}}" wx:for-item="item" wx:if="{{item.album_title != ''}}">
+
+<view>
+  <navBar title='{{navBarTitle}}' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
+</view>
+<!-- 影片列表 -->
+<view class='movieList' wx:if="{{contentList && contentList.length > 0}}">
+  <view class='item' wx:for="{{contentList}}" wx:key="index"
+  wx:if="{{item.album_title != ''}}">
     <form bindsubmit="movieclick">
-    <navigator url="../movieDetail/movieDetail?id={{item.third_album_id}}" bindtap="movieclick" hover-class="none" data-id="{{item.third_album_id}}">
-      <image class="listImg" src='{{item.video_poster}}' mode="aspectFill"></image>
-      <text class='describe'>{{item.album_title}}</text>
-    </navigator>
+      <navigator url="../movieDetail/movieDetail?id={{item.third_album_id}}" bindtap="movieclick" hover-class="none" data-id="{{item.third_album_id}}">
+        <image class="listImg" src='{{item.video_poster}}' mode="aspectFill"></image>
+        <text class='describe'>{{item.album_title}}</text>
+      </navigator>
     </form>
   </view>
- </view>
- <view class="nomv" wx:if="{{isShowDoc}}">暂无相关影片</view>
- <view>
+</view>
+<view class="nomv" wx:if="{{isContentEmpty}}">暂无相关影片</view>
+<view>
   <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
 </view>

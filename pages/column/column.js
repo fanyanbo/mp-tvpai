@@ -1,6 +1,10 @@
-const utils = require('../../utils/util.js')
-const api = require('../../api/api.js')
-const utils_fyb = require('../../utils/util_fyb')
+// author: fanyanbo
+// email: fanyanbo@coocaa.com
+// date: 2019-09-23
+// des: 推荐分类更多内容页
+
+const api = require('../../api/api_fyb')
+const utils = require('../../utils/util_fyb')
 const app = getApp()
 
 Page({
@@ -9,46 +13,45 @@ Page({
    */
   data: {
     isShowTips: true,
-    bIphoneFullScreenModel:false,
-    isShowDoc:false,
-    contentAll: [],
+    bIphoneFullScreenModel: false,
+    isContentEmpty: false,
+    contentList: [],
+    errIconUrl: '../../images/close_icon.png',
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    utils.showToastBox('加载中...', "loading")
-    let that = this
-    let params = { "target_id": options.id};
-      let desParams = utils_fyb.paramsAssemble_tvpai(params);
-    utils_fyb.request(api.recommendmorelistUrl, 'GET', desParams, function (res) {
-      console.log(res)
-      if (res.data.data) {
-          that.setData({
-            contentAll: res.data.data
-          })
-      }else {
-        console.log('streams fail:')
-        console.log(res)
-        that.setData({ isShowDoc: true });
-        wx.showToast({
-          title: '加载数据失败',
-        })
-      }
-    }, function (res) {
-      console.log('streams fail:', res)
-      wx.showToast({
-        title: '加载数据失败',
-      })
-      that.setData({ isShowDoc: true });
-    }, function (res) {
-      console.log('streams complete:', res)
-    }, ""),
-    wx.setNavigationBarTitle({
-      title: options.title
+    utils.showLoadingToast()
+    this.setData({
+      navBarTitle: options.title
     })
-
+    let params = { "target_id": options.id }
+    let desParams = utils.paramsAssemble_tvpai(params)
+    utils.requestP(api.getRecommendMoreListUrl, desParams).then(res => {
+      console.log('获取分类更多数据:', res)
+      utils.showLoadingToast('', false)
+      if (res.data.data) {
+        this.setData({
+          contentList: res.data.data
+        })
+      } else {
+        console.log('获取分类更多数据失败:', res)
+        utils.showFailedToast('加载数据失败', this.data.errIconUrl)
+        this.setData({ isContentEmpty: true })
+      }
+    }).catch(res => {
+      console.log('获取分类更多数据发生错误:', res)
+      utils.showFailedToast('加载数据失败', this.data.errIconUrl)
+      this.setData({ isContentEmpty: true })
+    }) 
   },
+
+  handleGobackClick: function () {
+    console.log('handleGobackClick')
+    utils.navigateBack()
+  },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

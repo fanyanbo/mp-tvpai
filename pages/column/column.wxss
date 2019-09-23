@@ -1,11 +1,20 @@
-/* pages/column/column.wxss */
+.movieList {
+  margin: 0 auto;
+  padding-bottom: 178rpx;
+  width: 90%
+}
 
-.movieList{margin:0 auto; padding-bottom: 178rpx; width: 90%}
-.nomv{margin: 60% auto; text-align: center}
+.nomv {
+  margin: 30% auto;
+  text-align: center
+}
 
-.item{ margin-top: 30rpx;}
-.listImg{
+.item {
+  margin-top: 30rpx;
+}
+
+.listImg {
   width: 210rpx;
   height: 294rpx;
   border-radius: 12rpx
-  }
+}

@@ -1,7 +1,6 @@
 {
   "navigationBarTitleText": "",
   "usingComponents": {
-    "remotecontrol": "../../components/remotecontrol/index",
-    "search": "../../components/search/index"
+    "remotecontrol": "../../components/remotecontrol/index"
   }
 }
