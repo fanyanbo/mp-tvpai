@@ -1,5 +1,5 @@
 page {
-  background-color: #f4f4f4
+  background-color: gold;
 }
 
 .main-wrapper {
@@ -10,7 +10,7 @@ page {
 
 .title-wrapper {
   position: fixed;
-  top: 0;
+  /* top: 0; */
   left: 0;
   z-index: 100;
   width: 100%;
@@ -48,7 +48,7 @@ page {
 
 .content-wrapper {
   border: 1rpx solid blue;
-  margin-top: 300rpx;
+  margin-top: 500rpx;
   background: #ccc;
 }
 

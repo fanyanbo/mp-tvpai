@@ -2,6 +2,9 @@
   email: fanyanbo@coocaa.com
   date: 2019-09-12
   desc: 片单详情页 -->
+<view>
+  <navBar title='{{navBarTitle}}' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
+</view>
 <view class="main-wrapper">
   <view class="title-wrapper">
     <view class="title-main">片单主标题</view>

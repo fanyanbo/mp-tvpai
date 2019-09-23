@@ -1,9 +1,12 @@
 <!-- author:fanyanbo
   email: fanyanbo@coocaa.com
   date: 2019-09-12
-  desc: 片单详情页 -->
+  desc: 演员详情页 -->
+<view>
+  <navBar title='{{navBarTitle}}' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
+</view>
 <view class="main-wrapper">
-  <view class="title-wrapper">
+  <view class="title-wrapper" style="titleStyle">
     <view class="title-main">片单主标题</view>
     <view class="title-sub">片单副标题</view>
     <view class="title-desc">片单描述</view>

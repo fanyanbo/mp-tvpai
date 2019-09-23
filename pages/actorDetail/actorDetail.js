@@ -9,13 +9,12 @@ Page({
   },
 
   onLoad: function (options) {
-    this.getActorInfo(JSON.parse(options.info).id)
-    // wx.setNavigationBarTitle({
-    //   title: options.title || '片单详情'
-    // })
+    let _params = JSON.parse(options.info)
+    this.getActorInfo(_params.id)
+    this.setData({navBarTitle: _params.name || '演员详情'})
   },
 
-  onShow() {
+  onShow: function () {
     wx.getSystemInfo({
       success: (res) => {
         let screenHeight = this.getContentHeight({ platform: res.platform, model: res.model })
@@ -28,6 +27,18 @@ Page({
         })
       }
     })
+  },
+
+  onReady: function () {
+    const {
+      pxNavBarHeight,
+      rpxNavBarHeight
+    } = utils.getNavBarHeight();
+    console.log(pxNavBarHeight, rpxNavBarHeight)
+    let titleStyle = `top:${rpxNavBarHeight}rpx`
+    this.setData({
+      titleStyle
+    });
   },
 
   getActorInfo: function (actorid) {
@@ -57,6 +68,11 @@ Page({
     } else {
       return 0;
     }
+  },
+
+  handleGobackClick: function () {
+    console.log('handleGobackClick')
+    utils.navigateBack()
   },
 
   upper: function (event) {

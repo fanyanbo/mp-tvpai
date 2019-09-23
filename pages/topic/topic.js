@@ -10,9 +10,7 @@ Page({
 
   onLoad: function (options) {
     console.log(options)
-    wx.setNavigationBarTitle({
-      title: options.title || '片单详情'
-    })
+    this.setData({navBarTitle: options.title || '片单详情'})
   },
 
   onShow() {
@@ -57,6 +55,11 @@ Page({
     } else {
       return 0;
     }
+  },
+
+  handleGobackClick: function () {
+    console.log('handleGobackClick')
+    utils.navigateBack()
   },
 
   upper: function (event) {
