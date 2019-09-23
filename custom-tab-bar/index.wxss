@@ -33,6 +33,7 @@
 
 .tab-bar-item .tab-bar-bottom {
   width: 14px;
+  border-radius: 50px;
   border-bottom-style: solid;
   border-width: 3px;
   border-color: #FFD71C;
