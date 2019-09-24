@@ -1,11 +1,10 @@
-
 <!-- 导航栏组件 -->
 <view>
   <navBar title='详情' background='#333' color='#fff' back="{{true}}" home="{{true}}" iconTheme='white' bindback="handleGobackClick" bindhome="handleGohomeClick" />
 </view>
-<view class='{{isFixedWindow ? "indexFixed" : ""}}'>
+<view class='{{isFixedWindow ? "pageFixed" : ""}}'>
   <!-- 影片信息 -->
-  <view class="top">
+  <view class="header">
     <view class='movieDetail'>
       <image src='{{videoDetailData.video_poster}}' class='haibao' mode="aspectFill"></image>
       <view class='describe'>
@@ -52,59 +51,128 @@
       </view>
     </view>
   </view>
-  <!-- 影片简介 -->
-  <view class="introduce" data-tap='desc' bindtap='showPopup'>
-    <view class="title bold">
-      <text class="line"></text>
-      简介
-      <image class="arrow" src="../../images/index_arraw.png" mode="aspectFill"></image>
+  <!-- 页面内tabbar，可以考虑封装成组件 -->
+  <view class="detail-tabbar">
+    <view wx:for="{{tabbarList}}" wx:key="index" class="tabbar-item {{activeIndex == index ? 'on' : ''}}" bindtap="handleTabbarClick" data-index="{{index}}">
+      {{item}}
     </view>
   </view>
-  <view class='content'>
-    <view class="content_list">
-      <text class="label">导演</text>
-      <view class="info">{{videoDetailData.director}}</view>
+  <block wx:if="{{activeIndex === 0}}">
+    <!-- 影片简介 -->
+    <view class="panel-wrap intro-wrap" data-tap='desc' bindtap='showPopup'>
+      <view class="panel-title">
+        <text class="title-line"></text>
+        <text class="title-text">剧情简介</text>
+        <text class="intro-more">更多</text>
+        <image class="intro-img" src="../../images/index_arraw.png" mode="aspectFill"></image>
+      </view>
+      <view class='intro-content'>{{videoDetailData.description}}</view>
     </view>
-    <view class="content_list">
-      <text class="label">演员</text>
-      <view class="info">{{videoDetailData.actor}}</view>
+    <!-- 关联影人 -->
+    <view class="panel-wrap actor-wrap">
+      <view class="panel-title">
+        <text class="title-line"></text>
+        <text class="title-text">演职员</text>
+        <image class="actor-img" src="../../images/index_arraw.png" mode="aspectFill" />
+      </view>
+      <view class="actors-content">
+        <scroll-view scroll-x style="width: auto; overflow: hidden;">
+          <block wx:for="{{relatedActorsList}}" wx:key="index">
+            <view class="actors-list-item" data-actorinfo="{{item}}" bindtap="handleActorClick">
+              <image class="actor-avatar" src="{{item.image_list[0].url}}" />
+              <text class="actor-name">{{item.name}}</text>
+            </view>
+          </block>
+        </scroll-view>
+      </view>
     </view>
-  </view>
-  <!-- 关联影人（demo） -->
-  <view class="actors-wrapper">
-    <view class="actors-title">
-      <text class="title-line"></text>
-      <text class="title-text">明星</text>
-      <image class="title-img" src="../../images/index_arraw.png" mode="aspectFill" />
-    </view>
-    <view class="actors-content">
-      <scroll-view scroll-x style="width: auto; overflow: hidden;">
-        <block wx:for="{{relatedActorsList}}" wx:key="index">
-          <view class="actors-list-item" data-actorinfo="{{item}}" bindtap="handleActorTap">
-            <image class="actor-avatal" src="{{item.image_list[0].url}}" />
-            <text class="actor-name">{{item.name}}</text>
+    <!-- 热评 -->
+    <view class="panel-wrap hot-wrap">
+      <view class="panel-title">
+        <text class="title-line"></text>
+        <text class="title-text">热评</text>
+        <text class="hot-text">全部短评 {{commentTotalNum}}</text>
+        <image class="hot-img" src="../../images/index_arraw.png" mode="aspectFill" bindtap="handleHotClick"/>
+      </view>
+      <view class="hot-comment-content">
+        <block wx:for="{{hotCommentList}}" wx:key="index">
+          <view class="hot-comment-item">
+            <view class="comment-title">
+              <image class="comment-avatar-img" />
+              <text class="comment-nickname">用户昵称</text>
+              <view class="comment-star">
+                <block wx:for="{{3}}" wx:key="index">
+                  <image class="comment-star-img" mode="aspectFill" src="../../images/videodetail/star.png"/>
+                </block>
+              </view>
+              <view class="comment-date">三天前</view>
+              <view class="comment-thumbs-num">24514</view>
+              <image class="comment-thumbs-img" mode="aspectFill" data-index="{{index}}" src="{{index === curIndex ? thumbsFocusIconUrl : thumbsIconUrl}}"  bindtap="handleThumbsClick"/>
+            </view>
+            <view class="comment-content">文本描述文本描述文本描述文本描述。文本描述文本描述文本描述文本描述。文本描述文本描述文本描述文本描述。</view>
           </view>
         </block>
-      </scroll-view>
+      </view>
     </view>
-  </view>
-  <!-- 关联影片（猜你喜欢） -->
-  <view class="introduce" wx:if="{{relatedVideoList.length !== 0}}">
-    <view class="title bold">
-      <text class="line"></text>
-      <text>猜你喜欢</text>
+    <!-- 关联影评文章（影荐） -->
+    <view class="panel-wrap recomment-wrap">
+      <view class="panel-title">
+        <text class="title-line"></text>
+        <text class="title-text">影荐</text>
+        <image class="recomment-img" src="../../images/index_arraw.png" mode="aspectFill" />
+      </view>
+      <view class="recomment-content">
+        <scroll-view scroll-x style="width: auto; overflow: hidden;">
+          <block wx:for="{{3}}" wx:key="index">
+            <image class="recomment-list-item" src="http://img.coocaa.com/weixin/media/20190722/dd3b4ba1-a710-4423-a1be-4dfa07544314.png" bindtap="handleRecommendClick"/>
+          </block>
+        </scroll-view>
+      </view>
     </view>
-  </view>
-  <view class='movieList'>
-    <view class='item' wx:for="{{relatedVideoList}}" wx:key="third_album_id" wx:for-item="item">
-      <navigator url="../movieDetail/movieDetail?id={{item.third_album_id}}">
-        <image class="like_image" src='{{item.video_poster}}'></image>
-        <text class='movieTitle intwoline'>{{item.album_title}}</text>
-      </navigator>
+    <!-- 关联影片（猜你喜欢） -->
+    <view class="panel-wrap favorite-wrap">
+      <view class="panel-title">
+        <text class="title-line"></text>
+        <text class="title-text">猜你喜欢</text>
+        <image class="favorite-img" src="../../images/index_arraw.png" mode="aspectFill" />
+      </view>
+      <view class="favorite-content">
+        <scroll-view scroll-x style="width: auto; overflow: hidden;">
+          <block wx:for="{{relatedVideoList}}" wx:key="third_album_id">
+            <view class="favorite-list-item" bindtap="handleFavoriteClick" data-id="{{item.third_album_id}}">
+              <image class="favorite-avatar" src="{{item.video_poster}}" />
+              <view class="favorite-score">{{item.video_detail.base_info.score}}</view>
+              <view class="favorite-name">{{item.album_title}}</view>
+            </view>
+          </block>
+        </scroll-view>
+      </view>
     </view>
-  </view>
+  </block>
+  <block wx:else>
+    <view class="comment-wrap">
+      <block wx:for="{{allCommentList}}" wx:key="index">
+        <view class="all-comment-item">
+          <view class="comment-title">
+            <image class="comment-avatar-img" />
+            <text class="comment-nickname">用户昵称</text>
+            <view class="comment-star">
+              <block wx:for="{{5}}" wx:key="index">
+                <image class="comment-star-img" mode="aspectFill" src="../../images/videodetail/star.png" />
+              </block>
+            </view>
+            <view class="comment-date">三天前</view>
+            <view class="comment-thumbs-num">24514</view>
+            <image class="comment-thumbs-img" mode="aspectFill" src="../../images/videodetail/thumbs.png" bindtap="handleThumbsClick"/>
+          </view>
+          <view class="comment-content">文本描述文本描述文本描述文本描述。文本描述文本描述文本描述文本描述。文本描述文本描述文本描述文本描述。</view>
+        </view>
+      </block>
+    </view>
+  </block>
   <view wx:if="{{bIphoneFullScreenModel}}" class='iphone-fullscreen'></view>
 </view>
+<!-- 遥控器组件 -->
 <view>
   <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
 </view>

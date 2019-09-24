@@ -1,0 +1,10 @@
+
+// 小程序不支持indexOf
+function isContainKey(str) {
+    var regexp = getRegExp('VIP','i');
+    return regexp.test(str)
+}
+
+module.exports = {
+    isContainKey: isContainKey
+}

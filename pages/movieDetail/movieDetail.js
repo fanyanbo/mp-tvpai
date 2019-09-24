@@ -10,7 +10,7 @@ const app = getApp()
 
 Page({
   data: {
-    isShowTips: true, //是否显示遥控器提示
+    isShowTips: false, //是否显示遥控器提示
     bIphoneFullScreenModel: false,
     isFixedWindow: false, //是否固定窗口
     videoType: "", //影片类型
@@ -23,6 +23,14 @@ Page({
     videoId: "",
     updated_segment: 1,
     errIconUrl: '../../images/close_icon.png',
+    thumbsIconUrl:  '../../images/videodetail/thumbs.png',
+    thumbsFocusIconUrl:  '../../images/videodetail/thumbs-focus.png',
+    tabbarList: ['视频', '短评'],
+    activeIndex: 0, //tabbar索引
+    commentTotalNum: 164, //评论总数
+    hotCommentList: ['','',''], //热评总数
+    allCommentList: ['','','','','',''], //评论总数
+    isThumbsUp:false
   },
 
   /**
@@ -45,7 +53,7 @@ Page({
    */
   onShow: function () {
     this.setData({
-      isShowTips: app.globalData.isShowTips,
+      // isShowTips: app.globalData.isShowTips,
       bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
     });
   },
@@ -68,14 +76,19 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+    console.log('onReachBottom')
+    if (this.data.activeIndex === 1 && this.data.allCommentList.length < 12) {
+      let _data = this.data.allCommentList.concat(['','','']);
+      this.setData({
+        allCommentList: _data
+      })
+    }
   },
 
   /**
@@ -135,7 +148,7 @@ Page({
 
   // 渲染相关联影片（猜你喜欢）
   renderRelatedFilms: function (movieId) {
-    let params = { "third_album_id": movieId, "page_size": "30" };
+    let params = { "third_album_id": movieId, "page_size": "10" };
     let desParams = utils.paramsAssemble_tvpai(params);
     utils.requestP(api.getRelatedVideoUrl, desParams).then(res => {
       console.log("获取关联影片:", res.data.data)
@@ -326,15 +339,6 @@ Page({
   scrollToUpper: function (e) {
     console.log('触发scrollToUpper事件')
   },
-  
-  handleActorTap: function (e) {
-    console.log('handleActorTap', e)
-    let {actorinfo} = e.currentTarget.dataset
-    // this.getActorInfo(actorinfo.id)
-    wx.navigateTo({
-      url: `../actorDetail/actorDetail?info=${JSON.stringify(actorinfo)}`,
-    })
-  },
 
   getActorInfo: function (actorid) {
     let params = { "actor_id": actorid };
@@ -359,7 +363,55 @@ Page({
   handleGobackClick: function () {
     console.log('handleGobackClick')
     utils.navigateBack()
+  },
+
+  handleTabbarClick: function (e) {
+    const _activeIndex = e.currentTarget.dataset['index'];
+    console.log('切换tabbar activeIndex =' + _activeIndex);
+    this.setData({
+      activeIndex: _activeIndex
+    })
+  },
+
+  handleActorClick: function (e) {
+    console.log('handleActorClick', e)
+    let {actorinfo} = e.currentTarget.dataset
+    // this.getActorInfo(actorinfo.id)
+    wx.navigateTo({
+      url: `../actorDetail/actorDetail?info=${JSON.stringify(actorinfo)}`,
+    })
+  },
+
+  handleFavoriteClick: function (e) {
+    console.log('handleFavoriteClick', e)
+    let {id} = e.currentTarget.dataset
+    wx.redirectTo({
+      url: `../movieDetail/movieDetail?id=${id}`,
+    })
+  },
+
+  handleRecommendClick: function (e) {
+    console.log('handleRecommendClick', e)
+    wx.navigateTo({
+      url: '../cinecism/cinecism?id=566'
+    })
+  },
+
+  handleHotClick: function (e) {
+    console.log('handleHotClick', e)
+    this.setData({
+      activeIndex: 1
+    })
+  },
+
+  handleThumbsClick: function (e) {
+    console.log('handleThumbsClick', e)
+    let {index} = e.currentTarget.dataset
+    this.setData({
+      curIndex: index
+    })
   }
+
 
   //收藏喜欢（未开发）
   // favorite(e) {

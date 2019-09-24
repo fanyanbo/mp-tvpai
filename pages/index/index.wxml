@@ -5,6 +5,7 @@
   todo:
   1.优化首屏加载速度 -->
 
+<wxs src="./index.wxs" module="tools" />
 <!-- 导航栏组件 -->
 <view>
   <navBar background='#fff' searchBar="{{true}}" bindsearch='handleSearchTap' />
@@ -41,7 +42,7 @@
     </view>
 
     <!-- 区分腾讯源和爱奇艺源标签分类，因为标签个数不同，它们的布局不同 -->
-    <swiper wx:if="{{type == 'iqiyi'}}" class="iqiyi-label swiper-box" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-active-color="{{indicatorActiveColor}}" indicator-color="{{indicatorColor}}">
+    <swiper wx:if="{{type === 'iqiyi'}}" class="iqiyi-label swiper-box" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-active-color="{{indicatorActiveColor}}" indicator-color="{{indicatorColor}}">
       <block>
         <swiper-item>
           <view wx:for="{{column1}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="handleCategoryTap">
@@ -67,7 +68,7 @@
         </swiper-item>
       </block>
     </swiper>
-    <view wx:if="{{type == 'qq'}}" class="tencent-label">
+    <view wx:if="{{type === 'qq'}}" class="tencent-label">
       <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">
         <view wx:for="{{column}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="handleCategoryTap">
           <image src="{{item.classify_pic}}" mode="aspectFill"></image>
@@ -77,7 +78,7 @@
     </view>
 
     <!-- demo：片单列表 -->
-    <view class="topic-wrapper">
+    <!-- <view class="topic-wrapper">
       <view class="topic-title">
         <text class="line"></text>
         <text class="text">精彩片单</text>
@@ -85,7 +86,6 @@
       <view class="topic-content">
         <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">
           <view class="topic-item" wx:for="{{topicList}}" wx:key="index" data-title="{{item.title}}" bindtap="handleTopicTap">
-            <!-- <navigator url="../webview/webview?title={{item.title}}"> -->
               <view class="maintitle">片单主标题</view>
               <view class="subtitle">xxx个节目</view>
               <view class="list">
@@ -100,11 +100,10 @@
                   </view>
                 </view>
               </view>
-            <!-- </navigator> -->
           </view>
         </scroll-view>
       </view>
-    </view>
+    </view> -->
 
     <!-- 推荐分类及影片 -->
     <view class="category" wx:for="{{recommandList}}" wx:key="index">
@@ -118,11 +117,12 @@
       </view>
       <view class="section">
         <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">
-          <view wx:for="{{item.video_list}}" wx:if="{{item.album_title != ''}}" wx:key="index" class="poster-item">
-            <navigator url="../movieDetail/movieDetail?id={{item.third_album_id}}">
-              <image src="{{item.video_poster}}" mode="aspectFill" class="poster-img"></image>
-              <view class="poster-corner">{{item.video_detail.base_info.score}}</view>
-              <view class="poster-text">{{item.album_title}}</view>
+          <view wx:for="{{item.video_list}}" wx:if="{{item.album_title != ''}}"  wx:for-item="item2" wx:key="index" class="poster-item">
+            <navigator url="../movieDetail/movieDetail?id={{item2.third_album_id}}">
+              <image src="{{item2.video_poster}}" mode="aspectFill" class="poster-img"></image>
+              <view class="poster-score">{{item2.video_detail.base_info.score}}</view>
+              <view wx:if="{{tools.isContainKey(item.title)}}" class="poster-vip">VIP</view>
+              <view class="poster-text">{{item2.album_title}}</view>
             </navigator>
           </view>
         </scroll-view>
