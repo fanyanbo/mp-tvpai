@@ -518,7 +518,7 @@
   line-height: 88rpx;
   font-size: 36rpx;
   margin-left: 10rpx;
-  font-weight: 600;
+  font-weight: bold;
   font-family: PingFangSC-Semibold, PingFangSC;
 }
 
@@ -569,7 +569,7 @@
   height: 40rpx;
   line-height: 40rpx;
   font-size: 28rpx;
-  font-weight: 400;
+  font-weight: bold;
   margin-left: 300rpx;
 }
 
@@ -585,6 +585,7 @@
 }
 
 .comment-wrap {
+  box-sizing: border-box;
   margin-bottom: 130rpx;
 }
 
@@ -614,7 +615,7 @@
   height: 44rpx;
   line-height: 44rpx;
   font-size: 32rpx;
-  font-weight: 500;
+  font-weight: bold;
   color: #333333;
 }
 
@@ -641,7 +642,7 @@
   height: 28rpx;
   font-size: 20rpx;
   line-height: 28rpx;
-  font-weight: 400;
+  font-weight: bold;
   color: #666666;
 }
 
@@ -661,7 +662,7 @@
   height: 34rpx;
   line-height: 34rpx;
   font-size: 24rpx;
-  font-weight: 400;
+  font-weight: bold;
   color: #666666;
   font-family: PingFangSC-Regular, PingFangSC;
   text-align: right;
@@ -673,7 +674,6 @@
   padding-top: 14rpx;
   padding-right: 40rpx;
   font-family: PingFangSC-Regular, PingFangSC;
-  font-weight: 400;
   color: #333333;
 }
 
@@ -752,7 +752,6 @@
   font-size: 24rpx;
   font-family:PingFangSC-Regular,PingFangSC;
   color: #ffffff;
-  font-weight: 400;
   text-shadow:0px 1px 4px rgba(0,0,0,0.5);
 }
 
@@ -765,7 +764,6 @@
   line-height: 40rpx;
   font-size: 28rpx;
   font-family: PingFangSC-Regular, PingFangSC;
-  font-weight: 400;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: pre-wrap;
@@ -789,7 +787,6 @@
   text-align: center;
   font-size: 14px;
   font-family: PingFangSC-Regular, PingFangSC;
-  font-weight: 400;
   color: #333333;
   line-height: 40rpx;
 }

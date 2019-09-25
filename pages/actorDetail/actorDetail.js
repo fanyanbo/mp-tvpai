@@ -5,13 +5,27 @@ const app = getApp()
 Page({
   data: {
     scrollHeight: '',
-    contentList: ['','','']
+    name: '',
+    birth: '',
+    area: '',
+    height: '',
+    occupation: '',
+    majorList: []
   },
 
   onLoad: function (options) {
-    let _params = JSON.parse(options.info)
-    this.getActorInfo(_params.id)
-    this.setData({navBarTitle: _params.name || '演员详情'})
+    let { birthday, birth_place, id, height, desc, name, occupation, image_list } = JSON.parse(options.info)
+    console.log(JSON.parse(options.info))
+    this.setData({
+      name: name,
+      birth: birthday,
+      area: birth_place,
+      height: height,
+      occupation: occupation,
+      poster: image_list[4].url,
+      desc: desc
+    })
+    this.getActorInfo(id)
   },
 
   onShow: function () {
@@ -46,7 +60,15 @@ Page({
     let url = utils.urlAssemble_tvpai(api.getRelatedVideoByActorUrl, utils.paramsAssemble_tvpai(params));
     console.log("获取影人信息url:" + url)
     utils.requestP(url, null).then(res => {
-      console.log("获取影人信息:", res)
+      console.log("获取影人信息:", res.data.data)
+      let _data = res.data.data
+      if (_data && _data.video_category_list) {
+        let _majorWorksList = _data.video_category_list[0].videos.length > 9 ? _data.video_category_list[0].videos.slice(0, 9) : _data.video_category_list[0].videos
+        console.log("主要作品信息:", _majorWorksList)
+        this.setData({
+          majorList: _majorWorksList
+        })
+      }
     }).catch(res => {
       console.log('获取影人信息失败:', res)
       utils.showFailedToast('加载数据失败', this.data.errIconUrl)
@@ -75,11 +97,51 @@ Page({
     utils.navigateBack()
   },
 
-  upper: function (event) {
-    console.log('trigger upper');
+  handleWorksClick: function (e) {
+    let { id } = e.currentTarget.dataset
+    wx.redirectTo({
+      url: `../movieDetail/movieDetail?id=${id}`,
+    })
+  },
+  // 显示浮窗
+  showPopup: function (e) {
+    let animation = wx.createAnimation({
+      duration: 300,
+      timingFunction: 'linear'
+    })
+    animation.translateY(500).step()
+
+    this.setData({
+      animationData: animation.export(),
+      isShowPopup: true,
+      isFixedWindow: true
+    })
+
+    setTimeout(() => {
+      animation.translateY(0).step()
+      this.setData({
+        animationData: animation.export()
+      })
+    }, 200)
   },
 
-  lower: function (event) {
-    console.log('trigger lower');
+  // 隐藏浮窗
+  hidePopup: function (e) {
+    let animation = wx.createAnimation({
+      duration: 300,
+      timingFunction: 'linear'
+    })
+    animation.translateY(500).step()
+    this.setData({
+      animationData: animation.export()
+    })
+    setTimeout(() => {
+      animation.translateY(0).step()
+      this.setData({
+        animationData: animation.export(),
+        isShowPopup: false,
+        isFixedWindow: false
+      })
+    }, 200)
   },
 })  

@@ -3,32 +3,53 @@
   date: 2019-09-12
   desc: 演员详情页 -->
 <view>
-  <navBar title='{{navBarTitle}}' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
+  <navBar title='人物' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
 </view>
-<view class="main-wrapper">
-  <view class="title-wrapper" style="titleStyle">
-    <view class="title-main">片单主标题</view>
-    <view class="title-sub">片单副标题</view>
-    <view class="title-desc">片单描述</view>
-    <view class="title-share">分享片单</view>
+<view class='{{isFixedWindow ? "pageFixed" : ""}}'>
+<view class="info-wrap">
+  <image class="actor-poster" src="{{poster}}" />
+  <view class="actor-info">
+    <view class="name">{{name}}</view>
+    <view class="engname">{{engname}}</view>
+    <view class="birth">生日：{{birth}}</view>
+    <view class="area">地区：{{area}}</view>
+    <view class="height">身高：{{height}}</view>
+    <view class="occupation">职业：{{occupation}}</view>
   </view>
-  <view class="content-wrapper">
-    <scroll-view scroll-y="true" style="height: {{scrollHeight}}px" bindscrolltoupper="upper" bindscrolltolower="lower">
-      <block wx:for="{{contentList}}" wx:key="index">
-        <view class="content-item">
-          <image src="http://pic3.iqiyipic.com/image/20190911/da/a1/v_114411383_m_601_m9_260_360.jpg" class="content-item-poster"/>
-          <view class="content-item-right">
-            <view class="right-title">影片名称</view>
-            <view class="right-tag">2019-地区-风格</view>
-            <view class="right-actor">演员1/演员2/演员3/演员4</view>
-            <view class="right-desc">“一句话描述”</view>
-            <view class="right-button">
-              <view class="button push">投屏</view>
-              <view class="button favorite">收藏</view>
-            </view>
-          </view>
-        </view>
-      </block>
-    </scroll-view>
+</view>
+<view class="intro-wrap">
+  <view class="header" bindtap='showPopup'>
+    <text class="line"></text>
+    <text class="title">剧情简介</text>
+    <text class="more">更多</text>
+    <image class="img" src="../../images/index_arraw.png" mode="aspectFill"></image>
   </view>
+  <view class='content'>{{desc}}</view>
+</view>
+<view class="works-wrap">
+  <view class="header">
+    <text class="line"></text>
+    <text class="title">作品</text>
+  </view>
+  <block wx:for="{{majorList}}" wx:key="index" wx:for-item="item">
+    <view class="works-item" bindtap='handleWorksClick' data-id="{{item.id}}">
+      <image class="item-poster" src="{{item.images[0].url}}" />
+      <view class="item-score">{{item.score}}</view>
+      <view class="item-title">{{item.title}}</view>
+    </view>
+  </block>
+</view>
+</view>
+<!-- 遥控器组件 -->
+<view>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
+</view>
+
+<!-- 介绍详情浮窗 -->
+<view wx:if="{{isShowPopup}}" class='mask-layer' bindtap='hidePopup'></view>
+<view wx:if="{{isShowPopup}}" class='popup {{bIphoneFullScreenModel ? "iphone-fullscreen-model" : ""}}' animation='{{animationData}}'>
+  <view class="title">简介</view>
+  <scroll-view scroll-y style="height: 782rpx;">
+    <view class="description">{{desc}}</view>
+  </scroll-view>
 </view>
