@@ -53,8 +53,9 @@
   </view>
   <!-- 页面内tabbar，可以考虑封装成组件 -->
   <view class="detail-tabbar">
-    <view wx:for="{{tabbarList}}" wx:key="index" class="tabbar-item {{activeIndex == index ? 'on' : ''}}" bindtap="handleTabbarClick" data-index="{{index}}">
+    <view wx:for="{{tabbarList}}" wx:key="index" class="tabbar-item {{activeIndex === index ? 'on' : ''}}" bindtap="handleTabbarClick" data-index="{{index}}">
       {{item}}
+      <view wx:if="{{activeIndex === index}}" class="tabbar-item-bottom"></view>
     </view>
   </view>
   <block wx:if="{{activeIndex === 0}}">

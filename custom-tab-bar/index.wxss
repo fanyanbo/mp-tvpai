@@ -13,6 +13,7 @@
 
 .tab-bar-item {
   flex: 1;
+  position: relative;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -32,11 +33,13 @@
 }
 
 .tab-bar-item .tab-bar-bottom {
-  width: 14px;
-  border-radius: 50px;
-  border-bottom-style: solid;
-  border-width: 3px;
-  border-color: #FFD71C;
+  position: absolute;
+  left: 168rpx;
+  top: 80rpx;
+  width: 36rpx;
+  height: 8rpx;
+  border-radius: 2px;
+  background: #FFD71C;
 }
 
 .tab-bar-item .bottom-rapper {

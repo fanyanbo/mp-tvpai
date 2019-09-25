@@ -587,6 +587,7 @@
 .comment-wrap {
   box-sizing: border-box;
   margin-bottom: 130rpx;
+  margin-top: 40rpx;
 }
 
 .comment-wrap .all-comment-item:nth-child(1) {
@@ -809,6 +810,7 @@
 }
 
 .tabbar-item {
+  position: relative;
   box-sizing: border-box;
   height: 80rpx;
   line-height: 80rpx;
@@ -816,10 +818,19 @@
   letter-spacing: 0;
   font-weight: bold;
   text-align: center;
-  color: #999999;
+  color:rgba(0,0,0,0.4);
+}
+
+.tabbar-item-bottom {
+  position: absolute;
+  left: 14rpx;
+  top: 64rpx;
+  width: 36rpx;
+  height: 8rpx;
+  border-radius:2px;
+  background: #FFD71C;
 }
 
 .on {
-  border-bottom: 6rpx solid #FFD71C;
-  color: #333333;
+  color:rgba(0,0,0,1);
 }
