@@ -25,7 +25,8 @@ Page({
     nextmargin: '30rpx',
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     type: '',
-    topicList: [{ title: '片单1', movieList: ['1', '2', '3'] }, { title: '片单2', movieList: ['1', '2', '3'] }, { title: '片单3', movieList: ['1', '2', '3'] }] //片单数据
+    movieName: '沉默的教室',
+    movieNum: 10
   },
   swiperChange: function () {
     console.log('swiperChange')

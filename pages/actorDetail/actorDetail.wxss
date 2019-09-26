@@ -15,7 +15,6 @@
   width: 210rpx;
   height: 294rpx;
   border-radius: 8px;
-  background: #ececec;
 }
 
 .actor-info {

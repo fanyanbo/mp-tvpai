@@ -5,27 +5,67 @@ const app = getApp()
 Page({
   data: {
     scrollHeight: '',
-    contentList: ['','','']
+    contentList: ['', '', ''],
+    // customBackground: 'rgba(255,255,255,0)'
   },
 
   onLoad: function (options) {
     console.log(options)
-    this.setData({navBarTitle: options.title || '片单详情'})
   },
 
+  onPageScroll: utils.throttle(function (e) {
+    let _scrollTop = e.scrollTop
+    console.log('onPageScroll', _scrollTop)
+
+    if (_scrollTop !== 0) {
+      let customNavStyle = `opacity: ${0.7 + 0.3 * _scrollTop / 202};`
+      // let _opacity = 0.7 + 0.3 * _scrollTop / 202
+      this.setData({
+        customNavStyle: customNavStyle,
+        // scrollTop: _scrollTop
+        // customBackground: `rgba(255,255,255,${_opacity})`
+      })
+    } else {
+      this.setData({
+        customNavStyle: 'opacity: 0;'
+      })
+    }
+  }, 100),
+
   onShow() {
-    wx.getSystemInfo({
-      success: (res) => {
-        let screenHeight = this.getContentHeight({ platform: res.platform, model: res.model })
-        if (screenHeight === 0)
-          screenHeight = res.screenHeight;
-        console.log(screenHeight);
-        // 状态栏高度和屏幕宽度，单位都是px
-        this.setData({
-          scrollHeight: screenHeight - 92,
-        })
-      }
+    // wx.getSystemInfo({
+    //   success: (res) => {
+    //     let screenHeight = this.getContentHeight({ platform: res.platform, model: res.model })
+    //     if (screenHeight === 0)
+    //       screenHeight = res.screenHeight;
+    //     console.log(screenHeight);
+    //     // 状态栏高度和屏幕宽度，单位都是px
+    //     this.setData({
+    //       scrollHeight: screenHeight - 92,
+    //     })
+    //   }
+    // })
+    this.setData({
+      customNavStyle: 'opacity: 0;'
     })
+  },
+
+  onReady() {
+    console.log('search onReady监听页面初次渲染完成');
+    const {
+      pxNavBarHeight,
+      rpxNavBarHeight,
+      ratio
+    } = utils.getNavBarHeight();
+    console.log(pxNavBarHeight, rpxNavBarHeight, ratio)
+    // let _rpxHeaderHeight = 540
+    // let _pxScrollHeight = (_rpxHeaderHeight - rpxNavBarHeight) / ratio
+    // console.log(_pxScrollHeight)
+    // let fixedBarStyle = `position: fixed; top: ${rpxNavBarHeight}rpx`
+    // this.setData({
+    //   fixedBarStyle: fixedBarStyle,
+    //   pxScrollHeight: _pxScrollHeight
+    // })
   },
 
   onShareAppMessage: function (res) {
@@ -60,13 +100,5 @@ Page({
   handleGobackClick: function () {
     console.log('handleGobackClick')
     utils.navigateBack()
-  },
-
-  upper: function (event) {
-    console.log('trigger upper');
-  },
-
-  lower: function (event) {
-    console.log('trigger lower');
-  },
+  }
 })  

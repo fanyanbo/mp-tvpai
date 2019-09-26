@@ -3,32 +3,55 @@
   date: 2019-09-12
   desc: 片单详情页 -->
 <view>
-  <navBar title='{{navBarTitle}}' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
+  <navBar extClass="navbar-extclass" style="{{customNavStyle}}" background="#fff" color='#000' 
+  title='片单' back="{{true}}" bindback="handleGobackClick" />
 </view>
-<view class="main-wrapper">
-  <view class="title-wrapper">
-    <view class="title-main">片单主标题</view>
-    <view class="title-sub">片单副标题</view>
-    <view class="title-desc">片单描述</view>
-    <button class="title-share" open-type="share">分享片单</button>
+<view class="main-wrap">
+  <view class="header-wrap">
+    <!-- <image src="http://img.coocaa.com/weixin/media/20190722/dd3b4ba1-a710-4423-a1be-4dfa07544314.png" class="bg-img" mode="aspectFill"/> -->
+    <view class="title">片单主标题</view>
+    <view class="desc">片单描述片单描述片单描述片单描述片单描述片单描述片单描述片单描述片单描述</view>
+    <image class="favorite" src="../../images/videodetail/favorite.png"/>
+    <view class="summary">片单列表 · 共10部</view>
+    <button class="share" open-type="share">
+      <image src="../../images/videodetail/share.png" />
+    </button>
   </view>
-  <view class="content-wrapper">
-    <scroll-view scroll-y="true" style="height: {{scrollHeight}}px" bindscrolltoupper="upper" bindscrolltolower="lower">
-      <block wx:for="{{contentList}}" wx:key="index">
-        <view class="content-item">
-          <image src="http://pic3.iqiyipic.com/image/20190911/da/a1/v_114411383_m_601_m9_260_360.jpg" class="content-item-poster"/>
-          <view class="content-item-right">
-            <view class="right-title">影片名称</view>
-            <view class="right-tag">2019-地区-风格</view>
-            <view class="right-actor">演员1/演员2/演员3/演员4</view>
-            <view class="right-desc">“一句话描述”</view>
-            <view class="right-button">
-              <view class="button push">投屏</view>
-              <view class="button favorite">收藏</view>
-            </view>
-          </view>
+  <!-- 留着以后用 -->
+  <!-- <view class="fixed-bar" style="{{scrollTop >= pxScrollHeight ? fixedBarStyle : ''}}"></view> -->
+  <view class="content-wrap">
+    <!-- <scroll-view scroll-y="true" style="height: {{scrollHeight}}px">
+    </scroll-view> -->
+    <block wx:for="{{5}}" wx:key="index">
+      <view class="item">
+        <view class="item-one">
+          <image class="poster" mode="aspectFill" src="" />
+          <text class="title">影片名称影片名称</text>
+          <text class="score">8.2</text>
+          <!-- <text class="vip">VIP</text> -->
+          <text class="info">2019 · 中国大陆 · 剧情 · 历史</text>
+          <image class="favorite-icon" src="../../images/videodetail/favorite2.png" mode="aspectFill" />
+          <image class="push-icon" src="../../images/videodetail/push.png" mode="aspectFill" />
         </view>
-      </block>
-    </scroll-view>
+        <view class="item-two">
+          <text class="two-text">真正的幸福是来自内心深处。真正的幸福是来自内心深处。真正的幸福是来自内心深处。真正的幸福是来自内心深处。真正的幸福是来自内心深处。真正的幸福是来自内心深处。</text>   
+        </view>
+        <!-- <image src="http://pic3.iqiyipic.com/image/20190911/da/a1/v_114411383_m_601_m9_260_360.jpg" class="content-item-poster" />
+        <view class="content-item-right">
+          <view class="right-title">影片名称</view>
+          <view class="right-tag">2019-地区-风格</view>
+          <view class="right-actor">演员1/演员2/演员3/演员4</view>
+          <view class="right-desc">“一句话描述”</view>
+          <view class="right-button">
+            <view class="button push">投屏</view>
+            <view class="button favorite">收藏</view>
+          </view>
+        </view> -->
+      </view>
+    </block>
   </view>
+</view>
+<!-- 遥控器组件 -->
+<view>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{false}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
 </view>

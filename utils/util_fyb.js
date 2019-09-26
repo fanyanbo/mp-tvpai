@@ -345,8 +345,9 @@ function getNavBarHeight () {
   } = getApp().globalSystemInfo;
   let _pxNavBarHeight = navBarHeight + navBarExtendHeight
   let _winWidth = wx.getSystemInfoSync().windowWidth
-  let _rpxNavBarHeight = _pxNavBarHeight * 750 / _winWidth 
-  return {pxNavBarHeight: _pxNavBarHeight, rpxNavBarHeight: _rpxNavBarHeight}
+  let _ratio = 750 / _winWidth
+  let _rpxNavBarHeight = _pxNavBarHeight * _ratio
+  return {pxNavBarHeight: _pxNavBarHeight, rpxNavBarHeight: _rpxNavBarHeight, ratio: _ratio}
 }
 
 function navigateBack (n = 1) {
@@ -357,6 +358,40 @@ function navigateBack (n = 1) {
 
 function navigateTo (url) {
   wx.navigateTo({ url: url })
+}
+
+// 节流
+function throttle(func, wait, options) {
+  var timeout, context, args, result;
+  var previous = 0;
+  if (!options) options = {};
+
+  var later = function() {
+      previous = options.leading === false ? 0 : new Date().getTime();
+      timeout = null;
+      func.apply(context, args);
+      if (!timeout) context = args = null;
+  };
+
+  var throttled = function() {
+      var now = new Date().getTime();
+      if (!previous && options.leading === false) previous = now;
+      var remaining = wait - (now - previous);
+      context = this;
+      args = arguments;
+      if (remaining <= 0 || remaining > wait) {
+          if (timeout) {
+              clearTimeout(timeout);
+              timeout = null;
+          }
+          previous = now;
+          func.apply(context, args);
+          if (!timeout) context = args = null;
+      } else if (!timeout && options.trailing !== false) {
+          timeout = setTimeout(later, remaining);
+      }
+  };
+  return throttled;
 }
 
 module.exports = {
@@ -380,5 +415,6 @@ module.exports = {
   isJson: isJson,
   getNavBarHeight: getNavBarHeight,
   navigateBack: navigateBack,
-  navigateTo: navigateTo
+  navigateTo: navigateTo,
+  throttle: throttle
 }
