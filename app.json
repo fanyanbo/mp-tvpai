@@ -38,7 +38,8 @@
     "request": 20000
   },
   "usingComponents": {
-    "navBar": "/components/navBar/navBar"
+    "navBar": "/components/navBar/navBar",
+    "comment": "/components/comment/index"
   },
   "tabBar": {
     "custom": true,

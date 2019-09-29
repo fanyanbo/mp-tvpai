@@ -265,5 +265,10 @@ Page({
         utils.refreshBindedTVStatus(app.globalData.activeId);
       }
     )
-  }
+  },
+  jumpOutLink() {
+    wx.navigateTo({
+      url: '/pages/webview/webview',
+    })
+  },
 });

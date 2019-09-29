@@ -150,6 +150,7 @@ Page({
   onLoad: function (options) {
     this.getBanners('加载中')
     this.getStreams('')
+    console.log("h5页面向小程序传值为：",options.id);
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
