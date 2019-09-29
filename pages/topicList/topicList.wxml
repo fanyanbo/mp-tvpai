@@ -1,0 +1,14 @@
+<!-- author:fanyanbo
+  email: fanyanbo@coocaa.com
+  date: 2019-09-27
+  desc: 片单列表页 -->
+<view>
+  <navBar background="#F1F1F1" color='#000' title='全部片单' back="{{true}}" bindback="handleGobackClick" />
+</view>
+<view class="main-wrap">
+
+</view>
+<!-- 遥控器组件 -->
+<view>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{false}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
+</view>

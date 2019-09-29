@@ -326,8 +326,47 @@
     transform: translateY(-50%);
   }
 .iphone-fullscreen-model .remoter-btn-text {
-    top: 30%;
-  }      
-  .btn-input-status {
-    background-color: #FFD71C;
-  }
+  top: 30%;
+}      
+.btn-input-status {
+  background-color: #FFD71C;
+}
+
+.btn-input-wrap {
+  position: absolute;
+  width: 550rpx;
+  height: 70rpx;
+  left: 40rpx;
+  top: 20rpx;
+  border-radius: 18px;
+  background: #f1f1f1;
+  display: flex;
+  align-items: center;
+}
+.btn-input-wrap .input-icon {
+  width: 22rpx;
+  height: 22rpx;
+  left: 42rpx;
+}
+.btn-input-wrap .input-text {
+  height:40rpx;
+  font-size:28rpx;
+  font-family:PingFangSC-Regular,PingFangSC;
+  color:rgba(153,153,153,1);
+  line-height:40rpx;
+  margin-left: 60rpx;
+}
+.btn-remoter-wrap {
+  position: absolute;
+  width: 80rpx;
+  height: 80rpx;
+  left: 630rpx;
+  top: 16rpx;
+}
+.remoter-icon {
+  width: 80rpx;
+  height: 80rpx;
+}
+.view-display-none {
+  display: none;
+}

@@ -4,7 +4,6 @@ const app = getApp()
 
 Page({
   data: {
-    searchContent: '搜索视频、影评或话题',
     errIconUrl: '../../images/close_icon.png',
     isShowTips: true,
     bIphoneFullScreenModel: false,
@@ -219,7 +218,7 @@ Page({
     //   url: `../webview/webview?title=${e.currentTarget.dataset.title}`,
     // });
     wx.navigateTo({
-      url: `../topic/topic?title=${e.currentTarget.dataset.title}`,
+      url: `../topicDetail/topicDetail?title=${e.currentTarget.dataset.title}`,
     });
   },
 

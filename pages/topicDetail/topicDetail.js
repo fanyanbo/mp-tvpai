@@ -6,11 +6,12 @@ Page({
   data: {
     scrollHeight: '',
     contentList: ['', '', ''],
+    customNavStyle: 'opacity: 0;'
     // customBackground: 'rgba(255,255,255,0)'
   },
 
-  onLoad: function (options) {
-    console.log(options)
+  onLoad: function() {
+
   },
 
   onPageScroll: utils.throttle(function (e) {
@@ -18,7 +19,7 @@ Page({
     console.log('onPageScroll', _scrollTop)
 
     if (_scrollTop !== 0) {
-      let customNavStyle = `opacity: ${0.7 + 0.3 * _scrollTop / 202};`
+      let customNavStyle = `opacity: ${0.5 + 0.5 * _scrollTop / 202};`
       // let _opacity = 0.7 + 0.3 * _scrollTop / 202
       this.setData({
         customNavStyle: customNavStyle,
@@ -32,7 +33,26 @@ Page({
     }
   }, 100),
 
-  onShow() {
+  // onPageScroll: function(e) {
+  //   let _scrollTop = e.scrollTop
+  //   console.log('onPageScroll', _scrollTop)
+
+  //   if (_scrollTop !== 0) {
+  //     let customNavStyle = `opacity: ${0.5 + 0.5 * _scrollTop / 202};`
+  //     // let _opacity = 0.7 + 0.3 * _scrollTop / 202
+  //     this.setData({
+  //       customNavStyle: customNavStyle,
+  //       // scrollTop: _scrollTop
+  //       // customBackground: `rgba(255,255,255,${_opacity})`
+  //     })
+  //   } else {
+  //     this.setData({
+  //       customNavStyle: 'opacity: 0;'
+  //     })
+  //   }
+  // },
+
+  onShow: function() {
     // wx.getSystemInfo({
     //   success: (res) => {
     //     let screenHeight = this.getContentHeight({ platform: res.platform, model: res.model })
@@ -45,12 +65,12 @@ Page({
     //     })
     //   }
     // })
-    this.setData({
-      customNavStyle: 'opacity: 0;'
-    })
+    // this.setData({
+    //   customNavStyle: 'opacity: 0;'
+    // })
   },
 
-  onReady() {
+  onReady: function() {
     console.log('search onReady监听页面初次渲染完成');
     const {
       pxNavBarHeight,
@@ -76,7 +96,7 @@ Page({
     }
     return {
       title: '电视派',
-      path: 'pages/topic/topic'
+      path: 'pages/topicDetail/topicDetail'
     }
   },
 

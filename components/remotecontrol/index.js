@@ -12,7 +12,15 @@ Component({
       type: Boolean,
       value: true
     },
-    bIphoneFullScreenModel: Boolean
+    bIphoneFullScreenModel: Boolean,
+    inputBar: {
+      type: Boolean,
+      value: false
+    },
+    inputText: {
+      type: String,
+      value: '写短评'
+    }
   },
   data: {
     //遥控按键落焦标识
@@ -579,8 +587,12 @@ Component({
           }
       }
       this.interval = setInterval(drawLoading,sec);
-    }
+    },
     // 动画相关的方法 -end-
+
+    comment: function() {
+      this.triggerEvent('comment', {});
+    },
   },
   // 组件在内存中创建完毕执行
   created() {

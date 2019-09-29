@@ -7,7 +7,7 @@
 <wxs src="./index.wxs" module="tools" />
 <!-- 导航栏组件 -->
 <view>
-  <navBar background='#fff' searchBar="{{true}}" bindsearch='handleSearchTap' />
+  <navBar background='#fff' searchBar="{{true}}" searchText="搜索视频、影评或话题" bindsearch='handleSearchTap' />
 </view>
 <!-- tabBar组件，不用引入，只用在app.json里面配置即可 -->
 <!-- <view>
@@ -69,14 +69,14 @@
     <view class="header">
       <text class="line"></text>
       <text class="title">片单</text>
-      <navigator class="more" url="../column/column?id={{item.tag_id}}&title={{item.title}}">
+      <navigator class="more" url="../topicList/topicList">
         <span style="font-weight: normal;">更多</span>
         <image class="arrow" src="../../images/index_arraw.png" mode="aspectFill"></image>
       </navigator>
     </view>
     <view class="topic-content">
       <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">
-        <view class="topic-item" wx:for="{{5}}" wx:key="index" data-title="{{item.title}}" bindtap="handleTopicTap">
+        <view class="topic-item" wx:for="{{5}}" wx:key="index" bindtap="handleTopicTap">
           <view class="topic-item-header">
             <text class="title">年度冷门佳片</text>
           </view>

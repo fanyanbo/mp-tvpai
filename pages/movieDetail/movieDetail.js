@@ -410,6 +410,10 @@ Page({
     this.setData({
       curIndex: index
     })
+  },
+
+  handleCommentClick: function () {
+    console.log('handleCommentClick')
   }
 
 

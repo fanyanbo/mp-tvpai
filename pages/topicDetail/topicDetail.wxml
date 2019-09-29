@@ -36,17 +36,6 @@
         <view class="item-two">
           <text class="two-text">真正的幸福是来自内心深处。真正的幸福是来自内心深处。真正的幸福是来自内心深处。真正的幸福是来自内心深处。真正的幸福是来自内心深处。真正的幸福是来自内心深处。</text>   
         </view>
-        <!-- <image src="http://pic3.iqiyipic.com/image/20190911/da/a1/v_114411383_m_601_m9_260_360.jpg" class="content-item-poster" />
-        <view class="content-item-right">
-          <view class="right-title">影片名称</view>
-          <view class="right-tag">2019-地区-风格</view>
-          <view class="right-actor">演员1/演员2/演员3/演员4</view>
-          <view class="right-desc">“一句话描述”</view>
-          <view class="right-button">
-            <view class="button push">投屏</view>
-            <view class="button favorite">收藏</view>
-          </view>
-        </view> -->
       </view>
     </block>
   </view>

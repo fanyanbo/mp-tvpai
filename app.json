@@ -6,7 +6,6 @@
     "pages/detail/detail",
     "pages/course/course",
     "pages/home/home",
-    "pages/movies/movies",
     "pages/sresult/sresult",
     "pages/movieDetail/movieDetail",
     "pages/find/find",
@@ -15,7 +14,8 @@
     "pages/delete/delete",
     "pages/search/index",
     "pages/history/history",
-    "pages/topic/topic",
+    "pages/topicDetail/topicDetail",
+    "pages/topicList/topicList",
     "pages/webview/webview",
     "pages/actorDetail/actorDetail"
   ],
