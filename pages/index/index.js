@@ -272,5 +272,10 @@ Page({
         utils_fyb.refreshBindedTVStatus(app.globalData.activeId);
       }
     )
-  }
+  },
+  jumpOutLink() {
+    wx.navigateTo({
+      url: '/pages/webview/webview',
+    })
+  },
 });
