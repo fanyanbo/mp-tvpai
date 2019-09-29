@@ -1,11 +1,11 @@
-<view wx:if="{{commentFlag}}" class="grayBox">
-  <view class="inputWords" style="bottom:{{keyboardHeight}}px">
+<view wx:if="{{commentFlag}}" class="grayBox" bindtap="closeGrayBox">
+  <view class="inputWords" style="bottom:{{keyboardHeight}}px" catchtap="getFocus">
     <textarea maxlength="200" show-confirm-bar="false" placeholder-style="color:#999999" placeholder="写几句评论吧..." auto-focus bindinput="bindInput" bindfocus="setBottom"
     />
     <view class="comment-wrapper">
       <text class="comment-title">{{currentWordNumber>0?"推荐":"打分"}}</text>
       <view class="stars-wrapper">
-        <view wx:for="{{stars}}" wx:key="{{index}}" data-index="{{index}}" bindtap='chooseScore'>
+        <view wx:for="{{stars}}" wx:key="{{index}}" data-index="{{index}}" catchtap="chooseScore">
           <image src="{{item.flag===1?item.bgImg:item.bgfImg}}" data-score="{{item.score}}" bindtap="getScore"></image>
         </view>
       </view>

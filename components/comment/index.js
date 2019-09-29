@@ -80,6 +80,9 @@ Component({
         })
       }
     },
+    getFocus: function () {
+      return
+    },
     getScore: function (e) {
       let score = e.currentTarget.dataset.score;
       console.log("分数：", score);
@@ -96,6 +99,11 @@ Component({
     showGrayBox: function () {
       this.setData({
         commentFlag: true
+      })
+    },
+    closeGrayBox: function () {
+      this.setData({
+        commentFlag: false
       })
     },
   },
