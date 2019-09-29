@@ -1,0 +1,239 @@
+page {
+  background: #ECECEC;
+}
+
+.main-wrap,
+.header-wrap,
+.content-wrap {
+  box-sizing: border-box;
+}
+
+.header-wrap {
+  /* position: relative; */
+  width: 750rpx;
+  height: 540rpx;
+  background: #3E302D;
+}
+
+.header-wrap .bg-img {
+  width: 750rpx;
+  height: 540rpx;
+}
+
+.header-wrap .title {
+  position: absolute;
+  left: 40rpx;
+  top: 196rpx;
+  width: 670rpx;
+  height: 74rpx;
+  font-size: 52rpx;
+  font-family: PingFangSC-Semibold, PingFangSC;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 1);
+  line-height: 52rpx;
+}
+
+.header-wrap .desc {
+  position: absolute;
+  left: 40rpx;
+  top: 282rpx;
+  width: 670rpx;
+  height: 80rpx;
+  font-size: 28rpx;
+  font-family: PingFangSC-Semibold, PingFangSC;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 40rpx;
+  border: 1px solid red;
+}
+
+.header-wrap .favorite {
+  position: absolute;
+  left: 40rpx;
+  top: 426rpx;
+  width: 84rpx;
+  height: 84rpx;
+}
+
+.header-wrap .share {
+  position: absolute;
+  left: 140rpx;
+  top: 426rpx;
+  width: 84rpx;
+  height: 84rpx;
+}
+
+.header-wrap .share image {
+  width: 84rpx;
+  height: 84rpx;
+}
+
+.header-wrap .summary {
+  position: absolute;
+  left: 410rpx;
+  top: 466rpx;
+  width: 300rpx;
+  height: 34rpx;
+  font-size: 24rpx;
+  font-family: PingFangSC-Regular, PingFangSC;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 34rpx;
+  text-align: right
+}
+
+/* .fixed-bar {
+  width: 750rpx;
+  height: 120rpx;
+  background: gold;
+} */
+
+.navbar-extclass {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* .navbar-extclass .lxy-nav-bar__inner .lxy-nav-bar__left .lxy-nav-bar__btn_goback {
+  background-image: url("data:image/svg+xml,%3Csvg t='1565943723828' class='icon' viewBox='0 0 1024 1024' version='1.1' xmlns='http://www.w3.org/2000/svg' p-id='3607' width='48' height='48'%3E%3Cpath d='M861.7 447.5c-14.9-35-36.1-66.4-63.1-93.4-38.2-38.3-85.4-64.9-139-78.3-23.9-6-48.6-8.1-73.3-8.1H336.8v-83.3c0-12.1-14.1-18.8-23.5-11.2l-162 131.3c-13.7 11.1-13.7 32 0 43.1L313.4 479c9.4 7.6 23.5 0.9 23.5-11.2v-83.3h245.3c92.6 0 175.8 67.3 185.1 159.4 10.7 105.8-73 195.8-176.7 195.8h-337c-32.3 0-58.4 26.2-58.4 58.4 0 32.3 26.2 58.4 58.4 58.4h332.8c24.6 0 49.4-2.1 73.3-8.1 53.6-13.4 100.7-40.1 139-78.3 27-27 48.2-58.4 63.1-93.4 15.5-36.4 23.3-75 23.3-114.7-0.1-39.5-8-78.1-23.4-114.5z m0 0' fill='%23000000' p-id='3608'%3E%3C/path%3E%3C/svg%3E");
+  background-size: 22px 22px;
+} */
+
+/* 注意区别opacity和rgba */
+/* .navbar-extclass .lxy-nav-bar__inner{
+  background: rgba(255,255,255, 0.2);
+} */
+
+
+/* 去除button默认样式 */
+button::after {
+  border: none;
+}
+
+button {
+  background-color: transparent;
+  padding-left: 0;
+  padding-right: 0;
+  line-height: inherit;
+}
+
+button {
+  border-radius: 0;
+}
+
+.content-wrap {
+  width: 750rpx;
+  margin-bottom: 130rpx;
+}
+
+.item {
+  width:750rpx;
+  height:534rpx;
+  background:#F8F8F8;
+  margin-top: 20rpx;
+  padding: 40rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content:space-between;
+}
+
+.content-wrap .item:nth-child(1) {
+  margin-top: 0rpx;
+}
+
+.item-one {
+  position: relative;
+  width:670rpx;
+  height:294rpx;
+}
+
+.poster {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width:210rpx;
+  height:294rpx;
+  background:rgba(204,204,204,1);
+  border-radius:8px;
+}
+
+.score {
+  position: absolute;
+  left: 162rpx;
+  top: 246rpx;
+  font-size:24rpx;
+  font-family:PingFangSC-Medium,PingFangSC;
+  color:rgba(255,255,255,1);
+  text-shadow:0px 0px 4px rgba(0,0,0,0.5);
+}
+
+.title {
+  position: absolute;
+  left: 250rpx;
+  top: 0rpx;
+  width:420rpx;
+  height:50rpx;
+  font-size:36rpx;
+  font-family:PingFangSC-Semibold,PingFangSC;
+  font-weight:bold;
+  color:rgba(51,51,51,1);
+  line-height:50rpx;
+}
+
+.info {
+  position: absolute;
+  left: 250rpx;
+  top: 60rpx;
+  width:420rpx;
+  height:34rpx;
+  font-size:24rpx;
+  font-family:PingFangSC-Regular,PingFangSC;
+  color:rgba(102,102,102,1);
+  line-height:34rpx;
+}
+
+.favorite-icon {
+  position: absolute;
+  left: 250rpx;
+  top: 210rpx;
+  width:84rpx;
+  height:84rpx;
+}
+
+.push-icon {
+  position: absolute;
+  left: 354rpx;
+  top: 210rpx;
+  width:316rpx;
+  height:84rpx;
+}
+
+.item-two {
+  position: relative;
+  width:670rpx;
+  height:120rpx;
+  background:rgba(241,241,241,1);
+  border-radius:8px;
+}
+
+.two-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width:630rpx;
+  /* height:80rpx; */
+  font-size:28rpx;
+  font-family:PingFangSC-Regular,PingFangSC;
+  color:rgba(102,102,102,1);
+  line-height:40rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}

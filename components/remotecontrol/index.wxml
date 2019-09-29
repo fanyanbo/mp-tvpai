@@ -64,7 +64,7 @@
         {{ query }}
       </view>
       <view class='input-tips-zone'>
-        <view wx:for="{{aInputTips}}">
+        <view wx:for="{{aInputTips}}" wx:key="index">
           {{item}}
         </view>
       </view>
@@ -73,12 +73,11 @@
 
   <!-- 语音结果版面 -->
   <view class="remoter-panel-wrapper" wx:if="{{indexStatus === 'VoiceResult'}}">
-  <view class='voice-result-wrapper'>
-    <image src="../../images/components/remotecontrol/icon-voiceok@2x.png" class='voice-result-ok'></image>
-    <text>语音已发送</text>
+    <view class='voice-result-wrapper'>
+      <image src="../../images/components/remotecontrol/icon-voiceok@2x.png" class='voice-result-ok'></image>
+      <text>语音已发送</text>
+    </view>
   </view>
-  </view>
-
 </view>
 
 <!-- 遥控器按钮 -->
@@ -88,8 +87,25 @@
     <image class="remoter-tips-icon" bindtap="handleBtnTipsClosed" src="../../images/components/remotecontrol/close@3x.png" ></image>
   </view>
    <!-- bindtap="handleButtonTap" -->
-  <view class="remoter-btn {{bStartRecord ? 'btn-input-status' : ''}} {{isShowMainPanel ? 'btn-show-panel-status' : ''}}" bindlongpress="handleButtonLongPress" bindtouchstart="handleRecorderManagerStart" bindtouchend="handleRecorderManagerStop" bindtouchcancel="handleRecorderManagerCancel" catchtouchmove='handleRecorderManagerMove'>   
-    <image class="remoter-btn-icon" src="{{curBtnImg}}" ></image>
-    <text class="remoter-btn-text">{{btnContent}}</text>
-  </view>
+  <block wx:if="{{inputBar}}">
+    <view class="remoter-btn {{bStartRecord ? 'btn-input-status' : ''}} {{isShowMainPanel ? 'btn-show-panel-status' : ''}}">   
+      <view bindtap="comment" class="btn-input-wrap {{bStartRecord ? 'view-display-none' : ''}}">
+        <image class="input-icon" src="../../images/comment_icon.png"></image>
+        <text class="input-text">{{inputText}}</text>
+      </view>
+      <view class="btn-remoter-wrap {{bStartRecord ? 'view-display-none' : ''}}" bindlongpress="handleButtonLongPress" bindtouchstart="handleRecorderManagerStart" bindtouchend="handleRecorderManagerStop" bindtouchcancel="handleRecorderManagerCancel" catchtouchmove='handleRecorderManagerMove'>
+        <image class="remoter-icon" mode="aspectFill" src="../../images/videodetail/remoter.png"/>
+      </view>
+      <block wx:if="{{bStartRecord}}">
+        <image class="remoter-btn-icon" src="{{curBtnImg}}"></image>
+        <text class="remoter-btn-text">{{btnContent}}</text>
+      </block>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="remoter-btn {{bStartRecord ? 'btn-input-status' : ''}} {{isShowMainPanel ? 'btn-show-panel-status' : ''}}" bindlongpress="handleButtonLongPress" bindtouchstart="handleRecorderManagerStart" bindtouchend="handleRecorderManagerStop" bindtouchcancel="handleRecorderManagerCancel" catchtouchmove='handleRecorderManagerMove'>   
+      <image class="remoter-btn-icon" src="{{curBtnImg}}"></image>
+      <text class="remoter-btn-text">{{btnContent}}</text>
+    </view>
+  </block>
 </view>

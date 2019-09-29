@@ -1,0 +1,18 @@
+<view wx:if="{{commentFlag}}" class="grayBox">
+  <view class="inputWords" style="bottom:{{keyboardHeight}}px">
+    <textarea maxlength="200" show-confirm-bar="false" placeholder-style="color:#999999" placeholder="写几句评论吧..." auto-focus bindinput="bindInput" bindfocus="setBottom"
+    />
+    <view class="comment-wrapper">
+      <text class="comment-title">{{currentWordNumber>0?"推荐":"打分"}}</text>
+      <view class="stars-wrapper">
+        <view wx:for="{{stars}}" wx:key="{{index}}" data-index="{{index}}" bindtap='chooseScore'>
+          <image src="{{item.flag===1?item.bgImg:item.bgfImg}}" data-score="{{item.score}}" bindtap="getScore"></image>
+        </view>
+      </view>
+      <view class="input-number">
+        <text>{{currentWordNumber}}/200</text>
+      </view>
+      <view bindtap="reply" class="confirm-button" style="background:{{currentWordNumber>0?'#FFD71C':'#F1F1F1'}}">回复</view>
+    </view>
+  </view>
+</view>

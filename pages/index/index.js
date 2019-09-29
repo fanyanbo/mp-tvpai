@@ -4,7 +4,6 @@ const app = getApp()
 
 Page({
   data: {
-    searchContent: '搜索视频、影评或话题',
     errIconUrl: '../../images/close_icon.png',
     isShowTips: true,
     bIphoneFullScreenModel: false,
@@ -25,7 +24,8 @@ Page({
     nextmargin: '30rpx',
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     type: '',
-    topicList: [{ title: '片单1', movieList: ['1', '2', '3'] }, { title: '片单2', movieList: ['1', '2', '3'] }, { title: '片单3', movieList: ['1', '2', '3'] }] //片单数据
+    movieName: '沉默的教室',
+    movieNum: 10
   },
   swiperChange: function () {
     console.log('swiperChange')
@@ -218,7 +218,7 @@ Page({
     //   url: `../webview/webview?title=${e.currentTarget.dataset.title}`,
     // });
     wx.navigateTo({
-      url: `../topic/topic?title=${e.currentTarget.dataset.title}`,
+      url: `../topicDetail/topicDetail?title=${e.currentTarget.dataset.title}`,
     });
   },
 
