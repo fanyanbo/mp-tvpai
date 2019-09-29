@@ -18,7 +18,7 @@ const getRelatedVideoUrl = "https://beta-tvpi.coocaa.com/" + "video/client/longv
 const getSegmentListUrl = baseUrl_tvpai + "video/client/longvideo/episodeslist";//获取剧集列表
 const getRelatedActorsUrl = "https://beta-tvpi.coocaa.com/" + "video/client/longvideo/videorelateactors"; //获取相关影人信息
 const getRelatedVideoByActorUrl = "https://beta-tvpi.coocaa.com/" + "video/client/longvideo/actorrelatevideos"; //获取影人相关影片
- 
+const getTopicUrl = "https://beta-tvpi.coocaa.com/" + "video/client/topic/get"; //获取片单信息
 
 // 微信业务后台接口
 const getBindDeviceListUrl = baseUrl_wx + "wxUserDeviceAPI/bindDeviceList.coocaa";//获取已绑定设备列表
@@ -51,5 +51,6 @@ module.exports = {
   getSegmentListUrl: getSegmentListUrl,
   getRelatedActorsUrl: getRelatedActorsUrl,
   getRelatedVideoByActorUrl: getRelatedVideoByActorUrl,
-  getRecommendMoreListUrl: getRecommendMoreListUrl
+  getRecommendMoreListUrl: getRecommendMoreListUrl,
+  getTopicUrl: getTopicUrl
 }

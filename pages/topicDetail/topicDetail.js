@@ -5,13 +5,13 @@ const app = getApp()
 Page({
   data: {
     scrollHeight: '',
-    contentList: ['', '', ''],
+    topicDetail: [],
     customNavStyle: 'opacity: 0;'
     // customBackground: 'rgba(255,255,255,0)'
   },
 
-  onLoad: function() {
-
+  onLoad: function (options) {
+    this.getTopicDetailById(options.id)
   },
 
   onPageScroll: utils.throttle(function (e) {
@@ -52,7 +52,7 @@ Page({
   //   }
   // },
 
-  onShow: function() {
+  onShow: function () {
     // wx.getSystemInfo({
     //   success: (res) => {
     //     let screenHeight = this.getContentHeight({ platform: res.platform, model: res.model })
@@ -70,7 +70,7 @@ Page({
     // })
   },
 
-  onReady: function() {
+  onReady: function () {
     console.log('search onReady监听页面初次渲染完成');
     const {
       pxNavBarHeight,
@@ -120,5 +120,21 @@ Page({
   handleGobackClick: function () {
     console.log('handleGobackClick')
     utils.navigateBack()
-  }
+  },
+
+  // 获取片单详情数据，片单不区分源
+  getTopicDetailById: function (id) {
+    let url = `${api.getTopicUrl}?id=${id}`
+    utils.requestP(url, utils.paramsAssemble_tvpai()).then(res => {
+      console.log('获取片单所有影片数据:', res)
+      if (res.data.data) {
+        this.setData({
+          topicDetail: res.data.data[0]
+        })
+      }
+    }).catch(res => {
+      console.log('获取片单数据发生错误', res)
+      utils.showFailedToast('加载数据失败', this.data.errIconUrl)
+    })
+  },
 })  

@@ -19,19 +19,19 @@
     <view class="banner-wrap">
       <swiper autoplay="{{autoplay}}" current='{{swiperCurrent}}' previous-margin="{{previousmargin}}" next-margin="{{nextmargin}}" bindchange="swiperChange">
         <block wx:for="{{streams}}" wx:key="key" class="banner-item">
-          <swiper-item data-type="cinecism" data-id="{{item.articleId}}" bindtap="jumpFind">
+          <swiper-item data-type="cinecism" data-id="{{item.articleId}}" bindtap="handleBannerTap">
             <image src="{{item.articlePicUrl}}" class="slide-image" bindchange="chuangEvent"></image>
           </swiper-item>
         </block>
         <block wx:key="key" class="banner-item">
-          <swiper-item data-type="find" bindtap="jumpFind">
+          <swiper-item data-type="find" bindtap="handleBannerTap">
             <image src="../../images/banner.jpg" class="slide-image"></image>
           </swiper-item>
         </block>
       </swiper>
     </view>
     <!-- 区分腾讯源和爱奇艺源标签分类，因为标签个数不同，它们的布局不同 -->
-    <swiper wx:if="{{type === 'iqiyi'}}" class="iqiyi-label swiper-box" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-active-color="{{indicatorActiveColor}}" indicator-color="{{indicatorColor}}">
+    <swiper wx:if="{{source === 'iqiyi'}}" class="iqiyi-label swiper-box" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-active-color="{{indicatorActiveColor}}" indicator-color="{{indicatorColor}}">
       <block>
         <swiper-item>
           <view wx:for="{{column1}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="handleCategoryTap">
@@ -57,7 +57,7 @@
         </swiper-item>
       </block>
     </swiper>
-    <view wx:if="{{type === 'qq'}}" class="tencent-label">
+    <view wx:if="{{source === 'qq'}}" class="tencent-label">
       <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">
         <view wx:for="{{column}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="handleCategoryTap">
           <image src="{{item.classify_pic}}" mode="aspectFill"></image>
@@ -76,15 +76,16 @@
     </view>
     <view class="topic-content">
       <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">
-        <view class="topic-item" wx:for="{{5}}" wx:key="index" bindtap="handleTopicTap">
+        <view class="topic-item" wx:for="{{topicList}}" wx:key="index" bindtap="handleTopicTap" data-id="{{item.id}}">
           <view class="topic-item-header">
-            <text class="title">年度冷门佳片</text>
+            <image src="{{item.image_url}}" class="img"/>
+            <text class="title">{{item.title}}</text>
           </view>
-          <view class="topic-item-content">
-            <block wx:for="{{4}}" wx:key="index">
-              <text class="movie-item" space="nbsp">{{index+1}}.{{movieName}}  <text style="color: #FDBE1A;">8.2</text></text>
+          <view class="topic-item-content" style="{{tools.getBgColor(item.base_color)}}">
+            <block wx:for="{{item.videos}}" wx:key="index" wx:for-item="subitem">
+              <text class="movie-item" space="nbsp">{{index+1}}.{{subitem.video_detail.base_info.title}}  <text style="color: #FDBE1A;">{{subitem.video_detail.base_info.score}}</text></text>
             </block>  
-            <view class="summary">...共{{movieNum}}部</view>  
+            <view class="summary">...共{{item.videos.length}}部</view>  
           </view>
         </view>
       </scroll-view>

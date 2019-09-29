@@ -8,11 +8,11 @@
 </view>
 <view class="main-wrap">
   <view class="header-wrap">
-    <!-- <image src="http://img.coocaa.com/weixin/media/20190722/dd3b4ba1-a710-4423-a1be-4dfa07544314.png" class="bg-img" mode="aspectFill"/> -->
-    <view class="title">片单主标题</view>
-    <view class="desc">片单描述片单描述片单描述片单描述片单描述片单描述片单描述片单描述片单描述</view>
+    <image src="{{topicDetail.image_url}}" class="bg-img" mode="aspectFill"/>
+    <view class="title">{{topicDetail.title}}</view>
+    <view class="desc">{{topicDetail.desc}}</view>
     <image class="favorite" src="../../images/videodetail/favorite.png"/>
-    <view class="summary">片单列表 · 共10部</view>
+    <view class="summary">片单列表 · 共{{topicDetail.videos.length}}部</view>
     <button class="share" open-type="share">
       <image src="../../images/videodetail/share.png" />
     </button>
@@ -22,12 +22,12 @@
   <view class="content-wrap">
     <!-- <scroll-view scroll-y="true" style="height: {{scrollHeight}}px">
     </scroll-view> -->
-    <block wx:for="{{5}}" wx:key="index">
+    <block wx:for="{{topicDetail.videos}}" wx:key="index">
       <view class="item">
         <view class="item-one">
-          <image class="poster" mode="aspectFill" src="" />
-          <text class="title">影片名称影片名称</text>
-          <text class="score">8.2</text>
+          <image class="poster" mode="aspectFill" src="{{item.video_detail.show_info.images[0].url}}" />
+          <text class="title">{{item.video_detail.base_info.title}}</text>
+          <text class="score">{{item.video_detail.base_info.score}}</text>
           <!-- <text class="vip">VIP</text> -->
           <text class="info">2019 · 中国大陆 · 剧情 · 历史</text>
           <image class="favorite-icon" src="../../images/videodetail/favorite2.png" mode="aspectFill" />

@@ -12,7 +12,7 @@ page {
   /* position: relative; */
   width: 750rpx;
   height: 540rpx;
-  background: #3E302D;
+  /* background: #3E302D; */
 }
 
 .header-wrap .bg-img {

@@ -790,6 +790,8 @@
   font-family: PingFangSC-Regular, PingFangSC;
   color: #333333;
   line-height: 40rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .actors-content .actors-list-item:nth-child(1) {
