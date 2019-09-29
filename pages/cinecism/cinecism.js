@@ -79,6 +79,7 @@ Page({
     if (wx.getStorageSync('userid') === '' || wx.getStorageSync('userid') === null) {
       utils.checkUsers()
     }
+    this.commentTest = this.selectComponent("#commentTest")
   },
   onReachBottom: function () {
     if (this.data.page > 1) {
@@ -350,7 +351,9 @@ Page({
       hidden1: 'false',
       focus: true
     })
-
+  },
+  showComment: function () {
+    this.commentTest.showGrayBox()
   },
   bindconfirm: function (e) {
     var likeClass = new Array()
