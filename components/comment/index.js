@@ -2,10 +2,14 @@
 Component({
   properties: {
     // 属性值可以在组件使用时指定
+    isShow: {
+      type: Boolean,
+      value: false
+    },
   },
   data: {
     // 组件内部数据
-    commentFlag: false,
+    isShowIn: false,
     keyboardHeight: '',
     currentWordNumber: 0,
     score: 0,
@@ -93,18 +97,13 @@ Component({
     },
     reply: function (e) {
       this.setData({
-        commentFlag: false
+        isShowIn: false
       })
       console.log("inputComment", this.data.inputValue,"score",this.data.score)
     },
-    showGrayBox: function () {
-      this.setData({
-        commentFlag: true
-      })
-    },
     closeGrayBox: function () {
       this.setData({
-        commentFlag: false
+        isShowIn: false
       })
     },
   },
