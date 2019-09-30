@@ -273,4 +273,10 @@ Page({
       url: '/pages/webview/webview',
     })
   },
+  jumpMyFavorite() {
+    console.log('jumpMyFavorite')
+    wx.navigateTo({
+      url: '/pages/favorite/favorite',
+    })
+  }
 });

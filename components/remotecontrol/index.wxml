@@ -86,7 +86,7 @@
     <text class="remoter-tips-text">{{tipsContent}}</text>
     <image class="remoter-tips-icon" bindtap="handleBtnTipsClosed" src="../../images/components/remotecontrol/close@3x.png" ></image>
   </view>
-   <!-- bindtap="handleButtonTap" -->
+   <!-- 分场景显示，影片详情页使用 -->
   <block wx:if="{{inputBar}}">
     <view class="remoter-btn {{bStartRecord ? 'btn-input-status' : ''}} {{isShowMainPanel ? 'btn-show-panel-status' : ''}}">   
       <view bindtap="comment" class="btn-input-wrap {{bStartRecord ? 'view-display-none' : ''}}">
@@ -102,6 +102,7 @@
       </block>
     </view>
   </block>
+  <!-- 普通场景 -->
   <block wx:else>
     <view class="remoter-btn {{bStartRecord ? 'btn-input-status' : ''}} {{isShowMainPanel ? 'btn-show-panel-status' : ''}}" bindlongpress="handleButtonLongPress" bindtouchstart="handleRecorderManagerStart" bindtouchend="handleRecorderManagerStop" bindtouchcancel="handleRecorderManagerCancel" catchtouchmove='handleRecorderManagerMove'>   
       <image class="remoter-btn-icon" src="{{curBtnImg}}"></image>

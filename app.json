@@ -16,7 +16,8 @@
     "pages/topicDetail/topicDetail",
     "pages/topicList/topicList",
     "pages/webview/webview",
-    "pages/actorDetail/actorDetail"
+    "pages/actorDetail/actorDetail",
+    "pages/favorite/favorite"
   ],
   "window": {
     "backgroundTextStyle": "light",
