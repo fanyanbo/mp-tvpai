@@ -80,6 +80,7 @@ Component({
         })
       }
     },
+    //阻止向上冒泡，触发最上层的关闭评论弹窗
     getFocus: function () {
       return
     },
