@@ -24,8 +24,6 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     source: '',
     topicList: [],
-    movieName: '沉默的教室',
-    movieNum: 10
   },
 
   swiperChange: function () {
@@ -134,6 +132,7 @@ Page({
   onLoad() {
     console.log('onLoad')
     // 不区分源，所以在此处调用
+    this.getBannerData()
     this.getTopicData()
   },
 
@@ -156,11 +155,14 @@ Page({
     this.setData({
       isShowTips: app.globalData.isShowTips,
       bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
-    })
-    this.getBannerData()
+    })  
     this.getBindedDevice()
-    this.getLabelClassify()
-    this.getRecommendClassify()
+    // 调用优化
+    if(app.globalData.sourceChanged) {
+      app.globalData.sourceChanged = false
+      this.getLabelClassify()
+      this.getRecommendClassify()
+    }
     //TabBar选中状态
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({

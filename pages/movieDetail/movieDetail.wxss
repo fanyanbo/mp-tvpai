@@ -569,7 +569,6 @@
   height: 40rpx;
   line-height: 40rpx;
   font-size: 28rpx;
-  font-weight: bold;
   margin-left: 300rpx;
 }
 
