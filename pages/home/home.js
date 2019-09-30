@@ -196,6 +196,7 @@ Page({
             } else {
               wx.setStorageSync('tvSource', 'iqiyi')
             }
+            app.globalData.sourceChanged = true; //值不一定变化，但假定源被改变了，首页会刷新一次
           }
 
         }
