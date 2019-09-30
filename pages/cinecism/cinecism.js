@@ -762,12 +762,8 @@ Page({
       }
     }
 
-    console.log("跳转movieID")
-    console.log(movieID)
+    console.log("跳转movieID", movieID)
 
-    getApp().globalData.movieIdsList = movieIdsArrays
-    console.log("movieIdsList")
-    console.log(getApp().globalData.movieIdsList)
     wx.navigateTo({
       url: '../movieDetail/movieDetail?id=' + movieID
     })

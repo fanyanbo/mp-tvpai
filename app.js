@@ -83,71 +83,21 @@ App({
       },
     })
   },
-  onLoad: function () {
-  },
-  onShow: function () {
-  },
-  getUserInfo: function (cb) {
-    let that = this
-    let tvSource = wx.getStorageSync("tvSource");
-    if (tvSource == null || tvSource === '' || tvSource == undefined){
-      wx.setStorageSync('tvSource', 'iqiyi')
-    }else{
-      that.globalData.tvSource = wx.getStorageSync('tvSource')
-    }
-    let ccsession = wx.getStorageSync("new_cksession")
-    if (ccsession == null || ccsession === '' || ccsession == undefined) {
-      console.log("登录状态已过期" + ccsession)
-      wx.clearStorageSync(that.globalData.userInfo)
-      wx.login({
-        success: function (e) {
-          let code = e.code
-          wx.getUserInfo({
-            success: function (res) {
-              console.log(res)
-              let encryptedData = res.encryptedData
-              let iv = res.iv;
-              let rawData = res.rawData
-              let signature = res.signature
-              that.globalData.userInfo = res.userInfo
-              wx.setStorageSync('userInfo', res.userInfo)
-              typeof cb == "function" && cb(that.globalData.userInfo)
-              login(rawData, code, encryptedData, iv, signature)
-            },
-            fail: function () {
-              console.log("未获得用户信息")
-            }
-          })
-        }
-      })
-    } else {
-      that.globalData.username = wx.getStorageSync('username')
-      console.log("登录状态没过期")
-    }
-  },
   globalData: {
     username: wx.getStorageSync("username"),
     mobile: null,
-    userInfo: null,
-    userSecret: null,
-    devicesID: null,
-    source: null,
     key: '9acd4f7d5d9b87468575b240d824eb4f',
     client_id: 'applet',
-    movieIdsList: '',
-    coocaaLogin: false,
-    auhtSetting: false,
     new_cksession: '',
-    onLine: '',
     activeId: null, //语音遥控推送使用
     deviceId: null, //影片推送使用
-    isShowTips: true,
+    isShowTips: true, //遥控器提示栏
     time: () => {return Math.round(new Date().getTime() / 1000).toString();},
     appkey: '5cc090ddad6e4544815a0026e9a735a4',
     secret: 'cd8a62acc6164b27a9af4d29de8eeebd',
     version_code: 33,
     bIphoneFullScreenModel:false,
-    sourceChanged: true //初始化默认被改变
+    sourceChanged: true //源是否被改变，初始化默认被改变
   }
 })
 
