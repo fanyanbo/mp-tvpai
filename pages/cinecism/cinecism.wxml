@@ -347,7 +347,7 @@
         <!-- 评论end -->
         <!-- 底部栏start -->
         <!-- <view class="footer" style="display:none"> -->
-        <comment id='commentTest'/>
+        <comment id='commentTest' isShow="{{isShowComment}}" />
         <view class="footer">
           <ul>
             <!-- style="display:none" -->
@@ -356,7 +356,7 @@
               <text>文中影片</text>
             </li>
             <!-- 评论数 -->
-            <li class="right">{{commentData.pager.totalNum}}</li>
+            <li class="right" bindtap="showComment">{{commentData.pager.totalNum}}</li>
             <!-- 评论图标 -->
             <li class="right mg20" bindtap="commentClick">
               <image src="../../images/comment_icon.png"></image>

@@ -45,7 +45,8 @@ Page({
     topicContent: '',
     cicleMany: [],
     starArrays: [],
-    lenIs: false
+    lenIs: false,
+    isShowComment: false,
     // mydata:''
   },
   onLoad: function (options) {
@@ -352,9 +353,12 @@ Page({
       focus: true
     })
   },
-  // showComment: function () {
-  //   this.commentTest.showGrayBox()
-  // },
+  showComment: function () {
+    console.log("comment changed")
+    this.setData({
+      isShowComment: true
+    })
+  },
   bindconfirm: function (e) {
     var likeClass = new Array()
     var praiseNum = new Array()

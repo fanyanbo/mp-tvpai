@@ -1,4 +1,4 @@
-<view wx:if="{{isShow || isShowIn}}" class="grayBox" bindtap="closeGrayBox">
+<view wx:if="{{isShow}}" class="grayBox" bindtap="closeGrayBox">
   <view class="inputWords" style="bottom:{{keyboardHeight}}px" catchtap="getFocus">
     <textarea maxlength="200" show-confirm-bar="false" placeholder-style="color:#999999" placeholder="写几句评论吧..." auto-focus bindinput="bindInput" bindfocus="setBottom"
     />
