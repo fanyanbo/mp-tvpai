@@ -354,7 +354,7 @@
   font-family:PingFangSC-Regular,PingFangSC;
   color:rgba(153,153,153,1);
   line-height:40rpx;
-  margin-left: 60rpx;
+  margin-left: 65rpx;
 }
 .btn-remoter-wrap {
   position: absolute;

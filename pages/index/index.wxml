@@ -70,7 +70,7 @@
       </scroll-view>
     </view>
     <!-- 片单列表 -->
-    <view class="header">
+    <view class="header" wx:if="{{topicList.length}}">
       <text class="line"></text>
       <text class="title">片单</text>
       <navigator class="more" url="../topicList/topicList">
@@ -86,8 +86,8 @@
             <text class="title">{{item.title}}</text>
           </view>
           <view class="topic-item-content" style="{{tools.getBgColor(item.base_color)}}">
-            <block wx:for="{{item.videos}}" wx:key="index" wx:for-item="subitem">
-              <text class="movie-item" space="nbsp">{{index+1}}.{{subitem.video_detail.base_info.title}}  <text style="color: #FDBE1A;">{{subitem.video_detail.base_info.score}}</text></text>
+            <block wx:for="{{item.videos}}" wx:key="index" wx:if="{{index < 4}}" wx:for-item="subitem">
+              <text class="movie-item" space="nbsp">{{index+1}}. {{subitem.video_detail.base_info.title}}  <text style="color: #FDBE1A;">{{subitem.video_detail.base_info.score}}</text></text>
             </block>  
             <view class="summary">...共{{item.videos.length}}部</view>  
           </view>

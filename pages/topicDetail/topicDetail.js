@@ -122,6 +122,10 @@ Page({
     utils.navigateBack()
   },
 
+  handleFavoriteClick: function (e) {
+    console.log('handleFavoriteClick type:' + e.currentTarget.dataset.type)
+  },
+
   // 获取片单详情数据，片单不区分源
   getTopicDetailById: function (id) {
     let url = `${api.getTopicUrl}?id=${id}`

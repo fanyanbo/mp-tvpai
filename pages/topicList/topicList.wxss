@@ -4,10 +4,49 @@ page {
 
 .main-wrap {
   box-sizing: border-box;
+  margin-bottom: 110rpx;
 }
 
 ::-webkit-scrollbar {
   width: 0;
   height: 0;
   color: transparent;
+}
+
+.date {
+  width: 750rpx;
+  height: 44rpx;
+  line-height: 44rpx;
+  font-weight: bold;
+  font-size: 32rpx;
+  color: #000000;
+  padding-left: 40rpx;
+  margin-top: 60rpx;
+}
+
+.item {
+  position: relative;
+  width: 750rpx;
+  height: 170rpx;
+  /* background:linear-gradient(270deg,rgba(115,83,75,0.5) 0%,rgba(115,83,75,1) 100%);  */
+  /* border: 1px solid red; */
+  margin-top: 20rpx;
+}
+
+.item-img {
+  position: absolute;
+  width: 670rpx;
+  height: 170rpx;
+  left: 40rpx;
+  top: 0;
+  border-radius:8px;
+}
+
+.item-title {
+  position: absolute;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #FFFFFF;
+  left: 80rpx;
+  top: 60rpx;
 }

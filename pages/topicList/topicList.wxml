@@ -6,13 +6,12 @@
   <navBar background="#F1F1F1" color='#000' title='全部片单' back="{{true}}" bindback="handleGobackClick" />
 </view>
 <view class="main-wrap">
-  <block wx:for="{{topicList}}" wx:key="index">
-    <text class="date"></text>
-    <block wx:for="{{topicList2}}" wx:key="index">
-      <view class="item">
-        <image class="item-img" src="" />
-        <text class="item-title">
-        </text>
+  <block wx:for="{{topicList}}" wx:key="index" wx:for-item="item">
+    <view class="date">{{item[0]}}</view>
+    <block wx:for="{{item[1]}}" wx:key="index" wx:for-item="subitem">
+      <view class="item" bindtap="handleItemClick" data-id="{{subitem.id}}">
+        <image class="item-img" src="{{subitem.image_url}}" />
+        <text class="item-title">{{subitem.title}}</text>
       </view>
     </block>
   </block>

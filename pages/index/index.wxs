@@ -8,7 +8,7 @@ function isContainKey(str) {
 function getBgColor(str) {
     var arr = str.split(",");
     var style = "background: rgba(" + arr[0] + "," + arr[1] + "," + arr[2] + ",1);"
-    return "background: #333;";
+    return style;
 }
 
 module.exports = {

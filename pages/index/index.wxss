@@ -255,8 +255,6 @@ swiper {
   justify-content: space-around;
   width: 440rpx;
   height: 310rpx;
-  /* background: #999; */
-  border: 1px solid #F00;
   border-radius: 0 0 8px 8px;
   padding: 10rpx 0 10rpx 0;
 }

@@ -11,7 +11,7 @@
     <image src="{{topicDetail.image_url}}" class="bg-img" mode="aspectFill"/>
     <view class="title">{{topicDetail.title}}</view>
     <view class="desc">{{topicDetail.desc}}</view>
-    <image class="favorite" src="../../images/videodetail/favorite.png"/>
+    <image class="favorite" src="../../images/videodetail/favorite.png" bindtap="handleFavoriteClick" data-type="topic" />
     <view class="summary">片单列表 · 共{{topicDetail.videos.length}}部</view>
     <button class="share" open-type="share">
       <image src="../../images/videodetail/share.png" />
@@ -28,13 +28,12 @@
           <image class="poster" mode="aspectFill" src="{{item.video_detail.show_info.images[0].url}}" />
           <text class="title">{{item.video_detail.base_info.title}}</text>
           <text class="score">{{item.video_detail.base_info.score}}</text>
-          <!-- <text class="vip">VIP</text> -->
-          <text class="info">2019 · 中国大陆 · 剧情 · 历史</text>
-          <image class="favorite-icon" src="../../images/videodetail/favorite2.png" mode="aspectFill" />
+          <text class="info">{{item.video_detail.base_info.publish_date}} · {{item.video_detail.base_info.publish_area}} · {{item.video_detail.base_info.video_type}}</text>
+          <image class="favorite-icon" src="../../images/videodetail/favorite2.png" mode="aspectFill" bindtap="handleFavoriteClick" data-type="movie" />
           <image class="push-icon" src="../../images/videodetail/push.png" mode="aspectFill" />
         </view>
         <view class="item-two">
-          <text class="two-text">真正的幸福是来自内心深处。真正的幸福是来自内心深处。真正的幸福是来自内心深处。真正的幸福是来自内心深处。真正的幸福是来自内心深处。真正的幸福是来自内心深处。</text>   
+          <text class="two-text">{{item.desc}}</text>   
         </view>
       </view>
     </block>

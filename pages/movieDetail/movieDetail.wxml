@@ -175,7 +175,7 @@
 </view>
 <!-- 遥控器组件 -->
 <view>
-  <remotecontrol id="remotecontrol-id" bindcomment="handleCommentClick" inputBar="{{true}}" inputText="你好你好" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
+  <remotecontrol id="remotecontrol-id" bindcomment="handleCommentClick" inputBar="{{true}}" inputText="写短评" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
 </view>
 <!-- 影片详情浮窗 -->
 <view wx:if="{{isShowDescPopup}}" class='maskLayer' data-tap='desc' bindtap='hidePopup'></view>
