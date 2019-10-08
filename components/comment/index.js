@@ -9,7 +9,6 @@ Component({
   },
   data: {
     // 组件内部数据
-    isShowIn: false,
     keyboardHeight: '',
     currentWordNumber: 0,
     score: 0,
@@ -97,13 +96,13 @@ Component({
     },
     reply: function (e) {
       this.setData({
-        isShowIn: false
+        isShow: false
       })
       console.log("inputComment", this.data.inputValue,"score",this.data.score)
     },
     closeGrayBox: function () {
       this.setData({
-        isShowIn: false
+        isShow: false
       })
     },
   },
