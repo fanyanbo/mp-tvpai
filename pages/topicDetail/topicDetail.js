@@ -6,7 +6,9 @@ Page({
   data: {
     scrollHeight: '',
     topicDetail: [],
-    customNavStyle: 'opacity: 0;'
+    customNavStyle: 'opacity: 0;',
+    collectionList: [], //片单影片收藏列表
+    isCollected: false //片单是否收藏
     // customBackground: 'rgba(255,255,255,0)'
   },
 
@@ -122,8 +124,40 @@ Page({
     utils.navigateBack()
   },
 
-  handleFavoriteClick: function (e) {
-    console.log('handleFavoriteClick type:' + e.currentTarget.dataset.type)
+  handleCollectionClick: function (e) {
+    console.log('handleCollectionClick')
+    let { type, movieid, id } = e.currentTarget.dataset
+    console.log(type, movieid, id)
+    if (type === 'movie') {
+      let _collectionList = this.data.collectionList
+      let _collectionSet = new Set(_collectionList)
+      if (_collectionSet.has(id)) return
+      else _collectionSet.add(id)
+      _collectionList = Array.from(_collectionSet)
+      console.log(_collectionList)
+      this.setData({ collectionList: _collectionList })
+    } else {
+      this.setData({isCollected: true})
+    }
+
+  },
+
+  handleUnCollectionClick: function (e) {
+    console.log('handleUnCollectionClick')
+    let { type, movieid, id } = e.currentTarget.dataset
+    console.log(type, movieid, id)
+    if (type === 'movie') {
+      let _collectionList = this.data.collectionList
+      let _collectionSet = new Set(_collectionList)
+      if (!_collectionSet.has(id)) return
+      else _collectionSet.delete(id)
+      _collectionList = Array.from(_collectionSet)
+      console.log(_collectionList)
+      this.setData({ collectionList: _collectionList })
+    } else {
+      this.setData({isCollected: false})
+    }
+
   },
 
   // 获取片单详情数据，片单不区分源

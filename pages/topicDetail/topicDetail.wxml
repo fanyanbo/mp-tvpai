@@ -2,6 +2,7 @@
   email: fanyanbo@coocaa.com
   date: 2019-09-12
   desc: 片单详情页 -->
+<wxs src="./topicDetail.wxs" module="tools" />
 <view>
   <navBar extClass="navbar-extclass" style="{{customNavStyle}}" background="#fff" color='#000' 
   title='片单' back="{{true}}" bindback="handleGobackClick" />
@@ -11,7 +12,8 @@
     <image src="{{topicDetail.image_url}}" class="bg-img" mode="aspectFill"/>
     <view class="title">{{topicDetail.title}}</view>
     <view class="desc">{{topicDetail.desc}}</view>
-    <image class="favorite" src="../../images/videodetail/favorite.png" bindtap="handleFavoriteClick" data-type="topic" />
+    <image wx:if="{{isCollected}}" class="favorite" src="../../images/videodetail/favorite-focus.png" bindtap="handleUnCollectionClick" data-type="topic" />
+    <image wx:else class="favorite" src="../../images/videodetail/favorite.png" bindtap="handleCollectionClick" data-type="topic" />
     <view class="summary">片单列表 · 共{{topicDetail.videos.length}}部</view>
     <button class="share" open-type="share">
       <image src="../../images/videodetail/share.png" />
@@ -29,7 +31,8 @@
           <text class="title">{{item.video_detail.base_info.title}}</text>
           <text class="score">{{item.video_detail.base_info.score}}</text>
           <text class="info">{{item.video_detail.base_info.publish_date}} · {{item.video_detail.base_info.publish_area}} · {{item.video_detail.base_info.video_type}}</text>
-          <image class="favorite-icon" src="../../images/videodetail/favorite2.png" mode="aspectFill" bindtap="handleFavoriteClick" data-type="movie" />
+          <image wx:if="{{tools.isCollect(collectionList, item.id)}}" class="favorite-icon" src="../../images/videodetail/favorite2-focus.png" mode="aspectFill" bindtap="handleUnCollectionClick" data-type="movie" data-movieid="{{item.video_id}}" data-id="{{item.id}}"/>
+          <image wx:else class="favorite-icon" src="../../images/videodetail/favorite2.png" mode="aspectFill" bindtap="handleCollectionClick" data-type="movie" data-movieid="{{item.video_id}}" data-id="{{item.id}}"/>
           <image class="push-icon" src="../../images/videodetail/push.png" mode="aspectFill" />
         </view>
         <view class="item-two">

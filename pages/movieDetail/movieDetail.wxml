@@ -1,29 +1,29 @@
 <!-- 导航栏组件 -->
 <view>
-  <navBar title='详情' background='#333' color='#fff' back="{{true}}" home="{{true}}" iconTheme='white' bindback="handleGobackClick" bindhome="handleGohomeClick" />
+  <!-- <navBar title='详情' background='#333' color='#fff' back="{{true}}" home="{{true}}" iconTheme='white' bindback="handleGobackClick" bindhome="handleGohomeClick" /> -->
+  <navBar title='详情' background='#222' color='#fff' back="{{true}}" iconTheme='white' bindback="handleGobackClick" />
 </view>
 <view class='{{isFixedWindow ? "pageFixed" : ""}}'>
   <!-- 影片信息 -->
   <view class="header">
     <view class='movieDetail'>
-      <image src='{{videoDetailData.video_poster}}' class='haibao' mode="aspectFill"></image>
+      <image src='{{videoDetailData.video_poster}}' class='poster' mode="aspectFill"></image>
       <view class='describe'>
-        <ul>
-          <li class="intwoline title">{{videoDetailData.album_title}}</li>
-          <!-- 填坑：数据不完整 -->
-          <li class="tags">
-            <span class="score" wx:if="{{videoDetailData.score === '0.0'}}">8.5分</span>
-            <span class="score" wx:else>{{videoDetailData.score}}分</span>
-            · {{videoDetailData.video_tags}}
-          </li>
-          <li class="click_button">
-            <!-- 电影推送布局 -->
-            <view class='collect' bindtap="push" data-moviechildid="1" data-movieid="{{videoDetailData.third_album_id}}" data-videoid="{{videoId}}" data-coocaamid="{{coocaa_m_id}}" data-title="{{videoDetailData.album_title}}" wx:if="{{videoDetailData.video_type === '电影'}}">
-              <image wx:if="{{!isPushDone}}" src='../../images/collect_before.png'></image>
-              <image wx:else src='../../images/collect_after.png'></image>
-            </view>
-          </li>
-        </ul>
+        <view class="title">{{videoDetailData.album_title}}</view>
+        <!-- 填坑：数据不完整 -->
+        <view class="tags">
+          <span style="color: #FFD71C;" wx:if="{{videoDetailData.score === '0.0'}}">8.5分</span>
+          <span style="color: #FFD71C;" wx:else>{{videoDetailData.score}}分</span>
+          · {{videoDetailData.video_tags}}
+        </view>
+      </view>
+      <view class="like">
+        <image src="../../images/videodetail/favorite3.png" />
+      </view>
+      <!-- 电影推送布局 -->
+      <view wx:if="{{videoDetailData.video_type === '电影'}}" class='movie-push' bindtap="push" data-moviechildid="1" data-movieid="{{videoDetailData.third_album_id}}" data-videoid="{{videoId}}" data-coocaamid="{{coocaa_m_id}}" data-title="{{videoDetailData.album_title}}">
+        <image wx:if="{{!isPushDone}}" src='../../images/collect_before.png'></image>
+        <image wx:else src='../../images/collect_after.png'></image>
       </view>
     </view>
     <!-- 剧集 -->
@@ -70,7 +70,7 @@
       <view class='intro-content'>{{videoDetailData.description}}</view>
     </view>
     <!-- 关联影人 -->
-    <view class="panel-wrap actor-wrap">
+    <view class="panel-wrap actor-wrap" wx:if="{{relatedActorsList && relatedActorsList.length !== 0}}">
       <view class="panel-title">
         <text class="title-line"></text>
         <text class="title-text">演职员</text>
@@ -93,7 +93,7 @@
         <text class="title-line"></text>
         <text class="title-text">热评</text>
         <text class="hot-text">全部短评 {{commentTotalNum}}</text>
-        <image class="hot-img" src="../../images/index_arraw.png" mode="aspectFill" bindtap="handleHotClick"/>
+        <image class="hot-img" src="../../images/index_arraw.png" mode="aspectFill" bindtap="handleHotClick" />
       </view>
       <view class="hot-comment-content">
         <block wx:for="{{hotCommentList}}" wx:key="index">
@@ -103,12 +103,12 @@
               <text class="comment-nickname">用户昵称</text>
               <view class="comment-star">
                 <block wx:for="{{3}}" wx:key="index">
-                  <image class="comment-star-img" mode="aspectFill" src="../../images/videodetail/star.png"/>
+                  <image class="comment-star-img" mode="aspectFill" src="../../images/videodetail/star.png" />
                 </block>
               </view>
               <view class="comment-date">三天前</view>
               <view class="comment-thumbs-num">24514</view>
-              <image class="comment-thumbs-img" mode="aspectFill" data-index="{{index}}" src="{{index === curIndex ? thumbsFocusIconUrl : thumbsIconUrl}}"  bindtap="handleThumbsClick"/>
+              <image class="comment-thumbs-img" mode="aspectFill" data-index="{{index}}" src="{{index === curIndex ? thumbsFocusIconUrl : thumbsIconUrl}}" bindtap="handleThumbsClick" />
             </view>
             <view class="comment-content">文本描述文本描述文本描述文本描述。文本描述文本描述文本描述文本描述。文本描述文本描述文本描述文本描述。</view>
           </view>
@@ -125,7 +125,7 @@
       <view class="recomment-content">
         <scroll-view scroll-x style="width: auto; overflow: hidden;">
           <block wx:for="{{3}}" wx:key="index">
-            <image class="recomment-list-item" src="http://img.coocaa.com/weixin/media/20190722/dd3b4ba1-a710-4423-a1be-4dfa07544314.png" bindtap="handleRecommendClick"/>
+            <image class="recomment-list-item" src="http://img.coocaa.com/weixin/media/20190722/dd3b4ba1-a710-4423-a1be-4dfa07544314.png" bindtap="handleRecommendClick" />
           </block>
         </scroll-view>
       </view>
@@ -164,7 +164,7 @@
             </view>
             <view class="comment-date">三天前</view>
             <view class="comment-thumbs-num">24514</view>
-            <image class="comment-thumbs-img" mode="aspectFill" src="../../images/videodetail/thumbs.png" bindtap="handleThumbsClick"/>
+            <image class="comment-thumbs-img" mode="aspectFill" src="../../images/videodetail/thumbs.png" bindtap="handleThumbsClick" />
           </view>
           <view class="comment-content">文本描述文本描述文本描述文本描述。文本描述文本描述文本描述文本描述。文本描述文本描述文本描述文本描述。</view>
         </view>

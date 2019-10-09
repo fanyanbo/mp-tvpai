@@ -49,8 +49,9 @@
   </view>
   <!-- 搜索结果内容版面 -->
   <view class="result-title-wrapper" wx:if="{{inputValue && isShowResult}}" style="{{resultTitleStyle}}">
-    <view wx:for="{{resultTitleList}}" wx:key="index" class="list_item {{activeIndex == index ? 'on' : ''}}" bindtap="handleTabClick" data-index="{{index}}">
+    <view wx:for="{{resultTitleList}}" wx:key="index" class="tabbar-item {{activeIndex == index ? 'on' : ''}}" bindtap="handleTabClick" data-index="{{index}}">
       {{item}}
+      <view wx:if="{{activeIndex === index}}" class="tabbar-item-bottom"></view>
     </view>
   </view>
   <view class="video-content" wx:if="{{inputValue && isShowResult}}" style="display:{{activeIndex !== 0 ? 'none' : 'block'}}">
@@ -94,14 +95,14 @@
                 </view>
               </view>
               <view class="right-push-wrapper">
-                <!-- <view class="like" data-keyword="{{item.video_detail}}" bindtap="handleLikeTap">
+                <view class="like" data-keyword="{{item.video_detail}}" bindtap="handleLikeTap">
                   <block wx:if="{{isLike && item.video_detail.third_album_id == curThirdAlbumId}}">
-                    <image class="icon" src="../../images/like_after.png"></image>
+                    <image class="icon" src="../../images/videodetail/favorite2-focus.png"></image>
                   </block>
                   <block wx:else>
-                    <image class="icon" src="../../images/like_before.png"></image>
+                    <image class="icon" src="../../images/videodetail/favorite2.png"></image>
                   </block>
-                </view> -->
+                </view>
                 <view class="push" wx:if="{{item.episodes_list == null}}" data-keyword="{{item}}" bindtap="handleMovieTap">
                   <image class="icon" src="../../images/collect_before.png" />
                 </view>

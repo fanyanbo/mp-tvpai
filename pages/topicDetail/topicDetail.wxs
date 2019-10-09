@@ -1,0 +1,13 @@
+
+function isCollect(arr, key) {
+    for (var i = 0; i < arr.length; i++) {
+        if (key === arr[i]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+module.exports = {
+    isCollect: isCollect
+}

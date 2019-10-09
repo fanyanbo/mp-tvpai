@@ -1,18 +1,18 @@
 .header {
   width: 100%;
   margin: 0 auto;
-  background: #333;
+  background: #222222;
   padding: 40rpx 0;
   margin-bottom: 20rpx
 }
 
 .movieDetail {
+  position: relative;
   margin: 0 40rpx;
-  height: 302rpx;
-  position: relative
+  height: 302rpx; 
 }
 
-.movieDetail image.haibao {
+.movieDetail .poster {
   width: 216rpx;
   height: 302rpx;
   overflow: hidden;
@@ -20,60 +20,59 @@
 }
 
 .movieDetail .describe {
-  margin-left: 40rpx;
-  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 250rpx;
   width: 414rpx;
-  vertical-align: top;
-  color: #444;
-  height: 302rpx;
 }
 
-.movieDetail .describe ul li {
-  font-size: 26rpx;
-  display: block;
-  color: #999
-}
-
-.movieDetail .describe ul li.title {
+.movieDetail .describe .title {
+  width: 420rpx;
+  /* height: 120rpx; */
   font-size: 44rpx;
-  margin-bottom: 10rpx;
+  line-height: 60rpx;
   color: #fff;
   font-weight: bold;
+  display: -webkit-box !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
-.movieDetail .describe ul li .like image {
-  width: 80rpx;
-  height: 80rpx;
+.movieDetail .tags {
+  font-size: 24rpx;
+  height: 34rpx;
+  line-height: 34rpx;
+  color: #999999;
+  margin-top: 10rpx;
 }
 
-.movieDetail .describe ul .click_button {
+.movieDetail .like {
   position: absolute;
-  bottom: 0;
-  height: 80rpx;
+  left: 250rpx;
+  top: 210rpx;
+  width: 84rpx;
+  height: 84rpx;
 }
 
-.movieDetail .describe ul li .collect image {
-  width: 314rpx;
-  height: 80rpx;
+.like image {
+  width: 100%;
+  height: 100%;
 }
 
-.tags {
-  font-size: 24rpx
-}
-
-.movieDetail .describe ul li em {
+.movieDetail .movie-push {
   position: absolute;
-  top: 20%;
-  display: block;
-  left: 13%;
-  font-size: 30rpx;
+  top: 210rpx;
+  left: 354rpx;
+  width: 316rpx;
+  height: 84rpx;
 }
 
-.movieDetail .describe .push_button {
-  display: inline-block;
-  height: 80rpx;
-  padding: 0;
-  background: none
+.movie-push image {
+  width: 100%;
+  height: 100%;
 }
 
 .intwoline {
@@ -168,100 +167,6 @@
   padding-bottom: 68rpx;
 }
 
-.movieBox {
-  height: 374rpx;
-  width: 210rpx;
-  display: inline-block;
-  margin: 0 10rpx;
-  margin-bottom: 40rpx;
-}
-
-.like_image {
-  border-radius: 12rpx;
-  width: 210rpx;
-  height: 294rpx;
-}
-
-.movieTitle {
-  width: 210rpx;
-  height: 80rpx;
-  color: #333;
-  font-size: 28rpx;
-  display: flex
-}
-
-.service {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: #fff;
-  padding-bottom: 10rpx;
-  border-top: 1rpx solid #eee;
-  z-index: 99;
-  height: 50%;
-  overflow-y: scroll;
-}
-
-.service .item {
-  width: 94%;
-  margin: 0 auto;
-  font-size: 30rpx;
-  padding-top: 30rpx;
-}
-
-.service .item .left {
-  width: 20%;
-  display: inline-block;
-  font-size: 30rpx;
-}
-
-.service .item .right {
-  width: 80%;
-  display: inline-block;
-  font-size: 30rpx;
-}
-
-.service .item .right text.right {
-  width: auto !important;
-  float: right;
-  padding: 5rpx 15rpx;
-  font-size: 26rpx;
-  text-align: center;
-  border: 1rpx solid #eee;
-}
-
-.service .no {
-  text-align: center;
-  width: 100%;
-  padding: 50rpx;
-}
-
-.boxshdaw {
-  height: 100%;
-  position: fixed;
-  width: 100%;
-  background: rgba(0, 0, 0, .6);
-  z-index: 9;
-  top: 0;
-}
-
-.openit,
-.scrollIt {
-  width: 100%;
-  text-align: center;
-  font-size: 30rpx;
-  color: #353535;
-}
-
-.open {
-  height: 75rpx;
-  overflow: hidden;
-}
-
-.score {
-  color: #FFD71C;
-}
-
 .length {
   float: right;
   font-size: 24rpx;
@@ -319,19 +224,6 @@
   line-height: 34rpx;
   position: absolute;
   top: 50rpx
-}
-
-.intwoline {
-  display: -webkit-box !important;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-all;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-.description {
-  color: #666
 }
 
 .maskLayer {
@@ -415,7 +307,6 @@
   vertical-align: top;
 }
 
-/* .choose .xs  text{display: block;} */
 .choose .segmeng {
   font-size: 32rpx;
   color: #333

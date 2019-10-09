@@ -33,9 +33,9 @@ Page({
       console.log('获取片单数据:', res)
       if (res.data.data) {
         let _map = new Map()
-        for(let i=0; i<res.data.data.length; i++) {       
+        for (let i = 0; i < res.data.data.length; i++) {
           let _date = new Date(res.data.data[i].start_datetime)
-          let _formatDate = `${_date.getFullYear()}年${_date.getMonth()+1}月`
+          let _formatDate = `${_date.getFullYear()}年${_date.getMonth() + 1}月`
           if (_map.has(_formatDate)) {
             let _valueList = _map.get(_formatDate)
             _valueList.push(res.data.data[i])
@@ -44,10 +44,21 @@ Page({
             let _valueList = []
             _valueList.push(res.data.data[i])
             _map.set(_formatDate, _valueList)
-          }     
+          }
         }
-        let arrayObj=Array.from(_map)
-        arrayObj.sort(function(a,b){return b[0].localeCompare(a[0])})
+        // 转换成数组，方便排序
+        let arrayObj = Array.from(_map)
+        // 数组排序，注意数字字符串的比较
+        arrayObj.sort(function (a, b) { 
+          let aMatches = a[0].match(/\d+/g)
+          let bMatches = b[0].match(/\d+/g)
+          if (aMatches[0] === bMatches[0]) {
+            return bMatches[1] - aMatches[1]
+          } else {
+            return bMatches[0] - aMatches[0]
+          }
+          // return b[0].localeCompare(a[0]) 
+        })
         this.setData({
           topicList: arrayObj
         })
