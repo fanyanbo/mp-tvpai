@@ -159,7 +159,7 @@
             <text class="comment-nickname">用户昵称</text>
             <view class="comment-star">
               <block wx:for="{{5}}" wx:key="index">
-                <image class="comment-star-img" mode="aspectFill" src="../../images/videodetail/star.png" />
+                <image class="comment-star-img" mode="aspectFill" src="../../images/videodetail/star-focus.png" />
               </block>
             </view>
             <view class="comment-date">三天前</view>
@@ -217,4 +217,8 @@
       </view>
     </view>
   </scroll-view>
+</view>
+<!-- 评论提交组件 -->
+<view>
+  <comment isShow="{{isCommentShow}}"></comment>
 </view>

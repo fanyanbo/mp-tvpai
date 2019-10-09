@@ -385,7 +385,7 @@
 .panel-wrap {
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 
 .panel-title {
@@ -466,7 +466,7 @@
 .hot-comment-item,
 .all-comment-item  {
   width: 750rpx;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   margin-top: 60rpx;
 }
 
@@ -532,6 +532,7 @@
   width: 160rpx;
   height: 28rpx;
   font-size: 20rpx;
+  font-family:PingFangSC-Regular,PingFangSC;
   line-height: 28rpx;
   font-weight: bold;
   color: #666666;

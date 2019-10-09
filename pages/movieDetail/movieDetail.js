@@ -414,6 +414,7 @@ Page({
 
   handleCommentClick: function () {
     console.log('handleCommentClick')
+    this.setData({isCommentShow: true})
   }
 
 

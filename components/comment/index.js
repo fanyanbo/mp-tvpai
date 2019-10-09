@@ -17,32 +17,32 @@ Component({
       {
         flag: 1,
         score: 1,
-        bgImg: "/images/score2_icon.png",
-        bgfImg: "/images/score_icon.png"
+        bgImg: "/images/videodetail/star.png",
+        bgfImg: "/images/videodetail/star-focus.png"
       },
       {
         flag: 1,
         score: 2,
-        bgImg: "/images/score2_icon.png",
-        bgfImg: "/images/score_icon.png"
+        bgImg: "/images/videodetail/star.png",
+        bgfImg: "/images/videodetail/star-focus.png"
       },
       {
         flag: 1,
         score: 3,
-        bgImg: "/images/score2_icon.png",
-        bgfImg: "/images/score_icon.png"
+        bgImg: "/images/videodetail/star.png",
+        bgfImg: "/images/videodetail/star-focus.png"
       },
       {
         flag: 1,
         score: 4,
-        bgImg: "/images/score2_icon.png",
-        bgfImg: "/images/score_icon.png"
+        bgImg: "/images/videodetail/star.png",
+        bgfImg: "/images/videodetail/star-focus.png"
       },
       {
         flag: 1,
         score: 5,
-        bgImg: "/images/score2_icon.png",
-        bgfImg: "/images/score_icon.png"
+        bgImg: "/images/videodetail/star.png",
+        bgfImg: "/images/videodetail/star-focus.png"
       }
     ],
   },
