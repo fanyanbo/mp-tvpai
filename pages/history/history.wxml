@@ -2,50 +2,49 @@
 <view>
   <navBar title='推送历史' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
 </view>
-<view class="contant" wx:if="{{historyList!=null&&historyList.length>0}}">
-  <view wx:for="{{historyList}}" wx:key="key">
+<!-- 主内容显示区 -->
+<view class="main-wrap" wx:if="{{ historyList != null && historyList.length > 0}}">
+  <block wx:for="{{historyList}}" wx:key="key">
     <view class="title">{{item.time}}</view>
-    <view class="list" wx:for="{{item.list}}" wx:key="key" data-albumid="{{item.album_id}}" data-id="{{item.id}}" bindtap='select'>
-      <view class="img">
-        <image src="{{item.poster_h}}" class="item_book_img" mode="aspectFill"></image>
-      </view>
-      <view class="item_book_text intwoline">{{item.title}}</view>
-      <view class="check">
-        <view wx:if="{{management_good}}" class='lefts'>
-          <block wx-if="{{!item.checked}}">
+    <view class="item" wx:for="{{item.list}}" wx:key="key" data-albumid="{{item.album_id}}" data-id="{{item.id}}" bindtap='handleSelectClick'>
+      <image src="{{item.poster_h}}" class="item_img" mode="aspectFill"></image>
+      <view class="item_title intwoline">{{item.title}}</view>
+      <view wx:if="{{isEditStatus}}" class="check">
+          <block wx:if="{{!item.checked}}">
             <image src='../../images/check_befor.png'></image>
           </block>
-          <block wx-if="{{item.checked}}">
+          <block wx:else>
             <image src='../../images/check_after.png'></image>
           </block>
-        </view>
       </view>
     </view>
-  </view>
+  </block>
   <view class="bottom {{bIphoneFullScreenModel ? 'iphone-fullscreen-model' : ''}}">
-    <view wx:if="{{!management_good}}" class='flex_center edit' bindtap='management'>编辑</view>
-    <view class="flex_center" wx:if="{{management_good}}">
-      <view class='left button' bindtap='finish_management'>取消</view>
+    <view wx:if="{{!isEditStatus}}" class='flex_center edit' bindtap='handleEditClick'>编辑</view>
+    <view wx:else class="flex_center" >
+      <view class='left button' bindtap='handleCancelEditClick'>取消</view>
       <view class='middle button'>
-        <block wx:if="{{select_all}}">
-          <view bindtap='select_none'>取消全选</view>
+        <block wx:if="{{isSelectAll}}">
+          <view bindtap='handleCancelSelectAllClick'>取消全选</view>
         </block>
-        <block wx:if="{{!select_all}}">
-          <view bindtap='select_all'>全选</view>
+        <block wx:else>
+          <view bindtap='handleSelectAllClick'>全选</view>
         </block>
       </view>
       <view class='right button'>
-        <view bindtap='deleteitem' class='sure'>
+        <view bindtap='handleDeleteClick' class='sure'>
           删除
-          <text wx:if="{{length !=0}}">({{length}})</text>
+          <text wx:if="{{selectLength != 0}}">({{selectLength}})</text>
         </view>
       </view>
     </view>
   </view>
 </view>
-<view class="null" wx:if="{{isShowDoc}}">
+<!-- 无内容显示区 -->
+<view class="noresult" wx:if="{{isShowNone}}">
   <image class="noresult-icon" src="../../images/no-result@3x.png"></image>
 </view>
+<!-- 遥控器组件 -->
 <view>
   <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
 </view>

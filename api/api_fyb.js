@@ -13,6 +13,7 @@ const getRecommendListUrl = baseUrl_tvpai + "video/client/longvideo/recommendlis
 const getRecommendMoreListUrl = baseUrl_tvpai + "video/client/longvideo/recommendmorelist";// 获取首页推荐更多内容
 const getHistoryListUrl = baseUrl_tvpai + "video/client/pushhistory/list";//获取历史列表
 const addPushHistoryUrl = baseUrl_tvpai + "video/client/pushhistory/add";//添加推送历史项
+const delPushHistoryUrl = baseUrl_tvpai + "video/client/pushhistory/batchdel";//删除推送历史项
 const getVideoDetailUrl = baseUrl_tvpai + "video/client/longvideo/videodetail";//获取影片详情
 const getRelatedVideoUrl = "https://beta-tvpi.coocaa.com/" + "video/client/longvideo/relatelong";//获取相关正片
 const getSegmentListUrl = baseUrl_tvpai + "video/client/longvideo/episodeslist";//获取剧集列表
@@ -45,6 +46,7 @@ module.exports = {
   bindDeviceUrl: bindDeviceUrl,
   getHistoryListUrl: getHistoryListUrl,
   addPushHistoryUrl: addPushHistoryUrl,
+  delPushHistoryUrl: delPushHistoryUrl,
   changeDeviceStatusUrl: changeDeviceStatusUrl,
   getVideoDetailUrl: getVideoDetailUrl,
   getRelatedVideoUrl: getRelatedVideoUrl,

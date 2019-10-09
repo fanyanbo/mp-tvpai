@@ -239,7 +239,7 @@ rich-text {
 }
 
 .pingfenStar ul li {
-  float: left;
+  /* float: left; */
   display: inline;
   color: #a8a8a8;
 }

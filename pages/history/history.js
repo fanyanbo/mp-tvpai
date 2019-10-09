@@ -1,9 +1,11 @@
-import utils from '../../utils/util';
-const api = require('../../api/api.js');
-const utils_fyb = require('../../utils/util_fyb');
-export {
-  utils,
-}
+// author: fanyanbo
+// email: fanyanbo@coocaa.com
+// date: 2019-10-09
+// des: 推送历史页面
+
+const utils = require('../../utils/util')
+const utils_fyb = require('../../utils/util_fyb')
+const api = require('../../api/api_fyb')
 const app = getApp()
 
 Page({
@@ -11,254 +13,190 @@ Page({
     isShowTips: false,
     bIphoneFullScreenModel: false,
     showoverList: false,
-    isShowDoc: false,
+    isShowNone: false,
     historyList: [],
-    management_good: false,
-    select_all: false,
-    batchdel: "",
-    length: 0,
+    isEditStatus: false, //是否为编辑状态
+    isSelectAll: false,
+    deleteListStr: '', //待删除历史项列表串
+    selectLength: 0,
+  },
+  
+  // 编辑
+  handleEditClick: function () {
+    this.setData({
+      isEditStatus: true,
+    })
+  },
 
-  },
-  // 管理纪录
-  management: function () {
-    let that = this;
-    that.setData({
-      management_good: true,
+  // 取消编辑
+  handleCancelEditClick: function () {
+    this.setData({
+      isEditStatus: false,
     })
   },
-  finish_management: function () {
-    let that = this;
-    that.setData({
-      management_good: false,
-    })
-  },
+
   // 选择
-  select: function (e) {
-    var that = this;
-    let arr2 = [];
-    if (that.data.management_good == false) {
-      var album_id = e.currentTarget.dataset.albumid;
+  handleSelectClick: function (e) { 
+    if (!this.data.isEditStatus) {
       wx.navigateTo({
-        url: '../../pages/movieDetail/movieDetail?id=' + album_id,
-      });
+        url: `../../pages/movieDetail/movieDetail?id=${e.currentTarget.dataset.albumid}`
+      })
     } else {
-      var arr = that.data.historyList;
-      var index = e.currentTarget.dataset.id;
-      var str = "";
-      console.log(arr)
-      console.log("==============" + index)
-      for (var k = 0; k < arr.length; k++) {
-        var list = that.data.historyList[k].list;
-        for (let i = 0; i < list.length; i++) {
-          if (list[i].id == index) {
-            console.log("------------")
-            list[i].checked = !list[i].checked;
+      let selectArr = []
+      let historyArr = this.data.historyList
+      let index = e.currentTarget.dataset.id
+      console.log(historyArr, index)
+      for (let i = 0; i < historyArr.length; i++) {
+        let list = this.data.historyList[i].list
+        for (let j = 0; j < list.length; j++) {
+          if (list[j].id === index) {
+            list[j].checked = !list[j].checked
           }
-          if (list[i].checked) {
-            arr2.push(list[i].video_id)
+          if (list[j].checked) {
+            selectArr.push(list[j].video_id)
           }
-        };
-
+        }
       }
-      str = arr2.join(",")
-      console.log(str);
-      that.setData({
-        historyList: arr,
-        batchdel: str,
-        length: arr2.length
+      let selectStr = selectArr.join(",")
+      console.log(selectStr)
+      this.setData({
+        historyList: historyArr,
+        deleteListStr: selectStr,
+        selectLength: selectArr.length
       })
-
     }
   },
+
   // 删除
-  deleteitem: function () {
-    var that = this;
-    let str = "";
-    str = that.data.batchdel;
-    str = "{" + str + "}"
-    console.log(str.length)
-    if (str.length == 2) { //没有选择
-      return
-    }
+  handleDeleteClick: function () {
+    let delStr = `{${this.data.deleteListStr}}`
+    console.log(delStr)
+    if (delStr.length === 2) return
 
-    const secret = app.globalData.secret
-    var paramsStr = {
-      "appkey": app.globalData.appkey,
-      "del_ids": str,
-      "time": app.globalData.time(),
-      "version_code": app.globalData.version_code,
-      "vuid": wx.getStorageSync("wxopenid")
-    }
-    var sign = utils.encryptionIndex(paramsStr, secret)
-    console.log(paramsStr)
-    const url = api.batchdelUrl
-    let data = {
-      appkey: app.globalData.appkey,
-      del_ids: str,
-      time: app.globalData.time(),
-      version_code: app.globalData.version_code,
-      vuid: wx.getStorageSync("wxopenid"),
-      sign: sign,
-    }
-    utils.postLoading(url, 'GET', data, function (res) {
-      console.log(res.data);
-      if (res.data.code == 0) {
+    let params = {
+      "del_ids": delStr
+    };
+    let desParams = utils_fyb.paramsAssemble_tvpai(params)
+    utils_fyb.requestP(api.delPushHistoryUrl, desParams).then(res => {
+      console.log('删除历史项成功', res.data)
+      if (res.data.code === 0) {
         wx.showToast({
-          title: '删除成功',
+          title: '删除成功'
         })
-        that.historyList();
+        setTimeout(() => {
+          this.getHistoryList()
+        }, 200)    
       }
-    }, function (res) {
-      console.log('streams fail:')
-      console.log(res)
+    }).catch(res => {
+      console.log('删除历史项发生错误', res)
       utils.showToastBox("加载数据失败", "loading")
-    }, function (res) {
-      console.log('streams complete:')
-      console.log(res)
-    }, "")
-
+    })
   },
+
   // 全选
-  select_all: function () {
-    let that = this;
-    that.setData({
-      select_all: !that.data.select_all
+  handleSelectAllClick: function () {
+    this.setData({
+      isSelectAll: true
     })
-    if (that.data.select_all) {
-      let arr = that.data.historyList;
-      let arr2 = [];
-      let arr3 = [];
-      let str = "";
-      for (let i = 0; i < arr.length; i++) {
-        var list = arr[i].list;
-        for (let i = 0; i < list.length; i++) {
-          if (list[i].checked == true) {
-            arr3.push(list[i].video_id);
-          } else {
-            list[i].checked = true;
-            arr3.push(list[i].video_id);
-          }
-        };
-      }
-      str = arr3.join(",")
-      console.log(str);
-      that.setData({
-        historyList: arr,
-        batchdel: arr3,
-        length: arr3.length
-      })
-    }
-  },
-  // 取消全选
-  select_none: function () {
-    let that = this;
-    that.setData({
-      select_all: !that.data.select_all
-    })
-    let arr = that.data.historyList;
+    let arr = this.data.historyList
+    let selectArr = []
     for (let i = 0; i < arr.length; i++) {
-      var list = arr[i].list;
-      for (let i = 0; i < list.length; i++) {
-        list[i].checked = false;
-      };
+      let list = arr[i].list
+      for (let j = 0; j < list.length; j++) {
+        if (list[j].checked) {
+          selectArr.push(list[j].video_id)
+        } else {
+          list[j].checked = true
+          selectArr.push(list[j].video_id)
+        }
+      }
     }
-    that.setData({
+    let selectStr = selectArr.join(",")
+    console.log(selectStr)
+    this.setData({
       historyList: arr,
-      batchdel: '',
-      length: 0
+      deleteListStr: selectStr,
+      selectLength: selectArr.length
     })
   },
 
-  historyList: function (e) {
-    let that = this
-    const secret = app.globalData.secret
-    const vuid = wx.getStorageSync('wxopenid')
-    console.log(vuid);
-    const params = {
-      "appkey": app.globalData.appkey,
-      "time": app.globalData.time(),
-      "tv_source": utils_fyb.getTvsource(),
-      "version_code": app.globalData.version_code,
-      "vuid": vuid
+  // 取消全选
+  handleCancelSelectAllClick: function () {
+    this.setData({
+      isSelectAll: false
+    })
+    let arr = this.data.historyList
+    for (let i = 0; i < arr.length; i++) {
+      let list = arr[i].list
+      for (let j = 0; j < list.length; j++) {
+        list[j].checked = false
+      }
     }
+    this.setData({
+      historyList: arr,
+      deleteListStr: '',
+      selectLength: 0
+    })
+  },
 
-    console.log(params);
-    const sign = utils.encryptionIndex(params, secret)
-    const url = api.pushhistorylistUrl
-    let data = {
-      appkey: app.globalData.appkey,
-      vuid: vuid,
-      time: app.globalData.time(),
-      tv_source: utils_fyb.getTvsource(),
-      version_code: app.globalData.version_code,
-      sign: sign
-    }
-    utils.postLoading(url, 'GET', data, function (res) {
-      console.log(res.data)
+  // 获取历史列表
+  getHistoryList: function () {
+    let desParams = utils_fyb.paramsAssemble_tvpai()
+    utils_fyb.requestP(api.getHistoryListUrl, desParams).then(res => {
+      console.log('获取历史列表成功', res.data)
       if (res.data.data) {
-        let _withinObj = {}
-        let _overObj = {}
+        let _withinObj = {}, _overObj = {}
         let withinList = res.data.data.movies_within_serven_days
         let overList = res.data.data.movies_over_serven_days
         for (let i = 0; i < res.data.data.movies_within_serven_days.length; i++) {
-          withinList[i].checked = false;
-          withinList[i].id = i;
+          withinList[i].checked = false
+          withinList[i].id = i
         }
         for (let i = 0; i < res.data.data.movies_over_serven_days.length; i++) {
-          overList[i].checked = false;
-          overList[i].id = res.data.data.movies_within_serven_days.length + i;
+          overList[i].checked = false
+          overList[i].id = res.data.data.movies_within_serven_days.length + i
         }
 
-        var key = "time";
-        var _key = "list";
-        _withinObj[key] = "一周内";
-        _withinObj[_key] = withinList;
-        _overObj[key] = "更早";
-        _overObj[_key] = overList;
+        _withinObj['time'] = "一周内"
+        _withinObj['list'] = withinList
+        _overObj['time'] = "更早"
+        _overObj['list'] = overList
 
-        var historyList = []
-        if (withinList.length != 0) {
-          historyList.push(_withinObj)
-        }
-        if (overList.length != 0) {
-          historyList.push(_overObj)
-        }
-        console.log(withinList.length)
-        console.log(overList.length)
-        console.log(historyList);
-        if (withinList.length == 0 && overList == 0) {
-          that.setData({
-            isShowDoc: true,
+        let historyList = []
+        if (withinList.length !== 0) historyList.push(_withinObj)
+        if (overList.length !== 0) historyList.push(_overObj)
+        
+        console.log(historyList, withinList.length, overList.length)
+        if (withinList.length === 0 && overList === 0) {
+          this.setData({
+            isShowNone: true,
             historyList: historyList,
-            management_good: false,
-            length: 0,
+            isEditStatus: false,
+            selectLength: 0,
           })
         } else {
-          that.setData({
+          this.setData({
+            isShowNone: false,
             historyList: historyList,
-            isShowDoc: false,
-            length: 0,
-            management_good: false,
+            isEditStatus: false,
+            selectLength: 0, 
           })
         }
       }
-    }, function (res) {
-      console.log('streams fail:')
-      console.log(res)
+    }).catch(res => {
+      console.log('获取历史列表发生错误', res)
       wx.showToast({
-        title: '加载数据失败',
+        title: '加载数据失败'
       })
-      that.setData({
-        isShowDoc: true,
-      });
-    }, function (res) {
-      console.log('streams complete:')
-    }, '')
+      this.setData({
+        isShowNone: true,
+      })
+    })
   },
 
   onLoad: function () {
     utils.showToastBox('加载中...', "loading")
-    this.historyList();
+    this.getHistoryList();
   },
 
   onShow: function () {
