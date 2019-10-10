@@ -49,7 +49,7 @@ Component({
   methods: {
     // 自定义方法
 
-    bindInput: function (e) {
+    handleInputEvent: function (e) {
       // 获取输入框的内容
       let inputValue = e.detail.value;
       // 获取输入框内容的长度
@@ -60,11 +60,17 @@ Component({
         inputValue: inputValue
       })
     },
-    setBottom: function (event) {
-      let bottomHeight = event.detail.height;
+    handleFocusEvent: function (e) {
+      let bottomHeight = e.detail.height;
       console.log("键盘高度", bottomHeight)
       this.setData({
         keyboardHeight: bottomHeight
+      })
+    },
+    handleBlurEvent: function (e) {
+      console.log('handleBlurEvent')
+      this.setData({
+        keyboardHeight: 0
       })
     },
     chooseScore: function (e) {

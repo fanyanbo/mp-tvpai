@@ -53,17 +53,19 @@
 }
 
 .comment-wrapper .stars-wrapper {
-  display: inline-block;
+  /* display: inline-block; */
   width: 300rpx;
   height: 48rpx;
   background: #fff;
+  margin-left: 10rpx;
 }
 
 .stars-wrapper view {
-  float: left;
+  /* float: left; */
+  display: inline-block;
   width: 48rpx;
   height: 48rpx;
-  margin-left: 10rpx;
+  margin-left: 5rpx;
 }
 
 .stars-wrapper image {
@@ -72,7 +74,7 @@
 }
 
 .comment-wrapper .input-number {
-  margin-left: 120rpx;
+  margin-left: 130rpx;
   width:80rpx;
   height:34rpx;
   font-size:24rpx;
