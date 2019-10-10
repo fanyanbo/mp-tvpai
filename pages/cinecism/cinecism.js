@@ -1104,6 +1104,7 @@ function getCommenList(that) {
     }
   })
 }
+//若影评模块可以删除，则这一段都可以删除
 //获取相关影片 
 function getAboutMovie(that) {
   var url = api.getArticleMoviesUrl

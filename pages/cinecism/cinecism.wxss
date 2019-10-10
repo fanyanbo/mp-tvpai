@@ -324,14 +324,16 @@ color:#f0f0f0!important;
   opacity: 0.4;
 }
 .chioceIcon{
-  background: url(http://www.coocaa.com/act14/weixin/applet/choice_box.png)no-repeat;
+  /* background: url(http://www.coocaa.com/act14/weixin/applet/choice_box.png)no-repeat; */
+  background: red;
   background-size:contain;
   width: 40rpx;
   height: 40rpx;
   margin-top:6%;
   }
 .chioced{
-  background: url(http://www.coocaa.com/act14/weixin/applet/choice_box2.png)no-repeat;
+  /* background: url(http://www.coocaa.com/act14/weixin/applet/choice_box2.png)no-repeat; */
+  background: #ccc;
   width: 40rpx;
   height: 40rpx;
   background-size:contain;
