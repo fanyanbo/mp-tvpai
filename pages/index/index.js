@@ -130,17 +130,17 @@ Page({
   },
 
   onLoad() {
-    console.log('onLoad')
+    //console.log('onLoad')
     // 不区分源，所以在此处调用
     this.getBannerData()
     this.getTopicData()
   },
 
   onReady() {
-    console.log('onReady')
+    //console.log('onReady')
     wx.getSystemInfo({
       success: function (res) {
-        console.log(res);
+        console.log("custom模式测试",res);
         // custom模式测试，在真机上screenHeight和windowHeight高度一样，导致marginTop为0；模拟器上正常
         let screenHeight = res.screenHeight;
         let windowHeight = res.windowHeight;
@@ -151,7 +151,7 @@ Page({
   },
 
   onShow() {
-    console.log('onShow')
+    //console.log('onShow')
     this.setData({
       isShowTips: app.globalData.isShowTips,
       bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel

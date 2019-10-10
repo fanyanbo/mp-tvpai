@@ -105,8 +105,7 @@ Page({
     }
   },
   formSubmit: function (e) {
-    console.log("formid：")
-    console.log(e.detail.formId)
+    console.log("formid：",e.detail.formId)
     wx.setStorageSync("formid", e.detail.formId)
   },
   collect(e) {
@@ -124,8 +123,7 @@ Page({
     contentId = e.currentTarget.dataset.contentid
     var index = e.currentTarget.dataset.contentid
 
-    console.log("contentArray")
-    console.log(contentArray)
+    console.log("contentArray",contentArray)
     if (that.data.starArrays[index] == 'starIcon' || that.data.starArrays[index] == undefined) {
       if (contentArray != null && contentArray != undefined) {
         for (var i = 0; i < contentArray.length; i++) {
@@ -141,10 +139,9 @@ Page({
         }
       }
       newZu2 = newZu2.substr(0, newZu2.length - 1)
-      console.log("movieidArray")
-      console.log(movieidArray)
-      console.log("newZu2")
-      console.log(newZu2)
+
+      console.log("movieidArray",movieidArray)
+      console.log("newZu2",newZu2)
 
       if (movieidArray != null && movieidArray.length > 0) {
         newZu = []
@@ -169,8 +166,8 @@ Page({
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         success: res => {
-          console.log("res==========")
-          console.log(res)
+
+          console.log("收藏影片接口返回结果",res)
           if (res.data.result) {
             console.log("获取收藏影片接口成功")
             // var index = e.currentTarget.dataset.contentid
@@ -379,8 +376,7 @@ Page({
     } else {
       var dataStr = utils.json2Form({ client_id: 'applet', sign: sign, param: '{"articleId":"' + articleId + '","ccsession":"' + ccsession + '","content":"' + content + '"}' })
 
-      console.log('dataStr======================')
-      console.log(dataStr)
+      console.log('dataStr======================',dataStr)
       wx.request({
         url: url,
         data: dataStr,
