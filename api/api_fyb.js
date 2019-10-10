@@ -29,6 +29,7 @@ const getSessionUrl = baseUrl_wx + "appletAPI/getSession.coocaa";//使用登录�
 const getUserInfoUrl = baseUrl_wx + "appletAPI/getuserinfo.coocaa";//微信小程序API接口
 const bindDeviceUrl = baseUrl_wx + "wxUserDeviceAPI/bindDevice.coocaa";//绑定设备
 const changeDeviceStatusUrl = baseUrl_wx + "wxUserDeviceAPI/changeDeviceStatus.coocaa";//修改设备名称或修改设备绑定状态接口
+const getRelatedArticlesUrl = "https://beta-wx.coocaa.com/" + "articleMoviesAPI/linkArticles.coocaa";//获取影片关联文章
 
 module.exports = {
   searchByKeywordUrl: searchByKeywordUrl,
@@ -54,5 +55,6 @@ module.exports = {
   getRelatedActorsUrl: getRelatedActorsUrl,
   getRelatedVideoByActorUrl: getRelatedVideoByActorUrl,
   getRecommendMoreListUrl: getRecommendMoreListUrl,
-  getTopicUrl: getTopicUrl
+  getTopicUrl: getTopicUrl,
+  getRelatedArticlesUrl: getRelatedArticlesUrl
 }

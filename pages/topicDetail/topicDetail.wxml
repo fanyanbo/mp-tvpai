@@ -22,18 +22,21 @@
   <!-- 留着以后用 -->
   <!-- <view class="fixed-bar" style="{{scrollTop >= pxScrollHeight ? fixedBarStyle : ''}}"></view> -->
   <view class="content-wrap">
-    <!-- <scroll-view scroll-y="true" style="height: {{scrollHeight}}px">
-    </scroll-view> -->
     <block wx:for="{{topicDetail.videos}}" wx:key="index">
       <view class="item">
-        <view class="item-one">
+        <!-- 阻止事件冒泡 -->
+        <view class="item-one" bindtap="handleItemClick" data-movieid="{{item.video_id}}">
           <image class="poster" mode="aspectFill" src="{{item.video_detail.show_info.images[0].url}}" />
           <text class="title">{{item.video_detail.base_info.title}}</text>
           <text class="score">{{item.video_detail.base_info.score}}</text>
           <text class="info">{{item.video_detail.base_info.publish_date}} · {{item.video_detail.base_info.publish_area}} · {{item.video_detail.base_info.video_type}}</text>
-          <image wx:if="{{tools.isCollect(collectionList, item.id)}}" class="favorite-icon" src="../../images/videodetail/favorite2-focus.png" mode="aspectFill" bindtap="handleUnCollectionClick" data-type="movie" data-movieid="{{item.video_id}}" data-id="{{item.id}}"/>
-          <image wx:else class="favorite-icon" src="../../images/videodetail/favorite2.png" mode="aspectFill" bindtap="handleCollectionClick" data-type="movie" data-movieid="{{item.video_id}}" data-id="{{item.id}}"/>
-          <image class="push-icon" src="../../images/videodetail/push.png" mode="aspectFill" />
+          <block wx:if="{{tools.isCollect(collectionList, item.id)}}">
+            <image class="favorite-icon" src="../../images/videodetail/favorite2-focus.png" mode="aspectFill" catchtap="handleUnCollectionClick" data-type="movie" data-movieid="{{item.video_id}}" data-id="{{item.id}}"/>
+          </block>
+          <block wx:else>
+            <image class="favorite-icon" src="../../images/videodetail/favorite2.png" mode="aspectFill" catchtap="handleCollectionClick" data-type="movie" data-movieid="{{item.video_id}}" data-id="{{item.id}}"/>
+          </block>
+          <image class="push-icon" src="../../images/videodetail/push.png" mode="aspectFill" catchtap="handlePushClick" data-movieid="{{item.video_id}}" data-type="{{item.video_detail.base_info.video_type}}" data-title="{{item.video_detail.base_info.title}}"/>
         </view>
         <view class="item-two">
           <text class="two-text">{{item.desc}}</text>   

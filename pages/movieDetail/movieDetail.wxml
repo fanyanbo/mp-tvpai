@@ -70,7 +70,7 @@
       <view class='intro-content'>{{videoDetailData.description}}</view>
     </view>
     <!-- 关联影人 -->
-    <view class="panel-wrap actor-wrap" wx:if="{{relatedActorsList && relatedActorsList.length !== 0}}">
+    <view class="panel-wrap actor-wrap" wx:if="{{relatedActorsList != null && relatedActorsList.length !== 0}}">
       <view class="panel-title">
         <text class="title-line"></text>
         <text class="title-text">演职员</text>
@@ -116,7 +116,7 @@
       </view>
     </view>
     <!-- 关联影评文章（影荐） -->
-    <view class="panel-wrap recomment-wrap">
+    <view class="panel-wrap recomment-wrap" wx:if="{{relatedArticlesList != null && relatedArticlesList.length !== 0}}">
       <view class="panel-title">
         <text class="title-line"></text>
         <text class="title-text">影荐</text>
@@ -124,8 +124,8 @@
       </view>
       <view class="recomment-content">
         <scroll-view scroll-x style="width: auto; overflow: hidden;">
-          <block wx:for="{{3}}" wx:key="index">
-            <image class="recomment-list-item" src="http://img.coocaa.com/weixin/media/20190722/dd3b4ba1-a710-4423-a1be-4dfa07544314.png" bindtap="handleRecommendClick" />
+          <block wx:for="{{relatedArticlesList}}" wx:key="index">
+            <image class="recomment-list-item" src="{{item.picUrl}}" bindtap="handleRecommendClick" data-id="{{item.id}}"/>
           </block>
         </scroll-view>
       </view>
@@ -182,16 +182,6 @@
 <view wx:if="{{isShowDescPopup}}" class='choose {{bIphoneFullScreenModel ? "iphone-fullscreen-model" : ""}}' animation='{{animationData}}'>
   <view class="title">简介</view>
   <scroll-view scroll-y style="height: 782rpx;" bindscrolltoupper="scrollToUpper" bindscrolltolower="scrollToLower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
-    <view wx:if="{{videoType === '电影'}}" class='content win_content'>
-      <view class="content_list">
-        <text class="label">导演</text>
-        <view class="info">{{videoDetailData.director}}</view>
-      </view>
-      <view class="content_list">
-        <text class="label">演员</text>
-        <view class="info">{{videoDetailData.actor}}</view>
-      </view>
-    </view>
     <view class="description">{{videoDetailData.description}}</view>
   </scroll-view>
 </view>

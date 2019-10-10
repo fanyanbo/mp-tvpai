@@ -122,6 +122,7 @@ Page({
         this.renderRelatedFilms(movieId)
         this.renderSeries(movieId)
         this.renderRelatedActors(movieId)
+        this.renderRelatedArticles(movieId)
         utils.showLoadingToast('', false)
       }
     }).catch(res => {
@@ -146,7 +147,7 @@ Page({
     })
   },
 
-  // 渲染相关联影片（猜你喜欢）
+  // 渲染关联影片（猜你喜欢）
   renderRelatedFilms: function (movieId) {
     let params = { "third_album_id": movieId, "page_size": "10" };
     let desParams = utils.paramsAssemble_tvpai(params);
@@ -161,6 +162,25 @@ Page({
     }).catch(res => {
       console.log('获取关联影片数据失败:', res)
       utils.showFailedToast('加载数据失败', this.data.errIconUrl)
+    })
+  },
+
+  // 渲染关联文章
+  renderRelatedArticles: function (movieId) {
+    movieId = "_oqy_1012320100" //仅用于测试
+    let params = {"movieId": movieId}
+    let desParams = utils.paramsAssemble_wx(params)
+    utils.requestP(api.getRelatedArticlesUrl, desParams).then(res => {
+      console.log('获取关联文章', res.data);
+      if (res.data.data && res.data.code === 200) {
+        this.setData({
+          relatedArticlesList: res.data.data
+        })
+      } else {
+        console.log('获取关联文章失败');
+      }
+    }).catch(res => {
+      console.log('获取关联文章发生错误', res);
     })
   },
 
@@ -393,7 +413,7 @@ Page({
   handleRecommendClick: function (e) {
     console.log('handleRecommendClick', e)
     wx.navigateTo({
-      url: '../cinecism/cinecism?id=566'
+      url: `../cinecism/cinecism?id=${e.currentTarget.dataset.id}`
     })
   },
 

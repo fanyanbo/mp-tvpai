@@ -8,7 +8,8 @@ Page({
     topicDetail: [],
     customNavStyle: 'opacity: 0;',
     collectionList: [], //片单影片收藏列表
-    isCollected: false //片单是否收藏
+    isCollected: false, //片单是否收藏
+    errIconUrl: '../../images/close_icon.png',
     // customBackground: 'rgba(255,255,255,0)'
   },
 
@@ -137,7 +138,7 @@ Page({
       console.log(_collectionList)
       this.setData({ collectionList: _collectionList })
     } else {
-      this.setData({isCollected: true})
+      this.setData({ isCollected: true })
     }
 
   },
@@ -155,9 +156,52 @@ Page({
       console.log(_collectionList)
       this.setData({ collectionList: _collectionList })
     } else {
-      this.setData({isCollected: false})
+      this.setData({ isCollected: false })
     }
+  },
 
+  handleItemClick: function (e) {
+    console.log('handleItemClick')
+    let { movieid } = e.currentTarget.dataset
+    wx.navigateTo({
+      url: `../movieDetail/movieDetail?id=${movieid}`,
+    })
+  },
+
+  handlePushClick: function (e) {
+    console.log('handlePushClick')
+    let { movieid, title, type } = e.currentTarget.dataset
+    if(type !== "电影") return
+    let _session = wx.getStorageSync("new_cksession")
+    let _deviceId = app.globalData.deviceId
+    console.log("校验参数 session:" + _session + ", deviceId:" + _deviceId);
+    wx.showLoading({ title: '推送中...' })
+    if (_deviceId == null) {
+      utils.showFailedToast('无设备id', this.data.errIconUrl)
+      return
+    }
+    let params = {
+      "ccsession": _session,
+      "deviceId": _deviceId + '',
+      "movieId": movieid
+    }
+    console.log("推送参数:", params)
+    let desParams = utils.paramsAssemble_wx(params);
+    console.log('推送参数(组装后):', desParams);
+    utils.requestP(api.pushMediaUrl, desParams).then(res => {
+      console.log('推送成功', res.data);
+      if (res.data && res.data.code === 200) {
+        utils.showSuccessToast('推送成功')
+        this.addPushHistory(movieid, title, movieid)
+      } else {
+        console.log('推送失败');
+        let errMsg = res.data.message + (res.data.code == null ? "" : "[" + res.data.code + "]");
+        utils.showFailedToast(errMsg, this.data.errIconUrl)
+      }
+    }).catch(res => {
+      console.log('推送发生错误', res);
+      utils.showFailedToast('推送失败', this.data.errIconUrl)
+    })
   },
 
   // 获取片单详情数据，片单不区分源
@@ -173,6 +217,23 @@ Page({
     }).catch(res => {
       console.log('获取片单数据发生错误', res)
       utils.showFailedToast('加载数据失败', this.data.errIconUrl)
+    })
+  },
+
+  // 添加历史
+  addPushHistory: function (movieId, title, videoId) {
+    let urlParams = { "vuid": wx.getStorageSync("wxopenid") };
+    let url = utils.urlAssemble_tvpai(api.addPushHistoryUrl, utils.paramsAssemble_tvpai(urlParams));
+    let data = {
+      album_id: movieId,
+      title: title,
+      video_id: videoId, //null会导致获取历史列表数据缺失
+      video_type: "1"
+    }
+    utils.requestP(url, data, 'POST', 'application/json; charset=utf-8').then(res => {
+      console.log('添加历史成功', res);
+    }).catch(res => {
+      console.log('添加历史失败', res);
     })
   },
 })  
