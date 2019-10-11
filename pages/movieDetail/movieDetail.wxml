@@ -10,8 +10,8 @@
       <image src='{{videoDetailData.video_poster}}' class='poster' mode="aspectFill"></image>
       <view class='describe'>
         <view class="title">{{videoDetailData.album_title}}</view>
-        <!-- 填坑：数据不完整 -->
-        <view class="tags">
+        <!-- wx:if骨架屏优化；填坑：数据不完整 -->
+        <view class="tags" wx:if="{{videoDetailData != null}}">
           <span style="color: #FFD71C;" wx:if="{{videoDetailData.score === '0.0'}}">8.5分</span>
           <span style="color: #FFD71C;" wx:else>{{videoDetailData.score}}分</span>
           · {{videoDetailData.video_tags}}

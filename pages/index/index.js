@@ -221,13 +221,19 @@ Page({
     console.log('handleBannerTap ccsession', wx.getStorageSync("new_cksession"));
     if (e.currentTarget.dataset.type == 'cinecism') {
       wx.navigateTo({
-        url: '../../pages/cinecism/cinecism?id=' + e.currentTarget.dataset.id,
+        url: '../cinecism/cinecism?id=' + e.currentTarget.dataset.id,
       })
     } else if (e.currentTarget.dataset.type == 'find') {
       wx.navigateTo({
-        url: '../../pages/find/find',
+        url: '../find/find',
       })
     }
+  },
+
+  handleItemTap: function (e) {
+    wx.navigateTo({
+      url: `../movieDetail/movieDetail?id=${e.currentTarget.dataset.movieid}`
+    })
   },
 
   // 获取绑定设备信息

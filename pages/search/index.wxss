@@ -116,15 +116,23 @@
   align-items: center;
 }
 .item-key {
+  position: relative;
   width: 36rpx;
   height: 36rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 50%;
   background-color: #F5F6F8;
-  font-size: 24rpx;
+}
+.item-key text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 80rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
   color: #666666;
+  font-size: 24rpx;
 }
 .item-value {
   margin-left: 15rpx;

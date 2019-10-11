@@ -16,7 +16,8 @@
   width: 216rpx;
   height: 302rpx;
   overflow: hidden;
-  border-radius: 12rpx
+  border-radius: 12rpx;
+  background:#ECECEC;
 }
 
 .movieDetail .describe {
