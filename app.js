@@ -23,8 +23,7 @@ function login(rawData, code, encryptedData, iv, signature) {
     success: res => {
       let data = res.data;
       if (data.result) {
-        console.log(res)
-        console.log(data.data.wxopenid+"----进来了----" + data.data.ccsession)
+        console.log("登录成功",data.data.wxopenid+"----进来了----" + data.data.ccsession)
         let cksession = data.data.ccsession
         let wxopenid = data.data.wxopenid
         wx.setStorageSync('new_cksession', cksession)
@@ -32,8 +31,7 @@ function login(rawData, code, encryptedData, iv, signature) {
         getApp().globalData.new_cksession = cksession
         console.log("setStorageSync cksession:" + cksession)
         decryptUser(rawData, encryptedData, iv, cksession, signature)
-        console.log("登录返回数据：")
-        console.log(data.data.mobile)
+        console.log("登录返回数据：",data.data.mobile)
         let mobile = data.data.mobile
         let username = data.data.username
         wx.setStorageSync('mobile', mobile)
@@ -74,7 +72,7 @@ function decryptUser(rawData, encryptedData, iv, cksession, signature) {
 
 App({
   onLaunch: function () {
-    console.log('onLaunch.')
+    //console.log('onLaunch.')
     let that = this;
     wx.getSystemInfo({
       success: function(res) {

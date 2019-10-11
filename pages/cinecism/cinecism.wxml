@@ -196,7 +196,8 @@
           </view>
         </block>
         <view wx:if="{{votesList !=null && votesList.length>0}}" class="pb20"></view>
-        <!-- 影评模块 -->
+
+        <!-- 影评模块 是否可以删除？ -->
         <view class="movies" wx:if="{{moviesData!=null&&moviesData.length>0}}">
           <block wx:for="{{moviesData}}" wx:for-index="index" wx:key="index">
             <view class="moviesOne">
