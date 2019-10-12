@@ -1,7 +1,7 @@
 <!-- 导航栏组件 -->
 <view>
-  <!-- <navBar title='详情' background='#333' color='#fff' back="{{true}}" home="{{true}}" iconTheme='white' bindback="handleGobackClick" bindhome="handleGohomeClick" /> -->
-  <navBar title='详情' background='#222' color='#fff' back="{{true}}" iconTheme='white' bindback="handleGobackClick" />
+  <navBar title='详情' background='#333' color='#fff' back="{{true}}" home="{{true}}" iconTheme='white' bindback="handleGobackClick" bindhome="handleGohomeClick" />
+  <!-- <navBar title='详情' background='#222' color='#fff' back="{{true}}" iconTheme='white' bindback="handleGobackClick" /> -->
 </view>
 <view class='{{isFixedWindow ? "pageFixed" : ""}}'>
   <!-- 影片信息 -->

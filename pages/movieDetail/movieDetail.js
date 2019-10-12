@@ -38,6 +38,7 @@ Page({
    */
   onLoad: function (options) {  
     utils.showLoadingToast()  
+    console.log('当前影片id:' + options.id)
     this.getDetailData(options.id)
   },
 
