@@ -4,7 +4,7 @@ Page({
   },
 
   onLoad: function (options) {
-    //console.log(options)
+    console.log(options)
     let id = options ? "123":"567"
     this.setData({
       curSrc: 'https://webx.coocaa.com/hfdplatform/yuqi/index.html?id=' + id

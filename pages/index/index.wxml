@@ -18,14 +18,15 @@
     <!-- banner区域，运营重点区域 -->
     <view class="banner-wrap">
       <swiper autoplay="{{autoplay}}" current='{{swiperCurrent}}' previous-margin="{{previousmargin}}" next-margin="{{nextmargin}}" bindchange="swiperChange">
-        <block wx:for="{{streams}}" wx:key="key" class="banner-item">
-          <swiper-item data-type="cinecism" data-id="{{item.articleId}}" bindtap="handleBannerTap">
-            <image src="{{item.articlePicUrl}}" class="slide-image" bindchange="chuangEvent"></image>
+        <block wx:if="{{bannerList != null && bannerList.length > 0}}" wx:for="{{bannerList}}" wx:key="index">
+          <swiper-item data-type="{{item.linkType}}" data-id="{{item.bannerId}}" data-url="{{item.imgLinkUrl}}" bindtap="handleBannerTap">
+            <image src="{{item.imgUrl}}" class="slide-image" bindchange="chuangEvent"></image>
           </swiper-item>
         </block>
-        <block wx:key="key" class="banner-item">
-          <swiper-item data-type="find" bindtap="handleBannerTap">
-            <image src="../../images/banner.jpg" class="slide-image"></image>
+        <!-- 模拟骨架屏效果 -->
+        <block wx:if="{{bannerList.length === 0}}" wx:for="{{2}}" wx:key="index">
+          <swiper-item>
+            <image src="" class="slide-image" />
           </swiper-item>
         </block>
       </swiper>
@@ -34,7 +35,7 @@
     <view bindtap="jumpMyFavorite">跳转到我的收藏页面</view>
     <!-- 区分腾讯源和爱奇艺源标签分类，因为标签个数不同，它们的布局不同 -->
     <swiper wx:if="{{source === 'iqiyi'}}" class="iqiyi-label swiper-box" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-active-color="{{indicatorActiveColor}}" indicator-color="{{indicatorColor}}">
-      <block>
+      <block wx:if="{{column1.length !== 0}}">
         <swiper-item>
           <view wx:for="{{column1}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="handleCategoryTap">
             <image src="{{item.classify_pic}}" mode="aspectFill"></image>
@@ -42,22 +43,26 @@
           </view>
         </swiper-item>
       </block>
-      <block>
+      <!-- 模拟骨架屏效果 -->
+      <block wx:else>
         <swiper-item>
-          <view wx:for="{{column2}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="handleCategoryTap">
-            <image src="{{item.classify_pic}}" mode="aspectFill"></image>
-            <view class="label-title">{{item.classify_name}}</view>
+          <view wx:for="{{10}}" wx:key="index" class="column-item">
+            <view class="skeleton"></view>
           </view>
         </swiper-item>
       </block>
-      <block>
-        <swiper-item>
-          <view wx:for="{{column3}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="handleCategoryTap">
-            <image src="{{item.classify_pic}}" mode="aspectFill"></image>
-            <view class="label-title">{{item.classify_name}}</view>
-          </view>
-        </swiper-item>
-      </block>
+      <swiper-item>
+        <view wx:for="{{column2}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="handleCategoryTap">
+          <image src="{{item.classify_pic}}" mode="aspectFill"></image>
+          <view class="label-title">{{item.classify_name}}</view>
+        </view>
+      </swiper-item>
+      <swiper-item>
+        <view wx:for="{{column3}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="handleCategoryTap">
+          <image src="{{item.classify_pic}}" mode="aspectFill"></image>
+          <view class="label-title">{{item.classify_name}}</view>
+        </view>
+      </swiper-item>
     </swiper>
     <view wx:if="{{source === 'qq'}}" class="tencent-label">
       <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">
@@ -65,10 +70,14 @@
           <image src="{{item.classify_pic}}" mode="aspectFill"></image>
           <text class="label-txt">{{item.classify_name}}</text>
         </view>
+        <!-- 模拟骨架屏效果 -->
+        <view wx:if="{{column.length === 0}}" wx:for="{{6}}" wx:key="index" class="column-item">
+          <view class="skeleton"></view>
+        </view>
       </scroll-view>
     </view>
     <!-- 片单列表 -->
-    <view class="header" wx:if="{{topicList.length}}">
+    <view class="header" wx:if="{{topicList.length !== 0}}">
       <text class="line"></text>
       <text class="title">片单</text>
       <navigator class="more" url="../topicList/topicList">
@@ -76,7 +85,7 @@
         <image class="arrow" src="../../images/index_arraw.png" mode="aspectFill"></image>
       </navigator>
     </view>
-    <view class="topic-content">
+    <view class="topic-content" wx:if="{{topicList.length !== 0}}">
       <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">
         <view class="topic-item" wx:for="{{topicList}}" wx:key="index" bindtap="handleTopicTap" data-id="{{item.id}}">
           <view class="topic-item-header">

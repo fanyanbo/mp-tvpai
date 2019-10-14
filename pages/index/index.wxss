@@ -20,6 +20,8 @@
   display: inline-block;
   border-radius: 8rpx;
   margin: 0 10rpx;
+  border: 1px solid red;
+  background: #ECECEC;
 }
 
 .iqiyi-label {
@@ -53,6 +55,13 @@
   height: 104rpx;
   border-radius: 100%;
   display: flex;
+}
+
+.column-item .skeleton {
+  width: 104rpx;
+  height: 104rpx;
+  border-radius: 100%;
+  background: rgba(229,229,229,0.5);
 }
 
 .column-item .label-title {
@@ -179,7 +188,8 @@ swiper {
   margin: 0 auto;
   border-radius: 16rpx;
   width: 670rpx;
-  height: 300rpx
+  height: 300rpx;
+  background: rgba(229,229,229,0.5);
 }
 
 ::-webkit-scrollbar {

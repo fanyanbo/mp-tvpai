@@ -14,7 +14,7 @@ Page({
     circular: true,
     indicatorColor: '#ECECEC',
     indicatorActiveColor: "#FFD71C",
-    banners: [],
+    column: [],
     column1: [],
     column2: [],
     column3: [],
@@ -22,8 +22,9 @@ Page({
     previousmargin: '30rpx',
     nextmargin: '30rpx',
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    source: '',
+    source: utils.getTvsource(), 
     topicList: [],
+    bannerList: []
   },
 
   swiperChange: function () {
@@ -32,14 +33,14 @@ Page({
 
   // 获取标签分类
   getLabelClassify: function () {
-    console.log("当前设备视频源（未绑定时默认为iqiyi):" + utils.getTvsource());
+    console.log("当前设备视频源（未绑定时默认为iqiyi):" + this.data.source);
     let params = { "page_index": '0', "page_size": '30' };
     let desParams = utils.paramsAssemble_tvpai(params);
     utils.requestP(api.getOneClassifyUrl, desParams).then(res => {
-      console.log('获取标签分类数据:', res.data);
-      let _column1 = [], _column2 = [], _column3 = []
-      if (utils.getTvsource() === "iqiyi") {
-        if (res.data.data) {
+      console.log('获取标签分类数据:', res.data)
+      if (res.data.data) {
+        if(utils.getTvsource() === "iqiyi") {
+          let _column1 = [], _column2 = [], _column3 = []
           for (let i = 0; i < 30; i++) {
             if (i < 10) {
               _column1.push(res.data.data[i])
@@ -56,17 +57,13 @@ Page({
             source: "iqiyi"
           })
         } else {
-          utils.showFailedToast(res.data.message, this.data.errIconUrl)
-        }
-      } else {
-        if (res.data.data) {
           this.setData({
             column: res.data.data,
             source: "qq"
           })
-        } else {
-          utils.showFailedToast(res.data.message, this.data.errIconUrl)
         }
+      } else {
+        utils.showFailedToast(res.data.message, this.data.errIconUrl)
       }
     }).catch(res => {
       console.log('获取标签分类数据发生错误', res)
@@ -92,21 +89,19 @@ Page({
       })
   },
 
-  // 获取轮播图数据
+  // 获取banner数据
   getBannerData: function () {
-    let params = { "page": '0', "pageSize": '3' }
+    let params = { "clientType": app.globalData.platform }
     let desParams = utils.paramsAssemble_wx(params);
     utils.requestP(api.getBannerDataUrl, desParams).then(res => {
-      console.log('获取轮播图数据:', res.data)
-      if (res.data.result) {
-        if (res.data.data.pager.totalPage < 0) return false
-        if (res.data.data.list) {
-          this.setData({
-            streams: res.data.data.list
-          })
-        }
+      console.log('获取banner数据:', res.data)
+      if (res.data && res.data.code === 200) {
+        this.setData({
+          bannerList: res.data.data
+        })
       } else {
-        utils.showFailedToast(res.data.message, this.data.errIconUrl)
+        console.log('获取banner数据失败', res);
+        utils.showFailedToast(res.data.message || '加载数据失败', this.data.errIconUrl)
       }
     }).catch(res => {
       console.log('获取轮播图数据发生错误', res);
@@ -199,9 +194,6 @@ Page({
   // 跳转至片单详情页
   handleTopicTap: function (e) {
     console.log('handleTopicTap', e)
-    // wx.navigateTo({
-    //   url: `../webview/webview?title=${e.currentTarget.dataset.title}`,
-    // });
     wx.navigateTo({
       url: `../topicDetail/topicDetail?id=${e.currentTarget.dataset.id}`,
     });
@@ -218,16 +210,28 @@ Page({
 
   // 点击banner跳转，这里不用获取用户授权，不用获取session值，因为影评内的收藏无法使用
   handleBannerTap: function (e) {
-    console.log('handleBannerTap ccsession', wx.getStorageSync("new_cksession"));
-    if (e.currentTarget.dataset.type == 'cinecism') {
+    console.log('handleBannerTap', e)
+    let {type, url} = e.currentTarget.dataset
+    type = 2
+    url = "https://www.baidu.com"
+    if(type === 1) { // type 1:小程序 2:外链
       wx.navigateTo({
-        url: '../cinecism/cinecism?id=' + e.currentTarget.dataset.id,
+        url: `../${url}`
       })
-    } else if (e.currentTarget.dataset.type == 'find') {
+    } else if(type === 2) {  
       wx.navigateTo({
-        url: '../find/find',
-      })
+        url: `../webview/webview?path=${url}`
+      });
     }
+    // if (e.currentTarget.dataset.type == 'cinecism') {
+    //   wx.navigateTo({
+    //     url: '../cinecism/cinecism?id=' + e.currentTarget.dataset.id,
+    //   })
+    // } else if (e.currentTarget.dataset.type == 'find') {
+    //   wx.navigateTo({
+    //     url: '../find/find',
+    //   })
+    // }
   },
 
   handleItemTap: function (e) {
