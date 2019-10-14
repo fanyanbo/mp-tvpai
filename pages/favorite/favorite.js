@@ -97,7 +97,7 @@ Page({
 
   handleTabbarClick: function (e) {
     const _activeIndex = e.currentTarget.dataset['index'];
-    console.log('切换tabbar activeIndex =' + _activeIndex);
+    console.log('切换tabbar activeIndex = ' + _activeIndex);
     this.setData({
       activeIndex: _activeIndex
     })
@@ -213,6 +213,7 @@ Page({
 
   handleSelectAllClick: function (e) {
     console.log('handleSelectAllClick')
+    let _selectArr = []
     switch(e.currentTarget.dataset.type) {
       case "video": {
         let arr = this.data.videoList
@@ -220,9 +221,10 @@ Page({
           let _list = arr[i].list
           for(let j=0; j<_list.length; j++) {
             _list[j].selected = true
+            _selectArr.push(_list[j].id)
           }
         }
-        this.setData({videoList: arr, isVideoSelectAll: true})
+        this.setData({videoList: arr, isVideoSelectAll: true, selectedList: _selectArr})
       }
       case "topic": {
         let arr = this.data.topicList
@@ -230,9 +232,10 @@ Page({
           let _list = arr[i].list
           for(let j=0; j<_list.length; j++) {
             _list[j].selected = true
+            _selectArr.push(_list[j].id)
           }
         }
-        this.setData({topicList: arr, isTopicSelectAll: true})
+        this.setData({topicList: arr, isTopicSelectAll: true, selectedList: _selectArr})
       }
       case "article": {
         let arr = this.data.articleList
@@ -240,9 +243,10 @@ Page({
           let _list = arr[i].list
           for(let j=0; j<_list.length; j++) {
             _list[j].selected = true
+            _selectArr.push(_list[j].id)
           }
         }
-        this.setData({articleList: arr, isArticleSelectAll: true})
+        this.setData({articleList: arr, isArticleSelectAll: true, selectedList: _selectArr})
       }
     }
   },
@@ -258,7 +262,7 @@ Page({
             _list[j].selected = false
           }
         }
-        this.setData({videoList: arr, isVideoSelectAll: false})
+        this.setData({videoList: arr, isVideoSelectAll: false, selectedList: []})
       }
       case "topic": {
         let arr = this.data.topicList
@@ -268,7 +272,7 @@ Page({
             _list[j].selected = false
           }
         }
-        this.setData({topicList: arr, isTopicSelectAll: false})
+        this.setData({topicList: arr, isTopicSelectAll: false, selectedList: []})
       }
       case "article": {
         let arr = this.data.articleList
@@ -278,7 +282,7 @@ Page({
             _list[j].selected = false
           }
         }
-        this.setData({articleList: arr, isArticleSelectAll: false})
+        this.setData({articleList: arr, isArticleSelectAll: false, selectedList: []})
       }
     }
   },
@@ -290,6 +294,7 @@ Page({
   handleSelectClick: function (e) {
     console.log('handleSelectClick')
     let {id, type} = e.currentTarget.dataset
+    let _selectArr = []
     switch(type) {
       case "video": {
         let arr = this.data.videoList
@@ -299,9 +304,12 @@ Page({
             if(_list[j].id === id) {
               _list[j].selected = !_list[j].selected
             }
+            if(_list[j].selected) {
+              _selectArr.push(_list[j].id)
+            }
           }
         }
-        this.setData({videoList: arr})
+        this.setData({videoList: arr, selectedList: _selectArr})
       }
       case "topic": {
         let arr = this.data.topicList
@@ -311,9 +319,12 @@ Page({
             if(_list[j].id === id) {
               _list[j].selected = !_list[j].selected
             }
+            if(_list[j].selected) {
+              _selectArr.push(_list[j].id)
+            }
           }
         }
-        this.setData({topicList: arr})
+        this.setData({topicList: arr, selectedList: _selectArr})
       }
       case "article": {
         let arr = this.data.articleList
@@ -323,9 +334,12 @@ Page({
             if(_list[j].id === id) {
               _list[j].selected = !_list[j].selected
             }
+            if(_list[j].selected) {
+              _selectArr.push(_list[j].id)
+            }
           }
         }
-        this.setData({articleList: arr})
+        this.setData({articleList: arr, selectedList: _selectArr})
       }
     }
   }

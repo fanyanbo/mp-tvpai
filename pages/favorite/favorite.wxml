@@ -50,7 +50,7 @@
                         </view>
                     </block>
                     <text class="line"></text>
-                    <text class="btn-title" bindtap="handleRemoveClick" data-type="video">移除</text>
+                    <text class="btn-title {{isEdit && selectedList.length > 0 ? 'edit-text' : ''}}" bindtap="handleRemoveClick" data-type="video">移除</text>
                 </view>
             </block>
             <block wx:else>
@@ -90,7 +90,7 @@
                         </view>
                     </block>
                     <text class="line"></text>
-                    <text class="btn-title" bindtap="handleRemoveClick" data-type="topic">移除</text>
+                    <text class="btn-title {{isEdit && selectedList.length > 0 ? 'edit-text' : ''}}" bindtap="handleRemoveClick" data-type="topic">移除</text>
                 </view>
             </block>
             <block wx:else>
@@ -129,7 +129,7 @@
                         </view>
                     </block>
                     <text class="line"></text>
-                    <text class="btn-title" bindtap="handleRemoveClick" data-type="article">移除</text>
+                    <text class="btn-title {{isEdit && selectedList.length > 0 ? 'edit-text' : ''}}" bindtap="handleRemoveClick" data-type="article">移除</text>
                 </view>
             </block>
             <block wx:else>

@@ -191,6 +191,10 @@
     line-height: 44rpx;
 }
 
+.edit-text {
+    color: #F7534F;
+}
+
 .video-list .video-item:nth-child(1) {
     margin-top: 20rpx;
 }
