@@ -138,7 +138,7 @@ Page({
     let that = this;
     let ccsession = wx.getStorageSync('new_cksession');
     let deviceid = event.currentTarget.dataset.deviceid + '';
-    console.log('handleBindTap', ccsession, deviceid);
+    console.log('切换绑定设备：', ccsession, deviceid);
     let srcParams = { bind: "1", "ccsession": ccsession, "deviceId": deviceid };
     let desParams = utils.paramsAssemble_wx(srcParams);
     console.log(desParams);

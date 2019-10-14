@@ -72,10 +72,11 @@ function decryptUser(rawData, encryptedData, iv, cksession, signature) {
 
 App({
   onLaunch: function () {
-    //console.log('onLaunch.')
     let that = this;
     wx.getSystemInfo({
       success: function(res) {
+        console.log('onLaunch getSystemInfo', res)
+        that.globalData.platform = utils_fyb.getFlatform({ platform: res.platform })
         that.globalData.bIphoneFullScreenModel = utils_fyb.checkIphoneFullScreenModel({ platform: res.platform, model: res.model })
         console.log('bIphoneFullScreenModel: ', that.globalData.bIphoneFullScreenModel)
       },
@@ -94,7 +95,8 @@ App({
     secret: 'cd8a62acc6164b27a9af4d29de8eeebd',
     version_code: 33,
     bIphoneFullScreenModel:false,
-    sourceChanged: true //源是否被改变，初始化默认被改变
+    sourceChanged: true, //源是否被改变，初始化默认被改变
+    platform: 'Android' //设备平台，Android | IOS
   }
 })
 

@@ -15,55 +15,18 @@
     </view>
     <block wx:if="{{activeIndex === 0}}">
         <view class="video-wrap">
-            <block wx:if="{{videoToday}}">
-                <view class="title today-title">今天</view>
+            <block wx:for="{{videoList}}" wx:key="index">
+                <view class="title">{{item.time}}</view>
                 <view class="video-list">
-                    <block wx:for="{{3}}" wx:key="index">
+                    <block wx:for="{{item.list}}" wx:key="index" wx:for-item="subitem">
                         <view class="video-item">
                             <image class="video-poster" src="" />
                             <block wx:if="{{isEdit}}">
                                 <view class="video-title edit">
                                     影片双行标题影片双行标题影片双行标题影片双行标题adfdfdf
                                 </view>
-                                <image class="select-icon" src="../../images/videodetail/unselect.png" bindtap="handleSelectClick" />
-                            </block>
-                            <block wx:else>
-                                <view class="video-title">影片双行标题影片双行标题影片双行标题影片双行标题adfdfdf</view>
-                            </block>
-                        </view>
-                    </block>
-                </view>
-            </block>
-            <block wx:if="{{videoWeekend}}">
-                <view class="title">一周内</view>
-                <view class="video-list">
-                    <block wx:for="{{3}}" wx:key="index">
-                        <view class="video-item">
-                            <image class="video-poster" src="" />
-                            <block wx:if="{{isEdit}}">
-                                <view class="video-title edit">
-                                    影片双行标题影片双行标题影片双行标题影片双行标题adfdfdf
-                                </view>
-                                <image class="select-icon" src="../../images/videodetail/unselect.png" bindtap="handleSelectClick" />
-                            </block>
-                            <block wx:else>
-                                <view class="video-title">影片双行标题影片双行标题影片双行标题影片双行标题adfdfdf</view>
-                            </block>
-                        </view>
-                    </block>
-                </view>
-            </block>
-            <block wx:if="{{videoAgo}}">
-                <view class="title">更早</view>
-                <view class="video-list">
-                    <block wx:for="{{3}}" wx:key="index">
-                        <view class="video-item">
-                            <image class="video-poster" src="" />
-                            <block wx:if="{{isEdit}}">
-                                <view class="video-title edit">
-                                    影片双行标题影片双行标题影片双行标题影片双行标题adfdfdf
-                                </view>
-                                <image class="select-icon" src="../../images/videodetail/unselect.png" bindtap="handleSelectClick" />
+                                <image wx:if="{{!subitem.selected}}" class="select-icon" src="../../images/videodetail/unselect.png" bindtap="handleSelectClick" data-id="{{subitem.id}}" data-type="video"/>
+                                <image wx:else class="select-icon" src="../../images/videodetail/select.png" bindtap="handleSelectClick" data-id="{{subitem.id}}" data-type="video"/>
                             </block>
                             <block wx:else>
                                 <view class="video-title">影片双行标题影片双行标题影片双行标题影片双行标题adfdfdf</view>
@@ -74,57 +37,39 @@
             </block>
             <block wx:if="{{isEdit}}">
                 <view class="edit-btn">
-                    <text class="btn-title" bindtap="handleCancelClick">取消</text>
+                    <text class="btn-title" bindtap="handleCancelClick" data-type="video">取消</text>
                     <text class="line"></text>
-                    <text class="btn-title" bindtap="handleSelectAllClick">全选</text>
+                    <block wx:if="{{!isVideoSelectAll}}">
+                        <view class="btn-title" bindtap="handleSelectAllClick" data-type="video">
+                            全选
+                        </view>
+                    </block>
+                    <block wx:else>
+                        <view class="btn-title" bindtap="handleCancelSelectAllClick" data-type="video">
+                            取消全选
+                        </view>
+                    </block>
                     <text class="line"></text>
-                    <text class="btn-title" bindtap="handleRemoveClick">移除</text>
+                    <text class="btn-title {{isEdit && selectedList.length > 0 ? 'edit-text' : ''}}" bindtap="handleRemoveClick" data-type="video">移除</text>
                 </view>
             </block>
             <block wx:else>
-                <view class="edit-btn" bindtap="handleEditClick">编辑</view>
+                <view class="edit-btn" bindtap="handleEditClick" data-type="video">编辑</view>
             </block>
         </view>
     </block>
     <block wx:elif="{{activeIndex === 1}}">
         <view class="topic-wrap">
-            <block wx:if="{{topicToday}}">
-                <view class="title today-title">今天</view>
+            <block wx:for="{{topicList}}" wx:key="index">
+                <view class="title">{{item.time}}</view>
                 <view class="topic-list">
-                    <block wx:for="{{3}}" wx:key="index">
+                    <block wx:for="{{item.list}}" wx:key="index" wx:for-item="subitem">
                         <view class="topic-item">
                             <image class="topic-poster" src="" />
                             <view class="topic-title">年度冷门佳片</view>
                             <block wx:if="{{isEdit}}">
-                                <image class="select-icon" src="../../images/videodetail/unselect.png" bindtap="handleSelectClick" />
-                            </block>
-                        </view>
-                    </block>
-                </view>
-            </block>
-            <block wx:if="{{topicWeekend}}">
-                <view class="title">一周内</view>
-                <view class="topic-list">
-                    <block wx:for="{{3}}" wx:key="index">
-                        <view class="topic-item">
-                            <image class="topic-poster" src="" />
-                            <view class="topic-title">漫威英雄合集</view>
-                            <block wx:if="{{isEdit}}">
-                                <image class="select-icon" src="../../images/videodetail/unselect.png" bindtap="handleSelectClick" />
-                            </block>
-                        </view>
-                    </block>
-                </view>
-            </block>
-            <block wx:if="{{topicAgo}}">
-                <view class="title">更早</view>
-                <view class="topic-list">
-                    <block wx:for="{{3}}" wx:key="index">
-                        <view class="topic-item">
-                            <image class="topic-poster" src="" />
-                            <view class="topic-title">全球口碑佳片</view>
-                            <block wx:if="{{isEdit}}">
-                                <image class="select-icon" src="../../images/videodetail/unselect.png" bindtap="handleSelectClick" />
+                                <image wx:if="{{!subitem.selected}}" class="select-icon" src="../../images/videodetail/unselect.png" bindtap="handleSelectClick" data-id="{{subitem.id}}" data-type="topic"/>
+                                <image wx:else class="select-icon" src="../../images/videodetail/select.png" bindtap="handleSelectClick" data-id="{{subitem.id}}" data-type="topic"/>
                             </block>
                         </view>
                     </block>
@@ -132,54 +77,38 @@
             </block>
             <block wx:if="{{isEdit}}">
                 <view class="edit-btn">
-                    <text class="btn-title" bindtap="handleCancelClick">取消</text>
+                    <text class="btn-title" bindtap="handleCancelClick" data-type="topic">取消</text>
                     <text class="line"></text>
-                    <text class="btn-title" bindtap="handleSelectAllClick">全选</text>
+                    <block wx:if="{{!isTopicSelectAll}}">
+                        <view class="btn-title" bindtap="handleSelectAllClick" data-type="topic">
+                            全选
+                        </view>
+                    </block>
+                    <block wx:else>
+                        <view class="btn-title" bindtap="handleCancelSelectAllClick" data-type="topic">
+                            取消全选
+                        </view>
+                    </block>
                     <text class="line"></text>
-                    <text class="btn-title" bindtap="handleRemoveClick">移除</text>
+                    <text class="btn-title {{isEdit && selectedList.length > 0 ? 'edit-text' : ''}}" bindtap="handleRemoveClick" data-type="topic">移除</text>
                 </view>
             </block>
             <block wx:else>
-                <view class="edit-btn" bindtap="handleEditClick">编辑</view>
+                <view class="edit-btn" bindtap="handleEditClick" data-type="topic">编辑</view>
             </block>
         </view>
     </block>
-    <block wx:else>
+    <block wx:elif="{{activeIndex === 2}}">
         <view class="article-wrap">
-            <block wx:if="{{articleToday}}">
-                <view class="title today-title">今天</view>
+            <block wx:for="{{articleList}}" wx:key="index">
+                <view class="title">{{item.time}}</view>
                 <view class="article-list">
-                    <block wx:for="{{3}}" wx:key="index">
+                    <block wx:for="{{item.list}}" wx:key="index" wx:for-item="subitem">
                         <view class="article-item">
                             <image class="article-poster" src="" />
                             <block wx:if="{{isEdit}}">
-                                <image class="select-icon" src="../../images/videodetail/unselect.png" bindtap="handleSelectClick" />
-                            </block>
-                        </view>
-                    </block>
-                </view>
-            </block>
-            <block wx:if="{{articleWeekend}}">
-                <view class="title">一周内</view>
-                <view class="article-list">
-                    <block wx:for="{{3}}" wx:key="index">
-                        <view class="article-item">
-                            <image class="article-poster" src="" />
-                            <block wx:if="{{isEdit}}">
-                                <image class="select-icon" src="../../images/videodetail/unselect.png" bindtap="handleSelectClick" />
-                            </block>
-                        </view>
-                    </block>
-                </view>
-            </block>
-            <block wx:if="{{articleAgo}}">
-                <view class="title">更早</view>
-                <view class="article-list">
-                    <block wx:for="{{3}}" wx:key="index">
-                        <view class="article-item">
-                            <image class="article-poster" src="" />
-                            <block wx:if="{{isEdit}}">
-                                <image class="select-icon" src="../../images/videodetail/unselect.png" bindtap="handleSelectClick" />
+                                <image wx:if="{{!subitem.selected}}" class="select-icon" src="../../images/videodetail/unselect.png" bindtap="handleSelectClick" data-id="{{subitem.id}}" data-type="article"/>
+                                <image wx:else class="select-icon" src="../../images/videodetail/select.png" bindtap="handleSelectClick" data-id="{{subitem.id}}" data-type="article"/>
                             </block>
                         </view>
                     </block>
@@ -187,15 +116,24 @@
             </block>
             <block wx:if="{{isEdit}}">
                 <view class="edit-btn">
-                    <text class="btn-title" bindtap="handleCancelClick">取消</text>
+                    <text class="btn-title" bindtap="handleCancelClick" data-type="article">取消</text>
                     <text class="line"></text>
-                    <text class="btn-title" bindtap="handleSelectAllClick">全选</text>
+                    <block wx:if="{{!isArticleSelectAll}}">
+                        <view class="btn-title" bindtap="handleSelectAllClick" data-type="article">
+                            全选
+                        </view>
+                    </block>
+                    <block wx:else>
+                        <view class="btn-title" bindtap="handleCancelSelectAllClick" data-type="article">
+                            取消全选
+                        </view>
+                    </block>
                     <text class="line"></text>
-                    <text class="btn-title" bindtap="handleRemoveClick">移除</text>
+                    <text class="btn-title {{isEdit && selectedList.length > 0 ? 'edit-text' : ''}}" bindtap="handleRemoveClick" data-type="article">移除</text>
                 </view>
             </block>
             <block wx:else>
-                <view class="edit-btn" bindtap="handleEditClick">编辑</view>
+                <view class="edit-btn" bindtap="handleEditClick" data-type="article">编辑</view>
             </block>
         </view>
     </block>

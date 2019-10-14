@@ -291,7 +291,7 @@ function getTvsource() {
     tvSource = "iqiyi"
     // tvSource = "qq"
   }
-  return tvSource;
+  return tvSource
 }
 
 //检测是否iphone 全面屏手机
@@ -299,6 +299,11 @@ function checkIphoneFullScreenModel({ platform, model }) {
   return !!(platform.match(/ios/i) && model.match(/iphone x/i))
 }
 
+//获取平台信息，分为IOS和Android
+function getFlatform({ platform }) {
+  return !!platform.match(/ios/i) ? 'IOS' : 'Android'
+}
+  
 //刷新并存储被绑定设备状态： 
 function refreshBindedTVStatus(activeId) {
   console.log('refreshBindedTVStatus. activeId: ', activeId);
@@ -416,5 +421,6 @@ module.exports = {
   getNavBarHeight: getNavBarHeight,
   navigateBack: navigateBack,
   navigateTo: navigateTo,
-  throttle: throttle
+  throttle: throttle,
+  getFlatform: getFlatform
 }

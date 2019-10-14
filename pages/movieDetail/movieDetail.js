@@ -36,8 +36,9 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    utils.showLoadingToast()
+  onLoad: function (options) {  
+    utils.showLoadingToast()  
+    console.log('当前影片id:' + options.id)
     this.getDetailData(options.id)
   },
 
@@ -45,7 +46,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    
   },
 
   /**

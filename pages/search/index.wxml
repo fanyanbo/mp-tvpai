@@ -39,7 +39,7 @@
       <view class="content-wrapper">
         <view class='hot-words' wx:for="{{hotKeywordsList}}" wx:key="index">
           <!-- wxs写法：<view class="item-key {{tools.getStyleClass(index)}}">{{index+1}}</view> -->
-          <text class="item-key">{{index+1}}</text>
+          <view class="item-key"><text>{{index+1}}</text></view>
           <view class="item-value" bindtap="onKeywordTap" data-keyword="{{item.keyword}}">
             {{item.keyword}}
           </view>

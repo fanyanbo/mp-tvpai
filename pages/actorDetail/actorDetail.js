@@ -21,7 +21,7 @@ Page({
       birth: birthday,
       area: birth_place,
       height: height,
-      occupation: occupation,
+      occupation: occupation || '演员',
       poster: image_list[4].url,
       desc: desc
     })

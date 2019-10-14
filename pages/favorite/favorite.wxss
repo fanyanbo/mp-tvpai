@@ -50,10 +50,6 @@
     margin-top: 60rpx;
 }
 
-.today-title {
-    margin-top: 0rpx;
-}
-
 .video-item {
     box-sizing: border-box;
     width: 750rpx;
@@ -101,7 +97,6 @@
     top: 48rpx;
     border-radius: 50%;
 }
-
 
 .topic-item {
     box-sizing: border-box;
@@ -192,6 +187,12 @@
 
 .edit-btn .btn-title {
     width: 220rpx;
+    height: 44rpx;
+    line-height: 44rpx;
+}
+
+.edit-text {
+    color: #F7534F;
 }
 
 .video-list .video-item:nth-child(1) {
@@ -204,4 +205,14 @@
 
 .article-list .article-item:nth-child(1) {
     margin-top: 20rpx;
+}
+
+.video-wrap .title:nth-child(1) {
+    margin-top: 10rpx;
+}
+.topic-wrap .title:nth-child(1) {
+    margin-top: 10rpx;
+}
+.article-wrap .title:nth-child(1) {
+    margin-top: 10rpx;
 }

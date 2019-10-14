@@ -1,17 +1,18 @@
 <!-- 导航栏组件 -->
 <view>
-  <!-- <navBar title='详情' background='#333' color='#fff' back="{{true}}" home="{{true}}" iconTheme='white' bindback="handleGobackClick" bindhome="handleGohomeClick" /> -->
-  <navBar title='详情' background='#222' color='#fff' back="{{true}}" iconTheme='white' bindback="handleGobackClick" />
+  <navBar title='详情' background='#333' color='#fff' back="{{true}}" home="{{true}}" iconTheme='white' bindback="handleGobackClick" bindhome="handleGohomeClick" />
+  <!-- <navBar title='详情' background='#222' color='#fff' back="{{true}}" iconTheme='white' bindback="handleGobackClick" /> -->
 </view>
 <view class='{{isFixedWindow ? "pageFixed" : ""}}'>
   <!-- 影片信息 -->
   <view class="header">
     <view class='movieDetail'>
       <image src='{{videoDetailData.video_poster}}' class='poster' mode="aspectFill"></image>
+      <view wx:if="{{videoDetailData.video_detail.control_info.charge_info.charge_type !== 0}}" class="vip main-vip">VIP</view>
       <view class='describe'>
         <view class="title">{{videoDetailData.album_title}}</view>
-        <!-- 填坑：数据不完整 -->
-        <view class="tags">
+        <!-- wx:if骨架屏优化；填坑：数据不完整 -->
+        <view class="tags" wx:if="{{videoDetailData != null}}">
           <span style="color: #FFD71C;" wx:if="{{videoDetailData.score === '0.0'}}">8.5分</span>
           <span style="color: #FFD71C;" wx:else>{{videoDetailData.score}}分</span>
           · {{videoDetailData.video_tags}}
@@ -142,6 +143,7 @@
           <block wx:for="{{relatedVideoList}}" wx:key="third_album_id">
             <view class="favorite-list-item" bindtap="handleFavoriteClick" data-id="{{item.third_album_id}}">
               <image class="favorite-avatar" src="{{item.video_poster}}" />
+              <view wx:if="{{item.video_detail.control_info.charge_info.charge_type !== 0}}" class="vip favorite-vip">VIP</view>
               <view class="favorite-score">{{item.video_detail.base_info.score}}</view>
               <view class="favorite-name">{{item.album_title}}</view>
             </view>

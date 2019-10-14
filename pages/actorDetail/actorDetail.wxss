@@ -4,7 +4,6 @@
   box-sizing: border-box;
   width: 750rpx;
   height: 294rpx;
-  border: 1rpx solid red;
   margin-top: 40rpx;
 }
 
@@ -45,7 +44,6 @@
 .intro-wrap {
   box-sizing: border-box;
   width: 750rpx;
-  border: 1rpx solid red;
   margin-top: 60rpx;
 }
 
@@ -107,7 +105,6 @@
 .works-wrap {
   box-sizing: border-box;
   width: 750rpx;
-  border: 1rpx solid red;
   margin-top: 60rpx;
   margin-bottom: 130rpx;
 }
@@ -123,11 +120,7 @@
   margin-bottom: 40rpx;
 }
 
-.works-wrap .works-item:nth-child(3n+1) {
-  margin-left: 40rpx
-}
-
-.works-wrap .works-item:nth-child(3n+1) {
+.works-wrap .works-item:nth-child(3n-1) {
   margin-left: 40rpx
 }
 
