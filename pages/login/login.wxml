@@ -1,0 +1,16 @@
+<!--pages/login/login.wxml-->
+<view>
+  <navBar title='{{navBarTitle}}' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
+</view>
+
+<view class="wrapper">
+  <image src="../../images/login/coocaa.png"></image>
+  <view class="logintips">{{loginTips}}</view>
+  <view wx:for="{{arrLoginType}}" class="logintypes">
+      <image src="{{item.image}}"></image>
+      <text>{{item.type}}</text>
+  </view>
+  <text>因小程序不支持QQ登录,请先在电视端使用QQ登录并绑定手机号后使用该手机号登录即可</text>
+
+</view>
+

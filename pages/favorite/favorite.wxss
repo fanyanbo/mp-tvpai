@@ -175,7 +175,7 @@
     color: #333333;
     margin-top: 30rpx;
     display: flex;
-    justify-content:space-around;
+    justify-content: space-around;
     align-items: center;
 }
 
@@ -210,9 +210,33 @@
 .video-wrap .title:nth-child(1) {
     margin-top: 10rpx;
 }
+
 .topic-wrap .title:nth-child(1) {
     margin-top: 10rpx;
 }
+
 .article-wrap .title:nth-child(1) {
     margin-top: 10rpx;
+}
+
+.noresult-wrap {
+    width: 750rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100rpx;
+}
+
+.noresult-wrap image {
+    width: 480rpx;
+    height: 480rpx; 
+}
+
+.skeleton-rect {
+    background: rgba(229,229,229,0.5);
+}
+
+.skeleton-radius {
+    border-radius: 100%;
+    background: rgba(229,229,229,0.5);
 }
