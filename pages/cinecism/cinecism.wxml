@@ -366,7 +366,7 @@
             <li class="right mg50" data-index="{{index}}">{{collectNum}}</li>
             <!-- 点赞图标 -->
             <li class="right mg20 starTop">
-              <image bindtap="clickLike" data-articleId="{{dataList.id}}" data-index="{{index}}" src="{{img == 1? '../../images/like_icon.png':'../../images/like_icon2.png'}}"></image>
+              <image bindtap="clickLike" data-articleId="{{dataList.id}}" data-index="{{index}}" src="{{isArticleCollect == 1? '../../images/like_icon.png':'../../images/like_icon2.png'}}"></image>
             </li>
             <div class="clear"></div>
           </ul>

@@ -31,6 +31,10 @@ const getUserInfoUrl = baseUrl_wx + "appletAPI/getuserinfo.coocaa";//微信小�
 const bindDeviceUrl = baseUrl_wx + "wxUserDeviceAPI/bindDevice.coocaa";//绑定设备
 const changeDeviceStatusUrl = baseUrl_wx + "wxUserDeviceAPI/changeDeviceStatus.coocaa";//修改设备名称或修改设备绑定状态接口
 const getRelatedArticlesUrl = "https://beta-wx.coocaa.com/" + "articleMoviesAPI/linkArticles.coocaa";//获取影片关联文章
+const searchArticlesUrl = "https://beta-wx.coocaa.com/" + "articleMoviesAPI/searchArticles.coocaa";//搜索文章
+const getFavoriteArticlesUrl = "https://beta-wx.coocaa.com/" + "appletUsers/getCollectArticle.coocaa";//获取收藏文章
+const getFavoriteVideosUrl = "https://beta-wx.coocaa.com/" + "/appletUsers/getCollectMovies.coocaa";//获取收藏影片
+
 
 module.exports = {
   searchByKeywordUrl: searchByKeywordUrl,
@@ -57,5 +61,8 @@ module.exports = {
   getRelatedVideoByActorUrl: getRelatedVideoByActorUrl,
   getRecommendMoreListUrl: getRecommendMoreListUrl,
   getTopicUrl: getTopicUrl,
-  getRelatedArticlesUrl: getRelatedArticlesUrl
+  getRelatedArticlesUrl: getRelatedArticlesUrl,
+  searchArticlesUrl: searchArticlesUrl,
+  getFavoriteArticlesUrl: getFavoriteArticlesUrl,
+  getFavoriteVideosUrl: getFavoriteVideosUrl
 }

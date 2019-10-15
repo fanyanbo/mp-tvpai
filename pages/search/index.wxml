@@ -56,7 +56,7 @@
   </view>
   <view class="video-content" wx:if="{{inputValue && isShowResult}}" style="display:{{activeIndex !== 0 ? 'none' : 'block'}}">
     <scroll-view scroll-y="true" style="height: {{scrollHeight}}px" bindscrolltoupper="upper" bindscrolltolower="lower">
-      <block class="video-content-list" wx:for="{{searchResultList}}" wx:key="index">
+      <block wx:for="{{searchResultList}}" wx:key="index">
         <!-- 每一大项布局 -->
         <view class="video-content-item {{ index === 0 ? 'item-first' : ''}}">
           <!-- 影片海报布局 -->
@@ -116,7 +116,7 @@
               <text class="center">投屏</text>
               <image class="right" src="../../images/arrow@2x.png"></image>
             </view>
-            <scroll-view class="episode2" scroll-x style="width: 100%">
+            <scroll-view class="episode2" scroll-x enable-flex="true" style="width: 100%">
               <block wx:for="{{item.episodes_list}}" wx:key="index" wx:for-item="item2">
                 <view wx:if="{{(item.video_detail.updated_segment === 0) || (index < item.video_detail.updated_segment)}}" class="scroll-view-item2 {{ index === 0 ? 'episode-first2' : '' }} {{ (item2.segment_index == curIndex && item2.video_third_id == curThirdId) ? 'active' : 'inactive' }}" bindtap="handleEpisodeTap" data-keyword="{{item2}}" data-index="{{index}}" hover-class="noimplement">
                   {{item2.segment_index}}
@@ -133,7 +133,7 @@
               <text class="center">投屏</text>
               <image class="right" src="../../images/arrow@2x.png"></image>
             </view>
-            <scroll-view class="episode" scroll-x style="width: 100%">
+            <scroll-view class="episode" scroll-x enable-flex="true" style="width: 100%">
               <block wx:for="{{tools.getReverse(item.episodes_list)}}" wx:key="index">
                 <view class="scroll-view-item {{ index === 0 ? 'episode-first' : '' }} {{(item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" data-index="{{index}}" hover-class="noimplement">
                   <view class="idx">第 {{item.segment_index}} 期</view>
@@ -149,7 +149,7 @@
               <text class="center">投屏</text>
               <image class="right" src="../../images/arrow@2x.png"></image>
             </view>
-            <scroll-view class="episode" scroll-x style="width: 100%">
+            <scroll-view class="episode" scroll-x enable-flex="true" style="width: 100%">
               <block wx:for="{{item.episodes_list}}" wx:key="index">
                 <!-- 仅仅index还不能唯一标识一个资源 -->
                 <view class="scroll-view-item {{ index === 0 ? 'episode-first' : '' }} {{(item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" data-index="{{index}}" hover-class="noimplement">
@@ -171,9 +171,16 @@
       </view>
     </scroll-view>
   </view>
-  <view wx:if="{{inputValue}}" style="display:{{activeIndex !== 1 ? 'none' : 'block'}}">
-    <scroll-view scroll-y="true" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll">
-      <view class="article-noresult-wrapper">
+  <view class="article-content" wx:if="{{inputValue}}" style="display:{{activeIndex !== 1 ? 'none' : 'block'}}">
+    <scroll-view scroll-y="true" bindscrolltoupper="upper" bindscrolltolower="lower">
+      <block wx:for="{{articlesResultList}}" wx:key="index">
+        <view class="article-item-wrap" bindtap="handleArticleClick" data-id="{{item.articleId}}">
+          <image src="{{item.picUrl}}" />
+          <view class="title">{{item.articleTitle}}</view>
+          <view class="readtime">{{item.readTime}}分钟可读完</view>
+        </view>
+      </block>
+      <view class="article-noresult-wrapper" wx:if="{{articlesResultList.length === 0 && isShowNoResult}}">
         <image class="noresult-icon" src='../../images/no-result@3x.png'></image>
       </view>
     </scroll-view>

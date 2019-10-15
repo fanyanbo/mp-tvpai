@@ -3,3 +3,4 @@
   date: 2019-09-16
   desc: web容器 -->
 <web-view src="{{curSrc}}"/>
+<!-- webview页面的标题会被目标网页的title覆盖，若设置内容，则会出现加载过程中显示设计的标题内容，加载完成变成h5的title，最好不做设置 -->

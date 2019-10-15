@@ -101,11 +101,11 @@ Page({
         })
       } else {
         console.log('获取banner数据失败', res);
-        utils.showFailedToast(res.data.message || '加载数据失败', this.data.errIconUrl)
+        // utils.showFailedToast(res.data.message || '加载数据失败', this.data.errIconUrl)
       }
     }).catch(res => {
       console.log('获取轮播图数据发生错误', res);
-      utils.showFailedToast('加载数据失败', this.data.errIconUrl)
+      // utils.showFailedToast('加载数据失败', this.data.errIconUrl)
     })
   },
 
