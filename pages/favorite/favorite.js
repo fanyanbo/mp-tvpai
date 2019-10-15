@@ -414,7 +414,7 @@ Page({
     let ccsession = wx.getStorageSync('new_cksession')
     if(ccsession == null) return
     let params = {"ccsession": 'b45004fab0934395dc20ede9dc13801d'}
-    let params = {"ccsession": ccsession}
+    // let params = {"ccsession": ccsession}
     utils.requestP(api.getFavoriteVideosUrl, utils.paramsAssemble_wx(params)).then(res => {
       console.log('获取收藏视频成功', res.data)
       if (res && res.data && res.data.code === 200) {
