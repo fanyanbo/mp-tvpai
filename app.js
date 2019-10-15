@@ -84,14 +84,14 @@ App({
   },
   globalData: {
     username: wx.getStorageSync("username"),
-    key: '9acd4f7d5d9b87468575b240d824eb4f',
+    key: '9acd4f7d5d9b87468575b240d824eb4f', //wx key
     client_id: 'applet',
     new_cksession: '',
     activeId: null, //语音遥控推送使用
     deviceId: null, //影片推送使用
     isShowTips: true, //遥控器提示栏
     time: () => {return Math.round(new Date().getTime() / 1000).toString();},
-    appkey: '5cc090ddad6e4544815a0026e9a735a4',
+    appkey: '5cc090ddad6e4544815a0026e9a735a4',//tv pi
     secret: 'cd8a62acc6164b27a9af4d29de8eeebd',
     version_code: 33,
     bIphoneFullScreenModel:false,

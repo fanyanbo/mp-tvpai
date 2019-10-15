@@ -1,0 +1,4 @@
+<!--pages/vipbuy/vipbuy.wxml-->
+<view>
+  <navBar title='{{navBarTitle}}' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
+</view>
