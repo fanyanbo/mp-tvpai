@@ -135,7 +135,6 @@ Page({
   
   // 切换绑定时触发
   handleBindTap: function (event) {
-    let that = this;
     let ccsession = wx.getStorageSync('new_cksession');
     let deviceid = event.currentTarget.dataset.deviceid + '';
     console.log('切换绑定设备：', ccsession, deviceid);

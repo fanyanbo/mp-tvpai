@@ -23,6 +23,7 @@ Page({
     resultTitleList: ['影片', '文章'],
     activeIndex: 0,
     searchResultList: [],
+    articlesResultList: [],
     hasMore: 0, //1表示有下一页，2表示无下一页
     isLike: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
@@ -107,10 +108,16 @@ Page({
     wx.setStorageSync('history_keywords', []);
   },
   handleTabClick: function (e) {
-    const val = e.currentTarget.dataset['index'];
+    const val = e.currentTarget.dataset.index;
     console.log('搜索结果页 handleTabClick val =' + val);
     this.setData({
       activeIndex: val
+    })
+  },
+  handleArticleClick: function (e) {
+    console.log('handleArticleClick')
+    wx.navigateTo({
+      url: `../cinecism/cinecism?id=${e.currentTarget.dataset.id}`
     })
   },
   // 推送电视剧，先判断是否绑定设备，再判断电视是否在线，注意先后顺序
@@ -234,7 +241,7 @@ Page({
     console.log(desParams);
     utils.showLoadingToast('搜索中...')
     utils.requestP(api.searchByKeywordUrl, desParams).then(res => {
-      console.log('searchByKeyword success', res.data)
+      console.log('搜索视频成功', res.data)
       utils.showLoadingToast('',false)
       if (res && res.data && res.data.data && res.data.code === 0) {
         // 加载'更多'数据进行组装
@@ -248,16 +255,34 @@ Page({
           this.data.curPageIndex += 1;
         }
       } else {
-        console.log('searchByKeyword failed')
-        let errMsg = res.data.msg + "[" + res.data.code + "]";
+        console.log('搜索视频失败')
+        let errMsg = res.data.msg + "[" + res.data.code + "]"
         utils.showFailedToast(errMsg, this.data.errIconUrl)
+        this.setData({
+          isShowNoResult: true
+        })
       }
+    }).catch(res => {
+      console.log('搜索视频发生错误', res)
+      utils.showLoadingToast('',false)
       this.setData({
         isShowNoResult: true
       })
+    })
+
+    keyword = '好'
+    utils.requestP(api.searchArticlesUrl, utils.paramsAssemble_wx({"keyword": keyword})).then(res => {
+      console.log('搜索文章成功', res.data)
+      if (res && res.data && res.data.code === 200) {
+        this.setData({articlesResultList: res.data.data})
+      } else {
+        console.log('搜索文章失败')
+        this.setData({
+          isShowNoResult: true
+        })
+      }
     }).catch(res => {
-      console.log('searchByKeyword error', res)
-      utils.showLoadingToast('',false)
+      console.log('搜索文章发生错误', res)
       this.setData({
         isShowNoResult: true
       })
