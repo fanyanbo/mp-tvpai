@@ -7,6 +7,195 @@ button::after {
   margin-top: 48px;
 }
 
+/* 用户信息-start */
+.userinfo {
+  display: flex;
+  align-items: center;  
+  width: 100%;
+  height: 200rpx;
+}
+
+.userinfo .avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border: 40rpx solid #fff;
+}
+
+.userinfo .avatar2 {
+  position: absolute;
+  box-sizing: content-box;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  border: 40rpx solid #fff;
+}
+
+.userinfo .name {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-left: -20rpx;
+  z-index: 1;
+}
+.userinfo .unlogin {
+  width: 670rpx;
+  height: 96rpx;
+  border: 2rpx solid #ececec;
+  border-radius: 48rpx;
+  margin: 0 40rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32rpx;
+  color: #333333;
+}
+/* 用户信息-end */
+
+/* 产品源列表区-start- */
+.productlist{
+  width: 100%;
+  height: 160rpx;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.productlist .vipitem {
+  width: 180rpx;
+  height: 100%;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+.productlist .vipitem>.image {
+  width: 80rpx;
+  height: 80rpx;
+}
+.productlist .vipitem>.title{
+  color: #333333;
+  height: 34rpx;
+  line-height: 34rpx;
+  font-size: 24rpx;
+}
+.productlist .vipitem>.valid{
+  color: #999999;
+  height: 28rpx;
+  line-height: 28rpx;
+  font-size: 20rpx;
+}
+/* 产品源列表区-end- */
+
+/* 设备信息区-start- */
+.device {
+  height: 140rpx;
+  display: flex;
+  padding: 0 40rpx;
+  align-items: center;
+}
+.device>.device-switch {
+  position: absolute;
+  right: 32rpx;
+  padding: 18rpx 24rpx 16rpx;
+  border: 2rpx solid #ececec;
+  border-radius: 34rpx;
+  font-size: 24rpx;
+}
+.device>.tvimage{
+  width: 100rpx;
+  height: 100rpx;
+  margin-right: 30rpx;
+}
+.device>.device-info>.tvname {
+  height: 44rpx;
+  line-height: 44rpx;
+  font-weight: bold;
+  font-size: 32rpx;
+}
+.device>.device-info>.tvsource {
+  height: 34rpx;
+  line-height: 34rpx;
+  font-size: 24rpx;
+}
+/* 设备信息区-end- */
+
+/* 同步推送区-start- */
+.unmatch{
+  height: 428rpx;
+  padding: 20rpx 40rpx 40rpx;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.unmatch>.tips {
+  position: absolute;
+  top:40rpx;
+  width: 670rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+  line-height: 40rpx;
+  color: #333333;
+}
+.unmatch>.acct-info {
+  height: 120rpx;
+  width: 248rpx;
+  background-color: #F8F8F8;
+  border-radius: 16rpx;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.unmatch>.acct-info>.image {
+  width: 80rpx;
+  height: 80rpx;
+  margin: 20rpx 8rpx 20rpx 20rpx;
+}
+.unmatch>.acct-info>.name {
+  width: 120rpx;
+  height: 34rpx;
+  font-size: 24rpx;
+  color: #333333;
+  font-weight: bold;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.unmatch>.acct-info>.location {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 76rpx;
+  height: 36rpx;
+  background-color: #FFD71C;
+  border-radius: 0 16rpx;
+  text-align: center;
+  font-size: 20rpx;
+  line-height: 36rpx;
+  color: #333333;
+}
+.unmatch>.acct-info:last-of-type>.location {
+  background-color: #DFDFDF;
+}
+.unmatch>.sync-icon {
+  width: 32rpx;
+  height: 32rpx;
+  position: absolute;
+  left: 50%;
+  margin-left: -16rpx;
+}
+.unmatch>.domatch {
+  position: absolute;
+  bottom: 40rpx;
+  width: 670rpx;
+  height: 88rpx;
+  background-color: #FFD71C;
+  border-radius: 48rpx;
+  line-height: 88rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333333;
+  text-align: center;
+}
+/* 同步推送区-end- */
+
+/* 其它功能区-start- */
 .mylabel {
   position: relative;
   height: 88rpx;
@@ -44,53 +233,7 @@ button::after {
   margin-top: 8rpx
 }
 
-.binding {
-  margin-bottom: 40rpx
-}
-
-.userinfo {
-  position: relative;
-  width: 750rpx;
-  height: 266rpx;
-}
-
-.userinfo .avatar-wrapper {
-  display: flex;
-  align-items: center;  
-  flex-direction: column;
-  box-sizing: border-box;
-  width: 750rpx;
-  height: 266rpx;
-}
-
-.avatar-wrapper .avatar {
-  width: 132rpx;
-  height: 132rpx;
-  border-radius: 50%;
-  margin-top: 10rpx;
-  border: 30rpx solid #fff;
-}
-
-.avatar-wrapper .avatar2 {
-  position: absolute;
-  box-sizing: content-box;
-  width: 132rpx;
-  height: 132rpx;
-  border-radius: 50%;
-  top: 10rpx;
-  border: 30rpx solid #fff;
-}
-
-.avatar-wrapper .name {
-  margin-top: -20rpx;
-  z-index: 100;
-  font-size: 30rpx;
-  height: 44rpx;
-  line-height: 44rpx;
-  color: #333;
-  font-weight: bold
-}
-
+/* 投屏历史预览区 */
 .section {
   width: 100%;
   overflow: hidden;
@@ -131,6 +274,12 @@ button::after {
   white-space: nowrap;
   text-overflow: ellipsis
 }
+
+/* 页面底部填充区 */
+.paddingZone {
+  height: 190rpx;
+}
+
 
 ::-webkit-scrollbar {
   width: 0;

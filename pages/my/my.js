@@ -12,8 +12,31 @@ Page({
     userInfo: {
       nickName: '你好',
       avatarUrl: '../../images/man.png',
-      isDevConnected: false
+      isDevConnected: false,
     },
+    bLoginCoocaa: true,//是否登录酷开系统账号
+    productSourceList: [ //产品源列表
+      { title: '极光VIP', valid: '2020.10.25到期', image: '../../images/my/vip/mov.png'},
+      { title: '教育VIP', valid: '立即开通', image: '../../images/my/vip/edu.png' },
+      { title: '少儿VIP', valid: '立即开通', image: '../../images/my/vip/kid.png' },
+      { title: '电竞VIP', valid: '立即开通', image: '../../images/my/vip/game.png' }
+    ],
+    curTV: { //当前绑定电视
+      name: '客厅电视',
+      source: '爱奇艺源'
+    },
+    bAcctMatch: false,//当前绑定电视账户与微信登录账户一致
+    unmatch: {
+      tips: [
+        '当前电视端尚未登陆账号，是否将当前手机账号同步至电视端',
+        '当前手机端与电视端会员账号不一致，推送付费内容后电视端可能无法完整播放。',
+      ],
+      acct: [
+        { name: '小茗同学', location: '手机端', image: '../../images/my/vip/mov.png'},
+        { name: '用户昵称长长', location: '电视端', image: '../../images/my/vip/kid.png' }
+      ],
+    },
+    historyList:[],//投屏历史
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     isShowTips: true,
     bIphoneFullScreenModel: false
@@ -36,26 +59,22 @@ Page({
         selected: 1 // 这个数是tabBar从左到右的下标，从0开始
       })
     }
-    let _isDevConnected = app.globalData.deviceId != null ? true : false
     this.setData({
       isShowTips: app.globalData.isShowTips,
       bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel,
-      isDevConnected: _isDevConnected
+      isDevConnected: !!app.globalData.deviceId
     });
     // 获取历史和收藏列表
     this.getHistoryList();
     this.getFavoriteList();
   },
-
   clearStorage: function () {
     wx.setStorageSync('new_cksession', "");
   },
-
-    // 跳转至搜索页面
-    handleSearchTap: function () {
-      utils.navigateTo('../search/index');
-    },
-
+  // 跳转至搜索页面
+  handleSearchTap: function () {
+    utils.navigateTo('../search/index');
+  },
   // 设备绑定和推送历史入口暂未使用
   bindGetUserInfo(e) {
     console.log('canIUse', this.data.canIUse, e)
