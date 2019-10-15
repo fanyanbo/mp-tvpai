@@ -2,7 +2,7 @@
 const api = require('../../api/api.js');
 var utils = require('../../utils/util.js')
 var app = getApp()
-var a = 1
+var collectFlag = 1
 var voteClicknum = 1
 var moviechildId
 var movieId
@@ -34,7 +34,7 @@ Page({
     page: 1,
     chioceClass: "chioceIcon",
     collectNum: '',
-    img: '',
+    isArticleCollect: '',
     hidden: 'true',
     hidden1: 'true',
     hidden2: 'true',
@@ -280,7 +280,7 @@ Page({
     //判断ccsession是否为空
   //  if (utils.ccsessionIs() == null) return
     console.log("收藏文章按钮")
-    a++
+    collectFlag++
     var that = this
 
     var index = parseInt(that.data.collectNum)
@@ -316,14 +316,16 @@ Page({
               utils.showToastBox("失败", "loading")
             }
           }
-          if (a % 2 == 0) {
+          if (collectFlag % 2 == 0) {
+            //文章已被收藏
             that.setData({
-              img: 2,
+              isArticleCollect: 2,
               collectNum: indexAdd
             })
           } else {
+            //文章未收藏
             that.setData({
-              img: 1,
+              isArticleCollect: 1,
               collectNum: indexRediuce
             })
           }
@@ -932,17 +934,17 @@ function getArtical(that) {
         if (data != null && data != undefined) {
           var votesList = data.voteList
           var createTime = utils.toDate(data.createTime / 1000)
-          var img
+          var isArticleCollect
           var timeData
           var timeStr = new Array()
           var numberP = 0
           var endTime = new Array()
           if (data.isCollectByWxopenid == "yes") {
-            img = '2'
-            a = '2'
+            isArticleCollect = '2'
+            collectFlag = '2'
           } else {
-            img = '1'
-            a = '1'
+            isArticleCollect = '1'
+            collectFlag = '1'
           }
           var timestamp = Date.parse(new Date()) / 1000;
           console.log("当前时间")
@@ -989,7 +991,7 @@ function getArtical(that) {
             cTime: createTime,
             votesList: votesList,
             collectNum: data.collectNum,
-            img: img,
+            isArticleCollect: isArticleCollect,
             timeData: timeData,
             articleUp: articleUp,
             articleDown: articleDown,
