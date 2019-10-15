@@ -10,7 +10,7 @@
 
 <view class="main-wrapper">
   <!-- 用户信息区 -->
-  <view class="userinfo">
+  <view class="userinfo" bindtap="userLogin">
     <block wx:if="{{bLoginCoocaa}}">
       <open-data class="avatar" type="userAvatarUrl"></open-data>
       <view class="avatar2"></view>
@@ -23,7 +23,7 @@
   <!-- 产品源列表区 -->
   <view class="productlist">
     <scroll-view scroll-x>
-      <view class="vipitem" wx:for="{{productSourceList}}" wx:key="index">
+      <view class="vipitem" wx:for="{{productSourceList}}" wx:key="index" bindtap="goVipPage" data-id="{{item.id}}">
         <image class="image" src="{{item.image}}"></image>
         <text class="title">{{item.title}}</text>
         <text class="valid">{{item.valid}}</text>

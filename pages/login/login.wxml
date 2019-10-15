@@ -6,7 +6,7 @@
 <view class="wrapper">
   <image src="../../images/login/coocaa.png"></image>
   <view class="logintips">{{loginTips}}</view>
-  <view wx:for="{{arrLoginType}}" class="logintypes">
+  <view wx:for="{{arrLoginType}}" class="logintypes" bindtap="startLogin" data-id="{{item.id}}">
       <image src="{{item.image}}"></image>
       <text>{{item.type}}</text>
   </view>

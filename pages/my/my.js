@@ -16,10 +16,10 @@ Page({
     },
     bLoginCoocaa: true,//是否登录酷开系统账号
     productSourceList: [ //产品源列表
-      { title: '极光VIP', valid: '2020.10.25到期', image: '../../images/my/vip/mov.png'},
-      { title: '教育VIP', valid: '立即开通', image: '../../images/my/vip/edu.png' },
-      { title: '少儿VIP', valid: '立即开通', image: '../../images/my/vip/kid.png' },
-      { title: '电竞VIP', valid: '立即开通', image: '../../images/my/vip/game.png' }
+      { id: 1, title: '极光VIP', valid: '2020.10.25到期', image: '../../images/my/vip/mov.png'},
+      { id: 2, title: '教育VIP', valid: '立即开通', image: '../../images/my/vip/edu.png' },
+      { id: 3, title: '少儿VIP', valid: '立即开通', image: '../../images/my/vip/kid.png' },
+      { id: 4, title: '电竞VIP', valid: '立即开通', image: '../../images/my/vip/game.png' }
     ],
     curTV: { //当前绑定电视
       name: '客厅电视',
@@ -41,7 +41,14 @@ Page({
     isShowTips: true,
     bIphoneFullScreenModel: false
   },
-
+  userLogin(e) { //用户登录
+    console.log(e)
+    wx.navigateTo({ url: '../login/login'})
+  },
+  goVipPage(e) { //去产品包购买页
+    console.log(e)
+    wx.navigateTo({ url: '../vipbuy/vipbuy' })
+  },
   onLoad: function () {
     console.log('onLoad');
     if (app.globalData.deviceId != null) {
