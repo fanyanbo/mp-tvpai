@@ -7,12 +7,26 @@ Page({
    * 页面的初始数据
    */
   data: {
-      productList:null,
-
+    productList:null,
+    PageStage: {
+      HOME_PAGE: 0,
+      PAY_SUCCESS_PAGE: 1,
+      PAY_FAIL_PAGE: 2,
+    },
+    stage: 0,
   },
 
   handleGobackClick(e) {//返回
     wx.navigateBack({})
+  },
+  payNow(e) { //立即支付
+    let stage = this.data.PageStage.PAY_SUCCESS_PAGE
+    if(Math.random()*10 < 5) { //test
+      stage = this.data.PageStage.PAY_FAIL_PAGE
+    }
+    wx.navigateTo({
+      url: `../vipbuy/vipbuy?stage=${stage}`,
+    })
   },
   /**
    * 生命周期函数--监听页面加载
@@ -22,6 +36,13 @@ Page({
     this.setData({
       productList: user_mock.package_list_data.data.products
     })
+
+    console.log(options)
+    if (!!+options.stage) {
+      this.setData({
+        stage: +options.stage
+      })
+    }
   },
 
   /**

@@ -186,3 +186,100 @@
   font-size: 24rpx;
   font-weight: normal;
 }
+
+/* 支付成功页 */
+.flex-wrapper {
+  /* background: #ECECEC; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #333333;
+}
+.pay-icon {
+  margin: 40rpx 0 10rpx;
+  width: 180rpx;
+  height: 180rpx;
+}
+.pay-title {
+  height: 56rpx;
+  line-height: 56rpx;
+  font-weight: bold;
+  font-size: 40rpx;
+}
+.payfail-desc {
+  margin: 4rpx 0 50rpx;
+  height: 36rpx;
+  line-height: 36rpx;
+  color: #666666;
+  font-size: 26rpx;
+}
+.pay-goods {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 40rpx;
+}
+.pay-goods[class*="smallfont"] {
+  line-height: 44rpx;
+  font-size: 28rpx;
+}
+.paysuccess>.pay-goods.smallfont1 {
+    margin: 60rpx 0 22rpx;
+}
+.paysuccess>.pay-goods.smallfont2 {
+    margin-bottom: 60rpx;
+}
+.pay-goods[class*="largefont"] {
+  line-height: 120rpx;
+  font-size: 32rpx;
+  color: #666666;
+  border-bottom: 2rpx #ECECEC solid;
+}
+.pay-goods.largefont1>.pay-valid {
+  color: #FF6246;
+  font-size: 36rpx;
+  font-weight: bold;
+}
+.pay-goods.largefont2>.pay-valid {
+  color: #333333;
+  font-weight: bold;
+}
+.payfail>.pay-goods.largefont2 {
+    margin-bottom: 30rpx;
+}
+.payfail>.pay-goods[class*="smallfont"] {
+  line-height: 40rpx;
+}
+.pay-name {
+  width: 50%;
+  font-weight: bold;
+}
+.payfail>.pay-goods>.pay-name {
+  width: 30%;
+  font-weight: normal;
+}
+.paysuccess-prize {
+  margin: 20rpx 0;
+  width: 100%;
+  height: 344rpx;
+  background: #DBDBDB;
+}
+.paysuccess-gift {
+  width: 100%;
+  height: 344rpx;
+  background: #FFF;
+}
+/* 支付失败页 */
+
+
+.btn {
+  width: 670rpx;
+  height: 94rpx;
+  margin: 60rpx 40rpx;
+  border-radius: 44rpx;
+  background: #FFD71C;
+  line-height: 94rpx;
+  text-align: center;
+  font-size: 36rpx;
+  color: #333333;
+}
