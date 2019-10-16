@@ -3,14 +3,49 @@
   <navBar title='{{navBarTitle}}' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
 </view>
 
-<view class="wrapper">
-  <image src="../../images/login/coocaa.png"></image>
-  <view class="logintips">{{loginTips}}</view>
-  <view wx:for="{{arrLoginType}}" class="logintypes" bindtap="startLogin" data-id="{{item.id}}">
-      <image src="{{item.image}}"></image>
-      <text>{{item.type}}</text>
-  </view>
-  <text>因小程序不支持QQ登录,请先在电视端使用QQ登录并绑定手机号后使用该手机号登录即可</text>
+<view class="wrapper" style="top:{{rpxNavBarHeight}};">
+  
+  <!-- 未登录流程 -->
+  <block wx:if="{{loginStatus==false}}" >
+    <!-- 未登录首页 -->
+    <view class="unloginhome">
+      <view class="logozone">
+        <image class="logo" src="../../images/login/coocaa.png"></image>
+      </view>
+      <view class="tips"><text>{{loginTips}}</text></view>
+      <view wx:for="{{arrLoginType}}" class="types" bindtap="startLogin" data-id="{{item.id}}">
+          <image class="icon" src="{{item.image}}"></image>
+          <view class="title">{{item.type}}</view>
+      </view>
+      <view class="footer">因小程序不支持QQ登录,请先在电视端使用QQ登录并绑定手机号后使用该手机号登录即可</view>
+    </view>
+
+  </block>
+
+  <!-- 已登录流程 -->
+  <block wx:else>
+    <!-- 已登录首页 -->
+    <view class="loginhome">
+      <view class="item name-label">昵称设置</view>
+      <view class="item setting name-setting">
+        <view class="key">账号昵称</view>
+        <view class="value">{{curUser.name}}</view>
+        <image src="../../images/my/arrow.png"></image>
+      </view>
+      <view class="item acct-label">账号绑定</view>
+      <view class="item setting mob-setting">
+        <view class="key">手机号</view>
+        <view class="value">{{!!curUser.mob ? curUser.mob : '未绑定'}}</view>
+        <image src="../../images/my/arrow.png"></image>
+      </view>
+      <view class="item setting wechat-setting">
+        <view class="key">微信</view>
+        <view class="value">{{curUser.wechat}}</view>
+      </view>
+      <view class="quitlogin">退出登录</view>
+    </view>
+
+  </block>
 
 </view>
 

@@ -1,4 +1,121 @@
 /* pages/login/login.wxss */
 .wrapper {
-  
+  /* margin-top: 48rpx; */
+  background: #F8F8F8;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
+
+/* 未登录首页-start- */
+.unloginhome {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items:center;
+}
+.unloginhome>.logozone {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.unloginhome>.logozone>.logo {
+  width: 344rpx;
+  height: 148rpx;
+}
+.unloginhome>.tips{
+  width: 532rpx;
+  line-height: 40rpx;
+  font-size: 32rpx;
+  color: #999999;
+  margin-bottom: 50rpx;
+  text-align: center;
+}
+.unloginhome>.types {
+  width: 610rpx;
+  height: 108rpx;
+  border-radius: 200rpx;
+  background: #FFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30rpx 0;
+}
+.unloginhome>.types>.icon {
+  width: 52rpx;
+  height: 52rpx;
+  margin-right: 40rpx;
+}
+.unloginhome>.types>.title {
+  color: #808080;
+  font-size: 36rpx;
+}
+.unloginhome>.footer {
+  line-height: 28rpx;
+  width: 504rpx;
+  color: #999999;
+  font-size: 20rpx;
+  margin: 10rpx 0 40rpx;
+  text-align: center;
+}
+/* 未登录首页-end- */
+
+
+/* 已登录首页-start- */
+.loginhome {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #F4F4F4;
+}
+.loginhome>.item {
+  height: 110rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 0 40rpx;
+  font-size: 28rpx;
+  color: #999999;
+}
+.loginhome>.item.setting {
+  background: #FFF;
+}
+.loginhome>.setting>.key {
+  line-height: 48rpx;
+  font-size: 34rpx;
+  color: #000000;
+}
+.loginhome>.setting>.value {
+  line-height: 48rpx;
+  width: 230rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 34rpx;
+  color: #999999;
+  text-align: right;
+  margin-right: 22rpx;
+}
+.loginhome>.setting image {
+  width: 12rpx;
+  height: 24rpx;
+  position: absolute;
+  right: 40rpx;
+}
+.loginhome>.quitlogin {
+  width: 670rpx;
+  height: 94rpx;
+  margin: 60rpx 40rpx;
+  border-radius: 16rpx;
+  background: #FFD71C;
+  line-height: 94rpx;
+  text-align: center;
+  font-size: 36rpx;
+  color: #333333;
+}
+ /* 已登录首页-end- */

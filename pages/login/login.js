@@ -1,16 +1,26 @@
 // pages/login/login.js
+const utils = require('../../utils/util_fyb')
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    loginTips: '请与电视端使用相同的登录方式\n多端共享,极致体验',
+    rpxNavBarHeight: 0, //绝度定位需要减去导航栏高度
+    loginTips: '请与电视端使用相同的登录方式\n多端共享, 极致体验',
     arrLoginType: [
       { id: 1, type: '微信登录', image: '../../images/login/wechat.png'},
       { id: 2, type: '手机登录', image: '../../images/login/mob.png' },
       { id: 3, type: '账号登录', image: '../../images/login/acct.png' },
-    ]
+    ],
+    loginStatus: true,//登录状态为已登录
+    curUser: { //当前用户账户信息  
+      name: '冈拉梅朵',
+      mob: '13555555555',
+      wechat: '微信昵称很长长'
+    },
+
   },
   startLogin(e) { //开始登录
     let id = e.currentTarget.dataset.id
@@ -31,6 +41,9 @@ Page({
    */
   onLoad: function (options) {
     console.log(options)
+    this.setData({
+      rpxNavBarHeight: utils.getNavBarHeight().rpxNavBarHeight + 'rpx'
+    })
   },
 
   /**
