@@ -20,11 +20,13 @@ const getSegmentListUrl = baseUrl_tvpai + "video/client/longvideo/episodeslist";
 const getRelatedActorsUrl = "https://beta-tvpi.coocaa.com/" + "video/client/longvideo/videorelateactors"; //获取相关影人信息
 const getRelatedVideoByActorUrl = "https://beta-tvpi.coocaa.com/" + "video/client/longvideo/actorrelatevideos"; //获取影人相关影片
 const getTopicUrl = "https://beta-tvpi.coocaa.com/" + "video/client/topic/get"; //获取片单信息
+const getFavoriteTopicUrl = "https://beta-tvpi.coocaa.com/" + "video/client/topic/getcollect"; //获取收藏的片单
+const setFavoriteTopicUrl = "https://beta-tvpi.coocaa.com/" + "video/client/topic/collect"; //收藏/取消收藏片单
+
 
 // 微信业务后台接口
 const getBindDeviceListUrl = baseUrl_wx + "wxUserDeviceAPI/bindDeviceList.coocaa";//获取已绑定设备列表
 const pushMediaUrl = baseUrl_wx + "articleMoviesAPI/devicesPush.coocaa";//推送影视内容
-// const getBannerDataUrl = baseUrl_wx + "spread/getStreams.coocaa";//获取Banner数据
 const getBannerDataUrl = "https://beta-wx.coocaa.com/" + "spread/homePageBanners.coocaa";//获取Banner数据
 const getSessionUrl = baseUrl_wx + "appletAPI/getSession.coocaa";//使用登录凭证code等参数获取session_key和openid
 const getUserInfoUrl = baseUrl_wx + "appletAPI/getuserinfo.coocaa";//微信小程序API接口
@@ -36,7 +38,9 @@ const getFavoriteArticlesUrl = "https://beta-wx.coocaa.com/" + "appletUsers/getC
 const getFavoriteVideosUrl = "https://beta-wx.coocaa.com/" + "appletUsers/getCollectMovies.coocaa";//获取收藏影片
 const getCommentsUrl = "https://beta-wx.coocaa.com/" + "articleMoviesAPI/getCommentList.coocaa";//获取影片/文章评论
 const submitCommentUrl = "https://beta-wx.coocaa.com/" + "articleMoviesAPI/saveCommentByUser.coocaa";//提交影片/文章评论
-const submitClickLikeUrl = "https://beta-wx.coocaa.com/" + "articleMoviesAPI/clickLike.coocaa";//提交点赞/取消点赞
+const submitClickLikeUrl = "https://beta-wx.coocaa.com/" + "articleMoviesAPI/clickLike.coocaa";//提交某条评论的点赞/取消点赞
+const addMovieFavoriteUrl = "https://beta-wx.coocaa.com/" + "articleMoviesAPI/appletCollectVideo.coocaa";//添加影片收藏
+const getFavoriteStatusUrl = "https://beta-wx.coocaa.com/" + "moviesAPI/getCollectStatus.coocaa";//根据movieid获取收藏状态
 
 module.exports = {
   searchByKeywordUrl: searchByKeywordUrl,
@@ -69,5 +73,9 @@ module.exports = {
   getFavoriteVideosUrl: getFavoriteVideosUrl,
   getCommentsUrl: getCommentsUrl,
   submitCommentUrl: submitCommentUrl,
-  submitClickLikeUrl: submitClickLikeUrl
+  submitClickLikeUrl: submitClickLikeUrl,
+  getFavoriteTopicUrl: getFavoriteTopicUrl,
+  setFavoriteTopicUrl: setFavoriteTopicUrl,
+  addMovieFavoriteUrl: addMovieFavoriteUrl,
+  getFavoriteStatusUrl: getFavoriteStatusUrl
 }

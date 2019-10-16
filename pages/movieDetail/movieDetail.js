@@ -30,7 +30,6 @@ Page({
     commentTotalNum: 164, //评论总数
     hotCommentList: [], //热评总数
     allCommentList: [], //评论总数
-    isThumbsUp:false
   },
 
   /**
@@ -127,6 +126,7 @@ Page({
         this.getRelatedActors(movieId)
         this.getComment(movieId)
         this.getRelatedArticles(movieId)
+        this.getFavoriteStatus(movieId)
         utils.showLoadingToast('', false)
       }
     }).catch(res => {
@@ -215,7 +215,19 @@ Page({
     })
   },
 
-  // 获取评论
+  // 获取当前影片收藏状态
+  getFavoriteStatus: function (movieId) {
+    let ccsession = 'b45004fab0934395dc20ede9dc13801d'
+    let params = { "ccsession": ccsession, "movieId": movieId }
+    let desParams = utils.paramsAssemble_wx(params)
+    utils.requestP(api.getFavoriteStatusUrl, desParams).then(res => {
+      console.log("获取当前影片收藏状态成功:", res)
+    }).catch(res => {
+      console.log('获取当前影片收藏状态发生错误:', res)
+    })
+  },
+
+  // 获取全部评论
   getComment: function (movieId) {
     movieId = '_oqy_1012320100'
     let ccsession = 'b45004fab0934395dc20ede9dc13801d'
@@ -315,10 +327,6 @@ Page({
           hotCommentList: this.data._hotComments,
           allCommentList: this.data._allComments
         })
-        // this.setData({
-        //   curCommentId: commentId,
-        //   isThumbsUp: _type === 'sure' ? true : false
-        // })
       }
     }).catch(res => {
       console.log('点赞失败:', res)
@@ -556,42 +564,4 @@ Page({
     this.submitComment(content, score*2)
   }
 
-  //收藏喜欢（未开发）
-  // favorite(e) {
-  //   if (app.globalData.deviceId == null) {
-  //     return wx.redirectTo({
-  //       url: "../home/home"
-  //     });
-  //   }
-  //   let that = this
-  //   var video_title = e.currentTarget.dataset.title
-  //   var video_poster = e.currentTarget.dataset.poster
-  //   var third_album_id = e.currentTarget.dataset.id
-
-  //   const secret = app.globalData.secret
-  //   var paramsStr = { "appkey": app.globalData.appkey, "collect_type": 1, "time": app.globalData.time(), "version_code": app.globalData.version_code, "vuid": wx.getStorageSync("wxopenid") }
-  //   var sign = utils.encryptionIndex(paramsStr, secret)
-  //   console.log(third_album_id)
-  //   console.log(paramsStr)
-  //   wx.request({
-  //     url: api.addUrl + "?collect_type=1&sign=" + sign + "&vuid=" + wx.getStorageSync("wxopenid") + "&version_code=" + app.globalData.version_code + "&time=" + app.globalData.time() + "&appkey=" + app.globalData.appkey,
-  //     method: "POST",
-  //     data: {
-  //       third_album_id: third_album_id,
-  //       title: video_title,
-  //       video_poster: video_poster,
-  //       video_type: 1,
-  //       vuid: wx.getStorageSync("wxopenid")
-  //     },
-  //     header: {
-  //       "Content-Type": "application/json; charset=utf-8"
-  //     },
-  //     success: function (res) {
-  //       console.log(res.data);
-  //       that.setData({
-  //         likeShow: true
-  //       })
-  //     },
-  //   })
-  // }
 })
