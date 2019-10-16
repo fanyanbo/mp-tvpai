@@ -33,8 +33,10 @@ const changeDeviceStatusUrl = baseUrl_wx + "wxUserDeviceAPI/changeDeviceStatus.c
 const getRelatedArticlesUrl = "https://beta-wx.coocaa.com/" + "articleMoviesAPI/linkArticles.coocaa";//获取影片关联文章
 const searchArticlesUrl = "https://beta-wx.coocaa.com/" + "articleMoviesAPI/searchArticles.coocaa";//搜索文章
 const getFavoriteArticlesUrl = "https://beta-wx.coocaa.com/" + "appletUsers/getCollectArticle.coocaa";//获取收藏文章
-const getFavoriteVideosUrl = "https://beta-wx.coocaa.com/" + "/appletUsers/getCollectMovies.coocaa";//获取收藏影片
-
+const getFavoriteVideosUrl = "https://beta-wx.coocaa.com/" + "appletUsers/getCollectMovies.coocaa";//获取收藏影片
+const getCommentsUrl = "https://beta-wx.coocaa.com/" + "articleMoviesAPI/getCommentList.coocaa";//获取影片/文章评论
+const submitCommentUrl = "https://beta-wx.coocaa.com/" + "articleMoviesAPI/saveCommentByUser.coocaa";//提交影片/文章评论
+const submitClickLikeUrl = "https://beta-wx.coocaa.com/" + "articleMoviesAPI/clickLike.coocaa";//提交点赞/取消点赞
 
 module.exports = {
   searchByKeywordUrl: searchByKeywordUrl,
@@ -64,5 +66,8 @@ module.exports = {
   getRelatedArticlesUrl: getRelatedArticlesUrl,
   searchArticlesUrl: searchArticlesUrl,
   getFavoriteArticlesUrl: getFavoriteArticlesUrl,
-  getFavoriteVideosUrl: getFavoriteVideosUrl
+  getFavoriteVideosUrl: getFavoriteVideosUrl,
+  getCommentsUrl: getCommentsUrl,
+  submitCommentUrl: submitCommentUrl,
+  submitClickLikeUrl: submitClickLikeUrl
 }

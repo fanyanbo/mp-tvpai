@@ -236,7 +236,7 @@
     background: rgba(229,229,229,0.5);
 }
 
-.skeleton-radius {
+.skeleton-circle {
     border-radius: 100%;
     background: rgba(229,229,229,0.5);
 }

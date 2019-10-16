@@ -54,7 +54,7 @@ Component({
       let inputValue = e.detail.value;
       // 获取输入框内容的长度
       let len = parseInt(inputValue.length);
-      console.log("已输入字数：", len);
+      // console.log("已输入字数：", len);
       this.setData({
         currentWordNumber: len,
         inputValue: inputValue
@@ -62,7 +62,7 @@ Component({
     },
     handleFocusEvent: function (e) {
       let bottomHeight = e.detail.height;
-      console.log("键盘高度", bottomHeight)
+      // console.log("键盘高度", bottomHeight)
       this.setData({
         keyboardHeight: bottomHeight
       })
@@ -101,10 +101,12 @@ Component({
       })
     },
     reply: function (e) {
+      console.log("triggerEvent")
+      this.triggerEvent('home', 
+      {"content": this.data.inputValue,"score": this.data.score})
       this.setData({
         isShow: false
       })
-      console.log("inputComment", this.data.inputValue,"score",this.data.score)
     },
     closeGrayBox: function () {
       this.setData({

@@ -1,0 +1,33 @@
+
+function getStars(val) {
+    var _num = val / 2
+    return _num
+}
+
+// 无法使用new Date()
+function getDateTime(value) {
+    var time = getDate(value);
+    var year = time.getFullYear();
+    var month = time.getMonth() + 1;
+    var date = time.getDate();
+    var hour = time.getHours();
+    var minute = time.getMinutes();
+    var second = time.getSeconds();
+    month = month < 10 ? "0" + month : month;
+    date = date < 10 ? "0" + date : date;
+    hour = hour < 10 ? "0" + hour : hour;
+    minute = minute < 10 ? "0" + minute : minute;
+    second = second < 10 ? "0" + second : second;
+    // return year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second;
+    return year + "-" + month + "-" + date;
+}
+
+function isThumbsUp() {
+    // console.log(wx.getStorage('comment_like'))
+}
+
+module.exports = {
+    getStars: getStars,
+    getDateTime: getDateTime,
+    isThumbsUp: isThumbsUp
+}

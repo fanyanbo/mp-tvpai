@@ -28,8 +28,8 @@ Page({
     tabbarList: ['视频', '短评'],
     activeIndex: 0, //tabbar索引
     commentTotalNum: 164, //评论总数
-    hotCommentList: ['','',''], //热评总数
-    allCommentList: ['','','','','',''], //评论总数
+    hotCommentList: [], //热评总数
+    allCommentList: [], //评论总数
     isThumbsUp:false
   },
 
@@ -39,6 +39,8 @@ Page({
   onLoad: function (options) {  
     utils.showLoadingToast()  
     console.log('当前影片id:' + options.id)
+    this.data._commentLike = wx.getStorageSync('comment_like')
+    if(!this.data._commentLike) wx.setStorageSync('comment_like', [])
     this.getDetailData(options.id)
   },
 
@@ -84,12 +86,12 @@ Page({
    */
   onReachBottom: function () {
     console.log('onReachBottom')
-    if (this.data.activeIndex === 1 && this.data.allCommentList.length < 12) {
-      let _data = this.data.allCommentList.concat(['','','']);
-      this.setData({
-        allCommentList: _data
-      })
-    }
+    // if (this.data.activeIndex === 1 && this.data.allCommentList.length < 12) {
+    //   let _data = this.data.allCommentList.concat(['','','']);
+    //   this.setData({
+    //     allCommentList: _data
+    //   })
+    // }
   },
 
   /**
@@ -120,10 +122,11 @@ Page({
           videoId: _videoId,
           updated_segment: res.data.data.updated_segment
         })
-        this.renderRelatedFilms(movieId)
-        this.renderSeries(movieId)
-        this.renderRelatedActors(movieId)
-        this.renderRelatedArticles(movieId)
+        this.getRelatedFilms(movieId)
+        this.getSeries(movieId)
+        this.getRelatedActors(movieId)
+        this.getComment(movieId)
+        this.getRelatedArticles(movieId)
         utils.showLoadingToast('', false)
       }
     }).catch(res => {
@@ -132,8 +135,8 @@ Page({
     })
   },
 
-  // 渲染关联影人
-  renderRelatedActors: function (movieId) {
+  // 获取关联影人
+  getRelatedActors: function (movieId) {
     let params = { "third_album_id": movieId };
     let url = utils.urlAssemble_tvpai(api.getRelatedActorsUrl, utils.paramsAssemble_tvpai(params));
     console.log("获取相关影人url:" + url)
@@ -148,8 +151,8 @@ Page({
     })
   },
 
-  // 渲染关联影片（猜你喜欢）
-  renderRelatedFilms: function (movieId) {
+  // 获取关联影片（猜你喜欢）
+  getRelatedFilms: function (movieId) {
     let params = { "third_album_id": movieId, "page_size": "10" };
     let desParams = utils.paramsAssemble_tvpai(params);
     utils.requestP(api.getRelatedVideoUrl, desParams).then(res => {
@@ -166,8 +169,8 @@ Page({
     })
   },
 
-  // 渲染关联文章
-  renderRelatedArticles: function (movieId) {
+  // 获取关联文章
+  getRelatedArticles: function (movieId) {
     movieId = "_oqy_1012320100" //仅用于测试
     let params = {"movieId": movieId}
     let desParams = utils.paramsAssemble_wx(params)
@@ -185,8 +188,8 @@ Page({
     })
   },
 
-  // 渲染剧集列表（注意区分电影，电视剧，纪录片类型，它们展示有差异）
-  renderSeries: function (movieId) {
+  // 获取剧集列表（注意区分电影，电视剧，纪录片类型，它们展示有差异）
+  getSeries: function (movieId) {
     let updated_segment = this.data.updated_segment
     let params = { "third_album_id": movieId, "page_size": updated_segment };
     let desParams = utils.paramsAssemble_tvpai(params);
@@ -209,6 +212,116 @@ Page({
     }).catch(res => {
       console.log('获取剧集数据失败:', res)
       utils.showFailedToast('加载数据失败', this.data.errIconUrl)
+    })
+  },
+
+  // 获取评论
+  getComment: function (movieId) {
+    movieId = '_oqy_1012320100'
+    let ccsession = 'b45004fab0934395dc20ede9dc13801d'
+    let params = { "ccsession": ccsession, "movieId": movieId }
+    let desParams = utils.paramsAssemble_wx(params)
+    utils.requestP(api.getCommentsUrl, desParams).then(res => {
+      console.log("获取评论数据:", res)
+      if(res.data.data) {
+        this.data._allComments = res.data.data.list
+        this.data_commentLike = wx.getStorageSync('comment_like') //评论点赞缓存列表   
+        for(let i=0; i<this.data._allComments.length; i++) {
+          let _index = this.data._commentLike.indexOf(this.data._allComments[i].id) //判断缓存中是否有点赞记录
+          if(_index > -1) {
+            this.data._allComments[i].isThumbsUp = true
+          }   
+        }
+        this.data._hotComments = this.data._allComments.length <= 3 ? _this.data.allComments : this.data._allComments.slice(0, 3)
+        this.setData({
+          hotCommentList: this.data._hotComments,
+          allCommentList: this.data._allComments
+        })
+      }
+    }).catch(res => {
+      console.log('获取评论数据失败:', res)
+    })
+  },
+
+  // 提交评论
+  submitComment: function (content, score) {
+    let movieId = '_oqy_1012320100'
+    let ccsession = 'b45004fab0934395dc20ede9dc13801d'
+    let params = { 
+      "ccsession": ccsession, 
+      "movieId": movieId,
+      "content": content,
+      "grade": score
+    }
+    let desParams = utils.paramsAssemble_wx(params)
+    utils.requestP(api.submitCommentUrl, desParams).then(res => {
+      console.log("提交评论数据成功:", res)
+      if(res.data.data) {
+        this.data._allComments = res.data.data.list
+        this.data_commentLike = wx.getStorageSync('comment_like') //评论点赞缓存列表   
+        for(let i=0; i<this.data._allComments.length; i++) {
+          let _index = this.data._commentLike.indexOf(this.data._allComments[i].id) //判断缓存中是否有点赞记录
+          if(_index > -1) {
+            this.data._allComments[i].isThumbsUp = true
+          }   
+        }
+        this.data._hotComments = this.data._allComments.length <= 3 ? _this.data.allComments : this.data._allComments.slice(0, 3)
+        this.setData({
+          hotCommentList: this.data._hotComments,
+          allCommentList: this.data._allComments
+        })
+      }
+    }).catch(res => {
+      console.log('提交评论数据失败:', res)
+    })
+  },
+
+  // 对某条评论点赞/取消点赞
+  submitClickLike: function (commentId) {
+    let ccsession = 'b45004fab0934395dc20ede9dc13801d'
+    let params = { "ccsession": ccsession, "commentId": commentId + '' }
+    let desParams = utils.paramsAssemble_wx(params)
+    utils.requestP(api.submitClickLikeUrl, desParams).then(res => {
+      console.log("点赞成功:", res)
+      if(res.data.data) {
+        let _type = res.data.data.type
+        let _commentLike = wx.getStorageSync('comment_like') //评论点赞缓存列表
+        let _index = _commentLike.indexOf(commentId) //判断缓存中是否有点赞记录
+        console.log(commentId, _commentLike)
+        if(_type === 'sure') {         
+          if(_index < 0) {
+            _commentLike.push(commentId)
+            wx.setStorageSync('comment_like', _commentLike)
+          }
+        } else {                 
+          if(_index > -1) {
+            _commentLike.splice(_index, 1)
+            wx.setStorageSync('comment_like', _commentLike)
+          }
+        }
+        for(let i=0; i<this.data._allComments.length; i++) {
+          if(commentId === this.data._allComments[i].id) {
+            if(_type === 'sure') {
+              this.data._allComments[i].isThumbsUp = true
+              this.data._allComments[i].praiseNum += 1
+            }else {
+              this.data._allComments[i].isThumbsUp = false
+              this.data._allComments[i].praiseNum -= 1
+            }
+          } 
+        }
+        this.data._hotComments = this.data._allComments.length <= 3 ? _this.data.allComments : this.data._allComments.slice(0, 3)
+        this.setData({
+          hotCommentList: this.data._hotComments,
+          allCommentList: this.data._allComments
+        })
+        // this.setData({
+        //   curCommentId: commentId,
+        //   isThumbsUp: _type === 'sure' ? true : false
+        // })
+      }
+    }).catch(res => {
+      console.log('点赞失败:', res)
     })
   },
 
@@ -426,18 +539,22 @@ Page({
   },
 
   handleThumbsClick: function (e) {
-    console.log('handleThumbsClick', e)
-    let {index} = e.currentTarget.dataset
-    this.setData({
-      curIndex: index
-    })
+    console.log('handleThumbsClick')
+    let {id} = e.currentTarget.dataset
+    this.submitClickLike(id)
   },
 
   handleCommentClick: function () {
     console.log('handleCommentClick')
     this.setData({isCommentShow: true})
-  }
+  },
 
+  handleSubmitClick: function (e) {
+    console.log('handleSubmitClick', e)
+    let {content, score} = e.detail
+    // 后台按照10分制定义
+    this.submitComment(content, score*2)
+  }
 
   //收藏喜欢（未开发）
   // favorite(e) {

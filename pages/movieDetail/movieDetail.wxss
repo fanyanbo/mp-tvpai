@@ -442,6 +442,10 @@
   margin-top: 40rpx;
 }
 
+.detail-wrap {
+  margin-bottom: 130rpx;
+}
+
 .intro-more {
   width: 66rpx;
   height: 40rpx;
@@ -482,6 +486,7 @@
   line-height: 40rpx;
   font-size: 28rpx;
   margin-left: 300rpx;
+  text-align: right;
 }
 
 .hot-comment-item,
@@ -590,7 +595,6 @@
   color: #333333;
 }
 
-
 .actor-img,
 .favorite-img,
 .recomment-img {
@@ -599,9 +603,9 @@
   margin-left: 486rpx;
 }
 
-.favorite-wrap {
+/* .favorite-wrap {
   margin-bottom: 130rpx;
-}
+} */
 
 .actors-content {
   width: 100%;
@@ -751,4 +755,17 @@
 
 .on {
   color:rgba(0,0,0,1);
+}
+
+.noresult-wrap {
+  width: 750rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100rpx;
+}
+
+.noresult-wrap image {
+  width: 480rpx;
+  height: 480rpx; 
 }

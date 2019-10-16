@@ -249,7 +249,8 @@ Page({
         console.log(tmpData)
         this.setData({
           searchResultList: tmpData,
-          hasMore: res.data.has_more
+          hasMore: res.data.has_more,
+          isShowNoResult: tmpData.length == 0 ? true : false
         })
         if(res.data.has_more === 1) {
           this.data.curPageIndex += 1;
@@ -274,7 +275,7 @@ Page({
     utils.requestP(api.searchArticlesUrl, utils.paramsAssemble_wx({"keyword": keyword})).then(res => {
       console.log('搜索文章成功', res.data)
       if (res && res.data && res.data.code === 200) {
-        this.setData({articlesResultList: res.data.data})
+        this.setData({articlesResultList: res.data.data.list})
       } else {
         console.log('搜索文章失败')
         this.setData({

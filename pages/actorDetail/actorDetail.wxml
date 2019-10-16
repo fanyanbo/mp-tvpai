@@ -11,8 +11,8 @@
   <view class="actor-info">
     <view class="name">{{name}}</view>
     <view class="engname">{{engname}}</view>
-    <view class="birth">生日：{{birth}}</view>
-    <view wx:if="{{area != null && area.length != 0}}" class="area">地区：{{area}}</view>
+    <view wx:if="{{birth != null && birth.length !== 0}}" class="birth">生日：{{birth}}</view>
+    <view wx:if="{{area != null && area.length !== 0}}" class="area">地区：{{area}}</view>
     <view wx:if="{{height != null && height !== 0}}" class="height">身高：{{height}}cm</view>
     <view class="occupation">职业：{{occupation}}</view>
   </view>
@@ -26,7 +26,7 @@
   </view>
   <view class='content'>{{desc}}</view>
 </view>
-<view class="works-wrap">
+<view class="works-wrap" wx:if="{{majorList.length !== 0}}">
   <view class="header">
     <text class="line"></text>
     <text class="title">作品</text>

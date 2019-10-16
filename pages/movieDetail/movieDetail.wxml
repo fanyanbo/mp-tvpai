@@ -1,3 +1,4 @@
+<wxs src="./movieDetail.wxs" module="tools" />
 <!-- 导航栏组件 -->
 <view>
   <navBar title='详情' background='#333' color='#fff' back="{{true}}" home="{{true}}" iconTheme='white' bindback="handleGobackClick" bindhome="handleGohomeClick" />
@@ -8,7 +9,9 @@
   <view class="header">
     <view class='movieDetail'>
       <image src='{{videoDetailData.video_poster}}' class='poster' mode="aspectFill"></image>
-      <view wx:if="{{videoDetailData.video_detail.control_info.charge_info.charge_type !== 0}}" class="vip main-vip">VIP</view>
+      <view wx:if="{{videoDetailData.video_detail.control_info.charge_info.charge_type !== 0}}" class="vip main-vip">
+        VIP
+      </view>
       <view class='describe'>
         <view class="title">{{videoDetailData.album_title}}</view>
         <!-- wx:if骨架屏优化；填坑：数据不完整 -->
@@ -59,7 +62,7 @@
       <view wx:if="{{activeIndex === index}}" class="tabbar-item-bottom"></view>
     </view>
   </view>
-  <block wx:if="{{activeIndex === 0}}">
+  <view wx:if="{{activeIndex === 0}}" class="detail-wrap">
     <!-- 影片简介 -->
     <view class="panel-wrap intro-wrap" data-tap='desc' bindtap='showPopup'>
       <view class="panel-title">
@@ -89,29 +92,29 @@
       </view>
     </view>
     <!-- 热评 -->
-    <view class="panel-wrap hot-wrap">
+    <view class="panel-wrap hot-wrap" wx:if="{{hotCommentList != null && hotCommentList.length !== 0}}">
       <view class="panel-title">
         <text class="title-line"></text>
         <text class="title-text">热评</text>
-        <text class="hot-text">全部短评 {{commentTotalNum}}</text>
+        <text class="hot-text" bindtap="handleHotClick">全部短评 {{allCommentList.length}}</text>
         <image class="hot-img" src="../../images/index_arraw.png" mode="aspectFill" bindtap="handleHotClick" />
       </view>
       <view class="hot-comment-content">
         <block wx:for="{{hotCommentList}}" wx:key="index">
           <view class="hot-comment-item">
             <view class="comment-title">
-              <image class="comment-avatar-img" />
-              <text class="comment-nickname">用户昵称</text>
+              <image class="comment-avatar-img" src="{{item.headimgurl}}" />
+              <text class="comment-nickname">{{item.nickname}}</text>
               <view class="comment-star">
-                <block wx:for="{{3}}" wx:key="index">
-                  <image class="comment-star-img" mode="aspectFill" src="../../images/videodetail/star.png" />
+                <block wx:for="{{tools.getStars(item.grade)}}" wx:key="index">
+                  <image class="comment-star-img" mode="aspectFill" src="../../images/videodetail/star-focus.png" />
                 </block>
               </view>
-              <view class="comment-date">三天前</view>
-              <view class="comment-thumbs-num">24514</view>
-              <image class="comment-thumbs-img" mode="aspectFill" data-index="{{index}}" src="{{index === curIndex ? thumbsFocusIconUrl : thumbsIconUrl}}" bindtap="handleThumbsClick" />
+              <view class="comment-date">{{tools.getDateTime(item.createTime)}}</view>
+              <view class="comment-thumbs-num">{{item.praiseNum}}</view>
+              <image class="comment-thumbs-img" mode="aspectFill" data-id="{{item.id}}" src="{{item.isThumbsUp ? thumbsFocusIconUrl : thumbsIconUrl}}" bindtap="handleThumbsClick"/>
             </view>
-            <view class="comment-content">文本描述文本描述文本描述文本描述。文本描述文本描述文本描述文本描述。文本描述文本描述文本描述文本描述。</view>
+            <view class="comment-content">{{item.content}}</view>
           </view>
         </block>
       </view>
@@ -126,13 +129,13 @@
       <view class="recomment-content">
         <scroll-view scroll-x style="width: auto; overflow: hidden;">
           <block wx:for="{{relatedArticlesList}}" wx:key="index">
-            <image class="recomment-list-item" src="{{item.picUrl}}" bindtap="handleRecommendClick" data-id="{{item.id}}"/>
+            <image class="recomment-list-item" src="{{item.picUrl}}" bindtap="handleRecommendClick" data-id="{{item.id}}" />
           </block>
         </scroll-view>
       </view>
     </view>
-    <!-- 关联影片（猜你喜欢） -->
-    <view class="panel-wrap favorite-wrap">
+    <!-- 关联影片（猜你喜欢) -->
+    <view class="panel-wrap favorite-wrap" wx:if="{{relatedVideoList != null && relatedVideoList.length !== 0}}">
       <view class="panel-title">
         <text class="title-line"></text>
         <text class="title-text">猜你喜欢</text>
@@ -143,7 +146,9 @@
           <block wx:for="{{relatedVideoList}}" wx:key="third_album_id">
             <view class="favorite-list-item" bindtap="handleFavoriteClick" data-id="{{item.third_album_id}}">
               <image class="favorite-avatar" src="{{item.video_poster}}" />
-              <view wx:if="{{item.video_detail.control_info.charge_info.charge_type !== 0}}" class="vip favorite-vip">VIP</view>
+              <view wx:if="{{item.video_detail.control_info.charge_info.charge_type !== 0}}" class="vip favorite-vip">
+                VIP
+              </view>
               <view class="favorite-score">{{item.video_detail.base_info.score}}</view>
               <view class="favorite-name">{{item.album_title}}</view>
             </view>
@@ -151,28 +156,27 @@
         </scroll-view>
       </view>
     </view>
-  </block>
-  <block wx:else>
-    <view class="comment-wrap">
-      <block wx:for="{{allCommentList}}" wx:key="index">
-        <view class="all-comment-item">
-          <view class="comment-title">
-            <image class="comment-avatar-img" />
-            <text class="comment-nickname">用户昵称</text>
-            <view class="comment-star">
-              <block wx:for="{{5}}" wx:key="index">
-                <image class="comment-star-img" mode="aspectFill" src="../../images/videodetail/star-focus.png" />
-              </block>
-            </view>
-            <view class="comment-date">三天前</view>
-            <view class="comment-thumbs-num">24514</view>
-            <image class="comment-thumbs-img" mode="aspectFill" src="../../images/videodetail/thumbs.png" bindtap="handleThumbsClick" />
-          </view>
-          <view class="comment-content">文本描述文本描述文本描述文本描述。文本描述文本描述文本描述文本描述。文本描述文本描述文本描述文本描述。</view>
+  </view>
+  <view wx:else class="comment-wrap">
+    <view class="all-comment-item" wx:for="{{allCommentList}}" wx:key="index">
+      <view class="comment-title">
+        <image class="comment-avatar-img" src="{{item.headimgurl}}" />
+        <text class="comment-nickname">{{item.nickname}}</text>
+        <view class="comment-star">
+          <block wx:for="{{tools.getStars(item.grade)}}" wx:key="index">
+            <image class="comment-star-img" mode="aspectFill" src="../../images/videodetail/star-focus.png" />
+          </block>
         </view>
-      </block>
+        <view class="comment-date">{{tools.getDateTime(item.createTime)}}</view>
+        <view class="comment-thumbs-num">{{item.praiseNum}}</view>
+        <image class="comment-thumbs-img" mode="aspectFill" data-id="{{item.id}}" src="{{item.isThumbsUp ? thumbsFocusIconUrl : thumbsIconUrl}}" bindtap="handleThumbsClick"/>
+      </view>
+      <view class="comment-content">{{item.content}}</view>
     </view>
-  </block>
+    <view class="noresult-wrap" wx:if="{{allCommentList.length === 0}}">
+      <image src='../../images/no-result@3x.png' />
+    </view>
+  </view>
   <view wx:if="{{bIphoneFullScreenModel}}" class='iphone-fullscreen'></view>
 </view>
 <!-- 遥控器组件 -->
@@ -212,5 +216,5 @@
 </view>
 <!-- 评论提交组件 -->
 <view>
-  <comment isShow="{{isCommentShow}}"></comment>
+  <comment isShow="{{isCommentShow}}" bindhome="handleSubmitClick"></comment>
 </view>
