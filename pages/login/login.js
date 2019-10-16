@@ -8,6 +8,16 @@ Page({
    */
   data: {
     rpxNavBarHeight: 0, //绝度定位需要减去导航栏高度
+    PageStage : {
+      UNLOGIN: {//未登录
+        HOME_PAGE: 1,
+        GOLOGIN_PAGE: 2,
+      },
+      LOGIN: {//已登录
+        HOME_PAGE: 11,
+        REVISE_PAGE: 12,
+      }
+    },
     loginTips: '请与电视端使用相同的登录方式\n多端共享, 极致体验',
     arrLoginType: [
       { id: 1, type: '微信登录', image: '../../images/login/wechat.png'},
@@ -20,6 +30,12 @@ Page({
       mob: '13555555555',
       wechat: '微信昵称很长长'
     },
+    loginRevise: { //已登录后修改账号昵称或手机号的提示
+      name: {title: '修改账号昵称', type: 'text', btn: '完成'},
+      mob: { title: '修改手机号', type: 'number', btn: '确认更换手机号' }
+    },
+    //枚举怎么处理？
+    stage: 1,//目前页面所处阶段
 
   },
   startLogin(e) { //开始登录
@@ -28,13 +44,23 @@ Page({
     if(id == 1) {
       //todo 跳转到后台微信登录页，
     }else {
+      let stage = this.data.PageStage.UNLOGIN.GOLOGIN_PAGE 
         wx.navigateTo({
-          url: `../login/login?id=${id}`,
+          url: `../login/login?stage=${stage}`,
         })
     }
   },
   handleGobackClick(e){ //返回
     wx.navigateBack()
+  },
+  reviseNickname(e) {//修改账号昵称
+    let stage = this.data.PageStage.LOGIN.REVISE_PAGE
+    wx.navigateTo({
+      url: `../login/login?stage=${stage}`,
+    })
+  },
+  refreshVCode(e) {//刷新验证码
+    
   },
   /**
    * 生命周期函数--监听页面加载
@@ -44,6 +70,12 @@ Page({
     this.setData({
       rpxNavBarHeight: utils.getNavBarHeight().rpxNavBarHeight + 'rpx'
     })
+    console.log('stage: ' +options.stage + typeof options.stage)
+    if(options.stage) {
+      this.setData({
+        stage: +options.stage
+      })
+    }
   },
 
   /**

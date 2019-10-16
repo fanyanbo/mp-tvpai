@@ -17,13 +17,13 @@
   justify-content: flex-end;
   align-items:center;
 }
-.unloginhome>.logozone {
+.logozone {
   flex-grow: 1;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.unloginhome>.logozone>.logo {
+.logozone>.logo {
   width: 344rpx;
   height: 148rpx;
 }
@@ -64,6 +64,50 @@
 }
 /* 未登录首页-end- */
 
+/* 1. 手机登录页/账号密码登录页 */
+.unlogin-tologin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #FFF;
+  height: 100%;
+}
+.unlogin-tologin>.logozone {
+  height: 300rpx;
+  flex-grow: 0;
+}
+.unlogin-tologin>.input-wrapper {
+  position: relative;
+  display: flex;
+}
+.input-item {
+  width: 670rpx;
+  height: 94rpx;
+  background: #F8F8F8;
+  padding: 0 40rpx;
+  color: #CCCCCC;
+  line-height: 94rpx;
+  font-size: 32rpx;
+  margin: 15rpx 0;
+}
+.canvas-item {
+  position: absolute;
+  right: 40rpx;
+  top: 30rpx;
+  width: 176rpx;
+  height: 60rpx;
+  background: #FFF;
+}
+.unlogin-tologin .vcode {
+  position: absolute;
+  top: 40rpx;
+  right: 40rpx;
+  width: 176rpx;
+  height: 44rpx;
+  line-height: 44rpx;
+  font-size: 32rpx;
+  color: #FF5E5E;
+}
 
 /* 已登录首页-start- */
 .loginhome {
@@ -107,7 +151,7 @@
   position: absolute;
   right: 40rpx;
 }
-.loginhome>.quitlogin {
+.btn {
   width: 670rpx;
   height: 94rpx;
   margin: 60rpx 40rpx;
@@ -119,3 +163,30 @@
   color: #333333;
 }
  /* 已登录首页-end- */
+ /* 已登录-修改账号手机号页-start- */
+ .loginrevise {
+   display: flex;
+   flex-direction: column;
+   position: relative;
+ }
+ .loginrevise>.input-zone {
+   padding: 0 40rpx;
+   height: 110rpx;
+   line-height: 110rpx;
+   color: #333333;
+   font-size: 34rpx;
+   background: #FFF;
+ }
+ .loginrevise>.icon-del {
+   position: absolute;
+   top: 41rpx;
+   right: 40rpx;
+   width: 28rpx;
+   height: 28rpx;
+   line-height: 28rpx;
+    text-align: center;
+   background: #999999;
+   border-radius: 50%;
+   color: white;
+   font-size: 18rpx; 
+ }

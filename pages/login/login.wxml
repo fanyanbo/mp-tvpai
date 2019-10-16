@@ -5,35 +5,48 @@
 
 <view class="wrapper" style="top:{{rpxNavBarHeight}};">
   
-  <!-- 未登录流程 -->
-  <block wx:if="{{loginStatus==false}}" >
-    <!-- 未登录首页 -->
-    <view class="unloginhome">
-      <view class="logozone">
-        <image class="logo" src="../../images/login/coocaa.png"></image>
-      </view>
-      <view class="tips"><text>{{loginTips}}</text></view>
-      <view wx:for="{{arrLoginType}}" class="types" bindtap="startLogin" data-id="{{item.id}}">
-          <image class="icon" src="{{item.image}}"></image>
-          <view class="title">{{item.type}}</view>
-      </view>
-      <view class="footer">因小程序不支持QQ登录,请先在电视端使用QQ登录并绑定手机号后使用该手机号登录即可</view>
+<!-- 未登录流程 -->
+  <!-- 0. 未登录首页 -->
+  <view class="unloginhome" wx:if="{{stage==PageStage.UNLOGIN.HOME_PAGE}}" >
+    <view class="logozone">
+      <image class="logo" src="../../images/login/coocaa.png"></image>
     </view>
+    <view class="tips"><text>{{loginTips}}</text></view>
+    <view wx:for="{{arrLoginType}}" class="types" bindtap="startLogin" data-id="{{item.id}}">
+        <image class="icon" src="{{item.image}}"></image>
+        <view class="title">{{item.type}}</view>
+    </view>
+    <view class="footer">因小程序不支持QQ登录,请先在电视端使用QQ登录并绑定手机号后使用该手机号登录即可</view>
+  </view>
 
-  </block>
+  <!-- 1. 手机登录页/账号密码登录页 -->
+  <view class="unlogin-tologin" wx:if="{{stage==PageStage.UNLOGIN.GOLOGIN_PAGE}}">
+    <view class="logozone">
+      <image class="logo" src="../../images/login/coocaa.png"></image>
+    </view>
+    <input class="input-item" type="number" placeholder="手机号 (新用户注册即登录)" ></input>
+    <view class="input-wrapper">
+      <input class="input-item" placeholder="图形验证码"></input>
+      <canvas class="canvas-item" canvas-id="vcodecanvas"></canvas>
+    </view>
+    <view class="input-wrapper">
+      <input class="input-item" placeholder="短信验证码"></input>
+      <view class="vcode">获取验证码</view>
+    </view>
+    <view class="btn">登录</view>
+  </view>
 
-  <!-- 已登录流程 -->
-  <block wx:else>
-    <!-- 已登录首页 -->
-    <view class="loginhome">
+<!-- 已登录流程 -->
+    <!-- 10.已登录首页 -->
+    <view class="loginhome" wx:elif="{{stage==PageStage.LOGIN.HOME_PAGE}}">
       <view class="item name-label">昵称设置</view>
-      <view class="item setting name-setting">
+      <view class="item setting name-setting" bindtap="reviseNickname">
         <view class="key">账号昵称</view>
         <view class="value">{{curUser.name}}</view>
         <image src="../../images/my/arrow.png"></image>
       </view>
       <view class="item acct-label">账号绑定</view>
-      <view class="item setting mob-setting">
+      <view class="item setting mob-setting" bindtap="reviseMob">
         <view class="key">手机号</view>
         <view class="value">{{!!curUser.mob ? curUser.mob : '未绑定'}}</view>
         <image src="../../images/my/arrow.png"></image>
@@ -42,10 +55,15 @@
         <view class="key">微信</view>
         <view class="value">{{curUser.wechat}}</view>
       </view>
-      <view class="quitlogin">退出登录</view>
+      <view class="btn">退出登录</view>
     </view>
 
-  </block>
+    <!-- 11.修改账号昵称或手机页 -->
+    <view  class="loginrevise" wx:elif="{{stage==PageStage.LOGIN.REVISE_PAGE}}">
+      <input class="input-zone" type="{{loginRevise.name.type}}"></input>
+      <view class="icon-del" wx:if="{{true}}">X</view>
+      <view class="btn">{{loginRevise.name.btn}}</view>
+    </view>
 
 </view>
 
