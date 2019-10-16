@@ -1,8 +1,68 @@
-<!--pages/vipbuy/vipbuy.wxml-->
 <view>
   <navBar title='{{navBarTitle}}' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
 </view>
 
 <view>
-  may i help you? 
+
+  <!-- 产品包显示区   -->
+  <view class="wrapper">
+    <!-- 产品包列表区 -->
+    <view class="list">
+      <view class="userinfo">
+        <view class="acct">当前账号</view>
+        <image class="avatar" src="../../images/my/vip/edu.png"></image>
+        <view class="name">冈拉梅朵</view>
+      </view>
+      <view class="hr"></view>
+      <view class="vip-title">
+        <view class="vstrip"></view>
+        <view class="vip-type">奇异果VIP</view>
+        <view class="vip-desc">开通送好礼</view>
+      </view>
+      <view class="vip-item" wx:for="{{productList}}">
+        <view class="vip-item-details">
+          <view class="name">
+            {{item.product_name}}
+            <!-- <image src="{{JSON.parse(item.icon_json).pIcon}}"></image> -->
+          </view>  
+          <view class="desc">{{item.desc}}</view>
+        </view>
+        <view class="vip-item-prices">
+          <view class="price"><text class="dollar">￥</text>{{item.discount_fee}}</view>
+          <view class="oldprice">原价{{item.unit_fee}}元</view>
+        </view>
+      </view>
+
+    </view>
+
+    <!-- 会员权益页 -->
+    <image class="benefits" src="../../images/my/vipbuy/benefit.png"></image>
+
+    <!-- 支付区 -->
+    <view class="pay">
+      
+      <view class="pay-summary">
+        <view class="pay-summary-all">
+          付款
+          <text class="info">￥30.0</text>
+          <text class="info"> | 已优惠5元</text>
+        </view>
+        <view class="pay-summary-info">
+          确认支付则视为同意
+          <text class="info">服务协议</text>
+          <text class="info">自动续费说明</text>
+        </view>
+
+      </view>
+
+      <view class="pay-btn">
+        <view>立即支付</view>
+        <view class="pay-btn-save">(节省13元)</view>
+      </view>
+
+    </view>
+    
+  </view>
+
+
 </view>

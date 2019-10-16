@@ -53,8 +53,258 @@ const package_header = { //获取产品包/产品源接口 header mock data
   "vAppVersion": "7070002"
 }
 
-module.exports = {
-    package_getsourcelist_data
-  , package_header  
-  , package_getproductlist_data
+const package_list_data = { //产品包返回数据
+  "code": 0,
+  "data": {
+    "activity_content": "{\"activityFlag\":\"1\",\"activityBgImage\":\"http://img.sky.fs.skysrt.com/movie_homepage_images/20190925/20190925112057546888_600x100.png\",\"activityFocusBgImage\":\"http://img.sky.fs.skysrt.com/movie_homepage_images/20190925/20190925112105357521_600x100.png\",\"packagename\":\"com.coocaa.app_browser\",\"dowhat\":\"startActivity\",\"bywhat\":\"action\",\"byvalue\":\"coocaa.intent.action.browser.no_trans\",\"params\":{\"url\":\"http://img.sky.fs.skysrt.com/tvos6_imgs_master/20190920/20190920160155242835_1920*1080.jpeg\"}}",
+    "b_id": "5",
+    "background_image": "http://img.sky.fs.skysrt.com/movie_homepage_images/20190925/20190925111718119417_1920x1080.jpg",
+    "dmp_code": "",
+    "focus_index": 1,
+    "policy_id": "1645",
+    "products": [
+      {
+        "allowance_info": null,
+        "app_code": "",
+        "base_desc": "30元/月",
+        "buy_count": 1,
+        "desc": "续费30元/月，每月享腾讯视频三端VIP",
+        "discount_fee": 3000,
+        "discount_products": [],
+        "erp_code": "",
+        "extend_attribute": "",
+        "flag": 0,
+        "icon_json": "{\"pIcon\":\"\",\"iconFlag\":0}",
+        "images": [
+          {
+            "size": "s",
+            "style": "v",
+            "type": "web",
+            "url": "http://img.sky.fs.skysrt.com/movie_homepage_images/20180927/20180927091659487180_938x138.png"
+          }
+        ],
+        "is_alert": false,
+        "is_focus": true,
+        "is_keep_pay_product": 1,
+        "is_recommend": true,
+        "is_support_direct_discount": false,
+        "is_three_terminal": 1,
+        "is_unpaid": 0,
+        "leave_count": 0,
+        "movie_image": "",
+        "product_id": 1642,
+        "product_level": 7,
+        "product_name": "连续包月",
+        "product_stock": 0,
+        "product_type": "P-Month",
+        "show_style": 0,
+        "source_id": 0,
+        "source_sign": "",
+        "support_other_discount": false,
+        "unique_code": "",
+        "unit_fee": 3000,
+        "valid_times": {
+          "count": 1,
+          "unit": "m"
+        },
+        "vip_fee": 3000
+      },
+      {
+        "allowance_info": null,
+        "app_code": "",
+        "base_desc": "45元/月",
+        "buy_count": 1,
+        "desc": "45元/月，享1个月腾讯视频VIP权益",
+        "discount_fee": 4500,
+        "discount_products": [],
+        "erp_code": "",
+        "extend_attribute": "",
+        "flag": 0,
+        "icon_json": "{\"pIcon\":\"\",\"iconFlag\":0}",
+        "images": [
+          {
+            "size": "s",
+            "style": "v",
+            "type": "web",
+            "url": "http://img.sky.fs.skysrt.com/movie_homepage_images/20180927/20180927091659487180_938x138.png"
+          }
+        ],
+        "is_alert": false,
+        "is_focus": false,
+        "is_keep_pay_product": 0,
+        "is_recommend": false,
+        "is_support_direct_discount": false,
+        "is_three_terminal": 1,
+        "is_unpaid": 0,
+        "leave_count": 0,
+        "movie_image": "",
+        "product_id": 2165,
+        "product_level": 1,
+        "product_name": "1个月",
+        "product_stock": 0,
+        "product_type": "P-Month",
+        "show_style": 0,
+        "source_id": 0,
+        "source_sign": "",
+        "support_other_discount": false,
+        "unique_code": "",
+        "unit_fee": 5000,
+        "valid_times": {
+          "count": 1,
+          "unit": "m"
+        },
+        "vip_fee": 4500
+      },
+      {
+        "allowance_info": null,
+        "app_code": "",
+        "base_desc": "39元/月",
+        "buy_count": 1,
+        "desc": "39元/月，享3个月腾讯视频VIP权益",
+        "discount_fee": 11800,
+        "discount_products": [],
+        "erp_code": "",
+        "extend_attribute": "",
+        "flag": 0,
+        "icon_json": "{\"pIcon\":\"\",\"iconFlag\":0}",
+        "images": [
+          {
+            "size": "s",
+            "style": "v",
+            "type": "web",
+            "url": "http://img.sky.fs.skysrt.com/movie_homepage_images/20180927/20180927091659487180_938x138.png"
+          }
+        ],
+        "is_alert": false,
+        "is_focus": false,
+        "is_keep_pay_product": 0,
+        "is_recommend": false,
+        "is_support_direct_discount": false,
+        "is_three_terminal": 1,
+        "is_unpaid": 0,
+        "leave_count": 0,
+        "movie_image": "",
+        "product_id": 2167,
+        "product_level": 1,
+        "product_name": "3个月",
+        "product_stock": 0,
+        "product_type": "P-Season",
+        "show_style": 0,
+        "source_id": 0,
+        "source_sign": "",
+        "support_other_discount": false,
+        "unique_code": "",
+        "unit_fee": 14800,
+        "valid_times": {
+          "count": 1,
+          "unit": "se"
+        },
+        "vip_fee": 11800
+      },
+      {
+        "allowance_info": null,
+        "app_code": "",
+        "base_desc": "29元/月",
+        "buy_count": 1,
+        "desc": "29元/月，享1年腾讯视频VIP权益",
+        "discount_fee": 34800,
+        "discount_products": [],
+        "erp_code": "",
+        "extend_attribute": "",
+        "flag": 0,
+        "icon_json": "{\"pIcon\":\"\",\"iconFlag\":0}",
+        "images": [
+          {
+            "size": "s",
+            "style": "v",
+            "type": "web",
+            "url": "http://img.sky.fs.skysrt.com/movie_homepage_images/20180927/20180927091659487180_938x138.png"
+          }
+        ],
+        "is_alert": false,
+        "is_focus": false,
+        "is_keep_pay_product": 0,
+        "is_recommend": false,
+        "is_support_direct_discount": false,
+        "is_three_terminal": 1,
+        "is_unpaid": 0,
+        "leave_count": 0,
+        "movie_image": "",
+        "product_id": 2168,
+        "product_level": 1,
+        "product_name": "12个月",
+        "product_stock": 0,
+        "product_type": "P-Year",
+        "show_style": 0,
+        "source_id": 0,
+        "source_sign": "",
+        "support_other_discount": false,
+        "unique_code": "",
+        "unit_fee": 48800,
+        "valid_times": {
+          "count": 1,
+          "unit": "y"
+        },
+        "vip_fee": 34800
+      },
+      {
+        "allowance_info": null,
+        "app_code": "",
+        "base_desc": "49.3元/月",
+        "buy_count": 1,
+        "desc": "49.3元/月，享6个月腾讯视频VIP",
+        "discount_fee": 29600,
+        "discount_products": [],
+        "erp_code": "",
+        "extend_attribute": "",
+        "flag": 0,
+        "icon_json": "{\"pIcon\":\"\",\"iconFlag\":0}",
+        "images": [
+          {
+            "size": "s",
+            "style": "v",
+            "type": "web",
+            "url": "http://img.sky.fs.skysrt.com/movie_homepage_images/20180927/20180927091659487180_938x138.png"
+          }
+        ],
+        "is_alert": false,
+        "is_focus": false,
+        "is_keep_pay_product": 0,
+        "is_recommend": false,
+        "is_support_direct_discount": false,
+        "is_three_terminal": 1,
+        "is_unpaid": 0,
+        "leave_count": 0,
+        "movie_image": "",
+        "product_id": 2268,
+        "product_level": 1,
+        "product_name": "6个月",
+        "product_stock": 0,
+        "product_type": "P-HalfYear",
+        "show_style": 0,
+        "source_id": 0,
+        "source_sign": "",
+        "support_other_discount": false,
+        "unique_code": "",
+        "unit_fee": 29600,
+        "valid_times": {
+          "count": 6,
+          "unit": "m"
+        },
+        "vip_fee": 29600
+      }
+    ],
+    "scheme_id": 1419,
+    "scheme_name": "腾讯默认方案+连续包（半年卡刊例价）",
+    "show_template": "{\"hintBgImage\":\"http://img.sky.fs.skysrt.com/movie_homepage_images/20180925/20180925173256279910_734x500.jpg\",\"hintConfirmImage\":\"http://img.sky.fs.skysrt.com/movie_homepage_images/20180925/20180925173527369731_292x90.png\",\"hintFocusConfirmImage\":\"http://img.sky.fs.skysrt.com/movie_homepage_images/20180925/20180925173558227259_292x90.png\",\"bgImage\":\"http://img.sky.fs.skysrt.com/movie_homepage_images/20190925/20190925111718119417_1920x1080.jpg\",\"focusProductImage\":\"http://img.sky.fs.skysrt.com/movie_homepage_images/20180926/20180926103435828881_938x138.png\",\"hintColor\":\"#DCB875\",\"hintFlag\":\"0\",\"productImage\":\"http://img.sky.fs.skysrt.com/movie_homepage_images/20180927/20180927091659487180_938x138.png\",\"qrcodeBgFlag\":\"1\",\"maxQrcodeBgImage\":{\"topMargin\":\"215\",\"url\":\"http://img.sky.fs.skysrt.com/movie_homepage_images/20190925/20190925112029404932_400x748.jpg\"},\"hintCancelImage\":\"http://img.sky.fs.skysrt.com/movie_homepage_images/20180925/20180925173416365792_292x90.png\",\"hintFocusCancelImage\":\"http://img.sky.fs.skysrt.com/movie_homepage_images/20180925/20180925173339098642_292x90.png\",\"minQrcodeBgImage\":{\"topMargin\":\"160\",\"url\":\"http://img.sky.fs.skysrt.com/movie_homepage_images/20190925/20190925112020726635_300x550.jpg\"}}"
+  },
+  "msg": "success"
 }
+
+module.exports = {
+  package_getsourcelist_data
+  , package_header
+  , package_getproductlist_data
+  , package_list_data
+}
+

@@ -1,1 +1,188 @@
-/* pages/vipbuy/vipbuy.wxss */
+
+.wrapper {
+  background: #ECECEC;
+  position: absolute;
+}
+
+.list {
+  width: 690rpx;
+  margin: 50rpx 30rpx 0;
+  padding: 30rpx 0;
+  border-radius: 20rpx;
+  background: #FFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.userinfo {
+  height: 56rpx;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 30rpx;
+}
+.acct {
+  position: absolute;
+  left: 60rpx;
+  font-weight: bold;
+  color: #333333;
+  font-size: 32rpx;
+}
+.avatar {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  margin-right: 16rpx;
+}
+.userinfo>.name {
+  color: #333333;
+  font-size: 28rpx;
+  width: 120rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.hr {
+  width: 630rpx;
+  height: 2rpx;
+  background: #ECECEC;
+  margin: 30rpx 0;
+}
+.vip-title {
+  width: 100%;
+  padding-left: 30rpx;
+  display: flex;
+  align-items: center;
+}
+.vstrip {
+  width: 8rpx;
+  height: 36rpx;
+  background: #FCB232;
+  margin-right: 10rpx;
+}
+.vip-type {
+  font-size: 36rpx;
+  color: #333333;
+  margin-right: 10rpx;
+}
+.vip-desc {
+  color: #FCB232;
+  font-size: 28rpx;
+}
+/* 产品包列表 */
+.vip-item {
+  width: 690rpx;
+  height: 140rpx;
+  display: flex;
+  align-items: center;
+}
+.vip-item-details {
+  margin-left: 30rpx;
+  width: 480rpx;
+}
+.vip-item-details>.name {
+  height: 44rpx;
+  line-height: 44rpx;
+  color: #333333;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+.vip-item-details>.desc {
+  height: 34rpx;
+  line-height: 34rpx;
+  color: #999999;
+  font-size: 24rpx;
+  width: 480rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.vip-item-prices {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #FF6246;
+}
+.vip-item-prices>.price {
+  height: 56rpx;
+  line-height: 56rpx;
+  font-size: 40rpx;
+  font-weight: bold;
+}
+.vip-item-prices>.price>.dollar {
+  font-size: 24rpx;
+}
+.vip-item-prices>.oldprice {
+  color: #999999;
+  height: 34rpx;
+  line-height: 34rpx;
+  font-size: 24rpx;
+  text-decoration: underline;
+}
+/* 权益页 */
+.benefits {
+  width: 690rpx;
+  margin: 30rpx 30rpx 170rpx;
+}
+
+/* 悬浮在底部的支付区 */
+.pay {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 120rpx;
+  background: #FFF;
+  display: flex;
+}
+.pay-summary {
+  width: 500rpx;
+  padding-left: 36rpx;
+}
+.pay-summary-all {
+  height: 50rpx;
+  line-height: 50rpx;
+  color: #333333;
+  font-size: 36rpx;
+  margin: 16rpx 0 4rpx;
+}
+.pay-summary-all>.info {
+  color: #FF6246;
+}
+.pay-summary-all>.info:last-of-type {
+  color: #999999;
+  font-size: 28rpx;
+}
+.pay-summary-info {
+  height: 28rpx;
+  line-height: 28rpx;
+  font-size: 20rpx;
+  color: #CCCCCC;
+}
+.pay-summary-info>.info {
+  color: #999999;
+  text-decoration: underline;  
+}
+.pay-summary-info>.info:first-of-type {
+  margin: 0 10rpx 0 -4rpx;
+}
+
+.pay-btn {
+  position: absolute;
+  right: 0;
+  width: 240rpx;
+  height: 100%;
+  background: #FF6246;
+  color: #FFF;
+  font-size: 36rpx;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.pay-btn-save {
+  font-size: 24rpx;
+  font-weight: normal;
+}

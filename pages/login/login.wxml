@@ -1,4 +1,4 @@
-<!--pages/login/login.wxml-->
+<!--pages/my/login/my/login.wxml-->
 <view>
   <navBar title='{{navBarTitle}}' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
 </view>
@@ -9,7 +9,7 @@
   <!-- 0. 未登录首页 -->
   <view class="unloginhome" wx:if="{{stage==PageStage.UNLOGIN.HOME_PAGE}}" >
     <view class="logozone">
-      <image class="logo" src="../../images/login/coocaa.png"></image>
+      <image class="logo" src="../../images/my/login/coocaa.png"></image>
     </view>
     <view class="tips"><text>{{loginTips}}</text></view>
     <view wx:for="{{arrLoginType}}" class="types" bindtap="startLogin" data-id="{{item.id}}">
@@ -22,7 +22,7 @@
   <!-- 1. 手机登录页/账号密码登录页 -->
   <view class="unlogin-tologin" wx:if="{{stage==PageStage.UNLOGIN.GOLOGIN_PAGE}}">
     <view class="logozone">
-      <image class="logo" src="../../images/login/coocaa.png"></image>
+      <image class="logo" src="../../images/my/login/coocaa.png"></image>
     </view>
     <input class="input-item" type="number" placeholder="手机号 (新用户注册即登录)" ></input>
     <view class="input-wrapper">

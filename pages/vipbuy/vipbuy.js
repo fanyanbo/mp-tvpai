@@ -1,10 +1,13 @@
 // pages/vipbuy/vipbuy.js
+const user_mock = require('../../api/user/mock')
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+      productList:null,
 
   },
 
@@ -15,7 +18,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    console.log(user_mock.package_list_data.data.products)
+    this.setData({
+      productList: user_mock.package_list_data.data.products
+    })
   },
 
   /**
