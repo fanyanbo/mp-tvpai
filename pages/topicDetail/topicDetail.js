@@ -14,7 +14,12 @@ Page({
   },
 
   onLoad: function (options) {
-    this.getTopicDetailById(options.id)
+    let _topicId = options.id
+    this.data.topicId = _topicId
+    console.log("片单id:", _topicId)
+    this.getTopicDetailById(_topicId) 
+    this.getTopicFavorite(_topicId)
+    this.getMovieFavorite()
   },
 
   onPageScroll: utils.throttle(function (e) {
@@ -137,10 +142,10 @@ Page({
       _collectionList = Array.from(_collectionSet)
       console.log(_collectionList)
       this.setData({ collectionList: _collectionList })
+      this.addMovieFavorite(movieid)
     } else {
-      this.setData({ isCollected: true })
+      this.addTopicFavorite(this.data.topicId)
     }
-
   },
 
   handleUnCollectionClick: function (e) {
@@ -155,8 +160,9 @@ Page({
       _collectionList = Array.from(_collectionSet)
       console.log(_collectionList)
       this.setData({ collectionList: _collectionList })
+      this.delMovieFavorite(movieid)
     } else {
-      this.setData({ isCollected: false })
+      this.delTopicFavorite(this.data.topicId)
     }
   },
 
@@ -171,7 +177,7 @@ Page({
   handlePushClick: function (e) {
     console.log('handlePushClick')
     let { movieid, title, type } = e.currentTarget.dataset
-    if(type !== "电影") return
+    if (type !== "电影") return
     let _session = wx.getStorageSync("new_cksession")
     let _deviceId = app.globalData.deviceId
     console.log("校验参数 session:" + _session + ", deviceId:" + _deviceId);
@@ -206,8 +212,7 @@ Page({
 
   // 获取片单详情数据，片单不区分源
   getTopicDetailById: function (id) {
-    let url = `${api.getTopicUrl}?id=${id}`
-    utils.requestP(url, utils.paramsAssemble_tvpai()).then(res => {
+    utils.requestP(api.getTopicUrl, utils.paramsAssemble_tvpai({ "id": id })).then(res => {
       console.log('获取片单所有影片数据:', res)
       if (res.data.data) {
         this.setData({
@@ -236,4 +241,70 @@ Page({
       console.log('添加历史失败', res);
     })
   },
+
+  // 添加专题收藏
+  addTopicFavorite: function (topicId) {
+    console.log('添加片单id', topicId)
+    let params = { "id": topicId, "vuid": wx.getStorageSync("wxopenid"), "collect": 1 }
+    utils.requestP(api.setFavoriteTopicUrl, utils.paramsAssemble_tvpai(params)).then(res => {
+      console.log('添加片单收藏成功:', res)
+      this.setData({ isCollected: true })
+    }).catch(res => {
+      console.log('添加片单收藏发生错误', res)
+    })
+  },
+
+  // 取消专题收藏
+  delTopicFavorite: function (topicId) {
+    console.log('删除片单id', topicId)
+    let params = { "id": topicId, "vuid": wx.getStorageSync("wxopenid"), "collect": 0 }
+    utils.requestP(api.setFavoriteTopicUrl, utils.paramsAssemble_tvpai(params)).then(res => {
+      console.log('取消片单收藏成功:', res)
+      this.setData({ isCollected: false })
+    }).catch(res => {
+      console.log('取消片单收藏发生错误', res)
+    })
+  },
+
+  // 获取专题收藏列表
+  getTopicFavorite: function () {
+    let params = { "vuid": wx.getStorageSync("wxopenid")}
+    utils.requestP(api.getFavoriteTopicUrl, utils.paramsAssemble_tvpai(params)).then(res => {
+      console.log('获取片单成功:', res)
+    }).catch(res => {
+      console.log('获取片单发生错误', res)
+    })
+  },
+
+  // 添加影片收藏
+  addMovieFavorite: function (movieId) {
+    let ccsession = wx.getStorageSync('new_cksession')
+    if(ccsession == null) return
+    let _movieid = `['${movieId}']`
+    let params = {"ccsession": 'b45004fab0934395dc20ede9dc13801d', "moviesId": _movieid}
+    // let params = {"ccsession": ccsession}
+    utils.requestP(api.addMovieFavoriteUrl, utils.paramsAssemble_wx(params)).then(res => {
+      console.log('添加影片收藏成功', res)
+    }).catch(res => {
+      console.log('添加影片收藏发生错误', res)
+    })
+  },
+
+  // 删除影片收藏
+  delMovieFavorite: function (movieId) {
+
+  },
+
+  // 获取影片收藏
+  getMovieFavorite: function () {
+    let ccsession = wx.getStorageSync('new_cksession')
+    if(ccsession == null) return
+    let params = {"ccsession": 'b45004fab0934395dc20ede9dc13801d'}
+    // let params = {"ccsession": ccsession}
+    utils.requestP(api.getFavoriteVideosUrl, utils.paramsAssemble_wx(params)).then(res => {
+      console.log('获取收藏视频成功', res)
+    }).catch(res => {
+      console.log('获取收藏视频发生错误', res)
+    })
+  }
 })  
