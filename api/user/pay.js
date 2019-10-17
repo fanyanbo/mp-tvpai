@@ -8,7 +8,7 @@ const mock = require('./mock.js');
 const app = getApp()
 
 //module scope variable
-const is_fake_data = true;//用mock data测试
+const is_fake_data = false;//用mock data测试
 
 const url_genOrder = config.baseUrl_sz + 'v3/order/genOrder.html'
 const url_prePay = config.baseUrl_pay + 'MyCoocaa/wechat_applet/pay.action'
@@ -35,10 +35,32 @@ mock.pay_genorder_data = {//生成订单mock data
   "license":""
 }
 
-function genOrder() {//生成订单接口
+function genOrder(product) {//生成订单接口
   return new Promise((resolve, reject) => {
-    let header = is_fake_data ? mock.package_header : {};
-    let data = is_fake_data ? encodeURIComponent(JSON.stringify(mock.pay_genorder_data)) : {};
+    let pay_genorder_data = {//生成订单mock data
+      "user_id": app.globalData.ccUserInfo.openid || '',
+      "user_flag": !!app.globalData.ccUserInfo ? 2 : 0, //用户没登录，传0，user_id值为空
+      "third_user_id": app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || '',
+      "product_id": product.product_id,
+      "movie_id": "",
+      "client_type": 3,//就下单传3,其它都传4
+      "title": product.product_name,
+      // "business_type": 1,  //-1:all 0:movie 1:education
+      "price": product.unit_fee,
+      "count": 1,
+      "discount_price": product.discount_fee,
+      "coupon_codes": "", //todo 
+      "extend_info": "", //扩展参数，非必填项，字符型数据，默认空；  todo need-fix
+      // 影视中心3.19之后版本需要上传的值目前有login_type: 0表示手机登陆，1表示QQ登陆，2表示微信登陆；
+      // wx_vu_id：微信帐号对应的vuserid，login_type为2时需要传此值；
+      // 格式为json，如{ "login_type": 1, "wx_vu_id": "wxvuuserid" }
+      "allowance_act_id": "", //todo 
+      "discount_product_id": "", //todo 
+      "license": ""
+    }
+    let header = mock.package_header;
+    let data = is_fake_data ? encodeURIComponent(JSON.stringify(mock.pay_genorder_data)) 
+                            : encodeURIComponent(JSON.stringify(pay_genorder_data));
     let url = url_genOrder + "?data=" + data;
     console.log("genOrder url: " + url);
     wx.request({

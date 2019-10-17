@@ -19,7 +19,7 @@
         <view class="vip-type">奇异果VIP</view>
         <view class="vip-desc">开通送好礼</view>
       </view>
-      <view class="vip-item" wx:for="{{productList}}">
+      <view class="vip-item" wx:for="{{productListShow}}" data-id="{{item.id}}" bindtap="selectProduct">
         <view class="vip-item-details">
           <view class="name">
             {{item.product_name}}
@@ -40,8 +40,8 @@
       <view class="pay-summary">
         <view class="pay-summary-all">
           付款
-          <text class="info">￥30.0</text>
-          <text class="info"> | 已优惠5元</text>
+          <text class="info">￥{{curSelectedProject.totalPrice}}</text>
+          <text class="info"> | 已优惠{{curSelectedProject.save}}元</text>
         </view>
         <view class="pay-summary-info">
           确认支付则视为同意
@@ -51,7 +51,7 @@
       </view>
       <view class="pay-btn" bindtap="payNow">
         <view>立即支付</view>
-        <view class="pay-btn-save">(节省13元)</view>
+        <view class="pay-btn-save">(节省{{curSelectedProject.save}}元)</view>
       </view>
     </view>
   </view>

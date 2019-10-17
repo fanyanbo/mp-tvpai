@@ -5,6 +5,7 @@
 
 const utils = require('../../utils/util_fyb')
 const api = require('../../api/api_fyb')
+const user_package = require('../../api/user/package')
 const app = getApp()
 
 Page({
@@ -18,8 +19,8 @@ Page({
       avatar: ''
     }, 
     //mock data
-    productSourceList: [ //产品源列表
-      { id: 1, title: '极光VIP', valid: '2020.10.25到期', image: '../../images/my/vip/mov.png' },
+    productSourceList: [ //默认显示的产品源列表
+      { id: 1, title: '极光VIP', valid: '立即开通', image: '../../images/my/vip/mov.png' },
       { id: 2, title: '教育VIP', valid: '立即开通', image: '../../images/my/vip/edu.png' },
       { id: 3, title: '少儿VIP', valid: '立即开通', image: '../../images/my/vip/kid.png' },
       { id: 4, title: '电竞VIP', valid: '立即开通', image: '../../images/my/vip/game.png' }
@@ -47,7 +48,29 @@ Page({
   },
   goVipPage(e) { //去产品包购买页
     console.log(e)
+    if(!app.globalData.ccUserInfo) { //没登录
+      wx.navigateTo({ url: '../login/login' })
+      return
+    }
+    if (!app.globalData.deviceId) { //没绑定设备
+      wx.showToast({
+        title: '请先绑定设备',
+        icon: 'none'
+      })
+      return
+    }
+    
     wx.navigateTo({ url: '../vipbuy/vipbuy' })
+  },
+  _getProductSourceList() {
+    if (!!app.globalData.boundDeviceInfo) {
+      user_package.getProductSourceList().then((res) => {
+        console.log(res)
+        this.setData({
+          //todo 获取的产品源列表需要先过滤，跟产品讨论怎么处理？ 问宗辉怎么区分?
+        })
+      })
+    }
   },
   onLoad: function () {
     console.log('onLoad');
@@ -56,6 +79,7 @@ Page({
         isDevConnected: true
       })
     }
+
   },
 
   onShow: function () {
@@ -73,6 +97,8 @@ Page({
         'ccUserInfo.avatar': '',
       })
     }
+    //获取产品源列表
+    this._getProductSourceList()
     
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       // 切换到“我的”tab，设置选中状态

@@ -1,13 +1,19 @@
 //mock fake data
+const app = getApp();
 
-const package_getsourcelist_data = { //获取产品源列表mock data
+const is_fake_data = false;//用mock data测试
+
+
+
+const mock_package_getsourcelist_data = { //获取产品源列表mock data
   "user_flag": 1, //_userFlag,
   "user_id": "2.4020ff964d0d4708a5eaa40fe59fd33c", //_userId,
   "client_type": 4,
   "business_type": 1,  //-1:all 0:movie 1:education
   "third_user_id": "o-G_Ut1fckL5fBMyygPT1eE5-grM"   //cOpenId //腾讯的openid
 }
-const package_getproductlist_data = { //获取产品包列表mock data
+
+const mock_package_getproductlist_data = { //获取产品包列表mock data
     "user_flag": 2,  //_userFlag,
     "user_id": "8151266f4ede11e6987500505687790a", //_userId,
     "client_type": 4,//就下单传3,其它都传4
@@ -18,9 +24,9 @@ const package_getproductlist_data = { //获取产品包列表mock data
     "node_type": "",
     "source_id": 1,//0:tencent, 1:qiyi
     "auth_type": 0 //鉴权类型，0第三方，1自有,该字段影视详情接口取
-  }
+}
 
-const package_header = { //获取产品包/产品源接口 header mock data
+const mock_package_header = { //获取产品包/产品源接口 header mock data
   "cAppVersion": "7070002",
   "vAppID": "0", //郭导：写死
   "cSID": "756390a8-511f-4e04-b5fd-82a2fe70ec5f",
@@ -52,8 +58,39 @@ const package_header = { //获取产品包/产品源接口 header mock data
     "cHomepageVersion": "7070002",
   "vAppVersion": "7070002"
 }
-
-const package_list_data = { //产品包返回数据
+var package_header = { //获取产品包/产品源接口 header data
+  "cAppVersion": app.globalData.boundDeviceInfo.vAppVersion,
+  "vAppID": "0", //郭导：写死
+  "cSID": app.globalData.boundDeviceInfo.sid,
+  "sourceGroup": "coocaaEdu,tencent,yinhe,4KGarden,iwangding,wasu,chn_live,youku", //怎么获取？
+  "cPkg": '',//"com.tianci.movieplatform",  目前字段里没有 
+  "cPattern": "normal", //目前字段里没有 
+  "language": "zh",     //目前字段里没有 
+  "cResolution": app.globalData.boundDeviceInfo.resolution,//"720p,1080p,4K,H265",
+  "cSkySecurity": "false",//目前字段里没有 
+  "headerVersion": "8",
+  "cUDID": app.globalData.boundDeviceInfo.serviceId,
+  "cTcVersion": app.globalData.boundDeviceInfo.tcVersion,
+  "cChip": app.globalData.boundDeviceInfo.chip,
+  "cSize": app.globalData.boundDeviceInfo.screenSize,
+  // "Accept-Charset": "utf-8",
+  "cBrand": "Skyworth", //目前字段里没有 
+  // "Accept": "application/json,text/*", //todo  
+  "cModel": app.globalData.boundDeviceInfo.model,
+  "cFMode": "Default",  //目前字段里没有 
+  "cEmmcCID": "",       //目前字段里没有 
+  "MAC": app.globalData.boundDeviceInfo.devMac,
+  "vAcceptSources": "sky,voole,tencent,iqiyi", //郭导：写死
+  // "license": "GiTv",
+  "aSdk": "", //目前字段里没有 
+  "cUserInfo": "",//目前字段里没有 
+  "cOpenId": '',//目前字段里没有 
+  "supportSource": "",//目前字段里没有 
+  "Resolution": app.globalData.boundDeviceInfo.resolution,
+  "cHomepageVersion": "",//目前字段里没有 
+  "vAppVersion": app.globalData.boundDeviceInfo.vAppVersion,
+}
+const mock_package_list_data = { //产品包返回数据
   "code": 0,
   "data": {
     "activity_content": "{\"activityFlag\":\"1\",\"activityBgImage\":\"http://img.sky.fs.skysrt.com/movie_homepage_images/20190925/20190925112057546888_600x100.png\",\"activityFocusBgImage\":\"http://img.sky.fs.skysrt.com/movie_homepage_images/20190925/20190925112105357521_600x100.png\",\"packagename\":\"com.coocaa.app_browser\",\"dowhat\":\"startActivity\",\"bywhat\":\"action\",\"byvalue\":\"coocaa.intent.action.browser.no_trans\",\"params\":{\"url\":\"http://img.sky.fs.skysrt.com/tvos6_imgs_master/20190920/20190920160155242835_1920*1080.jpeg\"}}",
@@ -302,9 +339,9 @@ const package_list_data = { //产品包返回数据
 }
 
 module.exports = {
-  package_getsourcelist_data
-  , package_header
-  , package_getproductlist_data
-  , package_list_data
+  package_header: is_fake_data ? mock_package_header : package_header, //目前只有header有真数据，其它都在各自module里
+  package_getsourcelist_data: mock_package_getsourcelist_data,
+  package_getproductlist_data: mock_package_getproductlist_data,
+  package_list_data: mock_package_list_data,
 }
 
