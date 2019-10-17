@@ -1,7 +1,3 @@
-<!-- author:fanyanbo
-  email: fanyanbo@coocaa.com
-  date: 2019-09-30
-  desc: 我的收藏页 -->
 <view>
     <navBar background="#FFF" color='#000' title='我的喜欢' back="{{true}}" bindback="handleGobackClick" />
 </view>
@@ -13,6 +9,7 @@
             <view wx:if="{{activeIndex === index}}" class="tabbar-item-bottom"></view>
         </view>
     </view>
+    <!-- 影片收藏列表 -->
     <block wx:if="{{activeIndex === 0}}">
         <view class="video-wrap">
             <block wx:for="{{videoList}}" wx:key="index">
@@ -73,18 +70,19 @@
             </block>
         </view>
     </block>
+    <!-- 片单收藏列表 -->
     <block wx:elif="{{activeIndex === 1}}">
         <view class="topic-wrap">
             <block wx:for="{{topicList}}" wx:key="index">
                 <view class="title">{{item.time}}</view>
                 <view class="topic-list">
                     <block wx:for="{{item.list}}" wx:key="index" wx:for-item="subitem">
-                        <view class="topic-item">
-                            <image class="topic-poster" src="" />
-                            <view class="topic-title">年度冷门佳片</view>
-                            <block wx:if="{{isEdit}}">
-                                <image wx:if="{{!subitem.selected}}" class="select-icon" src="../../images/videodetail/unselect.png" bindtap="handleSelectClick" data-id="{{subitem.id}}" data-type="topic" />
-                                <image wx:else class="select-icon" src="../../images/videodetail/select.png" bindtap="handleSelectClick" data-id="{{subitem.id}}" data-type="topic" />
+                        <view class="topic-item" bindtap="handleTopicClick" data-topicid="{{subitem.topic_id}}">
+                            <image class="topic-poster" src="{{subitem.topic_detail.image_url}}" />
+                            <view class="topic-title">{{subitem.topic_detail.title}}</view>
+                            <block wx:if="{{isTopicEdit}}">
+                                <image wx:if="{{!subitem.selected}}" class="select-icon" src="../../images/videodetail/unselect.png" catchtap="handleSelectClick" data-id="{{subitem.id}}" data-type="topic" />
+                                <image wx:else class="select-icon" src="../../images/videodetail/select.png" catchtap="handleSelectClick" data-id="{{subitem.id}}" data-type="topic" />
                             </block>
                         </view>
                     </block>
@@ -120,13 +118,14 @@
             </block>
         </view>
     </block>
+    <!-- 文章收藏列表 -->
     <block wx:elif="{{activeIndex === 2}}">
         <view class="article-wrap">
             <block wx:for="{{articleList}}" wx:key="index">
                 <view class="title">{{item.time}}</view>
                 <view class="article-list">
                     <block wx:for="{{item.list}}" wx:key="index" wx:for-item="subitem">
-                        <view class="article-item">
+                        <view class="article-item" bindtap="handleArticleClick" data-articleid="{{subitem.id}}">
                             <image class="article-poster" src="{{subitem.picUrl}}" />
                             <block wx:if="{{isArticleEdit}}">
                                 <image wx:if="{{!subitem.selected}}" class="select-icon" src="../../images/videodetail/unselect.png" catchtap="handleSelectClick" data-id="{{subitem.id}}" data-type="article" />

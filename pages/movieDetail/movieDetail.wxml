@@ -22,7 +22,8 @@
         </view>
       </view>
       <view class="like">
-        <image src="../../images/videodetail/favorite3.png" />
+        <image wx:if="{{!isShowFavorite}}" src="../../images/videodetail/favorite3.png" />
+        <image wx:else src="../../images/videodetail/favorite3-focus.png" />
       </view>
       <!-- 电影推送布局 -->
       <view wx:if="{{videoDetailData.video_type === '电影'}}" class='movie-push' bindtap="push" data-moviechildid="1" data-movieid="{{videoDetailData.third_album_id}}" data-videoid="{{videoId}}" data-coocaamid="{{coocaa_m_id}}" data-title="{{videoDetailData.album_title}}">

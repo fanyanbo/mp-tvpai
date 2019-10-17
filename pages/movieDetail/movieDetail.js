@@ -17,7 +17,7 @@ Page({
     selected: "", //选中的剧集
     isPushDone: false, //是否推送成功
     isShowFavorite: false, //是否显示收藏
-    vidList: [], //里面全是空，待确认字段
+    vidList: [],
     movieId: "",
     coocaa_m_id: "",
     videoId: "",
@@ -38,6 +38,7 @@ Page({
   onLoad: function (options) {  
     utils.showLoadingToast()  
     console.log('当前影片id:' + options.id)
+    // 初始化评论点赞列表的缓存
     this.data._commentLike = wx.getStorageSync('comment_like')
     if(!this.data._commentLike) wx.setStorageSync('comment_like', [])
     this.getDetailData(options.id)
@@ -113,7 +114,7 @@ Page({
         let _coocaa_m_id = (res.data.data.play_source && res.data.data.play_source.coocaa_m_id) ? res.data.data.play_source.coocaa_m_id : ""
         let _videoId = (res.data.data.play_source && res.data.data.play_source.video_third_id) ? res.data.data.play_source.video_third_id : ""
         this.setData({
-          isShowFavorite: res.data.data.is_collect === 1 ? true : false, // 1表示收藏, 2表示无收藏
+          // isShowFavorite: res.data.data.is_collect === 1 ? true : false, // 1表示收藏, 2表示无收藏
           videoDetailData: res.data.data,
           tags: _tags, // 这个属性有用到么？
           videoType: res.data.data.video_type,
@@ -222,6 +223,9 @@ Page({
     let desParams = utils.paramsAssemble_wx(params)
     utils.requestP(api.getFavoriteStatusUrl, desParams).then(res => {
       console.log("获取当前影片收藏状态成功:", res)
+      if(res.data.data) {
+        this.setData({isShowFavorite: res.data.data.isCollected})
+      }
     }).catch(res => {
       console.log('获取当前影片收藏状态发生错误:', res)
     })
@@ -399,7 +403,7 @@ Page({
     if (app.globalData.deviceId == null) {
       return wx.redirectTo({
         url: "../home/home"
-      });
+      })
     }
     let { coocaamid, videoid, moviechildid, movieid, title } = e.currentTarget.dataset
     this.setData({
@@ -470,18 +474,7 @@ Page({
     })
   },
 
-  scroll: function (e) {
-    console.log('触发scroll事件')
-  },
-
-  scrollToLower: function (e) {
-    console.log('触发scrollToLower事件')
-  },
-
-  scrollToUpper: function (e) {
-    console.log('触发scrollToUpper事件')
-  },
-
+  // 获取演员信息
   getActorInfo: function (actorid) {
     let params = { "actor_id": actorid };
     let url = utils.urlAssemble_tvpai(api.getRelatedVideoByActorUrl, utils.paramsAssemble_tvpai(params));
@@ -562,6 +555,18 @@ Page({
     let {content, score} = e.detail
     // 后台按照10分制定义
     this.submitComment(content, score*2)
-  }
+  },
+
+  scroll: function (e) {
+    console.log('触发scroll事件')
+  },
+
+  scrollToLower: function (e) {
+    console.log('触发scrollToLower事件')
+  },
+
+  scrollToUpper: function (e) {
+    console.log('触发scrollToUpper事件')
+  },
 
 })
