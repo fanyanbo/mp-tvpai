@@ -27,6 +27,7 @@ Page({
       { id: 3, type: '账号登录', image: '../../images/my/login/acct.png' },
     ],
     userinput_mob: 0,
+    userinput_pw: 0,
     userinput_vcode: 0,
     //-- 登录变量 end --
 
@@ -42,6 +43,54 @@ Page({
     },
   },
   // -- 登录方法 start --
+  inputAccountBlur(e) { //账号密码登录-获取账号
+    console.log('account blur:' + JSON.stringify(e.detail))
+    this.data.userinput_mob = e.detail.value;
+    //todo 校验并处理异常
+    //todo 校验页面验证码，并处理异常
+  },
+  inputPasswordBlue(e) { //账号密码登录-获取账号
+    console.log('pw blur:' + JSON.stringify(e.detail))
+    this.data.userinput_pw = e.detail.value;
+    //todo 校验并处理异常
+    //todo 校验页面验证码，并处理异常
+  },
+  startLoginByAcct(e) { //账号密码登录
+    if (!e.detail.userInfo) {
+      // 如果用户拒绝直接退出，下次依然会弹出授权框
+      return;
+    }
+    if (!this.data.userinput_mob || !this.data.userinput_pw) {
+      wx.showModal({
+        title: '提示',
+        content: '请输入正确的账号密码',
+        showCancel: false
+      })
+      return
+    }
+    Promise.resolve().then(() => {
+      if (wx.getStorageSync('new_cksession')) {
+        return user_login.acctLogin(this.data.userinput_mob, this.data.userinput_pw)
+      } else {
+        return user_login.getWXAuth(e.detail)
+          .then(() => {
+            user_login.mobLogin(this.data.userinput_mob, this.data.userinput_pw)
+          })
+      }
+    }).then((res) => {
+      // 登录成功，返回首页
+      wx.showToast({
+        title: '登录成功',
+      })
+      wx.navigateBack({ delta: 2 }) //跳到我的页面
+      }).catch((res) => {
+        // 登录失败
+        wx.showToast({
+          title: '登录失败请重试',
+          icon: 'none'
+        })
+      })
+  },
   inputMobileBlur(e) { //手机号登录-手机号码输入完毕
     console.log('input blur:' + JSON.stringify(e.detail))
     this.data.userinput_mob = e.detail.value;
@@ -54,16 +103,16 @@ Page({
     //todo 处理验证码逻辑，1min内置灰并显示倒计时
   },
   inputVCodeBlur(e) { //手机号登录-验证码输入完毕
-    this.data.userinput_vcode = e.detail.value;
+    this.data.userinput_pw = e.detail.value;
     //todo 输入为空时的异常提示
   },
 
-  startLogin(e) { //开始登录
+  startLoginByMob(e) { //手机号登录
     if (!e.detail.userInfo) {
       // 如果用户拒绝直接退出，下次依然会弹出授权框
       return;
     }
-    if (!this.data.userinput_mob || !this.data.userinput_vcode) {
+    if (!this.data.userinput_mob || !this.data.userinput_pw) {
       wx.showModal({
         title: '提示',
         content: '请输入正确的手机号或验证码',
@@ -71,13 +120,13 @@ Page({
       })
       return
     }
-    Promise.revolve().then(() => {
+    Promise.resolve().then(() => {
       if (wx.getStorageSync('new_cksession')) {
-        return user_login.mobLogin(this.data.userinput_mob, this.data.userinput_vcode)
+        return user_login.mobLogin(this.data.userinput_mob, this.data.userinput_pw)
       } else {
         return user_login.getWXAuth(e.detail)
                 .then(() => {
-                  user_login.mobLogin(this.data.userinput_mob, this.data.userinput_vcode)
+                  user_login.mobLogin(this.data.userinput_mob, this.data.userinput_pw)
                 })
       }
     }).then((res) => {
@@ -86,6 +135,19 @@ Page({
         title: '登录成功',
       })
       wx.navigateBack({delta: 2}) //调回到登录前页面
+    })
+  },
+  startLogout() { //退出登录
+    wx.showModal({
+      title: '提示',
+      content: '确认退出酷开账号吗?',
+      success(res) {
+        if(res.confirm) {
+          user_login.userLogout().then(() => {
+            wx.navigateBack({})
+          })
+        }
+      }
     })
   },
 

@@ -73,6 +73,10 @@ function _storeCCUserInfo(data) {
   app.globalData.ccUserInfo = data;
   wx.setStorageSync('ccUserInfo', data)
 }
+function _clearCCUserInfo() {
+  app.globalData.ccUserInfo = null;
+  wx.removeStorageSync('ccUserInfo')
+}
 function mobLogin(mobile, mobileCode) {//手机号登录
   return new Promise((resolve, reject) => {
     let that = this
@@ -133,75 +137,64 @@ function json2Form(json) {
   }
   return str.join("&");
 }
-function ccsubmit(userName, userPassword) {//账号密码登录
-  let that = this
-  const ccsession = wx.getStorageSync('new_cksession')
-
-  if (!userName) {
-    wx.showModal({
-      title: '提示',
-      content: '请输入酷开账号',
-      showCancel: false
-    })
-    return !1
-  }
-  if (!userPassword) {
-    wx.showModal({
-      title: '提示',
-      content: '请输入密码',
-      showCancel: false
-    })
-    return !1
-  }
-  if (userName && userPassword) {
-    const password = aes.encryptAES(userPassword, ccsession)
-    const paramS = { "ccsession": ccsession, "mobile": userName, "password": password }
-    const signS = util.encryption(paramS, app.globalData.key)
-    let dataStr = {
-      client_id: app.globalData.client_id,
-      sign: signS,
-      param: paramS
-      // param: JSON.stringify(paramS) //密码解密失败
-      // param: '{"ccsession":"' + ccsession + '","mobile":"' + userName + '","password":"' + password + '"}'
+function acctLogin(userName, userPassword) {//账号密码登录
+  return new Promise((resolve, reject) => {
+    const ccsession = wx.getStorageSync('new_cksession')
+    if (!userName) {
+      wx.showModal({
+        title: '提示',
+        content: '请输入酷开账号',
+        showCancel: false
+      })
+      return !1
     }
-    wx.request({
-      url: config.baseUrl_wx + 'ccuserlogin/login.coocaa',
-      method: 'GET',//'GET'
-      header: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      data: dataStr,
-      success: function (res) {
-        console.log(res)
-        if (res.data.result) {
-          let resdata = res.data.data
-          _storeCCUserInfo(resdata)
-          // wx.navigateTo({
-          //   url: '../my/my',
-          // })
-          // wx.switchTab({
-          //   url: '../my/my',
-          //   success: function () {
-
-          //     let page = getCurrentPages().pop()
-          //     if (page == undefined || page == null) return;
-          //     page.onShow()
-          //   }
-          // })
-        } else {
-          wx.showModal({
-            title: '提示',
-            content: res.data.message,
-            showCancel: false
-          })
-          return !1
-        }
-      },
-      fail: function (res) {
-        console.log(res)
+    if (!userPassword) {
+      wx.showModal({
+        title: '提示',
+        content: '请输入密码',
+        showCancel: false
+      })
+      return !1
+    }
+    if (userName && userPassword) {
+      const password = aes.encryptAES(userPassword, ccsession)
+      const paramS = { "ccsession": ccsession, "mobile": userName, "password": password }
+      const signS = util.encryption(paramS, app.globalData.key)
+      let dataStr = {
+        client_id: app.globalData.client_id,
+        sign: signS,
+        param: paramS
       }
-    })
-  }
+      wx.request({
+        url: config.baseUrl_wx + 'ccuserlogin/login.coocaa',
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data: dataStr,
+        success: function (res) {
+          console.log(res)
+          if (res.data.result) {
+            let resdata = res.data.data
+            _storeCCUserInfo(resdata)
+            resolve()
+          } else {
+            // wx.showModal({
+            //   title: '提示',
+            //   content: res.data.message,
+            //   showCancel: false
+            // })
+            reject()
+            return !1
+          }
+        },
+        fail: function (res) {
+          console.log(res)
+          reject()
+        }
+      })
+    }
+  })
 }
 
 //todo： 微信登录，直接跳转到后台衡炎炎页面
@@ -303,10 +296,54 @@ function getWXAuth(params) { //酷开账号登录前先获取微信授权，并�
 //   })
 // }
 
+function userLogout() {
+  return new Promise((resolve, reject) => {
+    const url = config.baseUrl_wx + 'ccuserlogin/logout.coocaa'
+    const key = app.globalData.key
+    const ccsession = wx.getStorageSync('new_cksession')
+    const params = { "ccsession": ccsession }
+    const sign = util.encryption(params, key)
+    let data = {
+      client_id: app.globalData.client_id,
+      sign: sign,
+      param: params
+    }
+    wx.request({
+      url: url,
+      method: 'GET',
+      data: data,
+      success: function (res) {
+        console.log(res)
+        if (res.data.result) {
+          try {
+            _clearCCUserInfo()
+            app.globalData.username = '未登录'
+          } catch (e) {
+            // Do something when catch error
+            console.log(e)
+          }
+          resolve()
+        } else {
+          wx.showModal({
+            title: '提示',
+            content: res.data.message,
+          })
+          reject()
+        }
+      },
+      fail: function (res) {
+        console.log(res)
+        reject()
+      }
+    })
+  })
+}
+
 module.exports = {
   vcode,
   getWXAuth,
   mobLogin,
-  ccsubmit,
-  wxLoginCC
+  acctLogin,
+  wxLoginCC,
+  userLogout
 }

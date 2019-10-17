@@ -33,7 +33,7 @@
       <input class="input-item" placeholder="短信验证码" placeholder-class="placeholder-class" bindblur="inputVCodeBlur" bindconfirm="inputVCodeBlur"></input>
       <view class="vcode" bindtap="getVCode">获取验证码</view>
     </view>
-    <button class="btn" open-type="getUserInfo" id="scan" bindgetuserinfo="startLogin">登录</button>
+    <button class="btn" open-type="getUserInfo" bindgetuserinfo="startLoginByMob">登录</button>
     <!-- <view class="btn" bindtap="startLogin">登录</view> -->
   </view>
 
@@ -42,16 +42,16 @@
     <view class="logozone">
       <image class="logo" src="../../images/my/login/coocaa.png"></image>
     </view>
-    <input class="input-item" type="number" placeholder="手机号 (新用户注册即登录)" ></input>
+    <input class="input-item" placeholder="邮箱/手机号/用户名" placeholder-class="placeholder-class" focus bindblur="inputAccountBlur" bindconfirm="inputAccountBlur"></input>
     <view class="input-wrapper">
-      <input class="input-item" placeholder="图形验证码"></input>
+      <input class="input-item" placeholder="请输入密码" placeholder-class="placeholder-class" bindblur="inputPasswordBlue" bindconfirm="inputPasswordBlue"></input>
+    </view>
+    <view class="input-wrapper">
+      <input class="input-item" placeholder="请输入验证码" placeholder-class="placeholder-class"></input>
       <canvas class="canvas-item" canvas-id="vcodecanvas"></canvas>
     </view>
-    <view class="input-wrapper">
-      <input class="input-item" placeholder="短信验证码"></input>
-      <view class="vcode">获取验证码</view>
-    </view>
-    <view class="btn">登录</view>
+    <button class="btn" open-type="getUserInfo" bindgetuserinfo="startLoginByAcct">登录</button>
+    <!-- <view class="btn" bindtap="startLogin">登录</view> -->
   </view>
 
 <!-- 已登录流程 -->
@@ -73,7 +73,7 @@
         <view class="key">微信</view>
         <view class="value">{{curUser.wechat}}</view>
       </view>
-      <view class="btn">退出登录</view>
+      <view class="btn" bindtap="startLogout">退出登录</view>
     </view>
 
     <!-- 102.修改手机页 -->
