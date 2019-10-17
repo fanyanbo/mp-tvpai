@@ -8,7 +8,8 @@ Page({
     topicDetail: [],
     customNavStyle: 'opacity: 0;',
     collectionList: [], //片单影片收藏列表
-    isCollected: false, //片单是否收藏
+    movieCollectedList: {},
+    isCollected: false, //当前片单是否收藏
     errIconUrl: '../../images/close_icon.png',
     // customBackground: 'rgba(255,255,255,0)'
   },
@@ -17,7 +18,7 @@ Page({
     let _topicId = options.id
     this.data.topicId = _topicId
     console.log("片单id:", _topicId)
-    this.getTopicDetailById(_topicId) 
+    this.getTopicDetailById(_topicId)
     this.getTopicFavorite(_topicId)
     this.getMovieFavorite()
   },
@@ -41,38 +42,7 @@ Page({
     }
   }, 100),
 
-  // onPageScroll: function(e) {
-  //   let _scrollTop = e.scrollTop
-  //   console.log('onPageScroll', _scrollTop)
-
-  //   if (_scrollTop !== 0) {
-  //     let customNavStyle = `opacity: ${0.5 + 0.5 * _scrollTop / 202};`
-  //     // let _opacity = 0.7 + 0.3 * _scrollTop / 202
-  //     this.setData({
-  //       customNavStyle: customNavStyle,
-  //       // scrollTop: _scrollTop
-  //       // customBackground: `rgba(255,255,255,${_opacity})`
-  //     })
-  //   } else {
-  //     this.setData({
-  //       customNavStyle: 'opacity: 0;'
-  //     })
-  //   }
-  // },
-
   onShow: function () {
-    // wx.getSystemInfo({
-    //   success: (res) => {
-    //     let screenHeight = this.getContentHeight({ platform: res.platform, model: res.model })
-    //     if (screenHeight === 0)
-    //       screenHeight = res.screenHeight;
-    //     console.log(screenHeight);
-    //     // 状态栏高度和屏幕宽度，单位都是px
-    //     this.setData({
-    //       scrollHeight: screenHeight - 92,
-    //     })
-    //   }
-    // })
     // this.setData({
     //   customNavStyle: 'opacity: 0;'
     // })
@@ -96,6 +66,7 @@ Page({
     // })
   },
 
+  // 页面分享
   onShareAppMessage: function (res) {
     console.log(res)
     if (res.from === 'button') {
@@ -125,47 +96,44 @@ Page({
     }
   },
 
+  // 处理导航返回点击事件
   handleGobackClick: function () {
     console.log('handleGobackClick')
     utils.navigateBack()
   },
 
+  // 添加影片/片单收藏
   handleCollectionClick: function (e) {
     console.log('handleCollectionClick')
-    let { type, movieid, id } = e.currentTarget.dataset
-    console.log(type, movieid, id)
+    let { type, movieid } = e.currentTarget.dataset
+    console.log(type, movieid)
     if (type === 'movie') {
-      let _collectionList = this.data.collectionList
-      let _collectionSet = new Set(_collectionList)
-      if (_collectionSet.has(id)) return
-      else _collectionSet.add(id)
-      _collectionList = Array.from(_collectionSet)
-      console.log(_collectionList)
-      this.setData({ collectionList: _collectionList })
       this.addMovieFavorite(movieid)
     } else {
       this.addTopicFavorite(this.data.topicId)
     }
   },
 
+  // 取消影片/片单收藏
   handleUnCollectionClick: function (e) {
     console.log('handleUnCollectionClick')
-    let { type, movieid, id } = e.currentTarget.dataset
-    console.log(type, movieid, id)
+    let { type, movieid } = e.currentTarget.dataset
+    console.log(type, movieid)
     if (type === 'movie') {
-      let _collectionList = this.data.collectionList
-      let _collectionSet = new Set(_collectionList)
-      if (!_collectionSet.has(id)) return
-      else _collectionSet.delete(id)
-      _collectionList = Array.from(_collectionSet)
-      console.log(_collectionList)
-      this.setData({ collectionList: _collectionList })
+      // let _collectionList = this.data.collectionList
+      // let _collectionSet = new Set(_collectionList)
+      // if (!_collectionSet.has(id)) return
+      // else _collectionSet.delete(id)
+      // _collectionList = Array.from(_collectionSet)
+      // console.log(_collectionList)
+      // this.setData({ collectionList: _collectionList }) 
       this.delMovieFavorite(movieid)
     } else {
       this.delTopicFavorite(this.data.topicId)
     }
   },
 
+  // 进入影片详情页
   handleItemClick: function (e) {
     console.log('handleItemClick')
     let { movieid } = e.currentTarget.dataset
@@ -174,6 +142,7 @@ Page({
     })
   },
 
+  // 处理影片推送点击事件
   handlePushClick: function (e) {
     console.log('handlePushClick')
     let { movieid, title, type } = e.currentTarget.dataset
@@ -225,7 +194,7 @@ Page({
     })
   },
 
-  // 添加历史
+  // 添加影片推送历史
   addPushHistory: function (movieId, title, videoId) {
     let urlParams = { "vuid": wx.getStorageSync("wxopenid") };
     let url = utils.urlAssemble_tvpai(api.addPushHistoryUrl, utils.paramsAssemble_tvpai(urlParams));
@@ -242,11 +211,12 @@ Page({
     })
   },
 
-  // 添加专题收藏
+  // 添加片单收藏
   addTopicFavorite: function (topicId) {
     console.log('添加片单id', topicId)
     let params = { "id": topicId, "vuid": wx.getStorageSync("wxopenid"), "collect": 1 }
-    utils.requestP(api.setFavoriteTopicUrl, utils.paramsAssemble_tvpai(params)).then(res => {
+    let url = utils.urlAssemble_tvpai(api.setFavoriteTopicUrl, utils.paramsAssemble_tvpai(params))
+    utils.requestP(url, null, 'POST').then(res => {
       console.log('添加片单收藏成功:', res)
       this.setData({ isCollected: true })
     }).catch(res => {
@@ -254,11 +224,12 @@ Page({
     })
   },
 
-  // 取消专题收藏
+  // 取消片单收藏
   delTopicFavorite: function (topicId) {
     console.log('删除片单id', topicId)
     let params = { "id": topicId, "vuid": wx.getStorageSync("wxopenid"), "collect": 0 }
-    utils.requestP(api.setFavoriteTopicUrl, utils.paramsAssemble_tvpai(params)).then(res => {
+    let url = utils.urlAssemble_tvpai(api.setFavoriteTopicUrl, utils.paramsAssemble_tvpai(params))
+    utils.requestP(url, null, 'POST').then(res => {
       console.log('取消片单收藏成功:', res)
       this.setData({ isCollected: false })
     }).catch(res => {
@@ -266,25 +237,48 @@ Page({
     })
   },
 
-  // 获取专题收藏列表
+  // 获取片单收藏列表
   getTopicFavorite: function () {
-    let params = { "vuid": wx.getStorageSync("wxopenid")}
-    utils.requestP(api.getFavoriteTopicUrl, utils.paramsAssemble_tvpai(params)).then(res => {
-      console.log('获取片单成功:', res)
+    let params = { "vuid": wx.getStorageSync("wxopenid") }
+    let url = utils.urlAssemble_tvpai(api.getFavoriteTopicUrl, utils.paramsAssemble_tvpai(params))
+    utils.requestP(url, null).then(res => {
+      console.log('获取片单收藏列表成功:', res)
+      if (res.data.data) {
+        for (let i = 0; i < res.data.data.length; i++) {
+          // 注意类型的不同，this.data.topicId是string类型
+          if (+this.data.topicId === res.data.data[i].topic_id) {
+            this.setData({ isCollected: true })
+            break
+          }
+        }
+      }
     }).catch(res => {
-      console.log('获取片单发生错误', res)
+      console.log('获取片单收藏列表发生错误', res)
     })
   },
 
   // 添加影片收藏
   addMovieFavorite: function (movieId) {
     let ccsession = wx.getStorageSync('new_cksession')
-    if(ccsession == null) return
+    if (ccsession == null) return
     let _movieid = `['${movieId}']`
-    let params = {"ccsession": 'b45004fab0934395dc20ede9dc13801d', "moviesId": _movieid}
-    // let params = {"ccsession": ccsession}
+    let params = { "ccsession": ccsession, "moviesId": _movieid }
     utils.requestP(api.addMovieFavoriteUrl, utils.paramsAssemble_wx(params)).then(res => {
-      console.log('添加影片收藏成功', res)
+      // let _collectionList = this.data.collectionList
+      // let _collectionSet = new Set(_collectionList)
+      // if (_collectionSet.has(id)) return
+      // else _collectionSet.add(id)
+      // _collectionList = Array.from(_collectionSet)
+      // console.log(_collectionList)
+      if (res.data && res.data.code === 200) {
+        console.log('添加影片收藏成功', res)
+        let _collectionList = this.data.movieCollectedList
+        _collectionList[movieId] = 0
+        console.log(_collectionList)
+        this.setData({ movieCollectedList: _collectionList })
+      } else {
+        console.log('添加影片收藏失败', res)
+      }
     }).catch(res => {
       console.log('添加影片收藏发生错误', res)
     })
@@ -292,19 +286,46 @@ Page({
 
   // 删除影片收藏
   delMovieFavorite: function (movieId) {
-
+    let ccsession = wx.getStorageSync('new_cksession')
+    if (ccsession == null) return
+    let _collectIds = `[${this.data.movieCollectedList[movieId]}]`
+    console.log(_collectIds)
+    let params = { "ccsession": ccsession, "collectIds": _collectIds }
+    utils.requestP(api.delMovieFavoriteUrl, utils.paramsAssemble_wx(params)).then(res => {
+      if (res.data && res.data.code === 200) {
+        console.log('删除影片收藏成功', res)
+        let _collectionList = this.data.movieCollectedList
+        delete _collectionList[movieId]
+        console.log(_collectionList)
+        this.setData({ movieCollectedList: _collectionList })
+      } else {
+        console.log('删除影片收藏失败', res)
+      }
+    }).catch(res => {
+      console.log('删除影片收藏发生错误', res)
+    })
   },
 
-  // 获取影片收藏
+  // 获取影片收藏列表
   getMovieFavorite: function () {
     let ccsession = wx.getStorageSync('new_cksession')
-    if(ccsession == null) return
-    let params = {"ccsession": 'b45004fab0934395dc20ede9dc13801d'}
-    // let params = {"ccsession": ccsession}
+    if (ccsession == null) return
+    let params = { "ccsession": ccsession }
     utils.requestP(api.getFavoriteVideosUrl, utils.paramsAssemble_wx(params)).then(res => {
-      console.log('获取收藏视频成功', res)
+      console.log('获取影片收藏列表结果', res)
+      if (res.data.data) {
+        let _list = {}, list = res.data.data.list
+        for (let i = 0; i < list.length; i++) {
+          console.log(list[i].movieId, list[i].collectId)
+          _list[list[i].movieId] = list[i].collectId
+        }
+        console.log(_list)
+        this.setData({ movieCollectedList: _list })
+      } else {
+        console.log('获取影片收藏列表失败', res)
+      }
     }).catch(res => {
-      console.log('获取收藏视频发生错误', res)
+      console.log('获取影片收藏列表发生错误', res)
     })
   }
 })  

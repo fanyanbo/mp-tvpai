@@ -41,6 +41,8 @@ const submitCommentUrl = "https://beta-wx.coocaa.com/" + "articleMoviesAPI/saveC
 const submitClickLikeUrl = "https://beta-wx.coocaa.com/" + "articleMoviesAPI/clickLike.coocaa";//提交某条评论的点赞/取消点赞
 const addMovieFavoriteUrl = "https://beta-wx.coocaa.com/" + "articleMoviesAPI/appletCollectVideo.coocaa";//添加影片收藏
 const getFavoriteStatusUrl = "https://beta-wx.coocaa.com/" + "moviesAPI/getCollectStatus.coocaa";//根据movieid获取收藏状态
+const delMovieFavoriteUrl = "https://beta-wx.coocaa.com/" + "articleMoviesAPI/appletCancelCollectVideo.coocaa";//删除影片收藏
+
 
 module.exports = {
   searchByKeywordUrl: searchByKeywordUrl,
@@ -77,5 +79,6 @@ module.exports = {
   getFavoriteTopicUrl: getFavoriteTopicUrl,
   setFavoriteTopicUrl: setFavoriteTopicUrl,
   addMovieFavoriteUrl: addMovieFavoriteUrl,
-  getFavoriteStatusUrl: getFavoriteStatusUrl
+  getFavoriteStatusUrl: getFavoriteStatusUrl,
+  delMovieFavoriteUrl: delMovieFavoriteUrl
 }
