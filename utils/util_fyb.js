@@ -242,48 +242,6 @@ function getSessionByCodeP(code) {
   return this.requestP(api.getSessionUrl, paramsAssemble_wx(srcParams));
 }
 
-const utils = require('./util')
-// 解密用户数据,改版的实现有问题，衡炎炎的版本是ok的
-function decryptUserInfo(params) {
-  console.log('decryptUserInfo', params);
-  let rawData = encodeURI(params.rawData, 'utf-8');
-  let paramsStr = {
-    "ccsession": params.ccsession,
-    "encryptedData": params.encryptedData,
-    "iv": params.iv,
-    "rawData": rawData,
-    "signature": params.signature
-  }
-  let sign = utils.encryption(paramsStr, getApp().globalData.key);
-  console.log(sign);
-  let dataStr = utils.json2Form({
-    client_id: 'applet',
-    sign: sign,
-    param: '{"ccsession":"' + params.ccsession + '","encryptedData":"' + params.encryptedData + '","iv":"' + params.iv + '","rawData":"' + rawData + '","signature":"' + params.signature + '"}'
-  })
-  console.log(dataStr);
-  // let rawData = encodeURI(params.rawData, 'utf-8');
-  // let srcParams = { "ccsession": params.ccsession, "encryptedData": params.encryptedData, "iv": params.iv, "rawData": rawData, "signature": params.signature };
-  // let desParams = paramsAssemble_wx(srcParams);
-  // console.log(desParams.sign)
-  // let dataStr = utils.json2Form({ client_id: 'applet', sign: desParams.sign, param: '{"ccsession":"' + params.ccsession + '","encryptedData":"' + params.encryptedData + '","iv":"' + params.iv + '","rawData":"' + rawData + '","signature":"' + params.signature + '"}' });
-  // console.log(dataStr);
-  wx.request({
-    url: api.getUserInfoUrl,
-    data: dataStr,
-    method: 'post',
-    header: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    success: res => {
-      console.log('解密用户信息成功', res)
-    },
-    fail: function () {
-      console.log("解密用户信息失败")
-    }
-  })
-}
-
 //判断设备源是否为空
 function getTvsource() {
   let tvSource = wx.getStorageSync("tvSource")
@@ -407,7 +365,6 @@ module.exports = {
   paramsAssemble_wx: paramsAssemble_wx,
   getSessionByCode: getSessionByCode,
   getSessionByCodeP: getSessionByCodeP,
-  decryptUserInfo: decryptUserInfo,
   urlAssemble_tvpai: urlAssemble_tvpai,
   showSuccessToast: showSuccessToast,
   showFailedToast: showFailedToast,

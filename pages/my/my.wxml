@@ -10,13 +10,11 @@
 
 <view class="main-wrapper">
   <!-- 用户信息区 -->
-  <view class="userinfo" bindtap="userLogin">
+  <view class="userinfo" bindtap="tapUserInfo">
     <block wx:if="{{bLoginCoocaa}}">
-      <open-data class="avatar" type="userAvatarUrl"></open-data>
-      <view class="avatar2"></view>
-      <view class="name">
-        <open-data class="nickname" type="userNickName"></open-data>
-      </view>
+      <!-- todo 这里的用户头像 昵称应该不是酷开的，需要修改 -->
+      <view class="avatar"><image class="avatar-image" src="{{ccUserInfo.avatar}}"></image></view>
+      <view class="name"><text>{{ccUserInfo.name}}</text></view>
     </block>
     <view wx:else class="unlogin"><text>立即授权登录</text></view>
   </view>

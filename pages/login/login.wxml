@@ -6,21 +6,39 @@
 <view class="wrapper" style="top:{{rpxNavBarHeight}};">
   
 <!-- 未登录流程 -->
-  <!-- 0. 未登录首页 -->
-  <view class="unloginhome" wx:if="{{stage==PageStage.UNLOGIN.HOME_PAGE}}" >
+  <!-- 1. 未登录首页 -->
+  <view class="unloginhome" wx:if="{{curSubPage==SubPages.LOGIN_HOME}}" >
     <view class="logozone">
       <image class="logo" src="../../images/my/login/coocaa.png"></image>
     </view>
-    <view class="tips"><text>{{loginTips}}</text></view>
-    <view wx:for="{{arrLoginType}}" class="types" bindtap="startLogin" data-id="{{item.id}}">
+    <view class="tips"><text>请与电视端使用相同的登录方式\n多端共享, 极致体验</text></view>
+    <view wx:for="{{arrLoginType}}" class="types" bindtap="chooseLoginType" data-id="{{item.id}}">
         <image class="icon" src="{{item.image}}"></image>
         <view class="title">{{item.type}}</view>
     </view>
     <view class="footer">因小程序不支持QQ登录,请先在电视端使用QQ登录并绑定手机号后使用该手机号登录即可</view>
   </view>
 
-  <!-- 1. 手机登录页/账号密码登录页 -->
-  <view class="unlogin-tologin" wx:if="{{stage==PageStage.UNLOGIN.GOLOGIN_PAGE}}">
+  <!-- 2. 手机登录页-->
+  <view class="unlogin-tologin" wx:if="{{curSubPage==SubPages.LOGIN_BY_MOBILE}}">
+    <view class="logozone">
+      <image class="logo" src="../../images/my/login/coocaa.png"></image>
+    </view>
+    <input class="input-item" type="number" placeholder="手机号 (新用户注册即登录)" placeholder-class="placeholder-class" focus maxlength="11" bindblur="inputMobileBlur" bindconfirm="inputMobleBlur"></input>
+    <view class="input-wrapper">
+      <input class="input-item" placeholder="图形验证码" placeholder-class="placeholder-class"></input>
+      <canvas class="canvas-item" canvas-id="vcodecanvas"></canvas>
+    </view>
+    <view class="input-wrapper">
+      <input class="input-item" placeholder="短信验证码" placeholder-class="placeholder-class" bindblur="inputVCodeBlur" bindconfirm="inputVCodeBlur"></input>
+      <view class="vcode" bindtap="getVCode">获取验证码</view>
+    </view>
+    <button class="btn" open-type="getUserInfo" id="scan" bindgetuserinfo="startLogin">登录</button>
+    <!-- <view class="btn" bindtap="startLogin">登录</view> -->
+  </view>
+
+  <!-- 3.账号密码登录页 重新从2拷贝再改-->
+  <view class="unlogin-tologin" wx:if="{{curSubPage==SubPages.LOGIN_BY_ACCOUNT}}">
     <view class="logozone">
       <image class="logo" src="../../images/my/login/coocaa.png"></image>
     </view>
@@ -37,8 +55,8 @@
   </view>
 
 <!-- 已登录流程 -->
-    <!-- 10.已登录首页 -->
-    <view class="loginhome" wx:elif="{{stage==PageStage.LOGIN.HOME_PAGE}}">
+    <!-- 101.已登录首页 -->
+    <view class="loginhome" wx:elif="{{curSubPage==SubPages.HASLOGIN_HOME}}">
       <view class="item name-label">昵称设置</view>
       <view class="item setting name-setting" bindtap="reviseNickname">
         <view class="key">账号昵称</view>
@@ -58,12 +76,18 @@
       <view class="btn">退出登录</view>
     </view>
 
-    <!-- 11.修改账号昵称或手机页 -->
-    <view  class="loginrevise" wx:elif="{{stage==PageStage.LOGIN.REVISE_PAGE}}">
+    <!-- 102.修改手机页 -->
+    <view  class="loginrevise" wx:elif="{{curSubPage==SubPages.HASLOGIN_REVISE_MOBILE}}">
       <input class="input-zone" type="{{loginRevise.name.type}}"></input>
       <view class="icon-del" wx:if="{{true}}">X</view>
       <view class="btn">{{loginRevise.name.btn}}</view>
     </view>
 
+    <!-- 103.修改账号昵称 -->
+    <view  class="loginrevise" wx:elif="{{curSubPage==SubPages.HASLOGIN_REVISE_NAME}}">
+      <input class="input-zone" type="{{loginRevise.name.type}}"></input>
+      <view class="icon-del" wx:if="{{true}}">X</view>
+      <view class="btn">{{loginRevise.name.btn}}</view>
+    </view>
 </view>
 

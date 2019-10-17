@@ -85,10 +85,12 @@
   height: 94rpx;
   background: #F8F8F8;
   padding: 0 40rpx;
-  color: #CCCCCC;
   line-height: 94rpx;
   font-size: 32rpx;
   margin: 15rpx 0;
+}
+.placeholder-class {
+  color: #CCCCCC;
 }
 .canvas-item {
   position: absolute;
@@ -107,6 +109,7 @@
   line-height: 44rpx;
   font-size: 32rpx;
   color: #FF5E5E;
+  z-index: 2;
 }
 
 /* 已登录首页-start- */

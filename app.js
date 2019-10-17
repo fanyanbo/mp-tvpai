@@ -84,6 +84,7 @@ App({
   },
   globalData: {
     username: wx.getStorageSync("username"),
+    ccUserInfo: wx.getStorageSync("ccUserInfo"),
     key: '9acd4f7d5d9b87468575b240d824eb4f', //wx key
     client_id: 'applet',
     new_cksession: '',

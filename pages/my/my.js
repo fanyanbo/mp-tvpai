@@ -9,14 +9,17 @@ const app = getApp()
 
 Page({
   data: {
-    userInfo: {
-      nickName: '你好',
-      avatarUrl: '../../images/man.png',
-      isDevConnected: false,
-    },
-    bLoginCoocaa: true,//是否登录酷开系统账号
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    isShowTips: true,
+    bIphoneFullScreenModel: false,
+    bLoginCoocaa: !!app.globalData.ccUserInfo,//是否登录酷开系统账号
+    ccUserInfo: {//当前登录的酷开账户用户信息
+      name: '',
+      avatar: ''
+    }, 
+    //mock data
     productSourceList: [ //产品源列表
-      { id: 1, title: '极光VIP', valid: '2020.10.25到期', image: '../../images/my/vip/mov.png'},
+      { id: 1, title: '极光VIP', valid: '2020.10.25到期', image: '../../images/my/vip/mov.png' },
       { id: 2, title: '教育VIP', valid: '立即开通', image: '../../images/my/vip/edu.png' },
       { id: 3, title: '少儿VIP', valid: '立即开通', image: '../../images/my/vip/kid.png' },
       { id: 4, title: '电竞VIP', valid: '立即开通', image: '../../images/my/vip/game.png' }
@@ -32,17 +35,14 @@ Page({
         '当前手机端与电视端会员账号不一致，推送付费内容后电视端可能无法完整播放。',
       ],
       acct: [
-        { name: '小茗同学', location: '手机端', image: '../../images/my/vip/mov.png'},
+        { name: '小茗同学', location: '手机端', image: '../../images/my/vip/mov.png' },
         { name: '用户昵称长长', location: '电视端', image: '../../images/my/vip/kid.png' }
       ],
     },
-    historyList:[],//投屏历史
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    isShowTips: true,
-    bIphoneFullScreenModel: false
+    historyList: [],//投屏历史
+
   },
-  userLogin(e) { //用户登录
-    console.log(e)
+  tapUserInfo() {//点击用户头像
     wx.navigateTo({ url: '../login/login'})
   },
   goVipPage(e) { //去产品包购买页
@@ -60,6 +60,20 @@ Page({
 
   onShow: function () {
     console.log('onShow');
+    if (!!app.globalData.ccUserInfo) {//refresh login status
+      this.setData({ 
+        bLoginCoocaa: true,
+        'ccUserInfo.name': app.globalData.ccUserInfo.username,
+        'ccUserInfo.avatar': app.globalData.ccUserInfo.avatar,
+      })
+    }else { //清除登录状态
+      this.setData({
+        bLoginCoocaa: false,
+        'ccUserInfo.name': '',
+        'ccUserInfo.avatar': '',
+      })
+    }
+    
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       // 切换到“我的”tab，设置选中状态
       this.getTabBar().setData({
