@@ -173,8 +173,22 @@ Page({
   },
 
   // 处理移除点击事件
-  handleRemoveClick: function () {
+  handleRemoveClick: function (e) {
     console.log('handleRemoveClick')
+    let { type } = e.currentTarget.dataset
+    console.log(this.data.selectedList)
+    switch (type) {
+      case "video": {     
+        this.delVideosFavorite(this.data.selectedList)
+        break
+      }
+      case "topic": {
+        break
+      }
+      case "article": {
+        break
+      }
+    }
   },
 
   // 处理选择待删除项点击事件
@@ -192,7 +206,8 @@ Page({
               _list[j].selected = !_list[j].selected
             }
             if (_list[j].selected) {
-              _selectArr.push(_list[j].movieId)
+              // 注意这里是collectid，不是movieid
+              _selectArr.push(_list[j].collectId)
             }
           }
         }
@@ -265,10 +280,10 @@ Page({
   getArticlesFavorite: function () {
     let ccsession = wx.getStorageSync('new_cksession')
     if (ccsession == null) return
-    let params = { "ccsession": 'b45004fab0934395dc20ede9dc13801d' }
-    utils.requestP(api.getFavoriteArticlesUrl, utils.paramsAssemble_wx(params)).then(res => {
-      console.log('获取收藏文章列表成功:', res.data)
-      if (res && res.data && res.data.code === 200) {
+    let params = { "ccsession": ccsession }
+    utils.requestP(api.getFavoriteArticlesUrl, utils.paramsAssemble_wx(params)).then(res => {   
+      if (res.data && res.data.data && res.data.data.list && res.data.code === 200) {
+        console.log('获取收藏文章列表成功:', res)
         let _list = res.data.data.list
         for (let i = 0; i < _list.length; i++) {
           _list[i].selected = false
@@ -279,13 +294,13 @@ Page({
             list: _list
           }
         _articleList.push(_articleToday)
-        this.setData({ articleList: _articleList, isArticleNoResult: false })
+        this.setData({ articleList: _articleList, isArticleNoResult: false, isArticleEdit: false })
       } else {
-        console.log('获取收藏文章列表失败')
+        console.log('获取收藏文章列表失败:', res)
         this.setData({ isArticleNoResult: true })
       }
     }).catch(res => {
-      console.log('获取收藏文章列表发生错误', res)
+      console.log('获取收藏文章列表发生错误:', res)
       this.setData({ isArticleNoResult: true })
     })
   },
@@ -294,11 +309,10 @@ Page({
   getVideosFavorite: function () {
     let ccsession = wx.getStorageSync('new_cksession')
     if (ccsession == null) return
-    let params = { "ccsession": 'b45004fab0934395dc20ede9dc13801d' }
-    // let params = {"ccsession": ccsession}
-    utils.requestP(api.getFavoriteVideosUrl, utils.paramsAssemble_wx(params)).then(res => {
-      console.log('获取收藏视频列表成功:', res.data)
-      if (res && res.data && res.data.code === 200) {
+    let params = { "ccsession": ccsession }
+    utils.requestP(api.getFavoriteVideosUrl, utils.paramsAssemble_wx(params)).then(res => {   
+      if (res.data && res.data.data && res.data.data.list && res.data.code === 200) {
+        console.log('获取收藏视频列表成功:', res)
         let _list = res.data.data.list
         for (let i = 0; i < _list.length; i++) {
           _list[i].selected = false
@@ -309,23 +323,42 @@ Page({
             list: _list
           }
         _videoList.push(_videoToday)
-        this.setData({ videoList: _videoList, isVideoNoResult: false })
+        this.setData({ videoList: _videoList, isVideoNoResult: false, isVideoEdit: false  })
       } else {
-        console.log('获取收藏视频列表失败')
+        console.log('获取收藏视频列表失败:',res)
         this.setData({ isVideoNoResult: true })
       }
     }).catch(res => {
-      console.log('获取收藏视频列表发生错误', res)
+      console.log('获取收藏视频列表发生错误:', res)
       this.setData({ isVideoNoResult: true })
     })
   },
 
+    // 删除收藏的视频
+    delVideosFavorite: function (delList) {
+      let ccsession = wx.getStorageSync('new_cksession')
+      if (ccsession == null) return
+      let _collectIds = `[${delList}]`
+      console.log(_collectIds)
+      let params = { "ccsession": ccsession, "collectIds": _collectIds }
+      utils.requestP(api.delMovieFavoriteUrl, utils.paramsAssemble_wx(params)).then(res => {
+        if (res.data && res.data.code === 200) {
+          console.log('删除影片收藏成功', res)
+          this.getVideosFavorite()
+        } else {
+          console.log('删除影片收藏失败', res)
+        }
+      }).catch(res => {
+        console.log('删除影片收藏发生错误', res)
+      })
+    },
+
   // 获取收藏的片单列表
   getTopicFavorite: function () {
     let params = { "vuid": wx.getStorageSync("wxopenid") }
-    utils.requestP(api.getFavoriteTopicUrl, utils.paramsAssemble_tvpai(params)).then(res => {
-      console.log('获取收藏片单列表成功:', res)
+    utils.requestP(api.getFavoriteTopicUrl, utils.paramsAssemble_tvpai(params)).then(res => {   
       if (res.data.data && res.data.data.length !== 0) {
+        console.log('获取收藏片单列表成功:', res)
         let _list = res.data.data
         for (let i = 0; i < _list.length; i++) {
           _list[i].selected = false
@@ -336,13 +369,13 @@ Page({
               list: _list
             }
         _topicList.push(_topicToday)
-        this.setData({ topicList: _topicList, isTopicNoResult: false })
+        this.setData({ topicList: _topicList, isTopicNoResult: false, isTopicEdit: false  })
       } else {
-        console.log('获取收藏片单列表失败')
+        console.log('获取收藏片单列表失败:', res)
         this.setData({ isTopicNoResult: true })
       }
     }).catch(res => {
-      console.log('获取收藏片单列表发生错误', res)
+      console.log('获取收藏片单列表发生错误:', res)
       this.setData({ isTopicNoResult: true })
     })
   }

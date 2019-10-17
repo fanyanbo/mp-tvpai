@@ -16,7 +16,8 @@ Page({
     videoType: "", //影片类型
     selected: "", //选中的剧集
     isPushDone: false, //是否推送成功
-    isShowFavorite: false, //是否显示收藏
+    isShowFavorite: false, //是否显示收藏icon
+    isFavorite: false, //当前影片的收藏状态
     vidList: [],
     movieId: "",
     coocaa_m_id: "",
@@ -37,11 +38,12 @@ Page({
    */
   onLoad: function (options) {  
     utils.showLoadingToast()  
-    console.log('当前影片id:' + options.id)
+    this.data.curMovieId = options.id
+    console.log('当前影片id:' + this.data.curMovieId)
     // 初始化评论点赞列表的缓存
     this.data._commentLike = wx.getStorageSync('comment_like')
     if(!this.data._commentLike) wx.setStorageSync('comment_like', [])
-    this.getDetailData(options.id)
+    this.getDetailData(this.data.curMovieId)
   },
 
   /**
@@ -218,13 +220,13 @@ Page({
 
   // 获取当前影片收藏状态
   getFavoriteStatus: function (movieId) {
-    let ccsession = 'b45004fab0934395dc20ede9dc13801d'
+    let ccsession = wx.getStorageSync('new_cksession')
+    if(ccsession == null) return
     let params = { "ccsession": ccsession, "movieId": movieId }
-    let desParams = utils.paramsAssemble_wx(params)
-    utils.requestP(api.getFavoriteStatusUrl, desParams).then(res => {
+    utils.requestP(api.getFavoriteStatusUrl, utils.paramsAssemble_wx(params)).then(res => {
       console.log("获取当前影片收藏状态成功:", res)
       if(res.data.data) {
-        this.setData({isShowFavorite: res.data.data.isCollected})
+        this.setData({isFavorite: res.data.data.isCollected, isShowFavorite: true})
       }
     }).catch(res => {
       console.log('获取当前影片收藏状态发生错误:', res)
@@ -233,8 +235,8 @@ Page({
 
   // 获取全部评论
   getComment: function (movieId) {
-    movieId = '_oqy_1012320100'
-    let ccsession = 'b45004fab0934395dc20ede9dc13801d'
+    let ccsession = wx.getStorageSync('new_cksession')
+    if(ccsession == null) return
     let params = { "ccsession": ccsession, "movieId": movieId }
     let desParams = utils.paramsAssemble_wx(params)
     utils.requestP(api.getCommentsUrl, desParams).then(res => {
@@ -261,11 +263,11 @@ Page({
 
   // 提交评论
   submitComment: function (content, score) {
-    let movieId = '_oqy_1012320100'
-    let ccsession = 'b45004fab0934395dc20ede9dc13801d'
+    let ccsession = wx.getStorageSync('new_cksession')
+    if(ccsession == null) return
     let params = { 
       "ccsession": ccsession, 
-      "movieId": movieId,
+      "movieId": this.data.curMovieId,
       "content": content,
       "grade": score
     }
@@ -294,7 +296,8 @@ Page({
 
   // 对某条评论点赞/取消点赞
   submitClickLike: function (commentId) {
-    let ccsession = 'b45004fab0934395dc20ede9dc13801d'
+    let ccsession = wx.getStorageSync('new_cksession')
+    if(ccsession == null) return
     let params = { "ccsession": ccsession, "commentId": commentId + '' }
     let desParams = utils.paramsAssemble_wx(params)
     utils.requestP(api.submitClickLikeUrl, desParams).then(res => {
@@ -487,6 +490,7 @@ Page({
     })
   },
 
+   // 处理导航栏主页点击事件
   handleGohomeClick: function () {
     console.log('handleGohomeClick')
     // 注意:tabbar页面无法使用redirectTo和navigateTo进行跳转
@@ -495,11 +499,13 @@ Page({
     })
   },
 
+  // 处理导航栏返回点击事件
   handleGobackClick: function () {
     console.log('handleGobackClick')
     utils.navigateBack()
   },
 
+  // 处理tabbar切换事件
   handleTabbarClick: function (e) {
     const _activeIndex = e.currentTarget.dataset['index'];
     console.log('切换tabbar activeIndex =' + _activeIndex);
@@ -508,6 +514,7 @@ Page({
     })
   },
 
+  // 进入演员详情页
   handleActorClick: function (e) {
     console.log('handleActorClick', e)
     let {actorinfo} = e.currentTarget.dataset
@@ -517,6 +524,7 @@ Page({
     })
   },
 
+  // 进入关联影片详情页
   handleFavoriteClick: function (e) {
     console.log('handleFavoriteClick', e)
     let {id} = e.currentTarget.dataset
@@ -525,6 +533,7 @@ Page({
     })
   },
 
+  // 进入关联文章详情页
   handleRecommendClick: function (e) {
     console.log('handleRecommendClick', e)
     wx.navigateTo({
@@ -532,6 +541,7 @@ Page({
     })
   },
 
+  // 点击显示更多评论
   handleHotClick: function (e) {
     console.log('handleHotClick', e)
     this.setData({
@@ -539,22 +549,49 @@ Page({
     })
   },
 
+  // 处理点赞点击事件
   handleThumbsClick: function (e) {
     console.log('handleThumbsClick')
     let {id} = e.currentTarget.dataset
     this.submitClickLike(id)
   },
 
+  // 处理遥控器输入评论点击事件
   handleCommentClick: function () {
     console.log('handleCommentClick')
     this.setData({isCommentShow: true})
   },
 
+  // 处理提交评论点击事件
   handleSubmitClick: function (e) {
     console.log('handleSubmitClick', e)
     let {content, score} = e.detail
     // 后台按照10分制定义
     this.submitComment(content, score*2)
+  },
+
+  // 收藏影片
+  handleCollectionClick: function () {
+    console.log('handleCollectionClick')
+    let ccsession = wx.getStorageSync('new_cksession')
+    if (ccsession == null) return
+    let _movieid = `['${this.data.curMovieId}']`
+    let params = { "ccsession": ccsession, "moviesId": _movieid }
+    utils.requestP(api.addMovieFavoriteUrl, utils.paramsAssemble_wx(params)).then(res => {
+      if (res.data && res.data.code === 200) {
+        console.log('添加影片收藏成功', res)
+        this.setData({isFavorite: true})
+      } else {
+        console.log('添加影片收藏失败', res)
+      }
+    }).catch(res => {
+      console.log('添加影片收藏发生错误', res)
+    })
+  },
+
+  // 取消影片收藏
+  handleUnCollectionClick: function () {
+
   },
 
   scroll: function (e) {

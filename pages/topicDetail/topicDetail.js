@@ -105,7 +105,7 @@ Page({
   // 添加影片/片单收藏
   handleCollectionClick: function (e) {
     console.log('handleCollectionClick')
-    let { type, movieid} = e.currentTarget.dataset
+    let { type, movieid } = e.currentTarget.dataset
     console.log(type, movieid)
     if (type === 'movie') {
       this.addMovieFavorite(movieid)
@@ -117,7 +117,7 @@ Page({
   // 取消影片/片单收藏
   handleUnCollectionClick: function (e) {
     console.log('handleUnCollectionClick')
-    let { type, movieid} = e.currentTarget.dataset
+    let { type, movieid } = e.currentTarget.dataset
     console.log(type, movieid)
     if (type === 'movie') {
       // let _collectionList = this.data.collectionList
@@ -243,10 +243,10 @@ Page({
     let url = utils.urlAssemble_tvpai(api.getFavoriteTopicUrl, utils.paramsAssemble_tvpai(params))
     utils.requestP(url, null).then(res => {
       console.log('获取片单收藏列表成功:', res)
-      if(res.data.data) {
-        for(let i=0; i<res.data.data.length; i++) {
+      if (res.data.data) {
+        for (let i = 0; i < res.data.data.length; i++) {
           // 注意类型的不同，this.data.topicId是string类型
-          if(+this.data.topicId === res.data.data[i].topic_id) {
+          if (+this.data.topicId === res.data.data[i].topic_id) {
             this.setData({ isCollected: true })
             break
           }
@@ -262,20 +262,23 @@ Page({
     let ccsession = wx.getStorageSync('new_cksession')
     if (ccsession == null) return
     let _movieid = `['${movieId}']`
-    let params = { "ccsession": 'b45004fab0934395dc20ede9dc13801d', "moviesId": _movieid }
-    // let params = {"ccsession": ccsession}
+    let params = { "ccsession": ccsession, "moviesId": _movieid }
     utils.requestP(api.addMovieFavoriteUrl, utils.paramsAssemble_wx(params)).then(res => {
-      console.log('添加影片收藏成功', res)
       // let _collectionList = this.data.collectionList
       // let _collectionSet = new Set(_collectionList)
       // if (_collectionSet.has(id)) return
       // else _collectionSet.add(id)
       // _collectionList = Array.from(_collectionSet)
       // console.log(_collectionList)
-      let _collectionList = this.data.movieCollectedList
-      _collectionList[movieId] = 0
-      console.log(_collectionList)
-      this.setData({ movieCollectedList: _collectionList })
+      if (res.data && res.data.code === 200) {
+        console.log('添加影片收藏成功', res)
+        let _collectionList = this.data.movieCollectedList
+        _collectionList[movieId] = 0
+        console.log(_collectionList)
+        this.setData({ movieCollectedList: _collectionList })
+      } else {
+        console.log('添加影片收藏失败', res)
+      }
     }).catch(res => {
       console.log('添加影片收藏发生错误', res)
     })
@@ -283,18 +286,21 @@ Page({
 
   // 删除影片收藏
   delMovieFavorite: function (movieId) {
-    let collectId = this.data.movieCollectedList[movieId]
     let ccsession = wx.getStorageSync('new_cksession')
     if (ccsession == null) return
-    let _collectIds = `[${collectId}]`
+    let _collectIds = `[${this.data.movieCollectedList[movieId]}]`
     console.log(_collectIds)
-    let params = { "ccsession": 'b45004fab0934395dc20ede9dc13801d', "collectIds": _collectIds }
+    let params = { "ccsession": ccsession, "collectIds": _collectIds }
     utils.requestP(api.delMovieFavoriteUrl, utils.paramsAssemble_wx(params)).then(res => {
-      console.log('删除影片收藏成功', res)
-      let _collectionList = this.data.movieCollectedList
-      delete _collectionList[movieId]
-      console.log(_collectionList)
-      this.setData({ movieCollectedList: _collectionList })
+      if (res.data && res.data.code === 200) {
+        console.log('删除影片收藏成功', res)
+        let _collectionList = this.data.movieCollectedList
+        delete _collectionList[movieId]
+        console.log(_collectionList)
+        this.setData({ movieCollectedList: _collectionList })
+      } else {
+        console.log('删除影片收藏失败', res)
+      }
     }).catch(res => {
       console.log('删除影片收藏发生错误', res)
     })
@@ -304,19 +310,18 @@ Page({
   getMovieFavorite: function () {
     let ccsession = wx.getStorageSync('new_cksession')
     if (ccsession == null) return
-    let params = { "ccsession": 'b45004fab0934395dc20ede9dc13801d' }
-    // let params = {"ccsession": ccsession}
+    let params = { "ccsession": ccsession }
     utils.requestP(api.getFavoriteVideosUrl, utils.paramsAssemble_wx(params)).then(res => {
       console.log('获取影片收藏列表结果', res)
-      if(res.data.data) {
+      if (res.data.data) {
         let _list = {}, list = res.data.data.list
-        for(let i=0; i<list.length; i++) {
+        for (let i = 0; i < list.length; i++) {
           console.log(list[i].movieId, list[i].collectId)
           _list[list[i].movieId] = list[i].collectId
         }
         console.log(_list)
-        this.setData({movieCollectedList: _list})
-      }else{
+        this.setData({ movieCollectedList: _list })
+      } else {
         console.log('获取影片收藏列表失败', res)
       }
     }).catch(res => {

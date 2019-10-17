@@ -33,7 +33,7 @@
             <!-- 模拟骨架屏效果 -->
             <block wx:if="{{!isVideoNoResult && videoList.length === 0}}">
                 <view class="video-list">
-                    <view class="video-item" wx:for="{{6}}" wx:key="index">
+                    <view class="video-item" wx:for="{{4}}" wx:key="index">
                         <image class="video-poster" src="" mode="aspectFill" />
                         <view class="video-title skeleton-rect"></view>
                     </view>
