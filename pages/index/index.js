@@ -127,14 +127,17 @@ Page({
   },
 
   onLoad() {
-    //console.log('onLoad')
-    // 不区分源，所以在此处调用
+    console.log('onLoad')
+    // 这两个接口不区分源
     this.getBannerData()
     this.getTopicData()
+    // 首次调用，区分源
+    this.getLabelClassify()
+    this.getRecommendClassify()
   },
 
   onReady() {
-    //console.log('onReady')
+    console.log('onReady')
     wx.getSystemInfo({
       success: function (res) {
         console.log("custom模式测试",res);
@@ -148,18 +151,18 @@ Page({
   },
 
   onShow() {
-    //console.log('onShow')
+    console.log('onShow')
     this.setData({
       isShowTips: app.globalData.isShowTips,
       bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
-    })  
-    this.getBindedDevice()
-    // 调用优化
+    })   
+    // 调用优化，防止频繁调用接口
     if(app.globalData.sourceChanged) {
       app.globalData.sourceChanged = false
       this.getLabelClassify()
       this.getRecommendClassify()
     }
+    this.getBindedDevice()
     //TabBar选中状态
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({
@@ -214,8 +217,6 @@ Page({
   handleBannerTap: function (e) {
     console.log('handleBannerTap', e)
     let {type, url} = e.currentTarget.dataset
-    type = 2
-    url = "https://www.baidu.com"
     if(type === 1) { // type 1:小程序 2:外链
       wx.navigateTo({
         url: `../${url}`
@@ -225,11 +226,14 @@ Page({
         url: `../webview/webview?path=${url}`
       });
     }
-    // if (e.currentTarget.dataset.type == 'cinecism') {
+
+    // let type = e.currentTarget.dataset.type
+    // type = 'cinecism'
+    // if (type == 'cinecism') {
     //   wx.navigateTo({
     //     url: '../cinecism/cinecism?id=' + e.currentTarget.dataset.id,
     //   })
-    // } else if (e.currentTarget.dataset.type == 'find') {
+    // } else if (type == 'find') {
     //   wx.navigateTo({
     //     url: '../find/find',
     //   })

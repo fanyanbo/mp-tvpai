@@ -443,7 +443,7 @@ Page({
     let desParams = utils.paramsAssemble_wx(params);
     console.log('推送参数(组装后):', desParams);
     utils.requestP(api.pushMediaUrl, desParams).then(res => {
-      console.log('推送成功', res.data);
+      console.log('推送结果:', res.data)
       if (res.data && res.data.code === 200) {
         this.setData({
           selected: coocaamid,
@@ -452,12 +452,12 @@ Page({
         this.addPushHistory(movieid, title, videoid)
         utils.showSuccessToast('推送成功')
       } else {
-        console.log('推送失败');
+        console.log('推送失败', res)
         let errMsg = res.data.message + (res.data.code == null ? "" : "[" + res.data.code + "]");
         utils.showFailedToast(errMsg, this.data.errIconUrl)
       }
     }).catch(res => {
-      console.log('推送发生错误', res);
+      console.log('推送发生错误', res)
       utils.showFailedToast('推送失败', this.data.errIconUrl)
     })
   },
@@ -585,6 +585,7 @@ Page({
       if (res.data && res.data.code === 200) {
         console.log('添加影片收藏成功', res)
         this.setData({ isFavorite: true })
+        this.data.collectId = res.data.data[0].collectId
       } else {
         console.log('添加影片收藏失败', res)
       }
