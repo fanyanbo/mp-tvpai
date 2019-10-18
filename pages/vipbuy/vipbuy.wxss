@@ -79,7 +79,9 @@
 }
 .vip-item.selected {
   border: 4rpx solid #FF6246;
-  background: url('../../images/my/vipbuy/select.png') no-repeat right bottom ;
+  background-image: url("data:image/svg+xml,%3C?xml version='1.0' encoding='UTF-8' standalone='no'?%3E %3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E %3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='22px' height='22px' viewBox='0 0 22 22' enable-background='new 0 0 22 22' xml:space='preserve'%3E %3Cimage id='image0' width='22' height='22' x='0' y='0' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAMAAADzapwJAAAABGdBTUEAALGPC/xhBQAAACBjSFJN AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAVFBMVEX/////Ykb/Ykb/YkX/ Ykb/Z0z/wrf/jHf/ZUr/0cn//f3/j3v/nYz/tqj/Y0f/ZEj/zML//v7/no3/pZX/////v7T/xrz/ pJX/sqT/vLD/q5z/rqDScPueAAAABHRSTlMAf+dObGVASwAAAAFiS0dEAIgFHUgAAAAHdElNRQfj ChMCDSTeMW2uAAAAaElEQVQY023O2w5AMBAE0GLcr2VL6f//p5BmETOPJ5vZMYYl4Qqu4Aqu4Aqu 4Aqu4Aqu4Aqu+GtelA+rVnXTKl/a9QMwTnbWkvt2EYdhtZt2xwYvu5NDX2pvL+J1yWtZCDrwszcm 5ZqdF1EFXhVMs8sAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTktMTAtMThUMTg6MTM6MzYrMDg6MDCA nj6rAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE5LTEwLTE4VDE4OjEzOjM2KzA4OjAw8cOGFwAAAABJ RU5ErkJggg==' /%3E %3C/svg%3E ");
+  background-repeat: no-repeat;
+  background-position: right bottom;
 }
 .vip-item-details {
   margin-left: 30rpx;

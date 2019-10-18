@@ -48,6 +48,7 @@ Page({
   _getProductPackageList() { //获取产品包列表
     return  user_package.getProductPackageList().then((data) => {
               console.log(data)
+              let focus = 0;
               this.data.productListAll = data.data.data.products;
               let arr = this.data.productListAll.map((item, index) => {
                 let product = {
@@ -56,18 +57,25 @@ Page({
                   unit_fee: item.unit_fee / 100,
                   discount_fee: item.discount_fee / 100,
                   id: index,
-                  selected: item.is_focus
+                  focus: item.is_focus
+                }
+                if (item.is_focus) {
+                  focus = index
                 }
                 return product
               })
               this.setData({
                 productListShow: arr
               })
+              this._updatePayPrice(focus)
             })
   },
-  selectProduct(e) { //用户选择产品包
-    console.log(e.currentTarget.dataset)
-    let id = e.currentTarget.dataset.id;
+  _updatePayPrice(id) { //更新立即支付价格
+    this.data.productListShow.map((item, index) => {
+      this.setData({
+        [`productListShow[${index}].focus`]: index == id
+      })
+    })
     let totalPrice = this.data.productListAll[id].discount_fee / 100;  // todo 需要计算津贴+优惠券等 
     let save = (this.data.productListAll[id].unit_fee - this.data.productListAll[id].discount_fee) / 100; //todo fix!
     this.setData({
@@ -77,9 +85,11 @@ Page({
         save
       }
     })
-    this.setData({
-      [`productListShow[${id}].selected`] : true
-    })
+  },
+  selectProduct(e) { //用户选择产品包
+    console.log(e.currentTarget.dataset)
+    let id = e.currentTarget.dataset.id;
+    this._updatePayPrice(id)
   },
   /**
    * 生命周期函数--监听页面加载
