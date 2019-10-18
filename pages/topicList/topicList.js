@@ -1,10 +1,9 @@
 const utils = require('../../utils/util_fyb')
 const api = require('../../api/api_fyb')
-const app = getApp()
 
 Page({
   data: {
-    topicList: [],
+    topicList: []
   },
 
   onLoad: function (options) {
@@ -12,13 +11,8 @@ Page({
     this.getTopicDetail()
   },
 
-
-  onShow: function () {
-
-  },
-
   onReady: function () {
-    console.log('search onReady监听页面初次渲染完成');
+    console.log('search onReady监听页面初次渲染完成')
     const {
       pxNavBarHeight,
       rpxNavBarHeight,

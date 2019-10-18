@@ -64,7 +64,7 @@ Page({
 
     if (ccsession == null || ccsession === '') {
       utils.showLoadingToast()
-      utils.wxLogin()
+      utils.wxLogin() //todo 思考怎么优化
         .then(res => {
           console.log('wxLogin res=', res)
           return utils.getSessionByCodeP(res.code)

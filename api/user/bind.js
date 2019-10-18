@@ -61,6 +61,7 @@ function getDeviceList() {  //获取绑定设备列表
         wx.setStorageSync('deviceId', '');
         app.globalData.activeId = null;
         app.globalData.deviceId = null;
+        app.globalData.boundDeviceInfo = {};
         for (let i = 0; i < res.data.data.length; i++) {
           if (res.data.data[i].bindStatus === 1) {//当前绑定设备
             console.log(res.data.data[i].deviceId);
@@ -74,6 +75,8 @@ function getDeviceList() {  //获取绑定设备列表
             } else {
               wx.setStorageSync('tvSource', 'iqiyi')
             }
+            app.globalData.boundDeviceInfo = res.data.data[i].device
+            // app.globalData.boundDeviceInfo.openid = res.data.data[i].openid
             app.globalData.sourceChanged = true; //值不一定变化，但假定源被改变了，首页会刷新一次
           }
         }

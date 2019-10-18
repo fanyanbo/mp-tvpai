@@ -8,6 +8,11 @@ function isCollect(arr, key) {
     return false;
 }
 
+function isCollect2(obj, key) {
+    var val = obj[key]
+    return val == null ? false : true
+}
+
 module.exports = {
-    isCollect: isCollect
+    isCollect: isCollect2
 }

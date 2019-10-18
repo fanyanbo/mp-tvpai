@@ -77,6 +77,10 @@
   display: flex;
   align-items: center;
 }
+.vip-item.selected {
+  border: 4rpx solid #FF6246;
+  background: url('../../images/my/vipbuy/select.png') no-repeat right bottom ;
+}
 .vip-item-details {
   margin-left: 30rpx;
   width: 480rpx;
