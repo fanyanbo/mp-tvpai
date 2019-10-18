@@ -24,22 +24,28 @@ Page({
     wx.navigateBack({})
   },
   payNow(e) { //立即支付
-    //todo 
     let data = this.data.productListAll[this.data.curSelectedProject.id]
     user_pay.genOrder(data).then( res => {
-      //todo 
+      return user_pay.prePay(res)
+    }).then(res => {
+      return user_pay.startPay(res)
+    }).then(res => {
       console.log(res)
-    })
-    
-    let stage = this.data.PageStage.PAY_SUCCESS_PAGE
-    if(Math.random()*10 < 5) { //test
-      stage = this.data.PageStage.PAY_FAIL_PAGE
-    }
-    wx.navigateTo({
-      url: `../vipbuy/vipbuy?stage=${stage}`,
-    })
+      //todo 支付成功，页面重定向到支付成功页
+      let stage = this.data.PageStage.PAY_SUCCESS_PAGE
+      wx.redirectTo({
+        url: `../vipbuy/vipbuy?stage=${stage}`,
+      })
+    }).catch(err => {
+      console.error('prePay error')
+      //todo 失败页处理
+      let stage = this.data.PageStage.PAY_FAIL_PAGE
+      wx.redirectTo({
+        url: `../vipbuy/vipbuy?stage=${stage}`,
+      })
+    }) 
   },
-  _getProductPackageList() {
+  _getProductPackageList() { //获取产品包列表
     return  user_package.getProductPackageList().then((data) => {
               console.log(data)
               this.data.productListAll = data.data.data.products;
@@ -80,9 +86,9 @@ Page({
       this.setData({
         stage: +options.stage
       })
+    }else {
+      this._getProductPackageList()
     }
-
-    this._getProductPackageList()
   },
 
   /**

@@ -46,14 +46,15 @@ function genOrder(product) {//生成订单接口
       "client_type": 3,//就下单传3,其它都传4
       "title": product.product_name,
       // "business_type": 1,  //-1:all 0:movie 1:education
-      "price": product.unit_fee,
+      "price": product.discount_fee, //产品单价（即产品列表接口回包中的折扣后单价discount_fee）
       "count": 1,
-      "discount_price": product.discount_fee,
-      "coupon_codes": "", //todo 
-      "extend_info": "", //扩展参数，非必填项，字符型数据，默认空；  todo need-fix
-      // 影视中心3.19之后版本需要上传的值目前有login_type: 0表示手机登陆，1表示QQ登陆，2表示微信登陆；
-      // wx_vu_id：微信帐号对应的vuserid，login_type为2时需要传此值；
-      // 格式为json，如{ "login_type": 1, "wx_vu_id": "wxvuuserid" }
+      "discount_price": product.discount_fee, //用户实际需要支付的价格，即使用优惠劵后的价格；
+      "coupon_codes": "", //todo  //使用优惠劵时优惠劵的编码，多个以code1+ "," + code2传过来，默认空字符串,目前只能用一张
+      "extend_info": "", //todo need-fix
+        //扩展参数，非必填项，字符型数据，默认空；  
+        // 影视中心3.19之后版本需要上传的值目前有login_type: 0表示手机登陆，1表示QQ登陆，2表示微信登陆；
+        // wx_vu_id：微信帐号对应的vuserid，login_type为2时需要传此值；
+        // 格式为json，如{ "login_type": 1, "wx_vu_id": "wxvuuserid" }
       "allowance_act_id": "", //todo 
       "discount_product_id": "", //todo 
       "license": ""
@@ -71,9 +72,9 @@ function genOrder(product) {//生成订单接口
       success(data) {
         console.log(data)
         if (data.data.code == 0) {
-          resolve(data)
+          resolve(data.data.data)
         } else {
-          reject(data)
+          reject(data.msg)
         }
       },
       fail(err) {
@@ -98,7 +99,7 @@ mock.pay_prepay_data = {//请求支付mock data
   "sign": "",
   "sign_type": "MD5",
   "random_str": _getRandomStr32(),
-  "open_id": "o2qQA0V42DEWdzlExnD2LRBQ7B38",
+  "open_id": "o2qQA0V42DEWdzlExnD2LRBQ7B38", 
   "app_id": "wx35b9e9a99fd089a9"
 }
 function _getRandomStr32() {//获取32位随机字符串
@@ -109,13 +110,7 @@ function _getRandomStr32() {//获取32位随机字符串
   }
   return a
 }
-//1.将参数为空和为null的去除
-// 将参数名按字母顺序升序排序
-// 将排序好的参数按照 参数名1 = 参数值1 & 参数名2=参数值2 的方式连接字符串, 除了sign
-// 将分配给的 key 加到第3步获取的字符串后面
-// 将第4步的结果进行md5 加密, 并输出32位小写字符结果.
-//   sign即为第5步的结果.
-const key_test = '2814d3aa2ab7298502d3d237bc4c0c67' //测试key
+const key_test = '2814d3aa2ab7298502d3d237bc4c0c67' //测试key todo needfix
 function _trimOject(param = {}) {
   let t = Object.assign({}, param)
   for (let key in t) {
@@ -147,16 +142,31 @@ function _getSign(param, type = 1)//获取签名sign
   console.log(sign)
   return sign
 }
-function prePay() {//请求支付接口
+function prePay(params) {//请求支付接口
   return new Promise((resolve, reject) => {
-    mock.pay_prepay_data["sign"] = _getSign(mock.pay_prepay_data)
+    let pay_prepay_data = {//请求支付mock data
+      "app_code": params.appcode,
+      "trade_id": params.orderId,
+      // "product_name": JSON.stringify('{"discount":"497.99","kpn":"","kpop":"","kpp":"","kppu":"","kps":"","notifyUrl":"","payNum":0,"productId":1685,"selectModel":0,"t":"奇异果VIP-12个月","tip":"","type":"simple"}'),//这里需要注意：要把字符串双引号转义
+      "product_name": params.orderTitle,  //JSON.stringify({ "discount": "497.99", "kpn": "", "kpop": "", "kpp": "", "kppu": "", "kps": "", "notifyUrl": "", "payNum": 0, "productId": 1685, "selectModel": 0, "t": "奇异果VIP-12个月", "tip": "", "type": "simple" }),//这里需要注意：要把字符串双引号转义
+      "amount": params.total_pay_fee,//0.01,
+      "notify_url": "http://dev.business.video.tc.skysrt.com/v1/open/notifyOrderPayDone.html", //todo 确认下小程序是否需要 要怎么处理
+      "pay_type": "WECHAT_SMALL_PROGRAM",
+      "sign": "",
+      "sign_type": "MD5",
+      "random_str": _getRandomStr32(),
+      "open_id": wx.getStorageSync("wxopenid"),//"o2qQA0V42DEWdzlExnD2LRBQ7B38", //微信：用户在商户appid下的唯一标识。 todo needfix 这个openId是什么？
+      "app_id": "wx35b9e9a99fd089a9"
+    }
+    pay_prepay_data = is_fake_data ? mock.pay_prepay_data : pay_prepay_data;
+    pay_prepay_data["sign"] = _getSign(pay_prepay_data)
     wx.request({
       url: url_prePay,
       method: 'POST', 
       header: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      data: util.json2Form(mock.pay_prepay_data),
+      data: util.json2Form(pay_prepay_data),
       success(data) {
         console.log(data)
         if (data.data.success) {
@@ -177,27 +187,31 @@ function prePay() {//请求支付接口
 }
 
 function startPay(data) { //发起微信小程序支付
-  let nonceStr = data.random_str,
-    pack = `prepay_id=${data.prepay_id}`, 
-    signType = data.sign_type,
-    timeStamp = data.time_stamp,
-    paySign = data.paySign;
+  return new Promise((resolve, reject) => {
+    let nonceStr = data.random_str,
+      pack = `prepay_id=${data.prepay_id}`,
+      signType = data.sign_type,
+      timeStamp = data.time_stamp,
+      paySign = data.paySign;
 
-  wx.requestPayment({
-    timeStamp: timeStamp,
-    nonceStr: nonceStr,
-    package: pack,
-    signType: signType,
-    paySign: paySign,
-    success(res) {
-      console.log(res)
-    },
-    fail(res) {
-      console.log(res)
-    },
-    complete(res) {
-      console.log(res)
-    }
+    wx.requestPayment({
+      timeStamp: timeStamp,
+      nonceStr: nonceStr,
+      package: pack,
+      signType: signType,
+      paySign: paySign,
+      success(res) {
+        console.log(res)
+        resolve(res)
+      },
+      fail(res) {
+        console.log(res)
+        reject(res)
+      },
+      complete(res) {
+        console.log(res)
+      }
+    })
   })
 }
 
