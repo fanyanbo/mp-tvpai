@@ -279,7 +279,7 @@ Page({
   // 获取收藏的文章列表
   getArticlesFavorite: function () {
     let ccsession = wx.getStorageSync('new_cksession')
-    if (ccsession == null) return
+    if (ccsession == "") return
     let params = { "ccsession": ccsession }
     utils.requestP(api.getFavoriteArticlesUrl, utils.paramsAssemble_wx(params)).then(res => {   
       if (res.data && res.data.data && res.data.data.list && res.data.code === 200) {
@@ -308,7 +308,7 @@ Page({
   // 获取收藏的视频列表
   getVideosFavorite: function () {
     let ccsession = wx.getStorageSync('new_cksession')
-    if (ccsession == null) return
+    if (ccsession == "") return
     let params = { "ccsession": ccsession }
     utils.requestP(api.getFavoriteVideosUrl, utils.paramsAssemble_wx(params)).then(res => {   
       if (res.data && res.data.data && res.data.data.list && res.data.code === 200) {
@@ -337,7 +337,7 @@ Page({
     // 删除收藏的视频
     delVideosFavorite: function (delList) {
       let ccsession = wx.getStorageSync('new_cksession')
-      if (ccsession == null) return
+      if (ccsession == "") return
       let _collectIds = `[${delList}]`
       console.log(_collectIds)
       let params = { "ccsession": ccsession, "collectIds": _collectIds }

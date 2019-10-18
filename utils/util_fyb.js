@@ -46,12 +46,12 @@ function showLoadingToast(title = '加载中', isShow = true) {
 
 // 微信登录
 function wxLogin() {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     wx.login({
-      success: function(res) {
+      success: function (res) {
         resolve(res)
       },
-      error: function(res) {
+      error: function (res) {
         reject(res)
       }
     })
@@ -81,7 +81,7 @@ function setParams_tvpai(params) {
 // 预处理请求参数
 function paramsAssemble_tvpai(paramsObj = {}) {
   let vuid = wx.getStorageSync("wxopenid")
-  if (vuid === "" || vuid == null){
+  if (vuid === "" || vuid == null) {
     vuid = "1111";//无实际意义，传空会报错
   }
   let orignParams = {
@@ -186,7 +186,7 @@ function request(url, method, params, success, fail, complete) {
 }
 
 function requestP(url, params, method = 'GET', contentType = 'application/x-www-form-urlencoded') {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     wx.request({
       url: url,
       data: params,
@@ -197,12 +197,12 @@ function requestP(url, params, method = 'GET', contentType = 'application/x-www-
       method: method,
       success: function (res) {
         if (res.statusCode != 200) {
-          reject({ error: '服务器忙，请稍后重试', code: 500});
+          reject({ error: '服务器忙，请稍后重试', code: 500 });
           return;
         }
         resolve(res);
       },
-      fail (res) {
+      fail(res) {
         reject(res);
       },
       complete: function (res) {
@@ -261,11 +261,11 @@ function checkIphoneFullScreenModel({ platform, model }) {
 function getFlatform({ platform }) {
   return !!platform.match(/ios/i) ? 'IOS' : 'Android'
 }
-  
+
 //刷新并存储被绑定设备状态： 
 function refreshBindedTVStatus(activeId) {
   console.log('refreshBindedTVStatus. activeId: ', activeId);
-  return new Promise(function(resolve,reject){
+  return new Promise(function (resolve, reject) {
     njApi.isTVSupportMP(activeId)
       .then((res) => { storeBindedTVStatus(res); resolve(res); })
       .catch(() => console.log('refreshBindedTVStatus storage error.'));
@@ -276,14 +276,14 @@ function storeBindedTVStatus(bSupport) {
   console.log('storeBindedTVStatus. bSupport: ', bSupport);
   wx.setStorageSync('bBindedTVSupportMP', bSupport);
 }
-function getBindedTVStatus(){
+function getBindedTVStatus() {
   let res = !!wx.getStorageSync('bBindedTVSupportMP');
   console.log('getBindedTVStatus bBindedTVSupportMP:' + res);
   return res;
 }
 
 //判断字符串是否是json格式：如果parse能够转换成功，转换后类型为object且不等于null
-function isJson (str) {
+function isJson(str) {
   if (typeof str == 'string') {
     try {
       let obj = JSON.parse(str);
@@ -301,7 +301,7 @@ function isJson (str) {
 }
 
 // 获取导航栏高度（rpx和px）
-function getNavBarHeight () {
+function getNavBarHeight() {
   const {
     navBarHeight,
     navBarExtendHeight,
@@ -310,16 +310,16 @@ function getNavBarHeight () {
   let _winWidth = wx.getSystemInfoSync().windowWidth
   let _ratio = 750 / _winWidth
   let _rpxNavBarHeight = _pxNavBarHeight * _ratio
-  return {pxNavBarHeight: _pxNavBarHeight, rpxNavBarHeight: _rpxNavBarHeight, ratio: _ratio}
+  return { pxNavBarHeight: _pxNavBarHeight, rpxNavBarHeight: _rpxNavBarHeight, ratio: _ratio }
 }
 
-function navigateBack (n = 1) {
+function navigateBack(n = 1) {
   wx.navigateBack({
     delta: n
   })
 }
 
-function navigateTo (url) {
+function navigateTo(url) {
   wx.navigateTo({ url: url })
 }
 
@@ -329,32 +329,42 @@ function throttle(func, wait, options) {
   var previous = 0;
   if (!options) options = {};
 
-  var later = function() {
-      previous = options.leading === false ? 0 : new Date().getTime();
-      timeout = null;
-      func.apply(context, args);
-      if (!timeout) context = args = null;
+  var later = function () {
+    previous = options.leading === false ? 0 : new Date().getTime();
+    timeout = null;
+    func.apply(context, args);
+    if (!timeout) context = args = null;
   };
 
-  var throttled = function() {
-      var now = new Date().getTime();
-      if (!previous && options.leading === false) previous = now;
-      var remaining = wait - (now - previous);
-      context = this;
-      args = arguments;
-      if (remaining <= 0 || remaining > wait) {
-          if (timeout) {
-              clearTimeout(timeout);
-              timeout = null;
-          }
-          previous = now;
-          func.apply(context, args);
-          if (!timeout) context = args = null;
-      } else if (!timeout && options.trailing !== false) {
-          timeout = setTimeout(later, remaining);
+  var throttled = function () {
+    var now = new Date().getTime();
+    if (!previous && options.leading === false) previous = now;
+    var remaining = wait - (now - previous);
+    context = this;
+    args = arguments;
+    if (remaining <= 0 || remaining > wait) {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
       }
+      previous = now;
+      func.apply(context, args);
+      if (!timeout) context = args = null;
+    } else if (!timeout && options.trailing !== false) {
+      timeout = setTimeout(later, remaining);
+    }
   };
   return throttled;
+}
+
+// 检查是否登录，没登录跳转至登录页面
+function checkCoocaaUserLogin() {
+  let _userInfo = wx.getStorageSync('ccUserInfo')
+  // 注意用_userInfo == null无效
+  if (_userInfo == "") {
+    console.log(console.log('酷开账号信息:', _userInfo))
+    wx.navigateTo({ url: '../login/login' })
+  }
 }
 
 module.exports = {
@@ -379,5 +389,6 @@ module.exports = {
   navigateBack: navigateBack,
   navigateTo: navigateTo,
   throttle: throttle,
-  getFlatform: getFlatform
+  getFlatform: getFlatform,
+  checkCoocaaUserLogin: checkCoocaaUserLogin
 }

@@ -63,11 +63,12 @@ Page({
           })
         }
       } else {
-        utils.showFailedToast(res.data.message, this.data.errIconUrl)
+        console.log('获取标签分类数据失败:', res)
+        // utils.showFailedToast(res.data.message, this.data.errIconUrl)
       }
     }).catch(res => {
       console.log('获取标签分类数据发生错误', res)
-      utils.showFailedToast('加载数据失败', this.data.errIconUrl)
+      // utils.showFailedToast('加载数据失败', this.data.errIconUrl)
     })
   },
 
@@ -81,11 +82,12 @@ Page({
             recommandList: res.data.data
           })
         } else {
-          utils.showFailedToast(res.data.message, this.data.errIconUrl)
+          console.log('获取推荐分类及影片失败:', res)
+          // utils.showFailedToast(res.data.message, this.data.errIconUrl)
         }
       }).catch(res => {
-        console.log('获取推荐分类及影片数据发生错误', res)
-        utils.showFailedToast('加载数据失败', this.data.errIconUrl)
+        console.log('获取推荐分类及影片数据发生错误:', res)
+        // utils.showFailedToast('加载数据失败', this.data.errIconUrl)
       })
   },
 
@@ -100,11 +102,11 @@ Page({
           bannerList: res.data.data
         })
       } else {
-        console.log('获取banner数据失败', res);
+        console.log('获取banner数据失败', res)
         // utils.showFailedToast(res.data.message || '加载数据失败', this.data.errIconUrl)
       }
     }).catch(res => {
-      console.log('获取轮播图数据发生错误', res);
+      console.log('获取轮播图数据发生错误', res)
       // utils.showFailedToast('加载数据失败', this.data.errIconUrl)
     })
   },
@@ -120,7 +122,7 @@ Page({
       }
     }).catch(res => {
       console.log('获取片单数据发生错误', res)
-      utils.showFailedToast('加载数据失败', this.data.errIconUrl)
+      // utils.showFailedToast('加载数据失败', this.data.errIconUrl)
     })
   },
 
