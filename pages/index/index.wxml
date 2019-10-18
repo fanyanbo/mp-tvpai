@@ -31,6 +31,7 @@
         </block>
       </swiper>
     </view>
+    <!-- 快捷跳转区域，内测使用 -->
     <view bindtap="jumpOutLink">跳转到h5页面</view>
     <view bindtap="jumpMyFavorite">跳转到我的收藏页面</view>
     <!-- 区分腾讯源和爱奇艺源标签分类，因为标签个数不同，它们的布局不同 -->
