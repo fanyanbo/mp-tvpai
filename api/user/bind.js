@@ -61,7 +61,7 @@ function getDeviceList() {  //获取绑定设备列表
         wx.setStorageSync('deviceId', '');
         app.globalData.activeId = null;
         app.globalData.deviceId = null;
-        app.globalData.boundDeviceInfo = null;
+        app.globalData.boundDeviceInfo = {};
         for (let i = 0; i < res.data.data.length; i++) {
           if (res.data.data[i].bindStatus === 1) {//当前绑定设备
             console.log(res.data.data[i].deviceId);

@@ -12,7 +12,6 @@
   <!-- 用户信息区 -->
   <view class="userinfo" bindtap="tapUserInfo">
     <block wx:if="{{bLoginCoocaa}}">
-      <!-- todo 这里的用户头像 昵称应该不是酷开的，需要修改 -->
       <view class="avatar"><image class="avatar-image" src="{{ccUserInfo.avatar}}"></image></view>
       <view class="name"><text>{{ccUserInfo.name}}</text></view>
     </block>
@@ -33,20 +32,20 @@
     <image class="tvimage" src="../../images/my/tv.png"></image>
     <view class="device-info">
       <view class="tvname">{{curTV.name}}</view>
-      <view class="tvsource">{{curTV.source}}</view>
+      <view class="tvsource" wx:if="{{!!curTV.source}}">{{curTV.source}}</view>
     </view>
-    <view class="device-switch" data-type="home" bindtap="handleJumpPage">切换设备</view>
+    <view class="device-switch" data-type="home" bindtap="handleJumpPage">{{curTV.btn}}</view>
   </view>
   <!-- 当前绑定电视账户与微信登录账户不一致时 -->
-  <view class="unmatch" wx:if="{{bAcctMatch == false}}">
-    <view class="tips">{{unmatch.tips[1]}}</view>
-    <view class="acct-info" wx:for="{{unmatch.acct}}" wx:key="index">
-      <image class="image" src="{{item.image}}"></image>
+  <view class="unmatch" wx:if="{{curTV.bAcctMatch == false}}">
+    <view class="tips">{{curTV.unmatch.tip}}</view>
+    <view class="acct-info" wx:for="{{curTV.unmatch.acct}}" wx:key="index">
+      <image class="image" src="{{item.avatar}}"></image>
       <view class="name">{{item.name}}</view>
       <view class="location">{{item.location}}</view>
     </view>
     <image class="sync-icon" src="../../images/my/sync.png"></image>
-    <view class="domatch">同步会员账号</view>
+    <view class="domatch" bindtap="syncTVAcct">同步会员账号</view>
   </view>
 
   <!-- 投屏历史 标题行 -->

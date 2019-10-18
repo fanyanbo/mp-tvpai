@@ -95,14 +95,18 @@ button::after {
   height: 100rpx;
   margin-right: 30rpx;
 }
+.device>.device-info {
+  display: flex;
+  flex-direction: column;
+}
 .device>.device-info>.tvname {
-  height: 44rpx;
+  /* height: 44rpx; */
   line-height: 44rpx;
   font-weight: bold;
   font-size: 32rpx;
 }
 .device>.device-info>.tvsource {
-  height: 34rpx;
+  /* height: 34rpx; */
   line-height: 34rpx;
   font-size: 24rpx;
 }
