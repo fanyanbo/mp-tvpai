@@ -247,6 +247,7 @@
                     <!-- 清除浮动 -->
                     <view class="clear"></view>
                   </view>
+
                   <view class="cinecism_card_footer">
                     <!-- 收藏影片 -->
                     <!-- <view class="inline" style="display:none"> -->
@@ -254,6 +255,7 @@
                       <view class="collect_logo">
                         <!-- <image src="../../images/collect_icon.png"/> -->
                         <li data-contentid="{{item.contentId}}" wx:if="{{item.moviesDetail.isCollectionMovie == 'no'}}" class="starIcon {{starArrays[item.contentId]}}" data-index="{{index}}" bindtap="collect"></li>
+                        
                         <li wx:else class="starIcon1" data-index="{{index}}"></li>
                       </view>
                       <view class="cinecism_card_collect">
@@ -314,13 +316,15 @@
           <!-- 一篇文章end -->
         </view>
         <!-- 相关文章end -->
+
+        
         <!-- 评论 start -->
         <!-- <view id="cinecism_comment" style="display:none" > -->
         <view id="cinecism_comment">
-          <view class="cinecism_comment" wx:if="{{loadData!=null&&loadData.length>0}}">
-            <view class="cinecism_comment_topic">评论 {{commentData.pager.totalNum}}</view>
+          <view class="cinecism_comment" wx:if="{{allCommentList!=null && allCommentList.length>0}}">
+            <view class="cinecism_comment_topic">评论 {{commentTotalNum}}</view>
             <!-- 一条评论 -->
-            <block wx:for="{{loadData}}" wx:key="index">
+            <block wx:for="{{allCommentList}}" wx:key="index">
               <view class="cinecism_comment_one">
                 <div class="comment_left">
                   <image src="{{item.headimgurl}}" mode="aspectFill"></image>
@@ -328,13 +332,13 @@
                 <div class="comment_right">
                   <ul>
                     <li class="comment_right_name">{{item.nickname}}</li>
-                    <li class="right width60" bindtap="handClick" data-commentid="{{item.id}}" data-id="{{index}}">
-                      <image src="{{likeClass[index]=='true' ? '../../images/praise_icon2.png':'../../images/praise_icon.png'}}" data-commentid="{{item.id}}" data-id="{{index}}"></image>
+                    <li class="right width60" bindtap="submitClickLike" data-commentId="{{item.id}}" data-id="{{index}}">
+                      <image src="{{item.isThumbsUp ? '../../images/praise_icon2.png':'../../images/praise_icon.png'}}" data-commentId="{{item.id}}" data-id="{{index}}"></image>
                     </li>
                     <li class="right comment_right_like" data-id="{{index}}">
-                      {{praiseNum[index]}}
+                      {{item.praiseNum}}
                     </li>
-                    <li class="right comment_right_time">{{createTime[index]}}</li>
+                    <li class="right comment_right_time">{{item.createTime}}</li>
                   </ul>
                   <ul>
                     <li class="font-size-ns">{{item.content}}</li>
@@ -346,9 +350,9 @@
           </view>
         </view>
         <!-- 评论end -->
+
         <!-- 底部栏start -->
         <!-- <view class="footer" style="display:none"> -->
-        <comment id='commentTest' isShow="{{isShowComment}}" />
         <view class="footer">
           <ul>
             <!-- style="display:none" -->
@@ -357,7 +361,7 @@
               <text>文中影片</text>
             </li>
             <!-- 评论数 -->
-            <li class="right" bindtap="showComment">{{commentData.pager.totalNum}}</li>
+            <li class="right">{{commentTotalNum}}</li>
             <!-- 评论图标 -->
             <li class="right mg20" bindtap="commentClick">
               <image src="../../images/comment_icon.png"></image>
@@ -372,12 +376,14 @@
           </ul>
         </view>
         <!-- 底部栏end -->
+
         <!-- 评论输入框 -->
         <view bindtap="closeGray1" class="grayBox grayBox1 {{hidden1 == 'true'?'hide':''}}"></view>
         <view class="inputWords {{hidden1 == 'true'?'hide':''}}">
-          <input confirm-type="send" data-id="{{dataList.id}}" placeholder="我也说两句" focus="{{focus}}" value="{{inInput}}" bindconfirm="bindconfirm" />
+          <input confirm-type="send" data-id="{{dataList.id}}" placeholder="我也说两句" focus="{{focus}}" value="{{inInput}}" bindconfirm="submitComment" />
         </view>
         <!-- 评论输入框end -->
+
         <!-- push推送展开栏 -->
         <view bindtap="closeGray2" class="grayBox grayBox2 {{hidden2 == 'true'?'hide':''}}"></view>
         <view class="pushBar {{hidden2 == 'true'?'hide':''}}">

@@ -1,6 +1,10 @@
 // pages/cinecism/cinecism.js
 const api = require('../../api/api.js');
 var utils = require('../../utils/util.js')
+//有空一定要把老接口全部改为新接口
+const utilsNew = require('../../utils/util_fyb')
+const apiNew = require('../../api/api_fyb')
+
 var app = getApp()
 var collectFlag = 1
 var voteClicknum = 1
@@ -24,7 +28,7 @@ var starClass4 = new Array()
 
 Page({
   data: {
-    allId: '',
+    theArticleId: '',
     optionIds: [],
     voteIds: null,
     failHidden: true,
@@ -33,7 +37,7 @@ Page({
     total: 0,
     page: 1,
     chioceClass: "chioceIcon",
-    collectNum: '',
+    collectNum: 0,
     isArticleCollect: '',
     hidden: 'true',
     hidden1: 'true',
@@ -47,15 +51,25 @@ Page({
     starArrays: [],
     lenIs: false,
     isShowComment: false,
+    allCommentList: [], //评论总数
+    _allComments: [],
+    _commentLike: [],
+    commentTotalNum: 0
     // mydata:''
   },
   onLoad: function (options) {
     this.setData({
-      allId: options.id
+      theArticleId: options.id  //从点击入口获取的文章id
     })
+    console.log('theArticleId:',options.id)
+
+    this.data._commentLike = wx.getStorageSync('comment_like')
+    if (!this.data._commentLike) wx.setStorageSync('comment_like', [])
+
     getArtical(this)
     getAboutMovie(this)
-    getCommenList(this)
+    //getCommentList(this)
+    this.getComment()
     wx.getSystemInfo({
       success: function (res) {
         scHeight = res.screenHeight
@@ -71,7 +85,8 @@ Page({
         page: 1,
         loadData: []
       });
-      getCommenList(this);
+      //getCommentList(this);
+      this.getComment()
     }
     // var pages = getCurrentPages();
     // var currPage = pages[pages.length - 1]; //当前页面
@@ -84,7 +99,7 @@ Page({
   },
   onReachBottom: function () {
     if (this.data.page > 1) {
-      getCommenList(this);
+      //getCommentList(this);
     }
   },
   onPullDownRefresh: function () {
@@ -94,7 +109,7 @@ Page({
       total: 0,
       page: 1
     });
-    getCommenList(this);
+    //getCommentList(this);
     wx.stopPullDownRefresh();
   },
   onShareAppMessage: function () {
@@ -108,6 +123,7 @@ Page({
     console.log("formid：",e.detail.formId)
     wx.setStorageSync("formid", e.detail.formId)
   },
+
   collect(e) {
     movieidArray = []
     //判断ccsession是否为空
@@ -201,65 +217,113 @@ Page({
       delta: 1
     })
   },
-  handClick(e) {
-    //判断ccsession是否为空
-  //  if (utils.ccsessionIs() == null) return
-    var commentid = e.currentTarget.dataset.commentid
-    console.log("commentId:" + commentid)
-    var that = this
-    var url = api.clickLikeUrl
-    var key = app.globalData.key
-    var ccsession = wx.getStorageSync("new_cksession")
-    var paramsStr = { "ccsession": ccsession, "commentId": commentid + '' }
-    var sign = utils.encryption(paramsStr, key)
-    wx.request({
-      url: url,
-      data: {
-        client_id: 'applet',
-        sign: sign,
-        param: paramsStr
-      },
-      method: 'get',
-      header: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      success: res => {
-        if (res.data.result) {
-          console.log("获取点赞接口成功")
-          var data = res.data.data
-          if (data != null && data != undefined) {
-            var id = e.currentTarget.dataset.id
-            // 点赞数组
-            var praiseNum = that.data.praiseNum
-            var add = parseInt(praiseNum[id]) + 1
-            var reduice = parseInt(praiseNum[id]) - 1
-            //点赞图标数组
-            var str = that.data.likeClass
-            if (data.type == 'sure') {
-              str[id] = 'true'
-              praiseNum[id] = add
-            } else if (data.type == 'cancel') {
-              str[id] = 'false'
-              praiseNum[id] = reduice
-            }
 
-            that.setData({
-              likeClass: str,
-              praiseNum: praiseNum
-            })
-            var type = "commentEmp"
-            // console.log("从缓存中取得的formid")
-            // console.log(formId)
-            utils.eventCollect(type, commentid)
+  // 对某条评论点赞/取消点赞
+  submitClickLike (e) {
+    // let ccsession = 'b45004fab0934395dc20ede9dc13801d'
+    let ccsession = wx.getStorageSync("new_cksession")
+    let commentId = e.currentTarget.dataset.commentId
+    let params = { "ccsession": ccsession, "commentId": commentId + '' }
+    let desParams = utilsNew.paramsAssemble_wx(params)
 
+    utilsNew.requestP(apiNew.submitClickLikeUrl, desParams).then(res => {
+      console.log("点赞成功:", res)
+      if (res.data.data) {
+        let _type = res.data.data.type
+        let _commentLike = wx.getStorageSync('comment_like') //评论点赞缓存列表
+        let _index = _commentLike.indexOf(commentId) //判断缓存中是否有点赞记录
+        console.log(commentId, _commentLike)
+        if (_type === 'sure') {
+          if (_index < 0) {
+            _commentLike.push(commentId)
+            wx.setStorageSync('comment_like', _commentLike)
+          }
+        } else {
+          if (_index > -1) {
+            _commentLike.splice(_index, 1)
+            wx.setStorageSync('comment_like', _commentLike)
           }
         }
-      },
-      fail: function () {
-        console.log("获取点赞接口失败")
+        for (let i = 0; i < this.data._allComments.length; i++) {
+          if (commentId === this.data._allComments[i].id) {
+            if (_type === 'sure') {
+              this.data._allComments[i].isThumbsUp = true
+              this.data._allComments[i].praiseNum += 1
+            } else {
+              this.data._allComments[i].isThumbsUp = false
+              this.data._allComments[i].praiseNum -= 1
+            }
+          }
+        }
+        this.setData({
+          allCommentList: this.data._allComments
+        })
       }
+    }).catch(res => {
+      console.log('点赞失败:', res)
     })
   },
+
+  // handClick(e) {
+  //   //判断ccsession是否为空
+  // //  if (utils.ccsessionIs() == null) return
+  //   var commentid = e.currentTarget.dataset.commentid
+  //   console.log("commentId:" + commentid)
+  //   var that = this
+  //   var url = api.clickLikeUrl
+  //   var key = app.globalData.key
+  //   var ccsession = wx.getStorageSync("new_cksession")
+  //   var paramsStr = { "ccsession": ccsession, "commentId": commentid + '' }
+  //   var sign = utils.encryption(paramsStr, key)
+  //   wx.request({
+  //     url: url,
+  //     data: {
+  //       client_id: 'applet',
+  //       sign: sign,
+  //       param: paramsStr
+  //     },
+  //     method: 'get',
+  //     header: {
+  //       'Content-Type': 'application/x-www-form-urlencoded'
+  //     },
+  //     success: res => {
+  //       if (res.data.result) {
+  //         console.log("获取点赞接口成功")
+  //         var data = res.data.data
+  //         if (data != null && data != undefined) {
+  //           var id = e.currentTarget.dataset.id
+  //           // 点赞数组
+  //           var praiseNum = that.data.praiseNum
+  //           var add = parseInt(praiseNum[id]) + 1
+  //           var reduice = parseInt(praiseNum[id]) - 1
+  //           //点赞图标数组
+  //           var str = that.data.likeClass
+  //           if (data.type == 'sure') {
+  //             str[id] = 'true'
+  //             praiseNum[id] = add
+  //           } else if (data.type == 'cancel') {
+  //             str[id] = 'false'
+  //             praiseNum[id] = reduice
+  //           }
+
+  //           that.setData({
+  //             likeClass: str,
+  //             praiseNum: praiseNum
+  //           })
+  //           var type = "commentEmp"
+  //           // console.log("从缓存中取得的formid")
+  //           // console.log(formId)
+  //           utils.eventCollect(type, commentid)
+
+  //         }
+  //       }
+  //     },
+  //     fail: function () {
+  //       console.log("获取点赞接口失败")
+  //     }
+  //   })
+  // },
+
   closeBar: function (e) {
     var that = this
     that.setData({
@@ -276,74 +340,55 @@ Page({
       isTrue: 'hidden'
     })
   },
+
   clickLike: function (e) {
-    //判断ccsession是否为空
-  //  if (utils.ccsessionIs() == null) return
+
     console.log("收藏文章按钮")
     collectFlag++
-    var that = this
 
-    var index = parseInt(that.data.collectNum)
-    var indexAdd = index + 1
-    var indexRediuce = index - 1
-    var url = api.appletEmpCollectArticleUrl
-    var key = app.globalData.key
-    var ccsession = wx.getStorageSync("new_cksession")
-    var articleId = e.currentTarget.dataset.articleid
-    var paramsStr = { "articleId": articleId + '', "ccsession": ccsession }
-    var sign = utils.encryption(paramsStr, key)
-    wx.request({
-      url: url,
-      data: {
-        client_id: 'applet',
-        sign: sign,
-        param: paramsStr
-      },
-      method: 'get',
-      header: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      success: res => {
-        console.log("点击收藏按钮")
-        if (res.data.result) {
-          console.log("获取收藏文章接口成功")
-          if (res.data.data != null && res.data.data != undefined) {
-            if (res.data.data.type == 'sure') {
-              utils.showToastBox("已喜欢", "success")
-            } else if (res.data.data.type == 'cancel') {
-              utils.showToastBox("已取消喜欢", "success")
-            } else {
-              utils.showToastBox("失败", "loading")
-            }
-          }
-          if (collectFlag % 2 == 0) {
-            //文章已被收藏
-            that.setData({
-              isArticleCollect: 2,
-              collectNum: indexAdd
-            })
+    let index = parseInt(this.data.collectNum)
+    let indexAdd = index + 1
+    let indexRediuce = index - 1
+
+    let articleId = this.data.theArticleId
+    let ccsession = wx.getStorageSync("new_cksession")
+    let params = { "ccsession": ccsession, "articleId": articleId }
+
+    let desParams = utilsNew.paramsAssemble_wx(params)
+    utilsNew.requestP(apiNew.submitFavoriteArticleUrl, desParams).then(res => {
+      console.log("获取收藏文章接口成功",res)
+      if (res.data.result) {
+        if (res.data.data != null && res.data.data != undefined) {
+          if (res.data.data.type == 'sure') {
+            utils.showToastBox("已喜欢", "success")
+          } else if (res.data.data.type == 'cancel') {
+            utils.showToastBox("已取消喜欢", "success")
           } else {
-            //文章未收藏
-            that.setData({
-              isArticleCollect: 1,
-              collectNum: indexRediuce
-            })
+            utils.showToastBox("失败", "loading")
           }
-          var type = "articleCollect"
-          // console.log("从缓存中取得的formid")
-          // console.log(formId)
-          utils.eventCollect(type, articleId)
-
-        } else {
-          utils.showToastBox("请重试", "loading")
         }
-      },
-      fail: function () {
-        utils.showFailToast(that, "操作失败,请重试")
-        console.log("获取收藏文章接口失败")
+        if (collectFlag % 2 == 0) {
+          //文章已被收藏
+          this.setData({
+            isArticleCollect: 2,
+            collectNum: indexAdd
+          })
+        } else {
+          //文章未收藏
+          this.setData({
+            isArticleCollect: 1,
+            collectNum: indexRediuce
+          })
+        }
+      } else {
+        utils.showToastBox("请重试", "loading")
       }
+    }).catch(res => {
+      utils.showFailToast(this, "操作失败,请重试")
+      console.log("获取收藏文章接口失败")
     })
   },
+  // 评论弹窗
   commentClick: function (e) {
     var that = this
   //  if (utils.ccsessionIs() == null) return
@@ -352,123 +397,204 @@ Page({
       focus: true
     })
   },
-  showComment: function () {
-    console.log("comment changed")
-    this.setData({
-      isShowComment: true
+
+  // 获取文章评论
+  getComment() {
+    // let articleId = '_oqy_1012320100'
+    // let ccsession = 'b45004fab0934395dc20ede9dc13801d'
+    let articleId = this.data.theArticleId
+    let ccsession = wx.getStorageSync("new_cksession")
+
+    let params = { "ccsession": ccsession, "articleId": articleId }
+    let desParams = utilsNew.paramsAssemble_wx(params)
+    utilsNew.requestP(apiNew.getCommentsUrl, desParams).then(res => {
+      console.log("获取文章评论数据:", res)
+      if (res.data.data) {
+        this.data._allComments = res.data.data.list
+        this.data_commentLike = wx.getStorageSync('comment_like') //评论点赞缓存列表   
+        for (let i = 0; i < this.data._allComments.length; i++) {
+          //判断缓存中是否有点赞记录
+          let _index = this.data._commentLike.indexOf(this.data._allComments[i].id)
+          if (_index > -1) {
+            this.data._allComments[i].isThumbsUp = true
+          }
+          //修改时间
+          this.data._allComments[i].createTime = utils.getDateDiff(this.data._allComments[i].createTime)
+        }
+        console.log('评论', this.data._allComments)
+        this.setData({
+          allCommentList: this.data._allComments,
+          commentTotalNum: res.data.data.pager.totalNum || 0
+        })
+      }
+    }).catch(res => {
+      console.log('获取评论数据失败:', res)
     })
   },
-  bindconfirm: function (e) {
-    var likeClass = new Array()
-    var praiseNum = new Array()
-    var createTime = new Array()
-    var that = this
-    // that.queryMultipleNodes()
-    var content = e.detail.value
-    content = encodeURI(content, 'utf-8')
-    var articleId = e.currentTarget.dataset.id
-    var url = api.saveArticleCommentByUserUrl
-    var key = app.globalData.key
-    var ccsession = wx.getStorageSync("new_cksession")
-    var paramsStr = { "articleId": articleId + '', "ccsession": ccsession, 'content': content }
-    var sign = utils.encryption(paramsStr, key)
 
+  // 提交评论，新接口会有提交评论成功后只显示最新10条评论的bug
+  submitComment (e) {
+    let content = e.detail.value
+    content = encodeURI(content, 'utf-8')
     if (content == "" || content == null) {
       utils.showToastBox("输入的评论为空", "loading")
     } else {
-      var dataStr = utils.json2Form({ client_id: 'applet', sign: sign, param: '{"articleId":"' + articleId + '","ccsession":"' + ccsession + '","content":"' + content + '"}' })
+      // let articleId = '_oqy_1012320100'
+      // let ccsession = 'b45004fab0934395dc20ede9dc13801d'
+      let articleId = e.currentTarget.dataset.id
+      let ccsession = wx.getStorageSync("new_cksession")
+      let params = {
+        "ccsession": ccsession,
+        "articleId": articleId,
+        "content": content,
+      }
+      let desParams = utilsNew.paramsAssemble_wx(params)
 
-      console.log('dataStr======================',dataStr)
-      wx.request({
-        url: url,
-        data: dataStr,
-        method: 'post',
-        header: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        success: res => {
-          if (res.data.result) {
-            //获取评论高度
-
-            // console.log("scrollsTop:")
-            // console.log(scrollsTop)
-            // var selfHeight = winHeight - scrollsTop
-            // wx.pageScrollTo({
-            //   scrollTop: selfHeight
-            // })
-            that.data.loadData = []
-            that.data.page = 1
-            console.log("获取评论成功")
-            var data = res.data.data
-            if (data != null && data != undefined) {
-              var list = data.list
-              if (that.data.page == 1) {
-                if (list != null && list != undefined) {
-                  for (var i = 0; i < list.length; i++) {
-                    if (list[i].commentEmp == null) {
-                      likeClass.push("")
-                    } else {
-                      likeClass.push("true")
-                    }
-                    praiseNum.push(list[i].praiseNum)
-                    createTime.push(utils.getDateDiff(list[i].createTime * 1000))
-                  }
-                }
-
-                that.setData({
-                  total: data.pager.totalNum,
-                  page: that.data.page + 1,
-                  loadData: data.list
-                })
-              } else {
-                that.setData({
-                  total: data.pager.totalNum,
-                  page: that.data.page + 1,
-                  loadData: that.data.loadData.concat(data.list)
-                });
-                for (var i = 0; i < that.data.loadData.length; i++) {
-                  if (that.data.loadData[i].commentEmp == null) {
-                    likeClass.push("")
-                  } else {
-                    likeClass.push("true")
-                  }
-                  praiseNum.push(that.data.loadData[i].praiseNum)
-                  createTime.push(utils.getDateDiff(that.data.loadData[i].createTime * 1000))
-                }
-              }
+      utilsNew.requestP(apiNew.submitCommentUrl, desParams).then(res => {
+        console.log("提交文章评论数据成功:", res)
+        if (res.data.data) {
+          this.data._allComments = res.data.data.list
+          this.data_commentLike = wx.getStorageSync('comment_like') //评论点赞缓存列表   
+          for (let i = 0; i < this.data._allComments.length; i++) {
+            let _index = this.data._commentLike.indexOf(this.data._allComments[i].id) //判断缓存中是否有点赞记录
+            if (_index > -1) {
+              this.data._allComments[i].isThumbsUp = true
             }
-            that.setData({
-              commentData: data,
-              likeClass: likeClass,
-              praiseNum: praiseNum,
-              createTime: createTime,
-              inInput: ""
-            })
-            utils.showToastBox("评论成功", "success")
-
-            var type = "articleComment"
-            // console.log("从缓存中取得的formid")
-            // console.log(formId)
-            utils.eventCollect(type, articleId)
-
-          } else {
-            utils.showToastBox("评论失败，请重试", "loading")
+            //修改时间
+            this.data._allComments[i].createTime = utils.getDateDiff(this.data._allComments[i].createTime)
           }
-          that.setData({
+          this.setData({
+            allCommentList: this.data._allComments,
+            commentTotalNum: res.data.data.pager.totalNum,
+            inInput: "",
             hidden1: 'true'
           })
-        },
-        fail: function () {
-          console.log("获取保存接口失败")
-          utils.showFailToast(that, "加载失败，请重试")
-          that.setData({
-            hidden1: 'true'
-          })
+          utils.showToastBox("评论成功", "success")
+        } else {
+          console.log('提交评论失败',res.data.message)
+          utils.showToastBox("评论失败，请先登录", "loading")
         }
+      }).catch(res => {
+        console.log('提交评论数据失败:', res)
+        this.setData({
+          hidden1: 'true'
+        })
+        utils.showToastBox("评论失败，请重试", "loading")
       })
     }
-
   },
+
+  // 原评论提交接口
+  // bindconfirm: function (e) {
+  //   var likeClass = new Array()
+  //   var praiseNum = new Array()
+  //   var createTime = new Array()
+  //   var that = this
+  //   // that.queryMultipleNodes()
+  //   var content = e.detail.value
+  //   content = encodeURI(content, 'utf-8')
+  //   var articleId = e.currentTarget.dataset.id
+  //   var url = api.saveArticleCommentByUserUrl
+  //   var key = app.globalData.key
+  //   var ccsession = wx.getStorageSync("new_cksession")
+  //   var paramsStr = { "articleId": articleId + '', "ccsession": ccsession, 'content': content }
+  //   var sign = utils.encryption(paramsStr, key)
+
+  //   if (content == "" || content == null) {
+  //     utils.showToastBox("输入的评论为空", "loading")
+  //   } else {
+  //     var dataStr = utils.json2Form({ client_id: 'applet', sign: sign, param: '{"articleId":"' + articleId + '","ccsession":"' + ccsession + '","content":"' + content + '"}' })
+
+  //     console.log('dataStr======================',dataStr)
+  //     wx.request({
+  //       url: url,
+  //       data: dataStr,
+  //       method: 'post',
+  //       header: {
+  //         'Content-Type': 'application/x-www-form-urlencoded'
+  //       },
+  //       success: res => {
+  //         if (res.data.result) {
+  //           //获取评论高度
+
+  //           // console.log("scrollsTop:")
+  //           // console.log(scrollsTop)
+  //           // var selfHeight = winHeight - scrollsTop
+  //           // wx.pageScrollTo({
+  //           //   scrollTop: selfHeight
+  //           // })
+  //           that.data.loadData = []
+  //           that.data.page = 1
+  //           console.log("获取评论成功")
+  //           var data = res.data.data
+  //           if (data != null && data != undefined) {
+  //             var list = data.list
+  //             if (that.data.page == 1) {
+  //               if (list != null && list != undefined) {
+  //                 for (var i = 0; i < list.length; i++) {
+  //                   if (list[i].commentEmp == null) {
+  //                     likeClass.push("")
+  //                   } else {
+  //                     likeClass.push("true")
+  //                   }
+  //                   praiseNum.push(list[i].praiseNum)
+  //                   createTime.push(utils.getDateDiff(list[i].createTime * 1000))
+  //                 }
+  //               }
+
+  //               that.setData({
+  //                 total: data.pager.totalNum,
+  //                 page: that.data.page + 1,
+  //                 loadData: data.list
+  //               })
+  //             } else {
+  //               that.setData({
+  //                 total: data.pager.totalNum,
+  //                 page: that.data.page + 1,
+  //                 loadData: that.data.loadData.concat(data.list)
+  //               });
+  //               for (var i = 0; i < that.data.loadData.length; i++) {
+  //                 if (that.data.loadData[i].commentEmp == null) {
+  //                   likeClass.push("")
+  //                 } else {
+  //                   likeClass.push("true")
+  //                 }
+  //                 praiseNum.push(that.data.loadData[i].praiseNum)
+  //                 createTime.push(utils.getDateDiff(that.data.loadData[i].createTime * 1000))
+  //               }
+  //             }
+  //           }
+  //           that.setData({
+  //             commentData: data,
+  //             likeClass: likeClass,
+  //             praiseNum: praiseNum,
+  //             createTime: createTime,
+  //             inInput: ""
+  //           })
+  //           utils.showToastBox("评论成功", "success")
+
+  //           var type = "articleComment"
+  //           // console.log("从缓存中取得的formid")
+  //           // console.log(formId)
+  //           utils.eventCollect(type, articleId)
+
+  //         } else {
+  //           utils.showToastBox("评论失败，请重试", "loading")
+  //         }
+  //         that.setData({
+  //           hidden1: 'true'
+  //         })
+  //       },
+  //       fail: function () {
+  //         console.log("获取保存接口失败")
+  //         utils.showFailToast(that, "加载失败，请重试")
+  //         that.setData({
+  //           hidden1: 'true'
+  //         })
+  //       }
+  //     })
+  //   }
+  // },
   closeGray: function () {
     var that = this
     that.setData({
@@ -576,7 +702,7 @@ Page({
       return
     }
 
-    var paramsStr = { "articleId": that.data.allId, "ccsession": ccsession, "optionId": optionIdStr, "voteId": voteId + '' }
+    var paramsStr = { "articleId": that.data.theArticleId, "ccsession": ccsession, "optionId": optionIdStr, "voteId": voteId + '' }
     console.log(paramsStr)
     var sign = utils.encryption(paramsStr, key)
     wx.request({
@@ -763,13 +889,11 @@ Page({
         }
       }
     }
-
     console.log("跳转movieID", movieID)
-
     wx.navigateTo({
       url: '../movieDetail/movieDetail?id=' + movieID
     })
-  }
+  },
 })
 
 
@@ -912,7 +1036,7 @@ function getArtical(that) {
   var url = api.getArticleDetailUrl
   var key = app.globalData.key
   var ccsession = wx.getStorageSync("new_cksession")
-  var paramsStr = { "articleId": that.data.allId, "ccsession": ccsession }
+  var paramsStr = { "articleId": that.data.theArticleId, "ccsession": ccsession }
   var sign = utils.encryption(paramsStr, key)
   wx.request({
     url: url,
@@ -928,9 +1052,8 @@ function getArtical(that) {
     success: res => {
       console.log(res.data)
       if (res.data.result) {
-        console.log("获取详情成功")
         var data = res.data.data
-        console.log(data)
+        console.log("获取详情成功",data)
         if (data != null && data != undefined) {
           var votesList = data.voteList
           var createTime = utils.toDate(data.createTime / 1000)
@@ -1013,102 +1136,101 @@ function getArtical(that) {
 
 }
 
+// 原获取评论
+// function getCommentList(that) {
+//   let likeClass = new Array();
+//   let praiseNum = new Array();
+//   let createTime = new Array();
+//   if (that.data.page > 1 && (that.data.page - 1) * 10 >= that.data.total) {
+//     return false;
+//   }
+//   utils.showLoading();
 
-// 评论
-function getCommenList(that) {
-  var likeClass = new Array();
-  var praiseNum = new Array();
-  var createTime = new Array();
-  if (that.data.page > 1 && (that.data.page - 1) * 10 >= that.data.total) {
-    return false;
-  }
-  utils.showLoading();
-  var url = api.getArticleCommentUrl
-  var key = app.globalData.key
-  var ccsession = wx.getStorageSync("new_cksession");
-  var page = that.data.page;
+//   var url = api.getArticleCommentUrl
+//   var key = app.globalData.key
+//   var ccsession = wx.getStorageSync("new_cksession");
+//   var page = that.data.page;
 
-  var paramsStr = { "articleId": that.data.allId, "ccsession": ccsession, "page": page + '', "pageSize": "10" };
-  console.log("paramsStr:")
-  console.log(utils.setParams(paramsStr))
-  var sign = utils.encryption(paramsStr, key);
-  console.log("sign:")
-  console.log(sign)
-  var dataStr = utils.json2Form({ client_id: 'applet', sign: sign, param: '{"articleId":"' + that.data.allId + '","ccsession":"' + ccsession + '","page":"' + page + '","pageSize":"10"}' });
-  // console.log(dataStr);
-  wx.request({
-    url: url,
-    data: dataStr,
-    method: 'post',
-    header: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    success: res => {
-      ///console.log(res)
-      if (res.data.result) {
-        console.log("获取评论成功")
-        var data = res.data.data
-        var list = data.list
-        if (that.data.page == 1) {
-          console.log("第一页")
-          if (list != null && list != undefined) {
-            for (var i = 0; i < list.length; i++) {
-              if (list[i].commentEmp == null) {
-                likeClass.push("")
-              } else {
-                likeClass.push("true")
-              }
-              praiseNum.push(list[i].praiseNum)
-              createTime.push(utils.getDateDiff(list[i].createTime * 1000))
-            }
-            that.setData({
-              total: data.pager.totalNum,
-              page: that.data.page + 1,
-              loadData: data.list
-            });
-          }
+//   var paramsStr = { "articleId": that.data.theArticleId, "ccsession": ccsession, "page": page + '', "pageSize": "10" };
+//   console.log("paramsStr:")
+//   console.log(utils.setParams(paramsStr))
+//   var sign = utils.encryption(paramsStr, key);
 
-        } else {
-          console.log("大于一页")
-          that.setData({
-            total: data.pager.totalNum,
-            page: that.data.page + 1,
-            loadData: that.data.loadData.concat(data.list)
-          });
-          for (var i = 0; i < that.data.loadData.length; i++) {
-            if (that.data.loadData[i].commentEmp == null) {
-              likeClass.push("")
-            } else {
-              likeClass.push("true")
-            }
-            praiseNum.push(that.data.loadData[i].praiseNum)
-            createTime.push(utils.getDateDiff(that.data.loadData[i].createTime * 1000))
-          }
-          console.log("评论数组：")
-          console.log(that.data.loadData)
-        }
-        that.setData({
-          commentData: data,
-          likeClass: likeClass,
-          praiseNum: praiseNum,
-          createTime: createTime
-        })
-      }
-      utils.hideLoading()
-    },
-    fail: function () {
-      utils.showFailToast(that, "加载失败，请重试")
-      console.log("获取评论失败")
-    }
-  })
-}
+//   var dataStr = utils.json2Form({ client_id: 'applet', sign: sign, param: '{"articleId":"' + that.data.theArticleId + '","ccsession":"' + ccsession + '","page":"' + page + '","pageSize":"10"}' });
+//   // console.log(dataStr);
+//   wx.request({
+//     url: url,
+//     data: dataStr,
+//     method: 'post',
+//     header: {
+//       'Content-Type': 'application/x-www-form-urlencoded'
+//     },
+//     success: res => {
+//       ///console.log(res)
+//       if (res.data.result) {
+//         console.log("获取评论成功")
+//         var data = res.data.data
+//         var list = data.list
+//         if (that.data.page == 1) {
+//           console.log("第一页")
+//           if (list != null && list != undefined) {
+//             for (var i = 0; i < list.length; i++) {
+//               if (list[i].commentEmp == null) {
+//                 likeClass.push("")
+//               } else {
+//                 likeClass.push("true")
+//               }
+//               praiseNum.push(list[i].praiseNum)
+//               createTime.push(utils.getDateDiff(list[i].createTime * 1000))
+//             }
+//             that.setData({
+//               total: data.pager.totalNum,
+//               page: that.data.page + 1,
+//               loadData: data.list
+//             });
+//           }
+//         } else {
+//           console.log("大于一页")
+//           that.setData({
+//             total: data.pager.totalNum,
+//             page: that.data.page + 1,
+//             loadData: that.data.loadData.concat(data.list)
+//           });
+//           for (var i = 0; i < that.data.loadData.length; i++) {
+//             if (that.data.loadData[i].commentEmp == null) {
+//               likeClass.push("")
+//             } else {
+//               likeClass.push("true")
+//             }
+//             praiseNum.push(that.data.loadData[i].praiseNum)
+//             createTime.push(utils.getDateDiff(that.data.loadData[i].createTime * 1000))
+//           }
+//           console.log("评论数组：")
+//           console.log(that.data.loadData)
+//         }
+//         that.setData({
+//           commentData: data,
+//           likeClass: likeClass,
+//           praiseNum: praiseNum,
+//           createTime: createTime
+//         })
+//       }
+//       utils.hideLoading()
+//     },
+//     fail: function () {
+//       utils.showFailToast(that, "加载失败，请重试")
+//       console.log("获取评论失败")
+//     }
+//   })
+// }
+
 //若影评模块可以删除，则这一段都可以删除
 //获取相关影片 
 function getAboutMovie(that) {
   var url = api.getArticleMoviesUrl
   var key = app.globalData.key
   var ccsession = wx.getStorageSync("new_cksession")
-  var paramsStr = { "articleId": that.data.allId, "ccsession": ccsession }
+  var paramsStr = { "articleId": that.data.theArticleId, "ccsession": ccsession }
   var sign = utils.encryption(paramsStr, key)
   wx.request({
     url: url,
@@ -1123,14 +1245,12 @@ function getAboutMovie(that) {
     },
     success: res => {
       if (res.data.result) {
-        console.log("获取收藏列表成功")
         var data1 = res.data.data
         var imgH = new Array()
         var imgV = new Array()
         var movieType
         var clooectList = new Array()
-        console.log("data1:")
-        console.log(data1)
+        console.log("获取收藏列表成功",data1)
         if (data1 != null && data1 != undefined) {
           starArray = []
           var tags = []
