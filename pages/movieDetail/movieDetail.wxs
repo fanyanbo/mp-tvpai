@@ -5,6 +5,7 @@ function getStars(val) {
 }
 
 // 无法使用new Date()
+//只能显示年月日，没有按设计需求显示几小时前、一周前等时间，是否使用util.js的文章评论点赞时间处理getDateDiff()
 function getDateTime(value) {
     var time = getDate(value);
     var year = time.getFullYear();

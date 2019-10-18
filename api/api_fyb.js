@@ -34,6 +34,7 @@ const bindDeviceUrl = baseUrl_wx + "wxUserDeviceAPI/bindDevice.coocaa";//绑定�
 const changeDeviceStatusUrl = baseUrl_wx + "wxUserDeviceAPI/changeDeviceStatus.coocaa";//修改设备名称或修改设备绑定状态接口
 const getRelatedArticlesUrl = "https://beta-wx.coocaa.com/" + "articleMoviesAPI/linkArticles.coocaa";//获取影片关联文章
 const searchArticlesUrl = "https://beta-wx.coocaa.com/" + "articleMoviesAPI/searchArticles.coocaa";//搜索文章
+const submitFavoriteArticleUrl = "https://beta-wx.coocaa.com/" + "articleMoviesAPI/appletEmpCollectArticle.coocaa"; //文章的收藏/取消收藏
 const getFavoriteArticlesUrl = "https://beta-wx.coocaa.com/" + "appletUsers/getCollectArticle.coocaa";//获取收藏文章
 const getFavoriteVideosUrl = "https://beta-wx.coocaa.com/" + "appletUsers/getCollectMovies.coocaa";//获取收藏影片
 const getCommentsUrl = "https://beta-wx.coocaa.com/" + "articleMoviesAPI/getCommentList.coocaa";//获取影片/文章评论
@@ -77,5 +78,6 @@ module.exports = {
   getFavoriteTopicUrl: getFavoriteTopicUrl,
   setFavoriteTopicUrl: setFavoriteTopicUrl,
   addMovieFavoriteUrl: addMovieFavoriteUrl,
-  getFavoriteStatusUrl: getFavoriteStatusUrl
+  getFavoriteStatusUrl: getFavoriteStatusUrl,
+  submitFavoriteArticleUrl: submitFavoriteArticleUrl,
 }

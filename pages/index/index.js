@@ -223,11 +223,14 @@ Page({
         url: `../webview/webview?path=${url}`
       });
     }
-    // if (e.currentTarget.dataset.type == 'cinecism') {
+
+    // let type = e.currentTarget.dataset.type
+    // type = 'cinecism'
+    // if (type == 'cinecism') {
     //   wx.navigateTo({
     //     url: '../cinecism/cinecism?id=' + e.currentTarget.dataset.id,
     //   })
-    // } else if (e.currentTarget.dataset.type == 'find') {
+    // } else if (type == 'find') {
     //   wx.navigateTo({
     //     url: '../find/find',
     //   })
