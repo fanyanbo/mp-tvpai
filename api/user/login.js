@@ -197,28 +197,8 @@ function acctLogin(userName, userPassword) {//账号密码登录
   })
 }
 
-//todo： 微信登录，直接跳转到后台衡炎炎页面
-function wxLoginCC() {//微信号登录酷开系统 
-  wx.login({
-    success: function (res) {
-      console.log('code', res);
-      util_fyb.getSessionByCode(res.code, function (res) {
-        console.log('success', res);
-        if (res.data.result && res.data.data) {
-          let ccsession = res.data.data.ccsession;
-          let wxopenid = res.data.data.wxopenid;
-          wx.setStorageSync('cksession', ccsession);
-          wx.setStorageSync('wxopenid', wxopenid);
-          console.log('setStorage, session = ' + ccsession + ',openid = ' + wxopenid);
-          // wx.navigateTo({
-          //   url: '../history/history',
-          // })
-        }
-      }, function (res) {
-        console.log('getSessionByCode error', res)
-      });
-    }
-  });
+function ccloginByWechatH5(userInfo) {//小程序跳 H5微信登录页面 登录酷开系统
+  _storeCCUserInfo(userInfo)
 }
 
 function getWXAuth(params) { //酷开账号登录前先获取微信授权，并上报酷开后台
@@ -246,12 +226,13 @@ function getWXAuth(params) { //酷开账号登录前先获取微信授权，并�
         }
         let sign = util.encryption(paramsStr, app.globalData.key);
         // console.log(sign);
-        let dataStr = utils.json2Form({
+        let dataStr = util.json2Form({
           client_id: 'applet',
           sign: sign,
           param: '{"ccsession":"' + params.ccsession + '","encryptedData":"' + params.encryptedData + '","iv":"' + params.iv + '","rawData":"' + rawData + '","signature":"' + params.signature + '"}'
         })
         console.log(dataStr);
+        let url = api.getuserinfoUrl
         return util_fyb.requestP(url, dataStr, 'post');
       }
     })
@@ -344,6 +325,6 @@ module.exports = {
   getWXAuth,
   mobLogin,
   acctLogin,
-  wxLoginCC,
+  ccloginByWechatH5, //微信登录代码看如何优化，最好集中在一处
   userLogout
 }

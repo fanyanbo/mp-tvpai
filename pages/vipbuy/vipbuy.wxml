@@ -19,7 +19,7 @@
         <view class="vip-type">奇异果VIP</view>
         <view class="vip-desc">开通送好礼</view>
       </view>
-      <view class="vip-item" wx:for="{{productListShow}}" data-id="{{item.id}}" bindtap="selectProduct">
+      <view class="vip-item {{!!item.selected ? selected : ''}}"  wx:for="{{productListShow}}" data-id="{{item.id}}" bindtap="selectProduct">
         <view class="vip-item-details">
           <view class="name">
             {{item.product_name}}

@@ -19,7 +19,7 @@ Page({
       HASLOGIN_REVISE_NAME: 103,  //修改名称页
     },
     curSubPage: 0,//当前所处子页面,取值见this.data.SubPages
-    
+    login_wechat_url: 'https://beta-wx.coocaa.com/users/miniprogram/usercenter/login.html?ccSession=',
     //-- 登录变量 start --
     arrLoginType: [ //登录类型 
       { id: 1, type: '微信登录', image: '../../images/my/login/wechat.png'},
@@ -107,7 +107,7 @@ Page({
     //todo 输入为空时的异常提示
   },
 
-  startLoginByMob(e) { //手机号登录
+  startLoginByMob(e) { //手机号登录 //todo 需要优化，不需要再用getusrinfo type button即可
     if (!e.detail.userInfo) {
       // 如果用户拒绝直接退出，下次依然会弹出授权框
       return;
@@ -120,7 +120,7 @@ Page({
       })
       return
     }
-    Promise.resolve().then(() => {
+    Promise.resolve().then(() => { //todo 流程是否可优化 代码冗余
       if (wx.getStorageSync('new_cksession')) {
         return user_login.mobLogin(this.data.userinput_mob, this.data.userinput_pw)
       } else {
@@ -137,20 +137,31 @@ Page({
       wx.navigateBack({delta: 2}) //调回到登录前页面
     })
   },
-  startLogout() { //退出登录
-    wx.showModal({
-      title: '提示',
-      content: '确认退出酷开账号吗?',
-      success(res) {
-        if(res.confirm) {
-          user_login.userLogout().then(() => {
-            wx.navigateBack({})
-          })
+  _startLoginByWechat(e) { //微信登录
+    if(!e.detail.userInfo) {
+      //如果用户拒绝直接退出，下次依然会弹出授权框
+      return;
+    }
+    Promise.resolve().then(() => {
+      return new Promise((resolve, reject) => {
+        let ccsession = wx.getStorageSync('new_cksession')
+        if (ccsession) {
+          resolve(ccsession)
+        } else {
+          user_login.getWXAuth(e.detail).then( () => {
+              let ccsession = wx.getStorageSync('new_cksession')
+              resolve(ccsession)
+            }).catch(err => {
+              reject(err)
+            })
         }
-      }
+      })
+    }).then((ccsession) => {
+      return wx.navigateTo({
+        url: '../login/login?stage=' + this.data.SubPages.LOGIN_BY_WECHAT,
+      })
     })
   },
-
   chooseLoginType(e) { //选择登录方式
     let cur = +e.currentTarget.dataset.id
     console.log('login type: ' + cur)
@@ -161,12 +172,40 @@ Page({
       default: cur = this.data.SubPages.LOGIN_BY_MOBILE; break;
     }
     if (cur == this.data.SubPages.LOGIN_BY_WECHAT) {
-      //todo 跳转到后台微信登录页，
+      this._startLoginByWechat(e)
     }else {
       wx.navigateTo({
         url: `../login/login?stage=${cur}`,
       })
     }
+  },
+  startLogout() { //退出登录
+    wx.showModal({
+      title: '提示',
+      content: '确认退出酷开账号吗?',
+      success(res) {
+        if (res.confirm) {
+          user_login.userLogout().then(() => {
+            wx.navigateBack({})
+          })
+        }
+      }
+    })
+  },
+  wechatH5GetMsg(e) { //H5页面消息
+    console.log(e)
+    let userInfo = e.detail.data
+    if(!userInfo) {
+      return 
+    }
+    userInfo = userInfo[0]
+    user_login.ccloginByWechatH5(userInfo)
+  },
+  wechatH5Load(e) { //H5页面加载成功
+    // console.log(e)
+  },
+  wechatH5Error(e) { //H5页面加载成功
+    // console.log(e)
   },
   // -- 登录方法 end --
   handleGobackClick(e){ //返回
@@ -190,6 +229,17 @@ Page({
       rpxNavBarHeight: utils.getNavBarHeight().rpxNavBarHeight + 'rpx'
     })
     if(options.stage) { //登录页内跳转
+      if (+options.stage == this.data.SubPages.LOGIN_BY_WECHAT) {
+        let ccsession = wx.getStorageSync('new_cksession')
+        this.setData({
+          login_wechat_url: this.data.login_wechat_url + ccsession
+        })
+        // //test
+        // let url = 'https://beta.webapp.skysrt.com/yuanbo/wx/wechat1.html?ccsession=' + ccsession
+        // this.setData({
+        //   login_wechat_url: url
+        // })
+      }
       this.setData({
         curSubPage: +options.stage
       })

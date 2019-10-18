@@ -241,9 +241,24 @@ Page({
   handleJumpPage: function (e) {
     console.log(e.currentTarget.dataset.type)
     let _type = e.currentTarget.dataset.type
-    let _session = wx.getStorageSync("new_cksession")
-    let _path = (_type === 'history' && _session != null) ? '../history/history' : '../home/home'
-    console.log(_type, _session, _path);
+    let _path
+    switch(_type) {
+      case "history":
+        let _session = wx.getStorageSync("new_cksession")
+        _path = (!!_session) ? '../history/history' : '../home/home'
+        break;
+      case "favorite": 
+        _path = '/pages/favorite/favorite'
+        break;
+      case "record":
+      case "card":
+        wx.showToast({
+          title: '页面建设中，请稍候',
+          icon: 'none'
+        })
+      break;
+    }
+    console.log(_type, _path);
     wx.navigateTo({
       url: _path,
     })

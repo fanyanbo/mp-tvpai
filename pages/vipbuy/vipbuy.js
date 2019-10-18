@@ -53,9 +53,10 @@ Page({
                 let product = {
                   product_name: item.product_name,
                   desc: item.desc,
-                  unit_fee: item.unit_fee,
-                  discount_fee: item.discount_fee,
+                  unit_fee: item.unit_fee / 100,
+                  discount_fee: item.discount_fee / 100,
                   id: index,
+                  selected: item.is_focus
                 }
                 return product
               })
@@ -75,6 +76,9 @@ Page({
         totalPrice,
         save
       }
+    })
+    this.setData({
+      [`productListShow[${id}].selected`] : true
     })
   },
   /**
