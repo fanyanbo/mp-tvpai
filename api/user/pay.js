@@ -46,18 +46,18 @@ function genOrder(product) {//生成订单接口
       "client_type": 3,//就下单传3,其它都传4
       "title": product.product_name,
       // "business_type": 1,  //-1:all 0:movie 1:education
-      "price": product.discount_fee, //产品单价（即产品列表接口回包中的折扣后单价discount_fee）
+      "price": product.price, //产品单价（即产品列表接口回包中的折扣后单价discount_fee）
       "count": 1,
-      "discount_price": product.discount_fee, //用户实际需要支付的价格，即使用优惠劵后的价格；
-      "coupon_codes": "", //todo  //使用优惠劵时优惠劵的编码，多个以code1+ "," + code2传过来，默认空字符串,目前只能用一张
+      "discount_price": product.discount_price, //用户实际需要支付的价格，即使用优惠劵后的价格； //todo 
+      "coupon_codes": product.couponcode,    //使用优惠劵时优惠劵的编码，多个以code1+ "," + code2传过来，默认空字符串,目前只能用一张
       "extend_info": "", //todo need-fix
         //扩展参数，非必填项，字符型数据，默认空；  
         // 影视中心3.19之后版本需要上传的值目前有login_type: 0表示手机登陆，1表示QQ登陆，2表示微信登陆；
         // wx_vu_id：微信帐号对应的vuserid，login_type为2时需要传此值；
         // 格式为json，如{ "login_type": 1, "wx_vu_id": "wxvuuserid" }
-      "allowance_act_id": "", //todo 
-      "discount_product_id": "", //todo 
-      "license": ""
+      "allowance_act_id": product.allowance_act_id, 
+      "discount_product_id": product.discount_product_id, 
+      "license": "" // todo 
     }
     let header = mock.package_header;
     let data = is_fake_data ? encodeURIComponent(JSON.stringify(mock.pay_genorder_data)) 

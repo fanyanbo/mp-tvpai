@@ -19,17 +19,17 @@
         <view class="vip-type">奇异果VIP</view>
         <view class="vip-desc">开通送好礼</view>
       </view>
-      <view class="vip-item {{item.focus ? 'selected' : ''}}" wx:for="{{productListShow}}" data-id="{{item.id}}" bindtap="selectProduct">
+      <view class="vip-item {{item.is_focus ? 'selected' : ''}}" wx:for="{{productListShow}}" data-id="{{item.id}}" bindtap="selectProduct">
         <view class="vip-item-details">
           <view class="name">
             {{item.product_name}}
-            <!-- <image src="{{JSON.parse(item.icon_json).pIcon}}"></image> -->
+            <image class="detail-icon" wx:if="{{!!item.pIcon}}" src="{{item.pIcon}}"></image>
           </view>  
           <view class="desc">{{item.desc}}</view>
         </view>
         <view class="vip-item-prices">
-          <view class="price"><text class="dollar">￥</text>{{item.discount_fee}}</view>
-          <view class="oldprice">原价{{item.unit_fee}}元</view>
+          <view class="price"><text class="dollar">￥</text>{{item.price/100}}</view>
+          <view class="oldprice">原价{{item.oldprice/100}}元</view>
         </view>
       </view>
     </view>
@@ -40,8 +40,8 @@
       <view class="pay-summary">
         <view class="pay-summary-all">
           付款
-          <text class="info">￥{{curSelectedProject.totalPrice}}</text>
-          <text class="info"> | 已优惠{{curSelectedProject.save}}元</text>
+          <text class="info">￥{{curSelectedProject.totalPrice/100}}</text>
+          <text class="info" wx:if="{{!!curSelectedProject.save}}"> | 已优惠{{curSelectedProject.save/100}}元</text>
         </view>
         <view class="pay-summary-info">
           确认支付则视为同意
@@ -51,7 +51,7 @@
       </view>
       <view class="pay-btn" bindtap="payNow">
         <view>立即支付</view>
-        <view class="pay-btn-save">(节省{{curSelectedProject.save}}元)</view>
+        <view wx:if="{{!!curSelectedProject.save}}" class="pay-btn-save">(节省{{curSelectedProject.save/100}}元)</view>
       </view>
     </view>
   </view>

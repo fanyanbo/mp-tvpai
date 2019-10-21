@@ -9,8 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    productListShow:[],//保存页面需要显示的信息
-    productListAll: [],//保存后台返回的所有数据
+    productListShow: [],//保存页面显示需要的信息
     PageStage: {
       HOME_PAGE: 0,
       PAY_SUCCESS_PAGE: 1,
@@ -23,9 +22,70 @@ Page({
   handleGobackClick(e) {//返回
     wx.navigateBack({})
   },
+  _getProductPackageList(params) { //获取产品包列表
+    const productPkgPromise = user_package.getProductPackageList(params)
+    const couponsPromise = user_package.getCoupones()
+    const allowancePromise = user_package.getAllowance()
+    Promise.all([productPkgPromise, couponsPromise, allowancePromise]).then(([products, coupons, allowances]) => {
+      products = products.data.data.products.filter((item) => {
+          return item.product_level == 8 ? false : true;
+        }).map(item => {
+          return Object.assign(item, {source : params.source_id })
+        })
+      products = user_package.calAllBenefits(products, coupons, allowances)
+      console.log(products)
+      let focus = 0;
+      let arrShow = products.map((item, index) => {
+          if (item.is_focus) {
+            focus = index
+          }
+          return {
+            id: index,
+            is_focus: item.is_focus,
+            product_id: item.product_id,
+            product_name: item.product_name,
+            desc: item.desc,
+            pIcon: !!item.icon_json && !!JSON.parse(item.icon_json).pIcon ? JSON.parse(item.icon_json).pIcon : '',
+            is_keep_pay_product: item.is_keep_pay_product,
+            price: item.discount_fee,
+            oldprice: item.unit_fee,
+            allowance_act_id: item.allowance_act_id,
+            discount_product_id: !!item.allowancediscountproductid ? item.allowancediscountproductid : item.coupondiscountproductid,
+            couponcode: item.couponcode,
+            discount_price: !!item.allowanceprice ? item.allowanceprice : item.couponprice,
+          }
+      })
+      this.setData({  
+        productListShow: arrShow
+      })
+      this._updatePayPrice(focus)
+    }).catch(err => {
+      console.error(err)
+      wx.showToast({
+        title: '获取产品包出错，请重新进入',
+        icon: 'none'
+      })
+    })
+  },  
+  _updatePayPrice(id) { //更新选中项及立即支付价格
+    this.data.productListShow.map((item, index) => {
+      this.setData({
+        [`productListShow[${index}].is_focus`]: index == id
+      })
+    })
+    let totalPrice = !!this.data.productListShow[id].discount_price ? this.data.productListShow[id].discount_price : this.data.productListShow[id].price;
+    let save = this.data.productListShow[id].oldprice - totalPrice;
+    this.setData({
+      curSelectedProject: {
+        id,
+        totalPrice,
+        save
+      }
+    })
+  },
   payNow(e) { //立即支付
-    let data = this.data.productListAll[this.data.curSelectedProject.id]
-    user_pay.genOrder(data).then( res => {
+    let params = this.data.productListShow[this.data.curSelectedProject.id]
+    user_pay.genOrder(params).then(res => {
       return user_pay.prePay(res)
     }).then(res => {
       return user_pay.startPay(res)
@@ -43,47 +103,6 @@ Page({
       wx.redirectTo({
         url: `../vipbuy/vipbuy?stage=${stage}`,
       })
-    }) 
-  },
-  _getProductPackageList(params) { //获取产品包列表
-    return user_package.getProductPackageList(params).then((data) => {
-              console.log(data)
-              let focus = 0;
-              this.data.productListAll = data.data.data.products;
-              let arr = this.data.productListAll.map((item, index) => {
-                let product = {
-                  product_name: item.product_name,
-                  desc: item.desc,
-                  unit_fee: item.unit_fee / 100,
-                  discount_fee: item.discount_fee / 100,
-                  id: index,
-                  focus: item.is_focus
-                }
-                if (item.is_focus) {
-                  focus = index
-                }
-                return product
-              })
-              this.setData({
-                productListShow: arr
-              })
-              this._updatePayPrice(focus)
-            })
-  },
-  _updatePayPrice(id) { //更新立即支付价格
-    this.data.productListShow.map((item, index) => {
-      this.setData({
-        [`productListShow[${index}].focus`]: index == id
-      })
-    })
-    let totalPrice = this.data.productListAll[id].discount_fee / 100;  // todo 需要计算津贴+优惠券等 
-    let save = (this.data.productListAll[id].unit_fee - this.data.productListAll[id].discount_fee) / 100; //todo fix!
-    this.setData({
-      curSelectedProject: {
-        id,
-        totalPrice,
-        save
-      }
     })
   },
   selectProduct(e) { //用户选择产品包

@@ -5,10 +5,17 @@ Page({
 
   onLoad: function (options) {
     console.log(options)
-    this.setData({curSrc: options.url})
-    // this.setData({
-    //   curSrc: 'https://webx.coocaa.com/hfdplatform/yuqi/index.html?objString=' + objString
-    // })
+    //let id = options ? "123":"567"
+    const textValue = {
+      id: 1,
+      kind: "iqy",
+    }
+    const objString = JSON.stringify(textValue)
+    console.log(textValue)
+    console.log('转化后',objString)
+    this.setData({
+      curSrc: 'https://webx.coocaa.com/hfdplatform/yuqi/index.html?objString=' + objString
+    })
     // wx.setNavigationBarTitle({
     //   title: options.title
     // })

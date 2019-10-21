@@ -88,14 +88,15 @@
   width: 480rpx;
 }
 .vip-item-details>.name {
-  height: 44rpx;
   line-height: 44rpx;
   color: #333333;
   font-size: 32rpx;
   font-weight: bold;
 }
+.detail-icon {
+  height: 28rpx;
+}
 .vip-item-details>.desc {
-  height: 34rpx;
   line-height: 34rpx;
   color: #999999;
   font-size: 24rpx;
@@ -156,7 +157,7 @@
 .pay-summary-all>.info {
   color: #FF6246;
 }
-.pay-summary-all>.info:last-of-type {
+.pay-summary-all>.info:nth-child(2) {
   color: #999999;
   font-size: 28rpx;
 }
