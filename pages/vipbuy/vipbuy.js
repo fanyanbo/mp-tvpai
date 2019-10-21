@@ -45,8 +45,8 @@ Page({
       })
     }) 
   },
-  _getProductPackageList() { //获取产品包列表
-    return  user_package.getProductPackageList().then((data) => {
+  _getProductPackageList(params) { //获取产品包列表
+    return user_package.getProductPackageList(params).then((data) => {
               console.log(data)
               let focus = 0;
               this.data.productListAll = data.data.data.products;
@@ -101,7 +101,10 @@ Page({
         stage: +options.stage
       })
     }else {
-      this._getProductPackageList()
+      let source_id = options.source_id
+      this._getProductPackageList({
+        source_id
+      })
     }
   },
 

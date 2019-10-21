@@ -12,7 +12,6 @@ const app = getApp()
 
 Page({
   data: {
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
     isShowTips: true,
     bIphoneFullScreenModel: false,
     bLoginCoocaa: !!app.globalData.ccUserInfo,//是否登录酷开系统账号
@@ -35,10 +34,10 @@ Page({
     },
     //mock data
     productSourceList: [ //默认显示的产品源列表
-      { id: 1, title: '极光VIP', valid: '立即开通', image: '../../images/my/vip/mov.png' },
-      { id: 2, title: '教育VIP', valid: '立即开通', image: '../../images/my/vip/edu.png' },
-      { id: 3, title: '少儿VIP', valid: '立即开通', image: '../../images/my/vip/kid.png' },
-      { id: 4, title: '电竞VIP', valid: '立即开通', image: '../../images/my/vip/game.png' }
+      { source_id: 1, source_name: '极光VIP', valid: '立即开通', image: '../../images/my/vip/mov.png' },
+      { source_id: 44, source_name: '教育VIP', valid: '立即开通', image: '../../images/my/vip/edu.png' },
+      { source_id: 57, source_name: '少儿VIP', valid: '立即开通', image: '../../images/my/vip/kid.png' },
+      { source_id: 56, source_name: '电竞VIP', valid: '立即开通', image: '../../images/my/vip/game.png' }
     ],
     historyList: [],//投屏历史
 
@@ -111,25 +110,9 @@ Page({
       })
     }
   },
-  goVipPage(e) { //去产品包购买页
-    console.log(e)
-    if(!app.globalData.ccUserInfo) { //没登录
-      wx.navigateTo({ url: '../login/login' })
-      return
-    }
-    if (!app.globalData.deviceId) { //没绑定设备
-      wx.showToast({
-        title: '请先绑定设备',
-        icon: 'none'
-      })
-      return
-    }
-    
-    wx.navigateTo({ url: '../vipbuy/vipbuy' })
-  },
   syncTVAcct() { //同步当前账号到tv端
     user_push.pushTvLogin({
-      openId: wx.getStorageSync('ccUserInfo').openid,
+      openId: app.globalData.ccUserInfo.openid,
       deviceId: app.globalData.boundDeviceInfo.serviceId,
     }).then(res => {
       //todo 
@@ -140,14 +123,76 @@ Page({
       })
     })
   },
+  goVipPage(e) { //去产品包购买页
+    console.log(e)
+    if (!app.globalData.ccUserInfo) { //没登录
+      wx.navigateTo({ url: '../login/login' })
+      return
+    }
+    if (!app.globalData.deviceId) { //没绑定设备
+      wx.showToast({
+        title: '请先绑定设备',
+        icon: 'none'
+      })
+      return
+    }
+    let source_id = e.currentTarget.dataset.id
+    wx.navigateTo({ url: `../vipbuy/vipbuy?source_id=${source_id}` })
+  },
   _getProductSourceList() {
     if (!!Object.keys(app.globalData.boundDeviceInfo).length) {
       user_package.getProductSourceList().then((res) => {
         console.log(res)
-        this.setData({
-          //todo 获取的产品源列表需要先过滤，跟产品讨论怎么处理？ 问宗辉怎么区分?
+        //todo 获取的产品源列表需要先过滤
+        let list = data.data.data.sources
+        list.forEach((item, index) => {
+          switch(item.source_id) {
+            case '1':  //影视,默认奇异果VIP
+              _updateProductSourceList(0, item)
+              break;
+            case '5':
+              if(app.globalData.boundDeviceInfo.source == 'tencent') //tencent 超级影视
+              {
+                _updateProductSourceList(0, item)
+              }
+              break;
+            case '44':
+              _updateProductSourceList(1, item) //超级教育vip
+              break;
+            case '57':
+              _updateProductSourceList(2, item)  //少儿vip
+              break;
+            case '56':
+              _updateProductSourceList(3, item)  //电竞vip
+              break;
+          }
+        })
+      }).catch(err => {
+        wx.showToast({
+          title: '获取产品源失败',
+          icon: 'none'
         })
       })
+      function _updateProductSourceList(index, item) {//更新页面的产品源列表arr
+        let valid = '开通权限'
+        if (item.valid_type == 1) {//有效期
+          if (item.valid_scope.end_readable) {
+            valid = item.valid_scope.end_readable.substr(0, 10).replace(/-/g, '.').concat('到期')
+          } else if (item.valid_scope.end) {
+            let time = new Date(item.valid_scope.end * 1000)
+            let year = time.getFullYear();
+            let month = time.getMonth() + 1;
+            let day = time.getDate();
+            let d = year + "." + (month < 10 ? ("0" + month) : month) + "." + ((day < 10 ? ("0" + day) : day) + "到期");
+            valid = d
+          }
+        }
+        this.setData({
+          [`productSourceList[${index}].source_id`]: item.source_id,
+          [`productSourceList[${index}].source_name`]: item.source_name,
+          [`productSourceList[${index}].valid`]: valid,
+        })
+      }
     }
   },
 
@@ -203,7 +248,7 @@ Page({
   },
   // 设备绑定和推送历史入口暂未使用
   bindGetUserInfo(e) {
-    console.log('canIUse', this.data.canIUse, e)
+    console.log('bindGetUserInfo', e)
     if (!e.detail.userInfo) {
       // 用户拒绝直接返回授权框
       return;
@@ -243,6 +288,9 @@ Page({
     let _type = e.currentTarget.dataset.type
     let _path
     switch(_type) {
+      case "home":
+        _path = '/pages/home/home'
+        break;  
       case "history":
         let _session = wx.getStorageSync("new_cksession")
         _path = (!!_session) ? '../history/history' : '../home/home'

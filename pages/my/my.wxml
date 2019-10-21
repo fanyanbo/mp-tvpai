@@ -20,9 +20,9 @@
   <!-- 产品源列表区 -->
   <view class="productlist">
     <scroll-view scroll-x>
-      <view class="vipitem" wx:for="{{productSourceList}}" wx:key="index" bindtap="goVipPage" data-id="{{item.id}}">
+      <view class="vipitem" wx:for="{{productSourceList}}" wx:key="index" bindtap="goVipPage" data-id="{{item.source_id}}">
         <image class="image" src="{{item.image}}"></image>
-        <text class="title">{{item.title}}</text>
+        <text class="title">{{item.source_name}}</text>
         <text class="valid">{{item.valid}}</text>
       </view>
     </scroll-view>

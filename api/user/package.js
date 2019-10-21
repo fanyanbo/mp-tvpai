@@ -50,7 +50,7 @@ function getProductSourceList() { //获取产品源列表（极光VIP/教育VIP/
   })
 }
 
-function getProductPackageList() {//获取产品包列表(包年/包月/包季/连续包月等)
+function getProductPackageList(params) {//获取产品包列表(包年/包月/包季/连续包月等)
   return new Promise((resolve, reject) => {
     let package_getproductlist_data = { //获取产品包列表mock data
       "user_flag": !!app.globalData.ccUserInfo ? 2 : 0, //用户没登录，传0，user_id值为空
@@ -61,7 +61,7 @@ function getProductPackageList() {//获取产品包列表(包年/包月/包季/�
       "is_support_movie": "true", //todo 这个字段作用及取值来自？
       "movie_id": "",
       "node_type": "",
-      "source_id": app.globalData.boundDeviceInfo.source == 'tencent' ? 0 : 1, //0:tencent, 1:qiyi
+      "source_id": params.source_id, //0:tencent, 1:qiyi
       "auth_type": 0 //鉴权类型，0第三方，1自有,该字段影视详情接口取 //todo 这个字段作用及取值来自？
     }
     let header = mock.package_header
