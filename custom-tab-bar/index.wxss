@@ -12,7 +12,10 @@
 }
 
 .tab-bar-item {
-  flex: 1;
+  /* iphonex会有bug，高度坍塌 */
+  /* flex: 1; */ 
+  width: 375rpx;
+  height: 80rpx;
   position: relative;
   text-align: center;
   display: flex;
@@ -35,17 +38,19 @@
 .tab-bar-item .tab-bar-bottom {
   position: absolute;
   left: 168rpx;
-  top: 80rpx;
+  top: 70rpx;
+  /* top: 80rpx; */
+  /* margin-top: 5rpx; */
   width: 36rpx;
   height: 8rpx;
   border-radius: 2px;
   background: #FFD71C;
 }
 
-.tab-bar-item .bottom-rapper {
+/* .tab-bar-item .bottom-rapper {
   height: 3px;
   margin-top: 8px;
   width: 14px;
   box-sizing: border-box;
-}
+} */
 

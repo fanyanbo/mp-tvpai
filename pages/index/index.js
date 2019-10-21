@@ -24,7 +24,8 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     source: utils.getTvsource(), 
     topicList: [],
-    bannerList: []
+    bannerList: [],
+    isShowBanner: true
   },
 
   swiperChange: function () {
@@ -99,14 +100,22 @@ Page({
       console.log('获取banner数据:', res.data)
       if (res.data && res.data.code === 200) {
         this.setData({
-          bannerList: res.data.data
+          bannerList: res.data.data,
         })
+        if(res.data.data.length === 0) {
+          this.setData({
+            isShowBanner: false
+          })
+        }
       } else {
         console.log('获取banner数据失败', res)
         // utils.showFailedToast(res.data.message || '加载数据失败', this.data.errIconUrl)
       }
     }).catch(res => {
       console.log('获取轮播图数据发生错误', res)
+      this.setData({
+        isShowBanner: false
+      })
       // utils.showFailedToast('加载数据失败', this.data.errIconUrl)
     })
   },
@@ -285,8 +294,9 @@ Page({
     )
   },
   jumpOutLink() {
+    const url = "https://www.baidu.com"
     wx.navigateTo({
-      url: '/pages/webview/webview',
+      url: `/pages/webview/webview?url=`+url
     })
   },
   jumpMyFavorite() {

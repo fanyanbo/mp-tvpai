@@ -16,7 +16,7 @@
 <view class="main-wrap">
   <scroll-view scroll-y="true" style="height: auto" bindscrolltoupper="upper" bindscrolltolower="lower">
     <!-- banner区域，运营重点区域 -->
-    <view class="banner-wrap">
+    <view class="banner-wrap" wx:if="{{isShowBanner}}">
       <swiper autoplay="{{autoplay}}" current='{{swiperCurrent}}' previous-margin="{{previousmargin}}" next-margin="{{nextmargin}}" bindchange="swiperChange">
         <block wx:if="{{bannerList != null && bannerList.length > 0}}" wx:for="{{bannerList}}" wx:key="index">
           <swiper-item data-type="{{item.linkType}}" data-id="{{item.bannerId}}" data-url="{{item.imgLinkUrl}}" bindtap="handleBannerTap">
@@ -32,8 +32,8 @@
       </swiper>
     </view>
     <!-- 快捷跳转区域，内测使用 -->
-    <view bindtap="jumpOutLink">跳转到h5页面</view>
-    <view bindtap="jumpMyFavorite">跳转到我的收藏页面</view>
+    <!-- <view bindtap="jumpOutLink">跳转到h5页面</view>
+    <view bindtap="jumpMyFavorite">跳转到我的收藏页面</view> -->
     <!-- 区分腾讯源和爱奇艺源标签分类，因为标签个数不同，它们的布局不同 -->
     <swiper wx:if="{{source === 'iqiyi'}}" class="iqiyi-label swiper-box" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-active-color="{{indicatorActiveColor}}" indicator-color="{{indicatorColor}}">
       <block wx:if="{{column1.length !== 0}}">
