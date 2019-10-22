@@ -30,6 +30,10 @@ Page({
     userinput_pw: 0,
     userinput_vcode: 0,
     //-- 登录变量 end --
+    
+    //-- 修改用户信息 start --
+    inputValue: '',
+    //-- 修改用户信息 end --
 
     //todo mock data
     curUser: { //当前用户账户信息  
@@ -211,12 +215,36 @@ Page({
   handleGobackClick(e){ //返回
     wx.navigateBack()
   },
-  reviseNickname(e) {//修改账号昵称
-    let stage = this.data.PageStage.LOGIN.REVISE_PAGE
+
+  // -- 修改昵称 start --
+  goChangeNickname(e) {//修改账号昵称
+    let stage = this.data.SubPages.HASLOGIN_REVISE_NAME
     wx.navigateTo({
       url: `../login/login?stage=${stage}`,
     })
   },
+  getInputValue(e) {
+    console.log('input blur:' + JSON.stringify(e.detail))
+    this.data.inputValue = e.detail.value;
+  },
+  clearInputValue(e) {
+    this.setData({ inputValue: '' })
+  },
+  confirmInputValue(e) {
+    console.log(this.data.inputValue)
+    user_login.login_changeNickname(this.data.inputValue).then( res => {
+      wx.showToast({
+        title: '修改成功',
+      })
+    }).catch( err => {
+      wx.showToast({
+        title: '修改失败请重试',
+        icon: 'none'
+      })
+    })
+  },
+  // -- 修改昵称 end --
+
   refreshVCode(e) {//刷新验证码
 
   },

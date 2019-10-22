@@ -1,19 +1,25 @@
-    <view>
-      <form bindsubmit="editName">
-        <view class="input-area">
-          <text style="float:left">设备名称</text>
-          <input class="editInput" type="text" name="deviceName" value="{{contents}}" placeholder="请输入设备名称" placeholder-style="color:#dbdbdb"/>
-        </view>
-        <view style="width:90%; margin:0 auto">
-          <view bindtap='copyText' data-text="客厅的电视" class="nameLabel">客厅的电视</view>
-          <view bindtap='copyText' data-text="卧室的电视" class="nameLabel">卧室的电视</view>
-          <view bindtap='copyText' data-text="父母的电视" class="nameLabel">父母的电视</view>
-          <view bindtap='copyText' data-text="孩子的电视" class="nameLabel">孩子的电视</view>
-          <view bindtap='copyText' data-text="店里的电视" class="nameLabel">店里的电视</view>
-        </view>
-        <button class="accountLog" form-type="submit">完成</button> 
-      </form>
+<!-- 导航栏组件 -->
+<view>
+  <navBar title='修改名称' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
+</view>
+
+<view>
+  <form bindsubmit="editName">
+    <view class="input-area">
+      <text style="float:left">设备名称</text>
+      <input class="editInput" type="text" name="deviceName" value="{{contents}}" placeholder="请输入设备名称" placeholder-style="color:#dbdbdb"/>
     </view>
+    <view style="width:90%; margin:0 auto">
+      <view bindtap='copyText' data-text="客厅的电视" class="nameLabel">客厅的电视</view>
+      <view bindtap='copyText' data-text="卧室的电视" class="nameLabel">卧室的电视</view>
+      <view bindtap='copyText' data-text="父母的电视" class="nameLabel">父母的电视</view>
+      <view bindtap='copyText' data-text="孩子的电视" class="nameLabel">孩子的电视</view>
+      <view bindtap='copyText' data-text="店里的电视" class="nameLabel">店里的电视</view>
+    </view>
+    <button class="accountLog" form-type="submit">完成</button> 
+  </form>
+</view>
+
 <view>
   <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
 </view>

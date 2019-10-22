@@ -25,7 +25,7 @@
     <view class="device-item device-top-left">
       <view class="device-top">
         <text class="device-name inaline">{{item.device.deviceName}}</text>
-        <view class="edit" bindtap="deleteto" data-id="{{item.deviceId}}" data-status="{{item.bindStatus}}" data-name="{{item.device.deviceName}}">编辑</view>
+        <view class="edit" bindtap="deleteto" data-id="{{item.id}}" data-status="{{item.bindStatus}}" data-name="{{item.device.deviceName}}">编辑</view>
       </view>
       <view class="device_info">
         <view class="device-content">
@@ -41,7 +41,7 @@
     </view>
     <view class="device-top-right">
       <image wx:if="{{item.bindStatus == 1}}" class="device-model" src="../../images/binding.png"></image>
-      <view data-deviceid='{{item.deviceId}}' bindtap="handleBindTap" wx:else>绑定</view>
+      <view data-id='{{item.id}}' bindtap="handleBindTap" wx:else>绑定</view>
     </view>
   </view>
 </view>

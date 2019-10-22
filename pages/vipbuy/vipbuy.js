@@ -16,6 +16,7 @@ Component({
     },
     stage: 0,
     curSelectedProject: {},//当前选择的产品包
+    _curSourceId: 0, //当前产品包的source_id值，支付成功或失败时需要
   },
   
   methods: {
@@ -93,6 +94,7 @@ Component({
         console.log(res)
         //todo 支付成功，页面重定向到支付成功页
         let stage = this.data.PageStage.PAY_SUCCESS_PAGE
+        
         wx.redirectTo({
           url: `../vipbuy/vipbuy?stage=${stage}`,
         })
@@ -120,9 +122,9 @@ Component({
           stage: +options.stage
         })
       }else {
-        let source_id = options.source_id
+        this.data._curSourceId = options.source_id
         this._getProductPackageList({
-          source_id
+          source_id: options.source_id
         })
       }
     },

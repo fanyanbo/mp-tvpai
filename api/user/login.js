@@ -129,14 +129,7 @@ function mobLogin(mobile, mobileCode) {//手机号登录
     })
   })
 }
-function json2Form(json) {
-  var str = [];
-  for (var p in json) {
-    if (json[p] == null || json[p] == '') continue
-    str.push((p) + "=" + (json[p]));
-  }
-  return str.join("&");
-}
+
 function acctLogin(userName, userPassword) {//账号密码登录
   return new Promise((resolve, reject) => {
     const ccsession = wx.getStorageSync('new_cksession')
@@ -320,11 +313,58 @@ function userLogout() {
   })
 }
 
+function login_changeNickname(name) {//修改昵称
+  return new Promise((resolve, reject) => {
+    //todo 需要跟陈希光确认正式的 cliendId 和 key
+    const paramsStr1 = { 
+      client_id: '20030b3587ab4f9a9739185237319a46', //app.globalData.client_id, 
+      open_id: !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : '', 
+      time: new Date().getTime().toString(),
+    }
+    const sign1 = util.encryption(paramsStr1, 'KSiVM12wRNu1WNN5') //app.globalData.key)
+    paramsStr1["redirect_uri"] = 'http://www.baidu.com'
+    paramsStr1["sign"] = sign1
+
+    wx.request({
+      url: config.baseUrl_acct + '/oauth2/weixinlogin-update-nick',
+      method: 'GET',
+      data: paramsStr1,
+      success: function (res) {
+        console.log(res)
+        // let resdata = res.data.data
+        // if (resdata) {
+        //   _storeCCUserInfo(resdata)
+        //   resolve()
+        // } else {
+        //   wx.showModal({
+        //     title: '提示',
+        //     content: res.data.message,
+        //     showCancel: false
+        //   })
+        //   reject()
+        //   return !1
+        // }
+      },
+      fail: function (res) {
+        console.log('fail: ' + res)
+        wx.showModal({
+          title: '提示',
+          content: res,
+          showCancel: false
+        })
+        reject()
+      }
+    })
+  })
+}
+
+
 module.exports = {
   vcode,
   getWXAuth,
   mobLogin,
   acctLogin,
   ccloginByWechatH5, //微信登录代码看如何优化，最好集中在一处
-  userLogout
+  userLogout,
+  login_changeNickname,
 }

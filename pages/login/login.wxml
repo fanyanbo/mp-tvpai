@@ -63,7 +63,7 @@
     <!-- 101.已登录首页 -->
     <view class="loginhome" wx:elif="{{curSubPage==SubPages.HASLOGIN_HOME}}">
       <view class="item name-label">昵称设置</view>
-      <view class="item setting name-setting" bindtap="reviseNickname">
+      <view class="item setting name-setting" bindtap="goChangeNickname">
         <view class="key">账号昵称</view>
         <view class="value">{{curUser.name}}</view>
         <image src="../../images/my/arrow.png"></image>
@@ -81,15 +81,15 @@
       <view class="btn" bindtap="startLogout">退出登录</view>
     </view>
 
-    <!-- 102.修改手机页 -->
-    <view  class="loginrevise" wx:elif="{{curSubPage==SubPages.HASLOGIN_REVISE_MOBILE}}">
-      <input class="input-zone" type="{{loginRevise.name.type}}"></input>
-      <view class="icon-del" wx:if="{{true}}">X</view>
-      <view class="btn">{{loginRevise.name.btn}}</view>
+    <!-- 102.修改昵称 -->
+    <view  class="loginrevise" wx:elif="{{curSubPage==SubPages.HASLOGIN_REVISE_NAME}}">
+      <input class="input-zone" type="{{loginRevise.name.type}}" value="{{inputValue}}" bindblur="getInputValue" bindconfirm="getInputValue" focus="true"></input>
+      <view class="icon-del" wx:if="{{true}}" bindtap="clearInputValue">X</view>
+      <view class="btn" bindtap="confirmInputValue">{{loginRevise.name.btn}}</view>
     </view>
 
-    <!-- 103.修改账号昵称 -->
-    <view  class="loginrevise" wx:elif="{{curSubPage==SubPages.HASLOGIN_REVISE_NAME}}">
+    <!-- 103.修改手机页 -->
+    <view  class="loginrevise" wx:elif="{{curSubPage==SubPages.HASLOGIN_REVISE_MOBILE}}">
       <input class="input-zone" type="{{loginRevise.name.type}}"></input>
       <view class="icon-del" wx:if="{{true}}">X</view>
       <view class="btn">{{loginRevise.name.btn}}</view>

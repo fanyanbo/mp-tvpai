@@ -133,10 +133,10 @@ Page({
 
   // 跳转删除页面
   deleteto(e) {
-    let deviceId = e.currentTarget.dataset.id;
+    let id = e.currentTarget.dataset.id;
     let bindStatus = e.currentTarget.dataset.status;
     let deviceName = e.currentTarget.dataset.name;
-    wx.navigateTo({url: '../delete/delete?deviceId=' + deviceId + '&bind=' + bindStatus + '&deviceName=' + deviceName})
+    wx.navigateTo({ url: '../delete/delete?id=' + id + '&bind=' + bindStatus + '&deviceName=' + deviceName})
   },
 
   handleGobackClick: function () {
@@ -147,9 +147,9 @@ Page({
   // 切换绑定时触发
   handleBindTap: function (event) {
     let ccsession = wx.getStorageSync('new_cksession');
-    let deviceid = event.currentTarget.dataset.deviceid + '';
-    console.log('切换绑定设备：', ccsession, deviceid);
-    let srcParams = { bind: "1", "ccsession": ccsession, "deviceId": deviceid };
+    let id = event.currentTarget.dataset.id + '';
+    console.log('切换绑定设备：', ccsession, id);
+    let srcParams = { bind: "1", "ccsession": ccsession, "id": id };
     let desParams = utils.paramsAssemble_wx(srcParams);
     console.log(desParams);
     utils.showLoadingToast();
@@ -180,5 +180,5 @@ Page({
       utils.showFailedToast('绑定失败', this.data.errIconUrl);
     })
   }
-  
+
 })

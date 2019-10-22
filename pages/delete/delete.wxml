@@ -1,22 +1,29 @@
-    <view>      
-        <view class="input-area">
-          <text style="float:left">设备名称</text>
-          <navigator class="edit" url="../edit/edit?deviceId={{deviceId}}&bind={{bind}}">
-            {{deviceName}}
-            <image class="arrow" src="../../images/arrow.png"></image>
-          </navigator>
-        </view>
-     <form bindtap='chooseSezi'>
-        <button class="accountLog" form-type="submit">删除设备</button>
-      </form>
+<!-- 导航栏组件 -->
+<view>
+  <navBar title='编辑设备' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
+</view>
+
+<view>      
+    <view class="input-area">
+      <text style="float:left">设备名称</text>
+      <navigator class="edit" url="../edit/edit?id={{id}}&bind={{bind}}">
+        {{deviceName}}
+        <image class="arrow" src="../../images/arrow.png"></image>
+      </navigator>
     </view>
-    <view>
-      <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
-    </view>
-    <!-- 弹窗 -->
-    <view wx:if="{{chooseSize}}" class='maskLayer' bindtap='hideModal'></view>
-    <view wx:if="{{chooseSize}}" class='choose' animation='{{animationData}}'>
-      <view class="ask">确定要删除该设备吗</view>
-      <view bindtap='deleteName' class="sure">确定删除</view>
-      <view bindtap='hideModal' class="clearBtn">取消</view>
-    </view>
+  <form bindtap='chooseSezi'>
+    <button class="accountLog" form-type="submit">删除设备</button>
+  </form>
+</view>
+
+<view>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
+</view>
+
+<!-- 弹窗 -->
+<view wx:if="{{chooseSize}}" class='maskLayer' bindtap='hideModal'></view>
+<view wx:if="{{chooseSize}}" class='choose' animation='{{animationData}}'>
+  <view class="ask">确定要删除该设备吗</view>
+  <view bindtap='deleteName' class="sure">确定删除</view>
+  <view bindtap='hideModal' class="clearBtn">取消</view>
+</view>

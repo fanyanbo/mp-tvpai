@@ -10,17 +10,21 @@ Page({
     isShowTips: true,
     bIphoneFullScreenModel:false,
     contents: '',
-    deviceId: '',
+    id: '',
     bind: '',
     deviceName: '',
     chooseSize: false,
     animationData: {}
   },
+  handleGobackClick: function () {
+    console.log('handleGobackClick')
+    wx.navigateBack()
+  },
   deleteName: function (e) {
     let that = this
     const key = app.globalData.key
     const ccsession = wx.getStorageSync('new_cksession')
-    var paramsStr = { "ccsession": ccsession, "delete": "1", "deviceId": that.data.deviceId }
+    var paramsStr = { "ccsession": ccsession, "delete": "1", "id": that.data.id }
     console.log(paramsStr);
     const sign = utils.encryption(paramsStr, key)
     console.log(sign);
@@ -31,7 +35,7 @@ Page({
       param: paramsStr,
       ccsession: ccsession,
       delete: "1",
-      deviceId: that.data.device,
+      id: that.data.id,
     }
     utils.postLoading(url, 'GET', data, function (res) {
       console.log(res)
@@ -103,10 +107,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options.deviceId)
+    console.log(options.id)
     let that = this;
     that.setData({
-      deviceId: options.deviceId,
+      id: options.id,
       bind: options.bind,
       deviceName: options.deviceName
     })
