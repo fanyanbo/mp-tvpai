@@ -7,226 +7,203 @@ const url_getSourceList = config.baseUrl_sz + 'v3/source/getSourceList.html'; //
 const url_getProductList = config.baseUrl_sz + 'v3/product/getProductList.html';//获取产品包列表接口
 const url_getCoupones = config.baseUrl_sz + '/v3/web/getUserCoupons.html';//获取优惠券
 const url_getAllowance = config.baseUrl_allowance + '/api/subsidy/v1/query-userSubsidyInfo-byToken';//获取津贴
-
 //module scope variable
 const is_fake_data = false;//用mock data测试
 
-var package_header = { //获取产品包/产品源接口 header data
-  "cAppVersion": app.globalData.boundDeviceInfo.vAppVersion,
-  "vAppID": "0", //郭导：写死
-  "cSID": app.globalData.boundDeviceInfo.sid,
-  "sourceGroup": "coocaaEdu,tencent,yinhe,4KGarden,iwangding,wasu,chn_live,youku", //怎么获取？
-  "cPkg": "com.tianci.movieplatform", // 目前字段里没有  //todo 
-  "cPattern": "normal", //目前字段里没有 
-  "language": "zh",     //目前字段里没有 
-  "cResolution": app.globalData.boundDeviceInfo.resolution,//"720p,1080p,4K,H265",
-  "cSkySecurity": "false",//目前字段里没有 
-  "headerVersion": "8",
-  "cUDID": app.globalData.boundDeviceInfo.serviceId,
-  "cTcVersion": app.globalData.boundDeviceInfo.tcVersion,
-  "cChip": app.globalData.boundDeviceInfo.chip,
-  "cSize": app.globalData.boundDeviceInfo.screenSize,
-  // "Accept-Charset": "utf-8",
-  "cBrand": "Skyworth", //目前字段里没有 
-  // "Accept": "application/json,text/*", //todo  
-  "cModel": app.globalData.boundDeviceInfo.model,
-  "cFMode": "Default",  //目前字段里没有 
-  "cEmmcCID": "",       //目前字段里没有 
-  "MAC": app.globalData.boundDeviceInfo.devMac,
-  "vAcceptSources": "sky,voole,tencent,iqiyi", //郭导：写死
-  // "license": "GiTv",
-  "aSdk": "", //目前字段里没有 
-  "cUserInfo": "",//目前字段里没有 
-  "cOpenId": !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : '',//目前字段里没有 
-  "supportSource": "",//目前字段里没有 
-  "Resolution": app.globalData.boundDeviceInfo.resolution,
-  "cHomepageVersion": "",//目前字段里没有 
-  "vAppVersion": app.globalData.boundDeviceInfo.vAppVersion,
-}
+var headerBehavior = require('./header')
 
-//methods zone
-function getProductSourceList() { //获取产品源列表（极光VIP/教育VIP/少儿VIP/电竞VIP等）
-  return new Promise((resolve, reject) => {
-    let package_getsourcelist_data = { //获取产品源列表mock data
-      "user_flag": !!app.globalData.ccUserInfo ? 2 : 0, //用户没登录，传0，user_id值为空
-      "user_id": app.globalData.ccUserInfo.openid || '', 
-      "client_type": 4,
-      "business_type": -1,  //-1:all 0:movie 1:education
-      "third_user_id": app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || ''
+module.exports = Behavior({
+  behaviors: [headerBehavior],
+  properties: {
+    myBehaviorProperty: {
+      type: String
     }
-    let header = is_fake_data ? mock.package_header : package_header;
-    let data = is_fake_data ? encodeURIComponent(JSON.stringify(mock.package_getsourcelist_data)) 
-                            : encodeURIComponent(JSON.stringify(package_getsourcelist_data));
-    let url = url_getSourceList + "?data=" + data;
-    console.log("total url: " + url);
-    wx.request({
-      url: url,
-      header: header,
-      method: 'GET',
-      dataType: 'json',
-      success(data) {
-        console.log(data)
-        if (data.data.code == 0) {
-          resolve(data)
-        } else {
-          reject(data)
+  },
+  data: {
+    myBehaviorData: {}
+  },
+  attached: function () {
+    console.log('behavior package attached.')
+  },
+  methods: {
+    getProductSourceList() { //获取产品源列表（极光VIP/教育VIP/少儿VIP/电竞VIP等）
+      return new Promise((resolve, reject) => {
+        let package_getsourcelist_data = { //获取产品源列表mock data
+          "user_flag": !!app.globalData.ccUserInfo ? 2 : 0, //用户没登录，传0，user_id值为空
+          "user_id": app.globalData.ccUserInfo.openid || '',
+          "client_type": 4,
+          "business_type": -1,  //-1:all 0:movie 1:education
+          "third_user_id": app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || ''
         }
-      },
-      fail(err) {
-        console.log(err)
-        reject(err)
-      },
-      complete(res) {
-        // console.log(res)
-      }
+        let header = is_fake_data ? mock.package_header : this.getPackageHeader();
+        let data = is_fake_data ? encodeURIComponent(JSON.stringify(mock.package_getsourcelist_data))
+          : encodeURIComponent(JSON.stringify(package_getsourcelist_data));
+        let url = url_getSourceList + "?data=" + data;
+        console.log("total url: " + url);
+        wx.request({
+          url: url,
+          header: header,
+          method: 'GET',
+          dataType: 'json',
+          success(data) {
+            console.log(data)
+            if (data.data.code == 0) {
+              resolve(data)
+            } else {
+              reject(data)
+            }
+          },
+          fail(err) {
+            console.log(err)
+            reject(err)
+          },
+          complete(res) {
+            // console.log(res)
+          }
+        })
+      })
+    },
+    getProductPackageList(params) {//获取产品包列表(包年/包月/包季/连续包月等)
+      return new Promise((resolve, reject) => {
+        let package_getproductlist_data = { //获取产品包列表mock data
+          "user_flag": !!app.globalData.ccUserInfo ? 2 : 0, //用户没登录，传0，user_id值为空
+          "user_id": app.globalData.ccUserInfo.openid || '',
+          "client_type": 4,//就下单传3,其它都传4
+          "business_type": -1,  //-1:all 0:movie 1:education
+          "third_user_id": app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || '',
+          "is_support_movie": "true", //todo 这个字段作用及取值来自？
+          "movie_id": "",
+          "node_type": "",
+          "source_id": params.source_id, //0:tencent, 1:qiyi
+          "auth_type": 0 //鉴权类型，0第三方，1自有,该字段影视详情接口取 //todo 这个字段作用及取值来自？
+        }
+        let header = is_fake_data ? mock.package_header : this.getPackageHeader();
+        let data = is_fake_data ? encodeURIComponent(JSON.stringify(mock.package_getproductlist_data))
+          : encodeURIComponent(JSON.stringify(package_getproductlist_data));
+        let url = url_getProductList + '?data=' + data;
+        console.log('productlist url:', url)
+        wx.request({
+          url: url,
+          header: header,
+          method: 'GET',
+          dataType: 'json',
+          success(data) {
+            console.log(data)
+            if (data.data.code == 0) {
+              resolve(data)
+            } else {
+              reject(data)
+            }
+          },
+          fail(err) {
+            console.error(err)
+            reject(data)
+          },
+          complete(res) {
+            // console.log(res)
+          }
+        })
+      })
+    },
+  getCoupones() {//获取优惠券
+    return new Promise((resolve, reject) => {
+      let header = is_fake_data ? mock.package_header : this.getPackageHeader();
+      let data = JSON.stringify({
+        "user_flag": !!app.globalData.ccUserInfo ? 2 : 0, //用户没登录，传0，user_id值为空,
+        "user_id": app.globalData.ccUserInfo.openid || '',
+        "third_user_id": app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || ''
+      })
+      wx.request({
+        url: url_getCoupones,
+        data: {
+          data
+        },
+        header: header,
+        success(data) {
+          console.log(data)
+          if (data.data.code == 0) {
+            resolve(data.data)
+          } else {
+            reject(data.data.msg)
+          }
+        },
+        fail(err) {
+          console.error(err)
+          reject(err)
+        },
+        complete(res) {
+        }
+      })
     })
-  })
-}
+  },
+  getAllowance() {//获取津贴
+    return new Promise((resolve, reject) => {
+      let clientId = config.baseUrl_allowance.startsWith('https://beta') ? 'YS_BETA' : 'YS_RELEASE ' //分测试环境和正式环境
 
-function getProductPackageList(params) {//获取产品包列表(包年/包月/包季/连续包月等)
-  return new Promise((resolve, reject) => {
-    let package_getproductlist_data = { //获取产品包列表mock data
-      "user_flag": !!app.globalData.ccUserInfo ? 2 : 0, //用户没登录，传0，user_id值为空
-      "user_id": app.globalData.ccUserInfo.openid || '', 
-      "client_type": 4,//就下单传3,其它都传4
-      "business_type": -1,  //-1:all 0:movie 1:education
-      "third_user_id": app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || '',
-      "is_support_movie": "true", //todo 这个字段作用及取值来自？
-      "movie_id": "",
-      "node_type": "",
-      "source_id": params.source_id, //0:tencent, 1:qiyi
-      "auth_type": 0 //鉴权类型，0第三方，1自有,该字段影视详情接口取 //todo 这个字段作用及取值来自？
+      wx.request({
+        url: url_getAllowance,
+        data: {
+          clientId: clientId,
+          authenticationValue: app.globalData.ccUserInfo.openid || '',//openid
+          authenticationType: 'openid',
+          currentTimestamp: new Date().getTime()
+        },
+        success(data) {
+          console.log(data)
+          if (data.data.code == 0) {
+            resolve(data.data.data.totalSubsidy)
+          } else {
+            reject(data.message)
+          }
+        },
+        fail(err) {
+          console.error(err)
+          reject(err)
+        },
+        complete(res) {
+        }
+      })
+    })
+  },
+
+  calAllBenefits(_productListAll, _couponsListAll, _allowancesNum) {//计算优惠券，津贴
+    var coupouCode = [];
+    var coupouName = [];
+    var coupouPrice = [];
+    var discountProductId = [];
+
+    var pkgCode = [];
+    var pkgName = [];
+    var pkgPrice = [];
+    var pkgDiscountProductId = [];
+
+    var hasCoupon = false;
+    var hasAllowance = false;
+
+    // console.log("优惠券=========="+JSON.stringify(data));
+    if(_couponsListAll.data.length != 0) {
+      hasCoupon = true;
+      resetCou();
+      checkCou();
+      checkAllowance();
+    } else {
+      resetCou();
+      checkAllowance();
     }
-    let header = is_fake_data ? mock.package_header : package_header;
-    let data = is_fake_data ? encodeURIComponent(JSON.stringify(mock.package_getproductlist_data)) 
-                            : encodeURIComponent(JSON.stringify(package_getproductlist_data));
-    let url = url_getProductList + '?data=' + data;
-    console.log('productlist url:', url)
-    wx.request({
-      url: url,
-      header: header,
-      method: 'GET',
-      dataType: 'json',
-      success(data) {
-        console.log(data)
-        if(data.data.code == 0) {
-          resolve(data)
-        }else {
-          reject(data)
-        }
-      },
-      fail(err) {
-        console.error(err)
-        reject(data)
-      },
-      complete(res) {
-        // console.log(res)
+    return _productListAll
+
+    function resetCou() {
+      var child = _productListAll;
+      for (let m = 0; m < child.length; m++) {
+        child[m].couponname = "";
+        child[m].couponcode = "";
+        child[m].couponprice = "";
+        child[m].coupondiscountproductid = "";
+        child[m].allowance_act_id = "";
+        child[m].allowanceprice = "";
+        child[m].allowancediscountproductid = "";
       }
-    })
-  })
-}
-
-function getCoupones() {//获取优惠券
-  return new Promise((resolve, reject) => {
-    let header = is_fake_data ? mock.package_header : package_header;
-    let data = JSON.stringify({
-      "user_flag": !!app.globalData.ccUserInfo ? 2 : 0, //用户没登录，传0，user_id值为空,
-      "user_id": app.globalData.ccUserInfo.openid || '',
-      "third_user_id": app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || ''  
-    })
-    wx.request({
-      url: url_getCoupones,
-      data: {
-        data
-      },
-      header: header,
-      success(data) {
-        console.log(data)
-        if (data.data.code == 0) {
-          resolve(data.data)
-        } else {
-          reject(data.data.msg)
-        }
-      },
-      fail(err) {
-        console.error(err)
-        reject(err)
-      },
-      complete(res) {
-      }
-    })
-  })
-}
-
-function getAllowance() {//获取津贴
-  return new Promise((resolve, reject) => {
-    let clientId = config.baseUrl_allowance.startsWith('https://beta') ? 'YS_BETA' : 'YS_RELEASE ' //分测试环境和正式环境
-
-    wx.request({
-      url: url_getAllowance,
-      data: {
-        clientId: clientId,
-        authenticationValue: app.globalData.ccUserInfo.openid || '',//openid
-        authenticationType: 'openid',
-        currentTimestamp: new Date().getTime()
-      },
-      success(data) {
-        console.log(data)
-        if (data.data.code == 0) {
-          resolve(data.data.data.totalSubsidy)
-        } else {
-          reject(data.message)
-        }
-      },
-      fail(err) {
-        console.error(err)
-        reject(err)
-      },
-      complete(res) {
-      }
-    })
-  })
-}
-
-//计算优惠券，津贴
-function calAllBenefits(_productListAll, _couponsListAll, _allowancesNum) {
-  var coupouCode = [];
-  var coupouName = [];
-  var coupouPrice = [];
-  var discountProductId = [];
-
-  var pkgCode = [];
-  var pkgName = [];
-  var pkgPrice = [];
-  var pkgDiscountProductId = [];
-
-  var hasCoupon = false;
-  var hasAllowance = false;
-
-  // console.log("优惠券=========="+JSON.stringify(data));
-  if (_couponsListAll.data.length != 0) {
-    hasCoupon = true;
-    resetCou();
-    checkCou();
-    checkAllowance();
-  } else {
-    resetCou();
-    checkAllowance();
-  }
-  return _productListAll
-
-  function resetCou() {
-    var child = _productListAll;
-    for (let m = 0; m < child.length; m++) {
-      child[m].couponname = "";
-      child[m].couponcode = "";
-      child[m].couponprice = "";
-      child[m].coupondiscountproductid = "";
-      child[m].allowance_act_id = "";
-      child[m].allowanceprice = "";
-      child[m].allowancediscountproductid = "";
     }
-  }
 
   function checkCou() {
     var child = _productListAll;
@@ -245,7 +222,7 @@ function calAllBenefits(_productListAll, _couponsListAll, _allowancesNum) {
         var attributes = _couponsListAll.data[j].attributes;
         var business = _couponsListAll.data[j].businessLine
         if (attributes != null && attributes.length != 0) {
-          for (let  k = 0; k < attributes.length; k++) { //遍历优惠券的attributes
+          for (let k = 0; k < attributes.length; k++) { //遍历优惠券的attributes
             if (attributes[k].resourceId != "") {//指定产品包可用
               var attrResId = attributes[k].resourceId.split(',');
               if (attrResId.indexOf(product_id) != -1) {
@@ -528,8 +505,6 @@ function calAllBenefits(_productListAll, _couponsListAll, _allowancesNum) {
     selectCon(pkgCode, pkgName, pkgPrice, pkgDiscountProductId);
   }
 
-
-
   function selectCon(pkgCode, pkgName, pkgPrice, pkgDiscountProductId) {
     var child = _productListAll;
     for (let m = 0; m < child.length; m++) {
@@ -601,30 +576,30 @@ function calAllBenefits(_productListAll, _couponsListAll, _allowancesNum) {
         } else { }
       }
 
-      if (hasAllowance) {
-        freshAfterCheck();
-      } else if (hasCoupon) {
-        freshAfterCheck();
-      } else {
-        freshAfterCheck();
+        if (hasAllowance) {
+          freshAfterCheck();
+        } else if (hasCoupon) {
+          freshAfterCheck();
+        } else {
+          freshAfterCheck();
+        }
+      }
+
+      function freshAfterCheck() {
+        hasCoupon = false;
+        hasAllowance = false;
       }
     }
+  },
 
-    function freshAfterCheck() {
-      hasCoupon = false;
-      hasAllowance = false;
-    }
-  }
-}
+},
+})
+//methods zone
 
-
-
-
-
-module.exports = {
-  getProductSourceList,
-  getProductPackageList,
-  getCoupones,
-  getAllowance,
-  calAllBenefits,
-}
+// module.exports = {
+//   getProductSourceList,
+//   getProductPackageList,
+//   getCoupones,
+//   getAllowance,
+//   calAllBenefits,
+// }
