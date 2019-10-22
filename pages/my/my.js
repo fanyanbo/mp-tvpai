@@ -34,10 +34,10 @@ Page({
     },
     //mock data
     productSourceList: [ //默认显示的产品源列表
-      { source_id: 1, source_name: '极光VIP', valid: '立即开通', image: '../../images/my/vip/mov.png' },
-      { source_id: 44, source_name: '教育VIP', valid: '立即开通', image: '../../images/my/vip/edu.png' },
-      { source_id: 57, source_name: '少儿VIP', valid: '立即开通', image: '../../images/my/vip/kid.png' },
-      { source_id: 56, source_name: '电竞VIP', valid: '立即开通', image: '../../images/my/vip/game.png' }
+      { source_sign: 'yinhe', source_name: '极光VIP', valid: '立即开通', image: '../../images/my/vip/mov.png' },
+      { source_sign: 'supervip', source_name: '教育VIP', valid: '立即开通', image: '../../images/my/vip/edu.png' },
+      { source_sign: 'shaoervip', source_name: '少儿VIP', valid: '立即开通', image: '../../images/my/vip/kid.png' },
+      { source_sign: 'wasu', source_name: '电竞VIP', valid: '立即开通', image: '../../images/my/vip/game.png' }
     ],
     historyList: [],//投屏历史
 
@@ -136,33 +136,31 @@ Page({
       })
       return
     }
-    let source_id = e.currentTarget.dataset.id
-    wx.navigateTo({ url: `../vipbuy/vipbuy?source_id=${source_id}` })
+    let source_sign = e.currentTarget.dataset.sign
+    wx.navigateTo({ url: `../vipbuy/vipbuy?source_sign=${source_sign}` })
   },
   _getProductSourceList() {
     if (!!Object.keys(app.globalData.boundDeviceInfo).length) {
       user_package.getProductSourceList().then((res) => {
-        console.log(res)
-        //todo 获取的产品源列表需要先过滤
-        let list = data.data.data.sources
+        let list = res.data.data.sources
         list.forEach((item, index) => {
-          switch(item.source_id) {
-            case '1':  //影视,默认奇异果VIP
+          switch(item.source_sign) {
+            case 'yinhe':  //影视,默认奇异果VIP
               _updateProductSourceList(0, item)
               break;
-            case '5':
+            case '6':
               if(app.globalData.boundDeviceInfo.source == 'tencent') //tencent 超级影视
               {
                 _updateProductSourceList(0, item)
               }
               break;
-            case '44':
+            case 'supervip':
               _updateProductSourceList(1, item) //超级教育vip
               break;
-            case '57':
+            case 'shaoervip':
               _updateProductSourceList(2, item)  //少儿vip
               break;
-            case '56':
+            case 'wasu':
               _updateProductSourceList(3, item)  //电竞vip
               break;
           }
@@ -188,7 +186,7 @@ Page({
           }
         }
         this.setData({
-          [`productSourceList[${index}].source_id`]: item.source_id,
+          [`productSourceList[${index}].source_sign`]: item.source_sign,
           [`productSourceList[${index}].source_name`]: item.source_name,
           [`productSourceList[${index}].valid`]: valid,
         })

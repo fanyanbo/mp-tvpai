@@ -11,6 +11,39 @@ const url_getAllowance = config.baseUrl_allowance + '/api/subsidy/v1/query-userS
 //module scope variable
 const is_fake_data = false;//用mock data测试
 
+var package_header = { //获取产品包/产品源接口 header data
+  "cAppVersion": app.globalData.boundDeviceInfo.vAppVersion,
+  "vAppID": "0", //郭导：写死
+  "cSID": app.globalData.boundDeviceInfo.sid,
+  "sourceGroup": "coocaaEdu,tencent,yinhe,4KGarden,iwangding,wasu,chn_live,youku", //怎么获取？
+  "cPkg": "com.tianci.movieplatform", // 目前字段里没有  //todo 
+  "cPattern": "normal", //目前字段里没有 
+  "language": "zh",     //目前字段里没有 
+  "cResolution": app.globalData.boundDeviceInfo.resolution,//"720p,1080p,4K,H265",
+  "cSkySecurity": "false",//目前字段里没有 
+  "headerVersion": "8",
+  "cUDID": app.globalData.boundDeviceInfo.serviceId,
+  "cTcVersion": app.globalData.boundDeviceInfo.tcVersion,
+  "cChip": app.globalData.boundDeviceInfo.chip,
+  "cSize": app.globalData.boundDeviceInfo.screenSize,
+  // "Accept-Charset": "utf-8",
+  "cBrand": "Skyworth", //目前字段里没有 
+  // "Accept": "application/json,text/*", //todo  
+  "cModel": app.globalData.boundDeviceInfo.model,
+  "cFMode": "Default",  //目前字段里没有 
+  "cEmmcCID": "",       //目前字段里没有 
+  "MAC": app.globalData.boundDeviceInfo.devMac,
+  "vAcceptSources": "sky,voole,tencent,iqiyi", //郭导：写死
+  // "license": "GiTv",
+  "aSdk": "", //目前字段里没有 
+  "cUserInfo": "",//目前字段里没有 
+  "cOpenId": !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : '',//目前字段里没有 
+  "supportSource": "",//目前字段里没有 
+  "Resolution": app.globalData.boundDeviceInfo.resolution,
+  "cHomepageVersion": "",//目前字段里没有 
+  "vAppVersion": app.globalData.boundDeviceInfo.vAppVersion,
+}
+
 //methods zone
 function getProductSourceList() { //获取产品源列表（极光VIP/教育VIP/少儿VIP/电竞VIP等）
   return new Promise((resolve, reject) => {
@@ -21,7 +54,7 @@ function getProductSourceList() { //获取产品源列表（极光VIP/教育VIP/
       "business_type": -1,  //-1:all 0:movie 1:education
       "third_user_id": app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || ''
     }
-    let header = mock.package_header;
+    let header = is_fake_data ? mock.package_header : package_header;
     let data = is_fake_data ? encodeURIComponent(JSON.stringify(mock.package_getsourcelist_data)) 
                             : encodeURIComponent(JSON.stringify(package_getsourcelist_data));
     let url = url_getSourceList + "?data=" + data;
@@ -64,7 +97,7 @@ function getProductPackageList(params) {//获取产品包列表(包年/包月/�
       "source_id": params.source_id, //0:tencent, 1:qiyi
       "auth_type": 0 //鉴权类型，0第三方，1自有,该字段影视详情接口取 //todo 这个字段作用及取值来自？
     }
-    let header = mock.package_header
+    let header = is_fake_data ? mock.package_header : package_header;
     let data = is_fake_data ? encodeURIComponent(JSON.stringify(mock.package_getproductlist_data)) 
                             : encodeURIComponent(JSON.stringify(package_getproductlist_data));
     let url = url_getProductList + '?data=' + data;
@@ -95,7 +128,7 @@ function getProductPackageList(params) {//获取产品包列表(包年/包月/�
 
 function getCoupones() {//获取优惠券
   return new Promise((resolve, reject) => {
-    let header = mock.package_header
+    let header = is_fake_data ? mock.package_header : package_header;
     let data = JSON.stringify({
       "user_flag": !!app.globalData.ccUserInfo ? 2 : 0, //用户没登录，传0，user_id值为空,
       "user_id": app.globalData.ccUserInfo.openid || '',
