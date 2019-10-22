@@ -68,7 +68,7 @@ Component({
             'curTV.bAcctMatch': true,
           })
           return
-        } 
+        }
         console.log(this.data.curTV)
         this.setData({ //更新手机端头像
           'curTV.bAcctMatch': false,
@@ -199,52 +199,50 @@ Component({
     })
   },
 
-    onLoad: function () {
-      console.log('onLoad');
-      // if (app.globalData.deviceId != null) {
-      //   this.setData({
-      //     isDevConnected: true
-      //   })
-      // }
+  onLoad: function () {
+    console.log('onLoad');
+    // if (app.globalData.deviceId != null) {
+    //   this.setData({
+    //     isDevConnected: true
+    //   })
+    // }
 
 
-    },
+  },
 
-    onShow: function () {
-      console.log('onShow');
-      if (!!app.globalData.ccUserInfo) {//refresh login status
-        this.setData({ 
-          bLoginCoocaa: true,
-          'ccUserInfo.name': app.globalData.ccUserInfo.username,
-          'ccUserInfo.avatar': app.globalData.ccUserInfo.avatar,
-        })
-      }else { //清除登录状态
-        this.setData({
-          bLoginCoocaa: false,
-          'ccUserInfo.name': '',
-          'ccUserInfo.avatar': '',
-        })
-      }
-      //获取产品源列表
-      this._getProductSourceList()
-      this._getBoundTVInfo()
-      if (typeof this.getTabBar === 'function' && this.getTabBar()) {
-        // 切换到“我的”tab，设置选中状态
-        this.getTabBar().setData({
-          selected: 1 // 这个数是tabBar从左到右的下标，从0开始
-        })
-      }
+  onShow: function () {
+    console.log('onShow');
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      // 切换到“我的”tab，设置选中状态
+      this.getTabBar().setData({
+        selected: 1 // 这个数是tabBar从左到右的下标，从0开始
+      })
+    }
+    this.setData({
+      isShowTips: app.globalData.isShowTips,
+      bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel,
+    });
+    //刷新登录状态
+    if (!!app.globalData.ccUserInfo) {
+      this.setData({ 
+        bLoginCoocaa: true,
+        'ccUserInfo.name': app.globalData.ccUserInfo.username,
+        'ccUserInfo.avatar': app.globalData.ccUserInfo.avatar,
+      })
+    }else {//清除登录状态
       this.setData({
-        isShowTips: app.globalData.isShowTips,
-        bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel,
-      });
-      // 获取历史和收藏列表
-      this.getHistoryList();
-      this.getFavoriteList();
-    },
-    clearStorage: function () {
-      wx.setStorageSync('new_cksession', "");
-    },
+        bLoginCoocaa: false,
+        'ccUserInfo.name': '',
+        'ccUserInfo.avatar': '',
+      })
+    }
+    //获取产品源列表
+    this._getProductSourceList()
+    this._getBoundTVInfo()
+    // 获取历史和收藏列表
+    this.getHistoryList();
+    this.getFavoriteList();
+  },
     // 跳转至搜索页面
     handleSearchTap: function () {
       utils.navigateTo('../search/index');
@@ -334,6 +332,9 @@ Component({
         }
       }).catch(res => {
         console.log("获取历史列表发生错误：", res);
+        this.setData({
+          historyList: []
+        })
       })
     },
 
