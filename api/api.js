@@ -1,9 +1,7 @@
-const baseUrl = 'https://wx.coocaa.com/'; 
-const _baseUrl = "https://tvpi.coocaa.com/";
+const config = require('../config/index');
 
-// const baseUrl = 'https://beta-wx.coocaa.com/';
-// const _baseUrl ='https://beta-tvpi.coocaa.com/';
-
+const baseUrl = config.baseUrl_wx; 
+const _baseUrl = config.baseUrl_tvpai;
 
 const getDevicesUrl = baseUrl + "articleMoviesAPI/getDevices.coocaa";//获取设备信息
 const logoutUrl = baseUrl + "ccuserlogin/logout.coocaa";//登出酷开账号

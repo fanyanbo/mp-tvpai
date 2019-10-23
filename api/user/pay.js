@@ -9,8 +9,9 @@ const app = getApp()
 //module scope variable
 const is_fake_data = false;//用mock data测试
 
-const url_genOrder = config.baseUrl_sz + 'v3/order/genOrder.html'
-const url_prePay = config.baseUrl_pay + 'MyCoocaa/wechat_applet/pay.action'
+const url_genOrder = config.baseUrl_sz + '/v3/order/genOrder.html'
+const url_prePay = config.baseUrl_pay + '/MyCoocaa/wechat_applet/pay.action'
+const url_queryOrderDetail = config.baseUrl_sz + '/v3/order/queryOrderDetail.html'
 
 var headerBehavior = require('./header')
 
@@ -188,6 +189,33 @@ module.exports = Behavior({
           }
         })
       })
-    },  
+    },
+    queryOrderDetail(orderId) { //查询订单情况
+      return new Promise((resolve, reject) => {
+        wx.request({
+            url: url_queryOrderDetail,
+            data: { 
+              data: {
+                "order_no": orderId
+                }
+            },
+            success(data) {
+              console.log(data)
+              if(data.code == 0) {
+                resolve(data.data.orders[0])
+              }else {
+                reject(data.msg)
+              }
+            },
+            fail(err) {
+              console.error(err)
+              reject(err)
+            },
+            complete(res) {
+              console.log(res)
+            },
+        })
+      })
+    }, 
   },
 })

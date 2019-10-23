@@ -35,15 +35,13 @@ Component({
         tip: '当前电视端尚未登陆账号，是否将当前手机账号同步至电视端',
       },
     },
-    //mock data
     productSourceList: [ //默认显示的产品源列表
-      { source_id: 1, source_sign: 'yinhe', source_name: '极光VIP', valid: '立即开通', image: '../../images/my/vip/mov.png' },
-      { source_id: 44, source_sign: 'supervip', source_name: '教育VIP', valid: '立即开通', image: '../../images/my/vip/edu.png' },
-      { source_id: 57, source_sign: 'shaoervip', source_name: '少儿VIP', valid: '立即开通', image: '../../images/my/vip/kid.png' },
-      { source_id: 56, source_sign: 'wasu', source_name: '电竞VIP', valid: '立即开通', image: '../../images/my/vip/game.png' }
+      { source_id: 0, source_sign: 'yinhe', source_name: '极光VIP', valid: '立即开通', image: '../../images/my/vip/mov.png' },
+      { source_id: 0,  source_sign: 'supervip', source_name: '教育VIP', valid: '立即开通', image: '../../images/my/vip/edu.png' },
+      { source_id: 0,  source_sign: 'shaoervip', source_name: '少儿VIP', valid: '立即开通', image: '../../images/my/vip/kid.png' },
+      { source_id: 0,  source_sign: 'wasu', source_name: '电竞VIP', valid: '立即开通', image: '../../images/my/vip/game.png' }
     ],
     historyList: [],//投屏历史
-
   },
 
   methods: {
@@ -120,11 +118,10 @@ Component({
         openId: app.globalData.ccUserInfo.openid,
         deviceId: app.globalData.boundDeviceInfo.serviceId,
       }).then(res => {
-        //todo 
         wx.showModal({
           title: '提示',
           content: '推送成功，请根据电视端提示操作',
-          showCancel: fals,
+          showCancel: false,
         })
       })
     },
@@ -136,13 +133,20 @@ Component({
       }
       if (!app.globalData.deviceId) { //没绑定设备
         wx.showToast({
-          title: '请先绑定设备',
+          title:  '请先绑定设备',
           icon: 'none'
         })
         return
       }
       let source_id = e.currentTarget.dataset.id
-      wx.navigateTo({ url: `../vipbuy/vipbuy?source_id=${source_id}` })
+      if(!source_id) {
+        wx.showToast({
+          title: '获取产品源失败，请先连接设备',
+          icon: 'none'
+        })
+      }else {
+        wx.navigateTo({ url: `../vipbuy/vipbuy?source_id=${source_id}` })
+      }
     },
     _getProductSourceList() {
       if (!!Object.keys(app.globalData.boundDeviceInfo).length) {

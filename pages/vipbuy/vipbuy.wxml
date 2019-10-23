@@ -61,12 +61,12 @@
     <image class="pay-icon" src="../../images/my/vipbuy/ok.png"></image>
     <view class="pay-title">购买成功</view>
     <view class="pay-goods smallfont1">
-      <view class="pay-name">3个月奇异果VIP</view>
-      <view class="pay-valid">2019年12月12日到期</view>
+      <view class="pay-name">{{orderInfos.name}}</view>
+      <view class="pay-valid">{{orderInfos.validTime}}到期</view>
     </view>
     <view class="pay-goods smallfont2">
       <view class="pay-name">购买账号</view>
-      <view class="pay-valid">冈拉梅朵</view>
+      <view class="pay-valid">{{orderInfos.userName}}</view>
     </view>
     <view class="paysuccess-prize">
     </view>
@@ -81,21 +81,21 @@
     <view class="payfail-desc">请尽快完成支付,以免超时被自动取消哦~</view>
     <view class="pay-goods largefont1">
       <view class="pay-name">应付金额</view>
-      <view class="pay-valid">￥663.32</view>
+      <view class="pay-valid">￥{{orderInfos.price}}</view>
     </view>
     <view class="pay-goods largefont2">
       <view class="pay-name">商品名称</view>
-      <view class="pay-valid">奇异果VIP-连续包月</view>
+      <view class="pay-valid">{{orderInfos.name}}</view>
     </view>
     <view class="pay-goods smallfont1">
       <view class="pay-name">订单号</view>
-      <view class="pay-valid">OD201807251528927894</view>
+      <view class="pay-valid">{{orderInfos.orderId}}</view>
     </view>
     <view class="pay-goods smallfont2">
       <view class="pay-name">购买时间</view>
-      <view class="pay-valid">2018年07月25日 15:28:10</view>
+      <view class="pay-valid">{{orderInfos.payTime}}</view>
     </view>
-    <view class="btn">继续支付</view>
+    <view class="btn" bindtap="payNow">继续支付</view>
   </view>
 
 </view>

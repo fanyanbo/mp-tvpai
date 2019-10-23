@@ -65,7 +65,7 @@ module.exports = Behavior({
       this.data.package_header.cOpenId = !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : ''
       this.data.package_header.Resolution = app.globalData.boundDeviceInfo.resolution
       this.data.package_header.vAppVersion = app.globalData.boundDeviceInfo.vAppVersion
-      console.log('behavior header :' + this.data.package_header)
+      console.log('behavior header :' + JSON.stringify(this.data.package_header))
       return this.data.package_header
     },
   }

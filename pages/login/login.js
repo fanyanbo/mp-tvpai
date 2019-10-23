@@ -19,7 +19,7 @@ Page({
       HASLOGIN_REVISE_NAME: 103,  //修改名称页
     },
     curSubPage: 0,//当前所处子页面,取值见this.data.SubPages
-    login_wechat_url: 'https://beta-wx.coocaa.com/users/miniprogram/usercenter/login.html?ccSession=',
+    login_wechat_url: 'https://beta-wx.coocaa.com/users/miniprogram/usercenter/login.html?theme=coocaa-pay-login&loginMethod=weixin&redirect_uri=/pages/my/my&ccSession=',
     //-- 登录变量 start --
     arrLoginType: [ //登录类型 
       { id: 1, type: '微信登录', image: '../../images/my/login/wechat.png'},
@@ -262,11 +262,6 @@ Page({
         this.setData({
           login_wechat_url: this.data.login_wechat_url + ccsession
         })
-        // //test
-        // let url = 'https://beta.webapp.skysrt.com/yuanbo/wx/wechat1.html?ccsession=' + ccsession
-        // this.setData({
-        //   login_wechat_url: url
-        // })
       }
       this.setData({
         curSubPage: +options.stage

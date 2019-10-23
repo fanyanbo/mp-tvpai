@@ -23,11 +23,11 @@ Page({
       return
     }
     const deviceName = encodeURI(_data.deviceName)
-      const ccsession = wx.getStorageSync('new_cksession')
+    const ccsession = wx.getStorageSync('new_cksession')
     var paramsStr = { "ccsession": ccsession, "deviceName": deviceName, "id": that.data.id}
     console.log(paramsStr);
     const sign = utils.encryption(paramsStr, key)
-      console.log(sign);
+    console.log(sign);
     const url = api.changeDeviceStatusUrl
     let data = {
       client_id: app.globalData.client_id,
