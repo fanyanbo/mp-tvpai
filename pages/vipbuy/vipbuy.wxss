@@ -236,6 +236,9 @@
 .paysuccess>.pay-goods.smallfont2 {
     margin-bottom: 60rpx;
 }
+.pay-goods.smallfont1>.pay-valid {
+  text-align: right;
+}
 .pay-goods[class*="largefont"] {
   line-height: 120rpx;
   font-size: 32rpx;

@@ -62,7 +62,7 @@
     <view class="pay-title">购买成功</view>
     <view class="pay-goods smallfont1">
       <view class="pay-name">{{orderInfos.name}}</view>
-      <view class="pay-valid">{{orderInfos.validTime}}到期</view>
+      <view class="pay-valid">{{orderInfos.validTime}}</view>
     </view>
     <view class="pay-goods smallfont2">
       <view class="pay-name">购买账号</view>

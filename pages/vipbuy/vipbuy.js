@@ -22,10 +22,10 @@ Component({
     orderInfos: {
       userName: getApp().globalData.ccUserInfo.username,
       name: '',
-      price: 0,
-      orderId: 0,
-      payTime: 0,
-      validTime: 0,
+      price: '',
+      orderId: '',
+      payTime: '',
+      validTime: '',
     }, //当前订单信息
   },
   
@@ -98,15 +98,15 @@ Component({
       new Promise((resolve, reject) => {
         if (this.data.stage == this.data.PageStage.HOME_PAGE) {
           let params = this.data.productListShow[this.data.curSelectedProject.id]
-          return  this.genOrder(params).then(res => {
+                this.genOrder(params).then(res => {
                     this.data._orderId = res.orderId
-                    this.prePay(res)
+                    return this.prePay(res)
+                  }).then( res => {
+                    console.log(res)
+                    resolve(res)
                   }).catch( err => {
                     console.error(err)
-                    wx.showToast({
-                      title: '支付失败，请重试',
-                      icon: 'none'
-                    })
+                    reject()
                   })
         } else if (this.data.stage == this.data.PageStage.PAY_FAIL_PAGE) { //支付失败后，继续支付
           resolve()
@@ -124,6 +124,13 @@ Component({
         })
       }).catch(err => {
         console.error('prePay error')
+        if (!this.data._payParams || !this.data._orderId) {
+          wx.showToast({
+            title: '支付失败，请重试',
+            icon: 'none'
+          })
+          return
+        }
         let stage = this.data.PageStage.PAY_FAIL_PAGE //失败页处理,继续支付
         wx.redirectTo({
           url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&pay=${JSON.stringify(this.data._payParams)}`,
@@ -133,22 +140,59 @@ Component({
         this.data._payParams = null;
       })
     },
+    _pollOrderBenefitStatus(time) { //轮询订单权益开通状态
+      let that = this
+      let timer = null;
+      let startTime = +new Date()
+      let now = () => +new Date()
+      
+      timer = setInterval(fn, 5000)
+
+      function fn() {
+        console.log('fn enter...')
+        that.queryOrderDetail(that.data._orderId).then(res => {
+          console.log('fn then...' + res.syn_status)
+          if (res.syn_status == 1) {
+            clearInterval(timer)
+            that.setData({
+              'orderInfos.validTime': that._formatTime(res.syn_time) + '到期', //need fix
+            })
+            return
+          }
+          if (now() > startTime + time) {
+            clearInterval(timer)
+            that.setData({
+              'orderInfos.validTime': '权益开通超时,请关注酷开会员公众号联系客服处理', //need fix
+            })
+            return
+          }
+        }).catch( err => {
+          console.error(err)
+        })
+      }
+    },
     _getOrderDetailes() { //获取订单详情
+      let that = this
       this.queryOrderDetail(this.data._orderId).then( res => {
         if (this.data.stage == this.data.PageStage.PAY_SUCCESS_PAGE) {
           if (res.syn_status == 1) {
             this.setData({
               'orderInfos.name': res.order_title,
-              'orderInfos.validTime': res.syn_time, //need fix
+              'orderInfos.validTime': this._formatTime(res.due_time) + '到期', //need fix
             })
+          }else {
+            this.setData({
+              'orderInfos.name': res.order_title,
+              'orderInfos.validTime': '权益开通中，请稍候~',
+            })
+            setTimeout(that._pollOrderBenefitStatus(12000), 3000)
           }
         } else if (this.data.stage == this.data.PageStage.PAY_FAIL_PAGE) {
-          this.data._payParams = JSON.parse(options.pay)
           this.setData({
             'orderInfos.name': res.order_title,
-            'orderInfos.price': res.pay_info.total_pay_fee,
-            'orderInfos.orderId': res.pay_info.oss_order_no,
-            'orderInfos.payTime': res.pay_time, //need fix
+            'orderInfos.price': res.pay_info.total_pay_fee / 100,
+            'orderInfos.orderId': res.pay_info.pay_order_no,//oss_order_no, // need confirm with chenyuan.
+            'orderInfos.payTime': this._formatTime(res.create_time),
           })
         }
       }).catch( err => {
@@ -167,12 +211,14 @@ Component({
     onLoad: function (options) {
       console.log(options)
       let stage = +options.stage
-      // stage = this.data.PageStage.PAY_SUCCESS_PAGE //test
       if (!!stage) {
         this.setData({
           stage: stage
         })
         this.data._orderId = options.orderId
+        if (this.data.stage == this.data.PageStage.PAY_FAIL_PAGE) {
+          this.data._payParams = JSON.parse(options.pay)
+        }
         this._getOrderDetailes(this.data._orderId)
       }else {
         this.data._curSourceId = options.source_id
@@ -181,7 +227,11 @@ Component({
         })
       }
     },
-
+    _formatTime(time) { //输出格式化时间 
+      let d = new Date(time)
+      let digit2 = param => Number(param) < 10 ? ('0'+ param) : param
+      return `${d.getFullYear()}-${digit2(d.getMonth() + 1)}-${digit2(d.getDate())} ${digit2(d.getHours())}:${digit2(d.getMinutes())}:${digit2(d.getSeconds())}`
+    },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
