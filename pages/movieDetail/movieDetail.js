@@ -405,7 +405,8 @@ Page({
 
   // 推送影片
   push: function (e) {
-    if (app.globalData.deviceId == null) {
+    let _deviceId = app.globalData.deviceId
+    if (_deviceId == null) { // 跳转设备绑定页面
       return wx.redirectTo({
         url: "../home/home"
       })
@@ -416,9 +417,8 @@ Page({
       coocaamid: coocaamid,
       movieId: movieid
     })
-    let _session = wx.getStorageSync("new_cksession")
-    let _deviceId = app.globalData.deviceId
-    console.log("校验参数 session:" + _session + ", deviceId:" + _deviceId);
+    let _session = wx.getStorageSync("new_cksession")  
+    console.log("校验参数 session:" + _session + ", deviceId:" + _deviceId)
     wx.showLoading({ title: '推送中...' })
     if (_deviceId == null) {
       utils.showFailedToast('无设备id', this.data.errIconUrl)

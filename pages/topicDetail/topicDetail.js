@@ -75,7 +75,7 @@ Page({
     }
     return {
       title: '电视派',
-      path: 'pages/topicDetail/topicDetail'
+      path: `pages/topicDetail/topicDetail?id=${this.data.topicId}`
     }
   },
 
@@ -144,17 +144,20 @@ Page({
 
   // 处理影片推送点击事件
   handlePushClick: function (e) {
-    console.log('handlePushClick')
+    console.log('点击推送影片')
+    let _deviceId = app.globalData.deviceId
+    console.log("校验参数 deviceId:" + _deviceId);
+    if (_deviceId == null) {
+      // 跳转设备绑定页面
+      return wx.redirectTo({
+        url: "../home/home"
+      })
+    }
     let { movieid, title, type } = e.currentTarget.dataset
     if (type !== "电影") return
-    let _session = wx.getStorageSync("new_cksession")
-    let _deviceId = app.globalData.deviceId
-    console.log("校验参数 session:" + _session + ", deviceId:" + _deviceId);
+    let _session = wx.getStorageSync("new_cksession") 
+    console.log("校验参数 session:" + _session);
     wx.showLoading({ title: '推送中...' })
-    if (_deviceId == null) {
-      utils.showFailedToast('无设备id', this.data.errIconUrl)
-      return
-    }
     let params = {
       "ccsession": _session,
       "deviceId": _deviceId + '',
@@ -259,6 +262,7 @@ Page({
 
   // 添加影片收藏
   addMovieFavorite: function (movieId) {
+    utils.checkCoocaaUserLogin()
     let ccsession = wx.getStorageSync('new_cksession')
     if (ccsession == null) return
     let _movieid = `['${movieId}']`

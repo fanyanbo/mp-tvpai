@@ -95,10 +95,10 @@
           </view>
           <view class="topic-item-content" style="{{tools.getBgColor(item.base_color)}}">
             <block wx:for="{{item.videos}}" wx:key="index" wx:if="{{index < 4}}" wx:for-item="subitem">
-              <text class="movie-item" space="nbsp">
-                {{index+1}}. {{subitem.video_detail.base_info.title}}
-                <text style="color: #FDBE1A;">{{subitem.video_detail.base_info.score}}</text>
-              </text>
+              <view class="movie-item">
+                <view class="movie-item-title">{{index+1}}. {{subitem.video_detail.base_info.title}}</view>
+                <view style="color: #FDBE1A; margin-left: 10rpx" space="nbsp">   {{subitem.video_detail.base_info.score}}</view>
+              </view>
             </block>
             <view class="summary">...共{{item.videos.length}}部</view>
           </view>
