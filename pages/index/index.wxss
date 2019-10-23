@@ -269,12 +269,19 @@ swiper {
   padding: 10rpx 0 10rpx 0;
 }
 .movie-item {
+  display: flex;
+  align-items: center;
   width:360rpx;
   height:34rpx;
   line-height:34rpx;
   font-size:24rpx;
   font-family:PingFangSC-Regular,PingFangSC;
   color:rgba(255,255,255,1);
+}
+.movie-item-title {
+  width:300rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .summary {
   width:360rpx;

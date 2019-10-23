@@ -78,7 +78,8 @@ App({
         console.log('onLaunch getSystemInfo', res)
         that.globalData.platform = utils_fyb.getFlatform({ platform: res.platform })
         that.globalData.bIphoneFullScreenModel = utils_fyb.checkIphoneFullScreenModel({ platform: res.platform, model: res.model })
-        console.log('bIphoneFullScreenModel: ', that.globalData.bIphoneFullScreenModel)
+        console.log('onLaunch bIphoneFullScreenModel:', that.globalData.bIphoneFullScreenModel)
+        console.log('onLaunch platform', that.globalData.platform)
       },
     })
   },

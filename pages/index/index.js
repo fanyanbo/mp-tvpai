@@ -296,13 +296,13 @@ Page({
   jumpOutLink() {
     const url = "https://www.baidu.com"
     wx.navigateTo({
-      url: `/pages/webview/webview?url=`+url
+      url: `/pages/webview/webview?path=`+url
     })
   },
   jumpMyFavorite() {
     console.log('jumpMyFavorite')
     wx.navigateTo({
-      url: '/pages/favorite/favorite',
+      url: '/pages/favorite/favorite'
     })
   }
 });
