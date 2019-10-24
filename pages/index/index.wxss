@@ -14,7 +14,7 @@
   overflow: hidden;
 }
 
-.banner-item {
+/* .banner-item {
   width: 670rpx;
   height: 300rpx;
   display: inline-block;
@@ -22,13 +22,14 @@
   margin: 0 10rpx;
   border: 1px solid red;
   background: #ECECEC;
-}
+} */
 
 .iqiyi-label {
   box-sizing: border-box;
-  text-align: center;
+  /* text-align: center; */
   height: 358rpx;
   margin-top: 40rpx;
+  padding-left: 15rpx;
   margin-bottom: 20rpx;
 }
 
@@ -47,7 +48,7 @@
   font-size: 26rpx;
   color: #333;
   margin: 0rpx 20rpx;
-  margin-bottom: 20rpx
+  margin-bottom: 20rpx;
 }
 
 .column-item image {
@@ -100,7 +101,7 @@
   font-weight: bold;
 }
 
-.header .more {
+.topic-more, .more {
   position: absolute;
   left: 630rpx;
   font-size: 28rpx;
@@ -279,7 +280,7 @@ swiper {
   color:rgba(255,255,255,1);
 }
 .movie-item-title {
-  width:300rpx;
+  max-width:300rpx;
   overflow: hidden;
   text-overflow: ellipsis;
 }

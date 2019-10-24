@@ -5,7 +5,7 @@
 <wxs src="./topicDetail.wxs" module="tools" />
 <view>
   <navBar extClass="navbar-extclass" style="{{customNavStyle}}" background="#fff" color='#000' 
-  title='片单' back="{{true}}" bindback="handleGobackClick" />
+  title='片单' back="{{isShowNavBack}}" home="{{isShowNavHome}}" bindback="handleGobackClick" bindhome="handleGoHomeClick"/>
 </view>
 <view class="main-wrap">
   <view class="header-wrap">

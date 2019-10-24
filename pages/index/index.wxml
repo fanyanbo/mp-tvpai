@@ -19,7 +19,7 @@
     <view class="banner-wrap" wx:if="{{isShowBanner}}">
       <swiper autoplay="{{autoplay}}" current='{{swiperCurrent}}' previous-margin="{{previousmargin}}" next-margin="{{nextmargin}}" bindchange="swiperChange">
         <block wx:if="{{bannerList != null && bannerList.length > 0}}" wx:for="{{bannerList}}" wx:key="index">
-          <swiper-item data-type="{{item.linkType}}" data-id="{{item.bannerId}}" data-url="{{item.imgLinkUrl}}" bindtap="handleBannerTap">
+          <swiper-item class="banner-item" data-type="{{item.linkType}}" data-id="{{item.bannerId}}" data-url="{{item.imgLinkUrl}}" bindtap="handleBannerTap">
             <image src="{{item.imgUrl}}" class="slide-image" bindchange="chuangEvent"></image>
           </swiper-item>
         </block>
@@ -36,43 +36,43 @@
     <view bindtap="jumpMyFavorite">跳转到我的收藏页面</view> -->
     <!-- 区分腾讯源和爱奇艺源标签分类，因为标签个数不同，它们的布局不同 -->
     <swiper wx:if="{{source === 'iqiyi'}}" class="iqiyi-label swiper-box" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-active-color="{{indicatorActiveColor}}" indicator-color="{{indicatorColor}}">
-      <block wx:if="{{column1.length !== 0}}">
+      <block wx:if="{{categoryList.length !== 0}}">
         <swiper-item>
-          <view wx:for="{{column1}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="handleCategoryTap">
+          <view class="column-item" wx:for="{{tools.getSubArray(categoryList, 0)}}" wx:key="index" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="handleCategoryTap">
+            <image src="{{item.classify_pic}}" mode="aspectFill"></image>
+            <view class="label-title">{{item.classify_name}}</view>
+          </view>
+        </swiper-item>
+        <swiper-item>
+          <view class="column-item" wx:for="{{tools.getSubArray(categoryList, 1)}}" wx:key="index" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="handleCategoryTap">
+            <image src="{{item.classify_pic}}" mode="aspectFill"></image>
+            <view class="label-title">{{item.classify_name}}</view>
+          </view>
+        </swiper-item>
+        <swiper-item>
+          <view class="column-item" wx:for="{{tools.getSubArray(categoryList, 2)}}" wx:key="index" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="handleCategoryTap">
             <image src="{{item.classify_pic}}" mode="aspectFill"></image>
             <view class="label-title">{{item.classify_name}}</view>
           </view>
         </swiper-item>
       </block>
       <!-- 模拟骨架屏效果 -->
-      <block wx:else>
+      <block wx:if="{{categoryList.length === 0}}">
         <swiper-item>
           <view wx:for="{{10}}" wx:key="index" class="column-item">
             <view class="skeleton"></view>
           </view>
         </swiper-item>
       </block>
-      <swiper-item>
-        <view wx:for="{{column2}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="handleCategoryTap">
-          <image src="{{item.classify_pic}}" mode="aspectFill"></image>
-          <view class="label-title">{{item.classify_name}}</view>
-        </view>
-      </swiper-item>
-      <swiper-item>
-        <view wx:for="{{column3}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="handleCategoryTap">
-          <image src="{{item.classify_pic}}" mode="aspectFill"></image>
-          <view class="label-title">{{item.classify_name}}</view>
-        </view>
-      </swiper-item>
     </swiper>
     <view wx:if="{{source === 'qq'}}" class="tencent-label">
       <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">
-        <view wx:for="{{column}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="handleCategoryTap">
+        <view wx:for="{{categoryList}}" wx:key="index" class="column-item" data-category="{{item.classify_id}}" data-title="{{item.classify_name}}" bindtap="handleCategoryTap">
           <image src="{{item.classify_pic}}" mode="aspectFill"></image>
           <text class="label-txt">{{item.classify_name}}</text>
         </view>
         <!-- 模拟骨架屏效果 -->
-        <view wx:if="{{column.length === 0}}" wx:for="{{6}}" wx:key="index" class="column-item">
+        <view wx:if="{{categoryList.length === 0}}" wx:for="{{6}}" wx:key="index" class="column-item">
           <view class="skeleton"></view>
         </view>
       </scroll-view>
@@ -81,10 +81,10 @@
     <view class="header" wx:if="{{topicList.length !== 0}}">
       <text class="line"></text>
       <text class="title">片单</text>
-      <navigator class="more" url="../topicList/topicList">
+      <view class="topic-more" bindtap="handleMoreTap" data-type="topic">
         <span style="font-weight: normal;">更多</span>
         <image class="arrow" src="../../images/index_arraw.png" mode="aspectFill"></image>
-      </navigator>
+      </view>
     </view>
     <view class="topic-content" wx:if="{{topicList.length !== 0}}">
       <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">
@@ -96,8 +96,12 @@
           <view class="topic-item-content" style="{{tools.getBgColor(item.base_color)}}">
             <block wx:for="{{item.videos}}" wx:key="index" wx:if="{{index < 4}}" wx:for-item="subitem">
               <view class="movie-item">
-                <view class="movie-item-title">{{index+1}}. {{subitem.video_detail.base_info.title}}</view>
-                <view style="color: #FDBE1A; margin-left: 10rpx" space="nbsp">   {{subitem.video_detail.base_info.score}}</view>
+                <view class="movie-item-title">
+                  {{index+1}}. {{subitem.video_detail.base_info.title}}
+                </view>
+                <view style="color: #FDBE1A; margin-left: 10rpx" space="nbsp">
+                  {{subitem.video_detail.base_info.score}}
+                </view>
               </view>
             </block>
             <view class="summary">...共{{item.videos.length}}部</view>
@@ -110,10 +114,10 @@
       <view class="header">
         <text class="line"></text>
         <text class="title">{{item.title}}</text>
-        <navigator class="more" url="../column/column?id={{item.tag_id}}&title={{item.title}}">
+        <view class="more" data-id="{{item.tag_id}}" data-title="{{item.title}}" data-type="recommend" bindtap="handleMoreTap">
           <span style="font-weight: normal;">更多</span>
           <image class="arrow" src="../../images/index_arraw.png" mode="aspectFill"></image>
-        </navigator>
+        </view>
       </view>
       <view class="content">
         <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">

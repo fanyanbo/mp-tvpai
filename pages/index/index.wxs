@@ -11,7 +11,28 @@ function getBgColor(str) {
     return style;
 }
 
+function getSubArray(arr, index) {
+    var arrLen = arr.length;
+    if(arrLen === 0) {
+        return [];
+    }
+    if(arrLen <= 10) {
+        return index === 0 ? arr: []
+    }
+    if(arrLen > 10 && arrLen <= 20) {
+        if(index === 0) return arr.slice(0, 10)
+        if(index === 1) return arr.slice(10, arrLen)
+        if(index === 2) return []
+    }
+    if(arrLen > 20) {
+        if(index === 0) return arr.slice(0, 10)
+        if(index === 1) return arr.slice(10, 20)
+        if(index === 2) return arr.slice(20)
+    }
+}
+
 module.exports = {
     isContainKey: isContainKey,
-    getBgColor: getBgColor
+    getBgColor: getBgColor, // 获取片单背景色
+    getSubArray: getSubArray // 切割爱奇艺分类标签列表
 }

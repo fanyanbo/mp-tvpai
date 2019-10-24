@@ -10,16 +10,21 @@ Page({
     collectionList: [], //片单影片收藏列表
     movieCollectedList: {},
     isCollected: false, //当前片单是否收藏
+    isShowNavBack: true, //导航栏是否显示返回
+    isShowNavHome: false, //导航栏是否显示首页
     errIconUrl: '../../images/close_icon.png',
     // customBackground: 'rgba(255,255,255,0)'
   },
 
   onLoad: function (options) {
-    let _topicId = options.id
-    this.data.topicId = _topicId
-    console.log("片单id:", _topicId)
-    this.getTopicDetailById(_topicId)
-    this.getTopicFavorite(_topicId)
+    console.log("进入片单详情 options:", options)
+    // 从分享进入，导航栏显示首页，隐藏返回
+    if(options.scene === 'share') {
+      this.setData({isShowNavBack: false, isShowNavHome: true})
+    }
+    this.data.topicId = options.id
+    this.getTopicDetailById(options.id)
+    this.getTopicFavorite(options.id)
     this.getMovieFavorite()
   },
 
@@ -75,7 +80,7 @@ Page({
     }
     return {
       title: '电视派',
-      path: `pages/topicDetail/topicDetail?id=${this.data.topicId}`
+      path: `pages/topicDetail/topicDetail?id=${this.data.topicId}&scene=share`
     }
   },
 
@@ -100,6 +105,14 @@ Page({
   handleGobackClick: function () {
     console.log('handleGobackClick')
     utils.navigateBack()
+  },
+
+  // 处理导航点击主页事件
+  handleGoHomeClick: function () {
+    console.log('handleGoHomeClick')
+    wx.switchTab({
+      url: '../index/index'
+    })
   },
 
   // 添加影片/片单收藏
@@ -155,7 +168,7 @@ Page({
     }
     let { movieid, title, type } = e.currentTarget.dataset
     if (type !== "电影") return
-    let _session = wx.getStorageSync("new_cksession") 
+    let _session = wx.getStorageSync("new_cksession")
     console.log("校验参数 session:" + _session);
     wx.showLoading({ title: '推送中...' })
     let params = {

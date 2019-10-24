@@ -9,10 +9,8 @@ page {
 }
 
 .header-wrap {
-  /* position: relative; */
   width: 750rpx;
   height: 540rpx;
-  /* background: #3E302D; */
 }
 
 .header-wrap .bg-img {
@@ -120,7 +118,7 @@ button {
 
 .content-wrap {
   width: 750rpx;
-  margin-bottom: 130rpx;
+  padding-bottom: 130rpx;
 }
 
 .item {

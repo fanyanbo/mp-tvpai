@@ -14,15 +14,12 @@ Page({
     circular: true,
     indicatorColor: '#ECECEC',
     indicatorActiveColor: "#FFD71C",
-    column: [],
-    column1: [],
-    column2: [],
-    column3: [],
+    categoryList: [], //视频分类标签列表
     recommandList: [],
     previousmargin: '30rpx',
     nextmargin: '30rpx',
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    source: utils.getTvsource(), 
+    source: utils.getTvsource(),
     topicList: [],
     bannerList: [],
     isShowBanner: true
@@ -40,26 +37,18 @@ Page({
     utils.requestP(api.getOneClassifyUrl, desParams).then(res => {
       console.log('获取标签分类数据:', res.data)
       if (res.data.data) {
-        if(utils.getTvsource() === "iqiyi") {
-          let _column1 = [], _column2 = [], _column3 = []
-          for (let i = 0; i < 30; i++) {
-            if (i < 10) {
-              _column1.push(res.data.data[i])
-            } else if (i >= 10 && i < 20) {
-              _column2.push(res.data.data[i])
-            } else {
-              _column3.push(res.data.data[i])
-            }
+        if (utils.getTvsource() === "iqiyi") {
+          let _iqiyiCategoryList = []
+          for (let i = 0; i < res.data.data.length; i++) {
+            _iqiyiCategoryList.push(res.data.data[i])
           }
           this.setData({
-            column1: _column1,
-            column2: _column2,
-            column3: _column3,
+            categoryList: _iqiyiCategoryList,
             source: "iqiyi"
           })
         } else {
           this.setData({
-            column: res.data.data,
+            categoryList: res.data.data,
             source: "qq"
           })
         }
@@ -102,7 +91,7 @@ Page({
         this.setData({
           bannerList: res.data.data,
         })
-        if(res.data.data.length === 0) {
+        if (res.data.data.length === 0) {
           this.setData({
             isShowBanner: false
           })
@@ -149,7 +138,7 @@ Page({
     console.log('onReady')
     wx.getSystemInfo({
       success: function (res) {
-        console.log("custom模式测试",res);
+        console.log("custom模式测试", res);
         // custom模式测试，在真机上screenHeight和windowHeight高度一样，导致marginTop为0；模拟器上正常
         let screenHeight = res.screenHeight;
         let windowHeight = res.windowHeight;
@@ -164,9 +153,9 @@ Page({
     this.setData({
       isShowTips: app.globalData.isShowTips,
       bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
-    })   
+    })
     // 调用优化，防止频繁调用接口
-    if(app.globalData.sourceChanged) {
+    if (app.globalData.sourceChanged) {
       app.globalData.sourceChanged = false
       this.getLabelClassify()
       this.getRecommendClassify()
@@ -215,22 +204,37 @@ Page({
 
   // 点击一级分类，跳转
   handleCategoryTap: function (e) {
-    let categoryId = e.currentTarget.dataset.category;
-    let title = e.currentTarget.dataset.title;
+    let categoryId = e.currentTarget.dataset.category
+    let title = e.currentTarget.dataset.title
     wx.navigateTo({
       url: '../sresult/sresult?category_id=' + categoryId + '&title=' + title
-    });
+    })
+  },
+
+  // 点击跳转热门推荐类目更多
+  handleMoreTap: function (e) {
+    console.log('handleMoreTap', e)
+    let { id, title, type } = e.currentTarget.dataset
+    if (type === 'topic') {
+      wx.navigateTo({
+        url: "../topicList/topicList"
+      })
+    } else {
+      wx.navigateTo({
+        url: `../column/column?id=${id}&title=${title}`
+      })
+    }
   },
 
   // 点击banner跳转，这里不用获取用户授权，不用获取session值，因为影评内的收藏无法使用
   handleBannerTap: function (e) {
     console.log('handleBannerTap', e)
-    let {type, url} = e.currentTarget.dataset
-    if(type === 1) { // type 1:小程序 2:外链
+    let { type, url } = e.currentTarget.dataset
+    if (type === 1) { // type 1:小程序 2:外链
       wx.navigateTo({
         url: `../${url}`
       })
-    } else if(type === 2) {  
+    } else if (type === 2) {
       wx.navigateTo({
         url: `../webview/webview?path=${url}`
       });
@@ -296,7 +300,7 @@ Page({
   jumpOutLink() {
     const url = "https://www.baidu.com"
     wx.navigateTo({
-      url: `/pages/webview/webview?path=`+url
+      url: `/pages/webview/webview?path=` + url
     })
   },
   jumpMyFavorite() {
