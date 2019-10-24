@@ -66,13 +66,15 @@
       <view class="item setting name-setting" bindtap="goChangeNickname">
         <view class="key">账号昵称</view>
         <view class="value">{{curUser.name}}</view>
-        <image src="../../images/my/arrow.png"></image>
+        <!-- V2.0版暂时屏蔽修改昵称手机号功能 -->
+        <!-- <image src="../../images/my/arrow.png"></image> -->
       </view>
       <view class="item acct-label">账号绑定</view>
       <view class="item setting mob-setting" bindtap="reviseMob">
         <view class="key">手机号</view>
-        <view class="value">{{!!curUser.mob ? curUser.mob : '未绑定'}}</view>
-        <image src="../../images/my/arrow.png"></image>
+        <view class="value">{{curUser.mob}}</view>
+        <!-- V2.0版暂时屏蔽修改昵称手机号功能 -->
+        <!-- <image src="../../images/my/arrow.png"></image> -->
       </view>
       <view class="item setting wechat-setting">
         <view class="key">微信</view>

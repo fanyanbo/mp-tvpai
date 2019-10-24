@@ -1,6 +1,7 @@
 // pages/login/login.js
 const utils = require('../../utils/util_fyb')
 const user_login = require('../../api/user/login')
+const app = getApp()
 
 Page({
   /**
@@ -35,11 +36,10 @@ Page({
     inputValue: '',
     //-- 修改用户信息 end --
 
-    //todo mock data
     curUser: { //当前用户账户信息  
-      name: '冈拉梅朵',
-      mob: '13555555555',
-      wechat: '微信昵称很长长'
+      name: '',
+      mob: '未绑定',
+      wechat: '',//todo 需要获取微信昵称
     },
     loginRevise: { //已登录后修改账号昵称或手机号的提示
       name: {title: '修改账号昵称', type: 'text', btn: '完成'},
@@ -279,7 +279,10 @@ Page({
     } else { //从其它页到登录页
       if (!!getApp().globalData.ccUserInfo) {
         this.setData({
-          curSubPage: this.data.SubPages.HASLOGIN_HOME
+          curSubPage: this.data.SubPages.HASLOGIN_HOME,
+          'curUser.name': app.globalData.ccUserInfo.username, 
+          'curUser.mob': app.globalData.ccUserInfo.mobile || '未绑定',
+          'curUser.wechat': '' || '获取中', //todo 待从账户信息获取
         })
       }else {
         this.setData({
@@ -300,7 +303,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    console.log('show')
   },
 
   /**
