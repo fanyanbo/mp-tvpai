@@ -84,12 +84,12 @@
   </view>
 
   <!-- 实体卡激活 标题行 -->
-  <view class='card mylabel' data-type="card" bindtap="handleJumpPage">
+  <!-- <view class='card mylabel' data-type="card" bindtap="handleJumpPage">
     <image class='my_icon' src="../../images/my/card.png"></image>
     <text class="title">实体卡激活</text>
     <text class="more">更多</text>
     <image class="arrow" src="../../images/my/arrow.png"></image>
-  </view>
+  </view> -->
 
   <view class="paddingZone"></view>
 
