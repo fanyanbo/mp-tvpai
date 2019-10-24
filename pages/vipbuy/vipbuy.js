@@ -140,36 +140,31 @@ Component({
         this.data._payParams = null;
       })
     },
-    _pollOrderBenefitStatus(time) { //轮询订单权益开通状态
-      let that = this
-      let timer = null;
-      let startTime = +new Date()
-      let now = () => +new Date()
-      
-      timer = setInterval(fn, 5000)
-
-      function fn() {
-        console.log('fn enter...')
-        that.queryOrderDetail(that.data._orderId).then(res => {
-          console.log('fn then...' + res.syn_status)
+    _pollOrderBenefitStatus(ctx, start, time) {//支付成功后，轮询订单权益开通情况, 得到结果后delay3s再查一次，超时时间15s
+      new Promise( (resolve) => {
+        console.log('timeout 3000')
+        setTimeout(resolve, 3000)
+      }).then( res =>{
+        console.log('after 3s, .then')
+        return ctx.queryOrderDetail(ctx.data._orderId).then(res => {
+          console.log('poll then...' + res.syn_status)
           if (res.syn_status == 1) {
-            clearInterval(timer)
-            that.setData({
+            ctx.setData({
               'orderInfos.validTime': that._formatTime(res.syn_time) + '到期', //need fix
             })
             return
           }
-          if (now() > startTime + time) {
-            clearInterval(timer)
-            that.setData({
+          if (+new Date() > start + time) {
+            ctx.setData({
               'orderInfos.validTime': '权益开通超时,请关注酷开会员公众号联系客服处理', //need fix
             })
             return
           }
-        }).catch( err => {
+          ctx._pollOrderBenefitStatus(ctx, start, time) 
+        }).catch(err => {
           console.error(err)
         })
-      }
+      })
     },
     _getOrderDetailes() { //获取订单详情
       let that = this
@@ -185,7 +180,7 @@ Component({
               'orderInfos.name': res.order_title,
               'orderInfos.validTime': '权益开通中，请稍候~',
             })
-            setTimeout(that._pollOrderBenefitStatus(12000), 3000)
+            setTimeout(that._pollOrderBenefitStatus, 0, that, +new Date(), 15000) 
           }
         } else if (this.data.stage == this.data.PageStage.PAY_FAIL_PAGE) {
           this.setData({
