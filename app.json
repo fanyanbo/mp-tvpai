@@ -19,7 +19,8 @@
     "pages/actorDetail/actorDetail",
     "pages/favorite/favorite",
     "pages/login/login",
-    "pages/vipbuy/vipbuy"
+    "pages/vipbuy/vipbuy",
+    "pages/buyRecord/buyRecord"
   ],
   "window": {
     "backgroundTextStyle": "light",

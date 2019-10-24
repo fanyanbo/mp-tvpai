@@ -203,7 +203,17 @@ Page({
       return 
     }
     userInfo = userInfo[0]
-    user_login.ccloginByWechatH5(userInfo)
+    if(userInfo.code == 200) { //登录成功
+      wx.showToast({
+        title: '登录成功',
+      })
+      user_login.ccloginByWechatH5(userInfo.data)
+    }else {
+      wx.showToast({
+        title: '登录失败，请重试',
+        icon: 'none'
+      })
+    }
   },
   wechatH5Load(e) { //H5页面加载成功
     // console.log(e)

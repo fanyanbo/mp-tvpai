@@ -1,0 +1,26 @@
+<!-- 导航栏组件 -->
+<view>
+  <navBar title='消费记录' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
+</view>
+<!-- 页面内容 -->
+<view class="container"> 
+  <view wx:if="{{!recordList.length}}" class="no-record line">
+    {{recordTip}}
+  </view>
+  <view wx:else class="record-wrapper">
+    <view class="day-wrapper" wx:for="{{recordList}}" wx:key="{{item.day}}">
+      <view class="gap line"></view>
+      <view class="day line">
+        {{item.day}}
+      </view>
+      <view wx:for="{{item.orders}}" class="orders-wrapper" wx:for-index="subindex" wx:for-item="subitem" wx:key="subitem.orderTime">
+        <view class="gap"></view>
+        <view class="price line">￥{{subitem.actualAmount}}</view>
+        <view class="name line">{{subitem.prodName}}</view>
+        <view class="time line">{{subitem.orderTime}}</view>
+        <view class="num line">{{subitem.orderNo}}</view>
+      </view>
+    </view>
+    <view class="gap line"></view>
+  </view>
+</view>

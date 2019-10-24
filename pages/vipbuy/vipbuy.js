@@ -150,7 +150,7 @@ Component({
           console.log('poll then...' + res.syn_status)
           if (res.syn_status == 1) {
             ctx.setData({
-              'orderInfos.validTime': that._formatTime(res.syn_time) + '到期', //need fix
+              'orderInfos.validTime': util_fyb.getFormatTime(res.syn_time) + '到期', //need fix
             })
             return
           }
@@ -173,7 +173,7 @@ Component({
           if (res.syn_status == 1) {
             this.setData({
               'orderInfos.name': res.order_title,
-              'orderInfos.validTime': this._formatTime(res.due_time) + '到期', //need fix
+              'orderInfos.validTime': util_fyb.getFormatTime(res.due_time) + '到期', //need fix
             })
           }else {
             this.setData({
@@ -187,7 +187,7 @@ Component({
             'orderInfos.name': res.order_title,
             'orderInfos.price': res.pay_info.total_pay_fee / 100,
             'orderInfos.orderId': res.pay_info.pay_order_no,//oss_order_no, // need confirm with chenyuan.
-            'orderInfos.payTime': this._formatTime(res.create_time),
+            'orderInfos.payTime': util_fyb.getFormatTime(res.create_time),
           })
         }
       }).catch( err => {
@@ -221,11 +221,6 @@ Component({
           source_id: options.source_id
         })
       }
-    },
-    _formatTime(time) { //输出格式化时间 
-      let d = new Date(time)
-      let digit2 = param => Number(param) < 10 ? ('0'+ param) : param
-      return `${d.getFullYear()}-${digit2(d.getMonth() + 1)}-${digit2(d.getDate())} ${digit2(d.getHours())}:${digit2(d.getMinutes())}:${digit2(d.getSeconds())}`
     },
     /**
      * 生命周期函数--监听页面初次渲染完成

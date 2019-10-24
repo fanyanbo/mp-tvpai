@@ -12,6 +12,7 @@ const is_fake_data = false;//用mock data测试
 const url_genOrder = config.baseUrl_sz + '/v3/order/genOrder.html'
 const url_prePay = config.baseUrl_pay + '/MyCoocaa/wechat_applet/pay.action'
 const url_queryOrderDetail = config.baseUrl_sz + '/v3/order/queryOrderDetail.html'
+const url_queryOrderByOpenid = config.baseUrl_pay +'/MyCoocaa/payapi/api/order-info-by-token.action'
 
 var headerBehavior = require('./header')
 
@@ -44,7 +45,7 @@ module.exports = Behavior({
           "count": 1,
           "discount_price": product.discount_price, //用户实际需要支付的价格，即使用优惠劵后的价格； //todo 
           "coupon_codes": product.couponcode,    //使用优惠劵时优惠劵的编码，多个以code1+ "," + code2传过来，默认空字符串,目前只能用一张
-          "extend_info": "", //todo need-fix
+          "extend_info": app.globalData.ccUserInfo.wxOpenid ? `{"login_type":2,"wx_vu_id":"${app.globalData.ccUserInfo.wxVuId}"}` : '', //todo need-fix
           //扩展参数，非必填项，字符型数据，默认空；  
           // 影视中心3.19之后版本需要上传的值目前有login_type: 0表示手机登陆，1表示QQ登陆，2表示微信登陆；
           // wx_vu_id：微信帐号对应的vuserid，login_type为2时需要传此值；
@@ -217,5 +218,35 @@ module.exports = Behavior({
         })
       })
     }, 
+    queryOrderByToken(pagenum, pagecount) { //获取用户消费记录
+      return new Promise((resolve, reject) => {
+        let time = +new Date()
+        let data = {
+          token: app.globalData.ccUserInfo.ccToken || '',
+          starttime: '',
+          endtime: util_fyb.getFormatTime(time),
+          pagenum: pagenum,
+          pagecount: pagecount,
+        }
+        wx.request({
+          url: url_queryOrderByOpenid,
+          data:data,
+          success(data) {
+            if(data.data.success) {
+              resolve(data.data.data)
+            }else {
+              reject(data.data.message)
+            }
+          },
+          fail(err) {
+            reject(err)
+          },
+          complete(res) {
+            console.log(res)
+          },
+        })
+      })
+
+    }
   },
 })

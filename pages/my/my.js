@@ -304,6 +304,8 @@ Component({
           _path = '/pages/favorite/favorite'
           break;
         case "record":
+          _path = '/pages/buyRecord/buyRecord'
+          break;
         case "card":
           wx.showToast({
             title: '页面建设中，请稍候',
