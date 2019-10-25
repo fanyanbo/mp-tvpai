@@ -33,9 +33,9 @@ module.exports = Behavior({
     genOrder(product) {//生成订单接口
       return new Promise((resolve, reject) => {
         let pay_genorder_data = {//生成订单mock data
-          "user_id": app.globalData.ccUserInfo.openid || '',
+          "user_id": !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : '',
           "user_flag": !!app.globalData.ccUserInfo ? 2 : 0, //用户没登录，传0，user_id值为空
-          "third_user_id": app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || '',
+          "third_user_id": !!app.globalData.ccUserInfo ? (app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || '') : '',
           "product_id": product.product_id,
           "movie_id": "",
           "client_type": 3,//就下单传3,其它都传4
@@ -45,7 +45,7 @@ module.exports = Behavior({
           "count": 1,
           "discount_price": product.discount_price, //用户实际需要支付的价格，即使用优惠劵后的价格； //todo 
           "coupon_codes": product.couponcode,    //使用优惠劵时优惠劵的编码，多个以code1+ "," + code2传过来，默认空字符串,目前只能用一张
-          "extend_info": app.globalData.ccUserInfo.wxOpenid ? `{"login_type":2,"wx_vu_id":"${app.globalData.ccUserInfo.wxVuId}"}` : '', //todo need-fix
+          "extend_info": !!app.globalData.ccUserInfo ? (app.globalData.ccUserInfo.wxOpenid ? `{"login_type":2,"wx_vu_id":"${app.globalData.ccUserInfo.wxVuId}"}` : '') : '', //todo need-fix
           //扩展参数，非必填项，字符型数据，默认空；  
           // 影视中心3.19之后版本需要上传的值目前有login_type: 0表示手机登陆，1表示QQ登陆，2表示微信登陆；
           // wx_vu_id：微信帐号对应的vuserid，login_type为2时需要传此值；
@@ -222,7 +222,7 @@ module.exports = Behavior({
       return new Promise((resolve, reject) => {
         let time = +new Date()
         let data = {
-          token: app.globalData.ccUserInfo.ccToken || '',
+          token: !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.ccToken : '',
           starttime: '',
           endtime: util_fyb.getFormatTime(time),
           pagenum: pagenum,

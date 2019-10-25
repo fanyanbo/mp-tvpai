@@ -36,10 +36,10 @@ Component({
       },
     },
     productSourceList: [ //默认显示的产品源列表
-      { source_id: 0, source_sign: 'yinhe', source_name: '极光VIP', valid: '立即开通', image: '../../images/my/vip/mov.png' },
-      { source_id: 0,  source_sign: 'supervip', source_name: '教育VIP', valid: '立即开通', image: '../../images/my/vip/edu.png' },
-      { source_id: 0,  source_sign: 'shaoervip', source_name: '少儿VIP', valid: '立即开通', image: '../../images/my/vip/kid.png' },
-      { source_id: 0,  source_sign: 'wasu', source_name: '电竞VIP', valid: '立即开通', image: '../../images/my/vip/game.png' }
+      { source_id: 0, source_name: '极光VIP', valid: '立即开通', image: '../../images/my/vip/mov.png' },
+      { source_id: 0, source_name: '教育VIP', valid: '立即开通', image: '../../images/my/vip/edu.png' },
+      { source_id: 0, source_name: '少儿VIP', valid: '立即开通', image: '../../images/my/vip/kid.png' },
+      { source_id: 0, source_name: '电竞VIP', valid: '立即开通', image: '../../images/my/vip/game.png' }
     ],
     historyList: [],//投屏历史
   },
@@ -115,7 +115,7 @@ Component({
     },
     syncTVAcct() { //同步当前账号到tv端
       user_push.pushTvLogin({
-        openId: app.globalData.ccUserInfo.openid,
+        openId: !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : '',
         deviceId: app.globalData.boundDeviceInfo.serviceId,
       }).then(res => {
         wx.showModal({
@@ -148,6 +148,15 @@ Component({
         wx.navigateTo({ url: `../vipbuy/vipbuy?source_id=${source_id}` })
       }
     },
+    _cleaProductSourceList() { //清空产品源信息
+      this.data.productSourceList.forEach((item, index, arr) => {
+        this.setData({
+          [`productSourceList[${index}].source_id`]: 0,
+          [`productSourceList[${index}].source_name`]: index == 0 ? '极光VIP' : (index == 1 ? '教育VIP' : (index == 2 ? '少儿VIP' : (index == 3 ? '电竞VIP' : 'VIP')) ),
+          [`productSourceList[${index}].valid`]: '立即开通',
+        })
+      })
+    },
     _getProductSourceList() {
       if (!!Object.keys(app.globalData.boundDeviceInfo).length) {
         this.getProductSourceList().then((res) => {
@@ -179,7 +188,10 @@ Component({
             title: '获取产品源失败',
             icon: 'none'
           })
+          this._cleaProductSourceList()
         })
+      }else { //如果没绑定的设备，需要清除信息,
+        this._cleaProductSourceList()
       }
     },
     _updateProductSourceList(index, item) {//更新页面的产品源列表arr

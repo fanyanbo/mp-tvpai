@@ -30,10 +30,10 @@ module.exports = Behavior({
       return new Promise((resolve, reject) => {
         let package_getsourcelist_data = { //获取产品源列表mock data
           "user_flag": !!app.globalData.ccUserInfo ? 2 : 0, //用户没登录，传0，user_id值为空
-          "user_id": app.globalData.ccUserInfo.openid || '',
+          "user_id": !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : '',
           "client_type": 4,
           "business_type": -1,  //-1:all 0:movie 1:education
-          "third_user_id": app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || ''
+          "third_user_id": !!app.globalData.ccUserInfo ? (app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || '') : ''
         }
         let header = is_fake_data ? mock.package_header : this.getPackageHeader();
         let data = is_fake_data ? encodeURIComponent(JSON.stringify(mock.package_getsourcelist_data))
@@ -67,10 +67,10 @@ module.exports = Behavior({
       return new Promise((resolve, reject) => {
         let package_getproductlist_data = { //获取产品包列表mock data
           "user_flag": !!app.globalData.ccUserInfo ? 2 : 0, //用户没登录，传0，user_id值为空
-          "user_id": app.globalData.ccUserInfo.openid || '',
+          "user_id": !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : '',
           "client_type": 4,//就下单传3,其它都传4
           "business_type": -1,  //-1:all 0:movie 1:education
-          "third_user_id": app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || '',
+          "third_user_id": !!app.globalData.ccUserInfo ? (app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || '') : '',
           "is_support_movie": "true", //todo 这个字段作用及取值来自？
           "movie_id": "",
           "node_type": "",
@@ -110,8 +110,8 @@ module.exports = Behavior({
       let header = is_fake_data ? mock.package_header : this.getPackageHeader();
       let data = JSON.stringify({
         "user_flag": !!app.globalData.ccUserInfo ? 2 : 0, //用户没登录，传0，user_id值为空,
-        "user_id": app.globalData.ccUserInfo.openid || '',
-        "third_user_id": app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || ''
+        "user_id": !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : '',
+        "third_user_id": !!app.globalData.ccUserInfo ? (app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || '') : ''
       })
       wx.request({
         url: url_getCoupones,
@@ -144,7 +144,7 @@ module.exports = Behavior({
         url: url_getAllowance,
         data: {
           clientId: clientId,
-          authenticationValue: app.globalData.ccUserInfo.openid || '',//openid
+          authenticationValue: !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : '',//openid
           authenticationType: 'openid',
           currentTimestamp: new Date().getTime()
         },
