@@ -20,7 +20,7 @@
   <!-- 产品源列表区 -->
   <view class="productlist">
     <scroll-view scroll-x>
-      <view class="vipitem" wx:for="{{productSourceList}}" wx:key="index" bindtap="goVipPage" data-id="{{item.source_id}}">
+      <view class="vipitem" wx:for="{{productSourceList}}" wx:key="index" bindtap="goVipPage" data-id="{{item.source_id}}" data-index="{{item.index}}">
         <image class="image" src="{{item.image}}"></image>
         <text class="title">{{item.source_name}}</text>
         <text class="valid">{{item.valid}}</text>
@@ -99,6 +99,22 @@
     <text class="more">全部</text>
     <image class="arrow" src="../../images/arrow.png"></image>
   </button> -->
+
+  <!-- 腾讯源QQ、微信确认授权弹窗 -->
+  <view class="tencent-auth-wrapper" wx:if="{{bToastAuthTencentQQorWechat}}">
+    <view class="tencent-auth-toast">
+      <image class="quit" src="../../images/my/quit.png" bindtap="closeToastAuthTencentQQorWechat"></image>
+      <view class="title">账号授权提示</view>
+      <view class="tips"><view>您购买超级影视VIP需确认微信或QQ授权</view><view>两者权益不互通</view></view>
+      <view class="detail-zone">
+        <view class="detail-item" wx:for="{{tencentAcctInfos}}" wx:key="index" data-type="{{item.type}}" bindtap="goVipPageTencentSource">
+          <image class="avatar" src="{{item.avatar}}"></image>
+          <view class="name">{{item.name}}</view>
+          <view class="valid">{{item.valid}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
 
 </view>
 

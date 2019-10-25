@@ -1,8 +1,10 @@
 // pages/vipbuy/vipbuy.js
 const user_mock = require('../../api/user/mock')
+const util_fyb = require('../../utils/util_fyb.js')
 
 var payBehavior = require('../../api/user/pay')
 var packageBehavior = require('../../api/user/package')
+const app = getApp()
 
 Component({
   behaviors: [payBehavior, packageBehavior],
@@ -20,13 +22,14 @@ Component({
     _orderId: null, //当前支付订单号
     _payParams: null, //当前预支付订单参数
     orderInfos: {
-      userName: getApp().globalData.ccUserInfo.username,
+      userName: app.globalData.ccUserInfo.username,
       name: '',
       price: '',
       orderId: '',
       payTime: '',
       validTime: '',
     }, //当前订单信息
+    _tencentType:null,
   },
   
   methods: {
@@ -98,7 +101,7 @@ Component({
       new Promise((resolve, reject) => {
         if (this.data.stage == this.data.PageStage.HOME_PAGE) {
           let params = this.data.productListShow[this.data.curSelectedProject.id]
-                this.genOrder(params).then(res => {
+                  this.genOrder(params, this.data._tencentType).then(res => {
                     this.data._orderId = res.orderId
                     return this.prePay(res)
                   }).then( res => {
@@ -200,12 +203,24 @@ Component({
       let id = e.currentTarget.dataset.id;
       this._updatePayPrice(id)
     },
+    goRollPrize() { //支付成功去抽奖
+      let openid = app.globalData.ccUserInfo.openid
+      let nickName = app.globalData.ccUserInfo.username
+      let loginType = !!this.data._tencentType ? (this.data._tencentType == 'qq' ? 1 : 2) : 0
+      let wxid = app.globalData.ccUserInfo.wxVuId
+        let url = `http://beta.webapp.skysrt.com/lqq/chou/chou.html?openId=${openid}&nickName=${nickName}&loginType=${loginType}&wxid=${wxid}`
+      wx.navigateTo({
+        url: `../webview/webview?path=${url}`
+      });
+    },
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
       console.log(options)
       let stage = +options.stage
+      // stage = this.data.PageStage.PAY_SUCCESS_PAGE//test
+      this.data._tencentType = options.tencent_type
       if (!!stage) {
         this.setData({
           stage: stage

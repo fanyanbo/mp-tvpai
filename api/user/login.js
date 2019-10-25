@@ -358,6 +358,13 @@ function login_changeNickname(name) {//修改昵称
   })
 }
 
+function isUserLogin() { //用户是否登录
+  if (app.globalData.boundDeviceInfo.source == "tencent"){
+    return !!app.globalData.ccUserInfo &&  (!!app.globalData.ccUserInfo.wxOpenid || !!app.globalData.ccUserInfo.qqOpenid)
+  }else {
+    return !!app.globalData.ccUserInfo
+  }
+}
 
 module.exports = {
   vcode,
@@ -367,4 +374,5 @@ module.exports = {
   ccloginByWechatH5, //微信登录代码看如何优化，最好集中在一处
   userLogout,
   login_changeNickname,
+  isUserLogin,
 }

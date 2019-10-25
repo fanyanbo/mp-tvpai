@@ -30,12 +30,14 @@ module.exports = Behavior({
     console.log('behavior pay attached.')
   },
   methods: {
-    genOrder(product) {//生成订单接口
+    genOrder(product, txType) {//生成订单接口, txType: qq/wechat
       return new Promise((resolve, reject) => {
-        let pay_genorder_data = {//生成订单mock data
+        let third_user_id = txType == 'qq' ? app.globalData.ccUserInfo.qqOpenid : (txType == 'wechat' ? app.globalData.ccUserInfo.wxOpenid : '');
+        let extend_info = txType == 'wechat' ? (`{"login_type":2,"wx_vu_id":"${app.globalData.ccUserInfo.wxVuId}"}`) : '';
+        let pay_genorder_data = {
           "user_id": !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : '',
           "user_flag": !!app.globalData.ccUserInfo ? 2 : 0, //用户没登录，传0，user_id值为空
-          "third_user_id": !!app.globalData.ccUserInfo ? (app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || '') : '',
+          "third_user_id": third_user_id,
           "product_id": product.product_id,
           "movie_id": "",
           "client_type": 3,//就下单传3,其它都传4
@@ -45,11 +47,7 @@ module.exports = Behavior({
           "count": 1,
           "discount_price": product.discount_price, //用户实际需要支付的价格，即使用优惠劵后的价格； //todo 
           "coupon_codes": product.couponcode,    //使用优惠劵时优惠劵的编码，多个以code1+ "," + code2传过来，默认空字符串,目前只能用一张
-          "extend_info": !!app.globalData.ccUserInfo ? (app.globalData.ccUserInfo.wxOpenid ? `{"login_type":2,"wx_vu_id":"${app.globalData.ccUserInfo.wxVuId}"}` : '') : '', //todo need-fix
-          //扩展参数，非必填项，字符型数据，默认空；  
-          // 影视中心3.19之后版本需要上传的值目前有login_type: 0表示手机登陆，1表示QQ登陆，2表示微信登陆；
-          // wx_vu_id：微信帐号对应的vuserid，login_type为2时需要传此值；
-          // 格式为json，如{ "login_type": 1, "wx_vu_id": "wxvuuserid" }
+          "extend_info": extend_info,
           "allowance_act_id": product.allowance_act_id,
           "discount_product_id": product.discount_product_id,
           "license": "" // todo 
@@ -133,7 +131,7 @@ module.exports = Behavior({
           "sign": "",
           "sign_type": "MD5",
           "random_str": this._getRandomStr32(),
-          "open_id": wx.getStorageSync("wxopenid"),//"o2qQA0V42DEWdzlExnD2LRBQ7B38", //微信：用户在商户appid下的唯一标识。 todo needfix 这个openId是什么？
+          "open_id": wx.getStorageSync("wxopenid"),//"o2qQA0V42DEWdzlExnD2LRBQ7B38", //微信：用户在商户appid下的唯一标识。 todo 再次确认这个openId！
           "app_id": "wx35b9e9a99fd089a9"
         }
         pay_prepay_data = is_fake_data ? mock.pay_prepay_data : pay_prepay_data;
