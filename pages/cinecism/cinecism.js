@@ -226,7 +226,8 @@ Page({
       utils.showToastBox("请先登录", "loading")
       return
     }
-    let commentId = e.currentTarget.dataset.commentId
+    let commentId = e.currentTarget.dataset.commentid
+    console.log('评论id:', commentId)
     let params = { "ccsession": ccsession, "commentId": commentId + '' }
     let desParams = utilsNew.paramsAssemble_wx(params)
 
