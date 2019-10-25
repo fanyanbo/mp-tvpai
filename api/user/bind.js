@@ -1,4 +1,5 @@
 //设备绑定相关api
+const util = require('../../utils/util')
 const util_fyb = require('../../utils/util_fyb')
 const api_fyb = require('../../api/api_fyb')
 const app = getApp()
@@ -20,10 +21,56 @@ function scanQRCode() { //扫电视二维码绑定
     })
   })
 }
+function changeDeviceState(objParam) { //更改当前绑定的设备信息（修改名称、绑定其它设备、删除等）; id:要绑定设备的关联id
+  return new Promise((resolve, reject) => {
+    const ccsession = wx.getStorageSync('new_cksession')
+    let data = null, desParams = null, srcParams = null
+    if (!!objParam.delete) { //delete
+      srcParams = { "ccsession": ccsession, "delete": "1", "id": objParam.id }
+      const sign = util.encryption(srcParams, app.globalData.key)
+      desParams = {
+        client_id: app.globalData.client_id,
+        sign: sign,
+        param: srcParams,
+        ccsession: ccsession,
+        delete: "1",
+        id: objParam.id,
+      }
+    } else if (!!objParam.bind) { //绑定其它设备
+      srcParams = { bind: "1", "ccsession": ccsession, "id": objParam.id };
+      desParams = util_fyb.paramsAssemble_wx(srcParams);    
+      console.log('切换绑定设备：', ccsession, objParam.id);
+    } else if (!!objParam.deviceName) { //修改设备名称
+      const deviceName = encodeURI(objParam.deviceName)
+      srcParams = { "ccsession": ccsession, "deviceName": deviceName, "id": objParam.id }
+      const sign = util.encryption(srcParams, app.globalData.key)
+      desParams = {
+        client_id: app.globalData.client_id,
+        sign: sign,
+        param: srcParams,
+        ccsession: ccsession,
+        deviceName: deviceName,
+        id: objParam.id,
+      }
+    }
+    console.log(desParams);
+    util_fyb.requestP(api_fyb.changeDeviceStatusUrl, desParams).then(res => {
+      console.log('changeDeviceState success', res);
+      if (res.data.code === 200) {
+        resolve()
+      } else {
+        reject()
+      }
+    }).catch(res => {
+      console.log('changeDeviceState error', res);
+      reject()
+    })
+    })
+}
 
-function bindDevice(qrUrl) { //绑定设备
+function bindDeviceByQR(qrUrl) { //根据二维码信息绑定新设备
   return new Promise( (resolve, reject) => {
-    console.log('2.绑定')
+    console.log('扫码绑定设备')
     let ccsession = wx.getStorageSync('new_cksession');
     let srcParams = { "ccsession": ccsession, "qrUrl": qrUrl };
     let desParams = util_fyb.paramsAssemble_wx(srcParams);
@@ -32,7 +79,6 @@ function bindDevice(qrUrl) { //绑定设备
       console.log("绑定设备信息:", res)
       if (res.data.code === 200) {
         util_fyb.showSuccessToast('设备绑定成功');
-        console.log('2.1 绑定成功')
         resolve('设备绑定成功')
       } else {
         util_fyb.showFailedToast('设备绑定失败', '../../images/close_icon.png');
@@ -43,7 +89,7 @@ function bindDevice(qrUrl) { //绑定设备
 }
 function getDeviceList() {  //获取绑定设备列表
   return new Promise((resolve, reject) => {
-    console.log('3.刷新')
+    console.log('获取设备列表...')
     const ccsession = wx.getStorageSync('new_cksession');
     console.log("ccsession:", ccsession);
     if (ccsession == null || ccsession === '') {
@@ -53,7 +99,7 @@ function getDeviceList() {  //获取绑定设备列表
     let srcParams = { "ccsession": ccsession };
     let desParams = util_fyb.paramsAssemble_wx(srcParams);
     console.log(desParams);
-    util_fyb.showLoadingToast('获取设备中');
+    util_fyb.showLoadingToast('刷新设备中~');
     util_fyb.request(api_fyb.getBindDeviceListUrl, 'GET', desParams, function (res) {
       util_fyb.showLoadingToast('', false);
       console.log("获取设备信息:", res)
@@ -115,7 +161,7 @@ function scanNBindNRefresh() { //扫描，绑定，刷新
   return scanQRCode()
           .then((data) => {
               console.log('2.start 绑定')
-              bindDevice(data)
+              bindDeviceByQR(data)
             })
           .then(() => {
               console.log('3.start 刷新')
@@ -128,5 +174,6 @@ function scanNBindNRefresh() { //扫描，绑定，刷新
 
 module.exports = {
   scanNBindNRefresh,
-  getDeviceList
+  getDeviceList,
+  changeDeviceState,
 }

@@ -21,27 +21,39 @@ Page({
   onLoad: function (options) {
     console.log('onLoad')
   },
+  _updatePageShow(data) { //刷新页面显示
+    this.setData({
+      devices: data.devices,
+      mydevices: data.mydevices,
+      isShowDoc: data.isShowDoc
+    })
+  },
+  _getDeviceList() { //页面自用的获取设备列表
+    bind.getDeviceList().then((data) => { 
+      this._updatePageShow(data)
+      console.log('resolve...')
+    }).catch((err) => {
+      this._updatePageShow(err)
+      console.log('reject...')
+    })
+  },
+  _scanNBindNRefresh() {//页面自用的扫码、绑定、刷新设备列表
+    bind.scanNBindNRefresh().then((data) => { //todo 
+      this._updatePageShow(data)
+      console.log('resolve...')
+    }).catch((err) => {
+      this._updatePageShow(err)
+      console.log('reject...')
+    })  
+  },
   onShow: function () {
     console.log("onshow")
     this.setData({
       isShowTips: app.globalData.isShowTips,
       bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
     });
-    bind.getDeviceList().then((data) => { //todo:wx.scanCode退出时会自动执行一次页面的onshow，回头再捋下这里流程
-      this.setData({
-        devices: data.devices,
-        mydevices: data.mydevices,
-        isShowDoc: data.isShowDoc
-      })
-      console.log('resolve...')
-    }).catch( (err) => {
-      this.setData({ 
-        devices: err.devices, 
-        mydevices: err.mydevices, 
-        isShowDoc: err.isShowDoc
-      })
-      console.log('reject...')
-    })  
+    this._getDeviceList()
+    //todo:wx.scanCode退出时会自动执行一次页面的onshow，回头再捋下这里流程
   },
   // 授权校验，授权或拒绝都会执行
   bindGetUserInfo(e) {
@@ -87,42 +99,13 @@ Page({
         })
         .then(res => {
           console.log('解密用户信息成功', res)
-          bind.scanNBindNRefresh().then((data) => { //todo 
-            this.setData({
-              devices: data.devices,
-              mydevices: data.mydevices,
-              isShowDoc: data.isShowDoc
-            })
-            console.log('resolve...')
-          }).catch((err) => {
-            this.setData({
-              devices: err.devices,
-              mydevices: err.mydevices,
-              isShowDoc: err.isShowDoc
-            });
-            console.log('reject...')
-          })  
+          this._scanNBindNRefresh()
         })
         .catch(res => {
           console.log('catch res = ', res)
         })
     } else {
-      bind.scanNBindNRefresh()
-        .then((data) => { //todo 
-          this.setData({
-            devices: data.devices,
-            mydevices: data.mydevices,
-            isShowDoc: data.isShowDoc
-          })
-          console.log('resolve...')
-        }).catch((err) => {
-          this.setData({
-            devices: err.devices,
-            mydevices: err.mydevices,
-            isShowDoc: err.isShowDoc
-          });
-          console.log('reject...')
-        });
+      this._scanNBindNRefresh()
     }
   },
 
@@ -144,39 +127,16 @@ Page({
     utils.navigateBack()
   },
   
-  // 切换绑定时触发
-  handleBindTap: function (event) {
-    let ccsession = wx.getStorageSync('new_cksession');
+  handleBindTap: function (event) {  // 切换绑定时触发
+    utils.showLoadingToast()
+    let that = this
     let id = event.currentTarget.dataset.id + '';
-    console.log('切换绑定设备：', ccsession, id);
-    let srcParams = { bind: "1", "ccsession": ccsession, "id": id };
-    let desParams = utils.paramsAssemble_wx(srcParams);
-    console.log(desParams);
-    utils.showLoadingToast();
-    utils.requestP(api.changeDeviceStatusUrl, desParams).then( res => {
-      console.log('handleBindTap success', res);
-      if (res.data.code === 200) {
-        utils.showSuccessToast('绑定成功');
-        setTimeout(() => {
-          bind.getDeviceList().then((data) => {
-            this.setData({
-              devices: data.devices,
-              mydevices: data.mydevices,
-              isShowDoc: data.isShowDoc
-            })
-          }).catch((err) => {
-            this.setData({
-              devices: err.devices,
-              mydevices: err.mydevices,
-              isShowDoc: err.isShowDoc
-            });
-          })  
-        }, 2000);
-      } else {
-        utils.showFailedToast('绑定失败', this.data.errIconUrl);
-      }
-    }).catch( res => {
-      console.log('handleBindTap error', res);
+    bind.changeDeviceState({id, bind: 1}).then(data => {
+      utils.showSuccessToast('绑定成功');
+      setTimeout(() => {
+        that._getDeviceList()
+      }, 500);
+    }).catch(err => {
       utils.showFailedToast('绑定失败', this.data.errIconUrl);
     })
   }

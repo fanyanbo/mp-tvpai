@@ -1,6 +1,8 @@
 import utils from '../../utils/util';
 const utils_fyb = require('../../utils/util_fyb');
 const api = require('../../api/api.js');
+const bind = require('../../api/user/bind.js')
+
 export {
   utils,
 }
@@ -21,42 +23,12 @@ Page({
     wx.navigateBack()
   },
   deleteName: function (e) {
-    let that = this
-    const key = app.globalData.key
-    const ccsession = wx.getStorageSync('new_cksession')
-    var paramsStr = { "ccsession": ccsession, "delete": "1", "id": that.data.id }
-    console.log(paramsStr);
-    const sign = utils.encryption(paramsStr, key)
-    console.log(sign);
-    const url = api.changeDeviceStatusUrl
-    let data = {
-      client_id: app.globalData.client_id,
-      sign: sign,
-      param: paramsStr,
-      ccsession: ccsession,
-      delete: "1",
-      id: that.data.id,
-    }
-    utils.postLoading(url, 'GET', data, function (res) {
-      console.log(res)
-      if (res.data.code == 200) {
-        wx.showToast({
-          title: '删除成功',
-        })
-        setTimeout(function () {
-          wx.navigateBack({
-            delta: 1
-          })
-        }, 1000)
-      } else {
-        utils_fyb.showFailedToast('删除设备失败[' + res.data.code + ']', '../../images/close_icon.png');
-      }
-    }, function (res) {
-      console.log('deleteDev fail:', res)
+    bind.changeDeviceState({ id: this.data.id, delete: 1}).then( res => {
+      wx.showToast({title: '删除成功'})
+      setTimeout( () => wx.navigateBack(), 1000)
+    }).catch( err => {
       utils_fyb.showFailedToast('删除设备失败', '../../images/close_icon.png');
-    }, function (res) {
-      console.log('deleteDev complete:', res)
-    }, "")
+    })
   },
   chooseSezi: function (e) {
     var that = this;
