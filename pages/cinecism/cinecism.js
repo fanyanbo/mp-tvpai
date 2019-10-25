@@ -221,7 +221,11 @@ Page({
   // 对某条评论点赞/取消点赞
   submitClickLike (e) {
     // let ccsession = 'b45004fab0934395dc20ede9dc13801d'
-    let ccsession = wx.getStorageSync("new_cksession")
+    let ccsession = wx.getStorageSync('new_cksession')
+    if (ccsession == null || ccsession == '') {
+      utils.showToastBox("请先登录", "loading")
+      return
+    }
     let commentId = e.currentTarget.dataset.commentId
     let params = { "ccsession": ccsession, "commentId": commentId + '' }
     let desParams = utilsNew.paramsAssemble_wx(params)
@@ -258,6 +262,8 @@ Page({
         this.setData({
           allCommentList: this.data._allComments
         })
+      } else {
+        utils.showToastBox("账号异常", "loading")
       }
     }).catch(res => {
       console.log('点赞失败:', res)
@@ -342,7 +348,7 @@ Page({
   },
 
   clickLike: function (e) {
-
+    utilsNew.checkCoocaaUserLogin()
     console.log("收藏文章按钮")
     collectFlag++
 
@@ -439,10 +445,9 @@ Page({
     if (content == "" || content == null) {
       utils.showToastBox("输入的评论为空", "loading")
     } else {
-      // let articleId = '_oqy_1012320100'
-      // let ccsession = 'b45004fab0934395dc20ede9dc13801d'
       let articleId = e.currentTarget.dataset.id
-      let ccsession = wx.getStorageSync("new_cksession")
+      // let ccsession = wx.getStorageSync("new_cksession")
+      let ccsession = 'b45004fab0934395dc20ede9dc13801d'
       let params = {
         "ccsession": ccsession,
         "articleId": articleId,
@@ -472,14 +477,14 @@ Page({
           utils.showToastBox("评论成功", "success")
         } else {
           console.log('提交评论失败',res.data.message)
-          utils.showToastBox("评论失败，请先登录", "loading")
+          utils.showToastBox("请先登录", "loading")
         }
       }).catch(res => {
         console.log('提交评论数据失败:', res)
         this.setData({
           hidden1: 'true'
         })
-        utils.showToastBox("评论失败，请重试", "loading")
+        utils.showToastBox("请重试", "loading")
       })
     }
   },
