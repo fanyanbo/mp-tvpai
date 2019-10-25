@@ -276,12 +276,16 @@ Page({
       this.setData({
         curSubPage: +options.stage
       })
+    }else if(options.action == 'tencentlogin') {
+      this.setData({
+        curSubPage: this.data.SubPages.LOGIN_HOME
+      })
     } else { //从其它页到登录页
-      if (!!getApp().globalData.ccUserInfo) {
+      if (!!getApp().globalData.ccUserInfo) { //
         this.setData({
           curSubPage: this.data.SubPages.HASLOGIN_HOME,
-          'curUser.name': app.globalData.ccUserInfo.username, 
-          'curUser.mob': app.globalData.ccUserInfo.mobile || '未绑定',
+          'curUser.name': !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.username : '', 
+          'curUser.mob': !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.mobile : '未绑定',
           'curUser.wechat': '' || '获取中', //todo 待从账户信息获取
         })
       }else {

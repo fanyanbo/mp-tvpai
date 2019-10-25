@@ -7,6 +7,7 @@ const utils = require('../../utils/util_fyb')
 const api = require('../../api/api_fyb')
 // const user_package = require('../../api/user/package')
 const user_push = require('../../api/user/push')
+const user_login = require('../../api/user/login')
 const app = getApp()
 
 var packageBehavior = require('../../api/user/package')
@@ -18,6 +19,21 @@ Component({
     isShowTips: true,
     bIphoneFullScreenModel: false,
     bLoginCoocaa: !!app.globalData.ccUserInfo,//是否登录酷开系统账号
+    bToastAuthTencentQQorWechat: false, //腾讯源进入产品包时，提示用户选择授权qq或微信的弹窗
+    tencentAcctInfos: [ //腾讯源用户qq和微信信息
+      {
+        type: 'wechat',
+        avatar: '../../images/my/wechat.png',
+        name: '微信登录',
+        valid: '无VIP',
+      },
+      {
+        type: 'qq',
+        avatar: '../../images/my/qq.png',
+        name: 'QQ登录',
+        valid: '无VIP',
+      }
+    ],
     ccUserInfo: {//当前登录的酷开账户用户信息
       name: '',
       avatar: ''
@@ -36,10 +52,10 @@ Component({
       },
     },
     productSourceList: [ //默认显示的产品源列表
-      { source_id: 0, source_sign: 'yinhe', source_name: '极光VIP', valid: '立即开通', image: '../../images/my/vip/mov.png' },
-      { source_id: 0,  source_sign: 'supervip', source_name: '教育VIP', valid: '立即开通', image: '../../images/my/vip/edu.png' },
-      { source_id: 0,  source_sign: 'shaoervip', source_name: '少儿VIP', valid: '立即开通', image: '../../images/my/vip/kid.png' },
-      { source_id: 0,  source_sign: 'wasu', source_name: '电竞VIP', valid: '立即开通', image: '../../images/my/vip/game.png' }
+      { index: 0, source_id: 0, source_name: '极光VIP', valid: '立即开通', image: '../../images/my/vip/mov.png' },
+      { index: 1, source_id: 0, source_name: '教育VIP', valid: '立即开通', image: '../../images/my/vip/edu.png' },
+      { index: 2, source_id: 0, source_name: '少儿VIP', valid: '立即开通', image: '../../images/my/vip/kid.png' },
+      { index: 3, source_id: 0, source_name: '电竞VIP', valid: '立即开通', image: '../../images/my/vip/game.png' }
     ],
     historyList: [],//投屏历史
   },
@@ -115,7 +131,7 @@ Component({
     },
     syncTVAcct() { //同步当前账号到tv端
       user_push.pushTvLogin({
-        openId: app.globalData.ccUserInfo.openid,
+        openId: !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : '',
         deviceId: app.globalData.boundDeviceInfo.serviceId,
       }).then(res => {
         wx.showModal({
@@ -125,15 +141,30 @@ Component({
         })
       })
     },
+    closeToastAuthTencentQQorWechat() { //关闭腾讯源授权弹窗
+      this.setData({ bToastAuthTencentQQorWechat: false })
+    },
     goVipPage(e) { //去产品包购买页
       console.log(e)
-      if (!app.globalData.ccUserInfo) { //没登录
-        wx.navigateTo({ url: '../login/login' })
-        return
+      if (!user_login.isUserLogin()){ //腾讯源需要qq或微信登录
+        if (app.globalData.boundDeviceInfo.source == "tencent") {
+          wx.showModal({
+            title: '温馨提示',
+            content: '购买腾讯产品需要绑定微信或QQ',
+            success(res) {
+              if (res.confirm) {
+                wx.navigateTo({ url: '../login/login?action=tencentlogin' })
+              }
+            },
+          })
+        }else {
+          wx.navigateTo({ url: '../login/login' })
+        }
+        return 
       }
       if (!app.globalData.deviceId) { //没绑定设备
         wx.showToast({
-          title:  '请先绑定设备',
+          title:  '请先连接设备',
           icon: 'none'
         })
         return
@@ -145,57 +176,103 @@ Component({
           icon: 'none'
         })
       }else {
-        wx.navigateTo({ url: `../vipbuy/vipbuy?source_id=${source_id}` })
+        let index = e.currentTarget.dataset.index
+        //是腾讯源，并且是影视，先确认微信或QQ授权
+        if (index == 0 && this.isTencentSourceNQQWechatLogin()) {
+          this.setData({ bToastAuthTencentQQorWechat: true })
+        }else {
+          let type = this.getThirdUserId().type
+          wx.navigateTo({ url: `../vipbuy/vipbuy?source_id=${source_id}&tencent_type=${type}` })
+        }
       }
+    },
+    goVipPageTencentSource(e) { //去腾讯源的产品包购买页
+      let source_id = this.data.productSourceList[0].source_id
+      let type = e.currentTarget.dataset.type
+      wx.navigateTo({ url: `../vipbuy/vipbuy?source_id=${source_id}&tencent_type=${type}` })
+    },
+    _cleaProductSourceList() { //清空产品源信息
+      this.data.productSourceList.forEach((item, index, arr) => {
+        this.setData({
+          [`productSourceList[${index}].source_id`]: 0,
+          [`productSourceList[${index}].source_name`]: index == 0 ? '极光VIP' : (index == 1 ? '教育VIP' : (index == 2 ? '少儿VIP' : (index == 3 ? '电竞VIP' : 'VIP')) ),
+          [`productSourceList[${index}].valid`]: '立即开通',
+        })
+      })
     },
     _getProductSourceList() {
       if (!!Object.keys(app.globalData.boundDeviceInfo).length) {
-        this.getProductSourceList().then((res) => {
-          let list = res.data.data.sources
-          list.forEach((item, index) => {
-            switch(item.source_sign) {
-              case 'yinhe':  //影视,默认奇异果VIP
-                this._updateProductSourceList(0, item)
-                break;
-              case '6':
-                if(app.globalData.boundDeviceInfo.source == 'tencent') //tencent 超级影视
-                {
-                  this._updateProductSourceList(0, item)
-                }
-                break;
-              case 'supervip':
-                this._updateProductSourceList(1, item) //超级教育vip
-                break;
-              case 'shaoervip':
-                this._updateProductSourceList(2, item)  //少儿vip
-                break;
-              case 'wasu':
-                this._updateProductSourceList(3, item)  //电竞vip
-                break;
-            }
-          })
+        new Promise((resolve, reject) => {
+          if (this.isTencentSourceNQQWechatLogin()) {
+            return this.getProductSourceList('wechat')
+                      .then(res => this._tackleProductSourceList(res))
+                      .then(() => {
+                        return this.getProductSourceList('qq')
+                      }).then(res => this._tackleProductSourceList(res))
+          }else {
+            return this.getProductSourceList().then(res => this._tackleProductSourceList(res))
+          }
         }).catch(err => {
           wx.showToast({
             title: '获取产品源失败',
             icon: 'none'
           })
+          this._cleaProductSourceList()
         })
+      }else { //如果没绑定的设备，需要清除信息,
+        this._cleaProductSourceList()
       }
     },
-    _updateProductSourceList(index, item) {//更新页面的产品源列表arr
+    _tackleProductSourceList(src) {
+      let list = src.sources
+      list.forEach((item, index) => {
+        switch (item.source_sign) {
+          case 'yinhe':  //影视,默认奇异果VIP
+            this._updateProductSourceList(0, item, src.txType)
+            break;
+          case '6':
+            this._updateProductSourceList(0, item, src.txType)
+            break;
+          case 'supervip':
+            this._updateProductSourceList(1, item) //超级教育vip
+            break;
+          case 'shaoervip':
+            this._updateProductSourceList(2, item)  //少儿vip
+            break;
+          case 'wasu':
+            this._updateProductSourceList(3, item)  //电竞vip
+            break;
+        }
+      })
+    },
+    _updateProductSourceList(index, item, txType) {//更新页面的产品源列表arr
       let valid = '开通权限'
       if(item.valid_type == 1) {//有效期
-      if (item.valid_scope.end_readable) {
-        valid = item.valid_scope.end_readable.substr(0, 10).replace(/-/g, '.').concat('到期')
-      } else if (item.valid_scope.end) {
-        let time = new Date(item.valid_scope.end * 1000)
-        let year = time.getFullYear();
-        let month = time.getMonth() + 1;
-        let day = time.getDate();
-        let d = year + "." + (month < 10 ? ("0" + month) : month) + "." + ((day < 10 ? ("0" + day) : day) + "到期");
-        valid = d
+        if (item.valid_scope.end_readable) {
+          valid = item.valid_scope.end_readable.substr(0, 10).replace(/-/g, '.').concat('到期')
+        } else if (item.valid_scope.end) {
+          let time = new Date(item.valid_scope.end * 1000)
+          let year = time.getFullYear();
+          let month = time.getMonth() + 1;
+          let day = time.getDate();
+          let d = year + "." + (month < 10 ? ("0" + month) : month) + "." + ((day < 10 ? ("0" + day) : day) + "到期");
+          valid = d
+        }
       }
-    }
+      if (txType == 'wechat') {
+        this.setData({
+          'tencentAcctInfos[0].valid': valid
+        })
+      } else if (txType == 'qq') {
+        this.setData({
+          'tencentAcctInfos[1].valid': valid
+        })
+        let valid0 = this.data.tencentAcctInfos[0].valid.match(/\d+\.\d+\.\d+\b/)
+        valid0 = !!valid0 ? valid0 : ''
+        let valid1 = this.data.tencentAcctInfos[1].valid.match(/\d+\.\d+\.\d+\b/)
+        valid1 = !!valid1 ? valid1 : ''
+        valid = valid0 > valid1 ? this.data.tencentAcctInfos[0].valid : this.data.tencentAcctInfos[1].valid 
+      }
     this.setData({
       [`productSourceList[${index}].source_id`]: item.source_id,
       [`productSourceList[${index}].source_name`]: item.source_name,
@@ -247,6 +324,12 @@ Component({
     this.getHistoryList();
     this.getFavoriteList();
   },
+  onHide() {
+    console.log('my onHide')
+    this.setData({
+      bToastAuthTencentQQorWechat: false
+    })
+  },  
     // 跳转至搜索页面
     handleSearchTap: function () {
       utils.navigateTo('../search/index');

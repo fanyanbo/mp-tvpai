@@ -26,14 +26,29 @@ module.exports = Behavior({
     console.log('behavior package attached.')
   },
   methods: {
-    getProductSourceList() { //获取产品源列表（极光VIP/教育VIP/少儿VIP/电竞VIP等）
+    getThirdUserId(type) { //获取第三方（腾讯）用户当前使用的userid
+      if(!!type) {
+        return type == 'qq' ? { type: 'qq', openid: app.globalData.ccUserInfo.qqOpenid } 
+                            : { type: 'wechat', openid: app.globalData.ccUserInfo.wxOpenid }
+      }else {
+        if (!app.globalData.ccUserInfo) return {}
+        if (!!app.globalData.ccUserInfo.wxOpenid) return { type: 'wechat', openid: app.globalData.ccUserInfo.wxOpenid }
+        if (!!app.globalData.ccUserInfo.qqOpenid) return { type: 'qq', openid: app.globalData.ccUserInfo.qqOpenid }
+      }
+      return {}
+    },
+    isTencentSourceNQQWechatLogin() {//腾讯源，且有qqopenid和wxopenid
+      return app.globalData.boundDeviceInfo.source == 'tencent' && !!app.globalData.ccUserInfo 
+                && !!app.globalData.ccUserInfo.wxOpenid && !!app.globalData.ccUserInfo.qqOpenid
+    },
+    getProductSourceList(txType) { //获取产品源列表（极光VIP/教育VIP/少儿VIP/电竞VIP等）
       return new Promise((resolve, reject) => {
         let package_getsourcelist_data = { //获取产品源列表mock data
-          "user_flag": !!app.globalData.ccUserInfo ? 2 : 0, //用户没登录，传0，user_id值为空
-          "user_id": app.globalData.ccUserInfo.openid || '',
+          "user_flag": !!app.globalData.ccUserInfo ? 1 : 0, //用户没登录，传0，user_id值为空; 1: token
+          "user_id": !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.ccToken : '', 
           "client_type": 4,
           "business_type": -1,  //-1:all 0:movie 1:education
-          "third_user_id": app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || ''
+          "third_user_id": this.getThirdUserId(txType).openid,
         }
         let header = is_fake_data ? mock.package_header : this.getPackageHeader();
         let data = is_fake_data ? encodeURIComponent(JSON.stringify(mock.package_getsourcelist_data))
@@ -48,7 +63,8 @@ module.exports = Behavior({
           success(data) {
             console.log(data)
             if (data.data.code == 0) {
-              resolve(data)
+              data.data.data.txType = txType  //获取产品源列表，返回值里会增加获取视频源的openid类型字段(openid, qqOpenid, wxOpenid)
+              resolve(data.data.data)
             } else {
               reject(data)
             }
@@ -67,10 +83,10 @@ module.exports = Behavior({
       return new Promise((resolve, reject) => {
         let package_getproductlist_data = { //获取产品包列表mock data
           "user_flag": !!app.globalData.ccUserInfo ? 2 : 0, //用户没登录，传0，user_id值为空
-          "user_id": app.globalData.ccUserInfo.openid || '',
+          "user_id": !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : '',
           "client_type": 4,//就下单传3,其它都传4
           "business_type": -1,  //-1:all 0:movie 1:education
-          "third_user_id": app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || '',
+          "third_user_id": !!app.globalData.ccUserInfo ? (app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || '') : '',
           "is_support_movie": "true", //todo 这个字段作用及取值来自？
           "movie_id": "",
           "node_type": "",
@@ -110,8 +126,8 @@ module.exports = Behavior({
       let header = is_fake_data ? mock.package_header : this.getPackageHeader();
       let data = JSON.stringify({
         "user_flag": !!app.globalData.ccUserInfo ? 2 : 0, //用户没登录，传0，user_id值为空,
-        "user_id": app.globalData.ccUserInfo.openid || '',
-        "third_user_id": app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || ''
+        "user_id": !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : '',
+        "third_user_id": !!app.globalData.ccUserInfo ? (app.globalData.ccUserInfo.wxOpenid || app.globalData.ccUserInfo.qqOpenid || '') : ''
       })
       wx.request({
         url: url_getCoupones,
@@ -144,7 +160,7 @@ module.exports = Behavior({
         url: url_getAllowance,
         data: {
           clientId: clientId,
-          authenticationValue: app.globalData.ccUserInfo.openid || '',//openid
+          authenticationValue: !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : '',//openid
           authenticationType: 'openid',
           currentTimestamp: new Date().getTime()
         },
