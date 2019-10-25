@@ -255,7 +255,7 @@ Page({
 
   handleItemTap: function (e) {
     wx.navigateTo({
-      url: `../movieDetail/movieDetail?id=${e.currentTarget.dataset.movieid}`
+      url: `../movieDetail/movieDetail?id=${e.currentTarget.dataset.movieid}&from=homepage`
     })
   },
 
@@ -266,8 +266,7 @@ Page({
     if (ccsession == null || ccsession === "") return;
     let params = { ccsession: ccsession };
     let desParams = utils.paramsAssemble_wx(params);
-    console.log('getBindedDevice params', desParams);
-    console.log('getBindedDevice url', api.getBindDeviceListUrl);
+    console.log('获取绑定设备列表，参数:', desParams);
     utils.request(api.getBindDeviceListUrl, 'GET', desParams,
       function (res) {
         console.log('获取绑定设备列表：', res.data);
@@ -280,7 +279,7 @@ Page({
               app.globalData.activeId = res.data.data[i].device.serviceId;
               app.globalData.deviceId = res.data.data[i].deviceId + '',
                 wx.setStorageSync('deviceId', res.data.data[i].deviceId + '');
-              console.log('getBindedDevice: activeId = ' + app.globalData.activeId + ", deviceId = " + app.globalData.deviceId);
+              console.log('当前绑定设备: activeId = ' + app.globalData.activeId + ", deviceId = " + app.globalData.deviceId);
               break;
             }
           }

@@ -268,7 +268,7 @@
   margin-left: 40rpx;
 }
 .item-push .episode2 {
-  display: flex;
+  /* display: flex; */
   white-space: nowrap;
   height: 108rpx;
 }

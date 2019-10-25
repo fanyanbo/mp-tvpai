@@ -74,7 +74,7 @@
       </view>
       <view class='intro-content'>{{videoDetailData.description}}</view>
     </view>
-    <!-- 关联影人 -->
+    <!-- 关联演员 -->
     <view class="panel-wrap actor-wrap" wx:if="{{relatedActorsList != null && relatedActorsList.length !== 0}}">
       <view class="panel-title">
         <text class="title-line"></text>

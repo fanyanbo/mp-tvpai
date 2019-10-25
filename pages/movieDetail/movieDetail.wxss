@@ -376,7 +376,8 @@
 /* notice：top: 68px; */
 .pageFixed {
   position: fixed;
-  top: 68px;
+  top: 64px;
+  /* top: 68px; */
   left: 0;
   bottom: 0;
   right: 0;
@@ -443,7 +444,7 @@
 }
 
 .detail-wrap {
-  margin-bottom: 130rpx;
+  padding-bottom: 130rpx;
 }
 
 .intro-more {
@@ -502,7 +503,7 @@
 
 .comment-wrap {
   box-sizing: border-box;
-  margin-bottom: 130rpx;
+  padding-bottom: 130rpx;
   margin-top: 40rpx;
 }
 
@@ -604,7 +605,7 @@
 }
 
 /* .favorite-wrap {
-  margin-bottom: 130rpx;
+  padding-bottom: 130rpx;
 } */
 
 .actors-content {

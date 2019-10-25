@@ -19,7 +19,7 @@ Page({
   onLoad: function (options) {
     console.log("进入片单详情 options:", options)
     // 从分享进入，导航栏显示首页，隐藏返回
-    if(options.scene === 'share') {
+    if(options.from === 'share') {
       this.setData({isShowNavBack: false, isShowNavHome: true})
     }
     this.data.topicId = options.id
@@ -80,7 +80,7 @@ Page({
     }
     return {
       title: '电视派',
-      path: `pages/topicDetail/topicDetail?id=${this.data.topicId}&scene=share`
+      path: `pages/topicDetail/topicDetail?id=${this.data.topicId}&from=share`
     }
   },
 
@@ -151,7 +151,7 @@ Page({
     console.log('handleItemClick')
     let { movieid } = e.currentTarget.dataset
     wx.navigateTo({
-      url: `../movieDetail/movieDetail?id=${movieid}`,
+      url: `../movieDetail/movieDetail?id=${movieid}&from=topicDetail`,
     })
   },
 
@@ -281,12 +281,6 @@ Page({
     let _movieid = `['${movieId}']`
     let params = { "ccsession": ccsession, "moviesId": _movieid }
     utils.requestP(api.addMovieFavoriteUrl, utils.paramsAssemble_wx(params)).then(res => {
-      // let _collectionList = this.data.collectionList
-      // let _collectionSet = new Set(_collectionList)
-      // if (_collectionSet.has(id)) return
-      // else _collectionSet.add(id)
-      // _collectionList = Array.from(_collectionSet)
-      // console.log(_collectionList)
       if (res.data && res.data.code === 200) {
         console.log('添加影片收藏成功', res)
         let _collectionList = this.data.movieCollectedList

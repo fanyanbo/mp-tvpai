@@ -38,8 +38,9 @@ Page({
    */
   onLoad: function (options) {
     utils.showLoadingToast()
+    console.log('当前影片id和from:', options)
     this.data.curMovieId = options.id
-    console.log('当前影片id:' + this.data.curMovieId)
+    this.data.from = options.from
     // 初始化评论点赞列表的缓存
     this.data._commentLike = wx.getStorageSync('comment_like')
     if (!this.data._commentLike) wx.setStorageSync('comment_like', [])
@@ -126,8 +127,18 @@ Page({
         this.getFavoriteStatus(movieId)
         utils.showLoadingToast('', false)
       }
+      //日志提交
+      wx.reportAnalytics('page_videodetail_show', {
+        from: this.data.from,
+        video_name: res.data.data.album_title || this.data.curMovieId
+      });
     }).catch(res => {
       console.log('影片详情获取失败', res)
+      //日志提交
+      wx.reportAnalytics('page_videodetail_show', {
+        from: this.data.from,
+        video_name: res.data.data.album_title || this.data.curMovieId
+      });
       utils.showFailedToast('加载数据失败', this.data.errIconUrl)
     })
   },
@@ -136,15 +147,14 @@ Page({
   getRelatedActors: function (movieId) {
     let params = { "third_album_id": movieId };
     let url = utils.urlAssemble_tvpai(api.getRelatedActorsUrl, utils.paramsAssemble_tvpai(params));
-    console.log("获取相关影人url:" + url)
     utils.requestP(url, null).then(res => {
-      console.log("获取关联影人:", res.data.data)
+      console.log("获取关联演员数据:", res.data.data)
       this.setData({
         relatedActorsList: res.data.data.actors
       })
     }).catch(res => {
-      console.log('获取关联影人失败:', res)
-      utils.showFailedToast('加载数据失败', this.data.errIconUrl)
+      console.log('获取关联演员数据发生错误:', res)
+      // utils.showFailedToast('加载数据失败', this.data.errIconUrl)
     })
   },
 
@@ -214,9 +224,9 @@ Page({
   // 获取当前影片收藏状态
   getFavoriteStatus: function (movieId) {
     let ccsession = wx.getStorageSync('new_cksession')
-    if (ccsession == null) return
+    if (ccsession == "") return
     let params = { "ccsession": ccsession, "movieId": movieId }
-    utils.requestP(api.getFavoriteStatusUrl, utils.paramsAssemble_wx(params)).then(res => {   
+    utils.requestP(api.getFavoriteStatusUrl, utils.paramsAssemble_wx(params)).then(res => {
       if (res.data.data && res.data.code === 200) {
         console.log("获取影片收藏状态成功:", res)
         // 保存当前影片对应的收藏id
@@ -234,9 +244,10 @@ Page({
   // 获取全部评论
   getComment: function (movieId) {
     let ccsession = wx.getStorageSync('new_cksession')
-    if (ccsession == null) return
+    if (ccsession == "") return
     let params = { "ccsession": ccsession, "movieId": movieId }
     let desParams = utils.paramsAssemble_wx(params)
+    console.log('获取评论参数:', desParams)
     utils.requestP(api.getCommentsUrl, desParams).then(res => {
       console.log("获取评论数据:", res)
       if (res.data.data && res.data.code === 200) {
@@ -264,7 +275,7 @@ Page({
   // 提交评论
   submitComment: function (content, score) {
     let ccsession = wx.getStorageSync('new_cksession')
-    if (ccsession == null) return
+    if (ccsession == "") return
     let params = {
       "ccsession": ccsession,
       "movieId": this.data.curMovieId,
@@ -272,6 +283,7 @@ Page({
       "grade": score
     }
     let desParams = utils.paramsAssemble_wx(params)
+    console.log('提交评论参数:', desParams)
     utils.requestP(api.submitCommentUrl, desParams).then(res => {
       if (res.data.data && res.data.code === 200) {
         console.log("提交评论数据成功:", res)
@@ -299,7 +311,7 @@ Page({
   // 对某条评论点赞/取消点赞
   submitClickLike: function (commentId) {
     let ccsession = wx.getStorageSync('new_cksession')
-    if (ccsession == null) return
+    if (ccsession == "") return
     let params = { "ccsession": ccsession, "commentId": commentId + '' }
     let desParams = utils.paramsAssemble_wx(params)
     utils.requestP(api.submitClickLikeUrl, desParams).then(res => {
@@ -417,7 +429,7 @@ Page({
       coocaamid: coocaamid,
       movieId: movieid
     })
-    let _session = wx.getStorageSync("new_cksession")  
+    let _session = wx.getStorageSync("new_cksession")
     console.log("校验参数 session:" + _session + ", deviceId:" + _deviceId)
     wx.showLoading({ title: '推送中...' })
     if (_deviceId == null) {

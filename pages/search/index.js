@@ -59,12 +59,11 @@ Page({
   },
   // 点击跳转详情页
   handleJumpTap(e) {
-    console.log('handleJumpTap', e);
-    let third_album_id = e.currentTarget.dataset.item.video_detail.third_album_id;
-    console.log("../movieDetail/movieDetail?id=" + third_album_id);
+    console.log('跳转影片详情页', e)
+    let third_album_id = e.currentTarget.dataset.item.video_detail.third_album_id
     wx.navigateTo({
-      url: "../movieDetail/movieDetail?id=" + third_album_id
-    });
+      url: `../movieDetail/movieDetail?id=${third_album_id}&from=search`
+    })
   },
   // 输入框内容有变化时触发
   inputBind(e) {
