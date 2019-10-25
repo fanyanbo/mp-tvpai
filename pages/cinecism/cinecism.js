@@ -231,7 +231,7 @@ Page({
     let desParams = utilsNew.paramsAssemble_wx(params)
 
     utilsNew.requestP(apiNew.submitClickLikeUrl, desParams).then(res => {
-      console.log("点赞成功:", res)
+      console.log("评论点赞接口请求成功:", res)
       if (res.data.data) {
         let _type = res.data.data.type
         let _commentLike = wx.getStorageSync('comment_like') //评论点赞缓存列表
@@ -445,19 +445,19 @@ Page({
     if (content == "" || content == null) {
       utils.showToastBox("输入的评论为空", "loading")
     } else {
+      let ccsession = wx.getStorageSync("new_cksession")
+      // let ccsession = 'b45004fab0934395dc20ede9dc13801d'
+      if (ccsession == "") return
       let articleId = e.currentTarget.dataset.id
-      // let ccsession = wx.getStorageSync("new_cksession")
-      let ccsession = 'b45004fab0934395dc20ede9dc13801d'
       let params = {
         "ccsession": ccsession,
         "articleId": articleId,
         "content": content,
       }
       let desParams = utilsNew.paramsAssemble_wx(params)
-
       utilsNew.requestP(apiNew.submitCommentUrl, desParams).then(res => {
         console.log("提交文章评论数据成功:", res)
-        if (res.data.data) {
+        if (res.data.data && res.data.code === 200) {
           this.data._allComments = res.data.data.list
           this.data_commentLike = wx.getStorageSync('comment_like') //评论点赞缓存列表   
           for (let i = 0; i < this.data._allComments.length; i++) {
