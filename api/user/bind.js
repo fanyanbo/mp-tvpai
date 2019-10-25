@@ -87,7 +87,13 @@ function bindDeviceByQR(qrUrl) { //根据二维码信息绑定新设备
     })
   })
 }
-function getDeviceList() {  //获取绑定设备列表
+function getDeviceList(init=false) {  //获取绑定设备列表
+  let app = null
+  if(init) { //如果是在app.js中调用，不能用getApp()获取app实例
+    app = this
+  }else {
+    app = getApp()
+  }
   return new Promise((resolve, reject) => {
     console.log('获取设备列表...')
     const ccsession = wx.getStorageSync('new_cksession');

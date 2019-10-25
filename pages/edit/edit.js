@@ -31,55 +31,6 @@ Page({
       console.log('streams fail:')
       wx.showToast({ title: '加载数据失败' })
     })
-
-    // let that = this
-    // const key = app.globalData.key
-    // const _data = e.detail.value
-    // console.log(_data.deviceName)
-    // if(_data.deviceName == ""){
-    //   utils_fyb.showFailedToast('请填写设备名称', '../../images/close_icon.png');
-    //   return
-    // }
-    // const deviceName = encodeURI(_data.deviceName)
-    // const ccsession = wx.getStorageSync('new_cksession')
-    // var paramsStr = { "ccsession": ccsession, "deviceName": deviceName, "id": that.data.id}
-    // console.log(paramsStr);
-    // const sign = utils.encryption(paramsStr, key)
-    // console.log(sign);
-    // const url = api.changeDeviceStatusUrl
-    // let data = {
-    //   client_id: app.globalData.client_id,
-    //   sign: sign,
-    //   param: paramsStr,
-    //   ccsession: ccsession,
-    //   deviceName: deviceName,
-    //   id: that.data.id,
-    // }
-    // utils.postLoading(url, 'GET', data, function (res) {
-    //   console.log(res.data.code)
-    //   if (res.data.code == 200) {
-    //     wx.showToast({
-    //       title: '修改成功',
-    //     })
-    //     setTimeout(function () {
-    //       wx.navigateBack({
-    //         delta: 2
-    //       })
-    //     }, 1000)
-    //   } else {
-    //     console.log('streams fail:')
-    //     wx.showToast({
-    //       title: '加载数据失败',
-    //     })
-    //   }
-    // }, function (res) {
-    //   console.log('streams fail:', res)
-    //   wx.showToast({
-    //     title: '加载数据失败',
-    //   })
-    // }, function (res) {
-    //   console.log('streams complete:', res)
-    // }, "")
 },
 
   copyText: function (e) {

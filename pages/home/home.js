@@ -52,14 +52,12 @@ Page({
       isShowTips: app.globalData.isShowTips,
       bIphoneFullScreenModel: app.globalData.bIphoneFullScreenModel
     });
-    this._getDeviceList()
-    //todo:wx.scanCode退出时会自动执行一次页面的onshow，回头再捋下这里流程
+    this._getDeviceList() //todo:wx.scanCode退出时会自动执行一次页面的onshow，回头再捋下这里流程
   },
   // 授权校验，授权或拒绝都会执行
   bindGetUserInfo(e) {
     console.log('canIUse', this.data.canIUse, e)
-    if (!e.detail.userInfo) {
-      // 如果用户拒绝直接退出，下次依然会弹出授权框
+    if (!e.detail.userInfo) {// 如果用户拒绝直接退出，下次依然会弹出授权框
       return;
     }
     let encryptedData = e.detail.encryptedData;
@@ -76,10 +74,10 @@ Page({
 
     if (ccsession == null || ccsession === '') {
       utils.showLoadingToast()
-      utils.wxLogin() //todo 思考怎么优化
+      utils.wxLogin() 
         .then(res => {
           console.log('wxLogin res=', res)
-          return utils.getSessionByCodeP(res.code)
+          return utils.getSessionByCodeP(res.code) //todo 优化复用微信登录代码
         })
         .then(res => {
             console.log('getSessionByCode res=', res)

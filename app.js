@@ -1,6 +1,7 @@
 const utils = require('utils/util.js');
 const api = require('api/api.js');
 const utils_fyb = require('utils/util_fyb.js');
+const bind = require('api/user/bind.js');
 
 // 使用登录凭证 code 获取 session_key 和 openid
 function login(rawData, code, encryptedData, iv, signature) {
@@ -72,6 +73,7 @@ function decryptUser(rawData, encryptedData, iv, cksession, signature) {
 
 App({
   onLaunch: function () {
+    console.log('app onLaunch')
     let that = this;
     wx.getSystemInfo({
       success: function(res) {
@@ -82,6 +84,10 @@ App({
         console.log('onLaunch platform', that.globalData.platform)
       },
     })
+    bind.getDeviceList.apply(that, [true])
+  },
+  onShow() {
+    console.log('app onshow')
   },
   globalData: {
     username: wx.getStorageSync("username"),
