@@ -52,7 +52,7 @@ Component({
       },
     },
     productSourceList: [ //默认显示的产品源列表
-      { index: 0, source_id: 0, source_name: '极光VIP', valid: '立即开通', image: '../../images/my/vip/mov.png' },
+      { index: 0, source_id: 0, source_name: '奇异果VIP', valid: '立即开通', image: '../../images/my/vip/mov.png' },
       { index: 1, source_id: 0, source_name: '教育VIP', valid: '立即开通', image: '../../images/my/vip/edu.png' },
       { index: 2, source_id: 0, source_name: '少儿VIP', valid: '立即开通', image: '../../images/my/vip/kid.png' },
       { index: 3, source_id: 0, source_name: '电竞VIP', valid: '立即开通', image: '../../images/my/vip/game.png' }
@@ -195,7 +195,7 @@ Component({
       this.data.productSourceList.forEach((item, index, arr) => {
         this.setData({
           [`productSourceList[${index}].source_id`]: 0,
-          [`productSourceList[${index}].source_name`]: index == 0 ? '极光VIP' : (index == 1 ? '教育VIP' : (index == 2 ? '少儿VIP' : (index == 3 ? '电竞VIP' : 'VIP')) ),
+          [`productSourceList[${index}].source_name`]: index == 0 ? '奇异果VIP' : (index == 1 ? '教育VIP' : (index == 2 ? '少儿VIP' : (index == 3 ? '电竞VIP' : 'VIP')) ),
           [`productSourceList[${index}].valid`]: '立即开通',
         })
       })

@@ -2,7 +2,6 @@
 const util = require('../../utils/util')
 const util_fyb = require('../../utils/util_fyb')
 const api_fyb = require('../../api/api_fyb')
-const app = getApp()
 
 function scanQRCode() { //扫电视二维码绑定
   return new Promise( (resolve, reject) => {
@@ -23,6 +22,7 @@ function scanQRCode() { //扫电视二维码绑定
 }
 function changeDeviceState(objParam) { //更改当前绑定的设备信息（修改名称、绑定其它设备、删除等）; id:要绑定设备的关联id
   return new Promise((resolve, reject) => {
+    const app = getApp() //因为app.js里引入了bind.js，所以这里不能获取到app实例，要在各个函数里自行获取
     const ccsession = wx.getStorageSync('new_cksession')
     let data = null, desParams = null, srcParams = null
     if (!!objParam.delete) { //delete
@@ -89,7 +89,7 @@ function bindDeviceByQR(qrUrl) { //根据二维码信息绑定新设备
 }
 function getDeviceList(init=false) {  //获取绑定设备列表
   let app = null
-  if(init) { //如果是在app.js中调用，不能用getApp()获取app实例
+  if (init) { //因为app.js里引入了bind.js，所以这里不能获取到app实例，要在各个函数里自行获取
     app = this
   }else {
     app = getApp()
