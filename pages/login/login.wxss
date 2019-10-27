@@ -99,6 +99,7 @@
   width: 176rpx;
   height: 60rpx;
   background: #FFF;
+  z-index: 2;
 }
 .unlogin-tologin .vcode {
   position: absolute;

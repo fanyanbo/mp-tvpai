@@ -45,7 +45,35 @@ Page({
       name: {title: '修改账号昵称', type: 'text', btn: '完成'},
       mob: { title: '修改手机号', type: 'number', btn: '确认更换手机号' }
     },
+    _pageVCodeObj: null,//登录页面图形二维码对象实例
+    pageVCode: '',//登录页面图形二维码
   },
+  //---获取页面验证码 --start--
+  _getPageVerificationCode() {
+    this.data._pageVCodeObj = new utils.VerificationCode()
+    this.setData({
+      pageVCode: this.data._pageVCodeObj.refresh()
+    })
+  },
+  pageVCodeRefresh() { //刷新页面二维码
+    console.log('refresh')
+    this.setData({
+      pageVCode: this.data._pageVCodeObj.refresh()
+    })
+  },
+  pageVCodeVerify(e) {
+    let res = this.data._pageVCodeObj.validate(e.detail.value) 
+    if(typeof res == 'string') {
+      this.setData({
+        pageVCode: this.data._pageVCodeObj.refresh()
+      })
+      wx.showToast({
+        title: '图形验证码输入错误,请重试',
+        icon: 'none'
+      })
+    }
+  },
+  //---获取页面验证码 --end--
   // -- 登录方法 start --
   inputAccountBlur(e) { //账号密码登录-获取账号
     console.log('account blur:' + JSON.stringify(e.detail))
@@ -103,6 +131,8 @@ Page({
   },
   getVCode() { //获取验证码
     console.log('getVCode...')
+    //todo 开启倒计时
+
     user_login.vcode(this.data.userinput_mob)
     //todo 处理验证码逻辑，1min内置灰并显示倒计时
   },
@@ -272,6 +302,8 @@ Page({
         this.setData({
           login_wechat_url: this.data.login_wechat_url + ccsession
         })
+      }else {
+        this._getPageVerificationCode()
       }
       this.setData({
         curSubPage: +options.stage
