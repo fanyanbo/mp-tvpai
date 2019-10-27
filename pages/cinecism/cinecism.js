@@ -5,6 +5,7 @@ var utils = require('../../utils/util.js')
 const utilsNew = require('../../utils/util_fyb')
 const apiNew = require('../../api/api_fyb')
 
+let getIsCollectList = []
 var app = getApp()
 var collectFlag = 1
 var voteClicknum = 1
@@ -57,6 +58,7 @@ Page({
     commentTotalNum: 0,
     commentLightStar: '/images/videodetail/star-focus.png',
     commentGrayStar: '/images/videodetail/star.png',
+    isCollectList: [],
     // mydata:''
   },
   onLoad: function (options) {
@@ -126,93 +128,54 @@ Page({
     wx.setStorageSync("formid", e.detail.formId)
   },
 
-  collect(e) {
-    movieidArray = []
-    //判断ccsession是否为空
-   // if (utils.ccsessionIs() == null) return
-    //点击收藏时判断用户是否登录酷开账号
-    if (utils.coocaaLogin() == null) return
-    var that = this
-    var newZu2 = ''
-    var url = api.appletCollectVideoUrl
-    var key = app.globalData.key
-    var ccsession = wx.getStorageSync("new_cksession")
-    // var moviesId = options.currentTarget.dataset.moviesid
-    contentId = e.currentTarget.dataset.contentid
-    var index = e.currentTarget.dataset.contentid
-
-    console.log("contentArray",contentArray)
-    if (that.data.starArrays[index] == 'starIcon' || that.data.starArrays[index] == undefined) {
-      if (contentArray != null && contentArray != undefined) {
-        for (var i = 0; i < contentArray.length; i++) {
-          if (contentArray[i].contentId == contentId) {
-            if (contentArray[i].movieIdsList != null && contentArray[i].movieIdsList != undefined) {
-              for (var j = 0; j < contentArray[i].movieIdsList.length; j++) {
-                movieidArray.push(contentArray[i].movieIdsList[j].movieId)
-                newZu2 += contentArray[i].movieIdsList[j].movieId + ',';
+  // 文章中的收藏影片
+  clickCollect(e) {
+    // 检查是否登录酷开账号
+    utilsNew.checkCoocaaUserLogin()
+    if (wx.getStorageSync('ccUserInfo') == '') return
+    let ccsession = wx.getStorageSync('new_cksession')
+    if (ccsession == "") return
+    console.log('点击收藏影片',e)
+    let contentId = e.currentTarget.dataset.contentid
+    let _index = e.currentTarget.dataset.index
+    let _movieid = ''
+    if (contentArray != null && contentArray != undefined) {
+      for (var i = 0; i < contentArray.length; i++) {
+        if (contentId == contentArray[i].contentId) {
+          if (contentArray[i].movieIdsList != null && contentArray[i].movieIdsList != undefined) {
+            for (var j = 0; j < contentArray[i].movieIdsList.length; j++) {
+              movieidArray.push(contentArray[i].movieIdsList[j].movieId)
+              if (contentArray[i].movieIdsList[j].source == 'iqiyi') {
+                _movieid = contentArray[i].movieIdsList[j].movieId
+              } else {
+                _movieid = contentArray[i].movieIdsList[0].movieId
               }
             }
-
           }
         }
       }
-      newZu2 = newZu2.substr(0, newZu2.length - 1)
-
-      console.log("movieidArray",movieidArray)
-      console.log("newZu2",newZu2)
-
-      if (movieidArray != null && movieidArray.length > 0) {
-        newZu = []
-        for (var k = 0; k < movieidArray.length; k++) {
-          newZu += "'" + movieidArray[k].toString() + "'" + ','
-        }
-        newZu = newZu.substr(0, newZu.length - 1)
-        newZu = '[' + newZu + ']'
-      }
-
-      var paramsStr = { "ccsession": ccsession, "moviesId": newZu }
-      var sign = utils.encryption(paramsStr, key)
-      wx.request({
-        url: url,
-        data: {
-          client_id: 'applet',
-          sign: sign,
-          param: paramsStr
-        },
-        method: 'get',
-        header: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        success: res => {
-
-          console.log("收藏影片接口返回结果",res)
-          if (res.data.result) {
-            console.log("获取收藏影片接口成功")
-            // var index = e.currentTarget.dataset.contentid
-            that.data.starArrays[index] = 'starIcon1'
-            that.data.isDisabled[index] = true
-            that.setData({
-              starArrays: that.data.starArrays,
-              isDisabled: that.data.isDisabled
-            })
-            utils.showToastBox("收藏成功", "success")
-            var type = "movieCollect"
-            //  console.log("从缓存中取得的formid")
-            //  console.log(formId)
-
-            utils.eventCollect(type, newZu2)
-          } else {
-            //  utils.showFailToast(this, "操作失败，请重试")
-            utils.showToastBox(res.data.message, "loading")
-          }
-        },
-        fail: function () {
-          console.log("获取收藏影片接口失败")
-        }
-      })
     }
-
+    let params = { "ccsession": ccsession, "moviesId": _movieid }
+    utilsNew.requestP(apiNew.addMovieFavoriteUrl, utilsNew.paramsAssemble_wx(params)).then(res => {
+      if (res.data && res.data.code === 200) {
+        console.log('添加影片收藏成功', res)
+        getIsCollectList[_index] = 'yes'
+        this.setData({
+          isCollectList: getIsCollectList
+        })
+        // this.data.collectId = res.data.data[0].collectId
+      } else {
+        console.log('添加影片收藏失败', res)
+      }
+    }).catch(res => {
+      console.log('添加影片收藏发生错误', res)
+    })
   },
+  // 文章中的取消收藏影片,需求只说实现文章页面的影片收藏，并未要实现取消收藏功能
+  clickCancelcollect() {
+    utils.showToastBox("已经收藏", "loading")
+  },
+
   handleGobackClick: function () {
     console.log('handleGobackClick')
     wx.navigateBack({
@@ -875,17 +838,12 @@ Page({
   },
   detailTo: function (e) {
     movieidArray = []
-    var articleid = e.currentTarget.dataset.articleid
     contentId = e.currentTarget.dataset.contentid
-    var movietypes = e.currentTarget.dataset.movietypes
-    var movieID
     if (contentArray != null && contentArray != undefined) {
       for (var i = 0; i < contentArray.length; i++) {
         if (contentArray[i].contentId == contentId) {
           if (contentArray[i].movieIdsList != null && contentArray[i].movieIdsList != undefined) {
-            var movieIdsArrays = new Array()
             for (var j = 0; j < contentArray[i].movieIdsList.length; j++) {
-              movieIdsArrays.push(contentArray[i].movieIdsList[j])
               movieidArray.push(contentArray[i].movieIdsList[j].movieId)
               if (contentArray[i].movieIdsList[j].source == 'iqiyi') {
                 movieID = contentArray[i].movieIdsList[j].movieId
@@ -1252,76 +1210,63 @@ function getAboutMovie(that) {
     },
     success: res => {
       if (res.data.result) {
-        var data1 = res.data.data
+        var movieDataList = res.data.data
         var imgH = new Array()
         var imgV = new Array()
         var movieType
         var clooectList = new Array()
-        console.log("获取收藏列表成功",data1)
-        if (data1 != null && data1 != undefined) {
+        console.log("获取收藏列表成功",movieDataList)
+        if (movieDataList != null && movieDataList != undefined) {
           starArray = []
           var tags = []
-          for (var i = 0; i < data1.length; i++) {
-            contentArray.push(data1[i])
-
-            if (data1[i].moviesDetail != null) {
+          for (var i = 0; i < movieDataList.length; i++) {
+            contentArray.push(movieDataList[i])
+            getIsCollectList.push(movieDataList[i].moviesDetail.isCollectionMovie)
+            if (movieDataList[i].moviesDetail != null) {
               that.setData({
                 lenIs: true
               })
-              var pingfen = data1[i].moviesDetail.videoData.base_info.score
+              var pingfen = movieDataList[i].moviesDetail.videoData.base_info.score
               //评分
               utils.starGrade(pingfen, i, starClass0, starClass1, starClass2, starClass3, starClass4)
-              starArray.push(data1[i])
-              if (data1[i].moviesDetail.videoData != null && data1[i].moviesDetail.videoData != undefined) {
-                tags[i] = data1[i].moviesDetail.videoData.base_info.video_tags
+              starArray.push(movieDataList[i])
+              if (movieDataList[i].moviesDetail.videoData != null && movieDataList[i].moviesDetail.videoData != undefined) {
+                tags[i] = movieDataList[i].moviesDetail.videoData.base_info.video_tags
                 if (tags[i] != null && tags[i] != undefined) {
                   tags[i] = tags[i].split(",")[0]
                 }
                 //评分
 
-                clooectList.push(data1[i])
+                clooectList.push(movieDataList[i])
 
-                if (data1[i].moviesDetail.videoData.base_info.video_type == '电影') {
-                  movieType = data1[i].moviesDetail.videoData.base_info.video_type
+                if (movieDataList[i].moviesDetail.videoData.base_info.video_type == '电影') {
+                  movieType = movieDataList[i].moviesDetail.videoData.base_info.video_type
                 }
                 // console.log("movieType:")
                 // console.log(movieType)
                 var haveVImg = false;
-                for (var k = 0; k < data1[i].moviesDetail.videoData.show_info.images.length; k++) {
-                  if (data1[i].moviesDetail.videoData.show_info.images[k].style == "v") {
+                for (var k = 0; k < movieDataList[i].moviesDetail.videoData.show_info.images.length; k++) {
+                  if (movieDataList[i].moviesDetail.videoData.show_info.images[k].style == "v") {
                     haveVImg = true
-                    imgV.push(data1[i].moviesDetail.videoData.show_info.images[k])
+                    imgV.push(movieDataList[i].moviesDetail.videoData.show_info.images[k])
                     break
                   }
                 }
                 // 如果影片中没有树图，将填充一个undefined填位，防止图片串位
                 if (!haveVImg) imgV.push("undefined")
               }
-
-              if (starArray != null && starArray != undefined) {
-                for (var n = 0; n < starArray.length; n++) {
-                  if (starArray[n].moviesDetail.isCollectionMovie == "yes") {
-                    starClass.push('starIcon1')
-                  } else if (starArray[n].moviesDetail.isCollectionMovie == "no") {
-                    starClass.push('starIcon')
-                  }
-                }
-              }
             } else {
               imgV.push("undefined")
             }
 
           }
-          console.log("imgV")
-          console.log(imgV)
-          console.log("tags")
-          console.log(tags)
-
-          console.log("starClass:")
-          console.log(that.data.starClass)
+          console.log('movieImgList',imgV)
+          console.log('movieTagList',tags)
+          console.log("starClass:",that.data.starClass)
           that.setData({
+            isCollectList: getIsCollectList,
             clooectList: clooectList,
-            moviesData: data1,
+            moviesData: movieDataList,
             imgV: imgV,
             movieType: movieType,
             starArray: starArray,

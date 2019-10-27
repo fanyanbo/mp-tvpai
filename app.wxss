@@ -69,20 +69,6 @@ rich-text {
   height: auto;
 }
 
-.starIcon {
-  /* background: url(http://www.coocaa.com/act14/weixin/applet/collect_icon.png)no-repeat; */
-  background-size: contain;
-  width: 57rpx;
-  height: 57rpx;
-}
-
-.starIcon1 {
-  /* background: url(http://www.coocaa.com/act14/weixin/applet/collect_icon2.png)no-repeat; */
-  background-size: contain;
-  width: 57rpx;
-  height: 57rpx;
-}
-
 .mg {
   padding: 20rpx;
 }

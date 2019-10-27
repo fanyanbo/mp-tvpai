@@ -164,7 +164,8 @@
                   <view class="clear"></view>
                 </div>
                 <!-- 显示百分比 -->
-                <view class="" wx:for="{{votefor.voteOptionWrapList}}" wx:for-item="voteOptionfor" data-index="{{index}}">
+                <view wx:for="{{votefor.voteOptionWrapList}}" wx:for-item="voteOptionfor" 
+                data-index="{{index}}" wx:key="{{index}}">
                   <view data-id="{{id}}" class="progresswxOpenid" wx:if="{{votefor.readyVoteByWxOpenidNum > '0'}}">
                     <view class="classname" wx:if="{{index == '0'}}">
                       <progress data-id="{{id}}" percent="{{voteOptionfor.voteRatio}}" color="pink" class="voteProgress" />
@@ -216,13 +217,6 @@
                         {{item.moviesDetail.videoData.base_info.title}}
                       </view>
                       <!-- 评分 -->
-                      <!-- <view class="pingfen" data-index="{{index}}">
-                        <ul>
-                          <li class="font-size-xs" data-pingfen="{{movieData.score}}" >评分：{{item.moviesDetail.videoData.base_info.score}}</li>
-                          <div class="clear"></div>
-                        </ul>
-                      </view> -->
-                      <!-- 评分 -->
                       <view class="pingfenStar" data-index="{{index}}">
                         <ul>
                           <li>
@@ -251,6 +245,7 @@
                           <div class="clear"></div>
                         </ul>
                       </view>
+
                       <view class="font-size-xs">
                         <text wx:if="{{item.moviesDetail.videoData.base_info.publish_date!=null&&item.moviesDetail.videoData.base_info.publish_date.length>0}}">{{item.moviesDetail.videoData.base_info.publish_date}} </text>
                         <text wx:if="{{item.moviesDetail.videoData.base_info.publish_area!=null&&item.moviesDetail.videoData.base_info.publish_area.length>0}}">| {{item.moviesDetail.videoData.base_info.publish_area}} </text>
@@ -258,26 +253,32 @@
                         <text wx:if="{{item.moviesDetail.videoData.base_info.sub_title!=null&&item.moviesDetail.videoData.base_info.sub_title.length>0}}">| {{item.moviesDetail.videoData.base_info.sub_title}}</text>
                       </view>
                     </view>
-                    <!-- </navigator> -->
                     <!-- 清除浮动 -->
                     <view class="clear"></view>
                   </view>
 
                   <view class="cinecism_card_footer">
-                    <!-- 收藏影片 -->
-                    <!-- <view class="inline" style="display:none"> -->
-                    <view class="inline">
+                    <!-- 取消收藏影片,取消收藏太过复杂，v2.1版本即将提测上线，先搁置 -->
+                    <view wx:if="{{isCollectList[index] == 'yes'}}" class="inline" 
+                    data-contentid="{{item.contentId}}" data-index="{{index}}" bindtap="clickCancelcollect">
                       <view class="collect_logo">
-                        <!-- <image src="../../images/collect_icon.png"/> -->
-                        <li data-contentid="{{item.contentId}}" wx:if="{{item.moviesDetail.isCollectionMovie == 'no'}}" class="starIcon {{starArrays[item.contentId]}}" data-index="{{index}}" bindtap="collect"></li>
-                        
-                        <li wx:else class="starIcon1" data-index="{{index}}"></li>
+                        <image class="movieCollectIcon" src="/images/collect_icon2.png" />
                       </view>
                       <view class="cinecism_card_collect">
                         <text class="cinecism_card_star font-size-small">收藏影片</text>
                       </view>
                     </view>
-                    <!-- 收藏影片end -->
+                    <!-- 收藏影片 -->
+                    <view wx:else class="inline" 
+                    data-contentid="{{item.contentId}}" data-index="{{index}}" bindtap="clickCollect">
+                      <view class="collect_logo">
+                        <image class="movieCollectIcon" src="/images/collect_icon.png" />
+                      </view>
+                      <view class="cinecism_card_collect">
+                        <text class="cinecism_card_star font-size-small">收藏影片</text>
+                      </view>
+                    </view>
+
                     <!-- 推送到电视  style="display:none"-->
                     <view class="inline" data-movietypes="{{item.movieType}}" data-contentid="{{item.contentId}}" data-allcount="{{item.moviesDetail.videoData.base_info.publist_segment}}" data-nowcount="{{item.moviesDetail.videoData.base_info.current_segment}}" data-videotype="{{item.moviesDetail.videoData.base_info.video_type}}" bindtap="pushVideo">
                       <!-- <button name="pushVideo" formType="submit">  </button> -->
@@ -548,6 +549,7 @@
             <ul>
               <li>{{item.moviesDetail.videoData.base_info.title}}</li>
               <li class="right1">
+              <!-- 这里可能有bug，文章相关影片的收藏影片也有starArrays[item.contentId]，已被改掉 -->
                 <li name="collectMovieBottom" formType="submit" data-moviesid="{{item.movieId}}" data-contentid="{{item.contentId}}" wx:if="{{item.moviesDetail.isCollectionMovie == 'no'}}" class="starIcon {{starArrays[item.contentId]}}" data-index="{{index}}" bindtap="collect"></li>
                 <li wx:else class="starIcon1" data-index="{{index}}"></li>
               </li>

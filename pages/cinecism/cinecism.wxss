@@ -113,7 +113,7 @@ page{overflow-y: scroll;}
     top: 18%;
     }
 .collect_logo{
-    left: 9%;
+    left: 8%;
     top:12%;
     }
 .collect_logo button,.collect_logo li{
@@ -593,7 +593,6 @@ top:25rpx;
 right:20rpx;
 border-radius:5rpx;
 font-size:30rpx;
-
 }
 .starTop{
 margin-top:-1rpx;
@@ -601,4 +600,8 @@ margin-top:-1rpx;
 .commentStar {
   width: 20rpx;
   height: 24rpx;
+}
+.movieCollectIcon {
+  width: 57rpx;
+  height: 57rpx;
 }
