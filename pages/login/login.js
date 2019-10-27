@@ -401,15 +401,14 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    console.log('login.js hide')
-    !!this.data._mobMsgVCodeObj && this.data._mobMsgVCodeObj.end()
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    console.log('login.js unload')
+    !!this.data._mobMsgVCodeObj && this.data._mobMsgVCodeObj.end()
   },
 
   /**

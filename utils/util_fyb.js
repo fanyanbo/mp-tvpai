@@ -405,16 +405,23 @@ class CountDown { //倒计时函数
     this.time = time
     this.onProgress = onProgress
     this.onFinish = onFinish
+    this.timer = null
   }
   start() {
-    let timer = setInterval(() => {
+    this.timer = setInterval(() => {
       console.log('count:', this.time)
       typeof this.onProgress == 'function' && this.onProgress(this.time)
       if (this.time-- <= 0) {
-        clearInterval(timer)
+        clearInterval(this.timer)
         typeof this.onFinish == 'function' && this.onFinish()
       }
     }, 1000)
+  }
+  end() {
+    if(!!this.timer) {
+      clearInterval(this.timer)
+      this.timer = null
+    }
   }
 }
 
