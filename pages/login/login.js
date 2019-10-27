@@ -29,7 +29,7 @@ Page({
     ],
     userinput_mob: 0,
     userinput_pw: 0,
-    userinput_vcode: 0,
+    userinputVcodeOK: false,
     //-- 登录变量 end --
     
     //-- 修改用户信息 start --
@@ -102,10 +102,13 @@ Page({
     let res = this.data._pageVCodeObj.validate(e.detail.value) 
     if(typeof res == 'string') {
       this._showPageVerificationCode()
+      this.data.userinputVcodeOK = false
       wx.showToast({
         title: '图形验证码输入错误,请重试',
         icon: 'none'
       })
+    }else {
+      this.data.userinputVcodeOK = true
     }
   },
   //---获取页面验证码 --end--
@@ -126,6 +129,14 @@ Page({
     if (!e.detail.userInfo) {
       // 如果用户拒绝直接退出，下次依然会弹出授权框
       return;
+    }
+    if (!this.data.userinputVcodeOK) {
+      wx.showModal({
+        title: '提示',
+        content: '请输入正确的验证码',
+        showCancel: false
+      })
+      return
     }
     if (!this.data.userinput_mob || !this.data.userinput_pw) {
       wx.showModal({
@@ -201,10 +212,18 @@ Page({
       // 如果用户拒绝直接退出，下次依然会弹出授权框
       return;
     }
+    if (!this.data.userinputVcodeOK) {
+      wx.showModal({
+        title: '提示',
+        content: '请输入正确的图片验证码',
+        showCancel: false
+      })
+      return
+    }
     if (!this.data.userinput_mob || !this.data.userinput_pw) {
       wx.showModal({
         title: '提示',
-        content: '请输入正确的手机号或验证码',
+        content: '请输入正确的手机号或短信验证码',
         showCancel: false
       })
       return
