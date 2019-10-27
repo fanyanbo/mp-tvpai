@@ -197,7 +197,7 @@
         </block>
         <view wx:if="{{votesList !=null && votesList.length>0}}" class="pb20"></view>
 
-        <!-- 影评模块 是否可以删除？ -->
+        <!-- 文章中的影片模块，包含搜藏影片和推送到电视 -->
         <view class="movies" wx:if="{{moviesData!=null&&moviesData.length>0}}">
           <block wx:for="{{moviesData}}" wx:for-index="index" wx:key="index">
             <view class="moviesOne">
@@ -217,19 +217,34 @@
                       </view>
                       <!-- 评分 -->
                       <!-- <view class="pingfen" data-index="{{index}}">
-            <ul>
-            <li class="font-size-xs" data-pingfen="{{movieData.score}}" >评分：{{item.moviesDetail.videoData.base_info.score}}</li>
-            <div class="clear"></div>
-            </ul>
-        </view> -->
+                        <ul>
+                          <li class="font-size-xs" data-pingfen="{{movieData.score}}" >评分：{{item.moviesDetail.videoData.base_info.score}}</li>
+                          <div class="clear"></div>
+                        </ul>
+                      </view> -->
                       <!-- 评分 -->
                       <view class="pingfenStar" data-index="{{index}}">
                         <ul>
-                          <li class="{{starClass0[index] ? 'starAll':'starGray'}}"></li>
-                          <li class="{{starClass1[index] ? 'starAll':'starGray'}}"></li>
-                          <li class="{{starClass2[index] ? 'starAll':'starGray'}}"></li>
-                          <li class="{{starClass3[index] ? 'starAll':'starGray'}}"></li>
-                          <li class="{{starClass4[index] ? 'starAll':'starGray'}}"></li>
+                          <li>
+                            <image class="commentStar" 
+                            src="{{starClass0[index] ? commentLightStar : commentGrayStar}}"/>
+                          </li>
+                          <li>
+                            <image class="commentStar" 
+                            src="{{starClass1[index] ? commentLightStar : commentGrayStar}}"/>
+                          </li>
+                          <li>
+                            <image class="commentStar" 
+                            src="{{starClass2[index] ? commentLightStar : commentGrayStar}}"/>
+                          </li>
+                          <li>
+                            <image class="commentStar" 
+                            src="{{starClass3[index] ? commentLightStar : commentGrayStar}}"/>
+                          </li>
+                          <li>
+                            <image class="commentStar" 
+                            src="{{starClass4[index] ? commentLightStar : commentGrayStar}}"/>
+                          </li>
                           <li class="font-size-xs" data-pingfen="{{movieData.score}}">
                             {{item.moviesDetail.videoData.base_info.score}}
                           </li>
@@ -281,7 +296,7 @@
           </block>
           <view wx:if="{{moviesData !=null && moviesData.length>0}}" class="pb20"></view>
         </view>
-        <!-- 影评模块end  
+        <!-- 关联影片模块end   -->
 
 
 

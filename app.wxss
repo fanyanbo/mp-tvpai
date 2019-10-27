@@ -83,20 +83,6 @@ rich-text {
   height: 57rpx;
 }
 
-.starAll {
-  /* background: url(http://www.coocaa.com/act14/weixin/applet/score_icon.png)no-repeat; */
-  background-size: contain;
-  width: 20rpx;
-  height: 24rpx;
-}
-
-.starGray {
-  /* background: url(http://www.coocaa.com/act14/weixin/applet/score2_icon.png)no-repeat; */
-  background-size: contain;
-  width: 20rpx;
-  height: 24rpx;
-}
-
 .mg {
   padding: 20rpx;
 }
