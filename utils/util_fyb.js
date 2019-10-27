@@ -373,6 +373,58 @@ function getFormatTime(time) { //输出格式化时间 2019-09-10 10:55:03
   return `${d.getFullYear()}-${digit2(d.getMonth() + 1)}-${digit2(d.getDate())} ${digit2(d.getHours())}:${digit2(d.getMinutes())}:${digit2(d.getSeconds())}`
 }
 
+class VerificationCode { //验证码
+  constructor({num = 4} = {}) {
+    console.log('constructor')
+    this.num = num
+  }
+
+  refresh() {
+    this._randomStr()
+    return this.output
+  }
+
+  validate(code ) {
+    return this.output.toLowerCase() == code.toLowerCase() ? true : this.refresh()
+  }
+
+  _randomStr() {
+    let str = 'abcdefghijklmnokprstuvwxyzABCDEFGHIJKLMNOKPRSTUVWXYZ0123456789'
+    let output = ''
+    let ranNum = () => Math.floor(Math.random() * str.length)
+    for(let i of new Array(this.num)) {
+      output += str[ranNum()]
+    }
+    this.output = output
+    console.log(output)
+  }
+}
+
+class CountDown { //倒计时函数
+  constructor({time = 60, onProgress, onFinish}) { //onXXX: cb function
+    this.time = time
+    this.onProgress = onProgress
+    this.onFinish = onFinish
+    this.timer = null
+  }
+  start() {
+    this.timer = setInterval(() => {
+      console.log('count:', this.time)
+      typeof this.onProgress == 'function' && this.onProgress(this.time)
+      if (this.time-- <= 0) {
+        clearInterval(this.timer)
+        typeof this.onFinish == 'function' && this.onFinish()
+      }
+    }, 1000)
+  }
+  end() {
+    if(!!this.timer) {
+      clearInterval(this.timer)
+      this.timer = null
+    }
+  }
+}
+
 module.exports = {
   request: request,
   requestP: requestP,
@@ -398,4 +450,6 @@ module.exports = {
   getFlatform: getFlatform,
   checkCoocaaUserLogin: checkCoocaaUserLogin,
   getFormatTime,
+  VerificationCode,
+  CountDown,
 }

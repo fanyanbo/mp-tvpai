@@ -27,7 +27,7 @@ page{
 .devices{
   background: #fff;
   width: 670rpx;
-  height: 218rpx;
+  height: 272rpx;
   color: #444;
   margin: 0 auto;
   border-radius: 15rpx;
@@ -93,6 +93,12 @@ page{
   font-size: 24rpx;
   color: #999;
   justify-content: space-between;
+}
+.device-content-left>.tencent-source-font {
+  color: #FDBE1A;
+}
+.device-content-left>.default-source-font {
+  color: #83C44F;
 }
 .more{
   margin-left: 20rpx;

@@ -10,8 +10,8 @@
     <view class="list">
       <view class="userinfo">
         <view class="acct">当前账号</view>
-        <image class="avatar" src="../../images/my/vip/edu.png"></image>
-        <view class="name">冈拉梅朵</view>
+        <image class="avatar" src="{{curUserInfo.avatar}}"></image>
+        <view class="name">{{curUserInfo.name}}</view>
       </view>
       <view class="hr"></view>
       <view class="vip-title">

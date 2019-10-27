@@ -29,6 +29,9 @@
       </view>
       <view class="device_info">
         <view class="device-content">
+        <view class="device-content-left">视频源：<text class="{{item.device.source == 'tencent' ? 'tencent-source-font' : 'default-source-font'}}">{{item.device.source == 'tencent' ? '腾讯源' : '爱奇异源'}}</text></view>
+        </view>
+        <view class="device-content">
           <text class="device-content-left">型号：{{item.device.model}}</text>
         </view>
         <view class="device-content">

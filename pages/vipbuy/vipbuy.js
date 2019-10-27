@@ -30,6 +30,10 @@ Component({
       validTime: '',
     }, //当前订单信息
     _tencentType:null,
+    curUserInfo: { //当前登录用户信息
+      name: app.globalData.ccUserInfo.username,
+      avatar: app.globalData.ccUserInfo.avatar,
+    },
   },
   
   methods: {

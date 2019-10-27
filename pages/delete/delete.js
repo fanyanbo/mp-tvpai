@@ -31,6 +31,13 @@ Page({
     })
   },
   chooseSezi: function (e) {
+    if (this.data.bind == '1') {
+      wx.showToast({
+        title: '不能删除当前绑定的设备',
+        icon: 'none'
+      })
+      return
+    }
     var that = this;
     // 创建一个动画实例
     var animation = wx.createAnimation({
