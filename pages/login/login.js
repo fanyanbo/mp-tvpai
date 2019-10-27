@@ -47,6 +47,8 @@ Page({
     },
     _pageVCodeObj: null,//登录页面图形二维码对象实例
     pageVCode: '',//登录页面图形二维码
+    mobMsgVCode: '获取验证码', //手机短信验证码
+    mobMsgVCodeGetFunc: 'getVCode',//手机短信验证码函数-绑定字段
   },
   //---获取页面验证码 --start--
   _getPageVerificationCode() {
@@ -129,12 +131,30 @@ Page({
     //todo 校验手机号码，并处理异常
     //todo 校验页面验证码，并处理异常
   },
-  getVCode() { //获取验证码
+  getVCode() { //获取手机短信验证码
     console.log('getVCode...')
-    //todo 开启倒计时
-
+    if(!this.data.userinput_mob) {
+      wx.showModal({
+        title: '提示',
+        content: '请输入正确的手机号',
+        showCancel: false
+      })
+      return
+    }
+    this.setData({ //disable
+      mobMsgVCodeGetFunc: null
+    })
+    new utils.CountDown({onProgress : (count) => { //开始倒计时
+      this.setData({
+        mobMsgVCode: count + '秒后再试'
+      })
+    }, onFinish : () => {
+      this.setData({
+        mobMsgVCode: '重新获取验证码',
+        mobMsgVCodeGetFunc: 'getVCode', //enable
+      })
+    }}).start()
     user_login.vcode(this.data.userinput_mob)
-    //todo 处理验证码逻辑，1min内置灰并显示倒计时
   },
   inputVCodeBlur(e) { //手机号登录-验证码输入完毕
     this.data.userinput_pw = e.detail.value;

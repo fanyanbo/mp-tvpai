@@ -105,7 +105,6 @@
   position: absolute;
   top: 40rpx;
   right: 40rpx;
-  width: 176rpx;
   height: 44rpx;
   line-height: 44rpx;
   font-size: 32rpx;

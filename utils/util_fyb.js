@@ -374,7 +374,7 @@ function getFormatTime(time) { //输出格式化时间 2019-09-10 10:55:03
 }
 
 class VerificationCode { //验证码
-  constructor(num = 4) {
+  constructor({num = 4} = {}) {
     console.log('constructor')
     this.num = num
   }
@@ -397,6 +397,24 @@ class VerificationCode { //验证码
     }
     this.output = output
     console.log(output)
+  }
+}
+
+class CountDown { //倒计时函数
+  constructor({time = 60, onProgress, onFinish}) { //onXXX: cb function
+    this.time = time
+    this.onProgress = onProgress
+    this.onFinish = onFinish
+  }
+  start() {
+    let timer = setInterval(() => {
+      console.log('count:', this.time)
+      typeof this.onProgress == 'function' && this.onProgress(this.time)
+      if (this.time-- <= 0) {
+        clearInterval(timer)
+        typeof this.onFinish == 'function' && this.onFinish()
+      }
+    }, 1000)
   }
 }
 
@@ -426,4 +444,5 @@ module.exports = {
   checkCoocaaUserLogin: checkCoocaaUserLogin,
   getFormatTime,
   VerificationCode,
+  CountDown,
 }

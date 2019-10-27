@@ -32,7 +32,7 @@
     </view>
     <view class="input-wrapper">
       <input class="input-item" placeholder="短信验证码" placeholder-class="placeholder-class" bindblur="inputVCodeBlur" bindconfirm="inputVCodeBlur"></input>
-      <view class="vcode" bindtap="getVCode">获取验证码</view>
+      <view class="vcode" bindtap="{{mobMsgVCodeGetFunc}}">{{mobMsgVCode}}</view>
     </view>
     <button class="btn" open-type="getUserInfo" bindgetuserinfo="startLoginByMob">登录</button>
     <!-- <view class="btn" bindtap="startLogin">登录</view> -->

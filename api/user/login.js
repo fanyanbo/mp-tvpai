@@ -12,61 +12,35 @@ function vcode(mobile) { //手机注册，获取验证码
     let that = this
     let c2 = null
     const key = app.globalData.key
-    const telNum = mobile
-    if (!telNum) {
-      wx.showModal({
-        title: '提示',
-        content: '请输入正确的手机号',
-        showCancel: false
-      })
-      return !1
-      // } else if (that.c2 && that.c2.interval) { //倒计时生效中
-      //   return !1
-    } else {
-      let paramStr = { 'mobile': mobile }
-      const sign = util.encryption(paramStr, key)
-      wx.request({
-        url: config.baseUrl_wx + 'ccuserlogin/getCaptcha.coocaa',
-        method: 'GET',
-        data: {
-          client_id: app.globalData.client_id,
-          sign: sign,
-          param: paramStr
-        },
-        success: function (res) {
-          console.log(res)
-          if (!res.data.data) {
-            // that.c2 = new utils.countDown({ //todo
-            //   date: +(new Date) + 60000,
-            //   onEnd() {
-            //     that.setData({
-            //       c2: '重新获取验证码'
-            //     })
-            //   },
-            //   render(date) {
-            //     const sec = this.leadingZeros(date.sec, 2) + ' 秒后重发' //todo
-            //     date.sec !== 0 && that.setData({
-            //       c2: sec,
-            //     })
-            //   }
-            // })
-            resolve(res)
-          } else {
-            wx.showModal({
-              title: '提示',
-              content: res.data.data.msg,
-              showCancel: false
-            })
-            reject(new Error('vcode error'))
-            return !1
-          }
-        },
-        fail: function (res) {
-          console.log(res)
-          reject(new Error('vcode fail'))
+    let paramStr = { 'mobile': mobile }
+    const sign = util.encryption(paramStr, key)
+    wx.request({
+      url: config.baseUrl_wx + 'ccuserlogin/getCaptcha.coocaa',
+      method: 'GET',
+      data: {
+        client_id: app.globalData.client_id,
+        sign: sign,
+        param: paramStr
+      },
+      success: function (res) {
+        console.log(res)
+        if (!res.data.data) {
+          resolve(res)
+        } else {
+          wx.showModal({
+            title: '提示',
+            content: res.data.data.msg,
+            showCancel: false
+          })
+          reject(new Error('vcode error'))
+          return !1
         }
-      })
-    }
+      },
+      fail: function (res) {
+        console.log(res)
+        reject(new Error('vcode fail'))
+      }
+    })
   })
 }
 function _storeCCUserInfo(data) {
