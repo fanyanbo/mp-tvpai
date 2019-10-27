@@ -29,7 +29,9 @@ Page({
     })
   },
   _getDeviceList() { //页面自用的获取设备列表
+    utils.showLoadingToast('刷新设备中~');
     bind.getDeviceList().then((data) => { 
+      utils.showLoadingToast('', false);
       this._updatePageShow(data)
       console.log('resolve...')
     }).catch((err) => {

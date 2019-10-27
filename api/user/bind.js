@@ -105,9 +105,7 @@ function getDeviceList(init=false) {  //获取绑定设备列表
     let srcParams = { "ccsession": ccsession };
     let desParams = util_fyb.paramsAssemble_wx(srcParams);
     console.log(desParams);
-    util_fyb.showLoadingToast('刷新设备中~');
     util_fyb.request(api_fyb.getBindDeviceListUrl, 'GET', desParams, function (res) {
-      util_fyb.showLoadingToast('', false);
       console.log("获取设备信息:", res)
       if (res.data.result && res.data.data && res.data.data.length != 0) {
         wx.setStorageSync('deviceId', '');

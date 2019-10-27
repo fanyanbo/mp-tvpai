@@ -27,8 +27,7 @@
     <input class="input-item" type="number" placeholder="手机号 (新用户注册即登录)" placeholder-class="placeholder-class" focus maxlength="11" bindblur="inputMobileBlur" bindconfirm="inputMobleBlur"></input>
     <view class="input-wrapper">
       <input class="input-item" placeholder="图形验证码" placeholder-class="placeholder-class" bindblur="pageVCodeVerify" bindconfirm="pageVCodeVerify"></input>
-      <view class="canvas-item" bindtap="pageVCodeRefresh">{{pageVCode}}</view>
-      <!-- <canvas class="canvas-item" canvas-id="vcodecanvas" bindtap="pageVCodeRefresh">{{pageVCode}}</canvas> -->
+      <canvas class="canvas-item" canvas-id="vcodecanvasMob" bindtap="pageVCodeRefresh"></canvas>
     </view>
     <view class="input-wrapper">
       <input class="input-item" placeholder="短信验证码" placeholder-class="placeholder-class" bindblur="inputVCodeBlur" bindconfirm="inputVCodeBlur"></input>
@@ -49,8 +48,7 @@
     </view>
     <view class="input-wrapper">
       <input class="input-item" placeholder="请输入验证码" placeholder-class="placeholder-class" bindblur="pageVCodeVerify" bindconfirm="pageVCodeVerify"></input>
-      <view class="canvas-item" bindtap="pageVCodeRefresh">{{pageVCode}}</view>
-      <!-- <canvas class="canvas-item" canvas-id="vcodecanvas"></canvas> -->
+      <canvas class="canvas-item" canvas-id="vcodecanvasAcct" bindtap="pageVCodeRefresh"></canvas>
     </view>
     <button class="btn" open-type="getUserInfo" bindgetuserinfo="startLoginByAcct">登录</button>
     <!-- <view class="btn" bindtap="startLogin">登录</view> -->

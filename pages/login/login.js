@@ -46,29 +46,62 @@ Page({
       mob: { title: '修改手机号', type: 'number', btn: '确认更换手机号' }
     },
     _pageVCodeObj: null,//登录页面图形二维码对象实例
-    pageVCode: '',//登录页面图形二维码
+    _mobMsgVCodeObj: null,//手机短信验证码实例对象
     mobMsgVCode: '获取验证码', //手机短信验证码
     mobMsgVCodeGetFunc: 'getVCode',//手机短信验证码函数-绑定字段
   },
   //---获取页面验证码 --start--
+  _showPageVerificationCode() { //在画布上显示页面验证码
+    let ranNum = (min, max) => Math.floor(Math.random() * (max - min)) + min 
+    let sysWidth = wx.getSystemInfoSync().windowWidth
+    let width = 176 * sysWidth / 750
+    let height = 60 * sysWidth / 750
+    let canvasid = ''
+    if (this.data.curSubPage == this.data.SubPages.LOGIN_BY_MOBILE) {
+      canvasid = 'vcodecanvasMob'
+    }else {
+      canvasid = 'vcodecanvasAcct'
+    }
+    let context = wx.createCanvasContext(canvasid)
+    //绘制验证码
+    context.setTextBaseline('middle')
+    let code = this.data._pageVCodeObj.refresh()
+    let i = 0
+    for(let txt of code) {
+      let fontsize = ranNum(height/2, height)
+      context.font = `bolder ${fontsize}px sans-serif`
+      context.setShadow(3, 3, 3, 'rgba(0, 0, 0, 0.3)')
+      let x = width / 5 * ++i;
+      let y = height / 2;
+      context.translate(x, y)
+      let deg = ranNum(-30, 30)
+      context.rotate(deg * Math.PI / 180)
+      context.fillText(txt, 0, 0)
+      context.rotate(-deg * Math.PI / 180)
+      context.translate(-x, -y)
+    }
+    context.save()
+    //绘制干扰线
+    for (let i = 0; i < 2; i++) {
+      context.beginPath()
+      context.moveTo(ranNum(0, width), ranNum(0, height))
+      context.lineTo(ranNum(0, width), ranNum(0, height))
+      context.stroke()
+    }
+    context.draw()
+  },
   _getPageVerificationCode() {
     this.data._pageVCodeObj = new utils.VerificationCode()
-    this.setData({
-      pageVCode: this.data._pageVCodeObj.refresh()
-    })
+    this._showPageVerificationCode()
   },
   pageVCodeRefresh() { //刷新页面二维码
     console.log('refresh')
-    this.setData({
-      pageVCode: this.data._pageVCodeObj.refresh()
-    })
+    this._showPageVerificationCode()
   },
   pageVCodeVerify(e) {
     let res = this.data._pageVCodeObj.validate(e.detail.value) 
     if(typeof res == 'string') {
-      this.setData({
-        pageVCode: this.data._pageVCodeObj.refresh()
-      })
+      this._showPageVerificationCode()
       wx.showToast({
         title: '图形验证码输入错误,请重试',
         icon: 'none'
@@ -144,16 +177,18 @@ Page({
     this.setData({ //disable
       mobMsgVCodeGetFunc: null
     })
-    new utils.CountDown({onProgress : (count) => { //开始倒计时
-      this.setData({
-        mobMsgVCode: count + '秒后再试'
-      })
-    }, onFinish : () => {
-      this.setData({
-        mobMsgVCode: '重新获取验证码',
-        mobMsgVCodeGetFunc: 'getVCode', //enable
-      })
-    }}).start()
+    this.data._mobMsgVCodeObj =  new utils.CountDown({onProgress : (count) => { //开始倒计时
+        this.setData({
+          mobMsgVCode: count + '秒后再试'
+        })
+      }, onFinish : () => {
+        this.setData({
+          mobMsgVCode: '重新获取验证码',
+          mobMsgVCodeGetFunc: 'getVCode', //enable
+          _mobMsgVCodeObj: null,
+        })
+      }})
+    this.data._mobMsgVCodeObj.start()
     user_login.vcode(this.data.userinput_mob)
   },
   inputVCodeBlur(e) { //手机号登录-验证码输入完毕
@@ -317,6 +352,9 @@ Page({
       rpxNavBarHeight: utils.getNavBarHeight().rpxNavBarHeight + 'rpx'
     })
     if(options.stage) { //登录页内跳转
+      this.setData({
+        curSubPage: +options.stage
+      })
       if (+options.stage == this.data.SubPages.LOGIN_BY_WECHAT) {
         let ccsession = wx.getStorageSync('new_cksession')
         this.setData({
@@ -325,9 +363,6 @@ Page({
       }else {
         this._getPageVerificationCode()
       }
-      this.setData({
-        curSubPage: +options.stage
-      })
     }else if(options.action == 'tencentlogin') {
       this.setData({
         curSubPage: this.data.SubPages.LOGIN_HOME
@@ -366,7 +401,8 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
+    console.log('login.js hide')
+    !!this.data._mobMsgVCodeObj && this.data._mobMsgVCodeObj.end()
   },
 
   /**
