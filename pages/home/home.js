@@ -35,6 +35,7 @@ Page({
       this._updatePageShow(data)
       console.log('resolve...')
     }).catch((err) => {
+      utils.showLoadingToast('', false);
       this._updatePageShow(err)
       console.log('reject...')
     })

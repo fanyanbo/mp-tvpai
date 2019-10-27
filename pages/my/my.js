@@ -146,21 +146,28 @@ Component({
     },
     goVipPage(e) { //去产品包购买页
       console.log(e)
-      if (!user_login.isUserLogin()){ //腾讯源需要qq或微信登录
-        if (app.globalData.boundDeviceInfo.source == "tencent") {
-          wx.showModal({
-            title: '温馨提示',
-            content: '购买腾讯产品需要绑定微信或QQ',
-            success(res) {
-              if (res.confirm) {
-                wx.navigateTo({ url: '../login/login?action=tencentlogin' })
-              }
-            },
-          })
-        }else {
-          wx.navigateTo({ url: '../login/login' })
+      if (e.currentTarget.dataset.index == 0) {//影视VIP腾讯源需要qq或微信登录
+        if (!user_login.isUserLogin()) { 
+          if (app.globalData.boundDeviceInfo.source == "tencent") {
+            wx.showModal({
+              title: '温馨提示',
+              content: '购买腾讯产品需要绑定微信或QQ',
+              success(res) {
+                if (res.confirm) {
+                  wx.navigateTo({ url: '../login/login?action=tencentlogin' })
+                }
+              },
+            })
+          } else {
+            wx.navigateTo({ url: '../login/login' })
+          }
+          return
         }
-        return 
+      }else {
+        if (!user_login.isUserLogin({type: 0})) {
+          wx.navigateTo({ url: '../login/login' })
+          return
+        }
       }
       if (!app.globalData.deviceId) { //没绑定设备
         wx.showToast({

@@ -332,7 +332,12 @@ function login_changeNickname(name) {//修改昵称
   })
 }
 
-function isUserLogin() { //用户是否登录
+//type: 1 用户是否分源登录（腾讯源：需要qq或weixin）
+//type: 0 用户是否登录酷开账号
+function isUserLogin({type = 1} = {}) { //用户是否登录 
+  if(type == 0) {
+    return !!app.globalData.ccUserInfo
+  }
   if (app.globalData.boundDeviceInfo.source == "tencent"){
     return !!app.globalData.ccUserInfo &&  (!!app.globalData.ccUserInfo.wxOpenid || !!app.globalData.ccUserInfo.qqOpenid)
   }else {
