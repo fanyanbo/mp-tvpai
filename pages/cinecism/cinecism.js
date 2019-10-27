@@ -54,7 +54,9 @@ Page({
     allCommentList: [], //评论总数
     _allComments: [],
     _commentLike: [],
-    commentTotalNum: 0
+    commentTotalNum: 0,
+    commentLightStar: '/images/videodetail/star-focus.png',
+    commentGrayStar: '/images/videodetail/star.png',
     // mydata:''
   },
   onLoad: function (options) {
@@ -351,7 +353,7 @@ Page({
   clickLike: function (e) {
     utilsNew.checkCoocaaUserLogin()
     console.log("收藏文章按钮")
-    collectFlag++
+    if (wx.getStorageSync('ccUserInfo') == '') return
 
     let index = parseInt(this.data.collectNum)
     let indexAdd = index + 1
@@ -360,10 +362,11 @@ Page({
     let articleId = this.data.theArticleId
     let ccsession = wx.getStorageSync("new_cksession")
     let params = { "ccsession": ccsession, "articleId": articleId }
-
     let desParams = utilsNew.paramsAssemble_wx(params)
+
     utilsNew.requestP(apiNew.submitFavoriteArticleUrl, desParams).then(res => {
       console.log("获取收藏文章接口成功",res)
+      collectFlag++
       if (res.data.result) {
         if (res.data.data != null && res.data.data != undefined) {
           if (res.data.data.type == 'sure') {
@@ -891,7 +894,6 @@ Page({
               }
             }
           }
-
         }
       }
     }
@@ -1230,8 +1232,7 @@ function getArtical(that) {
 //   })
 // }
 
-//若影评模块可以删除，则这一段都可以删除
-//获取相关影片 
+//获取文章相关的影片信息 
 function getAboutMovie(that) {
   var url = api.getArticleMoviesUrl
   var key = app.globalData.key

@@ -598,4 +598,7 @@ font-size:30rpx;
 .starTop{
 margin-top:-1rpx;
 }
-
+.commentStar {
+  width: 20rpx;
+  height: 24rpx;
+}
