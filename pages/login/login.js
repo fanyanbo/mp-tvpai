@@ -394,8 +394,8 @@ Page({
         this.setData({
           curSubPage: this.data.SubPages.HASLOGIN_HOME,
           'curUser.name': !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.username : '', 
-          'curUser.mob': !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.mobile : '未绑定',
-          'curUser.wechat': '' || '获取中', //todo 待从账户信息获取
+          'curUser.mob': !!app.globalData.ccUserInfo && !!app.globalData.ccUserInfo.mobile ? app.globalData.ccUserInfo.mobile : '未绑定',
+          'curUser.wechat': !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.username : '', //todo 待从账户信息获取
         })
       }else {
         this.setData({
