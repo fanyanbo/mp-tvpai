@@ -157,7 +157,7 @@ Component({
           console.log('poll then...' + res.syn_status)
           if (res.syn_status == 1) {
             ctx.setData({
-              'orderInfos.validTime': util_fyb.getFormatTime(res.syn_time) + '到期', //need fix
+              'orderInfos.validTime': util_fyb.getFormatTime(res.due_time * 1000) + '到期', //need fix
             })
             return
           }
@@ -180,7 +180,7 @@ Component({
           if (res.syn_status == 1) {
             this.setData({
               'orderInfos.name': res.order_title,
-              'orderInfos.validTime': util_fyb.getFormatTime(res.due_time) + '到期', //need fix
+              'orderInfos.validTime': util_fyb.getFormatTime(res.due_time * 1000) + '到期', //need fix
             })
           }else {
             this.setData({
@@ -194,7 +194,7 @@ Component({
             'orderInfos.name': res.order_title,
             'orderInfos.price': res.pay_info.total_pay_fee / 100,
             'orderInfos.orderId': res.pay_info.pay_order_no,//oss_order_no, // need confirm with chenyuan.
-            'orderInfos.payTime': util_fyb.getFormatTime(res.create_time),
+            'orderInfos.payTime': util_fyb.getFormatTime(res.create_time * 1000),
           })
         }
       }).catch( err => {
