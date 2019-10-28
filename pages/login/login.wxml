@@ -12,10 +12,14 @@
       <image class="logo" src="../../images/my/login/coocaa.png"></image>
     </view>
     <view class="tips"><text>请与电视端使用相同的登录方式\n多端共享, 极致体验</text></view>
-    <view wx:for="{{arrLoginType}}" class="types" bindtap="chooseLoginType" data-id="{{item.id}}">
+     <button wx:for="{{arrLoginType}}" class="types" open-type="getUserInfo" bindgetuserinfo="chooseLoginType" data-id="{{item.id}}" wx:key="{{item.id}}"> 
+      <image class="icon" src="{{item.image}}"></image>
+      <view class="title">{{item.type}}</view>
+    </button>
+    <!-- <view wx:for="{{arrLoginType}}" class="types" bindtap="chooseLoginType" data-id="{{item.id}}">
         <image class="icon" src="{{item.image}}"></image>
         <view class="title">{{item.type}}</view>
-    </view>
+    </view> -->
     <view class="footer">因小程序不支持QQ登录,请先在电视端使用QQ登录并绑定手机号后使用该手机号登录即可</view>
   </view>
 
