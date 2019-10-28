@@ -20,7 +20,7 @@ Page({
       HASLOGIN_REVISE_NAME: 103,  //修改名称页
     },
     curSubPage: 0,//当前所处子页面,取值见this.data.SubPages
-    login_wechat_url: 'https://beta-wx.coocaa.com/users/miniprogram/usercenter/login.html?theme=coocaa-pay-login&loginMethod=weixin&redirect_uri=/pages/my/my&ccSession=',
+    login_wechat_url: `https://beta-wx.coocaa.com/users/miniprogram/usercenter/login.html?theme=coocaa-pay-login&loginMethod=weixin&redirect_uri=${encodeURIComponent('switchTab,/pages/my/my')}&ccSession=`,
     //-- 登录变量 start --
     arrLoginType: [ //登录类型 
       { id: 1, type: '微信登录', image: '../../images/my/login/wechat.png'},
@@ -271,6 +271,9 @@ Page({
     })
   },
   chooseLoginType(e) { //选择登录方式
+    if (!e.detail.userInfo) { // 如果用户拒绝直接退出，下次依然会弹出授权框
+      return;
+    }
     let cur = +e.currentTarget.dataset.id
     console.log('login type: ' + cur)
     switch (cur) {
@@ -391,8 +394,8 @@ Page({
         this.setData({
           curSubPage: this.data.SubPages.HASLOGIN_HOME,
           'curUser.name': !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.username : '', 
-          'curUser.mob': !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.mobile : '未绑定',
-          'curUser.wechat': '' || '获取中', //todo 待从账户信息获取
+          'curUser.mob': !!app.globalData.ccUserInfo && !!app.globalData.ccUserInfo.mobile ? app.globalData.ccUserInfo.mobile : '未绑定',
+          'curUser.wechat': !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.username : '', //todo 待从账户信息获取
         })
       }else {
         this.setData({

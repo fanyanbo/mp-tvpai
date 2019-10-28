@@ -99,7 +99,7 @@ function getDeviceList(init=false) {  //获取绑定设备列表
     const ccsession = wx.getStorageSync('new_cksession');
     console.log("ccsession:", ccsession);
     if (ccsession == null || ccsession === '') {
-      reject({ isShowDoc: true })
+      resolve({ isShowDoc: true })
       return;
     }
     let srcParams = { "ccsession": ccsession };

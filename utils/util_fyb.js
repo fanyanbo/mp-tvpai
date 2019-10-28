@@ -367,7 +367,7 @@ function checkCoocaaUserLogin() {
   }
 }
 
-function getFormatTime(time) { //输出格式化时间 2019-09-10 10:55:03
+function getFormatTime(time) { //输入为+new Date()获取的13位时间戳，输出格式化时间 2019-09-10 10:55:03
   let d = new Date(time)
   let digit2 = param => Number(param) < 10 ? ('0' + param) : param
   return `${d.getFullYear()}-${digit2(d.getMonth() + 1)}-${digit2(d.getDate())} ${digit2(d.getHours())}:${digit2(d.getMinutes())}:${digit2(d.getSeconds())}`

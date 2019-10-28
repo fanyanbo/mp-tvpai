@@ -17,7 +17,8 @@ var starClass = new Array()
 var contentId
 var scHeight
 var contentArray = new Array()
-var movieidArray = new Array()
+var movieIdArray = new Array()
+var movieCollectIdArray = new Array()
 var newZu = ''
 var newZu2 = ''
 // 星星数组
@@ -59,6 +60,7 @@ Page({
     commentLightStar: '/images/videodetail/star-focus.png',
     commentGrayStar: '/images/videodetail/star.png',
     isCollectList: [],
+    movieCollectId: [],
     // mydata:''
   },
   onLoad: function (options) {
@@ -144,7 +146,6 @@ Page({
         if (contentId == contentArray[i].contentId) {
           if (contentArray[i].movieIdsList != null && contentArray[i].movieIdsList != undefined) {
             for (var j = 0; j < contentArray[i].movieIdsList.length; j++) {
-              movieidArray.push(contentArray[i].movieIdsList[j].movieId)
               if (contentArray[i].movieIdsList[j].source == 'iqiyi') {
                 _movieid = contentArray[i].movieIdsList[j].movieId
               } else {
@@ -159,6 +160,7 @@ Page({
     utilsNew.requestP(apiNew.addMovieFavoriteUrl, utilsNew.paramsAssemble_wx(params)).then(res => {
       if (res.data && res.data.code === 200) {
         console.log('添加影片收藏成功', res)
+        utils.showToastBox("收藏成功", "success")
         getIsCollectList[_index] = 'yes'
         this.setData({
           isCollectList: getIsCollectList
@@ -171,9 +173,32 @@ Page({
       console.log('添加影片收藏发生错误', res)
     })
   },
-  // 文章中的取消收藏影片,需求只说实现文章页面的影片收藏，并未要实现取消收藏功能
-  clickCancelcollect() {
-    utils.showToastBox("已经收藏", "loading")
+  // 文章中的取消收藏影片
+  clickCancelCollect(e) {
+    utilsNew.checkCoocaaUserLogin()
+    if (wx.getStorageSync('ccUserInfo') == '') return
+
+    let ccsession = wx.getStorageSync('new_cksession')
+    if (ccsession == "") return
+
+    let _index = e.currentTarget.dataset.index
+    let _collectIds = e.currentTarget.dataset.collectid
+    console.log('collectId',_collectIds)
+    let params = { "ccsession": ccsession, "collectIds": _collectIds }
+    utilsNew.requestP(apiNew.delMovieFavoriteUrl, utilsNew.paramsAssemble_wx(params)).then(res => {
+      if (res.data && res.data.code === 200) {
+        console.log('取消影片收藏成功', res)
+        utils.showToastBox("取消收藏成功", "success")
+        getIsCollectList[_index] = 'no'
+        this.setData({
+          isCollectList: getIsCollectList
+        })
+      } else {
+        console.log('删除影片收藏失败', res)
+      }
+    }).catch(res => {
+      console.log('删除影片收藏发生错误', res)
+    })
   },
 
   handleGobackClick: function () {
@@ -718,6 +743,7 @@ Page({
   collectEvent: function (e) {
     console.log("触发了1");
   },
+  // 推送影片,要参照影片详情页改成新接口（未改好，先直接跳转至影片详情页）
   pushVideo: function (e) {
     contentId = e.currentTarget.dataset.contentid
     var that = this
@@ -837,27 +863,26 @@ Page({
     })
   },
   detailTo: function (e) {
-    movieidArray = []
-    contentId = e.currentTarget.dataset.contentid
+    let _movieid = ''
+    let _contentId = e.currentTarget.dataset.contentid
     if (contentArray != null && contentArray != undefined) {
       for (var i = 0; i < contentArray.length; i++) {
-        if (contentArray[i].contentId == contentId) {
+        if (contentArray[i].contentId == _contentId) {
           if (contentArray[i].movieIdsList != null && contentArray[i].movieIdsList != undefined) {
             for (var j = 0; j < contentArray[i].movieIdsList.length; j++) {
-              movieidArray.push(contentArray[i].movieIdsList[j].movieId)
               if (contentArray[i].movieIdsList[j].source == 'iqiyi') {
-                movieID = contentArray[i].movieIdsList[j].movieId
+                _movieid = contentArray[i].movieIdsList[j].movieId
               } else {
-                movieID = contentArray[i].movieIdsList[0].movieId
+                _movieid = contentArray[i].movieIdsList[0].movieId
               }
             }
           }
         }
       }
     }
-    console.log("跳转movieID", movieID)
+    console.log("跳转movieID", _movieid)
     wx.navigateTo({
-      url: '../movieDetail/movieDetail?id=' + movieID
+      url: `../movieDetail/movieDetail?id=${_movieid}&from=articleDetail`,
     })
   },
 })
@@ -1102,7 +1127,7 @@ function getArtical(that) {
 
 }
 
-// 原获取评论
+// 2019.10.28 注释原获取评论
 // function getCommentList(that) {
 //   let likeClass = new Array();
 //   let praiseNum = new Array();
@@ -1190,6 +1215,24 @@ function getArtical(that) {
 //   })
 // }
 
+// 获取当前影片收藏id
+function getFavoriteStatus(movieId) {
+  let ccsession = wx.getStorageSync('new_cksession')
+  if (ccsession == "") return 0
+  let params = { "ccsession": ccsession, "movieId": movieId }
+  utilsNew.requestP(apiNew.getFavoriteStatusUrl, utilsNew.paramsAssemble_wx(params)).then(res => {
+    if (res.data.data && res.data.code === 200) {
+      console.log("获取影片收藏状态成功:", res)
+      return res.data.data.collectId
+    } else {
+      console.log("获取影片收藏状态失败:", res)
+      return 0
+    }
+  }).catch(res => {
+    console.log('获取影片收藏状态发生错误:', res)
+    return 0
+  })
+}
 //获取文章相关的影片信息 
 function getAboutMovie(that) {
   var url = api.getArticleMoviesUrl
@@ -1215,13 +1258,30 @@ function getAboutMovie(that) {
         var imgV = new Array()
         var movieType
         var clooectList = new Array()
-        console.log("获取收藏列表成功",movieDataList)
+        console.log("获取文章的影片数据",movieDataList)
         if (movieDataList != null && movieDataList != undefined) {
           starArray = []
           var tags = []
-          for (var i = 0; i < movieDataList.length; i++) {
+          for (let i = 0; i < movieDataList.length; i++) {
             contentArray.push(movieDataList[i])
+            // 保存影片收藏情况
             getIsCollectList.push(movieDataList[i].moviesDetail.isCollectionMovie)
+            // 保存影片id，一部影片可能有两个id，爱奇艺和腾讯
+            let _getMovieId = ''
+            for (let j = 0; j < movieDataList[i].movieIdsList.length; j++) {
+              // 不用担心会推两个id到数组去，因为只可能有两个影片id，一个爱奇艺和一个腾讯
+              // 如果该影片是某个源的独家资源，就只有一个id
+              // 2019.10.28 电视派小程序v2.1版本 改原影评文章页面的收藏影片代码所留
+              if (movieDataList[i].movieIdsList[j].source == 'iqiyi') {
+                _getMovieId = movieDataList[i].movieIdsList[j].movieId
+              } else {
+                _getMovieId = movieDataList[i].movieIdsList[0].movieId
+              }
+            }
+            movieIdArray.push(_getMovieId)
+            let _getMovieCollectId = getFavoriteStatus(_getMovieId) || 'noCollectId'
+            movieCollectIdArray.push(_getMovieCollectId)
+            
             if (movieDataList[i].moviesDetail != null) {
               that.setData({
                 lenIs: true
@@ -1276,8 +1336,10 @@ function getAboutMovie(that) {
             starClass2: starClass2,
             starClass3: starClass3,
             starClass4: starClass4,
-            tags: tags
+            tags: tags,
+            movieCollectId: movieCollectIdArray
           })
+          console.log('影片收藏id', movieCollectIdArray)
         }
       }
       utils.hideLoading()
