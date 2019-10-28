@@ -20,7 +20,7 @@ Page({
       HASLOGIN_REVISE_NAME: 103,  //修改名称页
     },
     curSubPage: 0,//当前所处子页面,取值见this.data.SubPages
-    login_wechat_url: `https://beta-wx.coocaa.com/users/miniprogram/usercenter/login.html?theme=coocaa-pay-login&loginMethod=weixin&redirect_uri=${encodeURIComponent('switchTab,/pages/my/my')}&ccSession=`,
+    login_wechat_url: `https://beta-wx.coocaa.com/users/miniprogram/usercenter/login.html?theme=coocaa-pay-login&loginMethod=weixin&redirect_uri=${encodeURIComponent('navigateBack,2')}&ccSession=`,
     //-- 登录变量 start --
     arrLoginType: [ //登录类型 
       { id: 1, type: '微信登录', image: '../../images/my/login/wechat.png'},
@@ -31,7 +31,6 @@ Page({
     userinput_pw: 0,
     userinputVcodeOK: false,
     //-- 登录变量 end --
-    
     //-- 修改用户信息 start --
     inputValue: '',
     //-- 修改用户信息 end --
@@ -385,24 +384,20 @@ Page({
       }else {
         this._getPageVerificationCode()
       }
-    }else if(options.action == 'tencentlogin') {
-      this.setData({
-        curSubPage: this.data.SubPages.LOGIN_HOME
-      })
-    } else { //从其它页到登录页
-      if (!!getApp().globalData.ccUserInfo) { //
-        this.setData({
-          curSubPage: this.data.SubPages.HASLOGIN_HOME,
-          'curUser.name': !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.username : '', 
-          'curUser.mob': !!app.globalData.ccUserInfo && !!app.globalData.ccUserInfo.mobile ? app.globalData.ccUserInfo.mobile : '未绑定',
-          'curUser.wechat': !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.username : '', //todo 待从账户信息获取
-        })
-      }else {
-        this.setData({
-          curSubPage: this.data.SubPages.LOGIN_HOME
-        })
+    }else {//从其它页到登录页
+        if (options.action != 'tencentlogin' && !!getApp().globalData.ccUserInfo) { //
+          this.setData({
+            curSubPage: this.data.SubPages.HASLOGIN_HOME,
+            'curUser.name': !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.username : '',
+            'curUser.mob': !!app.globalData.ccUserInfo && !!app.globalData.ccUserInfo.mobile ? app.globalData.ccUserInfo.mobile : '未绑定',
+            'curUser.wechat': !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.username : '', //todo 待从账户信息获取
+          })
+        } else {
+          this.setData({
+            curSubPage: this.data.SubPages.LOGIN_HOME
+          })
+        }
       }
-    }
   },
 
   /**

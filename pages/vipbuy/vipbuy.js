@@ -309,7 +309,7 @@ Component({
             content: '购买腾讯产品需要绑定微信或QQ',
             success(res) {
               if (res.confirm) {
-                wx.redirectTo({ url: `../login/login?action=tencentlogin&source_id=${that.data._curSourceId}&movie=${that.data._curIsMovie}` })
+                wx.navigateTo({ url: `../login/login?action=tencentlogin&source_id=${that.data._curSourceId}&movie=${that.data._curIsMovie}` })
               } else {
                 wx.navigateBack()
               }
@@ -319,7 +319,7 @@ Component({
         }
       }
       if(!user_login.isUserLogin()) {
-        wx.redirectTo({ url: `../login/login?source_id=${this.data._curSourceId}&movie=${this.data._curIsMovie}` })
+        wx.navigateTo({ url: `../login/login?source_id=${this.data._curSourceId}&movie=${this.data._curIsMovie}` })
         return false
       }
       return true
@@ -361,10 +361,6 @@ Component({
         this.data._curSourceId = options.source_id
         this.data._curIsMovie = options.movie
         this._showNavBarTitle(options.vip_index)
-
-        if(this._checkUserLoginStateForPay()) {
-          this._getProductPackageList({source_id: options.source_id})
-        }
       }
     },
     /**
@@ -378,7 +374,11 @@ Component({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-
+      if (this.data.stage == this.data.PageStage.HOME_PAGE) {
+        if (this._checkUserLoginStateForPay()) {
+          this._getProductPackageList({ source_id: this.data._curSourceId })
+        }
+      }
     },
 
     /**
