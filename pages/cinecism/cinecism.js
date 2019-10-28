@@ -159,6 +159,7 @@ Page({
     utilsNew.requestP(apiNew.addMovieFavoriteUrl, utilsNew.paramsAssemble_wx(params)).then(res => {
       if (res.data && res.data.code === 200) {
         console.log('添加影片收藏成功', res)
+        utils.showToastBox("收藏成功", "success")
         getIsCollectList[_index] = 'yes'
         this.setData({
           isCollectList: getIsCollectList
@@ -172,7 +173,7 @@ Page({
     })
   },
   // 文章中的取消收藏影片,需求只说实现文章页面的影片收藏，并未要实现取消收藏功能
-  clickCancelcollect() {
+  clickCancelCollect() {
     utils.showToastBox("已经收藏", "loading")
   },
 
@@ -718,6 +719,7 @@ Page({
   collectEvent: function (e) {
     console.log("触发了1");
   },
+  // 推送影片,要参照影片详情页改成新接口（未改好，先直接跳转至影片详情页）
   pushVideo: function (e) {
     contentId = e.currentTarget.dataset.contentid
     var that = this
@@ -838,26 +840,27 @@ Page({
   },
   detailTo: function (e) {
     movieidArray = []
-    contentId = e.currentTarget.dataset.contentid
+    let _movieid = ''
+    let _contentId = e.currentTarget.dataset.contentid
     if (contentArray != null && contentArray != undefined) {
       for (var i = 0; i < contentArray.length; i++) {
-        if (contentArray[i].contentId == contentId) {
+        if (contentArray[i].contentId == _contentId) {
           if (contentArray[i].movieIdsList != null && contentArray[i].movieIdsList != undefined) {
             for (var j = 0; j < contentArray[i].movieIdsList.length; j++) {
               movieidArray.push(contentArray[i].movieIdsList[j].movieId)
               if (contentArray[i].movieIdsList[j].source == 'iqiyi') {
-                movieID = contentArray[i].movieIdsList[j].movieId
+                _movieid = contentArray[i].movieIdsList[j].movieId
               } else {
-                movieID = contentArray[i].movieIdsList[0].movieId
+                _movieid = contentArray[i].movieIdsList[0].movieId
               }
             }
           }
         }
       }
     }
-    console.log("跳转movieID", movieID)
+    console.log("跳转movieID", _movieid)
     wx.navigateTo({
-      url: '../movieDetail/movieDetail?id=' + movieID
+      url: `../movieDetail/movieDetail?id=${_movieid}&from=articleDetail`,
     })
   },
 })

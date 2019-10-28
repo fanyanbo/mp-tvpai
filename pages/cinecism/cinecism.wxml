@@ -260,7 +260,7 @@
                   <view class="cinecism_card_footer">
                     <!-- 取消收藏影片,取消收藏太过复杂，v2.1版本即将提测上线，先搁置 -->
                     <view wx:if="{{isCollectList[index] == 'yes'}}" class="inline" 
-                    data-contentid="{{item.contentId}}" data-index="{{index}}" bindtap="clickCancelcollect">
+                    data-contentid="{{item.contentId}}" data-index="{{index}}" bindtap="clickCancelCollect">
                       <view class="collect_logo">
                         <image class="movieCollectIcon" src="/images/collect_icon2.png" />
                       </view>
@@ -280,7 +280,7 @@
                     </view>
 
                     <!-- 推送到电视  style="display:none"-->
-                    <view class="inline" data-movietypes="{{item.movieType}}" data-contentid="{{item.contentId}}" data-allcount="{{item.moviesDetail.videoData.base_info.publist_segment}}" data-nowcount="{{item.moviesDetail.videoData.base_info.current_segment}}" data-videotype="{{item.moviesDetail.videoData.base_info.video_type}}" bindtap="pushVideo">
+                    <view class="inline" data-movietypes="{{item.movieType}}" data-contentid="{{item.contentId}}" data-allcount="{{item.moviesDetail.videoData.base_info.publist_segment}}" data-nowcount="{{item.moviesDetail.videoData.base_info.current_segment}}" data-videotype="{{item.moviesDetail.videoData.base_info.video_type}}" bindtap="detailTo">
                       <!-- <button name="pushVideo" formType="submit">  </button> -->
                       <view class="push_logo">
                         <image src="../../images/propell_icon.png" />
@@ -547,13 +547,16 @@
         <view class="openBar_list">
           <view class="movieList" wx:for="{{clooectList}}" wx:key="index" wx:for-index="index">
             <ul>
-              <li>{{item.moviesDetail.videoData.base_info.title}}</li>
-              <li class="right1">
-              <!-- 这里可能有bug，文章相关影片的收藏影片也有starArrays[item.contentId]，已被改掉 -->
-                <li name="collectMovieBottom" formType="submit" data-moviesid="{{item.movieId}}" data-contentid="{{item.contentId}}" wx:if="{{item.moviesDetail.isCollectionMovie == 'no'}}" class="starIcon {{starArrays[item.contentId]}}" data-index="{{index}}" bindtap="collect"></li>
-                <li wx:else class="starIcon1" data-index="{{index}}"></li>
+              <li data-contentid="{{item.contentId}}" bindtap="detailTo">
+                {{item.moviesDetail.videoData.base_info.title}}
               </li>
-              <li class="right2" data-movietypes="{{item.movieType}}" data-contentid="{{item.contentId}}" data-allcount="{{item.moviesDetail.videoData.base_info.publist_segment}}" data-nowcount="{{item.moviesDetail.videoData.base_info.current_segment}}" data-videotype="{{item.moviesDetail.videoData.base_info.video_type}}" bindtap="pushVideo">
+              <li class="right1">
+
+                <image wx:if="{{isCollectList[index] == 'no'}}" name="collectMovieBottom" formType="submit" class="movieCollectIcon" src="/images/collect_icon.png" data-index="{{index}}" data-contentid="{{item.contentId}}"  bindtap="clickCollect" />
+                <image wx:else class="movieCollectIcon" src="/images/collect_icon2.png" data-index="{{index}}"  bindtap="clickCancelCollect"/>
+              </li>
+
+              <li class="right2" data-movietypes="{{item.movieType}}" data-contentid="{{item.contentId}}" data-allcount="{{item.moviesDetail.videoData.base_info.publist_segment}}" data-nowcount="{{item.moviesDetail.videoData.base_info.current_segment}}" data-videotype="{{item.moviesDetail.videoData.base_info.video_type}}" bindtap="detailTo">
                 <image src="../../images/propell_icon.png"></image>
               </li>
               <div class="clear"></div>
