@@ -9,41 +9,41 @@ Component({
   },
   data: {
     // 组件内部数据
-    keyboardHeight: '',
+    keyboardHeight: 0,
     currentWordNumber: 0,
     score: 0,
-    inputComment: '',
+    inputValue: '',
     placeholder: '写几句评论吧...',
     stars: [
       {
         flag: 1,
         score: 1,
-        bgImg: "/images/videodetail/star.png",
-        bgfImg: "/images/videodetail/star-focus.png"
+        grayStar: "/images/star_gray.png",
+        lightStar: "/images/star_light.png"
       },
       {
         flag: 1,
         score: 2,
-        bgImg: "/images/videodetail/star.png",
-        bgfImg: "/images/videodetail/star-focus.png"
+        grayStar: "/images/videodetail/star.png",
+        lightStar: "/images/videodetail/star-focus.png"
       },
       {
         flag: 1,
         score: 3,
-        bgImg: "/images/videodetail/star.png",
-        bgfImg: "/images/videodetail/star-focus.png"
+        grayStar: "/images/videodetail/star.png",
+        lightStar: "/images/videodetail/star-focus.png"
       },
       {
         flag: 1,
         score: 4,
-        bgImg: "/images/videodetail/star.png",
-        bgfImg: "/images/videodetail/star-focus.png"
+        grayStar: "/images/videodetail/star.png",
+        lightStar: "/images/videodetail/star-focus.png"
       },
       {
         flag: 1,
         score: 5,
-        bgImg: "/images/videodetail/star.png",
-        bgfImg: "/images/videodetail/star-focus.png"
+        grayStar: "/images/videodetail/star.png",
+        lightStar: "/images/videodetail/star-focus.png"
       }
     ],
   },
@@ -63,7 +63,7 @@ Component({
     },
     handleFocusEvent: function (e) {
       let bottomHeight = e.detail.height;
-      // console.log("键盘高度", bottomHeight)
+      console.log("键盘高度", e)
       this.setData({
         keyboardHeight: bottomHeight
       })
