@@ -16,10 +16,6 @@
       <image class="icon" src="{{item.image}}"></image>
       <view class="title">{{item.type}}</view>
     </button>
-    <!-- <view wx:for="{{arrLoginType}}" class="types" bindtap="chooseLoginType" data-id="{{item.id}}">
-        <image class="icon" src="{{item.image}}"></image>
-        <view class="title">{{item.type}}</view>
-    </view> -->
     <view class="footer">因小程序不支持QQ登录,请先在电视端使用QQ登录并绑定手机号后使用该手机号登录即可</view>
   </view>
 

@@ -271,8 +271,7 @@ Page({
     })
   },
   chooseLoginType(e) { //选择登录方式
-    if (!e.detail.userInfo) {
-      // 如果用户拒绝直接退出，下次依然会弹出授权框
+    if (!e.detail.userInfo) { // 如果用户拒绝直接退出，下次依然会弹出授权框
       return;
     }
     let cur = +e.currentTarget.dataset.id
