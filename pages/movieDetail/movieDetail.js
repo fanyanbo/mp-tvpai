@@ -227,6 +227,7 @@ Page({
     if (ccsession == "") return
     let params = { "ccsession": ccsession, "movieId": movieId }
     utils.requestP(api.getFavoriteStatusUrl, utils.paramsAssemble_wx(params)).then(res => {
+      console.log("获取影片收藏状态数据:", res)
       if (res.data.data && res.data.code === 200) {
         console.log("获取影片收藏状态成功:", res)
         // 保存当前影片对应的收藏id
@@ -250,7 +251,7 @@ Page({
     console.log('获取评论参数:', desParams)
     utils.requestP(api.getCommentsUrl, desParams).then(res => {
       console.log("获取评论数据:", res)
-      if (res.data.data && res.data.code === 200) {
+      if (res.data.data.list && res.data.code === 200) {
         this.data._allComments = res.data.data.list
         this.data_commentLike = wx.getStorageSync('comment_like') //评论点赞缓存列表   
         for (let i = 0; i < this.data._allComments.length; i++) {
@@ -265,7 +266,7 @@ Page({
           allCommentList: this.data._allComments
         })
       } else {
-        console.log("获取评论数据失败:", res)
+        console.log("评论数据为空or获取失败:", res)
       }
     }).catch(res => {
       console.log('获取评论数据发生错误:', res)
