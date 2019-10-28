@@ -68,9 +68,7 @@
       <view class="pay-name">购买账号</view>
       <view class="pay-valid">{{orderInfos.userName}}</view>
     </view>
-    <view class="paysuccess-prize" bindtap="goRollPrize">
-      去抽奖
-    </view>
+    <image class="paysuccess-prize" bindtap="goRollPrize" src="../../images/my/vipbuy/roll.png"></image>
     <view class="paysuccess-gift">
     </view>
   </view>

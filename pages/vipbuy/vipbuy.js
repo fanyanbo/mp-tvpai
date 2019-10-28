@@ -212,7 +212,7 @@ Component({
       let nickName = app.globalData.ccUserInfo.username
       let loginType = !!this.data._tencentType ? (this.data._tencentType == 'qq' ? 1 : 2) : 0
       let wxid = app.globalData.ccUserInfo.wxVuId
-        let url = `http://beta.webapp.skysrt.com/lqq/chou/chou.html?openId=${openid}&nickName=${nickName}&loginType=${loginType}&wxid=${wxid}`
+      let url = `http://beta.webapp.skysrt.com/lqq/chou/chou.html?openId=${openid}&nickName=${nickName}&loginType=${loginType}&wxid=${wxid}`
       wx.navigateTo({
         url: `../webview/webview?path=${url}`
       });
