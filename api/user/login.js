@@ -332,17 +332,33 @@ function login_changeNickname(name) {//修改昵称
   })
 }
 
-//type: 1 用户是否分源登录（腾讯源：需要qq或weixin）
-//type: 0 用户是否登录酷开账号
-function isUserLogin({type = 1} = {}) { //用户是否登录 
-  if(type == 0) {
-    return !!app.globalData.ccUserInfo
+//type: 默认undefined 用户是否登录酷开账号
+//type: 1 用户是否分源登录（腾讯源：需要qq或wechat）
+//type: 2 腾讯源是否同时登录了qq和wecaht
+function isUserLogin({type} = {}) { //用户是否登录 
+  if(type == 1) {
+    if (app.globalData.boundDeviceInfo.source == "tencent") {
+      return !!app.globalData.ccUserInfo && (!!app.globalData.ccUserInfo.wxOpenid || !!app.globalData.ccUserInfo.qqOpenid)
+    } else {
+      return !!app.globalData.ccUserInfo
+    }
+  }else if(type == 2) {
+    return app.globalData.boundDeviceInfo.source == 'tencent' && !!app.globalData.ccUserInfo
+      && !!app.globalData.ccUserInfo.wxOpenid && !!app.globalData.ccUserInfo.qqOpenid
   }
-  if (app.globalData.boundDeviceInfo.source == "tencent"){
-    return !!app.globalData.ccUserInfo &&  (!!app.globalData.ccUserInfo.wxOpenid || !!app.globalData.ccUserInfo.qqOpenid)
-  }else {
-    return !!app.globalData.ccUserInfo
+  return !!app.globalData.ccUserInfo
+}
+
+function getTencentOpenId(type) { //获取第三方（腾讯）用户当前使用的userid
+  if (!!type) {
+    return type == 'qq' ? { type: 'qq', openid: app.globalData.ccUserInfo.qqOpenid }
+      : { type: 'wechat', openid: app.globalData.ccUserInfo.wxOpenid }
+  } else {
+    if (!app.globalData.ccUserInfo) return {}
+    if (!!app.globalData.ccUserInfo.wxOpenid) return { type: 'wechat', openid: app.globalData.ccUserInfo.wxOpenid }
+    if (!!app.globalData.ccUserInfo.qqOpenid) return { type: 'qq', openid: app.globalData.ccUserInfo.qqOpenid }
   }
+  return {}
 }
 
 module.exports = {
@@ -354,4 +370,5 @@ module.exports = {
   userLogout,
   login_changeNickname,
   isUserLogin,
+  getTencentOpenId,
 }

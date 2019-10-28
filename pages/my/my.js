@@ -19,18 +19,11 @@ Component({
     isShowTips: true,
     bIphoneFullScreenModel: false,
     bLoginCoocaa: !!app.globalData.ccUserInfo,//是否登录酷开系统账号
-    bToastAuthTencentQQorWechat: false, //腾讯源进入产品包时，提示用户选择授权qq或微信的弹窗
     tencentAcctInfos: [ //腾讯源用户qq和微信信息
       {
-        type: 'wechat',
-        avatar: '../../images/my/wechat.png',
-        name: '微信登录',
         valid: '无VIP',
       },
       {
-        type: 'qq',
-        avatar: '../../images/my/qq.png',
-        name: 'QQ登录',
         valid: '无VIP',
       }
     ],
@@ -141,34 +134,8 @@ Component({
         })
       })
     },
-    closeToastAuthTencentQQorWechat() { //关闭腾讯源授权弹窗
-      this.setData({ bToastAuthTencentQQorWechat: false })
-    },
     goVipPage(e) { //去产品包购买页
       console.log(e)
-      if (e.currentTarget.dataset.index == 0) {//影视VIP腾讯源需要qq或微信登录
-        if (!user_login.isUserLogin()) { 
-          if (app.globalData.boundDeviceInfo.source == "tencent") {
-            wx.showModal({
-              title: '温馨提示',
-              content: '购买腾讯产品需要绑定微信或QQ',
-              success(res) {
-                if (res.confirm) {
-                  wx.navigateTo({ url: '../login/login?action=tencentlogin' })
-                }
-              },
-            })
-          } else {
-            wx.navigateTo({ url: '../login/login' })
-          }
-          return
-        }
-      }else {
-        if (!user_login.isUserLogin({type: 0})) {
-          wx.navigateTo({ url: '../login/login' })
-          return
-        }
-      }
       if (!app.globalData.deviceId) { //没绑定设备
         wx.showToast({
           title:  '请先连接设备',
@@ -182,21 +149,10 @@ Component({
           title: '获取产品源失败，请先连接设备',
           icon: 'none'
         })
-      }else {
-        let index = e.currentTarget.dataset.index
-        //是腾讯源，并且是影视，先确认微信或QQ授权
-        if (index == 0 && this.isTencentSourceNQQWechatLogin()) {
-          this.setData({ bToastAuthTencentQQorWechat: true })
-        }else {
-          let type = this.getThirdUserId().type
-          wx.navigateTo({ url: `../vipbuy/vipbuy?source_id=${source_id}&tencent_type=${type}` })
-        }
+        return
       }
-    },
-    goVipPageTencentSource(e) { //去腾讯源的产品包购买页
-      let source_id = this.data.productSourceList[0].source_id
-      let type = e.currentTarget.dataset.type
-      wx.navigateTo({ url: `../vipbuy/vipbuy?source_id=${source_id}&tencent_type=${type}` })
+      let movie = e.currentTarget.dataset.index == 0 ? true : false //是否影视vip产品包
+      wx.navigateTo({ url: `../vipbuy/vipbuy?source_id=${source_id}&movie=${movie}&vip_index=${e.currentTarget.dataset.index}` })
     },
     _cleaProductSourceList() { //清空产品源信息
       this.data.productSourceList.forEach((item, index, arr) => {
@@ -210,7 +166,7 @@ Component({
     _getProductSourceList() {
       if (!!Object.keys(app.globalData.boundDeviceInfo).length) {
         new Promise((resolve, reject) => {
-          if (this.isTencentSourceNQQWechatLogin()) {
+          if (user_login.isUserLogin({type : 2})) {
             return this.getProductSourceList('wechat')
                       .then(res => this._tackleProductSourceList(res))
                       .then(() => {
@@ -333,9 +289,6 @@ Component({
   },
   onHide() {
     console.log('my onHide')
-    this.setData({
-      bToastAuthTencentQQorWechat: false
-    })
   },  
     // 跳转至搜索页面
     handleSearchTap: function () {

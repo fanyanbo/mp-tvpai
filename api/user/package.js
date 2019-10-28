@@ -1,6 +1,7 @@
 //获取产品包列表相关API
 const config = require('../../config/index');
 const mock = require('./mock.js');
+const login = require('./login.js')
 const app = getApp()
 //api zone
 const url_getSourceList = config.baseUrl_sz + 'v3/source/getSourceList.html'; //获取产品源列表接口
@@ -26,21 +27,6 @@ module.exports = Behavior({
     console.log('behavior package attached.')
   },
   methods: {
-    getThirdUserId(type) { //获取第三方（腾讯）用户当前使用的userid
-      if(!!type) {
-        return type == 'qq' ? { type: 'qq', openid: app.globalData.ccUserInfo.qqOpenid } 
-                            : { type: 'wechat', openid: app.globalData.ccUserInfo.wxOpenid }
-      }else {
-        if (!app.globalData.ccUserInfo) return {}
-        if (!!app.globalData.ccUserInfo.wxOpenid) return { type: 'wechat', openid: app.globalData.ccUserInfo.wxOpenid }
-        if (!!app.globalData.ccUserInfo.qqOpenid) return { type: 'qq', openid: app.globalData.ccUserInfo.qqOpenid }
-      }
-      return {}
-    },
-    isTencentSourceNQQWechatLogin() {//腾讯源，且有qqopenid和wxopenid
-      return app.globalData.boundDeviceInfo.source == 'tencent' && !!app.globalData.ccUserInfo 
-                && !!app.globalData.ccUserInfo.wxOpenid && !!app.globalData.ccUserInfo.qqOpenid
-    },
     getProductSourceList(txType) { //获取产品源列表（极光VIP/教育VIP/少儿VIP/电竞VIP等）
       return new Promise((resolve, reject) => {
         let package_getsourcelist_data = { //获取产品源列表mock data
@@ -48,7 +34,7 @@ module.exports = Behavior({
           "user_id": !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.ccToken : '', 
           "client_type": 4,
           "business_type": -1,  //-1:all 0:movie 1:education
-          "third_user_id": this.getThirdUserId(txType).openid,
+          "third_user_id": login.getTencentOpenId(txType).openid,
         }
         let header = is_fake_data ? mock.package_header : this.getPackageHeader();
         let data = is_fake_data ? encodeURIComponent(JSON.stringify(mock.package_getsourcelist_data))

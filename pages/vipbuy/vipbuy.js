@@ -1,6 +1,7 @@
 // pages/vipbuy/vipbuy.js
 const user_mock = require('../../api/user/mock')
 const util_fyb = require('../../utils/util_fyb.js')
+const user_login = require('../../api/user/login.js')
 
 var payBehavior = require('../../api/user/pay')
 var packageBehavior = require('../../api/user/package')
@@ -19,6 +20,7 @@ Component({
     stage: 0,
     curSelectedProject: {},//当前选择的产品包
     _curSourceId: 0, //当前产品包的source_id值，支付成功或失败时需要
+    _curIsMovie: false,//当前选择的是否影视VIP包
     _orderId: null, //当前支付订单号
     _payParams: null, //当前预支付订单参数
     orderInfos: {
@@ -34,6 +36,22 @@ Component({
       name: app.globalData.ccUserInfo.username,
       avatar: app.globalData.ccUserInfo.avatar,
     },
+    bToastAuthTencentQQorWechat: false, //腾讯源进入产品包时，提示用户选择授权qq或微信的弹窗
+    navBarTitle: '爱奇艺',//当前产品包名称
+    tencentAcctInfos: [ //腾讯源用户qq和微信信息
+      {
+        type: 'wechat',
+        avatar: '../../images/my/wechat.png',
+        name: '微信登录',
+        valid: '无VIP',
+      },
+      {
+        type: 'qq',
+        avatar: '../../images/my/qq.png',
+        name: 'QQ登录',
+        valid: '无VIP',
+      }
+    ],
   },
   
   methods: {
@@ -217,15 +235,120 @@ Component({
         url: `../webview/webview?path=${url}`
       });
     },
+    _getProductSourceList() { //获取产品源列表，为了显示微信或qq VIP有效期
+      return this.getProductSourceList('wechat')
+        .then(res => this._tackleProductSourceList(res))
+        .then(() => {
+          return this.getProductSourceList('qq')
+        })
+        .then(res => this._tackleProductSourceList(res))
+        .catch(err => {
+          wx.showToast({
+            title: '获取产品源失败',
+            icon: 'none'
+          })
+        })
+    },
+    _tackleProductSourceList(src) {
+      let list = src.sources
+      list.forEach((item, index) => {
+        switch (item.source_sign) {
+          case '6':
+            this._updateProductSourceList(0, item, src.txType)
+            break;
+        }
+      })
+    },
+    _updateProductSourceList(index, item, txType) {//更新页面的产品源列表arr
+      let valid = '开通权限'
+      if (item.valid_type == 1) {//有效期
+        if (item.valid_scope.end_readable) {
+          valid = item.valid_scope.end_readable.substr(0, 10).replace(/-/g, '.').concat('到期')
+        } else if (item.valid_scope.end) {
+          let time = new Date(item.valid_scope.end * 1000)
+          let year = time.getFullYear();
+          let month = time.getMonth() + 1;
+          let day = time.getDate();
+          let d = year + "." + (month < 10 ? ("0" + month) : month) + "." + ((day < 10 ? ("0" + day) : day) + "到期");
+          valid = d
+        }
+      }
+      if (txType == 'wechat') {
+        this.setData({
+          'tencentAcctInfos[0].valid': valid
+        })
+      } else if (txType == 'qq') {
+        this.setData({
+          'tencentAcctInfos[1].valid': valid
+        })
+      }
+    },
+
+    goVipPageTencentSource(e) { //显示腾讯源的产品包购买页
+      this.setData({ bToastAuthTencentQQorWechat: false })
+      //todo 弹窗需要显示产品源权益等
+      this.data._tencentType = e.currentTarget.dataset.type
+      this._getProductPackageList({ source_id: this.data._curSourceId })
+    },
+    closeToastAuthTencentQQorWechat() { //关闭腾讯源授权弹窗
+      wx.navigateBack()
+    },
+    _checkUserLoginStateForPay() { //检查登录状态是否满足调起各产品包的要求
+      if (this.data._curIsMovie == 'true' && (app.globalData.boundDeviceInfo.source == "tencent")) { //影视vip
+        if (user_login.isUserLogin({ type: 2 })){
+          this.setData({ bToastAuthTencentQQorWechat: true })
+          this._getProductSourceList()
+          return false
+        } else if (user_login.isUserLogin({ type: 1 })) {
+          this.data._tencentType = user_login.getTencentOpenId().type
+          return true
+        } else if (!user_login.isUserLogin({ type: 1 })) {
+          let that = this
+          wx.showModal({
+            title: '温馨提示',
+            content: '购买腾讯产品需要绑定微信或QQ',
+            success(res) {
+              if (res.confirm) {
+                wx.redirectTo({ url: `../login/login?action=tencentlogin&source_id=${that.data._curSourceId}&movie=${that.data._curIsMovie}` })
+              } else {
+                wx.navigateBack()
+              }
+            },
+          })
+          return false
+        }
+      }
+      if(!user_login.isUserLogin()) {
+        wx.redirectTo({ url: `../login/login?source_id=${this.data._curSourceId}&movie=${this.data._curIsMovie}` })
+        return false
+      }
+      return true
+    },
+    _showNavBarTitle(index) { //显示页面viptitle
+      let srcName = '爱奇艺'
+      switch (index) {
+        case '1': srcName = '超级教育VIP'; break;
+        case '2': srcName = '少儿VIP'; break;
+        case '3': srcName = '电竞VIP'; break;
+        default:
+          if (app.globalData.boundDeviceInfo.source == "tencent") {
+            srcName = '超级影视VIP';
+          } else {
+            srcName = '奇异果VIP';
+          }
+          break;
+      }
+      this.setData({
+        navBarTitle: srcName
+      })
+    },
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
       console.log(options)
       let stage = +options.stage
-      // stage = this.data.PageStage.PAY_SUCCESS_PAGE//test
-      this.data._tencentType = options.tencent_type
-      if (!!stage) {
+      if (!!stage) { //页面内跳转
         this.setData({
           stage: stage
         })
@@ -234,11 +357,14 @@ Component({
           this.data._payParams = JSON.parse(options.pay)
         }
         this._getOrderDetailes(this.data._orderId)
-      }else {
+      }else { //其它页跳转到本页面
         this.data._curSourceId = options.source_id
-        this._getProductPackageList({
-          source_id: options.source_id
-        })
+        this.data._curIsMovie = options.movie
+        this._showNavBarTitle(options.vip_index)
+
+        if(this._checkUserLoginStateForPay()) {
+          this._getProductPackageList({source_id: options.source_id})
+        }
       }
     },
     /**
@@ -259,14 +385,15 @@ Component({
      * 生命周期函数--监听页面隐藏
      */
     onHide: function () {
-
+      console.log('vipbuy hide.')
     },
 
     /**
      * 生命周期函数--监听页面卸载
      */
     onUnload: function () {
-
+      console.log('vipbuy unload.')
+      this.setData({bToastAuthTencentQQorWechat: false})
     },
 
     /**
