@@ -381,17 +381,18 @@ Component({
     handleJumpPage: function (e) {
       console.log(e.currentTarget.dataset.type)
       let _type = e.currentTarget.dataset.type
-      let _path
+      let _path, _session 
       switch(_type) {
         case "home":
           _path = '/pages/home/home'
           break;  
         case "history":
-          let _session = wx.getStorageSync("new_cksession")
+          _session = wx.getStorageSync("new_cksession")
           _path = (!!_session) ? '../history/history' : '../home/home'
           break;
         case "favorite": 
-          _path = '/pages/favorite/favorite'
+          _session = wx.getStorageSync("new_cksession")
+          _path = (!!_session) ? '../favorite/favorite' : '../login/login'
           break;
         case "record":
           _path = '/pages/buyRecord/buyRecord'

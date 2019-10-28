@@ -100,10 +100,13 @@ button::after {
   flex-direction: column;
 }
 .device>.device-info>.tvname {
-  /* height: 44rpx; */
   line-height: 44rpx;
   font-weight: bold;
   font-size: 32rpx;
+  width: 350rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .device>.device-info>.tvsource {
   /* height: 34rpx; */
