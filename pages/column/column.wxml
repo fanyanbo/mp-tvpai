@@ -1,18 +1,15 @@
-
 <view>
   <navBar title='{{navBarTitle}}' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
 </view>
 <!-- 影片列表 -->
-<view class='movieList' wx:if="{{contentList && contentList.length > 0}}">
-  <view class='item' wx:for="{{contentList}}" wx:key="index"
-  wx:if="{{item.album_title != ''}}">
-    <form bindsubmit="movieclick">
-      <navigator url="../movieDetail/movieDetail?id={{item.third_album_id}}" bindtap="movieclick" hover-class="none" data-id="{{item.third_album_id}}">
-        <image class="listImg" src='{{item.video_poster}}' mode="aspectFill"></image>
-        <text class='describe'>{{item.album_title}}</text>
-      </navigator>
-    </form>
-  </view>
+<view class='list' wx:if="{{contentList && contentList.length > 0}}">
+  <block wx:for="{{contentList}}" wx:key="index">
+    <view class='item' wx:if="{{item.album_title !== ''}}" bindtap="handleItemClick" data-id="{{item.third_album_id}}">
+      <image class="poster-img" src='{{item.video_poster}}' mode="aspectFill"></image>
+      <view class="score">{{item.video_detail.base_info.score}}</view>
+      <view class='title'>{{item.album_title}}</view>
+    </view>
+  </block>
 </view>
 <view class="nomv" wx:if="{{isContentEmpty}}">暂无相关影片</view>
 <view>

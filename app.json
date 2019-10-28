@@ -25,7 +25,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "电视派",
+    "navigationBarTitleText": "",
     "navigationBarTextStyle": "black",
     "navigationStyle": "custom",
     "enablePullDownRefresh": false,

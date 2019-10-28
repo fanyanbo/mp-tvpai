@@ -32,8 +32,8 @@ Page({
     let _scrollTop = e.scrollTop
     console.log('onPageScroll', _scrollTop)
 
-    if (_scrollTop !== 0) {
-      let customNavStyle = `opacity: ${0.5 + 0.5 * _scrollTop / 202};`
+    if (_scrollTop >= 270) { //移动高度270后再逐渐显示
+      let customNavStyle = `opacity: ${0.5 + 0.5 * (_scrollTop - 270)/ 202};`
       // let _opacity = 0.7 + 0.3 * _scrollTop / 202
       this.setData({
         customNavStyle: customNavStyle,
@@ -277,7 +277,7 @@ Page({
   addMovieFavorite: function (movieId) {
     utils.checkCoocaaUserLogin()
     let ccsession = wx.getStorageSync('new_cksession')
-    if (ccsession == null) return
+    if (ccsession == "") return
     let _movieid = `['${movieId}']`
     let params = { "ccsession": ccsession, "moviesId": _movieid }
     utils.requestP(api.addMovieFavoriteUrl, utils.paramsAssemble_wx(params)).then(res => {
@@ -298,7 +298,7 @@ Page({
   // 删除影片收藏
   delMovieFavorite: function (movieId) {
     let ccsession = wx.getStorageSync('new_cksession')
-    if (ccsession == null) return
+    if (ccsession == "") return
     let _collectIds = `[${this.data.movieCollectedList[movieId]}]`
     console.log(_collectIds)
     let params = { "ccsession": ccsession, "collectIds": _collectIds }
@@ -320,7 +320,7 @@ Page({
   // 获取影片收藏列表
   getMovieFavorite: function () {
     let ccsession = wx.getStorageSync('new_cksession')
-    if (ccsession == null) return
+    if (ccsession == "") return
     let params = { "ccsession": ccsession }
     utils.requestP(api.getFavoriteVideosUrl, utils.paramsAssemble_wx(params)).then(res => {
       console.log('获取影片收藏列表结果', res)

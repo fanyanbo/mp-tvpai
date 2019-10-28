@@ -370,3 +370,17 @@
 .view-display-none {
   display: none;
 }
+
+/* 去除button默认样式 */
+button::after {
+  border: none;
+}
+button {
+  background-color: transparent;
+  padding-left: 0;
+  padding-right: 0;
+  line-height: inherit;
+}
+button {
+  border-radius: 0;
+}

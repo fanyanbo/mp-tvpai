@@ -13,6 +13,7 @@ Component({
     currentWordNumber: 0,
     score: 0,
     inputComment: '',
+    placeholder: '写几句评论吧...',
     stars: [
       {
         flag: 1,
@@ -102,6 +103,13 @@ Component({
     },
     reply: function (e) {
       console.log("triggerEvent")
+      //todo:校验内容和分数是否为空
+      if(this.data.inputValue && this.data.inputValue.length === 0 || this.data.score === 0) {
+        this.setData({
+          placeholder: '输入内容或评分不能为空！！'
+        })
+        return
+      }
       this.triggerEvent('home', 
       {"content": this.data.inputValue,"score": this.data.score})
       this.setData({
@@ -123,7 +131,6 @@ Component({
     },
     created: function () {
       console.log('在组件实例刚刚被创建时执行');
-
     }
   },
 })

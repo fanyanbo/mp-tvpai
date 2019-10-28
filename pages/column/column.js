@@ -37,7 +37,7 @@ Page({
         })
       } else {
         console.log('获取分类更多数据失败:', res)
-        utils.showFailedToast('加载数据失败', this.data.errIconUrl)
+        // utils.showFailedToast('加载数据失败', this.data.errIconUrl)
         this.setData({ isContentEmpty: true })
       }
     }).catch(res => {
@@ -50,6 +50,12 @@ Page({
   handleGobackClick: function () {
     console.log('handleGobackClick')
     utils.navigateBack()
+  },
+
+  handleItemClick: function (e) {
+    wx.wx.navigateTo({
+      url: `../movieDetail/movieDetail?id=${e.currentTarget.dataset.id}&from=column`
+    })    
   },
 
   /**

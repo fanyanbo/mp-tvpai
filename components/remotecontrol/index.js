@@ -32,9 +32,9 @@ Component({
     curDirectorImg: '../../images/components/remotecontrol/director-normal.png',    // 方向icon
     curConfirmImg: '../../images/components/remotecontrol/director-center.png', //确认icon
     curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',    // 遥控器按钮icon
-    isShutdownFocus:false,
-    isVolupFocus:false,
-    isVoldownFocus:false,
+    isShutdownFocus: false,
+    isVolupFocus: false,
+    isVoldownFocus: false,
     isHomeFocus: false,
     isBackFocus: false,
     isMenuFocus: false,
@@ -56,7 +56,7 @@ Component({
     isShowMainPanelBakup: false,//是否显示遥控器主面板-上次状态备份，语音输入后需要恢复之前状态
     indexStatus: '',  // 当前显示版面
     indexStatusBakup: '',//当前显示版面-上次状态备份，语音输入后需要恢复之前状态
-    
+
     //语音输入流程控制flag
     bTapStatus: false, //是否tap状态
     bLongPressStatus: false, // 是否是长按状态
@@ -66,10 +66,19 @@ Component({
     //语音输入动画数据
     count: 0, // 设置 计数器 初始为0
     countTimer: null, // 设置 定时器 初始为null
-    animationData: {} ,
-    drawCircleObject: {x:75, y: 75, r:60, lw: 4},//rpx, 绘制进度圆的起点坐标、半径、线宽等,需要根据设备实际宽度换算
+    animationData: {},
+    drawCircleObject: { x: 75, y: 75, r: 60, lw: 4 },//rpx, 绘制进度圆的起点坐标、半径、线宽等,需要根据设备实际宽度换算
+  
+    canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
   methods: {
+    bindGetUserInfo(e) {
+      console.log('canIUse', wx.canIUse('button.open-type.getUserInfo'))
+      if (!e.detail.userInfo) {// 如果用户拒绝直接退出，下次依然会弹出授权框
+        return
+      }
+      this.comment()
+    },
     //处理一般按键和提示语的接口 -start-
     _toggleMainPanel() { //打开或关闭遥控器主面板
       console.log('mainpanel: ' + this.data.isShowMainPanel)
@@ -92,13 +101,13 @@ Component({
         })
         this.showEnterAnimaiton()
       }
-    },    
+    },
     handleTapMask(e) {  //处理遮罩层点击事件,等待语音解析过程不处理该事件
       console.log('触发mask点击事件:e:%o, bWaitVoiceResult: %s, isShowMainPanel:%s.', e, this.data.bWaitVoiceResult, this.data.isShowMainPanel);
       if (!this.data.bWaitVoiceResult && this.data.isShowMainPanel) {
         this._toggleMainPanel()
       }
-    },  
+    },
     handleBtnTipsClosed() { //关闭录音提示语
       console.log('handleBtnTipsClosed()')
       app.globalData.isShowTips = false
@@ -109,7 +118,7 @@ Component({
       let image = '';
       switch (id) {
         case 'ok':
-          image = status ? (path + 'director-centerF.png') : (path+'director-center.png');
+          image = status ? (path + 'director-centerF.png') : (path + 'director-center.png');
           this.setData({ curConfirmImg: image })
           break
         case 'home':
@@ -126,7 +135,7 @@ Component({
           break
         case 'volume_minus':
           image = status ? (path + 'voldownF@3x.png') : (path + 'voldown@3x.png');
-          this.setData({ curVolDownImg: image, isVoldownFocus : status })
+          this.setData({ curVolDownImg: image, isVoldownFocus: status })
           break
         case 'volume_plus':
           image = status ? (path + 'volupF@3x.png') : (path + 'volup@3x.png');
@@ -136,7 +145,7 @@ Component({
         case 'down':
         case 'left':
         case 'right':
-          image = status ? (path + 'director-' + id + '.png') : (path+'director-normal.png');
+          image = status ? (path + 'director-' + id + '.png') : (path + 'director-normal.png');
           this.setData({ curDirectorImg: image })
           break
         case 'shutdown':
@@ -146,7 +155,7 @@ Component({
             icon: 'none',
             duration: 1000
           })
-          break 
+          break
       }
     },
     handlePushController(e) { //遥控器一般按键 按下
@@ -194,7 +203,7 @@ Component({
         }
       })
     },
-    _showModalUserAuthRecord(){//显示用户授权录音权限 modal
+    _showModalUserAuthRecord() {//显示用户授权录音权限 modal
       console.log('没有录音权限，引导用户进行授权')
       let that = this
       wx.showModal({
@@ -227,7 +236,7 @@ Component({
         }
       })
     },
-    _checkUserRecordAuthStatus(){//检查用户录音权限授权状态
+    _checkUserRecordAuthStatus() {//检查用户录音权限授权状态
       console.log('check record auth..')
       let that = this;
       authApi.checkRecordPriority({
@@ -259,8 +268,8 @@ Component({
       })
     },
     //检查当前绑定设备状态，是否满足遥控器操作需要的条件: 1. 是否已绑定设备 2. 是否支持小程序 3.是否在线  4. (长按录音时）是否有录音权限
-   _checkBindedTVStatus({type = 'tap'} = {}) {
-      console.log('_checkBindedTVStatus in, type: '+type)
+    _checkBindedTVStatus({ type = 'tap' } = {}) {
+      console.log('_checkBindedTVStatus in, type: ' + type)
       //step 1: 是否绑定设备
       this.data.activeid = app.globalData.activeId;
       if (this.data.activeid == null) {
@@ -268,21 +277,21 @@ Component({
         return false
       }
       //step 2:是否支持小程序
-     if (!this.data.bBindedTVSupportMP) {
+      if (!this.data.bBindedTVSupportMP) {
         console.log("bBindedTVSupportMP false.")
-       let tips = '当前电视暂不支持遥控，请到电视\r\n\"我的应用-小维AI-关于我们\"\r\n检测升级';
-       if(type == 'longpress'){
-         tips = '当前电视暂不支持遥控，请到电视\r\n\"我的应用-小维AI-关于我们\"检测升级,升级后请重新进入小程序';
-       }
+        let tips = '当前电视暂不支持遥控，请到电视\r\n\"我的应用-小维AI-关于我们\"\r\n检测升级';
+        if (type == 'longpress') {
+          tips = '当前电视暂不支持遥控，请到电视\r\n\"我的应用-小维AI-关于我们\"检测升级,升级后请重新进入小程序';
+        }
         wx.showModal({
           title: '温馨提示',
           content: tips,
-          showCancel:false,
-          confirmText:'知道了',
+          showCancel: false,
+          confirmText: '知道了',
         })
         return false
-     }
-      if( type == 'tap') {
+      }
+      if (type == 'tap') {
         console.log('type:tap tv ready')
         return true
       }
@@ -297,7 +306,7 @@ Component({
       let that = this
       that.data.bBindedTVSupportMP = bSupportMP;
       return new Promise(function (resolve, reject) {
-        if (that._checkBindedTVStatus({type})) {
+        if (that._checkBindedTVStatus({ type })) {
           that.data.bBindedTVReady = true;
           resolve()
         } else {
@@ -318,28 +327,28 @@ Component({
       this.data.bLongPressStatus = false;
     },
     handleRecorderManagerCancel(event) {
-      console.log('[RC]touch cancel. call touch end directly. e:'+event)
+      console.log('[RC]touch cancel. call touch end directly. e:' + event)
       this.handleRecorderManagerStop(event)
     },
     handleRecorderManagerStop(event) { //touch end
       let that = this
-      console.log('[RC] touch end, tap: %s, longpress: %s, start record: %s, waiting voice result: %s. ', 
+      console.log('[RC] touch end, tap: %s, longpress: %s, start record: %s, waiting voice result: %s. ',
         that.data.bTapStatus, that.data.bLongPressStatus, that.data.bStartRecord, that.data.bWaitVoiceResult);
 
       if (!that.data.bWaitVoiceResult) {//当处理语音过程中，不处理任何事件,
         //fix 1: 不管是否支持，每次tap都去获取，以解决：如果从支持的TV，去绑定一台不支持的，是否状态不更新;（是否有更好方案？）
         //fix 2: 如果一直是支持的，但没有去初始化状态，导致第一次tap时会去后台获取状态，但ui没反应。
         if (that.data.bTapStatus) { //tap 
-          if(!that.data.isShowMainPanel){
+          if (!that.data.isShowMainPanel) {
             utils_fyb.refreshBindedTVStatus(app.globalData.activeId)
-              .then((res) => that._checkBindedTVStatusAsync({ bSupportMP:res}))
+              .then((res) => that._checkBindedTVStatusAsync({ bSupportMP: res }))
               .then(() => that._toggleMainPanel())
               .catch(() => console.warn('tap promise. bBindedTVReady:' + that.data.bBindedTVReady))
-          }else {
+          } else {
             that._toggleMainPanel()
           }
         } else { //longpress
-            that._stopRecordingSite()
+          that._stopRecordingSite()
         }
       }
       //reset status each touch end.
@@ -350,7 +359,7 @@ Component({
       console.log('[RC] longpress ...')
       this.data.bTapStatus = false;
       this.data.bLongPressStatus = true;
-      if (!this.data.isShowMainPanel){
+      if (!this.data.isShowMainPanel) {
         this.data.bBindedTVSupportMP = utils_fyb.getBindedTVStatus();//长按前从本地存储获取一次状态
       }
       if (!this._checkBindedTVStatus({ type: 'longpress' })) {
@@ -373,15 +382,15 @@ Component({
     _restoreStatusAfterRecord() { //恢复录音前的遥控器页面状态
       console.log('_restoreStatusAfterRecord()...')
       this.setData({
-        indexStatus : this.data.indexStatusBakup,
-        isShowMainPanel : this.data.isShowMainPanelBakup
+        indexStatus: this.data.indexStatusBakup,
+        isShowMainPanel: this.data.isShowMainPanelBakup
       })
-      if(this.data.isShowMainPanel) {
+      if (this.data.isShowMainPanel) {
         this.setData({
           btnContent: '按住说话',
           curBtnImg: '../../images/components/remotecontrol/voice@3x.png',
         })
-      }else {
+      } else {
         this.setData({
           btnContent: '遥控器',
           curBtnImg: '../../images/components/remotecontrol/remoter@3x.png',
@@ -392,7 +401,7 @@ Component({
       var aRecordTips = [['\"返回主页\"', '\"今天天气怎么样\"', '\"声音调到10\"', '\"打开网络设置\"']
         , ['\"猫用英语怎么说\"', '\"暂停/继续播放\"', '\"我想听周杰伦的晴天\"', '\"现在几点了\"']
         , ['\"鱼香肉丝\"', '\"这个人是谁\"', '\"我想看都挺好第五集\"', '\"深圳到北京的飞机票\"']];
-      var index = Math.floor(Math.random()*3);
+      var index = Math.floor(Math.random() * 3);
       this.setData({
         aInputTips: aRecordTips[index]
       })
@@ -407,7 +416,7 @@ Component({
       this._saveStatusBeforeRecord()
       // 显示语音输入版面，设置相关状态
       this.setData({
-        bStartRecord:true,
+        bStartRecord: true,
         indexStatus: 'VoiceInput',
         isShowMainPanel: true,
         curBtnImg: '../../images/components/remotecontrol/voice@3x.png',
@@ -416,7 +425,7 @@ Component({
       })
       console.log('开始执行语音输入动画和版面进场动画');
       this._showInputTips();
-      this.startRecordAnimation();   
+      this.startRecordAnimation();
       this.showEnterAnimaiton()
       console.log('开始录音，并倒计时');
       // this.startRecordTimer()
@@ -425,22 +434,22 @@ Component({
     stopRecord() {
       manager.stop();
     },
-    _stopRecordingSite({type = 'manual'}={}){ //type: 'auto':wx后台自动stop; 停止录制现场所有动作（包括配套计时器 UI 后台处理 以及 状态复位等）
+    _stopRecordingSite({ type = 'manual' } = {}) { //type: 'auto':wx后台自动stop; 停止录制现场所有动作（包括配套计时器 UI 后台处理 以及 状态复位等）
       console.log('[_stopRecordingSite] type:%s, bStartRecord:%s, bWaitVoiceResult:%s.', type, this.data.bStartRecord, this.data.bWaitVoiceResult)
       if (type == 'wxauto') { //如果是wx后台自动stop
         this.data.bWaitVoiceResult = false;
       }
-      if(!this.data.bStartRecord) {
+      if (!this.data.bStartRecord) {
         console.log('_stopRecordingSite, not start, return...')
         return;
       }
       console.log('_stopRecordingSite begin...')
       this.setData({
-        bStartRecord:false
+        bStartRecord: false
       })
       this.stopRecordTimer()
       this.stopRecordAnimation()
-      if (type == 'manual'){ //如果是用户松手手动stop
+      if (type == 'manual') { //如果是用户松手手动stop
         this.data.bWaitVoiceResult = true;//等待语音结果
         this.stopRecord()
       }
@@ -478,14 +487,14 @@ Component({
           njApi.pushText({
             data: data,
             success(res) { // 文本推送成功
-              console.log('pushText done!',res)
+              console.log('pushText done!', res)
             }
           })
           setTimeout(() => {
             that.setData({
               indexStatus: 'VoiceResult'
             });
-            setTimeout(()=>{
+            setTimeout(() => {
               that._restoreStatusAfterRecord()
             }, 1000)
           }, 1500)
@@ -496,7 +505,7 @@ Component({
       }
       manager.onError = function (res) {
         console.log("onError", res)
-        that._stopRecordingSite({type:'wxauto'}) //case: error时自动stop
+        that._stopRecordingSite({ type: 'wxauto' }) //case: error时自动stop
         wx.showToast({
           title: '报错，请再说一遍\r\n' + res.retcode,
           icon: 'none',
@@ -515,7 +524,7 @@ Component({
       }, 10000)
     },
     stopRecordTimer() {
-      if(this.limitTimer) {
+      if (this.limitTimer) {
         clearInterval(this.limitTimer)
       }
     },
@@ -566,31 +575,31 @@ Component({
     },
     _resetAnimationCircle() {
       console.log('reset circle ..')
-      this._drawingCanvasCircle(0,0);
+      this._drawingCanvasCircle(0, 0);
     },
     startRecordAnimation() {
       var me = this;
       //先画底色圆
-      me._drawingCanvasCircle(0, 2 * Math.PI, '#EDEDED'); 
+      me._drawingCanvasCircle(0, 2 * Math.PI, '#EDEDED');
       //加载动画
       var startAngle = 1.5 * Math.PI, endAngle = 0;
-      var steps = 1,speed = 100,sec = 100;
-      function drawLoading () {
-          if(steps < 101){
-              //这里用me,同步数据,渲染页面
-              endAngle = steps * 2 * Math.PI / speed + startAngle;
-              me._drawingCanvasCircle(startAngle, endAngle);
-              steps++;
-              console.log(steps);
-          }else{
-              clearInterval(this.interval);
-          }
+      var steps = 1, speed = 100, sec = 100;
+      function drawLoading() {
+        if (steps < 101) {
+          //这里用me,同步数据,渲染页面
+          endAngle = steps * 2 * Math.PI / speed + startAngle;
+          me._drawingCanvasCircle(startAngle, endAngle);
+          steps++;
+          console.log(steps);
+        } else {
+          clearInterval(this.interval);
+        }
       }
-      this.interval = setInterval(drawLoading,sec);
+      this.interval = setInterval(drawLoading, sec);
     },
     // 动画相关的方法 -end-
 
-    comment: function() {
+    comment: function () {
       this.triggerEvent('comment', {});
     },
   },
@@ -616,7 +625,7 @@ Component({
     }
     let that = this;
     wx.getSystemInfo({
-      success: function(res) {
+      success: function (res) {
         console.log(res)
         that.data.drawCircleObject.x = Math.floor(that.data.drawCircleObject.x * res.windowWidth / 750);
         that.data.drawCircleObject.y = that.data.drawCircleObject.x;

@@ -123,13 +123,13 @@ button {
 
 .item {
   width:750rpx;
-  height:534rpx;
+  /* height:534rpx; */
   background:#F8F8F8;
   margin-top: 20rpx;
   padding: 40rpx;
   display: flex;
   flex-direction: column;
-  justify-content:space-between;
+  /* justify-content:space-between; */
 }
 
 .content-wrap .item:nth-child(1) {
@@ -205,11 +205,12 @@ button {
 
 .item-two {
   position: relative;
-  width:670rpx;
+  width: 670rpx;
   /* height:120rpx; */
   background:rgba(241,241,241,1);
   border-radius:8px;
   padding: 20rpx;
+  margin-top: 40rpx;
 }
 
 .two-text {

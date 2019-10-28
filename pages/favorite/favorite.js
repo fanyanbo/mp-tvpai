@@ -281,7 +281,7 @@ Page({
     let ccsession = wx.getStorageSync('new_cksession')
     if (ccsession == "") return
     let params = { "ccsession": ccsession }
-    utils.requestP(api.getFavoriteArticlesUrl, utils.paramsAssemble_wx(params)).then(res => {   
+    utils.requestP(api.getFavoriteArticlesUrl, utils.paramsAssemble_wx(params)).then(res => {        
       if (res.data && res.data.data && res.data.data.list && res.data.code === 200) {
         console.log('获取收藏文章列表成功:', res)
         let _list = res.data.data.list

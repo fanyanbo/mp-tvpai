@@ -173,7 +173,10 @@
     text-align: center;
     font-size: 32rpx;
     color: #333333;
-    margin-top: 30rpx;
+    /* margin-top: 30rpx; */
+    position: fixed;
+    left: 0;
+    bottom: 110rpx;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -207,6 +210,12 @@
     margin-top: 20rpx;
 }
 
+.video-wrap,
+.topic-wrap,
+.article-wrap {
+    padding-bottom: 206rpx;
+}
+
 .video-wrap .title:nth-child(1) {
     margin-top: 10rpx;
 }
@@ -229,14 +238,14 @@
 
 .noresult-wrap image {
     width: 480rpx;
-    height: 480rpx; 
+    height: 480rpx;
 }
 
 .skeleton-rect {
-    background: rgba(229,229,229,0.5);
+    background: rgba(229, 229, 229, 0.5);
 }
 
 .skeleton-circle {
     border-radius: 100%;
-    background: rgba(229,229,229,0.5);
+    background: rgba(229, 229, 229, 0.5);
 }

@@ -1,7 +1,7 @@
 <view wx:if="{{isShow}}" class="grayBox" bindtap="closeGrayBox">
   <view class="inputWords" style="bottom:{{keyboardHeight}}px" catchtap="getFocus">
     <textarea maxlength="200" show-confirm-bar="false" placeholder-style="color:#999999"
-     placeholder="写几句评论吧..." auto-focus bindinput="handleInputEvent" bindfocus="handleFocusEvent" bindblur="handleBlurEvent"/>
+     placeholder="{{placeholder}}" auto-focus bindinput="handleInputEvent" bindfocus="handleFocusEvent" bindblur="handleBlurEvent"/>
     <view class="comment-wrapper">
       <text class="comment-title">{{currentWordNumber>0?"推荐":"打分"}}</text>
       <view class="stars-wrapper">

@@ -51,7 +51,15 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    console.log('onReady监听页面初次渲染完成')
+    const {
+      rpxNavBarHeight
+    } = utils.getNavBarHeight()
+    let fixedWindowStyle = `top: ${rpxNavBarHeight}rpx;`
+    console.log(fixedWindowStyle)
+    this.setData({
+      fixedWindowStyle
+    })
   },
 
   /**
@@ -224,7 +232,10 @@ Page({
   // 获取当前影片收藏状态
   getFavoriteStatus: function (movieId) {
     let ccsession = wx.getStorageSync('new_cksession')
-    if (ccsession == "") return
+    if (ccsession == null || ccsession == "") {
+      this.setData({ isFavorite: false, isShowFavorite: true })
+      return
+    }
     let params = { "ccsession": ccsession, "movieId": movieId }
     utils.requestP(api.getFavoriteStatusUrl, utils.paramsAssemble_wx(params)).then(res => {
       if (res.data.data && res.data.code === 200) {
@@ -244,13 +255,16 @@ Page({
   // 获取全部评论
   getComment: function (movieId) {
     let ccsession = wx.getStorageSync('new_cksession')
-    if (ccsession == "") return
-    let params = { "ccsession": ccsession, "movieId": movieId }
+    movieId = '_oqy_1012320100'
+    let params = { "movieId": movieId }
+    // if (ccsession != null && ccsession !== "") {   
+    //   params = { "ccsession": ccsession, "movieId": movieId }
+    // }
     let desParams = utils.paramsAssemble_wx(params)
     console.log('获取评论参数:', desParams)
     utils.requestP(api.getCommentsUrl, desParams).then(res => {
       console.log("获取评论数据:", res)
-      if (res.data.data && res.data.code === 200) {
+      if (res.data.data && res.data.data.list && res.data.code === 200) {
         this.data._allComments = res.data.data.list
         this.data_commentLike = wx.getStorageSync('comment_like') //评论点赞缓存列表   
         for (let i = 0; i < this.data._allComments.length; i++) {
