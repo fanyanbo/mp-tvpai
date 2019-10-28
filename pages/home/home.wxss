@@ -65,8 +65,8 @@ page{
 }
 .device-top-right{
   float:left;
-  height: 218rpx;
-  line-height:218rpx;
+  height: 272rpx;
+  line-height:272rpx;
   width: 160rpx;
   text-align: center;
   font-size: 34rpx;
@@ -75,8 +75,8 @@ page{
   box-sizing: border-box;  
 }
 .device-model{
-  width: 160rpx;
-  height: 218rpx;
+  width: 100%;
+  height: 100%;
 }
 .inaline{
   overflow:hidden;
