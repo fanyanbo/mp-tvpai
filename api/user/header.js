@@ -34,7 +34,7 @@ module.exports = Behavior({
       // "license": "GiTv",
       "aSdk": "", //目前字段里没有 
       "cUserInfo": "",//目前字段里没有 
-      "cOpenId": !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : '',//目前字段里没有 
+      "cOpenId": !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : '',
       "supportSource": "",//目前字段里没有 
       "Resolution": app.globalData.boundDeviceInfo.resolution,
       "cHomepageVersion": "",//目前字段里没有 

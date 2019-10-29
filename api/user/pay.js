@@ -35,8 +35,8 @@ module.exports = Behavior({
         let third_user_id = txType == 'qq' ? app.globalData.ccUserInfo.qqOpenid : (txType == 'wechat' ? app.globalData.ccUserInfo.wxOpenid : '');
         let extend_info = txType == 'wechat' ? (`{"login_type":2,"wx_vu_id":"${app.globalData.ccUserInfo.wxVuId}"}`) : '';
         let pay_genorder_data = {
-          "user_id": !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : '',
-          "user_flag": !!app.globalData.ccUserInfo ? 2 : 0, //用户没登录，传0，user_id值为空
+          "user_flag": !!app.globalData.ccUserInfo ? 1 : 0, //用户没登录，传0，user_id值为空; 1: token
+          "user_id": !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.ccToken : '',  
           "third_user_id": third_user_id,
           "product_id": product.product_id,
           "movie_id": "",
@@ -127,7 +127,7 @@ module.exports = Behavior({
           "product_name": params.orderTitle,  //JSON.stringify({ "discount": "497.99", "kpn": "", "kpop": "", "kpp": "", "kppu": "", "kps": "", "notifyUrl": "", "payNum": 0, "productId": 1685, "selectModel": 0, "t": "奇异果VIP-12个月", "tip": "", "type": "simple" }),//这里需要注意：要把字符串双引号转义
           "product_catalog": 0,
           "amount": params.total_pay_fee / 100,//0.01,
-          "notify_url": `${ config.baseUrl_sz}"/v1/open/notifyOrderPayDone.html`, //todo 确认下小程序是否需要 要怎么处理
+          "notify_url": `${ config.baseUrl_sz}/v1/open/notifyOrderPayDone.html`, //todo 确认下小程序是否需要 要怎么处理
           "token": !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.ccToken : '',
           "mac": app.globalData.boundDeviceInfo.devMac,
           "pay_type": "WECHAT_SMALL_PROGRAM",

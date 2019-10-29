@@ -64,7 +64,7 @@ Component({
     },
     _getProductPackageList(params) { //获取产品包列表
       const productPkgPromise = this.getProductPackageList(params)
-      const couponsPromise = this.getCoupones()
+      const couponsPromise = this.getCoupones(params)
       const allowancePromise = this.getAllowance()
       Promise.all([productPkgPromise, couponsPromise, allowancePromise]).then(([products, coupons, allowances]) => {
         products = products.data.data.products.filter((item) => {
@@ -148,7 +148,7 @@ Component({
       }).then(res => {
         console.log(res)
         let stage = this.data.PageStage.PAY_SUCCESS_PAGE //todo 支付成功，页面重定向到支付成功页
-        wx.redirectTo({
+        wx.navigateTo({
           url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}`,
         })
       }).catch(err => {
@@ -161,7 +161,7 @@ Component({
           return
         }
         let stage = this.data.PageStage.PAY_FAIL_PAGE //失败页处理,继续支付
-        wx.redirectTo({
+        wx.navigateTo({
           url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&pay=${JSON.stringify(this.data._payParams)}`,
         })
       }).then(() => {
@@ -235,7 +235,7 @@ Component({
     goRollPrize() { //支付成功去抽奖
       let openid = app.globalData.ccUserInfo.openid
       let nickName = app.globalData.ccUserInfo.username
-      let loginType = !!this.data._tencentType ? (this.data._tencentType == 'qq' ? 1 : 2) : 0
+      let loginType = 0
       let wxid = app.globalData.ccUserInfo.wxVuId
       let url = `http://beta.webapp.skysrt.com/lqq/chou/chou.html?openId=${openid}&nickName=${nickName}&loginType=${loginType}&wxid=${wxid}`
       wx.navigateTo({
@@ -293,9 +293,8 @@ Component({
 
     goVipPageTencentSource(e) { //显示腾讯源的产品包购买页
       this.setData({ bToastAuthTencentQQorWechat: false })
-      //todo 弹窗需要显示产品源权益等
       this.data._tencentType = e.currentTarget.dataset.type
-      this._getProductPackageList({ source_id: this.data._curSourceId })
+      this._getProductPackageList({ source_id: this.data._curSourceId, txType: this.data._tencentType })
     },
     closeToastAuthTencentQQorWechat() { //关闭腾讯源授权弹窗
       wx.navigateBack()
@@ -419,7 +418,7 @@ Component({
     onShow: function () {
       if (this.data.stage == this.data.PageStage.HOME_PAGE) {
         if (this._checkHasBoundDevice && this._checkUserLoginStateForPay()) {
-          this._getProductPackageList({ source_id: this.data._curSourceId })
+          this._getProductPackageList({ source_id: this.data._curSourceId, txType: this.data._tencentType  })
         }
       }
       this.setData({
