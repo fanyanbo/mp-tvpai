@@ -94,10 +94,10 @@
 }
 .canvas-item {
   position: absolute;
-  right: 40rpx;
-  top: 30rpx;
+  right: 0;
+  top: 20rpx;
   width: 176rpx;
-  height: 60rpx;
+  height: 84rpx;
   background: #FFF;
   z-index: 2;
 }

@@ -34,7 +34,9 @@
       </view>
     </view>
     <!-- 会员权益页 -->
-    <image class="benefits" src="../../images/my/vipbuy/benefit.png"></image>
+    <view class="benefits">
+      <image class="imginfo {{(benifitImg.indexOf('vipedu') != -1 || benifitImg.indexOf('vipgame') != -1) ? 'onelayer' : ''}}" src="{{benifitImg}}"></image>
+    </view>
     <!-- 支付区 -->
     <view class="pay">
       <view class="pay-summary">

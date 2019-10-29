@@ -133,6 +133,13 @@
   width: 690rpx;
   margin: 30rpx 30rpx 170rpx;
 }
+.benefits>.imginfo {
+  width: 100%;
+  height: 530rpx;
+}
+.benefits>.imginfo.onelayer {
+  height: 360rpx;
+}
 
 /* 悬浮在底部的支付区 */
 .pay {

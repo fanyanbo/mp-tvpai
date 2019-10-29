@@ -42,6 +42,7 @@ Component({
     },
     bToastAuthTencentQQorWechat: false, //腾讯源进入产品包时，提示用户选择授权qq或微信的弹窗
     navBarTitle: '爱奇艺',//当前产品包名称
+    benifitImg: '',//vip权益图片
     tencentAcctInfos: [ //腾讯源用户qq和微信信息
       {
         type: 'wechat',
@@ -367,11 +368,20 @@ Component({
       return true
     },
     _showNavBarTitle(index) { //显示页面viptitle
-      let srcName = '爱奇艺'
+      let srcName = '', benefitImg = '../../images/my/vipbuy/benefit.png'
       switch (index) {
-        case 'edu': srcName = '超级教育VIP'; break;
-        case 'kid': srcName = '少儿VIP'; break;
-        case 'game': srcName = '电竞VIP'; break;
+        case 'edu': 
+          srcName = '超级教育VIP'; 
+          benefitImg = '../../images/my/vipbuy/vipedu.png'
+          break;
+        case 'kid': 
+          srcName = '少儿VIP'; 
+          benefitImg = '../../images/my/vipbuy/vipkid.png'
+          break;
+        case 'game': 
+          srcName = '电竞VIP';
+          benefitImg = '../../images/my/vipbuy/vipgame.png'
+          break;
         default:
           if (app.globalData.boundDeviceInfo.source == "tencent") {
             srcName = '超级影视VIP';
@@ -381,7 +391,8 @@ Component({
           break;
       }
       this.setData({
-        navBarTitle: srcName
+        navBarTitle: srcName,
+        benifitImg: benefitImg,
       })
     },
     /**

@@ -52,10 +52,10 @@ Page({
   },
   //---获取页面验证码 --start--
   _showPageVerificationCode() { //在画布上显示页面验证码
-    let ranNum = (min, max) => Math.floor(Math.random() * (max - min)) + min 
+    let ranNum = (min, max) => Math.floor(Math.random() * (max - min) + min)
     let sysWidth = wx.getSystemInfoSync().windowWidth
-    let width = 176 * sysWidth / 750
-    let height = 60 * sysWidth / 750
+    let width = Math.floor(176 * sysWidth / 750)
+    let height = Math.floor(84 * sysWidth / 750)
     let canvasid = ''
     if (this.data.curSubPage == this.data.SubPages.LOGIN_BY_MOBILE) {
       canvasid = 'vcodecanvasMob'
@@ -68,16 +68,16 @@ Page({
     let code = this.data._pageVCodeObj.refresh()
     let i = 0
     for(let txt of code) {
-      let fontsize = ranNum(height/2, height)
-      context.font = `bolder ${fontsize}px sans-serif`
+      let fontsize = ranNum(height/2, height * 3 / 4)
+      context.font = `${fontsize}px sans-serif`
       context.setShadow(3, 3, 3, 'rgba(0, 0, 0, 0.3)')
-      let x = width / 5 * ++i;
+      let x = width / 21 + width / 4 * i++;
       let y = height / 2;
       context.translate(x, y)
       let deg = ranNum(-30, 30)
-      context.rotate(deg * Math.PI / 180)
+      // context.rotate(deg * Math.PI / 180)
       context.fillText(txt, 0, 0)
-      context.rotate(-deg * Math.PI / 180)
+      // context.rotate(-deg * Math.PI / 180)
       context.translate(-x, -y)
     }
     context.save()
