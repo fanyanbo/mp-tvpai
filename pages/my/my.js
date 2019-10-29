@@ -357,6 +357,13 @@ Component({
           _path = (!!_session) ? '../favorite/favorite' : '../login/login'
           break;
         case "record":
+          if (!user_login.isUserLogin()) {
+            wx.showToast({
+              title: '请先登录~',
+              icon: 'none'
+            })
+            return false
+          }
           _path = '/pages/buyRecord/buyRecord'
           break;
         case "card":
