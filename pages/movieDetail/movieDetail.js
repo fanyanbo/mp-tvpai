@@ -531,7 +531,8 @@ Page({
   // 处理导航栏返回点击事件
   handleGobackClick: function () {
     // 小程序内部页面进入返回上一级，外部进入（公众号文章，分享）返回主页
-    let _innerPage = ['homepage','topicDetail','articleDetail','favorite','search']
+    console.log('导航返回', this.data.from)
+    let _innerPage = ['topicDetail','articleDetail','favorite','search']
     if(_innerPage.indexOf(this.data.from) > -1) {
       utils.navigateBack()
     } else {
