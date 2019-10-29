@@ -78,7 +78,7 @@ Component({
 
           this.data._pagenum += 1;
         }
-      }).catch( err => console.err(err))
+      }).catch( err => console.error(err))
     },
 
     /**
