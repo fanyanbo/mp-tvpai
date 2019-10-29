@@ -128,6 +128,9 @@
 .scroll-view_x .poster-item:nth-child(1) {
   margin-left: 40rpx
 }
+.scroll-view_x .poster-item:last-child {
+  margin-right: 40rpx
+}
 
 .poster-img {
   width: 210rpx;
@@ -294,4 +297,7 @@ swiper {
 }
 .scroll-view_x .topic-item:nth-child(1) {
   margin-left: 40rpx
+}
+.scroll-view_x .topic-item:last-child {
+  margin-right: 40rpx
 }

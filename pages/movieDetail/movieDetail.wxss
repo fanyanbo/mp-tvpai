@@ -118,6 +118,9 @@
 .push-area .dsj-item:nth-child(1) {
   margin-left: 40rpx;
 }
+.push-area .dsj-item:last-child {
+  margin-right: 40rpx;
+}
 
 .dsj-active {
   background:rgba(255,215,28,1);
@@ -135,7 +138,6 @@
   border-radius:8px;
   margin-left: 20rpx;
 }
-
 .zy-item .index {
   position: absolute;
   left: 20rpx;
@@ -147,9 +149,11 @@
   color: #ccc;
   line-height:40rpx;
 }
-
 .push-area .zy-item:nth-child(1) {
   margin-left: 40rpx;
+}
+.push-area .zy-item:last-child {
+  margin-right: 40rpx;
 }
 
 .zy-active {
@@ -179,7 +183,7 @@
 }
 
 .variety {
-  height: 128rpx
+  height: 132rpx
 }
 
 .tvplay {
@@ -606,6 +610,9 @@
   margin-left: 40rpx;
   vertical-align: top;
 }
+.actors-list-item:last-child {
+  margin-right: 40rpx;
+}
 
 .recomment-content {
   width: 100%;
@@ -613,7 +620,6 @@
   overflow: hidden;
   white-space: nowrap;
 }
-
 .recomment-list-item {
   display: inline-block;
   width: 670rpx;
@@ -622,13 +628,15 @@
   vertical-align: top;
   border-radius: 8px;
 }
+.recomment-list-item:last-child {
+  margin-right: 40rpx;
+}
 
 .favorite-content {
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
 }
-
 .favorite-list-item {
   position: relative;
   display: inline-block;
@@ -637,14 +645,18 @@
   margin-left: 20rpx;
   vertical-align: top;
 }
-
+.favorite-list-item:nth-child(1) {
+  margin-left: 40rpx;
+}
+.favorite-list-item:last-child {
+  margin-right: 40rpx;
+}
 .favorite-avatar {
   position: absolute;
   width: 210rpx;
   height: 294rpx;
   border-radius: 6px;
 }
-
 .favorite-score {
   position: absolute;
   left: 162rpx;
@@ -654,11 +666,9 @@
   color: #ffffff;
   text-shadow:0px 1px 4px rgba(0,0,0,0.5);
 }
-
 .favorite-vip {
   left: 162rpx;
 }
-
 .favorite-name {
   position: absolute;
   top: 304rpx;
@@ -681,7 +691,6 @@
   height: 128rpx;
   border-radius: 50%;
 }
-
 .actor-name {
   position: absolute;
   top: 140rpx;
@@ -696,7 +705,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 .actors-content .actors-list-item:nth-child(1) {
   margin-left: 40rpx
 }
