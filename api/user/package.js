@@ -211,13 +211,13 @@ module.exports = Behavior({
     var child = _productListAll;
 
     for (let m = 0; m < child.length; m++) { //对当前产品包中选中的产品项：
-      var price = child[m].price;
-      var product_id = child[m].product_id;
+      var price = child[m].discount_fee+'';
+      var product_id = child[m].product_id + '';
       var source = child[m].source;
       var category = child[m].product_type;
-      var support_other_discount = child[m].support_other_discount;
-      var is_support_direct_discount = child[m].is_support_direct_discount;
-      var product_stock = child[m].product_stock;
+      var support_other_discount = child[m].support_other_discount + '';
+      var is_support_direct_discount = child[m].is_support_direct_discount + '';
+      var product_stock = child[m].product_stock + '';
       var discount_products = child[m].discount_products;
 
       for (let j = 0; j < _couponsListAll.data.length; j++) { //遍历优惠券列表
@@ -510,7 +510,7 @@ module.exports = Behavior({
   function selectCon(pkgCode, pkgName, pkgPrice, pkgDiscountProductId) {
     var child = _productListAll;
     for (let m = 0; m < child.length; m++) {
-      var useBeforePrice = child[m].price / 100;
+      var useBeforePrice = child[m].discount_fee / 100;
       var tmp2 = pkgPrice[m][0];
       for (let j = 0; j < pkgPrice[m].length; j++) {
         if (pkgPrice[m][j] < tmp2) tmp2 = pkgPrice[m][j];
@@ -533,11 +533,11 @@ module.exports = Behavior({
       var child = _productListAll;
 
       for (let m = 0; m < child.length; m++) {
-        var price = child[m].price;
-        var product_id = child[m].product_id;
-        var support_other_discount = child[m].support_other_discount;
-        var is_support_direct_discount = child[m].is_support_direct_discount;
-        var product_stock = child[m].product_stock;
+        var price = child[m].discount_fee + '';
+        var product_id = child[m].product_id + '';
+        var support_other_discount = child[m].support_other_discount + '';
+        var is_support_direct_discount = child[m].is_support_direct_discount + '';
+        var product_stock = child[m].product_stock + '';
         var discount_products = child[m].discount_products;
         var allowance_info = child[m].allowance_info || {};
 
