@@ -1,6 +1,7 @@
 // pages/login/login.js
 const utils = require('../../utils/util_fyb')
 const user_login = require('../../api/user/login')
+const user_bind = require('../../api/user/bind')
 const app = getApp()
 
 Page({
@@ -155,18 +156,19 @@ Page({
           })
       }
     }).then((res) => {
-      // 登录成功，返回首页
-      wx.showToast({
-        title: '登录成功',
-      })
-      wx.navigateBack({ delta: 2 }) //跳到我的页面
-      }).catch((res) => {
-        // 登录失败
+      user_bind.getDeviceList().then(() => { //登录成功后刷新设备列表
         wx.showToast({
-          title: '登录失败请重试',
-          icon: 'none'
+          title: '登录成功',
         })
+        wx.navigateBack({ delta: 2 }) //返回登录前页面
       })
+    }).catch((res) => {
+      // 登录失败
+      wx.showToast({
+        title: '登录失败请重试',
+        icon: 'none'
+      })
+    })
   },
   inputMobileBlur(e) { //手机号登录-手机号码输入完毕
     console.log('input blur:' + JSON.stringify(e.detail))
@@ -237,11 +239,12 @@ Page({
                 })
       }
     }).then((res) => {
-      // 登录成功，返回首页
-      wx.showToast({
-        title: '登录成功',
+      user_bind.getDeviceList().then(() => { //登录成功后刷新设备列表
+        wx.showToast({
+          title: '登录成功',
+        })
+        wx.navigateBack({ delta: 2 }) //返回登录前页面
       })
-      wx.navigateBack({delta: 2}) //调回到登录前页面
     })
   },
   _startLoginByWechat(e) { //微信登录
@@ -310,10 +313,12 @@ Page({
     }
     userInfo = userInfo[0]
     if(userInfo.code == 200) { //登录成功
-      wx.showToast({
-        title: '登录成功',
-      })
       user_login.ccloginByWechatH5(userInfo.data)
+      user_bind.getDeviceList().then(() => { //登录成功后刷新设备列表
+        wx.showToast({
+          title: '登录成功',
+        })
+      })
     }else {
       wx.showToast({
         title: '登录失败，请重试',

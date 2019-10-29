@@ -154,6 +154,11 @@ function getDeviceList(init=false) {  //获取绑定设备列表
         devices: false,
         mydevices: []
       })
+      //获取失败是也要复位一次信息
+      app.globalData.activeId = null;
+      app.globalData.deviceId = null;
+      app.globalData.boundDeviceInfo = {};
+      app.globalData.sourceChanged = true; //值不一定变化，但假定源被改变了，首页会刷新一次
     }, function () {
       // that.setData({ isShowDoc: true }); //无论如何都要showDoc??
     })

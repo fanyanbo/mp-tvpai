@@ -20,7 +20,7 @@ Component({
     stage: 0,
     curSelectedProject: {},//当前选择的产品包
     _curSourceId: 0, //当前产品包的source_id值，支付成功或失败时需要
-    _curIsMovie: false,//当前选择的是否影视VIP包
+    _curVipType: '',//当前选择的产品包类型
     _orderId: null, //当前支付订单号
     _payParams: null, //当前预支付订单参数
     orderInfos: {
@@ -33,8 +33,8 @@ Component({
     }, //当前订单信息
     _tencentType:null,
     curUserInfo: { //当前登录用户信息
-      name: app.globalData.ccUserInfo.username,
-      avatar: app.globalData.ccUserInfo.avatar,
+      name: '',
+      avatar: '',
     },
     bToastAuthTencentQQorWechat: false, //腾讯源进入产品包时，提示用户选择授权qq或微信的弹窗
     navBarTitle: '爱奇艺',//当前产品包名称
@@ -293,8 +293,29 @@ Component({
     closeToastAuthTencentQQorWechat() { //关闭腾讯源授权弹窗
       wx.navigateBack()
     },
+    _checkHasBoundDevice() { //检查是否绑定设备
+      if (!!Object.keys(app.globalData.boundDeviceInfo).length) {
+        let that = this
+        wx.showModal({
+          title: '温馨提示',
+          content: '绑定设备，然后查看对应的VIP产品包信息',
+          cancelText: '返回',
+          cancelColor: '#000000',
+          confirmText: '去绑定',
+          confirmColor: '#576B95',
+          success(res) {
+            if (res.confirm) {
+              wx.navigateTo({ url: `/pages/home/home` })
+            } else {
+              wx.navigateBack()
+            }
+          },
+        })
+        return false
+      }
+    },
     _checkUserLoginStateForPay() { //检查登录状态是否满足调起各产品包的要求
-      if (this.data._curIsMovie == 'true' && (app.globalData.boundDeviceInfo.source == "tencent")) { //影视vip
+      if (this.data._curVipType == 'movie' && (app.globalData.boundDeviceInfo.source == "tencent")) { //影视vip
         if (user_login.isUserLogin({ type: 2 })){
           this.setData({ bToastAuthTencentQQorWechat: true })
           this._getProductSourceList()
@@ -309,7 +330,7 @@ Component({
             content: '购买腾讯产品需要绑定微信或QQ',
             success(res) {
               if (res.confirm) {
-                wx.navigateTo({ url: `../login/login?action=tencentlogin&source_id=${that.data._curSourceId}&movie=${that.data._curIsMovie}` })
+                wx.navigateTo({ url: `../login/login?action=tencentlogin` })
               } else {
                 wx.navigateBack()
               }
@@ -319,7 +340,22 @@ Component({
         }
       }
       if(!user_login.isUserLogin()) {
-        wx.navigateTo({ url: `../login/login?source_id=${this.data._curSourceId}&movie=${this.data._curIsMovie}` })
+        let that = this
+        wx.showModal({
+          title: '温馨提示',
+          content: '获取VIP产品包信息需要登录',
+          cancelText: '返回',
+          cancelColor: '#000000',
+          confirmText: '去登录',
+          confirmColor: '#576B95',
+          success(res) {
+            if (res.confirm) {
+              wx.navigateTo({ url: `../login/login` })
+            } else {
+              wx.navigateBack()
+            }
+          },
+        })
         return false
       }
       return true
@@ -327,9 +363,9 @@ Component({
     _showNavBarTitle(index) { //显示页面viptitle
       let srcName = '爱奇艺'
       switch (index) {
-        case '1': srcName = '超级教育VIP'; break;
-        case '2': srcName = '少儿VIP'; break;
-        case '3': srcName = '电竞VIP'; break;
+        case 'edu': srcName = '超级教育VIP'; break;
+        case 'kid': srcName = '少儿VIP'; break;
+        case 'game': srcName = '电竞VIP'; break;
         default:
           if (app.globalData.boundDeviceInfo.source == "tencent") {
             srcName = '超级影视VIP';
@@ -347,6 +383,11 @@ Component({
      */
     onLoad: function (options) {
       console.log(options)
+      this.setData({
+        'curUserInfo.name': !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.username : '',
+        'curUserInfo.avatar': !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.avatar : '',
+        'orderInfos.userName': !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.username : '',
+      })
       let stage = +options.stage
       if (!!stage) { //页面内跳转
         this.setData({
@@ -359,8 +400,8 @@ Component({
         this._getOrderDetailes(this.data._orderId)
       }else { //其它页跳转到本页面
         this.data._curSourceId = options.source_id
-        this.data._curIsMovie = options.movie
-        this._showNavBarTitle(options.vip_index)
+        this.data._curVipType = options.type
+        this._showNavBarTitle(options.type)
       }
     },
     /**
@@ -375,7 +416,7 @@ Component({
      */
     onShow: function () {
       if (this.data.stage == this.data.PageStage.HOME_PAGE) {
-        if (this._checkUserLoginStateForPay()) {
+        if (this._checkHasBoundDevice && this._checkUserLoginStateForPay()) {
           this._getProductPackageList({ source_id: this.data._curSourceId })
         }
       }

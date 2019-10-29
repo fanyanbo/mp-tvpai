@@ -8,6 +8,7 @@ const api = require('../../api/api_fyb')
 // const user_package = require('../../api/user/package')
 const user_push = require('../../api/user/push')
 const user_login = require('../../api/user/login')
+const user_bind = require('../../api/user/bind')
 const app = getApp()
 
 var packageBehavior = require('../../api/user/package')
@@ -151,8 +152,13 @@ Component({
         })
         return
       }
-      let movie = e.currentTarget.dataset.index == 0 ? true : false //是否影视vip产品包
-      wx.navigateTo({ url: `../vipbuy/vipbuy?source_id=${source_id}&movie=${movie}&vip_index=${e.currentTarget.dataset.index}` })
+      let type = 'movie'
+      switch (e.currentTarget.dataset.index) {
+        case 1: type = 'edu'; break;
+        case 2: type = 'kid'; break;
+        case 3: type = 'game'; break;
+      }
+      wx.navigateTo({ url: `../vipbuy/vipbuy?source_id=${source_id}&type=${type}` })
     },
     _cleaProductSourceList() { //清空产品源信息
       this.data.productSourceList.forEach((item, index, arr) => {
@@ -280,9 +286,12 @@ Component({
         'ccUserInfo.avatar': '',
       })
     }
-    //获取产品源列表
-    this._getProductSourceList()
-    this._getBoundTVInfo()
+    //获取绑定设备列表
+    user_bind.getDeviceList().finally(() => {
+      //获取产品源列表
+      this._getProductSourceList()
+      this._getBoundTVInfo()
+    })
     // 获取历史和收藏列表
     this.getHistoryList();
     this.getFavoriteList();
