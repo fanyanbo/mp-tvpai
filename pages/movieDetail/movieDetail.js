@@ -261,7 +261,7 @@ Page({
       params = { "ccsession": ccsession, "movieId": movieId }
     }
     let desParams = utils.paramsAssemble_wx(params)
-    console.log('获取评论参数:', desParams)
+    // console.log('获取评论参数:', desParams)
     utils.requestP(api.getCommentsUrl, desParams).then(res => {
       console.log("获取评论数据:", res)
       if (res.data.data && res.data.data.list && res.data.code === 200) {
