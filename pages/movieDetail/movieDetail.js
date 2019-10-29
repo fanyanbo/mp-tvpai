@@ -522,7 +522,6 @@ Page({
 
   // 处理导航栏主页点击事件
   handleGohomeClick: function () {
-    console.log('handleGohomeClick')
     // 注意:tabbar页面无法使用redirectTo和navigateTo进行跳转
     wx.switchTab({
       url: '../index/index'
@@ -531,8 +530,15 @@ Page({
 
   // 处理导航栏返回点击事件
   handleGobackClick: function () {
-    console.log('handleGobackClick')
-    utils.navigateBack()
+    // 小程序内部页面进入返回上一级，外部进入（公众号文章，分享）返回主页
+    let _innerPage = ['homepage','topicDetail','articleDetail','favorite','search']
+    if(_innerPage.indexOf(this.data.from) > -1) {
+      utils.navigateBack()
+    } else {
+      wx.switchTab({
+        url: '../index/index'
+      })
+    }
   },
 
   // 处理tabbar切换事件
