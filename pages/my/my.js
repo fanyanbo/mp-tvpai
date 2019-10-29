@@ -287,10 +287,12 @@ Component({
       })
     }
     //获取绑定设备列表
-    user_bind.getDeviceList().finally(() => {
+    user_bind.getDeviceList().then(() => {
       //获取产品源列表
       this._getProductSourceList()
       this._getBoundTVInfo()
+    }).catch(() => {
+      console.log('设备列表为空或获取失败...')
     })
     // 获取历史和收藏列表
     this.getHistoryList();

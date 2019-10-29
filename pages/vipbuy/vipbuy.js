@@ -160,10 +160,13 @@ Component({
         wx.redirectTo({
           url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&pay=${JSON.stringify(this.data._payParams)}`,
         })
-      }).finally(() => {
+      }).then(() => {
         this.data._orderId = null;
         this.data._payParams = null;
-      })
+        }, () => {
+          this.data._orderId = null;
+          this.data._payParams = null;
+        })
     },
     _pollOrderBenefitStatus(ctx, start, time) {//支付成功后，轮询订单权益开通情况, 得到结果后delay3s再查一次，超时时间15s
       new Promise( (resolve) => {
