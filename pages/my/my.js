@@ -19,6 +19,7 @@ Component({
   data: {
     isShowTips: true,
     bIphoneFullScreenModel: false,
+    isInIphoneModel: true,//iphone不支持产品源、产品包
     bLoginCoocaa: !!app.globalData.ccUserInfo,//是否登录酷开系统账号
     tencentAcctInfos: [ //腾讯源用户qq和微信信息
       {
@@ -256,8 +257,11 @@ Component({
     //     isDevConnected: true
     //   })
     // }
-
-
+    if (app.globalData.platform.toLowerCase() != 'ios') {
+      this.setData({
+        isInIphoneModel: false
+      })
+    }
   },
 
   onShow: function () {

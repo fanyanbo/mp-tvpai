@@ -125,8 +125,11 @@ module.exports = Behavior({
           "trade_id": params.orderId,
           // "product_name": JSON.stringify('{"discount":"497.99","kpn":"","kpop":"","kpp":"","kppu":"","kps":"","notifyUrl":"","payNum":0,"productId":1685,"selectModel":0,"t":"奇异果VIP-12个月","tip":"","type":"simple"}'),//这里需要注意：要把字符串双引号转义
           "product_name": params.orderTitle,  //JSON.stringify({ "discount": "497.99", "kpn": "", "kpop": "", "kpp": "", "kppu": "", "kps": "", "notifyUrl": "", "payNum": 0, "productId": 1685, "selectModel": 0, "t": "奇异果VIP-12个月", "tip": "", "type": "simple" }),//这里需要注意：要把字符串双引号转义
+          "product_catalog": 0,
           "amount": params.total_pay_fee / 100,//0.01,
-          "notify_url": "http://dev.business.video.tc.skysrt.com/v1/open/notifyOrderPayDone.html", //todo 确认下小程序是否需要 要怎么处理
+          "notify_url": `${ config.baseUrl_sz}"/v1/open/notifyOrderPayDone.html`, //todo 确认下小程序是否需要 要怎么处理
+          "token": !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.ccToken : '',
+          "mac": app.globalData.boundDeviceInfo.devMac,
           "pay_type": "WECHAT_SMALL_PROGRAM",
           "sign": "",
           "sign_type": "MD5",
