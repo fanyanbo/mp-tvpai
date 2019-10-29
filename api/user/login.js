@@ -27,11 +27,6 @@ function vcode(mobile) { //手机注册，获取验证码
         if (!res.data.data) {
           resolve(res)
         } else {
-          wx.showModal({
-            title: '提示',
-            content: res.data.data.msg,
-            showCancel: false
-          })
           reject(new Error('vcode error'))
           return !1
         }
@@ -74,30 +69,12 @@ function mobLogin(mobile, mobileCode) {//手机号登录
           _storeCCUserInfo(resdata)
           resolve()
         } else {
-          wx.showModal({
-            title: '提示',
-            content: res.data.message,
-            showCancel: false
-          })
           reject()
           return !1
         }
-        // wx.switchTab({
-        //   url: '../my/my',
-        //   success: function () {
-        //     let page = getCurrentPages().pop()
-        //     if (page == undefined || page == null) return;
-        //     page.onShow()
-        //   }
-        // })
       },
       fail: function (res) {
         console.log('fail: ' + res)
-        wx.showModal({
-          title: '提示',
-          content: res,
-          showCancel: false
-        })
         reject()
       }
     })
@@ -146,11 +123,6 @@ function acctLogin(userName, userPassword) {//账号密码登录
             _storeCCUserInfo(resdata)
             resolve()
           } else {
-            // wx.showModal({
-            //   title: '提示',
-            //   content: res.data.message,
-            //   showCancel: false
-            // })
             reject()
             return !1
           }
@@ -272,10 +244,6 @@ function userLogout() {
           }
           resolve()
         } else {
-          wx.showModal({
-            title: '提示',
-            content: res.data.message,
-          })
           reject()
         }
       },
@@ -305,27 +273,9 @@ function login_changeNickname(name) {//修改昵称
       data: paramsStr1,
       success: function (res) {
         console.log(res)
-        // let resdata = res.data.data
-        // if (resdata) {
-        //   _storeCCUserInfo(resdata)
-        //   resolve()
-        // } else {
-        //   wx.showModal({
-        //     title: '提示',
-        //     content: res.data.message,
-        //     showCancel: false
-        //   })
-        //   reject()
-        //   return !1
-        // }
       },
       fail: function (res) {
         console.log('fail: ' + res)
-        wx.showModal({
-          title: '提示',
-          content: res,
-          showCancel: false
-        })
         reject()
       }
     })

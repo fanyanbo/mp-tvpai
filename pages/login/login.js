@@ -1,5 +1,5 @@
 // pages/login/login.js
-const utils = require('../../utils/util_fyb')
+const util_fyb = require('../../utils/util_fyb')
 const user_login = require('../../api/user/login')
 const user_bind = require('../../api/user/bind')
 const app = getApp()
@@ -91,7 +91,7 @@ Page({
     context.draw()
   },
   _getPageVerificationCode() {
-    this.data._pageVCodeObj = new utils.VerificationCode()
+    this.data._pageVCodeObj = new util_fyb.VerificationCode()
     this._showPageVerificationCode()
   },
   pageVCodeRefresh() { //刷新页面二维码
@@ -146,6 +146,7 @@ Page({
       })
       return
     }
+    util_fyb.showLoadingToast('登录中~')
     Promise.resolve().then(() => {
       if (wx.getStorageSync('new_cksession')) {
         return user_login.acctLogin(this.data.userinput_mob, this.data.userinput_pw)
@@ -156,14 +157,15 @@ Page({
           })
       }
     }).then((res) => {
-      user_bind.getDeviceList().then(() => { //登录成功后刷新设备列表
-        wx.showToast({
-          title: '登录成功',
-        })
-        wx.navigateBack({ delta: 2 }) //返回登录前页面
-      })
+      return user_bind.getDeviceList().then(() => { //登录成功后刷新设备列表
+              util_fyb.showLoadingToast('登录中~', false)
+              wx.showToast({
+                title: '登录成功',
+              })
+              wx.navigateBack({ delta: 2 }) //返回登录前页面
+            })
     }).catch((res) => {
-      // 登录失败
+      util_fyb.showLoadingToast('登录中~', false)
       wx.showToast({
         title: '登录失败请重试',
         icon: 'none'
@@ -189,7 +191,7 @@ Page({
     this.setData({ //disable
       mobMsgVCodeGetFunc: null
     })
-    this.data._mobMsgVCodeObj =  new utils.CountDown({onProgress : (count) => { //开始倒计时
+    this.data._mobMsgVCodeObj =  new util_fyb.CountDown({onProgress : (count) => { //开始倒计时
         this.setData({
           mobMsgVCode: count + '秒后再试'
         })
@@ -229,6 +231,7 @@ Page({
       })
       return
     }
+    util_fyb.showLoadingToast('登录中~')
     Promise.resolve().then(() => { //todo 流程是否可优化 代码冗余
       if (wx.getStorageSync('new_cksession')) {
         return user_login.mobLogin(this.data.userinput_mob, this.data.userinput_pw)
@@ -239,11 +242,18 @@ Page({
                 })
       }
     }).then((res) => {
-      user_bind.getDeviceList().then(() => { //登录成功后刷新设备列表
-        wx.showToast({
-          title: '登录成功',
-        })
-        wx.navigateBack({ delta: 2 }) //返回登录前页面
+      return user_bind.getDeviceList().then(() => { //登录成功后刷新设备列表
+                util_fyb.showLoadingToast('登录中~', false)
+                wx.showToast({
+                  title: '登录成功',
+                })
+                wx.navigateBack({ delta: 2 }) //返回登录前页面
+              })
+    }).catch(err => {
+      util_fyb.showLoadingToast('登录中~', false)
+      wx.showToast({
+        title: '登录失败,请重试~',
+        icon: 'none'
       })
     })
   },
@@ -252,6 +262,7 @@ Page({
       //如果用户拒绝直接退出，下次依然会弹出授权框
       return;
     }
+    util_fyb.showLoadingToast('登录中~')
     Promise.resolve().then(() => {
       return new Promise((resolve, reject) => {
         let ccsession = wx.getStorageSync('new_cksession')
@@ -307,17 +318,22 @@ Page({
   },
   wechatH5GetMsg(e) { //H5页面消息
     console.log(e)
+    util_fyb.showLoadingToast('登录中~', false)
     let userInfo = e.detail.data
     if(!userInfo) {
+      wx.showToast({
+        title: '登录失败，请重试',
+        icon: 'none'
+      })
       return 
     }
     userInfo = userInfo[0]
-    if(userInfo.code == 200) { //登录成功
+    if (!!userInfo && userInfo.code == 200) { //登录成功
       user_login.ccloginByWechatH5(userInfo.data)
-      user_bind.getDeviceList().then(() => { //登录成功后刷新设备列表
-        wx.showToast({
-          title: '登录成功',
-        })
+      return user_bind.getDeviceList().then(() => { //登录成功后刷新设备列表
+              wx.showToast({
+                title: '登录成功',
+              })
       })
     }else {
       wx.showToast({
@@ -375,7 +391,7 @@ Page({
   onLoad: function (options) {
     console.log(options)
     this.setData({
-      rpxNavBarHeight: utils.getNavBarHeight().rpxNavBarHeight + 'rpx'
+      rpxNavBarHeight: util_fyb.getNavBarHeight().rpxNavBarHeight + 'rpx'
     })
     if(options.stage) { //登录页内跳转
       this.setData({
