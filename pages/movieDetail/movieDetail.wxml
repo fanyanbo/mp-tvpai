@@ -1,8 +1,8 @@
 <wxs src="./movieDetail.wxs" module="tools" />
 <!-- 导航栏组件 -->
 <view>
-  <navBar title='详情' background='#222222' color='#fff' back="{{true}}" home="{{true}}" iconTheme='white' bindback="handleGobackClick" bindhome="handleGohomeClick" />
-  <!-- <navBar title='详情' background='#222' color='#fff' back="{{true}}" iconTheme='white' bindback="handleGobackClick" /> -->
+  <!-- <navBar title='详情' background='#222222' color='#fff' back="{{true}}" home="{{true}}" iconTheme='white' bindback="handleGobackClick" bindhome="handleGohomeClick" /> -->
+  <navBar title='详情' background='#222' color='#fff' back="{{true}}" iconTheme='white' bindback="handleGobackClick" />
 </view>
 <view class='{{isFixedWindow ? "pageFixed" : ""}}' style="{{fixedWindowStyle}}">
   <!-- 影片信息 -->
@@ -54,14 +54,14 @@
   </view>
   <!-- 页面内tabbar，可以考虑封装成组件 -->
   <view class="detail-tabbar">
-    <view wx:for="{{tabbarList}}" wx:key="index" class="tabbar-item {{activeIndex === index ? 'on' : ''}}" bindtap="handleTabbarClick" data-index="{{index}}">
-      {{item}}
+    <view wx:for="{{tabbarList}}" wx:key="index" class="tabbar-item" bindtap="handleTabbarClick" data-index="{{index}}">
+      <view class="{{activeIndex === index ? 'on' : ''}}">{{item}}</view>
       <view wx:if="{{activeIndex === index}}" class="tabbar-item-bottom"></view>
     </view>
   </view>
   <view wx:if="{{activeIndex === 0}}" class="detail-wrap">
     <!-- 影片简介 -->
-    <view class="panel-wrap intro-wrap" data-tap='desc' bindtap='showPopup'>
+    <view class="panel-wrap intro-wrap" wx:if="{{videoDetailData.description != null && videoDetailData.description.length !== 0}}" data-tap='desc' bindtap='showPopup'>
       <view class="panel-title">
         <text class="title-line"></text>
         <text class="title-text">剧情简介</text>
@@ -195,12 +195,10 @@
   <view class="prompt_info">{{videoDetailData.prompt_info}}</view>
   <scroll-view scroll-y style="height: 720rpx;" bindscrolltoupper="scrollToUpper" bindscrolltolower="scrollToLower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
     <view class="item">
-      <view wx:if="{{videoType === '综艺'}}" class="zylist" wx:for="{{moviesItem}}" wx:for-item="item" wx:key="coocaa_m_id">
-        <view class='xs zy {{selected === item.coocaa_m_id ? "active" : ""}}'>
-          <view class="segmeng" bindtap="push" data-movieid="{{item.third_album_id}}" data-moviechildid="{{index}}" data-coocaamid="{{item.coocaa_m_id}}" data-videoid="{{vidList[index]}}" data-title="{{item.video_title}}">
-            第 {{item.segment_index}} 期
-          </view>
-          <text class="subtitle">{{item.video_title}}</text>
+      <view wx:if="{{videoType === '综艺'}}" class="zylist" wx:for="{{moviesItem}}" wx:for-item="item" wx:key="index">
+        <view class='zy-item2 {{selected === item.coocaa_m_id ? "zy-active" : ""}}' bindtap="push" data-movieid="{{item.third_album_id}}" data-moviechildid="{{index}}" data-coocaamid="{{item.coocaa_m_id}}" data-videoid="{{vidList[index]}}" data-title="{{item.video_title}}">
+          <view class='index {{selected === item.coocaa_m_id ? "zy-active2" : ""}}'>第 {{item.segment_index}} 期</view>
+          <view class='desc {{selected === item.coocaa_m_id ? "zy-active2" : ""}}'>{{item.video_title}}</view>
         </view>
       </view>
       <view wx:if="{{videoType !== '综艺'}}" class="tvlist" wx:for="{{moviesItem}}" wx:for-item="item" wx:key="coocaa_m_id">

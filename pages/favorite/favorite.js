@@ -254,7 +254,7 @@ Page({
     console.log('handleVideoClick')
     let { movieid } = e.currentTarget.dataset
     wx.navigateTo({
-      url: `../movieDetail/movieDetail?id=${movieid}`,
+      url: `../movieDetail/movieDetail?id=${movieid}&from=favorite`
     })
   },
 
