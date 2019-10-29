@@ -383,11 +383,6 @@ Component({
      */
     onLoad: function (options) {
       console.log(options)
-      this.setData({
-        'curUserInfo.name': !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.username : '',
-        'curUserInfo.avatar': !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.avatar : '',
-        'orderInfos.userName': !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.username : '',
-      })
       let stage = +options.stage
       if (!!stage) { //页面内跳转
         this.setData({
@@ -420,6 +415,11 @@ Component({
           this._getProductPackageList({ source_id: this.data._curSourceId })
         }
       }
+      this.setData({
+        'curUserInfo.name': !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.username : '',
+        'curUserInfo.avatar': !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.avatar : '',
+        'orderInfos.userName': !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.username : '',
+      })
     },
 
     /**
