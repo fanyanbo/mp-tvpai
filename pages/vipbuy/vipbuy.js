@@ -18,7 +18,11 @@ Component({
       PAY_FAIL_PAGE: 2,
     },
     stage: 0,
-    curSelectedProject: {},//当前选择的产品包
+    curSelectedProject: {
+      id : 0,
+      totalPrice : 0,
+      save: 0
+    },//当前选择的产品包
     _curSourceId: 0, //当前产品包的source_id值，支付成功或失败时需要
     _curVipType: '',//当前选择的产品包类型
     _orderId: null, //当前支付订单号
@@ -110,7 +114,7 @@ Component({
         })
       })
       let totalPrice = !!this.data.productListShow[id].discount_price ? this.data.productListShow[id].discount_price : this.data.productListShow[id].price;
-      let save = this.data.productListShow[id].oldprice - totalPrice;
+      let save = this.data.productListShow[id].price - totalPrice;
       this.setData({
         curSelectedProject: {
           id,
