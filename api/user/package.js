@@ -249,14 +249,14 @@ module.exports = Behavior({
                     } else { }
                   } else {
                     // console.log("mrjr优惠券使用产品包可用");
-                    if (JSON.parse(discount_products).length != 0) {
+                    if ((discount_products).length != 0) {
                       var discount_products_id_arr = [];
                       var discount_products_fee_arr = [];
                       var discount_products_stock_arr = [];
-                      for (let p = 0; p < JSON.parse(discount_products).length; p++) {
-                        discount_products_id_arr.push(JSON.parse(discount_products)[p].discount_product_id);
-                        discount_products_fee_arr.push(JSON.parse(discount_products)[p].discount_product_fee);
-                        discount_products_stock_arr.push(JSON.parse(discount_products)[p].discount_product_stock);
+                      for (let p = 0; p < (discount_products).length; p++) {
+                        discount_products_id_arr.push((discount_products)[p].discount_product_id);
+                        discount_products_fee_arr.push((discount_products)[p].discount_product_fee);
+                        discount_products_stock_arr.push((discount_products)[p].discount_product_stock);
                       }
                       if (discount_products_fee_arr.indexOf(pay) != -1 && discount_products_stock_arr[discount_products_fee_arr.indexOf(pay)] != 0) {
                         coupouCode.push(_couponsListAll.data[j].coupon_code);
@@ -298,14 +298,14 @@ module.exports = Behavior({
                             discountProductId.push(product_id);
                           } else { }
                         } else {
-                          if (JSON.parse(discount_products).length != 0) {
+                          if ((discount_products).length != 0) {
                             var discount_products_id_arr = [];
                             var discount_products_fee_arr = [];
                             var discount_products_stock_arr = [];
-                            for (let p = 0; p < JSON.parse(discount_products).length; p++) {
-                              discount_products_id_arr.push(JSON.parse(discount_products)[p].discount_product_id);
-                              discount_products_fee_arr.push(JSON.parse(discount_products)[p].discount_products_fee);
-                              discount_products_stock_arr.push(JSON.parse(discount_products)[p].discount_products_stock);
+                            for (let p = 0; p < (discount_products).length; p++) {
+                              discount_products_id_arr.push((discount_products)[p].discount_product_id);
+                              discount_products_fee_arr.push((discount_products)[p].discount_products_fee);
+                              discount_products_stock_arr.push((discount_products)[p].discount_products_stock);
                             }
                             if (discount_products_fee_arr.indexOf(pay) != -1 && discount_products_stock_arr[discount_products_fee_arr.indexOf(pay)] != 0) {
                               coupouCode.push(_couponsListAll.data[j].coupon_code);
@@ -340,14 +340,14 @@ module.exports = Behavior({
                           discountProductId.push(product_id);
                         } else { }
                       } else {
-                        if (JSON.parse(discount_products).length != 0) {
+                        if ((discount_products).length != 0) {
                           var discount_products_id_arr = [];
                           var discount_products_fee_arr = [];
                           var discount_products_stock_arr = [];
-                          for (let p = 0; p < JSON.parse(discount_products).length; p++) {
-                            discount_products_id_arr.push(JSON.parse(discount_products)[p].discount_product_id);
-                            discount_products_fee_arr.push(JSON.parse(discount_products)[p].discount_products_fee);
-                            discount_products_stock_arr.push(JSON.parse(discount_products)[p].discount_products_stock);
+                          for (let p = 0; p < (discount_products).length; p++) {
+                            discount_products_id_arr.push((discount_products)[p].discount_product_id);
+                            discount_products_fee_arr.push((discount_products)[p].discount_products_fee);
+                            discount_products_stock_arr.push((discount_products)[p].discount_products_stock);
                           }
                           if (discount_products_fee_arr.indexOf(pay) != -1 && discount_products_stock_arr[discount_products_fee_arr.indexOf(pay)] != 0) {
                             coupouCode.push(_couponsListAll.data[j].coupon_code);
@@ -387,14 +387,14 @@ module.exports = Behavior({
                           discountProductId.push(product_id);
                         } else { }
                       } else {
-                        if (JSON.parse(discount_products).length != 0) {
+                        if ((discount_products).length != 0) {
                           var discount_products_id_arr = [];
                           var discount_products_fee_arr = [];
                           var discount_products_stock_arr = [];
-                          for (let p = 0; p < JSON.parse(discount_products).length; p++) {
-                            discount_products_id_arr.push(JSON.parse(discount_products)[p].discount_product_id);
-                            discount_products_fee_arr.push(JSON.parse(discount_products)[p].discount_products_fee);
-                            discount_products_stock_arr.push(JSON.parse(discount_products)[p].discount_products_stock);
+                          for (let p = 0; p < (discount_products).length; p++) {
+                            discount_products_id_arr.push((discount_products)[p].discount_product_id);
+                            discount_products_fee_arr.push((discount_products)[p].discount_products_fee);
+                            discount_products_stock_arr.push((discount_products)[p].discount_products_stock);
                           }
                           if (discount_products_fee_arr.indexOf(pay) != -1 && discount_products_stock_arr[discount_products_fee_arr.indexOf(pay)] != 0) {
                             coupouCode.push(_couponsListAll.data[j].coupon_code);
@@ -429,14 +429,14 @@ module.exports = Behavior({
                         discountProductId.push(product_id);
                       } else { }
                     } else {
-                      if (JSON.parse(discount_products).length != 0) {
+                      if ((discount_products).length != 0) {
                         var discount_products_id_arr = [];
                         var discount_products_fee_arr = [];
                         var discount_products_stock_arr = [];
-                        for (let p = 0; p < JSON.parse(discount_products).length; p++) {
-                          discount_products_id_arr.push(JSON.parse(discount_products)[p].discount_product_id);
-                          discount_products_fee_arr.push(JSON.parse(discount_products)[p].discount_products_fee);
-                          discount_products_stock_arr.push(JSON.parse(discount_products)[p].discount_products_stock);
+                        for (let p = 0; p < (discount_products).length; p++) {
+                          discount_products_id_arr.push((discount_products)[p].discount_product_id);
+                          discount_products_fee_arr.push((discount_products)[p].discount_products_fee);
+                          discount_products_stock_arr.push((discount_products)[p].discount_products_stock);
                         }
                         if (discount_products_fee_arr.indexOf(pay) != -1 && discount_products_stock_arr[discount_products_fee_arr.indexOf(pay)] != 0) {
                           coupouCode.push(_couponsListAll.data[j].coupon_code);
@@ -472,14 +472,14 @@ module.exports = Behavior({
                 discountProductId.push(product_id);
               } else { }
             } else {
-              if (JSON.parse(discount_products).length != 0) {
+              if ((discount_products).length != 0) {
                 var discount_products_id_arr = [];
                 var discount_products_fee_arr = [];
                 var discount_products_stock_arr = [];
-                for (let p = 0; p < JSON.parse(discount_products).length; p++) {
-                  discount_products_id_arr.push(JSON.parse(discount_products)[p].discount_product_id);
-                  discount_products_fee_arr.push(JSON.parse(discount_products)[p].discount_products_fee);
-                  discount_products_stock_arr.push(JSON.parse(discount_products)[p].discount_products_stock);
+                for (let p = 0; p < (discount_products).length; p++) {
+                  discount_products_id_arr.push((discount_products)[p].discount_product_id);
+                  discount_products_fee_arr.push((discount_products)[p].discount_products_fee);
+                  discount_products_stock_arr.push((discount_products)[p].discount_products_stock);
                 }
                 if (discount_products_fee_arr.indexOf(pay) != -1 && discount_products_stock_arr[discount_products_fee_arr.indexOf(pay)] != 0) {
                   coupouCode.push(_couponsListAll.data[j].coupon_code);
@@ -539,7 +539,7 @@ module.exports = Behavior({
         var is_support_direct_discount = child[m].is_support_direct_discount;
         var product_stock = child[m].product_stock;
         var discount_products = child[m].discount_products;
-        var allowance_info = JSON.parse(child[m].allowance_info) || {};
+        var allowance_info = child[m].allowance_info || {};
 
         if (support_other_discount == "true" && new Date().getTime() > allowance_info.start_use_time && new Date().getTime() < allowance_info.end_use_time) {
           var allowance_schemes = allowance_info.allowance_schemes;
@@ -554,15 +554,15 @@ module.exports = Behavior({
                   break;
                 } else { }
               } else {
-                if (JSON.parse(discount_products).length != 0) {
+                if ((discount_products).length != 0) {
                   var discount_products_id_arr = [];
                   var discount_products_fee_arr = [];
                   var discount_products_stock_arr = [];
                   var pay = price - allowance_schemes[k].allowance_discount_fee;
-                  for (let p = 0; p < JSON.parse(discount_products).length; p++) {
-                    discount_products_id_arr.push(JSON.parse(discount_products)[p].discount_product_id);
-                    discount_products_fee_arr.push(JSON.parse(discount_products)[p].discount_product_fee);
-                    discount_products_stock_arr.push(JSON.parse(discount_products)[p].discount_product_stock);
+                  for (let p = 0; p < (discount_products).length; p++) {
+                    discount_products_id_arr.push((discount_products)[p].discount_product_id);
+                    discount_products_fee_arr.push((discount_products)[p].discount_product_fee);
+                    discount_products_stock_arr.push((discount_products)[p].discount_product_stock);
                   }
                   if (discount_products_fee_arr.indexOf(pay) != -1 && discount_products_stock_arr[discount_products_fee_arr.indexOf(pay)] != 0) {
                     _productListAll[m].allowance_act_id = allowance_info.allowance_act_id;
