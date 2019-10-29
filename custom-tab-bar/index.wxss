@@ -17,10 +17,9 @@
   width: 375rpx;
   height: 80rpx;
   position: relative;
-  text-align: center;
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   flex-direction: column;
   font-size: 34rpx;
   font-family: PingFangSC-Semibold, sans-serif;
@@ -37,20 +36,27 @@
 
 .tab-bar-item .tab-bar-bottom {
   position: absolute;
-  left: 168rpx;
   top: 70rpx;
-  /* top: 80rpx; */
-  /* margin-top: 5rpx; */
   width: 36rpx;
   height: 8rpx;
   border-radius: 2px;
   background: #FFD71C;
 }
 
-/* .tab-bar-item .bottom-rapper {
-  height: 3px;
-  margin-top: 8px;
-  width: 14px;
-  box-sizing: border-box;
-} */
+.tab-bar .tab-bar-item:nth-child(1) {
+  padding-left: 200rpx;
+}
+
+.tab-bar .tab-bar-item:nth-child(2) {
+  padding-left: 111rpx;
+}
+
+.tab-bar .tab-bar-item:nth-child(1) .tab-bar-bottom  {
+  left: 215rpx;
+}
+
+.tab-bar .tab-bar-item:nth-child(2) .tab-bar-bottom  {
+  left: 125rpx;
+}
+
 

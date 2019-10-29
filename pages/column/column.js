@@ -53,7 +53,7 @@ Page({
   },
 
   handleItemClick: function (e) {
-    wx.wx.navigateTo({
+    wx.navigateTo({
       url: `../movieDetail/movieDetail?id=${e.currentTarget.dataset.id}&from=column`
     })    
   },

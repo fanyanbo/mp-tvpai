@@ -119,7 +119,7 @@ page {
   position: relative;
   background: #f6f6f6;
   /* add by fyb */
-  margin-left: 10px;
+  width: 480rpx;
 }
 
 .lxy-nav-bar-search__input {

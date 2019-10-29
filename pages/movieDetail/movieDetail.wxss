@@ -16,7 +16,7 @@
   width: 216rpx;
   height: 302rpx;
   overflow: hidden;
-  border-radius: 12rpx;
+  border-radius: 8px;
   background:#ECECEC;
 }
 
@@ -49,7 +49,6 @@
 
 .movieDetail .describe .title {
   width: 420rpx;
-  /* height: 120rpx; */
   font-size: 44rpx;
   line-height: 60rpx;
   color: #fff;
@@ -96,53 +95,88 @@
   height: 100%;
 }
 
-.intwoline {
-  display: -webkit-box !important;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-all;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-.tvLists {
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 40rpx;
-  box-sizing: border-box;
+.push-area {
+  width: auto;
   overflow-x: scroll;
   overflow-y: hidden;
+  white-space : nowrap;
 }
 
-.tvLists .xs {
-  display: flex;
-  float: left;
-  border-radius: 8rpx;
-  background: #444;
-  font-size: 26rpx;
-  margin-right: 20rpx;
-}
-
-.tvLists .xs text {
-  display: block;
-}
-
-.tvLists .scroll {
-  position: relative;
-  white-space: nowrap;
-  margin: 0 auto;
-  text-align: left;
-  border: none;
-  padding-left: 0;
-}
-
-.tvLists .active {
-  background: #FFD71C;
-  color: #333 !important
-}
-
-.tvLists .scroll view {
+.dsj-item {
   display: inline-block;
+  width:108rpx;
+  height:108rpx;
+  background:rgba(51,51,51,1);
+  border-radius:8px;
+  text-align: center;
+  line-height: 108rpx;
+  font-size:32rpx;
+  font-weight:bold;
+  color:rgba(255,255,255,1);
+  margin-left: 20rpx;
+}
+
+.push-area .dsj-item:nth-child(1) {
+  margin-left: 40rpx;
+}
+
+.dsj-active {
+  background:rgba(255,215,28,1);
+  color: #000;
+}
+
+.zy-item {
+  position: relative;
+  display: inline-block;
+  width: 280rpx;
+  height: 132rpx;
+  box-sizing: border-box;
+  background:#333;
+  box-shadow:0px 2px 20px 0px rgba(0,0,0,0.02);
+  border-radius:8px;
+  margin-left: 20rpx;
+}
+
+.zy-item .index {
+  position: absolute;
+  left: 20rpx;
+  top: 16rpx;
+  width:88rpx;
+  height:40rpx;
+  font-size:28rpx;
+  font-weight:bold;
+  color: #ccc;
+  line-height:40rpx;
+}
+
+.push-area .zy-item:nth-child(1) {
+  margin-left: 40rpx;
+}
+
+.zy-active {
+  background:rgba(255,215,28,1);
+}
+
+.zy-active2 {
+  color: #000000;
+}
+
+.zy-item .desc {
+  position: absolute;
+  left: 20rpx;
+  top: 60rpx;
+  width: 240rpx;
+  height: 56rpx;
+  line-height: 28rpx;
+  font-size: 20rpx;
+  color:#999;
+  display: -webkit-box !important;
+  overflow:hidden;
+  white-space: pre-wrap;
+  text-overflow: ellipsis;
+  display:-webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .variety {
@@ -153,98 +187,48 @@
   height: 108rpx
 }
 
-.push {
-  padding: 0 40rpx;
-  font-size: 32rpx;
-  color: #999;
+.notice-bar {
+  display: flex;
+  align-items: center;
+  width: 750rpx;
   height: 88rpx;
   line-height: 88rpx;
-  margin-top: 10rpx
+  margin-top: 10rpx;
 }
 
-.pushIcon {
+.notice-bar .push-icon {
   width: 40rpx;
   height: 40rpx;
-  vertical-align: middle;
-  display: inline-block;
-  margin-right: 12rpx
+  margin-left: 40rpx;
 }
 
-.win_content {
-  margin: 20rpx 0 0 0 !important
+.notice-bar .push-text {
+  width: 320rpx;
+  height: 44rpx;
+  line-height: 44rpx;
+  font-size: 32rpx;
+  color:rgba(153,153,153,1);
+  margin-left: 10rpx;
 }
 
-.movieList {
-  margin: 0 auto;
-  padding: 0rpx 20rpx 178rpx 20rpx;
-  box-sizing: border-box;
+.notice-bar .notice-text {
+  width: 208rpx;
+  height: 34rpx;
+  line-height: 34rpx;
+  font-size: 24rpx;
+  color:rgba(102,102,102,1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 70rpx;
 }
 
-.movieList .item {
-  margin-bottom: 40rpx;
+.notice-bar .more-icon {
+  height: 24rpx;
+  width: 24rpx;
 }
 
 .iphone-fullscreen {
   padding-bottom: 68rpx;
-}
-
-.length {
-  float: right;
-  font-size: 24rpx;
-  color: #666;
-}
-
-.zy {
-  display: block;
-  width: 280rpx;
-  height: 128rpx;
-  box-sizing: border-box;
-  position: relative
-}
-
-.tvLists .dsj {
-  display: block;
-  width: 108rpx;
-  height: 108rpx;
-  text-align: center;
-  line-height: 108rpx;
-  color: #999;
-  font-size: 32rpx
-}
-
-.tvLists .active .segmeng,
-.tvLists .active .subtitle {
-  color: #333
-}
-
-.tvLists .segmeng {
-  font-size: 32rpx;
-  color: #999
-}
-
-.zy button {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 280rpx;
-  height: 128rpx;
-  line-height: 50rpx;
-  background: none;
-  z-index: 2
-}
-
-.zy .subtitle {
-  font-size: 24rpx;
-  color: #666;
-  z-index: 1;
-  width: 280rpx;
-  padding: 0 10rpx;
-  box-sizing: border-box;
-  white-space: normal;
-  height: 68rpx;
-  line-height: 34rpx;
-  position: absolute;
-  top: 50rpx
 }
 
 .maskLayer {
@@ -265,7 +249,7 @@
   position: fixed;
   bottom: 0;
   z-index: 9999;
-  background: #f9f9f9;
+  background: #F1F1F1;
   padding: 40rpx;
   box-sizing: border-box;
   border-radius: 20rpx 20rpx 0 0;
@@ -294,14 +278,15 @@
 
 .choose .item {
   width: 100%;
-  text-align: left;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .choose .tvlist {
-  margin-bottom: 20rpx;
   display: inline-block;
-  width: 20%;
-  text-align: center
+  margin-left: 20rpx;
+  margin-bottom: 20rpx;  
+  width: 118rpx;
 }
 
 .choose .zylist {
@@ -321,43 +306,45 @@
 
 .choose .xs {
   display: inline-block;
-  border: 1rpx solid #ccc;
-  border-radius: 8rpx;
-  background: #F2F2F2;
+  border-radius: 8px;
+  background: #FFFFFF;
   font-size: 26rpx;
   vertical-align: top;
 }
 
 .choose .segmeng {
   font-size: 32rpx;
-  color: #333
+  color: #333;
 }
 
 .choose .subtitle {
   font-size: 24rpx;
-  color: #666;
-  width: 270rpx;
+  color: #999;
+  width: 284rpx;
+  margin-left: 20rpx;
   white-space: normal;
-  overflow: auto;
+  display: -webkit-box !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .choose .zy {
-  width: 100%;
-  height: 128rpx;
-  border: 1rpx solid #ccc;
-  padding: 10rpx 20rpx;
-  box-sizing: border-box
+  width: 324rpx;
+  height: 132rpx;
+  box-sizing: border-box;
 }
 
 .choose .dsj {
-  width: 108rpx;
-  height: 108rpx;
+  width: 118rpx;
+  height: 118rpx;
+  margin-bottom: 10rpx;
   text-align: center;
   margin: 0 auto;
-  line-height: 108rpx;
-  margin-bottom: 10rpx;
-  color: #999;
-  font-size: 32rpx
+  line-height: 118rpx;
+  font-size: 32rpx;
 }
 
 .choose .active {
@@ -365,8 +352,8 @@
   color: #333 !important
 }
 
-.choose .dsj:nth-child(5n) {
-  margin-right: 0;
+.choose .tvlist:nth-child(5n-4) {
+  margin-left: 0rpx;
 }
 
 .choose .zylist:nth-child(2n) {
@@ -382,21 +369,6 @@
   right: 0;
 }
 
-.none {
-  display: none
-}
-
-.videoBlock {
-  display: block
-}
-
-.arrow_1 {
-  height: 24rpx;
-  width: 24rpx;
-  vertical-align: middle;
-  display: inline-block;
-}
-
 ::-webkit-scrollbar {
   width: 0;
   height: 0;
@@ -406,7 +378,6 @@
 .panel-wrap {
   width: 100%;
   box-sizing: border-box;
-  /* border: 1px solid red; */
 }
 
 .panel-title {
