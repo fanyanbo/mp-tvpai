@@ -131,10 +131,10 @@ Component({
       let button_name = '', page_name = '' //数据采集
       if (this.data.stage == this.data.PageStage.PAY_FAIL_PAGE) {
         page_name = this.data._FailPageCustomEventSubmitPageName
-        button_name = '确认支付'
+        button_name = '继续支付'
       }else {
         page_name = this.data.navBarTitle
-        button_name = '继续支付'
+        button_name = '确认支付'
       }
       wx.reportAnalytics('vip_detail_page_clicked', {
         page_name: page_name,
@@ -263,7 +263,7 @@ Component({
       this._updatePayPrice(id)
       wx.reportAnalytics('vip_detail_page_clicked', {
         page_name: this.data.navBarTitle,
-        button_name: this.data.productListShow.product_name,
+        button_name: this.data.productListShow[this.data.curSelectedProject.id].product_name,
         source_name: !!this.data._appLaunchFrom ? this.data._appLaunchFrom : '我的',
       });
     },
