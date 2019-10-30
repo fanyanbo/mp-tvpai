@@ -1,7 +1,27 @@
 
 function getStars(val) {
-    var _num = val / 2
-    return _num
+    var num = val / 2
+    var ret = []
+    switch (num) {
+        case 1:
+            ret = [1, 0, 0, 0, 0];
+            break;
+        case 2:
+            ret = [1, 1, 0, 0, 0];
+            break;
+        case 3:
+            ret = [1, 1, 1, 0, 0];
+            break;
+        case 4:
+            ret = [1, 1, 1, 1, 0];
+            break;
+        case 5:
+            ret = [1, 1, 1, 1, 1];
+            break;
+        default:
+            ret = [1, 1, 1, 1, 1];
+    }
+    return ret
 }
 
 // 无法使用new Date()
@@ -27,8 +47,13 @@ function isThumbsUp() {
     // console.log(wx.getStorage('comment_like'))
 }
 
+function isCorrectScore(score) {
+    return score && score !== '0.0' && score != '' ? true : false
+}
+
 module.exports = {
     getStars: getStars,
     getDateTime: getDateTime,
-    isThumbsUp: isThumbsUp
+    isThumbsUp: isThumbsUp,
+    isCorrectScore: isCorrectScore // 过滤分数
 }

@@ -270,7 +270,7 @@ swiper {
   width: 440rpx;
   height: 310rpx;
   border-radius: 0 0 8px 8px;
-  padding: 10rpx 0 10rpx 0;
+  padding: 20rpx 0 20rpx 0;
 }
 .movie-item {
   display: flex;

@@ -14,6 +14,7 @@ Page({
     isShowNavHome: false, //导航栏是否显示首页
     errIconUrl: '../../images/close_icon.png',
     title: '' //片单名称
+
     // customBackground: 'rgba(255,255,255,0)'
   },
 
@@ -33,18 +34,31 @@ Page({
     let _scrollTop = e.scrollTop
     console.log('onPageScroll', _scrollTop)
 
-    if (_scrollTop >= 270) { //移动高度270后再逐渐显示(改成立即显示))
-      let customNavStyle = `opacity: 1;`
+    if (_scrollTop >= 270) { //移动高度270后再逐渐显示(改成立即显示)) 
       // let customNavStyle = `opacity: ${0.5 + 0.5 * (_scrollTop - 270)/ 202};`
-      this.setData({
-        customNavStyle: customNavStyle,
-        // scrollTop: _scrollTop
-        // customBackground: `rgba(255,255,255,${_opacity})`
-      })
+      this.data.isSettingHide = false
+      if(!this.data.isSettingShow) {
+        let customNavStyle = `opacity: 1;`
+        this.setData({
+          customNavStyle: customNavStyle,
+          // scrollTop: _scrollTop
+          // customBackground: `rgba(255,255,255,${_opacity})`
+        })
+        // 改变胶囊样式
+        wx.setNavigationBarColor({
+          frontColor: '#000000',
+          backgroundColor: '#ffffff',
+        })
+        this.data.isSettingShow = true
+      }
     } else {
-      this.setData({
-        customNavStyle: 'opacity: 0;'
-      })
+      this.data.isSettingShow = false
+      if(!this.data.isSettingHide) {
+        this.setData({
+          customNavStyle: 'opacity: 0;'
+        })
+        this.data.isSettingHide = true
+      }    
     }
   }, 200),
 

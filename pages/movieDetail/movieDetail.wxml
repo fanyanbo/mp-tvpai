@@ -75,7 +75,6 @@
       <view class="panel-title">
         <text class="title-line"></text>
         <text class="title-text">演职员</text>
-        <image class="actor-img" src="../../images/index_arraw.png" mode="aspectFill" />
       </view>
       <view class="actors-content">
         <scroll-view scroll-x style="width: auto; overflow: hidden;">
@@ -104,7 +103,8 @@
               <text class="comment-nickname">{{item.nickname}}</text>
               <view class="comment-star">
                 <block wx:for="{{tools.getStars(item.grade)}}" wx:key="index">
-                  <image class="comment-star-img" mode="aspectFill" src="../../images/videodetail/star-focus.png" />
+                  <image wx:if="{{item === 1}}" class="comment-star-img" mode="aspectFill" src="../../images/videodetail/star-focus.png" />
+                  <image wx:else class="comment-star-img" mode="aspectFill" src="../../images/videodetail/star.png" />
                 </block>
               </view>
               <view class="comment-date">{{tools.getDateTime(item.createTime)}}</view>
@@ -121,7 +121,6 @@
       <view class="panel-title">
         <text class="title-line"></text>
         <text class="title-text">影荐</text>
-        <image class="recomment-img" src="../../images/index_arraw.png" mode="aspectFill" />
       </view>
       <view class="recomment-content">
         <scroll-view scroll-x style="width: auto; overflow: hidden;">
@@ -136,7 +135,7 @@
       <view class="panel-title">
         <text class="title-line"></text>
         <text class="title-text">猜你喜欢</text>
-        <image class="favorite-img" src="../../images/index_arraw.png" mode="aspectFill" />
+        <!-- <image class="favorite-img" src="../../images/index_arraw.png" mode="aspectFill" /> -->
       </view>
       <view class="favorite-content">
         <scroll-view scroll-x style="width: auto; overflow: hidden;">
@@ -146,7 +145,7 @@
               <view wx:if="{{item.video_detail.control_info.charge_info.charge_type !== 0}}" class="vip favorite-vip">
                 VIP
               </view>
-              <view class="favorite-score">{{item.video_detail.base_info.score}}</view>
+              <view wx:if="{{tools.isCorrectScore(item.video_detail.base_info.score)}}" class="favorite-score">{{item.video_detail.base_info.score}}</view>
               <view class="favorite-name">{{item.album_title}}</view>
             </view>
           </block>
@@ -161,7 +160,8 @@
         <text class="comment-nickname">{{item.nickname}}</text>
         <view class="comment-star">
           <block wx:for="{{tools.getStars(item.grade)}}" wx:key="index">
-            <image class="comment-star-img" mode="aspectFill" src="../../images/videodetail/star-focus.png" />
+            <image wx:if="{{item === 1}}" class="comment-star-img" mode="aspectFill" src="../../images/videodetail/star-focus.png" />
+            <image wx:else class="comment-star-img" mode="aspectFill" src="../../images/videodetail/star.png" />
           </block>
         </view>
         <view class="comment-date">{{tools.getDateTime(item.createTime)}}</view>

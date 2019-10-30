@@ -422,10 +422,6 @@
   font-family: PingFangSC-Semibold, PingFangSC;
 }
 
-.intro-wrap {
-  margin-top: 20rpx;
-}
-
 .actor-wrap,
 .favorite-wrap,
 .recomment-wrap,
@@ -571,7 +567,6 @@
   height: 34rpx;
   line-height: 34rpx;
   font-size: 24rpx;
-  font-weight: bold;
   color: #666666;
   font-family: PingFangSC-Regular, PingFangSC;
   text-align: right;
@@ -584,6 +579,7 @@
   padding-right: 40rpx;
   font-family: PingFangSC-Regular, PingFangSC;
   color: #333333;
+  font-size:28rpx;
 }
 
 .actor-img,

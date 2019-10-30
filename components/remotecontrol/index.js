@@ -177,6 +177,9 @@ Component({
           console.log('pushController done!', res)
         }
       })
+      wx.reportAnalytics('remote_control_clicked', {
+        button_name: curId,
+      });
     },
     //处理一般按键和提示语的接口 -end-
     //处理被绑定设备状态的接口 -start-
