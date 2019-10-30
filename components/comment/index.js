@@ -11,36 +11,36 @@ Component({
     // 组件内部数据
     keyboardHeight: 0,
     currentWordNumber: 0,
-    score: 0,
+    score: 5,
     inputValue: '',
     placeholder: '写几句评论吧...',
     stars: [
       {
-        flag: 1,
+        flag: 2,
         score: 1,
         grayStar: "/images/star_gray.png",
         lightStar: "/images/star_light.png"
       },
       {
-        flag: 1,
+        flag: 2,
         score: 2,
         grayStar: "/images/videodetail/star.png",
         lightStar: "/images/videodetail/star-focus.png"
       },
       {
-        flag: 1,
+        flag: 2,
         score: 3,
         grayStar: "/images/videodetail/star.png",
         lightStar: "/images/videodetail/star-focus.png"
       },
       {
-        flag: 1,
+        flag: 2,
         score: 4,
         grayStar: "/images/videodetail/star.png",
         lightStar: "/images/videodetail/star-focus.png"
       },
       {
-        flag: 1,
+        flag: 2,
         score: 5,
         grayStar: "/images/videodetail/star.png",
         lightStar: "/images/videodetail/star-focus.png"
@@ -104,14 +104,9 @@ Component({
     reply: function (e) {
       console.log("triggerEvent")
       //todo:校验内容和分数是否为空
-      if(this.data.inputValue && this.data.inputValue.length === 0 || this.data.score === 0) {
-        this.setData({
-          placeholder: '输入内容或评分不能为空！！'
-        })
-        return
-      }
-      this.triggerEvent('home', 
-      {"content": this.data.inputValue,"score": this.data.score})
+      const params = {"content": this.data.inputValue,"score": this.data.score}
+      console.log(params)
+      this.triggerEvent('home', params)
       this.setData({
         isShow: false
       })

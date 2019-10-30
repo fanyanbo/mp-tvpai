@@ -90,7 +90,7 @@
       <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">
         <view class="topic-item" wx:for="{{topicList}}" wx:key="index" bindtap="handleTopicTap" data-id="{{item.id}}" data-title="{{item.title}}">
           <view class="topic-item-header">
-            <image src="{{item.image_url}}" class="img" />
+            <image src="{{item.image_url}}" class="img" mode='aspectFill'/>
             <text class="title">{{item.title}}</text>
           </view>
           <view class="topic-item-content" style="{{tools.getBgColor(item.base_color)}}">
@@ -123,7 +123,7 @@
         <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">
           <view wx:for="{{item.video_list}}" wx:if="{{item.album_title != ''}}" wx:for-item="item2" wx:key="index" class="poster-item" data-movieid="{{item2.third_album_id}}" bindtap="handleItemTap">
             <image src="{{item2.video_poster}}" mode="aspectFill" class="poster-img"></image>
-            <view class="poster-score">{{item2.video_detail.base_info.score}}</view>
+            <view wx:if="{{tools.isCorrectScore(item2.video_detail.base_info.score)}}" class="poster-score">{{item2.video_detail.base_info.score}}</view>
             <view wx:if="{{tools.isContainKey(item.title)}}" class="poster-vip">VIP</view>
             <view class="poster-text">{{item2.album_title}}</view>
           </view>

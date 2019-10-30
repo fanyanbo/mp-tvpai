@@ -10,7 +10,7 @@
     <view class="date">{{item[0]}}</view>
     <block wx:for="{{item[1]}}" wx:key="index" wx:for-item="subitem">
       <view class="item" bindtap="handleItemClick" data-id="{{subitem.id}}">
-        <image class="item-img" src="{{subitem.image_url}}" />
+        <image class="item-img" src="{{subitem.image_url}}" mode='aspectFill'/>
         <text class="item-title">{{subitem.title}}</text>
       </view>
     </block>

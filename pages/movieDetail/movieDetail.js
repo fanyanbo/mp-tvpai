@@ -603,6 +603,7 @@ Page({
   handleSubmitClick: function (e) {
     console.log('handleSubmitClick', e)
     let { content, score } = e.detail
+    if(content === '') content = '此用户暂无评论'
     // 后台按照10分制定义
     this.submitComment(content, score * 2)
   },

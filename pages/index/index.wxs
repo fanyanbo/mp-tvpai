@@ -31,8 +31,13 @@ function getSubArray(arr, index) {
     }
 }
 
+function isCorrectScore(score) {
+    return score && score !== '0.0' && score != '' ? true: false
+}
+
 module.exports = {
     isContainKey: isContainKey,
     getBgColor: getBgColor, // 获取片单背景色
-    getSubArray: getSubArray // 切割爱奇艺分类标签列表
+    getSubArray: getSubArray, // 切割爱奇艺分类标签列表
+    isCorrectScore: isCorrectScore // 过滤分数
 }
