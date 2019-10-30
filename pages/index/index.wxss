@@ -121,7 +121,7 @@
   width: 210rpx;
   height: 374rpx;
   margin-left: 20rpx;
-  border-radius: 8rpx;
+  border-radius: 6px;
   vertical-align: top;
 }
 
@@ -135,7 +135,7 @@
 .poster-img {
   width: 210rpx;
   height: 294rpx;
-  border-radius: 12rpx
+  border-radius: 6px;
 }
 
 .poster-score {
@@ -154,10 +154,10 @@
   left: 162rpx;
   top: 0;
   width:48rpx;
-  height:32rpx;
-  line-height: 32rpx;
+  height:36rpx;
+  line-height: 36rpx;
   background:rgba(255,98,70,1);
-  border-radius:6px;
+  border-radius: 6px;
   font-size: 20rpx;
   font-weight:500;
   font-family:PingFangSC-Medium,PingFangSC;
