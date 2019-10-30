@@ -13,6 +13,7 @@ Page({
     isShowNavBack: true, //导航栏是否显示返回
     isShowNavHome: false, //导航栏是否显示首页
     errIconUrl: '../../images/close_icon.png',
+    title: '' //片单名称
     // customBackground: 'rgba(255,255,255,0)'
   },
 
@@ -32,9 +33,9 @@ Page({
     let _scrollTop = e.scrollTop
     console.log('onPageScroll', _scrollTop)
 
-    if (_scrollTop >= 270) { //移动高度270后再逐渐显示
-      let customNavStyle = `opacity: ${0.5 + 0.5 * (_scrollTop - 270)/ 202};`
-      // let _opacity = 0.7 + 0.3 * _scrollTop / 202
+    if (_scrollTop >= 270) { //移动高度270后再逐渐显示(改成立即显示))
+      let customNavStyle = `opacity: 1;`
+      // let customNavStyle = `opacity: ${0.5 + 0.5 * (_scrollTop - 270)/ 202};`
       this.setData({
         customNavStyle: customNavStyle,
         // scrollTop: _scrollTop
@@ -45,7 +46,7 @@ Page({
         customNavStyle: 'opacity: 0;'
       })
     }
-  }, 100),
+  }, 200),
 
   onShow: function () {
     // this.setData({
@@ -74,6 +75,11 @@ Page({
   // 页面分享
   onShareAppMessage: function (res) {
     console.log(res)
+    wx.reportAnalytics('topic_detail_clicked', {
+      topic_name: this.data.title,
+      button_name: 'topic_share',
+      params: '',
+    });
     if (res.from === 'button') {
       // 来自页面内转发按钮
       console.log(res.target)
@@ -121,8 +127,18 @@ Page({
     let { type, movieid } = e.currentTarget.dataset
     console.log(type, movieid)
     if (type === 'movie') {
+      wx.reportAnalytics('topic_detail_clicked', {
+        topic_name: this.data.title,
+        button_name: 'movie_collection',
+        params: movieid,
+      });
       this.addMovieFavorite(movieid)
     } else {
+      wx.reportAnalytics('topic_detail_clicked', {
+        topic_name: this.data.title,
+        button_name: 'topic_collection',
+        params: '',
+      });
       this.addTopicFavorite(this.data.topicId)
     }
   },
@@ -140,8 +156,18 @@ Page({
       // _collectionList = Array.from(_collectionSet)
       // console.log(_collectionList)
       // this.setData({ collectionList: _collectionList }) 
+      wx.reportAnalytics('topic_detail_clicked', {
+        topic_name: this.data.title,
+        button_name: 'movie_uncollection',
+        params: movieid,
+      });
       this.delMovieFavorite(movieid)
     } else {
+      wx.reportAnalytics('topic_detail_clicked', {
+        topic_name: this.data.title,
+        button_name: 'topic_uncollection',
+        params: '',
+      });
       this.delTopicFavorite(this.data.topicId)
     }
   },
@@ -150,6 +176,11 @@ Page({
   handleItemClick: function (e) {
     console.log('handleItemClick')
     let { movieid } = e.currentTarget.dataset
+    wx.reportAnalytics('topic_detail_clicked', {
+      topic_name: this.data.title,
+      button_name: 'enter_movie_detail',
+      params: movieid,
+    });
     wx.navigateTo({
       url: `../movieDetail/movieDetail?id=${movieid}&from=topicDetail`,
     })
@@ -167,6 +198,11 @@ Page({
       })
     }
     let { movieid, title, type } = e.currentTarget.dataset
+    wx.reportAnalytics('topic_detail_clicked', {
+      topic_name: this.data.title,
+      button_name: 'movie_push',
+      params: movieid,
+    });
     if (type !== "电影") return
     let _session = wx.getStorageSync("new_cksession")
     console.log("校验参数 session:" + _session);
@@ -198,14 +234,15 @@ Page({
   // 获取片单详情数据，片单不区分源
   getTopicDetailById: function (id) {
     utils.requestP(api.getTopicUrl, utils.paramsAssemble_tvpai({ "id": id })).then(res => {
-      console.log('获取片单所有影片数据:', res)
+      console.log('获取片单详情数据:', res)
       if (res.data.data) {
         this.setData({
-          topicDetail: res.data.data[0]
+          topicDetail: res.data.data[0],
+          title: res.data.data[0].title
         })
       }
     }).catch(res => {
-      console.log('获取片单数据发生错误', res)
+      console.log('获取片单详情发生错误', res)
       utils.showFailedToast('加载数据失败', this.data.errIconUrl)
     })
   },

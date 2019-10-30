@@ -197,9 +197,13 @@ Page({
   // 跳转至片单详情页
   handleTopicTap: function (e) {
     console.log('handleTopicTap', e)
-    wx.navigateTo({
-      url: `../topicDetail/topicDetail?id=${e.currentTarget.dataset.id}`,
+    const {id, title} = e.currentTarget.dataset
+    wx.reportAnalytics('index_topic_clicked', {
+      title: title,
     });
+    wx.navigateTo({
+      url: `../topicDetail/topicDetail?id=${id}`
+    })
   },
 
   // 点击一级分类，跳转

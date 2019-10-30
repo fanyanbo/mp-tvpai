@@ -88,7 +88,7 @@
     </view>
     <view class="topic-content" wx:if="{{topicList.length !== 0}}">
       <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">
-        <view class="topic-item" wx:for="{{topicList}}" wx:key="index" bindtap="handleTopicTap" data-id="{{item.id}}">
+        <view class="topic-item" wx:for="{{topicList}}" wx:key="index" bindtap="handleTopicTap" data-id="{{item.id}}" data-title="{{item.title}}">
           <view class="topic-item-header">
             <image src="{{item.image_url}}" class="img" />
             <text class="title">{{item.title}}</text>
