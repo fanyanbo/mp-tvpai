@@ -163,6 +163,7 @@ text-align: center;
   background: #FFD71C;
   color: #333;
   height: 86rpx;
+  line-height: 86rpx;
   border-radius: 16rpx
 }
 .view{

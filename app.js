@@ -85,9 +85,9 @@ App({
       },
     })
     bind.getDeviceList.apply(that, [true]).then(() => {
-      console.log('获取成功')
+      console.log('设备列表获取成功')
     }).catch(() => {
-      console.log('设备列表为空或获取失败')
+      console.log('设备列表获取失败')
     })
   },
   onShow() {

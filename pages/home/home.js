@@ -43,9 +43,15 @@ Page({
   _scanNBindNRefresh() {//页面自用的扫码、绑定、刷新设备列表
     bind.scanNBindNRefresh().then((data) => { //todo 
       this._updatePageShow(data)
+      wx.reportAnalytics('device_connect_result', { //数据采集
+        result: '成功',
+      });
       console.log('resolve...')
     }).catch((err) => {
       this._updatePageShow(err)
+      wx.reportAnalytics('device_connect_result', { //数据采集
+        result: '失败',
+      });
       console.log('reject...')
     })  
   },

@@ -10,7 +10,7 @@
 
 <view class="main-wrapper">
   <!-- 用户信息区 -->
-  <view class="userinfo" bindtap="tapUserInfo">
+  <view class="userinfo customeventsubmit" bindtap="tapUserInfo" data-customeventsubmit="我的头像">
     <block wx:if="{{bLoginCoocaa}}">
       <view class="avatar"><image class="avatar-image" src="{{ccUserInfo.avatar}}"></image></view>
       <view class="name"><text>{{ccUserInfo.name}}</text></view>
@@ -20,7 +20,7 @@
   <!-- 产品源列表区 -->
   <view class="productlist" wx:if="{{!isInIphoneModel}}">
     <scroll-view scroll-x>
-      <view class="vipitem" wx:for="{{productSourceList}}" wx:key="index" bindtap="goVipPage" data-id="{{item.source_id}}" data-index="{{item.index}}">
+      <view class="vipitem customeventsubmit" wx:for="{{productSourceList}}" wx:key="index" bindtap="goVipPage" data-id="{{item.source_id}}" data-index="{{item.index}}" data-customeventsubmit="{{item.source_name}}">
         <image class="image" src="{{item.image}}"></image>
         <text class="title">{{item.source_name}}</text>
         <text class="valid">{{item.valid}}</text>
@@ -34,7 +34,7 @@
       <view class="tvname">{{curTV.name}}</view>
       <view class="tvsource" wx:if="{{!!curTV.source}}">{{curTV.source}}</view>
     </view>
-    <view class="device-switch" data-type="home" bindtap="handleJumpPage">{{curTV.btn}}</view>
+    <view class="device-switch customeventsubmit" data-type="home" bindtap="handleJumpPage" data-customeventsubmit="设备绑定">{{curTV.btn}}</view>
   </view>
   <!-- 当前绑定电视账户与微信登录账户不一致时 -->
   <view class="unmatch" wx:if="{{curTV.bAcctMatch == false}}">
@@ -45,11 +45,11 @@
       <view class="location">{{item.location}}</view>
     </view>
     <image class="sync-icon" src="../../images/my/sync.png"></image>
-    <view class="domatch" bindtap="syncTVAcct">同步会员账号</view>
+    <view class="domatch customeventsubmit" data-customeventsubmit="同步会员账号" bindtap="syncTVAcct">同步会员账号</view>
   </view>
 
   <!-- 投屏历史 标题行 -->
-  <view class='history mylabel' data-type="history" bindtap="handleJumpPage">
+  <view class='history mylabel customeventsubmit' data-type="history" bindtap="handleJumpPage" data-customeventsubmit="投屏历史">
     <image class='my_icon' src="../../images/my/history.png"></image>
     <text class="title">投屏历史</text>
     <text class="more">更多</text>
@@ -58,7 +58,7 @@
   <!-- 投屏历史 预览区 -->
   <view wx:if="{{!!historyList.length}}" class="scroll_box section">
     <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">
-      <navigator wx:for="{{historyList}}" wx:key="index" wx:for-item="item" class="item_list" url="../movieDetail/movieDetail?id={{item.album_id}}">
+      <navigator wx:for="{{historyList}}" wx:key="index" wx:for-item="item" class="item_list customeventsubmit" data-customeventsubmit="投屏历史" url="../movieDetail/movieDetail?id={{item.album_id}}">
         <view>
           <image src="{{item.poster_h}}" class="item_book_img" mode="aspectFill"></image>
           <view class="item_book_text inaline">{{item.title}}</view>
@@ -68,7 +68,7 @@
   </view>
   
   <!-- 我的喜欢 标题行 -->
-  <view class='favorite mylabel' data-type="favorite" bindtap="handleJumpPage">
+  <view class='favorite mylabel customeventsubmit' data-type="favorite" bindtap="handleJumpPage" data-customeventsubmit="我的喜欢">
     <image class='my_icon' src="../../images/my/favorite.png"></image>
     <text class="title">我的喜欢</text>
     <text class="more">更多</text>
@@ -76,7 +76,7 @@
   </view>
 
   <!-- 消费记录 标题行 -->
-  <view class='record mylabel' data-type="record" bindtap="handleJumpPage">
+  <view class='record mylabel customeventsubmit' data-type="record" bindtap="handleJumpPage" data-customeventsubmit="消费记录">
     <image class='my_icon' src="../../images/my/record.png"></image>
     <text class="title">消费记录</text>
     <text class="more">更多</text>
@@ -84,7 +84,7 @@
   </view>
 
   <!-- 实体卡激活 标题行 -->
-  <!-- <view class='card mylabel' data-type="card" bindtap="handleJumpPage">
+  <!-- <view class='card mylabel customeventsubmit' data-type="card" bindtap="handleJumpPage" data-customeventsubmit="实体卡激活">
     <image class='my_icon' src="../../images/my/card.png"></image>
     <text class="title">实体卡激活</text>
     <text class="more">更多</text>

@@ -11,6 +11,9 @@ Component({
   behaviors: [payBehavior, packageBehavior],
 
   data: {
+    _FailPageCustomEventSubmitPageName: '', //失败页数据采集
+    _FailPageCustomEventSubmitVipName: '',//失败页数据采集
+    _appLaunchFrom: util_fyb.getAppLaunchSource(), //数据采集
     productListShow: [],//保存页面显示需要的信息
     PageStage: {
       HOME_PAGE: 0,
@@ -41,7 +44,7 @@ Component({
       avatar: '',
     },
     bToastAuthTencentQQorWechat: false, //腾讯源进入产品包时，提示用户选择授权qq或微信的弹窗
-    navBarTitle: '爱奇艺',//当前产品包名称
+    navBarTitle: '爱奇艺VIP',//当前产品包名称
     benifitImg: '',//vip权益图片
     tencentAcctInfos: [ //腾讯源用户qq和微信信息
       {
@@ -125,19 +128,32 @@ Component({
       })
     },
     payNow(e) { //立即支付
+      let button_name = '', page_name = '' //数据采集
+      if (this.data.stage == this.data.PageStage.PAY_FAIL_PAGE) {
+        page_name = this.data._FailPageCustomEventSubmitPageName
+        button_name = '确认支付'
+      }else {
+        page_name = this.data.navBarTitle
+        button_name = '继续支付'
+      }
+      wx.reportAnalytics('vip_detail_page_clicked', {
+        page_name: page_name,
+        button_name: button_name,
+        source_name: !!this.data._appLaunchFrom ? this.data._appLaunchFrom : '我的',
+      });
       new Promise((resolve, reject) => {
         if (this.data.stage == this.data.PageStage.HOME_PAGE) {
           let params = this.data.productListShow[this.data.curSelectedProject.id]
-                  this.genOrder(params, this.data._tencentType).then(res => {
-                    this.data._orderId = res.orderId
-                    return this.prePay(res)
-                  }).then( res => {
-                    console.log(res)
-                    resolve(res)
-                  }).catch( err => {
-                    console.error(err)
-                    reject()
-                  })
+          this.genOrder(params, this.data._tencentType).then(res => {
+            this.data._orderId = res.orderId
+            return this.prePay(res)
+          }).then( res => {
+            console.log(res)
+            resolve(res)
+          }).catch( err => {
+            console.error(err)
+            reject()
+          })
         } else if (this.data.stage == this.data.PageStage.PAY_FAIL_PAGE) { //支付失败后，继续支付
           resolve()
         }
@@ -148,6 +164,19 @@ Component({
         return this.startPay(this.data._payParams)
       }).then(res => {
         console.log(res)
+        let vip_name = '', page_name = '' //支付成功-数据采集
+        if (this.data.stage == this.data.PageStage.PAY_FAIL_PAGE) {
+          page_name = this.data._FailPageCustomEventSubmitPageName
+          vip_name = this.data._FailPageCustomEventSubmitVipName
+        }else {
+          page_name = this.data.navBarTitle
+          vip_name = this.data.productListShow[this.data.curSelectedProject.id].product_name
+        }
+        wx.reportAnalytics('vip_pay_success_result', {
+          page_name: page_name,
+          vip_name: vip_name,
+          source_name: !!this.data._appLaunchFrom ? this.data._appLaunchFrom : '我的',
+        });
         let stage = this.data.PageStage.PAY_SUCCESS_PAGE //todo 支付成功，页面重定向到支付成功页
         wx.navigateTo({
           url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}`,
@@ -163,7 +192,7 @@ Component({
         }
         let stage = this.data.PageStage.PAY_FAIL_PAGE //失败页处理,继续支付
         wx.navigateTo({
-          url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&pay=${JSON.stringify(this.data._payParams)}`,
+          url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&pay=${JSON.stringify(this.data._payParams)}&page_name=${this.data.navBarTitle}&vip_name=${this.data.productListShow[this.data.curSelectedProject.id].product_name}`,
         })
       }).then(() => {
         this.data._orderId = null;
@@ -232,6 +261,11 @@ Component({
       console.log(e.currentTarget.dataset)
       let id = e.currentTarget.dataset.id;
       this._updatePayPrice(id)
+      wx.reportAnalytics('vip_detail_page_clicked', {
+        page_name: this.data.navBarTitle,
+        button_name: this.data.productListShow.product_name,
+        source_name: !!this.data._appLaunchFrom ? this.data._appLaunchFrom : '我的',
+      });
     },
     goRollPrize() { //支付成功去抽奖
       let openid = app.globalData.ccUserInfo.openid
@@ -394,6 +428,10 @@ Component({
         navBarTitle: srcName,
         benifitImg: benefitImg,
       })
+      wx.reportAnalytics('vip_detail_page_show', { //数据采集
+        page_name: srcName,
+        source_name: !!this.data._appLaunchFrom ? this.data._appLaunchFrom : '我的',
+      });
     },
     /**
      * 生命周期函数--监听页面加载
@@ -408,6 +446,8 @@ Component({
         this.data._orderId = options.orderId
         if (this.data.stage == this.data.PageStage.PAY_FAIL_PAGE) {
           this.data._payParams = JSON.parse(options.pay)
+          this.data._FailPageCustomEventSubmitPageName = options.page_name
+          this.data._FailPageCustomEventSubmitVipName = options.vip_name
         }
         this._getOrderDetailes(this.data._orderId)
       }else { //其它页跳转到本页面

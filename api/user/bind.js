@@ -141,7 +141,7 @@ function getDeviceList(init=false) {  //获取绑定设备列表
         app.globalData.activeId = null;
         app.globalData.deviceId = null;
         util_fyb.refreshBindedTVStatus(app.globalData.activeId);
-        reject({
+        resolve({
           isShowDoc: true,
           devices: false,
           mydevices: res.data.data

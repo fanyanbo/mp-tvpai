@@ -14,10 +14,10 @@
     </view>
     <view class="{{bIphoneFullScreenModel ? 'iphone-fullscreen-model' : 'view'}}">
       <!-- <button class="_binding" bindtap="scan" id="scan">开始扫码绑定</button> -->
-      <button class="_binding" open-type="getUserInfo" id="scan" bindgetuserinfo="bindGetUserInfo">开始扫码绑定</button>
+      <button class="_binding customeventsubmit" open-type="getUserInfo" id="scan" bindgetuserinfo="bindGetUserInfo" data-customeventsubmit="开始扫码绑定">开始扫码绑定</button>
     </view>
   </view>
-  <view class="{{devices?'binding':'none'}} " bindtap="navigateto">绑定新设备</view>
+  <view class="{{devices?'binding':'none'}} customeventsubmit" bindtap="navigateto" data-customeventsubmit="绑定新设备">绑定新设备</view>
   <view class="{{devices?'mydevices':'none'}} ">
     <text>我的设备</text>
   </view>
@@ -25,7 +25,7 @@
     <view class="device-item device-top-left">
       <view class="device-top">
         <text class="device-name inaline">{{item.device.deviceName}}</text>
-        <view class="edit" bindtap="deleteto" data-id="{{item.id}}" data-status="{{item.bindStatus}}" data-name="{{item.device.deviceName}}">编辑</view>
+        <view class="edit customeventsubmit" bindtap="deleteto" data-id="{{item.id}}" data-status="{{item.bindStatus}}" data-name="{{item.device.deviceName}}" data-customeventsubmit="编辑">编辑</view>
       </view>
       <view class="device_info">
         <view class="device-content">
@@ -42,7 +42,7 @@
         </view>
       </view>
     </view>
-    <view class="device-top-right">
+    <view class="device-top-right customeventsubmit" data-customeventsubmit="绑定">
       <image wx:if="{{item.bindStatus == 1}}" class="device-model" src="../../images/binding.png"></image>
       <view data-id='{{item.id}}' bindtap="handleBindTap" wx:else>绑定</view>
     </view>
