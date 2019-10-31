@@ -25,17 +25,26 @@ Page({
     bannerList: [],
     isShowBanner: true, //是否显示banner区域，控制骨架屏显示逻辑
     isShowTopic: true, //是否显示片单区域，控制骨架屏显示逻辑
+    formIdCollect: { //form-id人群圈定功能
+      formSubmit: 'formSubmit',
+      collectEvent: 'collectEvent'
+    },
   },
-  formSubmit(e) { //表单提交
+  formSubmit(e) { //form-id 表单提交
     console.log(e.detail.formId)
-    new user_login.formIdEventCollectClass().collectAsyncOnce(e.detail.formId)
+    wx.setStorageSync("formid", e.detail.formId)
   },
-  tapbuttontest(e) {
+  collectEvent(e) {//form-id 人群圈定
     console.log(e)
-  },
-  collectEvent(e) {
-    console.log(e)
-    
+    new user_login.formIdEventCollectClass().collectAsync('userInitEnter', utils.getFormatTime(+new Date()))
+          .then(res => {
+            this.setData({ //如果提交成功，不再重复提交
+              'formIdCollect.formSubmit': null,
+              'formIdCollect.collectEvent': null,
+            })
+          }).catch( err =>{
+              wx.removeStorageSync('formid') //提交失败，删除formid，下次继续提交
+          })
   },
   swiperChange: function () {
     console.log('swiperChange')

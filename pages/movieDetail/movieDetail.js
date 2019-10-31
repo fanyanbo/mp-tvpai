@@ -6,6 +6,7 @@
 
 const utils = require('../../utils/util_fyb')
 const api = require('../../api/api_fyb')
+const user_login = require('../../api/user/login.js')
 const app = getApp()
 
 Page({
@@ -31,8 +32,27 @@ Page({
     commentTotalNum: 164, //评论总数
     hotCommentList: [], //热评总数
     allCommentList: [], //评论总数
+    formIdCollect: { //form-id人群圈定功能
+      formSubmit: 'formSubmit',
+      collectEvent: 'collectEvent'
+    },
   },
-
+  formSubmit(e) { //form-id 表单提交
+    console.log(e.detail.formId)
+    wx.setStorageSync("formid", e.detail.formId)
+  },
+  collectEvent(e) {//form-id 人群圈定
+    console.log(e)
+    new user_login.formIdEventCollectClass().collectAsync('userInitEnter', utils.getFormatTime(+new Date()))
+      .then(res => {
+        this.setData({ //如果提交成功，不再重复提交
+          'formIdCollect.formSubmit': null,
+          'formIdCollect.collectEvent': null,
+        })
+      }).catch(err => {
+        wx.removeStorageSync('formid') //提交失败，删除formid，下次继续提交
+      })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

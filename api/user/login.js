@@ -343,16 +343,16 @@ class formIdEventCollectClass {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         success: res => {
+          console.log('eventCollect: ', res.data.result)
           if (res.data.result === true) {
-            console.log('enevtCollect success!')
             resolve(res.data)
           } else {
-            reject()
+            reject(res.data.result)
           }
         },
         fail: function () {
-          console.log("获取formid失败")
-          reject()
+          console.log("提交formid失败")
+          reject('提交formid失败')
         },
         complete: function () {
           console.log("事件表单接口请求完成")
@@ -378,21 +378,21 @@ class formIdEventCollectClass {
       }
     }).then(res => {
       return this.collect(type, contactId)
-    }).catch(err => {
-      wx.removeStorageSync('formid') //提交失败，删除formid，下次继续提交
-      console.error(err)
     })
   }
 
-  collectAsyncOnce(newformid) { //只提交一次：用户进入小程序有交互后提交；然后其他的交互不再提交
-    let formId = wx.getStorageSync('formid')
-    if (!formId) {
-      wx.setStorageSync("formid", newformid)
-      this.collectAsync('userInitEnter', util_fyb.getFormatTime(+new Date()))
-    } else {
-      console.log('event has collect, not any more...')
-    }
-  }
+  // collectAsyncOnce(newformid) { //只提交一次：用户进入小程序有交互后提交；然后其他的交互不再提交
+  //   return new Promise((resolve, reject) => {
+  //     let formId = wx.getStorageSync('formid')
+  //     if (!formId) {
+  //       wx.setStorageSync("formid", newformid)
+  //       return this.collectAsync('userInitEnter', util_fyb.getFormatTime(+new Date()))
+  //     } else {
+  //       console.log('event has collect, not any more...')
+  //       reject()
+  //     }
+  //   })
+  // }
 }
 
 function wxGetUserInfoP() {
