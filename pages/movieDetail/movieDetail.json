@@ -1,6 +1,7 @@
 {
   "usingComponents": {
-    "remotecontrol": "../../components/remotecontrol/index"
+    "remotecontrol": "../../components/remotecontrol/index",
+    "comment": "../../components/comment/index"
   },
   "navigationBarTextStyle": "white"
 }

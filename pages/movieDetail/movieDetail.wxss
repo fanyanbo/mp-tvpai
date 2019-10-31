@@ -12,8 +12,8 @@
 }
 
 .movieDetail .poster {
-  width: 216rpx;
-  height: 302rpx;
+  width: 210rpx;
+  height: 294rpx;
   overflow: hidden;
   border-radius: 8px;
   background:#ECECEC;
@@ -39,7 +39,7 @@
   height:36rpx;
   line-height: 36rpx;
   border-radius: 8px;
-  left: 164rpx;
+  left: 158rpx;
 }
 
 .movieDetail .describe {
@@ -209,7 +209,7 @@
 }
 
 .notice-bar .push-text {
-  width: 220rpx;
+  width: 110rpx;
   height: 44rpx;
   line-height: 44rpx;
   font-size: 32rpx;
@@ -218,7 +218,7 @@
 }
 
 .notice-bar .notice-text {
-  width: 308rpx;
+  width: 434rpx;
   height: 34rpx;
   line-height: 34rpx;
   font-size: 24rpx;
@@ -226,7 +226,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  margin-left: 70rpx;
+  margin-left: 50rpx;
   text-align: right;
 }
 
