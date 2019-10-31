@@ -15,7 +15,7 @@
   /* iphonex会有bug，高度坍塌 */
   /* flex: 1; */ 
   width: 375rpx;
-  height: 80rpx;
+  height: 76rpx;
   position: relative;
   display: flex;
   justify-content: center;
@@ -36,7 +36,7 @@
 
 .tab-bar-item .tab-bar-bottom {
   position: absolute;
-  top: 70rpx;
+  top: 64rpx;
   width: 36rpx;
   height: 8rpx;
   border-radius: 2px;

@@ -140,7 +140,7 @@ module.exports = Behavior({
   },
   getAllowance() {//获取津贴
     return new Promise((resolve, reject) => {
-      let clientId = config.baseUrl_allowance.startsWith('https://beta') ? 'YS_BETA' : 'YS_RELEASE ' //分测试环境和正式环境
+      let clientId = config.env == 'dev' ? 'YS_BETA' : 'YS_RELEASE ' //分测试环境和正式环境
 
       wx.request({
         url: url_getAllowance,

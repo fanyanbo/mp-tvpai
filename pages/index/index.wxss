@@ -4,7 +4,7 @@
 }
 
 .main-wrap {
-  padding-top: 55px;
+  padding-top: 96rpx;
   padding-bottom: 178rpx;
 }
 
@@ -13,7 +13,9 @@
   height: 300rpx;
   overflow: hidden;
 }
-
+.button-hover,.other-button-hover {
+  display: none;
+}
 /* .banner-item {
   width: 670rpx;
   height: 300rpx;

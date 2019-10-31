@@ -116,30 +116,21 @@
   align-items: center;
 }
 .item-key {
-  position: relative;
   width: 36rpx;
   height: 36rpx;
+  line-height: 36rpx;
   border-radius: 50%;
-  background-color: #F5F6F8;
-}
-.item-key text {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 80rpx;
-  height: 80rpx;
-  line-height: 80rpx;
+  background: #F2F2F2;
+  font-size: 24rpx;
   text-align: center;
   color: #666666;
-  font-size: 24rpx;
 }
 .item-value {
   margin-left: 15rpx;
 }
 .hot-words:nth-child(1) .item-key {
   background-color: red;
-  color: #FFFFFF;
+  color: #FFFFFF !important
 }
 .hot-words:nth-child(2) .item-key {
   background-color: orangered;

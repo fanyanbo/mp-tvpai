@@ -2,6 +2,7 @@
 const user_mock = require('../../api/user/mock')
 const util_fyb = require('../../utils/util_fyb.js')
 const user_login = require('../../api/user/login.js')
+const config = require('../../config/index.js')
 
 var payBehavior = require('../../api/user/pay')
 var packageBehavior = require('../../api/user/package')
@@ -272,7 +273,12 @@ Component({
       let nickName = app.globalData.ccUserInfo.username
       let loginType = 0
       let wxid = app.globalData.ccUserInfo.wxVuId
-      let url = `http://beta.webapp.skysrt.com/lqq/chou/chou.html?openId=${openid}&nickName=${nickName}&loginType=${loginType}&wxid=${wxid}`
+      
+      let url = `https://webapp.skysrt.com/activity201911/mobile-main/turntable/chou.html`
+      if(config.env == 'dev') {
+        url = `http://beta.webapp.skysrt.com/lqq/chou/chou.html`
+      }
+      url += `?openId=${openid}&nickName=${nickName}&loginType=${loginType}&wxid=${wxid}`      
       wx.navigateTo({
         url: `../webview/webview?path=${url}`
       });

@@ -359,8 +359,7 @@ Component({
           _path = (!!_session) ? '../history/history' : '../home/home'
           break;
         case "favorite": 
-          _session = wx.getStorageSync("new_cksession")
-          _path = (!!_session) ? '../favorite/favorite' : '../login/login'
+          _path = (!!app.globalData.ccUserInfo) ? '../favorite/favorite' : '../login/login'
           break;
         case "record":
           if (!user_login.isUserLogin()) {

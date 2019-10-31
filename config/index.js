@@ -6,6 +6,7 @@
 const env = 'dev';
 
 const config = (env === 'prod') ? {
+    env : env,
     baseUrl_nj: "https://user.coocaa.com/",
     baseUrl_tvpai: "https://tvpi.coocaa.com/",
     baseUrl_wx: "https://wx.coocaa.com/",               //微信url(hengyanyan)
@@ -14,6 +15,7 @@ const config = (env === 'prod') ? {
     baseUrl_acct: "https://passport.coocaa.com/",       //账户url(chenxiguang)
     baseUrl_allowance: "https://jintie.coocaa.com/",     //津贴url(zhangyuhao)
 } : {
+    env: env,
     baseUrl_nj: "https://user.coocaa.com/",
     baseUrl_tvpai: "https://beta-tvpi.coocaa.com/",
     baseUrl_wx: "https://beta-wx.coocaa.com/",
@@ -26,4 +28,3 @@ const config = (env === 'prod') ? {
 console.log("config", config)
 
 module.exports = config;
-
