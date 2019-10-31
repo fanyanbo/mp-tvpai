@@ -58,13 +58,6 @@
   display: flex;
 }
 
-.column-item .skeleton {
-  width: 104rpx;
-  height: 104rpx;
-  border-radius: 100%;
-  background: rgba(229,229,229,0.5);
-}
-
 .column-item .label-title {
   height: 36rpx;
   line-height: 36rpx;
@@ -193,7 +186,7 @@ swiper {
   border-radius: 16rpx;
   width: 670rpx;
   height: 300rpx;
-  background: rgba(229,229,229,0.5);
+  /* background: rgba(229,229,229,0.5); */
 }
 
 ::-webkit-scrollbar {
@@ -300,4 +293,17 @@ swiper {
 }
 .scroll-view_x .topic-item:last-child {
   margin-right: 40rpx
+}
+
+.skeleton-rect-light {
+  background: rgba(249, 249, 249, 0.5);
+}
+.skeleton-rect-dark {
+  background: rgba(229, 229, 229, 0.5);
+}
+.skeleton-circle {
+  width: 104rpx;
+  height: 104rpx;
+  border-radius: 100%;
+  background: rgba(229,229,229,0.5);
 }
