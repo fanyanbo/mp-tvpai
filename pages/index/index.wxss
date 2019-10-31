@@ -4,7 +4,7 @@
 }
 
 .main-wrap {
-  padding-top: 55px;
+  padding-top: 96rpx;
   padding-bottom: 178rpx;
 }
 

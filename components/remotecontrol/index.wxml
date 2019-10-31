@@ -90,11 +90,11 @@
   <block wx:if="{{inputBar}}">
     <view class="remoter-btn {{bStartRecord ? 'btn-input-status' : ''}} {{isShowMainPanel ? 'btn-show-panel-status' : ''}}">   
       <button class="btn-input-wrap {{bStartRecord ? 'view-display-none' : ''}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
-        <image class="input-icon" src="../../images/videodetail/comment.png"></image>
+        <image class="input-icon" mode="aspectFill" src="../../images/videodetail/comment.png"></image>
         <text class="input-text">{{inputText}}</text>       
       </button>
       <!-- <view bindtap="comment" class="btn-input-wrap {{bStartRecord ? 'view-display-none' : ''}}">
-        <image class="input-icon" src="../../images/videodetail/comment.png"></image>
+        <image class="input-icon" mode="aspectFill" src="../../images/videodetail/comment.png"></image>
         <text class="input-text">{{inputText}}</text>
       </view> -->
       <view class="btn-remoter-wrap {{bStartRecord ? 'view-display-none' : ''}}" bindlongpress="handleButtonLongPress" bindtouchstart="handleRecorderManagerStart" bindtouchend="handleRecorderManagerStop" bindtouchcancel="handleRecorderManagerCancel" catchtouchmove='handleRecorderManagerMove'>
