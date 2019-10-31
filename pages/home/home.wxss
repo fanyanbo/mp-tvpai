@@ -9,6 +9,7 @@ page{
 }
 .container{
   padding-bottom: 178rpx
+  width: 100%;
 }
 .mydevices{
   height: 90rpx;

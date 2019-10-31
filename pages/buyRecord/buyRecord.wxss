@@ -16,3 +16,6 @@
   position: absolute;
   right: 20rpx;
 }
+.container {
+  width: 100%;
+}

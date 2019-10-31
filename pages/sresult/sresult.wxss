@@ -32,6 +32,61 @@ label.active{color: red;}
   margin-top: -10rpx
 }
 
+
+.movieList {
+  width: 96%;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.movieList .item {
+  width: 31%;
+  display: inline-block;
+  height: 370rpx;
+  vertical-align: top;
+  margin-right: 3%;
+}
+
+.movieList .item:nth-child(3n) {
+  margin-right: 0;
+}
+
+.movieList .item image {
+  width: 100%;
+  height: 280rpx;
+}
+
+.movieList .item .describe {
+  line-height: 40rpx;
+  display: -webkit-box;
+  width: 100%;
+  text-align: left;
+  font-size: 26rpx;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+
+button::after {
+  border: none;
+  background: none
+}
+
+.nomv {
+  width: 100%;
+  text-align: center;
+  color: #666;
+  font-size: 38rpx;
+  padding-top: 200rpx
+}
+
+.nomv image {
+  width: 400rpx;
+  height: 274rpx;
+}
+
 /*新增样式  */
 /* .tabAll,.tabOpen{display: inline-block;}
 .tabAll:before,.tabOpen:before{display: inline-block;content:'';background: url(../../images/open.png) no-repeat;background-size:contain;width: 30rpx;height: 22rpx;margin-right: 15rpx;vertical-align: middle;}

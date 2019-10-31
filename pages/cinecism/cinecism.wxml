@@ -7,7 +7,7 @@
 <form bindsubmit="formSubmit" formSubmit="true">
   <!-- <button id="eventBbutton" name="collectEvent" formType="submit" bindgetuserinfo='bindgetuserinfo' class="button-hover" hover-class="other-button-hover"></button> -->
   <label for="eventBbutton">
-    <view class="container" style="">
+    <view class="container">
       <view class="relativePostion">
         <view class="cinecism">
           <!-- 封面 -->

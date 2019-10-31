@@ -31,7 +31,6 @@ page{overflow-y: scroll;}
   }
 .cinecism_author,.cinecism_time{
     display:inline;
-    width: auto;
     color:#a8a8a8;
      margin-left: 20rpx;
   }
@@ -170,7 +169,9 @@ page{overflow-y: scroll;}
   color:#fff;
  }
  .pingfenStar {
-   padding:0!important;
+   padding:0;
+   width: 200rpx;
+   margin-top: 14rpx;
  }
 /*相关文章模块  */
  .artical_about{
@@ -604,4 +605,285 @@ margin-top:-1rpx;
 .movieCollectIcon {
   width: 57rpx;
   height: 57rpx;
+}
+
+/* 以下均为从app.wxss全局样式复制过来的该页面用到的样式
+2019.10.31 */
+
+.font-size-xl {
+  font-size: 37rpx;
+}
+
+.font-size-large {
+  font-size: 35rpx;
+}
+
+.font-size-normal {
+  font-size: 32rpx;
+}
+
+.font-size-ns {
+  font-size: 30rpx;
+}
+
+.font-size-small {
+  font-size: 28rpx;
+}
+
+.font-size-xs {
+  font-size: 25rpx;
+}
+
+.container {
+  width: 100%;
+}
+
+.inline {
+  display: inline;
+}
+.clear {
+  clear: both;
+  display: block;
+  height: 0;
+  visibility: hidden;
+}
+
+rich-text {
+  width: 94.7%;
+  margin-left: 20rpx;
+  display: inline-block;
+  margin-bottom: 20rpx;
+  margin-top: 20rpx;
+  font-size: 32rpx;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  height: auto;
+}
+
+.mg {
+  padding: 20rpx;
+}
+
+.pushBar {
+  width: 100%;
+  background: #fff;
+  border-top: 1rpx solid #eaeaea;
+  position: fixed;
+  bottom: 0;
+  z-index: 99999;
+}
+
+.mg_title {
+  font-size: 28rpx;
+  color: #444;
+  margin-bottom: 10rpx;
+}
+
+.pushBar li.right {
+  float: right;
+}
+
+.pushBar li.right image {
+  width: 50rpx;
+  height: 50rpx;
+  margin-top: -12%;
+}
+
+
+.countName {
+  font-size: 28rpx;
+  color: #444;
+  padding: 20rpx;
+  border-bottom: 1rpx solid #eaeaea;
+}
+
+.aiqiyi,
+.tencent {
+  border-bottom: 1rpx solid #eaeaea;
+}
+
+.tencent {
+  border-bottom: none;
+}
+
+.aiqiyi div,
+.tencent div {
+  width: 70%;
+  display: inline-block;
+}
+
+.aiqiyi div.aiqiyi_title,
+.tencent .tencent_title {
+  width: 25%;
+  padding-right: 20rpx;
+  font-size: 24rpx;
+  display: inline-block;
+  color: #7e7e7e;
+  text-align: center;
+}
+
+.aiqiyi div ul li,
+.tencent div ul li {
+  float: none;
+  display: inline-block;
+  width: 100%;
+  color: #444;
+  font-size: 32rpx;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #eaeaea;
+  height: 50rpx;
+  line-height: 50rpx;
+}
+.pushRight {
+  float: right;
+  width: 100rpx;
+  height: 45rpx;
+  line-height: 45rpx;
+  text-align: center;
+  font-size: 24rpx;
+  border: 1rpx solid #eaeaea;
+  border-radius: 4rpx;
+}
+.aiqiyi div ul li:last-child,
+.tencent div ul li:last-child {
+  border-bottom: none;
+}
+
+
+.tvList {
+  width: 100%;
+  padding: 10rpx 0;
+  border-bottom: 1rpx solid #eaeaea;
+  max-height: 225rpx;
+  overflow: scroll;
+}
+
+.tvList li {
+  float: left;
+  width: 16.5%;
+  height: 50rpx;
+  background: #fff;
+  color: #444;
+  border: 1rpx solid #eaeaea;
+  border-radius: 4rpx;
+  margin-right: 10rpx;
+  margin-left: 10rpx;
+  line-height: 50rpx;
+  text-align: center;
+  font-size: 27rpx;
+  margin-bottom: 20rpx;
+}
+
+.tvChioced {
+  color: #fff !important;
+  background: #fc4c00 !important;
+}
+
+.device {
+  max-height: 300rpx;
+  overflow: scroll;
+}
+
+.pingfenStar ul {
+  display: inline-block;
+}
+
+.pingfenStar ul li {
+  /* float: left; */
+  display: inline;
+  color: #a8a8a8;
+}
+
+.pingfenStar ul li.font-size-xs {
+  margin-left: 20rpx;
+  margin-top: -5%;
+}
+
+
+.grayBox3 {
+  height: 100%;
+  z-index: 999999;
+}
+
+.failPrompt {
+  position: fixed;
+  z-index: 999999;
+  background: #fff;
+  width: 80%;
+  top: 30%;
+  left: 9%;
+  border-radius: 6rpx;
+  font-size: 28rpx;
+  padding: 20rpx 0 0 0;
+}
+
+.failPrompt ul {
+  display: inline-block;
+  padding: 0 20rpx 20rpx 20rpx;
+}
+
+.failPrompt ul li {
+  display: inline-block;
+}
+
+.failPrompt text {
+  text-align: center;
+  display: block;
+  width: 100%;
+  margin-bottom: 20rpx;
+  font-size: 32rpx;
+}
+
+.failPrompt div.footer_failPrompt {
+  width: 100%;
+  display: block;
+  text-align: center;
+  line-height: 70rpx;
+  border-top: 1rpx solid #d9d9d9;
+  font-size: 32rpx;
+}
+
+.failPrompt div.footer_failPrompt div {
+  width: 49%;
+  display: inline-block;
+  position: relative;
+}
+
+.failPrompt div.footer_failPrompt div:first-child {
+  width: 50%;
+  display: inline-block;
+  border-right: 1rpx solid #d9d9d9;
+  height: 70rpx;
+}
+
+.footer_failPrompt .contact {
+  position: absolute;
+  top: 10rpx;
+  opacity: 0;
+}
+
+.footer_failPrompt contact-button:first-child {
+  left: 28rpx;
+}
+
+.footer_failPrompt contact-button:nth-child(2) {
+  left: 76rpx;
+}
+
+.footer_failPrompt contact-button:nth-child(3) {
+  left: 125rpx;
+}
+
+.footer_failPrompt contact-button:nth-child(4) {
+  right: 60rpx;
+}
+
+.footer_failPrompt contact-button:nth-child(5) {
+  right: 15rpx;
+}
+
+.movieList {
+  width: 96%;
+  margin: 0 auto;
+  text-align: left;
 }
