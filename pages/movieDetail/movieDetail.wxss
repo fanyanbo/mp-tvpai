@@ -4,7 +4,9 @@
   background: #222222;
   padding: 40rpx 0;
 }
-
+.button-hover,.other-button-hover {
+  display: none;
+}
 .movieDetail {
   position: relative;
   margin: 0 40rpx;

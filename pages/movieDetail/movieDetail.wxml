@@ -1,4 +1,9 @@
 <wxs src="./movieDetail.wxs" module="tools" />
+<!-- 人群圈定-数据采集 -->
+<form bindsubmit="{{formIdCollect.formSubmit}}" report-submit="true">
+  <button id="eventButton" name="collectEvent" form-type="submit" open-type="getUserInfo" bindgetuserinfo="{{formIdCollect.collectEvent}}" class="button-hover" hover-class="other-button-hover"></button>
+  <label for="eventButton">
+
 <!-- 导航栏组件 -->
 <view>
   <!-- <navBar title='详情' background='#222222' color='#fff' back="{{true}}" home="{{true}}" iconTheme='white' bindback="handleGobackClick" bindhome="handleGohomeClick" /> -->
@@ -213,3 +218,6 @@
 <view>
   <comment isShow="{{isCommentShow}}" bindhome="handleSubmitClick"></comment>
 </view>
+
+  </label>
+</form> 
