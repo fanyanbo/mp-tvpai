@@ -13,6 +13,13 @@ function isCollect2(obj, key) {
     return val == null ? false : true
 }
 
+function getFormattedTags (tags) {
+    var regexp = getRegExp(',|-','i');
+    var tagsArr = tags.split(regexp);
+    return tagsArr.join(' · ')
+}
+
 module.exports = {
-    isCollect: isCollect2
+    isCollect: isCollect2, //某部影片是否收藏在缓存列表里
+    getFormattedTags: getFormattedTags
 }

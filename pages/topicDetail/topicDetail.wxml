@@ -31,7 +31,7 @@
           <text class="score">{{item.video_detail.base_info.score}}</text>
           <text class="info">{{item.video_detail.base_info.publish_date}}<block wx:if="{{item.video_detail.base_info.publish_area}}"> · {{item.video_detail.base_info.publish_area}}</block>
             <block wx:if="{{item.video_detail.base_info.video_type}}"> · {{item.video_detail.base_info.video_type}}</block>
-            <block wx:if="{{item.video_detail.base_info.video_tags}}"> · {{item.video_detail.base_info.video_tags}}</block>
+            <block wx:if="{{item.video_detail.base_info.video_tags}}"> · {{tools.getFormattedTags(item.video_detail.base_info.video_tags)}}</block>
           </text>
           <block wx:if="{{tools.isCollect(movieCollectedList, item.video_id)}}">
             <image class="favorite-icon" src="../../images/videodetail/favorite2-focus.png" mode="aspectFill" catchtap="handleUnCollectionClick" data-type="movie" data-movieid="{{item.video_id}}"/>
