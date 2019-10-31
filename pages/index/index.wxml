@@ -6,6 +6,9 @@
   1.优化首屏加载速度 -->
 <wxs src="./index.wxs" module="tools" />
 <!-- 导航栏组件 -->
+<form bindsubmit="formSubmit" report-submit="true">
+  <button id="eventButton" name="collectEvent" form-type="submit" open-type="getUserInfo" bindgetuserinfo="collectEvent" class="button-hover" hover-class="other-button-hover"></button>
+  <label for="eventButton">
 <view>
   <navBar background='#fff' searchBar="{{true}}" searchText="搜索视频、影评或话题" bindsearch='handleSearchTap' />
 </view>
@@ -17,19 +20,19 @@
   <scroll-view scroll-y="true" style="height: auto" bindscrolltoupper="upper" bindscrolltolower="lower">
     <!-- banner区域，运营重点区域 -->
     <view class="banner-wrap" wx:if="{{isShowBanner}}">
-      <swiper autoplay="{{autoplay}}" current='{{swiperCurrent}}' previous-margin="{{previousmargin}}" next-margin="{{nextmargin}}" bindchange="swiperChange">
-        <block wx:if="{{bannerList != null && bannerList.length > 0}}" wx:for="{{bannerList}}" wx:key="index">
-          <swiper-item class="banner-item" data-type="{{item.linkType}}" data-id="{{item.bannerId}}" data-url="{{item.imgLinkUrl}}" bindtap="handleBannerTap">
-            <image src="{{item.imgUrl}}" class="slide-image" bindchange="chuangEvent"></image>
-          </swiper-item>
-        </block>
-        <!-- 模拟banner区域骨架屏效果 -->
-        <block wx:if="{{bannerList.length === 0}}" wx:for="{{2}}" wx:key="index">
-          <swiper-item>
-            <image src="" class="slide-image skeleton-rect-dark" />
-          </swiper-item>
-        </block>
-      </swiper>
+          <swiper autoplay="{{autoplay}}" current='{{swiperCurrent}}' previous-margin="{{previousmargin}}" next-margin="{{nextmargin}}" bindchange="swiperChange">
+            <block wx:if="{{bannerList != null && bannerList.length > 0}}" wx:for="{{bannerList}}" wx:key="index">
+              <swiper-item class="banner-item" data-type="{{item.linkType}}" data-id="{{item.bannerId}}" data-url="{{item.imgLinkUrl}}" bindtap="handleBannerTap">
+                <image src="{{item.imgUrl}}" class="slide-image" bindchange="chuangEvent"></image>
+              </swiper-item>
+            </block>
+            <!-- 模拟骨架屏效果 -->
+            <block wx:if="{{bannerList.length === 0}}" wx:for="{{2}}" wx:key="index">
+              <swiper-item>
+                <image src="" class="slide-image" />
+              </swiper-item>
+            </block>
+          </swiper>
     </view>
     <!-- 快捷跳转区域，内测使用 -->
     <!-- <view bindtap="jumpOutLink">跳转到h5页面</view>
@@ -152,3 +155,6 @@
 <view>
   <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
 </view>
+
+  </label>
+</form> 

@@ -2,6 +2,7 @@
 const util = require('../../utils/util')
 const util_fyb = require('../../utils/util_fyb')
 const api = require('../../api/api')
+const api_fyb = require('../../api/api_fyb')
 const config = require('../../config/index')
 const aes = require('../../utils/aes')
 
@@ -311,6 +312,101 @@ function getTencentOpenId(type) { //获取第三方（腾讯）用户当前使�
   return {}
 }
 
+class formIdEventCollectClass {
+  constructor() {}
+
+  //模板消息事件，收集form-id 用于模板消息推送； 建议使用下面封装的 formMsgEventCollectAsync()函数
+  collect(type, contactId) {
+    return new Promise((resolve, reject) => {
+      const url = api_fyb.formIdEventCollectUrl
+      const key = getApp().globalData.key
+      var ccsession = wx.getStorageSync("new_cksession")
+      var createTime = Date.parse(new Date()) / 1000
+      var appid = "wx35b9e9a99fd089a9"
+      var formId = wx.getStorageSync("formid")
+      var paramsStr = { "appid": appid, "ccsession": ccsession, "contactId": contactId + '', "formId": formId + '', "type": type, "wxCreateTime": createTime + '' }
+      var sign = util.encryption(paramsStr, key)
+      var data = {
+        client_id: getApp().globalData.client_id,
+        sign: sign,
+        param: paramsStr
+      }
+      wx.request({
+        url: url,
+        data: {
+          client_id: 'applet',
+          sign: sign,
+          param: paramsStr
+        },
+        method: 'get',
+        header: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        success: res => {
+          if (res.data.result === true) {
+            console.log('enevtCollect success!')
+            resolve(res.data)
+          } else {
+            reject()
+          }
+        },
+        fail: function () {
+          console.log("获取formid失败")
+          reject()
+        },
+        complete: function () {
+          console.log("事件表单接口请求完成")
+        }
+      })
+    })
+  }
+
+  //form-id提交需要2个条件 1. 拿到form-id 2.用户授权拿到ccsession； 所以需要写成异步的确保在formSubmit之后执行
+  collectAsync(type, contactId) { 
+    return new Promise((resolve, reject) => {
+      let ccsession = wx.getStorageSync("new_cksession")
+      if (!ccsession) {
+        return wxGetUserInfoP().then(res => {
+          return getWXAuth(res)
+        }).then(res =>
+          resolve(res)
+        ).catch(err =>
+          reject(err)
+        )
+      } else {
+        setTimeout(resolve, 0) //要先等form-id获取完毕
+      }
+    }).then(res => {
+      return this.collect(type, contactId)
+    }).catch(err => {
+      wx.removeStorageSync('formid') //提交失败，删除formid，下次继续提交
+      console.error(err)
+    })
+  }
+
+  collectAsyncOnce(newformid) { //只提交一次：用户进入小程序有交互后提交；然后其他的交互不再提交
+    let formId = wx.getStorageSync('formid')
+    if (!formId) {
+      wx.setStorageSync("formid", newformid)
+      this.collectAsync('userInitEnter', util_fyb.getFormatTime(+new Date()))
+    } else {
+      console.log('event has collect, not any more...')
+    }
+  }
+}
+
+function wxGetUserInfoP() {
+  return new Promise((resolve, reject) => {
+    wx.getUserInfo({
+      success(res) {
+        resolve(res)
+      },
+      fail(err) {
+        reject(err)
+      }
+    })
+  })
+}
 module.exports = {
   vcode,
   getWXAuth,
@@ -321,4 +417,5 @@ module.exports = {
   login_changeNickname,
   isUserLogin,
   getTencentOpenId,
+  formIdEventCollectClass,
 }

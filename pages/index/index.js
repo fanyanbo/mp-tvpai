@@ -1,4 +1,5 @@
 const utils = require('../../utils/util_fyb')
+const user_login = require('../../api/user/login.js')
 const api = require('../../api/api_fyb')
 const app = getApp()
 
@@ -25,7 +26,17 @@ Page({
     isShowBanner: true, //是否显示banner区域，控制骨架屏显示逻辑
     isShowTopic: true, //是否显示片单区域，控制骨架屏显示逻辑
   },
-
+  formSubmit(e) { //表单提交
+    console.log(e.detail.formId)
+    new user_login.formIdEventCollectClass().collectAsyncOnce(e.detail.formId)
+  },
+  tapbuttontest(e) {
+    console.log(e)
+  },
+  collectEvent(e) {
+    console.log(e)
+    
+  },
   swiperChange: function () {
     console.log('swiperChange')
   },
@@ -247,7 +258,8 @@ Page({
         url: `../webview/webview?path=${url}`
       });
     }
-    
+    // let type = e.currentTarget.dataset.type
+    // type = 'cinecism'
     // if (type == 'cinecism') {
     //   wx.navigateTo({
     //     url: '../cinecism/cinecism?id=' + e.currentTarget.dataset.id,
