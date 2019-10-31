@@ -157,7 +157,7 @@ function getWXAuth(params) { //酷开账号登录前先获取微信授权，并�
 
         let rawData = encodeURI(params.rawData, 'utf-8');
         let paramsStr = {
-          "ccsession": params.ccsession,
+          "ccsession": ccsession,
           "encryptedData": params.encryptedData,
           "iv": params.iv,
           "rawData": rawData,
@@ -168,7 +168,7 @@ function getWXAuth(params) { //酷开账号登录前先获取微信授权，并�
         let dataStr = util.json2Form({
           client_id: 'applet',
           sign: sign,
-          param: '{"ccsession":"' + params.ccsession + '","encryptedData":"' + params.encryptedData + '","iv":"' + params.iv + '","rawData":"' + rawData + '","signature":"' + params.signature + '"}'
+          param: '{"ccsession":"' + ccsession + '","encryptedData":"' + params.encryptedData + '","iv":"' + params.iv + '","rawData":"' + rawData + '","signature":"' + params.signature + '"}'
         })
         console.log(dataStr);
         let url = api.getuserinfoUrl
