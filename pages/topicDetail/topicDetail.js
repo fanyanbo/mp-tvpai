@@ -217,7 +217,11 @@ Page({
       button_name: 'movie_push',
       params: movieid,
     });
-    if (type !== "电影") return
+    if (type !== "电影") {
+      return wx.navigateTo({
+        url: `../movieDetail/movieDetail?id=${movieid}&from=topicDetail`
+      })
+    }
     let _session = wx.getStorageSync("new_cksession")
     console.log("校验参数 session:" + _session);
     wx.showLoading({ title: '推送中...' })

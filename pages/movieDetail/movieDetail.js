@@ -326,7 +326,6 @@ Page({
   // 对某条评论点赞/取消点赞
   submitClickLike: function (commentId) {
     let ccsession = wx.getStorageSync('new_cksession')
-    // let ccsession = 'b45004fab0934395dc20ede9dc13801d'
     if (ccsession == "") return
     let params = { "ccsession": ccsession, "commentId": commentId + '' }
     let desParams = utils.paramsAssemble_wx(params)

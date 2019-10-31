@@ -139,7 +139,7 @@
       <view class="content">
         <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">
           <view wx:for="{{item.video_list}}" wx:if="{{item.album_title != ''}}" wx:for-item="item2" wx:key="index" class="poster-item" data-movieid="{{item2.third_album_id}}" bindtap="handleItemTap">
-            <image src="{{item2.video_poster}}" mode="aspectFill" class="poster-img"></image>
+            <image src="{{item2.video_poster}}" lazy-load mode="aspectFill" class="poster-img"></image>
             <view wx:if="{{tools.isCorrectScore(item2.video_detail.base_info.score)}}" class="poster-score">
               {{item2.video_detail.base_info.score}}
             </view>

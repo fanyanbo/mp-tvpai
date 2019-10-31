@@ -234,27 +234,35 @@ swiper {
 }
 .topic-item-header {
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 440rpx;
   height: 162rpx;
   box-sizing: border-box;
   border-radius: 8px 8px 0 0; 
 }
 .topic-item-header .img {
+  position: absolute;
+  left: 0;
+  top: 0;
   width: 440rpx;
   height: 162rpx;
   border-radius: 8px 8px 0 0;
 }
 .topic-item-header .title {
-  position: absolute;
-  left: 40rpx;
-  top: 56rpx;
-  width:360rpx;
-  height:50rpx;
-  font-size:36rpx;
-  font-family:PingFangSC-Semibold,PingFangSC;
+  z-index: 999;
+  width: 360rpx;
+  font-size:32rpx;
   font-weight:bold;
   color:#FFFFFF;
-  line-height:50rpx;
+  line-height:44rpx;
+  white-space: pre-wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .topic-item-content {
