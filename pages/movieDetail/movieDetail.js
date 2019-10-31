@@ -631,7 +631,10 @@ Page({
   handleCollectionClick: function () {
     console.log('handleCollectionClick')
     // 检查是否登录酷开账号
-    utils.checkCoocaaUserLogin()
+    // utils.checkCoocaaUserLogin()
+    if (wx.getStorageSync('ccUserInfo') == "") {
+      return wx.navigateTo({ url: '../login/login' })
+    }
     let ccsession = wx.getStorageSync('new_cksession')
     if (ccsession == "") return
     let _movieid = `['${this.data.curMovieId}']`
@@ -653,7 +656,10 @@ Page({
   handleUnCollectionClick: function () {
     console.log('handleUnCollectionClick')
     // 检查是否登录酷开账号
-    utils.checkCoocaaUserLogin()
+    // utils.checkCoocaaUserLogin()
+    if (wx.getStorageSync('ccUserInfo') == "") {
+      return wx.navigateTo({ url: '../login/login' })
+    }
     let ccsession = wx.getStorageSync('new_cksession')
     if (ccsession == "") return
     let _collectIds = `[${this.data.collectId}]`

@@ -330,16 +330,19 @@ Page({
 
   // 添加影片收藏
   addMovieFavorite: function (movieId) {
-    utils.checkCoocaaUserLogin()
+    // utils.checkCoocaaUserLogin()
+    if (wx.getStorageSync('ccUserInfo') == "") {
+      return wx.navigateTo({ url: '../login/login' })
+    }
     let ccsession = wx.getStorageSync('new_cksession')
     if (ccsession == "") return
     let _movieid = `['${movieId}']`
     let params = { "ccsession": ccsession, "moviesId": _movieid }
     utils.requestP(api.addMovieFavoriteUrl, utils.paramsAssemble_wx(params)).then(res => {
-      if (res.data && res.data.code === 200) {
+      if (res.data && res.data.data && res.data.code === 200) {
         console.log('添加影片收藏成功', res)
         let _collectionList = this.data.movieCollectedList
-        _collectionList[movieId] = 0
+        _collectionList[movieId] = res.data.data[0].collectId
         console.log(_collectionList)
         this.setData({ movieCollectedList: _collectionList })
       } else {
@@ -372,7 +375,7 @@ Page({
     })
   },
 
-  // 获取影片收藏列表
+  // 获取收藏的影片列表
   getMovieFavorite: function () {
     let ccsession = wx.getStorageSync('new_cksession')
     if (ccsession == "") return
