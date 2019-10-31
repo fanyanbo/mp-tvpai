@@ -23,10 +23,10 @@
             <image src="{{item.imgUrl}}" class="slide-image" bindchange="chuangEvent"></image>
           </swiper-item>
         </block>
-        <!-- 模拟骨架屏效果 -->
+        <!-- 模拟banner区域骨架屏效果 -->
         <block wx:if="{{bannerList.length === 0}}" wx:for="{{2}}" wx:key="index">
           <swiper-item>
-            <image src="" class="slide-image" />
+            <image src="" class="slide-image skeleton-rect-dark" />
           </swiper-item>
         </block>
       </swiper>
@@ -56,11 +56,11 @@
           </view>
         </swiper-item>
       </block>
-      <!-- 模拟骨架屏效果 -->
+      <!-- 模拟iqiyi标签区域骨架屏效果 -->
       <block wx:if="{{categoryList.length === 0}}">
         <swiper-item>
           <view wx:for="{{10}}" wx:key="index" class="column-item">
-            <view class="skeleton"></view>
+            <view class="skeleton-circle"></view>
           </view>
         </swiper-item>
       </block>
@@ -71,9 +71,9 @@
           <image src="{{item.classify_pic}}" mode="aspectFill"></image>
           <text class="label-txt">{{item.classify_name}}</text>
         </view>
-        <!-- 模拟骨架屏效果 -->
+        <!-- 模拟tencent标签区域骨架屏效果 -->
         <view wx:if="{{categoryList.length === 0}}" wx:for="{{6}}" wx:key="index" class="column-item">
-          <view class="skeleton"></view>
+          <view class="skeleton-circle"></view>
         </view>
       </scroll-view>
     </view>
@@ -90,7 +90,7 @@
       <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">
         <view class="topic-item" wx:for="{{topicList}}" wx:key="index" bindtap="handleTopicTap" data-id="{{item.id}}" data-title="{{item.title}}">
           <view class="topic-item-header">
-            <image src="{{item.image_url}}" class="img" mode='aspectFill'/>
+            <image src="{{item.image_url}}" class="img" mode='aspectFill' />
             <text class="title">{{item.title}}</text>
           </view>
           <view class="topic-item-content" style="{{tools.getBgColor(item.base_color)}}">
@@ -109,6 +109,20 @@
         </view>
       </scroll-view>
     </view>
+    <!-- 模拟片单区域骨架屏效果 -->
+    <view class="topic-content" wx:if="{{topicList.length === 0 && isShowTopic}}">
+      <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">
+        <view class="topic-item" wx:for="{{3}}" wx:key="index">
+          <view class="topic-item-header skeleton-rect-light">
+            <text class="title skeleton-rect-dark">{{item.title}}</text>
+          </view>
+          <view class="topic-item-content skeleton-rect-light">
+            <view class="movie-item skeleton-rect-dark" wx:for="{{4}}" wx:key="index"></view>
+            <view class="summary skeleton-rect-dark"></view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
     <!-- 推荐分类及影片 -->
     <block wx:for="{{recommandList}}" wx:key="index">
       <view class="header">
@@ -123,7 +137,9 @@
         <scroll-view class="scroll-view_x" scroll-x style="width: auto; overflow:hidden;">
           <view wx:for="{{item.video_list}}" wx:if="{{item.album_title != ''}}" wx:for-item="item2" wx:key="index" class="poster-item" data-movieid="{{item2.third_album_id}}" bindtap="handleItemTap">
             <image src="{{item2.video_poster}}" mode="aspectFill" class="poster-img"></image>
-            <view wx:if="{{tools.isCorrectScore(item2.video_detail.base_info.score)}}" class="poster-score">{{item2.video_detail.base_info.score}}</view>
+            <view wx:if="{{tools.isCorrectScore(item2.video_detail.base_info.score)}}" class="poster-score">
+              {{item2.video_detail.base_info.score}}
+            </view>
             <view wx:if="{{tools.isContainKey(item.title)}}" class="poster-vip">VIP</view>
             <view class="poster-text">{{item2.album_title}}</view>
           </view>

@@ -40,7 +40,7 @@ function getDateTime(value) {
     minute = minute < 10 ? "0" + minute : minute;
     second = second < 10 ? "0" + second : second;
     // return year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second;
-    return year + "-" + month + "-" + date;
+    return year + "." + month + "." + date;
 }
 
 function isThumbsUp() {

@@ -22,7 +22,8 @@ Page({
     source: utils.getTvsource(),
     topicList: [],
     bannerList: [],
-    isShowBanner: true
+    isShowBanner: true, //是否显示banner区域，控制骨架屏显示逻辑
+    isShowTopic: true, //是否显示片单区域，控制骨架屏显示逻辑
   },
 
   swiperChange: function () {
@@ -73,11 +74,9 @@ Page({
           })
         } else {
           console.log('获取推荐分类及影片失败:', res)
-          // utils.showFailedToast(res.data.message, this.data.errIconUrl)
         }
       }).catch(res => {
         console.log('获取推荐分类及影片数据发生错误:', res)
-        // utils.showFailedToast('加载数据失败', this.data.errIconUrl)
       })
   },
 
@@ -87,17 +86,16 @@ Page({
     let desParams = utils.paramsAssemble_wx(params);
     utils.requestP(api.getBannerDataUrl, desParams).then(res => {
       console.log('获取banner数据:', res.data)
-      if (res.data && res.data.code === 200) {
+      if (res.data && res.data.data.length !== 0 && res.data.code === 200) {
         this.setData({
           bannerList: res.data.data,
+          isShowBanner: true
         })
-        if (res.data.data.length === 0) {
-          this.setData({
-            isShowBanner: false
-          })
-        }
       } else {
         console.log('获取banner数据失败', res)
+        this.setData({
+          isShowBanner: false
+        })
         // utils.showFailedToast(res.data.message || '加载数据失败', this.data.errIconUrl)
       }
     }).catch(res => {
@@ -105,7 +103,6 @@ Page({
       this.setData({
         isShowBanner: false
       })
-      // utils.showFailedToast('加载数据失败', this.data.errIconUrl)
     })
   },
 
@@ -113,14 +110,21 @@ Page({
   getTopicData: function () {
     utils.requestP(api.getTopicUrl, utils.paramsAssemble_tvpai()).then(res => {
       console.log('获取片单数据:', res)
-      if (res.data.data) {
+      if (res.data.data && res.data.data.length !== 0) {
         this.setData({
-          topicList: res.data.data
+          topicList: res.data.data,
+          isShowTopic: true
+        })
+      }else{
+        this.setData({
+          isShowTopic: false
         })
       }
     }).catch(res => {
       console.log('获取片单数据发生错误', res)
-      // utils.showFailedToast('加载数据失败', this.data.errIconUrl)
+      this.setData({
+        isShowTopic: false
+      })
     })
   },
 
@@ -243,9 +247,7 @@ Page({
         url: `../webview/webview?path=${url}`
       });
     }
-
-    // let type = e.currentTarget.dataset.type
-    // type = 'cinecism'
+    
     // if (type == 'cinecism') {
     //   wx.navigateTo({
     //     url: '../cinecism/cinecism?id=' + e.currentTarget.dataset.id,

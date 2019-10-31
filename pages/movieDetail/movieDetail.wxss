@@ -24,10 +24,9 @@
   /* left: 168rpx; */
   top: 0;
   width:48rpx;
-  height:32rpx;
-  line-height: 32rpx;
-  background:rgba(255,98,70,1);
-  border-radius:6px;
+  height:36rpx;
+  line-height: 36rpx;
+  background:rgba(255,98,70,1); 
   font-size: 20rpx;
   font-weight:500;
   font-family:PingFangSC-Medium,PingFangSC;
@@ -36,7 +35,11 @@
 }
 
 .main-vip {
-  left: 168rpx;
+  width:52rpx;
+  height:36rpx;
+  line-height: 36rpx;
+  border-radius: 8px;
+  left: 164rpx;
 }
 
 .movieDetail .describe {
@@ -426,7 +429,7 @@
 .favorite-wrap,
 .recomment-wrap,
 .hot-wrap {
-  margin-top: 40rpx;
+  margin-top: 60rpx;
 }
 
 .detail-wrap {
@@ -442,6 +445,7 @@
   color: rgba(153, 153, 153, 1);
   line-height: 40rpx;
   margin-left: 420rpx;
+  text-align: right;
 }
 
 .intro-content {
@@ -526,8 +530,7 @@
 .comment-star {
   position: absolute;
   top: 52rpx;
-  left: 136rpx;
-  width: 120rpx;
+  left: 134rpx;
   height: 24rpx;
   display: flex;
 }
@@ -540,14 +543,13 @@
 
 .comment-date {
   position: absolute;
-  left: 284rpx;
+  left: 278rpx;
   top: 50rpx;
   width: 160rpx;
   height: 28rpx;
   font-size: 20rpx;
   font-family:PingFangSC-Regular,PingFangSC;
   line-height: 28rpx;
-  font-weight: bold;
   color: #666666;
 }
 
@@ -663,6 +665,10 @@
   text-shadow:0px 1px 4px rgba(0,0,0,0.5);
 }
 .favorite-vip {
+  width:48rpx;
+  height:36rpx;
+  line-height: 36rpx;
+  border-radius: 6px;
   left: 162rpx;
 }
 .favorite-name {

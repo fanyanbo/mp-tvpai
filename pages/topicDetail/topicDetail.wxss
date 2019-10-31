@@ -52,7 +52,7 @@ page {
 
 .header-wrap .share {
   position: absolute;
-  left: 140rpx;
+  left: 144rpx;
   top: 426rpx;
   width: 84rpx;
   height: 84rpx;
