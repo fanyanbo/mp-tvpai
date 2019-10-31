@@ -2,6 +2,7 @@
 const util_fyb = require('../../utils/util_fyb')
 const user_login = require('../../api/user/login')
 const user_bind = require('../../api/user/bind')
+const config = require('../../config/index.js')
 const app = getApp()
 
 Page({
@@ -21,7 +22,7 @@ Page({
       HASLOGIN_REVISE_NAME: 103,  //修改名称页
     },
     curSubPage: 0,//当前所处子页面,取值见this.data.SubPages
-    login_wechat_url: `https://beta-wx.coocaa.com/users/miniprogram/usercenter/login.html?theme=coocaa-pay-login&loginMethod=weixin&redirect_uri=${encodeURIComponent('navigateBack,2')}&ccSession=`,
+    login_wechat_url: `${config.baseUrl_wx}/users/miniprogram/usercenter/login.html?theme=coocaa-pay-login&loginMethod=weixin&redirect_uri=${encodeURIComponent('navigateBack,2')}&ccSession=`,
     //-- 登录变量 start --
     arrLoginType: [ //登录类型 
       { id: 1, type: '微信登录', image: '../../images/my/login/wechat.png'},
