@@ -356,6 +356,7 @@ Page({
 
   // -- 修改昵称 start --
   goChangeNickname(e) {//修改账号昵称
+    return;//V2.0版本暂屏蔽此功能
     let stage = this.data.SubPages.HASLOGIN_REVISE_NAME
     wx.navigateTo({
       url: `../login/login?stage=${stage}`,

@@ -43,7 +43,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 30rpx 0;
+  margin: 15rpx 0;
 }
 .unloginhome>.types>.icon {
   width: 52rpx;

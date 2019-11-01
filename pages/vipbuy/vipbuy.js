@@ -46,7 +46,10 @@ Component({
     },
     bToastAuthTencentQQorWechat: false, //腾讯源进入产品包时，提示用户选择授权qq或微信的弹窗
     navBarTitle: '爱奇艺VIP',//当前产品包名称
-    benifitImg: '',//vip权益图片
+    benifitImg: {
+      image: '', 
+      height: 'oneline',//不同vip权益图片高度不同
+    },//vip权益图片
     tencentAcctInfos: [ //腾讯源用户qq和微信信息
       {
         type: 'wechat',
@@ -413,7 +416,7 @@ Component({
       return true
     },
     _showNavBarTitle(index) { //显示页面viptitle
-      let srcName = '', benefitImg = '../../images/my/vipbuy/benefit.png'
+      let srcName = '', benefitImg = '../../images/my/vipbuy/benefit.png', height = 'oneline'
       switch (index) {
         case 'edu': 
           srcName = '超级教育VIP'; 
@@ -422,6 +425,7 @@ Component({
         case 'kid': 
           srcName = '少儿VIP'; 
           benefitImg = '../../images/my/vipbuy/vipkid.png'
+          height = 'twoline'
           break;
         case 'game': 
           srcName = '电竞VIP';
@@ -433,11 +437,13 @@ Component({
           } else {
             srcName = '奇异果VIP';
           }
+          height = 'twoline'
           break;
       }
       this.setData({
         navBarTitle: srcName,
-        benifitImg: benefitImg,
+        'benifitImg.image': benefitImg,
+        'benifitImg.height': height,
       })
       wx.reportAnalytics('vip_detail_page_show', { //数据采集
         page_name: srcName,

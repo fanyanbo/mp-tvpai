@@ -45,13 +45,13 @@
 }
 .hr {
   width: 630rpx;
-  height: 2rpx;
+  height: 1rpx;
   background: #ECECEC;
   margin: 30rpx 0;
 }
 .vip-title {
   width: 100%;
-  padding-left: 30rpx;
+  padding: 0 0 20rpx 30rpx;
   display: flex;
   align-items: center;
 }
@@ -63,6 +63,7 @@
 }
 .vip-type {
   font-size: 36rpx;
+  font-weight: bold;
   color: #333333;
   margin-right: 10rpx;
 }
@@ -74,6 +75,7 @@
 .vip-item {
   width: 690rpx;
   height: 140rpx;
+  border-radius: 4rpx;
   display: flex;
   align-items: center;
 }
@@ -126,7 +128,7 @@
   height: 34rpx;
   line-height: 34rpx;
   font-size: 24rpx;
-  text-decoration: underline;
+  text-decoration:line-through;
 }
 /* 权益页 */
 .benefits {
