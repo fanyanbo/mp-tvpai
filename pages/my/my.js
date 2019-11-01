@@ -134,6 +134,11 @@ Component({
           content: '推送成功，请根据电视端提示操作',
           showCancel: false,
         })
+      }).catch(err => {
+        wx.showToast({
+          title: '推送失败,请重试',
+          icon: 'none'
+        })
       })
     },
     goVipPage(e) { //去产品包购买页
@@ -172,17 +177,34 @@ Component({
     },
     _getProductSourceList() {
       if (!!Object.keys(app.globalData.boundDeviceInfo).length) {
+        utils.showLoadingToast('页面刷新中~')
         new Promise((resolve, reject) => {
           if (user_login.isUserLogin({type : 2})) {
             return this.getProductSourceList('wechat')
                       .then(res => this._tackleProductSourceList(res))
                       .then(() => {
                         return this.getProductSourceList('qq')
-                      }).then(res => this._tackleProductSourceList(res))
+                      }).then(res => {
+                        this._tackleProductSourceList(res)
+                        resolve()
+                      }).catch(err => {
+                        console.error(err)
+                        reject()
+                      })
           }else {
-            return this.getProductSourceList().then(res => this._tackleProductSourceList(res))
+            return this.getProductSourceList()
+                      .then(res => {
+                        this._tackleProductSourceList(res)
+                        resolve()
+                      }).catch( err => {
+                        console.error(err)
+                        reject() 
+                      })
           }
-        }).catch(err => {
+        }).then( () => 
+          utils.showLoadingToast('页面刷新中~', false)
+        ).catch(err => {
+          utils.showLoadingToast('页面刷新中~', false)
           wx.showToast({
             title: '获取产品源失败',
             icon: 'none'

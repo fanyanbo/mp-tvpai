@@ -71,6 +71,7 @@ Component({
       const productPkgPromise = this.getProductPackageList(params)
       const couponsPromise = this.getCoupones(params)
       const allowancePromise = this.getAllowance()
+      util_fyb. showLoadingToast('产品包加载中~')
       Promise.all([productPkgPromise, couponsPromise, allowancePromise]).then(([products, coupons, allowances]) => {
         products = products.data.data.products.filter((item) => {
             return item.product_level == 8 ? false : true;
@@ -104,8 +105,10 @@ Component({
           productListShow: arrShow
         })
         this._updatePayPrice(focus)
+        util_fyb. showLoadingToast('产品包加载中~', false)
       }).catch(err => {
         console.error(err)
+        util_fyb. showLoadingToast('产品包加载中~', false)
         wx.showToast({
           title: '获取产品包出错，请重新进入',
           icon: 'none'
@@ -142,6 +145,7 @@ Component({
         button_name: button_name,
         source_name: !!this.data._appLaunchFrom ? this.data._appLaunchFrom : '我的',
       });
+      util_fyb. showLoadingToast('支付中~')
       new Promise((resolve, reject) => {
         if (this.data.stage == this.data.PageStage.HOME_PAGE) {
           let params = this.data.productListShow[this.data.curSelectedProject.id]
@@ -162,6 +166,7 @@ Component({
         if (this.data.stage == this.data.PageStage.HOME_PAGE) {
           this.data._payParams = res
         }
+        util_fyb. showLoadingToast('支付中~', false)
         return this.startPay(this.data._payParams)
       }).then(res => {
         console.log(res)
