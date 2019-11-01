@@ -94,9 +94,11 @@
   color: #333333;
   font-size: 32rpx;
   font-weight: bold;
+  display: flex;
+  flex-wrap: wrap;
 }
 .detail-icon {
-  height: 28rpx;
+  height: 30rpx;
 }
 .vip-item-details>.desc {
   line-height: 34rpx;

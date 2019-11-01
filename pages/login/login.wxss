@@ -103,10 +103,10 @@
 }
 .unlogin-tologin .vcode {
   position: absolute;
-  top: 40rpx;
-  right: 40rpx;
-  height: 44rpx;
-  line-height: 44rpx;
+  top: 20rpx;
+  right: 20rpx;
+  height: 94rpx;
+  line-height: 94rpx;
   font-size: 32rpx;
   color: #FF5E5E;
   z-index: 2;

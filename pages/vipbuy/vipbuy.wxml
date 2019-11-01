@@ -22,8 +22,8 @@
       <view class="vip-item {{item.is_focus ? 'selected' : ''}}" wx:for="{{productListShow}}" wx:key="{{item.id}}" data-id="{{item.id}}" bindtap="selectProduct">
         <view class="vip-item-details">
           <view class="name">
-            {{item.product_name}}
-            <image class="detail-icon" wx:if="{{!!item.pIcon}}" src="{{item.pIcon}}"></image>
+            <view>{{item.product_name}}</view>
+            <image class="detail-icon" wx:if="{{!!item.pIcon}}" src="{{item.pIcon}}" mode="top left"></image>
           </view>  
           <view class="desc">{{item.desc}}</view>
         </view>

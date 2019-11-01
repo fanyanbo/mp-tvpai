@@ -173,21 +173,25 @@ Page({
       })
     })
   },
-  inputMobileBlur(e) { //手机号登录-手机号码输入完毕
-    console.log('input blur:' + JSON.stringify(e.detail))
-    this.data.userinput_mob = e.detail.value;
-    //todo 校验手机号码，并处理异常
-    //todo 校验页面验证码，并处理异常
+  inputMobile(e) { //
+    let m = e.detail.value
+    this.data.userinput_mob = m;    
+  },
+  _verifyMobNum() { //校验手机号是否合法
+    if (!(/^1\d{10}$/.exec(this.data.userinput_mob))) {
+      wx.showToast({
+        title: '请输入正确的手机号',
+        icon: 'none'
+      })
+      this.data.userinput_mob = 0;
+      return false
+    }
+    return true
   },
   getVCode() { //获取手机短信验证码
     console.log('getVCode...')
-    if(!this.data.userinput_mob) {
-      wx.showModal({
-        title: '提示',
-        content: '请输入正确的手机号',
-        showCancel: false
-      })
-      return
+    if(!this._verifyMobNum()) {
+      return 
     }
     this.setData({ //disable
       mobMsgVCodeGetFunc: null
