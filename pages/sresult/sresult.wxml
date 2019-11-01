@@ -28,7 +28,7 @@
   <view class='movieList' wx:if="{{contentAll!=null&&contentAll.length>0}}">
     <view class='item' wx:for="{{contentAll}}" wx:for-item="item" wx:key="index">
       <form bindsubmit="movieclick">
-        <navigator url="../movieDetail/movieDetail?id={{item.id}}" bindtap="movieclick" hover-class="none" data-id="{{item.id}}">
+        <navigator url="../movieDetail/movieDetail?id={{item.id}}&from=sresult" bindtap="movieclick" hover-class="none" data-id="{{item.id}}">
           <image class="movieImg" src='{{item.images[0].url}}'></image>
           <text class='describe'>{{item.title}}</text>
         </navigator>

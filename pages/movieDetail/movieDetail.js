@@ -551,7 +551,7 @@ Page({
   handleGobackClick: function () {
     // 小程序内部页面进入返回上一级，外部进入（公众号文章，分享）返回主页
     console.log('导航返回', this.data.from)
-    let _innerPage = ['topicDetail','articleDetail','favorite','search']
+    let _innerPage = ['topicDetail','articleDetail','favorite','search','sresult']
     if(_innerPage.indexOf(this.data.from) > -1) {
       utils.navigateBack()
     } else {
