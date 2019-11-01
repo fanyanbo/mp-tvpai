@@ -1,1 +1,27 @@
-/* pages/userProtocol/userprotocol.wxss */
+.wrapper {
+  padding: 0 20rpx;
+}
+
+.title {
+  font-size: 36rpx;
+  line-height: 50rpx;
+  height: 50rpx;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 0;
+  margin-bottom: 20rpx;
+}
+
+.chapter,.section {
+  height: 34rpx;
+  line-height: 34rpx;
+  font-size: 24rpx;
+  font-weight: bold;
+  letter-spacing: 0;
+}
+.chapter {
+  margin-top: 20rpx;
+}
+.section {
+  font-weight: normal;
+}

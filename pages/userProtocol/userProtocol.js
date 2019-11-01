@@ -5,10 +5,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    type: 'movie-iqiyi',
   },
   handleGobackClick(e) {//返回
-    wx.navigateBack({})
+    wx.navigateBack()
   },
   /**
    * 生命周期函数--监听页面加载
@@ -16,11 +16,16 @@ Page({
   onLoad: function (options) {
     console.log(options.type)
     let type = options.type
-    if (type == 'movie' && (app.globalData.boundDeviceInfo.source == "tencent")) {
-
-    }else {
-
+    if (type == 'movie') {
+      if (getApp().globalData.boundDeviceInfo.source == "tencent") {
+        type = 'movie-tencent'
+      }else {
+        type = 'movie-iqiyi'
+      }
     }
+    this.setData({
+      type: type
+    })
   },
 
   /**

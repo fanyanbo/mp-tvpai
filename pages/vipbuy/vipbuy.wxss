@@ -290,6 +290,18 @@
   width: 100%;
   height: 344rpx;
   background: #FFF;
+  padding: 40rpx;
+}
+.paysuccess-gift>.tips {
+  color: #333333;
+  height: 44rpx;
+  line-height: 44rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 24rpx;
+}
+.paysuccess-gift>.image {
+  height: 200rpx;
 }
 /* 支付失败页 */
 

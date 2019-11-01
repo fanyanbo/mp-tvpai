@@ -72,7 +72,8 @@
     </view>
     <image class="paysuccess-prize" bindtap="goRollPrize" src="../../images/my/vipbuy/roll.png"></image>
     <view class="paysuccess-gift" wx:if="{{!!navBarTitle}}">
-      奇异果才显示gift
+      <view class="tips">献上VIP专属礼物</view>
+      <image class="image" src="../../images/my/vipbuy/iqiyimobvip.png"></image>
     </view>
   </view>
 
