@@ -29,7 +29,7 @@
   </view>
   <!-- 当前设备区 -->
   <view class="device">
-    <image class="tvimage" src="../../images/my/tv.png"></image>
+    <image class="tvimage" src="{{curTV.image}}"></image>
     <view class="device-info">
       <view class="tvname">{{curTV.name}}</view>
       <view class="tvsource" wx:if="{{!!curTV.source}}">{{curTV.source}}</view>

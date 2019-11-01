@@ -35,6 +35,7 @@ Component({
     }, 
     curTV: { //当前绑定电视
       name: '设备未连接',
+      image: '../../images/my/tvgray.png',
       source: '',
       btn: '连接',
       bAcctMatch: true,//小程序登录账户与当前绑定电视账户是否一致
@@ -111,6 +112,7 @@ Component({
       if (!!Object.keys(app.globalData.boundDeviceInfo).length) {
         this.setData({
             'curTV.name': app.globalData.boundDeviceInfo.deviceName,
+            'curTV.image': '../../images/my/tv.png',
             'curTV.source': app.globalData.boundDeviceInfo.source == "tencent" ? '腾讯源' : '爱奇艺源',
             'curTV.btn': '切换设备'
         })
@@ -118,6 +120,7 @@ Component({
       }else {
         this.setData({
           'curTV.name': '设备未连接',
+          'curTV.image': '../../images/my/tvgray.png',
           'curTV.source': '',
           'curTV.btn': '连接',
           'curTV.bAcctMatch': true,
