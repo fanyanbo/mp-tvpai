@@ -45,7 +45,7 @@ Component({
       avatar: '',
     },
     bToastAuthTencentQQorWechat: false, //腾讯源进入产品包时，提示用户选择授权qq或微信的弹窗
-    navBarTitle: '爱奇艺VIP',//当前产品包名称
+    navBarTitle: '',//当前产品包名称
     benifitImg: {
       image: '', 
       height: 'oneline',//不同vip权益图片高度不同
@@ -188,7 +188,7 @@ Component({
         });
         let stage = this.data.PageStage.PAY_SUCCESS_PAGE //todo 支付成功，页面重定向到支付成功页
         wx.navigateTo({
-          url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}`,
+          url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&page_name=${this.data.navBarTitle}`,
         })
       }).catch(err => {
         console.error('prePay error')
@@ -465,6 +465,12 @@ Component({
           this.data._payParams = JSON.parse(options.pay)
           this.data._FailPageCustomEventSubmitPageName = options.page_name
           this.data._FailPageCustomEventSubmitVipName = options.vip_name
+        } else if (this.data.stage == this.data.PageStage.PAY_SUCCESS_PAGE) { //只有爱奇艺影视VIP购买成功，才显示’送移动端黄金VIP‘图标
+          if (options.page_name == '奇异果VIP') {
+            this.setData({
+              navBarTitle : '奇异果VIP'
+            })
+          }
         }
         this._getOrderDetailes(this.data._orderId)
       }else { //其它页跳转到本页面

@@ -102,10 +102,6 @@ Component({
         this.setData({
           'curTV.bAcctMatch': true,
         })
-        wx.showToast({
-          title: '获取电视端账号失败，请查看电视端是否登录',
-          icon: 'none'
-        })
       })
     },
     _getBoundTVInfo() { //获取当前绑定的设备信息

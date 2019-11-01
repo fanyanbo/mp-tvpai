@@ -71,7 +71,8 @@
       <view class="pay-valid">{{orderInfos.userName}}</view>
     </view>
     <image class="paysuccess-prize" bindtap="goRollPrize" src="../../images/my/vipbuy/roll.png"></image>
-    <view class="paysuccess-gift">
+    <view class="paysuccess-gift" wx:if="{{!!navBarTitle}}">
+      奇异果才显示gift
     </view>
   </view>
 
