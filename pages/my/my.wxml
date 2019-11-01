@@ -28,26 +28,27 @@
     </scroll-view>
   </view>
   <!-- 当前设备区 -->
-  <view class="device">
-    <image class="tvimage" src="{{curTV.image}}"></image>
-    <view class="device-info">
-      <view class="tvname">{{curTV.name}}</view>
-      <view class="tvsource" wx:if="{{!!curTV.source}}">{{curTV.source}}</view>
+  <view class="device-wrapper">
+    <view class="device">
+      <image class="tvimage" src="{{curTV.image}}"></image>
+      <view class="device-info">
+        <view class="tvname">{{curTV.name}}</view>
+        <view class="tvsource" wx:if="{{!!curTV.source}}">{{curTV.source}}</view>
+      </view>
+      <view class="device-switch customeventsubmit" data-type="home" bindtap="handleJumpPage" data-customeventsubmit="设备绑定">{{curTV.btn}}</view>
     </view>
-    <view class="device-switch customeventsubmit" data-type="home" bindtap="handleJumpPage" data-customeventsubmit="设备绑定">{{curTV.btn}}</view>
-  </view>
-  <!-- 当前绑定电视账户与微信登录账户不一致时 -->
-  <view class="unmatch" wx:if="{{curTV.bAcctMatch == false}}">
-    <view class="tips">{{curTV.unmatch.tip}}</view>
-    <view class="acct-info" wx:for="{{curTV.unmatch.acct}}" wx:key="index">
-      <image class="image" src="{{item.avatar}}"></image>
-      <view class="name">{{item.name}}</view>
-      <view class="location">{{item.location}}</view>
+    <!-- 当前绑定电视账户与微信登录账户不一致时 -->
+    <view class="unmatch" wx:if="{{curTV.bAcctMatch == false}}">
+      <view class="tips">{{curTV.unmatch.tip}}</view>
+      <view class="acct-info" wx:for="{{curTV.unmatch.acct}}" wx:key="index">
+        <image class="image" src="{{item.avatar}}"></image>
+        <view class="name">{{item.name}}</view>
+        <view class="location">{{item.location}}</view>
+      </view>
+      <image class="sync-icon" src="../../images/my/sync.png"></image>
+      <view class="domatch customeventsubmit" data-customeventsubmit="同步会员账号" bindtap="syncTVAcct">同步会员账号</view>
     </view>
-    <image class="sync-icon" src="../../images/my/sync.png"></image>
-    <view class="domatch customeventsubmit" data-customeventsubmit="同步会员账号" bindtap="syncTVAcct">同步会员账号</view>
   </view>
-
   <!-- 投屏历史 标题行 -->
   <view class='history mylabel customeventsubmit' data-type="history" bindtap="handleJumpPage" data-customeventsubmit="投屏历史">
     <image class='my_icon' src="../../images/my/history.png"></image>

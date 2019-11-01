@@ -66,6 +66,7 @@ button::after {
   height: 34rpx;
   line-height: 34rpx;
   font-size: 24rpx;
+  font-weight: bold;
 }
 .productlist .vipitem>.valid{
   color: #999999;
@@ -76,16 +77,21 @@ button::after {
 /* 产品源列表区-end- */
 
 /* 设备信息区-start- */
+.device-wrapper {
+  background: #F8F8F8;
+  padding: 10rpx 0;
+}
 .device {
   height: 140rpx;
   display: flex;
   padding: 0 40rpx;
   align-items: center;
+  background: #fff;
 }
 .device>.device-switch {
   position: absolute;
   right: 32rpx;
-  padding: 18rpx 24rpx 16rpx;
+  padding: 14rpx 44rpx;
   border: 2rpx solid #ececec;
   border-radius: 34rpx;
   font-size: 24rpx;
@@ -123,6 +129,7 @@ button::after {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: #fff;
 }
 .unmatch>.tips {
   position: absolute;
@@ -171,7 +178,7 @@ button::after {
   line-height: 36rpx;
   color: #333333;
 }
-.unmatch>.acct-info:last-of-type>.location {
+.unmatch>.acct-info:nth-child(3)>.location {
   background-color: #DFDFDF;
 }
 .unmatch>.sync-icon {
