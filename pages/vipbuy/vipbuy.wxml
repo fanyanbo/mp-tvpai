@@ -47,8 +47,8 @@
         </view>
         <view class="pay-summary-info">
           确认支付则视为同意
-          <text class="info">服务协议</text>
-          <text class="info">自动续费说明</text>
+          <text class="info" bindtap="readServiceProtocol" data-type="service">服务协议</text>
+          <text class="info" bindtap="readServiceProtocol"  data-type="autorenew">自动续费说明</text>
         </view>
       </view>
       <view class="pay-btn" bindtap="payNow">

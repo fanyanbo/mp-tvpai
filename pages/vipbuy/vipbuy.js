@@ -450,6 +450,15 @@ Component({
         source_name: !!this.data._appLaunchFrom ? this.data._appLaunchFrom : '我的',
       });
     },
+    readServiceProtocol(e) { //查看协议
+      let type = e.currentTarget.dataset.type
+      if(type == 'service') {
+        type = this.data._curVipType
+      }
+      wx.navigateTo({
+        url: `../userProtocol/userProtocol?&type=${type}`,
+      })
+    },
     /**
      * 生命周期函数--监听页面加载
      */
@@ -476,7 +485,7 @@ Component({
       }else { //其它页跳转到本页面
         this.data._curSourceId = options.source_id
         this.data._curVipType = options.type
-        this._showNavBarTitle(options.type)
+        this._showNavBarTitle(this.data._curVipType)
       }
     },
     /**

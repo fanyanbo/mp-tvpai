@@ -20,7 +20,8 @@
     "pages/favorite/favorite",
     "pages/login/login",
     "pages/vipbuy/vipbuy",
-    "pages/buyRecord/buyRecord"
+    "pages/buyRecord/buyRecord",
+    "pages/userProtocol/userProtocol"
   ],
   "window": {
     "backgroundTextStyle": "light",

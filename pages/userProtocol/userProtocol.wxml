@@ -1,0 +1,6 @@
+<view>
+  <navBar title='服务协议' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
+</view>
+<view>
+  用户协议
+</view>
