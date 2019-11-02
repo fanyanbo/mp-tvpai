@@ -6,9 +6,19 @@ Page({
    */
   data: {
     type: 'movie-iqiyi',
+    aboutAutoRenew: true,
   },
   handleGobackClick(e) {//返回
     wx.navigateBack()
+  },
+  toggleReadAutoRenew(e) { //自动续费协议页-切换显示‘关于’和‘取消’
+    let show = true
+    if(e.currentTarget.dataset.content == 'cancel') {
+      show = false
+    }
+    this.setData({
+      aboutAutoRenew: show
+    })
   },
   /**
    * 生命周期函数--监听页面加载

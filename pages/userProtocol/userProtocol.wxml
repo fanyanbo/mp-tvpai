@@ -183,8 +183,26 @@
         
          <view class="chapter">六、其他</view>
         <view><text class="section" space="emsp">6.1酷开公司拥有对以上各项条款内容的修改权和最终解释权 </text></view>
-        <view><text class="section" space="emsp">6.2酷开公司根据本协议制定、修订的相关文件、公告，为本协议的有效组成部分。 </text></view>
-
-    
-
+        <view><text class="section" space="emsp">6.2酷开公司根据本协议制定、修订的相关文件、公告，为本协议的有效组成部分。 </text></view>  
 </view>
+
+<view class="wrapper-renew" wx:if="{{type == 'autorenew'}}" >
+    <view class="renew-title">
+      <view class="renew-tip {{!!aboutAutoRenew ? 'focus' : ''}}" bindtap="toggleReadAutoRenew" data-content="about">关于自动续费</view>
+      <view class="renew-tip {{!aboutAutoRenew ? 'focus' : ''}}" bindtap="toggleReadAutoRenew" data-content='cancel'>如何取消自动续费</view>
+    </view>
+    <view wx:if="{{!!aboutAutoRenew}}" style="width:100%;">
+      <image style="width:100%;" src="http://sky.fs.skysrt.com/statics/webvip/phoneapp/test/aboutrenewal.png" mode="widthFix"></image>
+    </view>  
+    <view wx:else style="width:100%;">
+      <image style="width:100%;"  src="http://sky.fs.skysrt.com/statics/webvip/phoneapp/test/howcancle1.png" mode="widthFix" ></image>
+      <image style="width:100%;"  src="http://sky.fs.skysrt.com/statics/webvip/phoneapp/test/howcancle2.png" mode="widthFix" ></image>
+      <image style="width:100%;"  src="http://sky.fs.skysrt.com/statics/webvip/phoneapp/test/howcancle3.png" mode="widthFix" ></image>
+      <image style="width:100%;"  src="http://sky.fs.skysrt.com/statics/webvip/phoneapp/test/howcancle4.png" mode="widthFix" ></image>
+      <image style="width:100%;"  src="http://sky.fs.skysrt.com/statics/webvip/phoneapp/test/howcancle5.png" mode="widthFix" ></image>
+      <image style="width:100%;"  src="http://sky.fs.skysrt.com/statics/webvip/phoneapp/test/howcancle6.png" mode="widthFix" ></image>
+      <image style="width:100%;"  src="http://sky.fs.skysrt.com/statics/webvip/phoneapp/test/howcancle7.png" mode="widthFix" ></image>
+      <image style="width:100%;"  src="http://sky.fs.skysrt.com/statics/webvip/phoneapp/test/howcancle8.png" mode="widthFix" ></image>
+    </view>
+</view>
+

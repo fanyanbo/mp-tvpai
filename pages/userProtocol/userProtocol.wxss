@@ -25,3 +25,27 @@
 .section {
   font-weight: normal;
 }
+
+.renew-title {
+  display: flex;
+}
+.renew-tip {
+  width: 50%;
+  height: 44rpx;
+  line-height: 44rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: rgb(204, 204, 204);
+  margin-top: 40rpx;
+  text-align: center;
+}
+.renew-tip.focus {
+  color: black;
+}
+.renew-tip:last-child {
+  border-left: 2rpx solid #ccc;
+}
+
+.image-item {
+  width: 100%;
+}
