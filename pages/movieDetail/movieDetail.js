@@ -257,7 +257,9 @@ Page({
       return
     }
     let params = { "ccsession": ccsession, "movieId": movieId }
-    utils.requestP(api.getFavoriteStatusUrl, utils.paramsAssemble_wx(params)).then(res => {
+    let desParams = utils.paramsAssemble_wx(params)
+    console.log("获取影片收藏状态参数:", desParams)
+    utils.requestP(api.getFavoriteStatusUrl, desParams).then(res => {
       console.log("获取影片收藏状态数据:", res)
       if (res.data.data && res.data.code === 200) {
         console.log("获取影片收藏状态成功:", res)
@@ -639,7 +641,9 @@ Page({
     if (ccsession == "") return
     let _movieid = `['${this.data.curMovieId}']`
     let params = { "ccsession": ccsession, "moviesId": _movieid }
-    utils.requestP(api.addMovieFavoriteUrl, utils.paramsAssemble_wx(params)).then(res => {
+    let desParams = utils.paramsAssemble_wx(params)
+    console.log("添加影片收藏参数:", desParams)
+    utils.requestP(api.addMovieFavoriteUrl, desParams).then(res => {
       if (res.data && res.data.code === 200) {
         console.log('添加影片收藏成功', res)
         this.setData({ isFavorite: true })

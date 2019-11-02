@@ -99,7 +99,7 @@ Page({
           let _list = arr[i].list
           for (let j = 0; j < _list.length; j++) {
             _list[j].selected = true
-            _selectArr.push(_list[j].id)
+            _selectArr.push(_list[j].collectId)
           }
         }
         this.setData({ videoList: arr, isVideoSelectAll: true, selectedList: _selectArr })
@@ -326,7 +326,7 @@ Page({
         this.setData({ videoList: _videoList, isVideoNoResult: false, isVideoEdit: false  })
       } else {
         console.log('获取收藏的视频失败:',res)
-        this.setData({ isVideoNoResult: true })
+        this.setData({ videoList: [], isVideoNoResult: true })
       }
     }).catch(res => {
       console.log('获取收藏的视频发生错误:', res)
@@ -336,7 +336,7 @@ Page({
 
     // 删除收藏的视频
     delVideosFavorite: function (delList) {
-      let ccsession = wx.getStorageSync('new_cksession')
+      const ccsession = wx.getStorageSync('new_cksession')
       if (ccsession == "") return
       let _collectIds = `[${delList}]`
       console.log(_collectIds)
