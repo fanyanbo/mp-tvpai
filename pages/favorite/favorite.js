@@ -320,7 +320,7 @@ Page({
         this.setData({ articleList: _articleList, isArticleNoResult: false, isArticleEdit: false })
       } else {
         console.log('获取收藏的文章失败:', res)
-        this.setData({ articleList: [], isArticleNoResult: true })
+        this.setData({ articleList: [], isArticleNoResult: true, isArticleEdit: false })
       }
     }).catch(res => {
       console.log('获取收藏的文章发生错误:', res)
@@ -349,7 +349,7 @@ Page({
         this.setData({ videoList: _videoList, isVideoNoResult: false, isVideoEdit: false })
       } else {
         console.log('获取收藏的视频失败:', res)
-        this.setData({ videoList: [], isVideoNoResult: true })
+        this.setData({ videoList: [], isVideoNoResult: true, isVideoEdit: false })
       }
     }).catch(res => {
       console.log('获取收藏的视频发生错误:', res)
@@ -395,7 +395,7 @@ Page({
         this.setData({ topicList: _topicList, isTopicNoResult: false, isTopicEdit: false })
       } else {
         console.log('获取收藏的片单失败:', res)
-        this.setData({ topicList: [], isTopicNoResult: true })
+        this.setData({ topicList: [], isTopicNoResult: true, isTopicEdit: false })
       }
     }).catch(res => {
       console.log('获取收藏的片单发生错误:', res)
