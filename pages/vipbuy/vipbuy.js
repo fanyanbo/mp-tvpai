@@ -25,7 +25,8 @@ Component({
     curSelectedProject: {
       id : 0,
       totalPrice : 0,
-      save: 0
+      save: 0,
+      is_keep_pay_product: 0,
     },//当前选择的产品包
     _curSourceId: 0, //当前产品包的source_id值，支付成功或失败时需要
     _curVipType: '',//当前选择的产品包类型
@@ -126,11 +127,13 @@ Component({
       })
       let totalPrice = !!this.data.productListShow[id].discount_price ? this.data.productListShow[id].discount_price : this.data.productListShow[id].price;
       let save = this.data.productListShow[id].price - totalPrice;
+      let is_keep_pay_product = this.data.productListShow[id].is_keep_pay_product;
       this.setData({
         curSelectedProject: {
           id,
           totalPrice,
-          save
+          save,
+          is_keep_pay_product,
         }
       })
     },
