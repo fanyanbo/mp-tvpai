@@ -133,23 +133,25 @@ Page({
   // 文章中的收藏影片
   clickCollect(e) {
     // 检查是否登录酷开账号
-    utilsNew.checkCoocaaUserLogin()
-    if (wx.getStorageSync('ccUserInfo') == '') return
+    if (wx.getStorageSync('ccUserInfo') == "") {
+      return wx.navigateTo({ url: '../login/login' })
+    }
+    // let ccsession = 'b45004fab0934395dc20ede9dc13801d'
     let ccsession = wx.getStorageSync('new_cksession')
     if (ccsession == "") return
-    console.log('点击收藏影片',e)
+
     let contentId = e.currentTarget.dataset.contentid
     let _index = e.currentTarget.dataset.index
-    let _movieid = ''
+    let _movieid = []
     if (contentArray != null && contentArray != undefined) {
       for (var i = 0; i < contentArray.length; i++) {
         if (contentId == contentArray[i].contentId) {
           if (contentArray[i].movieIdsList != null && contentArray[i].movieIdsList != undefined) {
             for (var j = 0; j < contentArray[i].movieIdsList.length; j++) {
               if (contentArray[i].movieIdsList[j].source == 'iqiyi') {
-                _movieid = contentArray[i].movieIdsList[j].movieId
+                _movieid = `['${contentArray[i].movieIdsList[j].movieId}']`
               } else {
-                _movieid = contentArray[i].movieIdsList[0].movieId
+                _movieid = `['${contentArray[i].movieIdsList[0].movieId}']`
               }
             }
           }
@@ -157,6 +159,7 @@ Page({
       }
     }
     let params = { "ccsession": ccsession, "moviesId": _movieid }
+    console.log('签名', params)
     utilsNew.requestP(apiNew.addMovieFavoriteUrl, utilsNew.paramsAssemble_wx(params)).then(res => {
       if (res.data && res.data.code === 200) {
         console.log('添加影片收藏成功', res)
@@ -175,14 +178,16 @@ Page({
   },
   // 文章中的取消收藏影片
   clickCancelCollect(e) {
-    utilsNew.checkCoocaaUserLogin()
-    if (wx.getStorageSync('ccUserInfo') == '') return
+    // 检查是否登录酷开账号
+    if (wx.getStorageSync('ccUserInfo') == "") {
+      return wx.navigateTo({ url: '../login/login' })
+    }
 
     let ccsession = wx.getStorageSync('new_cksession')
     if (ccsession == "") return
 
     let _index = e.currentTarget.dataset.index
-    let _collectIds = e.currentTarget.dataset.collectid
+    let _collectIds = `[${e.currentTarget.dataset.collectid}]`
     console.log('collectId',_collectIds)
     let params = { "ccsession": ccsession, "collectIds": _collectIds }
     utilsNew.requestP(apiNew.delMovieFavoriteUrl, utilsNew.paramsAssemble_wx(params)).then(res => {
@@ -339,9 +344,10 @@ Page({
   },
 
   clickLike: function (e) {
-    utilsNew.checkCoocaaUserLogin()
-    console.log("收藏文章按钮")
-    if (wx.getStorageSync('ccUserInfo') == '') return
+    // 检查是否登录酷开账号
+    if (wx.getStorageSync('ccUserInfo') == "") {
+      return wx.navigateTo({ url: '../login/login' })
+    }
 
     let index = parseInt(this.data.collectNum)
     let indexAdd = index + 1
