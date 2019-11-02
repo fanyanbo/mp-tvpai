@@ -308,15 +308,46 @@ Page({
       if (res.data && res.data.data && res.data.data.list && res.data.code === 200 && res.data.data.list.length !== 0) {
         console.log('获取收藏的文章成功:', res)
         let _list = res.data.data.list
+        let _oneDayList = [], _oneWeekList = [], _longAgoList = []
         for (let i = 0; i < _list.length; i++) {
           _list[i].selected = false
+          let _date = _list[i].collectTime
+          let _formatDate = new Date(_date)
+          let _formatTime = _formatDate.getTime()
+          let _nowTime = Date.now()
+          let _elapsed = _nowTime - _formatTime
+          console.log(_formatDate, _formatTime, _nowTime, _elapsed)
+          let CONST_DAY_MS = 86400000
+          let CONST_WEEK_MS = 604800000
+          if(_elapsed <= CONST_DAY_MS) {
+            _oneDayList.push(_list[i])
+          }else if(_elapsed > CONST_DAY_MS && _elapsed < CONST_WEEK_MS){
+            _oneWeekList.push(_list[i])
+          }else {
+            _longAgoList.push(_list[i])
+          }
         }
         let _articleList = [],
-          _articleToday = {
-            time: '今天',
-            list: _list
+          // _articleToday = {
+          //   time: '今天',
+          //   list: _list
+          // }
+          _videoOneDay = {
+            time: '一天内',
+            list: _oneDayList
+          },
+          _videoFOneWeek = {
+            time: '一周内',
+            list: _oneWeekList
+          },
+          _videoLongAgo = {
+            time: '更早',
+            list: _longAgoList
           }
-        _articleList.push(_articleToday)
+        // _articleList.push(_articleToday)
+        if(_oneDayList.length !== 0) _articleList.push(_videoOneDay)
+        if(_oneWeekList.length !== 0) _articleList.push(_videoFOneWeek)
+        if(_longAgoList.length !== 0) _articleList.push(_videoLongAgo)
         this.setData({ articleList: _articleList, isArticleNoResult: false, isArticleEdit: false })
       } else {
         console.log('获取收藏的文章失败:', res)
@@ -337,15 +368,46 @@ Page({
       if (res.data && res.data.data && res.data.data.list && res.data.data.list.length !== 0) {
         console.log('获取收藏的视频成功:', res)
         let _list = res.data.data.list
+        let _oneDayList = [], _oneWeekList = [], _longAgoList = []
         for (let i = 0; i < _list.length; i++) {
           _list[i].selected = false
+          let _date = _list[i].collectTime
+          let _formatDate = new Date(_date)
+          let _formatTime = _formatDate.getTime()
+          let _nowTime = Date.now()
+          let _elapsed = _nowTime - _formatTime
+          console.log(_formatDate, _formatTime, _nowTime, _elapsed)
+          let CONST_DAY_MS = 86400000
+          let CONST_WEEK_MS = 604800000
+          if(_elapsed <= CONST_DAY_MS) {
+            _oneDayList.push(_list[i])
+          }else if(_elapsed > CONST_DAY_MS && _elapsed < CONST_WEEK_MS){
+            _oneWeekList.push(_list[i])
+          }else {
+            _longAgoList.push(_list[i])
+          }
         }
         let _videoList = [],
-          _videoToday = {
-            time: '今天',
-            list: _list
+          // _videoToday = {
+          //   time: '今天',
+          //   list: _list
+          // },
+          _videoOneDay = {
+            time: '一天内',
+            list: _oneDayList
+          },
+          _videoFOneWeek = {
+            time: '一周内',
+            list: _oneWeekList
+          },
+          _videoLongAgo = {
+            time: '更早',
+            list: _longAgoList
           }
-        _videoList.push(_videoToday)
+        // _videoList.push(_videoToday)
+        if(_oneDayList.length !== 0) _videoList.push(_videoOneDay)
+        if(_oneWeekList.length !== 0) _videoList.push(_videoFOneWeek)
+        if(_longAgoList.length !== 0) _videoList.push(_videoLongAgo)
         this.setData({ videoList: _videoList, isVideoNoResult: false, isVideoEdit: false })
       } else {
         console.log('获取收藏的视频失败:', res)
@@ -383,15 +445,46 @@ Page({
       if (res.data.data && res.data.data.length !== 0) {
         console.log('获取收藏的片单成功:', res)
         let _list = res.data.data
+        let _oneDayList = [], _oneWeekList = [], _longAgoList = []
         for (let i = 0; i < _list.length; i++) {
           _list[i].selected = false
+          let _date = _list[i].push_time
+          let _formatDate = new Date(_date)
+          let _formatTime = _formatDate.getTime()
+          let _nowTime = Date.now()
+          let _elapsed = _nowTime - _formatTime
+          console.log(_formatDate, _formatTime, _nowTime, _elapsed)
+          let CONST_DAY_MS = 86400000
+          let CONST_WEEK_MS = 604800000
+          if(_elapsed <= CONST_DAY_MS) {
+            _oneDayList.push(_list[i])
+          }else if(_elapsed > CONST_DAY_MS && _elapsed < CONST_WEEK_MS){
+            _oneWeekList.push(_list[i])
+          }else {
+            _longAgoList.push(_list[i])
+          }
         }
         let _topicList = [],
-          _topicToday = {
-            time: '今天',
-            list: _list
+          // _topicToday = {
+          //   time: '今天',
+          //   list: _list
+          // }
+          _videoOneDay = {
+            time: '一天内',
+            list: _oneDayList
+          },
+          _videoFOneWeek = {
+            time: '一周内',
+            list: _oneWeekList
+          },
+          _videoLongAgo = {
+            time: '更早',
+            list: _longAgoList
           }
-        _topicList.push(_topicToday)
+        // _topicList.push(_topicToday)
+        if(_oneDayList.length !== 0) _topicList.push(_videoOneDay)
+        if(_oneWeekList.length !== 0) _topicList.push(_videoFOneWeek)
+        if(_longAgoList.length !== 0) _topicList.push(_videoLongAgo)
         this.setData({ topicList: _topicList, isTopicNoResult: false, isTopicEdit: false })
       } else {
         console.log('获取收藏的片单失败:', res)
