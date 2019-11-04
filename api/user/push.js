@@ -10,6 +10,7 @@ function getTVAcctInfo(params) { //根据设备mac获取账号信息
     wx.request({
       url: url_getaccountByMac,
       data: {
+        accessToken: params.accessToken,
         mac: params.mac, //'2835452AA239',   
         deviceId: params.deviceId, //'31140974' //设备激活id
       },
@@ -37,7 +38,8 @@ function pushTvLogin(params) { //小微信程序手动推送TV端登陆
     wx.request({
       url: url_pushTvLogin,
       data: {
-        openId: params.openId, //酷开账号openid
+        // openId: params.openId, //酷开账号openid
+        accessToken: params.accessToken,
         deviceId: params.deviceId,//'31140974' //设备激活id
       },
       success(data) {

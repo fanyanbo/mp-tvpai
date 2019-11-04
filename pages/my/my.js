@@ -69,6 +69,7 @@ Component({
         return
       } 
       user_push.getTVAcctInfo({ //获取电视端登录账户
+        accessToken: !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.ccToken : '',
         mac: app.globalData.boundDeviceInfo.devMac,
         deviceId: app.globalData.boundDeviceInfo.serviceId
       }).then(res => {
@@ -125,7 +126,8 @@ Component({
     },
     syncTVAcct() { //同步当前账号到tv端
       user_push.pushTvLogin({
-        openId: !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : '',
+        // openId: !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : '',
+        accessToken: !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.ccToken : '',
         deviceId: app.globalData.boundDeviceInfo.serviceId,
       }).then(res => {
         wx.showModal({
