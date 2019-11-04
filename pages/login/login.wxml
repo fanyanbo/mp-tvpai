@@ -44,7 +44,7 @@
     </view>
     <input class="input-item" placeholder="邮箱/手机号/用户名" placeholder-class="placeholder-class" focus bindblur="inputAccountBlur" bindconfirm="inputAccountBlur"></input>
     <view class="input-wrapper">
-      <input class="input-item" placeholder="请输入密码" placeholder-class="placeholder-class" bindblur="inputPasswordBlue" bindconfirm="inputPasswordBlue"></input>
+      <input class="input-item" placeholder="请输入密码" placeholder-class="placeholder-class" bindblur="inputPasswordBlue" bindconfirm="inputPasswordBlue" password="true"></input>
     </view>
     <view class="input-wrapper">
       <input class="input-item" placeholder="请输入验证码" placeholder-class="placeholder-class" bindblur="pageVCodeVerify" bindconfirm="pageVCodeVerify"></input>
