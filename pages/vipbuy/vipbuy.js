@@ -260,7 +260,7 @@ Component({
           this.setData({
             'orderInfos.name': res.order_title,
             'orderInfos.price': res.pay_info.total_pay_fee / 100,
-            'orderInfos.orderId': res.pay_info.pay_order_no,//oss_order_no, // need confirm with chenyuan.
+            'orderInfos.orderId': res.order_no,//oss_order_no, // need confirm with chenyuan.
             'orderInfos.payTime': util_fyb.getFormatTime(res.create_time * 1000),
           })
         }
