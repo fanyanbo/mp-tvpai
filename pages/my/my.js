@@ -94,7 +94,9 @@ Component({
           })
         }else {
           this.setData({
-            'curTV.unmatch.tip': '当前电视端尚未登陆账号，是否将当前手机账号同步至电视端'
+            'curTV.unmatch.acct[1].name': '未登录',
+            'curTV.unmatch.acct[1].avatar': '../../images/my/vip/kid.png',
+            'curTV.unmatch.tip': '当前电视端尚未登陆账号，是否将当前手机账号同步至电视端',
           })
         }
         console.log(this.data.curTV)
