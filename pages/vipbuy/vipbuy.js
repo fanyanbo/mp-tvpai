@@ -190,9 +190,15 @@ Component({
           source_name: !!this.data._appLaunchFrom ? this.data._appLaunchFrom : '我的',
         });
         let stage = this.data.PageStage.PAY_SUCCESS_PAGE //todo 支付成功，页面重定向到支付成功页
-        wx.navigateTo({
-          url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&page_name=${this.data.navBarTitle}`,
-        })
+        if (this.data.stage == this.data.PageStage.PAY_FAIL_PAGE) { 
+          wx.redirectTo({
+            url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&page_name=${this.data._FailPageCustomEventSubmitPageName}`,
+          })
+        }else {
+          wx.navigateTo({
+            url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&page_name=${this.data.navBarTitle}`,
+          })
+        }
       }).catch(err => {
         console.error('prePay error')
         if (!this.data._payParams || !this.data._orderId) {
@@ -203,9 +209,15 @@ Component({
           return
         }
         let stage = this.data.PageStage.PAY_FAIL_PAGE //失败页处理,继续支付
-        wx.navigateTo({
-          url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&pay=${JSON.stringify(this.data._payParams)}&page_name=${this.data.navBarTitle}&vip_name=${this.data.productListShow[this.data.curSelectedProject.id].product_name}`,
-        })
+        if (this.data.stage == this.data.PageStage.PAY_FAIL_PAGE) { 
+          wx.redirectTo({
+            url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&pay=${JSON.stringify(this.data._payParams)}&page_name=${this.data._FailPageCustomEventSubmitPageName}&vip_name=${this.data._FailPageCustomEventSubmitVipName}`,
+          })
+        }else {
+          wx.navigateTo({
+            url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&pay=${JSON.stringify(this.data._payParams)}&page_name=${this.data.navBarTitle}&vip_name=${this.data.productListShow[this.data.curSelectedProject.id].product_name}`,
+          })
+        }
       }).then(() => {
         this.data._orderId = null;
         this.data._payParams = null;
@@ -260,7 +272,7 @@ Component({
           this.setData({
             'orderInfos.name': res.order_title,
             'orderInfos.price': res.pay_info.total_pay_fee / 100,
-            'orderInfos.orderId': res.pay_info.pay_order_no,//oss_order_no, // need confirm with chenyuan.
+            'orderInfos.orderId': res.order_no,//oss_order_no, // need confirm with chenyuan.
             'orderInfos.payTime': util_fyb.getFormatTime(res.create_time * 1000),
           })
         }

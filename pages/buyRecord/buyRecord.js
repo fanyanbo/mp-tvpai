@@ -44,13 +44,13 @@ Component({
               prodName,
               actualAmount,
               orderTime,
-              orderNo,
+              origiOrderNo,
             } = item
             let info = {
               prodName,
               actualAmount,
               orderTime,
-              orderNo,
+              origiOrderNo,
             }
             let day = orderTime.substr(0, orderTime.indexOf(' ')).replace(/(\d{4})-(\d{1,2})-(\d{1,2})/, (match, p1, p2, p3) => {            
               p2 = p2.length < 2 ? ('0' + p2) : p2 //提取年月日并对单位月日前补0

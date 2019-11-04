@@ -18,7 +18,7 @@
         <view class="price line">￥{{subitem.actualAmount}}</view>
         <view class="name line">{{subitem.prodName}}</view>
         <view class="time line">{{subitem.orderTime}}</view>
-        <view class="num line">{{subitem.orderNo}}</view>
+        <view class="num line">{{subitem.origiOrderNo}}</view>
       </view>
     </view>
     <view class="gap line"></view>

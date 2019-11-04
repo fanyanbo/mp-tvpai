@@ -36,7 +36,7 @@
 
 .tab-bar-item .tab-bar-bottom {
   position: absolute;
-  top: 64rpx;
+  top: 62rpx;
   width: 36rpx;
   height: 8rpx;
   border-radius: 2px;

@@ -69,6 +69,7 @@ Component({
         return
       } 
       user_push.getTVAcctInfo({ //获取电视端登录账户
+        accessToken: !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.ccToken : '',
         mac: app.globalData.boundDeviceInfo.devMac,
         deviceId: app.globalData.boundDeviceInfo.serviceId
       }).then(res => {
@@ -93,7 +94,9 @@ Component({
           })
         }else {
           this.setData({
-            'curTV.unmatch.tip': '当前电视端尚未登陆账号，是否将当前手机账号同步至电视端'
+            'curTV.unmatch.acct[1].name': '未登录',
+            'curTV.unmatch.acct[1].avatar': '../../images/my/vip/kid.png',
+            'curTV.unmatch.tip': '当前电视端尚未登陆账号，是否将当前手机账号同步至电视端',
           })
         }
         console.log(this.data.curTV)
@@ -125,7 +128,8 @@ Component({
     },
     syncTVAcct() { //同步当前账号到tv端
       user_push.pushTvLogin({
-        openId: !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : '',
+        // openId: !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.openid : '',
+        accessToken: !!app.globalData.ccUserInfo ? app.globalData.ccUserInfo.ccToken : '',
         deviceId: app.globalData.boundDeviceInfo.serviceId,
       }).then(res => {
         wx.showModal({
