@@ -99,7 +99,7 @@ Page({
           let _list = arr[i].list
           for (let j = 0; j < _list.length; j++) {
             _list[j].selected = true
-            _selectArr.push(_list[j].id)
+            _selectArr.push(_list[j].collectId)
           }
         }
         this.setData({ videoList: arr, isVideoSelectAll: true, selectedList: _selectArr })
@@ -111,7 +111,7 @@ Page({
           let _list = arr[i].list
           for (let j = 0; j < _list.length; j++) {
             _list[j].selected = true
-            _selectArr.push(_list[j].id)
+            _selectArr.push(_list[j].topic_id)
           }
         }
         this.setData({ topicList: arr, isTopicSelectAll: true, selectedList: _selectArr })
@@ -178,14 +178,16 @@ Page({
     let { type } = e.currentTarget.dataset
     console.log(this.data.selectedList)
     switch (type) {
-      case "video": {     
+      case "video": {
         this.delVideosFavorite(this.data.selectedList)
         break
       }
       case "topic": {
+        this.delTopicFavorite(this.data.selectedList)
         break
       }
       case "article": {
+        this.delArticlesFavorite(this.data.selectedList)
         break
       }
     }
@@ -223,7 +225,7 @@ Page({
               _list[j].selected = !_list[j].selected
             }
             if (_list[j].selected) {
-              _selectArr.push(_list[j].id)
+              _selectArr.push(_list[j].topic_id)
             }
           }
         }
@@ -276,28 +278,80 @@ Page({
     })
   },
 
+  // 删除收藏的文章
+  delArticlesFavorite: function (delList) {
+    const ccsession = wx.getStorageSync('new_cksession')
+    if (ccsession == "") return
+    console.log(delList)
+    if(delList && delList.length === 0) return
+    let articleIds = `[${delList}]`
+    console.log(articleIds)
+    let params = { "ccsession": ccsession, "articleIds": articleIds }
+    utils.requestP(api.submitFavoriteArticleUrl, utils.paramsAssemble_wx(params)).then(res => {
+      if (res.data && res.data.code === 200) {
+        console.log('删除文章收藏成功', res)
+        this.getArticlesFavorite()
+      } else {
+        console.log('删除文章收藏失败', res)
+      }
+    }).catch(res => {
+      console.log('删除文章收藏发生错误', res)
+    })
+  },
+
   // 获取收藏的文章
   getArticlesFavorite: function () {
     let ccsession = wx.getStorageSync('new_cksession')
     if (ccsession == "") return
     let params = { "ccsession": ccsession }
-    utils.requestP(api.getFavoriteArticlesUrl, utils.paramsAssemble_wx(params)).then(res => {        
-      if (res.data && res.data.data && res.data.data.list && res.data.code === 200) {
+    utils.requestP(api.getFavoriteArticlesUrl, utils.paramsAssemble_wx(params)).then(res => {
+      if (res.data && res.data.data && res.data.data.list && res.data.code === 200 && res.data.data.list.length !== 0) {
         console.log('获取收藏的文章成功:', res)
         let _list = res.data.data.list
+        let _oneDayList = [], _oneWeekList = [], _longAgoList = []
         for (let i = 0; i < _list.length; i++) {
           _list[i].selected = false
+          let _date = _list[i].collectTime
+          let _formatDate = new Date(_date)
+          let _formatTime = _formatDate.getTime()
+          let _nowTime = Date.now()
+          let _elapsed = _nowTime - _formatTime
+          console.log(_formatDate, _formatTime, _nowTime, _elapsed)
+          let CONST_DAY_MS = 86400000
+          let CONST_WEEK_MS = 604800000
+          if(_elapsed <= CONST_DAY_MS) {
+            _oneDayList.push(_list[i])
+          }else if(_elapsed > CONST_DAY_MS && _elapsed < CONST_WEEK_MS){
+            _oneWeekList.push(_list[i])
+          }else {
+            _longAgoList.push(_list[i])
+          }
         }
         let _articleList = [],
-          _articleToday = {
-            time: '今天',
-            list: _list
+          // _articleToday = {
+          //   time: '今天',
+          //   list: _list
+          // }
+          _videoOneDay = {
+            time: '一天内',
+            list: _oneDayList
+          },
+          _videoFOneWeek = {
+            time: '一周内',
+            list: _oneWeekList
+          },
+          _videoLongAgo = {
+            time: '更早',
+            list: _longAgoList
           }
-        _articleList.push(_articleToday)
+        // _articleList.push(_articleToday)
+        if(_oneDayList.length !== 0) _articleList.push(_videoOneDay)
+        if(_oneWeekList.length !== 0) _articleList.push(_videoFOneWeek)
+        if(_longAgoList.length !== 0) _articleList.push(_videoLongAgo)
         this.setData({ articleList: _articleList, isArticleNoResult: false, isArticleEdit: false })
       } else {
         console.log('获取收藏的文章失败:', res)
-        this.setData({ isArticleNoResult: true })
+        this.setData({ articleList: [], isArticleNoResult: true, isArticleEdit: false })
       }
     }).catch(res => {
       console.log('获取收藏的文章发生错误:', res)
@@ -310,23 +364,54 @@ Page({
     let ccsession = wx.getStorageSync('new_cksession')
     if (ccsession == "") return
     let params = { "ccsession": ccsession }
-    utils.requestP(api.getFavoriteVideosUrl, utils.paramsAssemble_wx(params)).then(res => {   
-      if (res.data && res.data.data && res.data.data.list && res.data.data.list.length !==0) {
+    utils.requestP(api.getFavoriteVideosUrl, utils.paramsAssemble_wx(params)).then(res => {
+      if (res.data && res.data.data && res.data.data.list && res.data.data.list.length !== 0) {
         console.log('获取收藏的视频成功:', res)
         let _list = res.data.data.list
+        let _oneDayList = [], _oneWeekList = [], _longAgoList = []
         for (let i = 0; i < _list.length; i++) {
           _list[i].selected = false
+          let _date = _list[i].collectTime
+          let _formatDate = new Date(_date)
+          let _formatTime = _formatDate.getTime()
+          let _nowTime = Date.now()
+          let _elapsed = _nowTime - _formatTime
+          console.log(_formatDate, _formatTime, _nowTime, _elapsed)
+          let CONST_DAY_MS = 86400000
+          let CONST_WEEK_MS = 604800000
+          if(_elapsed <= CONST_DAY_MS) {
+            _oneDayList.push(_list[i])
+          }else if(_elapsed > CONST_DAY_MS && _elapsed < CONST_WEEK_MS){
+            _oneWeekList.push(_list[i])
+          }else {
+            _longAgoList.push(_list[i])
+          }
         }
         let _videoList = [],
-          _videoToday = {
-            time: '今天',
-            list: _list
+          // _videoToday = {
+          //   time: '今天',
+          //   list: _list
+          // },
+          _videoOneDay = {
+            time: '一天内',
+            list: _oneDayList
+          },
+          _videoFOneWeek = {
+            time: '一周内',
+            list: _oneWeekList
+          },
+          _videoLongAgo = {
+            time: '更早',
+            list: _longAgoList
           }
-        _videoList.push(_videoToday)
-        this.setData({ videoList: _videoList, isVideoNoResult: false, isVideoEdit: false  })
+        // _videoList.push(_videoToday)
+        if(_oneDayList.length !== 0) _videoList.push(_videoOneDay)
+        if(_oneWeekList.length !== 0) _videoList.push(_videoFOneWeek)
+        if(_longAgoList.length !== 0) _videoList.push(_videoLongAgo)
+        this.setData({ videoList: _videoList, isVideoNoResult: false, isVideoEdit: false })
       } else {
-        console.log('获取收藏的视频失败:',res)
-        this.setData({ isVideoNoResult: true })
+        console.log('获取收藏的视频失败:', res)
+        this.setData({ videoList: [], isVideoNoResult: true, isVideoEdit: false })
       }
     }).catch(res => {
       console.log('获取收藏的视频发生错误:', res)
@@ -334,50 +419,95 @@ Page({
     })
   },
 
-    // 删除收藏的视频
-    delVideosFavorite: function (delList) {
-      let ccsession = wx.getStorageSync('new_cksession')
-      if (ccsession == "") return
-      let _collectIds = `[${delList}]`
-      console.log(_collectIds)
-      let params = { "ccsession": ccsession, "collectIds": _collectIds }
-      utils.requestP(api.delMovieFavoriteUrl, utils.paramsAssemble_wx(params)).then(res => {
-        if (res.data && res.data.code === 200) {
-          console.log('删除影片收藏成功', res)
-          this.getVideosFavorite()
-        } else {
-          console.log('删除影片收藏失败', res)
-        }
-      }).catch(res => {
-        console.log('删除影片收藏发生错误', res)
-      })
-    },
+  // 删除收藏的视频
+  delVideosFavorite: function (delList) {
+    const ccsession = wx.getStorageSync('new_cksession')
+    if (ccsession == "") return
+    let _collectIds = `[${delList}]`
+    console.log(_collectIds)
+    let params = { "ccsession": ccsession, "collectIds": _collectIds }
+    utils.requestP(api.delMovieFavoriteUrl, utils.paramsAssemble_wx(params)).then(res => {
+      if (res.data && res.data.code === 200) {
+        console.log('删除影片收藏成功', res)
+        this.getVideosFavorite()
+      } else {
+        console.log('删除影片收藏失败', res)
+      }
+    }).catch(res => {
+      console.log('删除影片收藏发生错误', res)
+    })
+  },
 
   // 获取收藏的片单
   getTopicFavorite: function () {
     let params = { "vuid": wx.getStorageSync("wxopenid") }
-    utils.requestP(api.getFavoriteTopicUrl, utils.paramsAssemble_tvpai(params)).then(res => {   
+    utils.requestP(api.getFavoriteTopicUrl, utils.paramsAssemble_tvpai(params)).then(res => {
       if (res.data.data && res.data.data.length !== 0) {
         console.log('获取收藏的片单成功:', res)
         let _list = res.data.data
+        let _oneDayList = [], _oneWeekList = [], _longAgoList = []
         for (let i = 0; i < _list.length; i++) {
           _list[i].selected = false
+          let _date = _list[i].push_time
+          let _formatDate = new Date(_date)
+          let _formatTime = _formatDate.getTime()
+          let _nowTime = Date.now()
+          let _elapsed = _nowTime - _formatTime
+          console.log(_formatDate, _formatTime, _nowTime, _elapsed)
+          let CONST_DAY_MS = 86400000
+          let CONST_WEEK_MS = 604800000
+          if(_elapsed <= CONST_DAY_MS) {
+            _oneDayList.push(_list[i])
+          }else if(_elapsed > CONST_DAY_MS && _elapsed < CONST_WEEK_MS){
+            _oneWeekList.push(_list[i])
+          }else {
+            _longAgoList.push(_list[i])
+          }
         }
         let _topicList = [],
-            _topicToday = {
-              time: '今天',
-              list: _list
-            }
-        _topicList.push(_topicToday)
-        this.setData({ topicList: _topicList, isTopicNoResult: false, isTopicEdit: false  })
+          // _topicToday = {
+          //   time: '今天',
+          //   list: _list
+          // }
+          _videoOneDay = {
+            time: '一天内',
+            list: _oneDayList
+          },
+          _videoFOneWeek = {
+            time: '一周内',
+            list: _oneWeekList
+          },
+          _videoLongAgo = {
+            time: '更早',
+            list: _longAgoList
+          }
+        // _topicList.push(_topicToday)
+        if(_oneDayList.length !== 0) _topicList.push(_videoOneDay)
+        if(_oneWeekList.length !== 0) _topicList.push(_videoFOneWeek)
+        if(_longAgoList.length !== 0) _topicList.push(_videoLongAgo)
+        this.setData({ topicList: _topicList, isTopicNoResult: false, isTopicEdit: false })
       } else {
         console.log('获取收藏的片单失败:', res)
-        this.setData({ isTopicNoResult: true })
+        this.setData({ topicList: [], isTopicNoResult: true, isTopicEdit: false })
       }
     }).catch(res => {
       console.log('获取收藏的片单发生错误:', res)
       this.setData({ isTopicNoResult: true })
     })
-  }
+  },
+
+    // 删除收藏的片单
+    delTopicFavorite: function (delList) {
+      if(delList && delList.length === 0) return
+      console.log('删除片单id', delList)
+      let params = { "id": delList, "vuid": wx.getStorageSync("wxopenid"), "collect": 0 }
+      let url = utils.urlAssemble_tvpai(api.setFavoriteTopicUrl, utils.paramsAssemble_tvpai(params))
+      utils.requestP(url, null, 'POST').then(res => {
+        console.log('删除片单收藏成功:', res)
+        this.getTopicFavorite()
+      }).catch(res => {
+        console.log('删除片单收藏发生错误', res)
+      })
+    }
 
 })  

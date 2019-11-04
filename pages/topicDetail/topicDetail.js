@@ -284,6 +284,10 @@ Page({
 
   // 添加片单收藏
   addTopicFavorite: function (topicId) {
+    // 片单不需要跳转登录，但为了和影片/文章收藏逻辑统一，后续让产品优化这块交互
+    if (wx.getStorageSync('ccUserInfo') == "") {
+      return wx.navigateTo({ url: '../login/login' })
+    }
     console.log('添加片单id', topicId)
     let params = { "id": topicId, "vuid": wx.getStorageSync("wxopenid"), "collect": 1 }
     let url = utils.urlAssemble_tvpai(api.setFavoriteTopicUrl, utils.paramsAssemble_tvpai(params))
