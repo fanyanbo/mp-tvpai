@@ -190,9 +190,15 @@ Component({
           source_name: !!this.data._appLaunchFrom ? this.data._appLaunchFrom : '我的',
         });
         let stage = this.data.PageStage.PAY_SUCCESS_PAGE //todo 支付成功，页面重定向到支付成功页
-        wx.navigateTo({
-          url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&page_name=${this.data.navBarTitle}`,
-        })
+        if (this.data.stage == this.data.PageStage.PAY_FAIL_PAGE) { 
+          wx.redirectTo({
+            url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&page_name=${this.data._FailPageCustomEventSubmitPageName}`,
+          })
+        }else {
+          wx.navigateTo({
+            url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&page_name=${this.data.navBarTitle}`,
+          })
+        }
       }).catch(err => {
         console.error('prePay error')
         if (!this.data._payParams || !this.data._orderId) {
