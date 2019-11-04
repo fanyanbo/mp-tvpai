@@ -324,7 +324,7 @@ Page({
     )
   },
   jumpOutLink() {
-    const url = "https://www.baidu.com"
+    const url = "https://webapp.skysrt.com/activity201911/mobile-main/"
     wx.navigateTo({
       url: `/pages/webview/webview?path=` + url
     })
