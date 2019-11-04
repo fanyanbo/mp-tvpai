@@ -24,7 +24,7 @@ module.exports = Behavior({
     }
   },
   data: {
-    key_test : '2814d3aa2ab7298502d3d237bc4c0c67', //测试key todo needfix---
+    key_test : config.env == 'prod' ? '4b0d87fd74f9c8542cc05f75a43b36c9' : '2814d3aa2ab7298502d3d237bc4c0c67',  
   },
   attached: function () {
     console.log('behavior pay attached.')
