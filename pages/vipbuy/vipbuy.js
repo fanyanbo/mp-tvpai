@@ -203,9 +203,15 @@ Component({
           return
         }
         let stage = this.data.PageStage.PAY_FAIL_PAGE //失败页处理,继续支付
-        wx.navigateTo({
-          url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&pay=${JSON.stringify(this.data._payParams)}&page_name=${this.data.navBarTitle}&vip_name=${this.data.productListShow[this.data.curSelectedProject.id].product_name}`,
-        })
+        if (this.data.stage == this.data.PageStage.PAY_FAIL_PAGE) { 
+          wx.redirectTo({
+            url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&pay=${JSON.stringify(this.data._payParams)}&page_name=${this.data._FailPageCustomEventSubmitPageName}&vip_name=${this.data._FailPageCustomEventSubmitVipName}`,
+          })
+        }else {
+          wx.navigateTo({
+            url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&pay=${JSON.stringify(this.data._payParams)}&page_name=${this.data.navBarTitle}&vip_name=${this.data.productListShow[this.data.curSelectedProject.id].product_name}`,
+          })
+        }
       }).then(() => {
         this.data._orderId = null;
         this.data._payParams = null;
