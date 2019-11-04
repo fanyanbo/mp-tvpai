@@ -18,8 +18,8 @@ Component({
       {
         flag: 2,
         score: 1,
-        grayStar: "/images/star_gray.png",
-        lightStar: "/images/star_light.png"
+        grayStar: "/images/videodetail/star.png",
+        lightStar: "/images/videodetail/star-focus.png"
       },
       {
         flag: 2,
