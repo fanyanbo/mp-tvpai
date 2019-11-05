@@ -79,6 +79,7 @@ App({
       success: function(res) {
         console.log('onLaunch getSystemInfo', res)
         that.globalData.platform = utils_fyb.getFlatform({ platform: res.platform })
+        that.globalData.model = res.model
         that.globalData.bIphoneFullScreenModel = utils_fyb.checkIphoneFullScreenModel({ platform: res.platform, model: res.model })
         console.log('onLaunch bIphoneFullScreenModel:', that.globalData.bIphoneFullScreenModel)
         console.log('onLaunch platform', that.globalData.platform)
@@ -109,7 +110,8 @@ App({
     version_code: 33,
     bIphoneFullScreenModel:false,
     sourceChanged: false, //源是否被改变
-    platform: 'Android' //设备平台，Android | IOS
+    platform: 'Android', //设备平台，Android | IOS
+    model: '' //设备机型
   }
 })
 
