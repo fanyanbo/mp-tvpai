@@ -25,16 +25,16 @@ function vcode(mobile) { //手机注册，获取验证码
       },
       success: function (res) {
         console.log(res)
-        if (!res.data.data) {
-          resolve(res)
+        if (res.data.result) {
+          resolve('验证码获取成功')
         } else {
-          reject(new Error('vcode error'))
+          reject(res.data.message)
           return !1
         }
       },
       fail: function (res) {
         console.log(res)
-        reject(new Error('vcode fail'))
+        reject(res.message)
       }
     })
   })

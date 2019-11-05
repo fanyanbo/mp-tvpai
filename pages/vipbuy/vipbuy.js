@@ -96,26 +96,30 @@ Component({
         products = this.calAllBenefits(products, coupons, allowances)
         console.log(products)
         let focus = 0;
-        let arrShow = products.map((item, index) => {
-            if (item.is_focus) {
-              focus = index
-            }
-            return {
-              id: index,
-              is_focus: item.is_focus,
-              product_id: item.product_id,
-              product_name: item.product_name,
-              desc: item.desc,
-              pIcon: !!item.icon_json && !!JSON.parse(item.icon_json).pIcon ? JSON.parse(item.icon_json).pIcon : '',
-              pIconHidden: true,
-              is_keep_pay_product: item.is_keep_pay_product,
-              price: item.discount_fee,
-              oldprice: item.unit_fee,
-              allowance_act_id: item.allowance_act_id,
-              discount_product_id: !!item.allowancediscountproductid ? item.allowancediscountproductid : item.coupondiscountproductid,
-              couponcode: item.couponcode,
-              discount_price: !!item.allowanceprice ? item.allowanceprice : item.couponprice,
-            }
+        let arrShow = [], id = 0;
+        products.forEach((item, index) => {
+          if (!!item.is_keep_pay_product) { //屏蔽‘连续包月’，因小程序暂不支持
+            return 
+          }
+          if (item.is_focus) {
+            focus = id;// index
+          }
+          arrShow.push({
+            id: id++,//index,
+            is_focus: item.is_focus,
+            product_id: item.product_id,
+            product_name: item.product_name,
+            desc: item.desc,
+            pIcon: !!item.icon_json && !!JSON.parse(item.icon_json).pIcon ? JSON.parse(item.icon_json).pIcon : '',
+            pIconHidden: true,
+            is_keep_pay_product: item.is_keep_pay_product,
+            price: item.discount_fee,
+            oldprice: item.unit_fee,
+            allowance_act_id: item.allowance_act_id,
+            discount_product_id: !!item.allowancediscountproductid ? item.allowancediscountproductid : item.coupondiscountproductid,
+            couponcode: item.couponcode,
+            discount_price: !!item.allowanceprice ? item.allowanceprice : item.couponprice,
+          })
         })
         this.setData({  
           productListShow: arrShow

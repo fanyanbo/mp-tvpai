@@ -208,7 +208,16 @@ Page({
         })
       }})
     this.data._mobMsgVCodeObj.start()
-    user_login.vcode(this.data.userinput_mob)
+    user_login.vcode(this.data.userinput_mob).then(res => {
+      wx.showToast({
+        title: res,
+      })
+    }).catch( err => {
+      wx.showToast({
+        title: '验证码获取失败.' + err,
+        icon: 'none'
+      })
+    })
   },
   inputVCodeBlur(e) { //手机号登录-验证码输入完毕
     this.data.userinput_pw = e.detail.value;
