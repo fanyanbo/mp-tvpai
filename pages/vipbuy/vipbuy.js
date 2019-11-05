@@ -121,6 +121,9 @@ Component({
             discount_price: !!item.allowanceprice ? item.allowanceprice : item.couponprice,
           })
         })
+        this.data.productListShow.forEach((item, index) => {//bugfix:解决navigateBack到产品包首页时，pIcon图片显示不出来
+          arrShow[index] = { ...arrShow[index], ...item}
+        })
         this.setData({  
           productListShow: arrShow
         })
