@@ -84,7 +84,6 @@
   padding: 15rpx 0;
 }
 .input-item {
-  /* width: 670rpx; */
   height: 94rpx;
   background: #F8F8F8;
   padding: 0 20rpx;
@@ -102,25 +101,16 @@
   color: #CCCCCC;
 }
 .canvas-item {
-  /* position: absolute;
-  right: 0;
-  top: 20rpx; */
   width: 176rpx;
   height: 94rpx;
   background: #F8F8F8;
-  /* z-index: 2; */
 }
 .unlogin-tologin .vcode {
-  /* position: absolute;
-  top: 20rpx;
-  right: 20rpx; */
   height: 94rpx;
   line-height: 94rpx;
   font-size: 32rpx;
   color: #FF5E5E;
-  /* margin: 15rpx 0; */
   background: #F8F8F8;
-  /* z-index: 2; */
 }
 
 /* 已登录首页-start- */
