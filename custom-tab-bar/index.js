@@ -14,13 +14,25 @@ Component({
   },
   ready() {
     // console.log('custom-tab-bar ready')
-    const {
-      navBarHeight,
-      navBarExtendHeight,
-    } = getApp().globalSystemInfo;
-    let _pxNavBarHeight = navBarHeight + navBarExtendHeight
-    let _winWidth = wx.getSystemInfoSync().windowWidth
-    let _rpxNavBarHeight = _pxNavBarHeight * 750 / _winWidth 
+    let _pxNavBarHeight
+    if(getApp().globalSystemInfo) {
+      const {
+        navBarHeight,
+        navBarExtendHeight,
+      } = getApp().globalSystemInfo;
+      _pxNavBarHeight = navBarHeight + navBarExtendHeight
+    } else {
+      let _model = getApp().globalData.model.toLowerCase()
+      let _platform = getApp().globalData.platform.toLowerCase()
+      if(_platform === 'android') {
+        _pxNavBarHeight = 68
+      } else {
+        _pxNavBarHeight = _model.indexOf('iphone x') != -1 ? 88 : 64
+      }
+      console.log(_model, _platform, _pxNavBarHeight)
+    }
+    // let _winWidth = wx.getSystemInfoSync().windowWidth
+    // let _rpxNavBarHeight = _pxNavBarHeight * 750 / _winWidth 
     let tabBarStyle = `top: ${_pxNavBarHeight}px`
     // console.log(_rpxNavBarHeight, _pxNavBarHeight, tabBarStyle)
     this.setData({
