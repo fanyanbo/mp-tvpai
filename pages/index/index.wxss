@@ -246,11 +246,15 @@ swiper {
   position: absolute;
   left: 0;
   top: 0;
+  z-index: 998;
   width: 440rpx;
   height: 162rpx;
   border-radius: 8px 8px 0 0;
 }
 .topic-item-header .title {
+  position: absolute;
+  left: 40rpx;
+  top: 36rpx;
   z-index: 999;
   width: 360rpx;
   font-size:32rpx;
@@ -260,7 +264,7 @@ swiper {
   white-space: pre-wrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: -webkit-box;
+  display: -webkit-box !important;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }

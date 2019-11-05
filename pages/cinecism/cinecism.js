@@ -1270,8 +1270,9 @@ function getAboutMovie(that) {
           var tags = []
           for (let i = 0; i < movieDataList.length; i++) {
             contentArray.push(movieDataList[i])
-            // 保存影片收藏情况
-            getIsCollectList.push(movieDataList[i].moviesDetail.isCollectionMovie)
+            // 保存影片收藏情况，可能为null
+            if(movieDataList[i].moviesDetail.isCollectionMovie != null)
+              getIsCollectList.push(movieDataList[i].moviesDetail.isCollectionMovie)
             // 保存影片id，一部影片可能有两个id，爱奇艺和腾讯
             let _getMovieId = ''
             for (let j = 0; j < movieDataList[i].movieIdsList.length; j++) {
