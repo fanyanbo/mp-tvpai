@@ -269,8 +269,7 @@ Page({
         isShowNoResult: true
       })
     })
-
-    keyword = '好'
+    
     utils.requestP(api.searchArticlesUrl, utils.paramsAssemble_wx({"keyword": keyword})).then(res => {
       console.log('搜索文章成功', res.data)
       if (res && res.data && res.data.code === 200) {
