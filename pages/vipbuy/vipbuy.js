@@ -71,6 +71,17 @@ Component({
     handleGobackClick(e) {//返回
       wx.navigateBack({})
     },
+    onLoadPIconImage(e) { //获取角标图片的宽高
+      console.log(e)
+      let width = e.detail.width
+      let height = e.detail.height
+      width = width * 30 / height
+      let id = e.currentTarget.dataset.id
+      this.setData({
+        [`productListShow[${id}].pIconImageWidth`]: width,
+        [`productListShow[${id}].pIconHidden`]: false,
+      })
+    },
     _getProductPackageList(params) { //获取产品包列表
       const productPkgPromise = this.getProductPackageList(params)
       const couponsPromise = this.getCoupones(params)
@@ -96,6 +107,7 @@ Component({
               product_name: item.product_name,
               desc: item.desc,
               pIcon: !!item.icon_json && !!JSON.parse(item.icon_json).pIcon ? JSON.parse(item.icon_json).pIcon : '',
+              pIconHidden: true,
               is_keep_pay_product: item.is_keep_pay_product,
               price: item.discount_fee,
               oldprice: item.unit_fee,

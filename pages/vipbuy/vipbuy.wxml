@@ -23,7 +23,7 @@
         <view class="vip-item-details">
           <view class="name">
             <view>{{item.product_name}}</view>
-            <image class="detail-icon" wx:if="{{!!item.pIcon}}" src="{{item.pIcon}}" mode="top left"></image>
+            <image class="detail-icon" wx:if="{{!!item.pIcon}}" hidden="{{item.pIconHidden}}"  src="{{item.pIcon}}" bindload="onLoadPIconImage" data-id="{{item.id}}" style="width:{{item.pIconImageWidth}}rpx;"></image>
           </view>  
           <view class="desc">{{item.desc}}</view>
         </view>
