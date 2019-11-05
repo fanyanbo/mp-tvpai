@@ -142,22 +142,33 @@ Component({
         let systemInfo = wx.getSystemInfoSync();
         let ios = !!(systemInfo.system.toLowerCase().search('ios') + 1);
         let rect = wx.getMenuButtonBoundingClientRect ? wx.getMenuButtonBoundingClientRect() : null;
-        wx.getMenuButtonBoundingClientRect();
+        // wx.getMenuButtonBoundingClientRect(); 
 
         let navBarHeight = '';
         if (!systemInfo.statusBarHeight) {
           systemInfo.statusBarHeight = systemInfo.screenHeight - systemInfo.windowHeight - 20;
           navBarHeight = (function() {
-            let gap = rect.top - systemInfo.statusBarHeight;
-            return 2 * gap + rect.height;
+            // 注意rect为空的情况
+            if(rect == null) {
+              return ios ? 44 : 48
+            } else {
+              let gap = rect.top - systemInfo.statusBarHeight;
+              return 2 * gap + rect.height;
+            }
           })();
 
           systemInfo.statusBarHeight = 0;
           systemInfo.navBarExtendHeight = 0; //下方扩展4像素高度 防止下方边距太小
         } else {
           navBarHeight = (function() {
-            let gap = rect.top - systemInfo.statusBarHeight;
-            return systemInfo.statusBarHeight + 2 * gap + rect.height;
+            if(rect == null) {
+              // 标题栏高度
+              let _titleBarHeight = ios ? 44 : 48
+              return systemInfo.statusBarHeight + _titleBarHeight
+            } else {
+              let gap = rect.top - systemInfo.statusBarHeight;
+              return systemInfo.statusBarHeight + 2 * gap + rect.height;
+            }
           })();
           if (ios) {
             systemInfo.navBarExtendHeight = 4; //下方扩展4像素高度 防止下方边距太小

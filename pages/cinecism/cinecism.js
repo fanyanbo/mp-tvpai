@@ -1223,8 +1223,13 @@ function getArtical(that) {
 
 // 获取当前影片收藏id
 function getFavoriteStatus(movieId) {
+  // 检查是否登录酷开账号
+  if (wx.getStorageSync('ccUserInfo') == "") {
+    return 
+  }
   let ccsession = wx.getStorageSync('new_cksession')
-  if (ccsession == "") return 0
+  if (ccsession == "") return
+
   let params = { "ccsession": ccsession, "movieId": movieId }
   utilsNew.requestP(apiNew.getFavoriteStatusUrl, utilsNew.paramsAssemble_wx(params)).then(res => {
     if (res.data.data && res.data.code === 200) {
@@ -1268,26 +1273,33 @@ function getAboutMovie(that) {
         if (movieDataList != null && movieDataList != undefined) {
           starArray = []
           var tags = []
+
           for (let i = 0; i < movieDataList.length; i++) {
             contentArray.push(movieDataList[i])
-            // 保存影片收藏情况
-            getIsCollectList.push(movieDataList[i].moviesDetail.isCollectionMovie)
-            // 保存影片id，一部影片可能有两个id，爱奇艺和腾讯
-            let _getMovieId = ''
-            for (let j = 0; j < movieDataList[i].movieIdsList.length; j++) {
-              // 不用担心会推两个id到数组去，因为只可能有两个影片id，一个爱奇艺和一个腾讯
-              // 如果该影片是某个源的独家资源，就只有一个id
-              // 2019.10.28 电视派小程序v2.1版本 改原影评文章页面的收藏影片代码所留
-              if (movieDataList[i].movieIdsList[j].source == 'iqiyi') {
-                _getMovieId = movieDataList[i].movieIdsList[j].movieId
-              } else {
-                _getMovieId = movieDataList[i].movieIdsList[0].movieId
-              }
+            // 保存影片收藏情况，可能为null
+            if (movieDataList[i].moviesDetail != null) {
+              getIsCollectList.push(movieDataList[i].moviesDetail.isCollectionMovie)
             }
-            movieIdArray.push(_getMovieId)
-            let _getMovieCollectId = getFavoriteStatus(_getMovieId) || 'noCollectId'
-            movieCollectIdArray.push(_getMovieCollectId)
             
+            if (movieDataList[i].movieIdsList != null) {
+              // 保存影片id，一部影片可能有两个id，爱奇艺和腾讯
+              let _getMovieId = ''
+              for (let j = 0; j < movieDataList[i].movieIdsList.length; j++) {
+                // 不用担心会推两个id到数组去，因为只可能有两个影片id，一个爱奇艺和一个腾讯
+                // 如果该影片是某个源的独家资源，就只有一个id
+                // 2019.10.28 电视派小程序v2.1版本 改原影评文章页面的收藏影片代码所留
+                if (movieDataList[i].movieIdsList[j].source == 'iqiyi') {
+                  _getMovieId = movieDataList[i].movieIdsList[j].movieId
+                } else {
+                  _getMovieId = movieDataList[i].movieIdsList[0].movieId
+                }
+              }
+              movieIdArray.push(_getMovieId)
+              let _getMovieCollectId = getFavoriteStatus(_getMovieId) || 'noCollectId'
+              movieCollectIdArray.push(_getMovieCollectId)
+            }
+            
+ 
             if (movieDataList[i].moviesDetail != null) {
               that.setData({
                 lenIs: true
@@ -1308,8 +1320,6 @@ function getAboutMovie(that) {
                 if (movieDataList[i].moviesDetail.videoData.base_info.video_type == '电影') {
                   movieType = movieDataList[i].moviesDetail.videoData.base_info.video_type
                 }
-                // console.log("movieType:")
-                // console.log(movieType)
                 var haveVImg = false;
                 for (var k = 0; k < movieDataList[i].moviesDetail.videoData.show_info.images.length; k++) {
                   if (movieDataList[i].moviesDetail.videoData.show_info.images[k].style == "v") {
@@ -1324,8 +1334,8 @@ function getAboutMovie(that) {
             } else {
               imgV.push("undefined")
             }
-
           }
+
           console.log('movieImgList',imgV)
           console.log('movieTagList',tags)
           console.log("starClass:",that.data.starClass)

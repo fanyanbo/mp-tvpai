@@ -95,7 +95,7 @@
         <view class="topic-item" wx:for="{{topicList}}" wx:key="index" bindtap="handleTopicTap" data-id="{{item.id}}" data-title="{{item.title}}">
           <view class="topic-item-header">
             <image src="{{item.image_url}}" class="img" mode='aspectFill' />
-            <text class="title">{{item.title}}</text>
+            <view class="title">{{item.title}}</view>
           </view>
           <view class="topic-item-content" style="{{tools.getBgColor(item.base_color)}}">
             <block wx:for="{{item.videos}}" wx:key="index" wx:if="{{index < 4}}" wx:for-item="subitem">

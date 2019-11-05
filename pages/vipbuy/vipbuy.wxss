@@ -99,6 +99,7 @@
 }
 .detail-icon {
   height: 30rpx;
+  transform: translateY(25%);
 }
 .vip-item-details>.desc {
   line-height: 34rpx;

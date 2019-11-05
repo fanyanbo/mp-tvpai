@@ -21,9 +21,12 @@ page{overflow-y: scroll;}
   display: none;
 }
 
-.cinecism_img{
+/* .cinecism_img{
   width: 100%;
   height:360rpx;
+  } */
+  .cinecism_img{
+  width: 100%;
   }
   .cinecism_title{
   margin: 36rpx 20rpx 40rpx 21rpx;

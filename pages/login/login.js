@@ -56,7 +56,7 @@ Page({
     let ranNum = (min, max) => Math.floor(Math.random() * (max - min) + min)
     let sysWidth = wx.getSystemInfoSync().windowWidth
     let width = Math.floor(176 * sysWidth / 750)
-    let height = Math.floor(84 * sysWidth / 750)
+    let height = Math.floor(94 * sysWidth / 750)
     let canvasid = ''
     if (this.data.curSubPage == this.data.SubPages.LOGIN_BY_MOBILE) {
       canvasid = 'vcodecanvasMob'
