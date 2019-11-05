@@ -79,37 +79,48 @@
 .unlogin-tologin>.input-wrapper {
   position: relative;
   display: flex;
+  width: 670rpx;
+  margin: 0 40rpx;
+  padding: 15rpx 0;
 }
 .input-item {
-  width: 670rpx;
+  /* width: 670rpx; */
   height: 94rpx;
   background: #F8F8F8;
-  padding: 0 40rpx;
+  padding: 0 20rpx;
   line-height: 94rpx;
   font-size: 32rpx;
-  margin: 15rpx 0;
+}
+.input-wrapper>.input-item {
+  flex-grow: 1;
+}
+.input-item.single-line {
+  width: 670rpx;
+  margin: 15rpx 40rpx;
 }
 .placeholder-class {
   color: #CCCCCC;
 }
 .canvas-item {
-  position: absolute;
+  /* position: absolute;
   right: 0;
-  top: 20rpx;
+  top: 20rpx; */
   width: 176rpx;
-  height: 84rpx;
-  background: #FFF;
-  z-index: 2;
+  height: 94rpx;
+  background: #F8F8F8;
+  /* z-index: 2; */
 }
 .unlogin-tologin .vcode {
-  position: absolute;
+  /* position: absolute;
   top: 20rpx;
-  right: 20rpx;
+  right: 20rpx; */
   height: 94rpx;
   line-height: 94rpx;
   font-size: 32rpx;
   color: #FF5E5E;
-  z-index: 2;
+  /* margin: 15rpx 0; */
+  background: #F8F8F8;
+  /* z-index: 2; */
 }
 
 /* 已登录首页-start- */

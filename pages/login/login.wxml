@@ -24,7 +24,7 @@
     <view class="logozone">
       <image class="logo" src="../../images/my/login/coocaa.png"></image>
     </view>
-    <input class="input-item" type="number" placeholder="手机号 (新用户注册即登录)" placeholder-class="placeholder-class" focus maxlength="11" bindinput="inputMobile"></input>
+    <input class="input-item single-line" type="number" placeholder="手机号 (新用户注册即登录)" placeholder-class="placeholder-class" focus maxlength="11" bindinput="inputMobile"></input>
     <view class="input-wrapper">
       <input class="input-item" placeholder="图形验证码" placeholder-class="placeholder-class" bindblur="pageVCodeVerify" bindconfirm="pageVCodeVerify"></input>
       <canvas class="canvas-item" canvas-id="vcodecanvasMob" bindtap="pageVCodeRefresh"></canvas>
@@ -42,7 +42,7 @@
     <view class="logozone">
       <image class="logo" src="../../images/my/login/coocaa.png"></image>
     </view>
-    <input class="input-item" placeholder="邮箱/手机号/用户名" placeholder-class="placeholder-class" focus bindblur="inputAccountBlur" bindconfirm="inputAccountBlur"></input>
+    <input class="input-item single-line" placeholder="邮箱/手机号/用户名" placeholder-class="placeholder-class" focus bindblur="inputAccountBlur" bindconfirm="inputAccountBlur"></input>
     <view class="input-wrapper">
       <input class="input-item" placeholder="请输入密码" placeholder-class="placeholder-class" bindblur="inputPasswordBlue" bindconfirm="inputPasswordBlue" password="true"></input>
     </view>
