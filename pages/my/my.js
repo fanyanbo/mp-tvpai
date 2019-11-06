@@ -167,7 +167,7 @@ Component({
         case 2: type = 'kid'; break;
         case 3: type = 'game'; break;
       }
-      wx.navigateTo({ url: `../vipbuy/vipbuy?source_id=${source_id}&type=${type}` })
+      wx.navigateTo({ url: `../vipbuy/vipbuy?source_id=${source_id}&type=${type}&from=my` })
     },
     _cleaProductSourceList() { //清空产品源信息
       this.data.productSourceList.forEach((item, index, arr) => {
