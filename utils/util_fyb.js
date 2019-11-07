@@ -425,14 +425,8 @@ class CountDown { //倒计时函数
   }
 }
 
-function getAppLaunchSource() { //获取启动小程序的场景值 对应的场景描述
-  let scene = wx.getLaunchOptionsSync().scene
-  if (scene == 1014) {
-    return "小程序模板消息"
-  } else if (scene == 1043) {
-    return "公众号模板消息"
-  }
-  return ""
+function getAppLaunchSource() { //获取启动小程序的场景值
+  return wx.getLaunchOptionsSync().scene
 }
 
 module.exports = {

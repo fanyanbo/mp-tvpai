@@ -14,7 +14,7 @@ Component({
   data: {
     _FailPageCustomEventSubmitPageName: '', //失败页数据采集
     _FailPageCustomEventSubmitVipName: '',//失败页数据采集
-    _appLaunchFrom: util_fyb.getAppLaunchSource(), //数据采集
+    _appLaunchFrom: '', //数据采集
     productListShow: [],//保存页面显示需要的信息
     PageStage: {
       HOME_PAGE: 0,
@@ -121,6 +121,9 @@ Component({
             discount_price: !!item.allowanceprice ? item.allowanceprice : item.couponprice,
           })
         })
+        this.data.productListShow.forEach((item, index) => {//bugfix:解决navigateBack到产品包首页时，pIcon图片显示不出来
+          arrShow[index] = { ...arrShow[index], ...item}
+        })
         this.setData({  
           productListShow: arrShow
         })
@@ -165,7 +168,7 @@ Component({
       wx.reportAnalytics('vip_detail_page_clicked', {
         page_name: page_name,
         button_name: button_name,
-        source_name: !!this.data._appLaunchFrom ? this.data._appLaunchFrom : '我的',
+        source_name: this.data._appLaunchFrom,
       });
       util_fyb. showLoadingToast('支付中~')
       new Promise((resolve, reject) => {
@@ -203,16 +206,16 @@ Component({
         wx.reportAnalytics('vip_pay_success_result', {
           page_name: page_name,
           vip_name: vip_name,
-          source_name: !!this.data._appLaunchFrom ? this.data._appLaunchFrom : '我的',
+          source_name: this.data._appLaunchFrom,
         });
         let stage = this.data.PageStage.PAY_SUCCESS_PAGE //todo 支付成功，页面重定向到支付成功页
         if (this.data.stage == this.data.PageStage.PAY_FAIL_PAGE) { 
           wx.redirectTo({
-            url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&page_name=${this.data._FailPageCustomEventSubmitPageName}`,
+            url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&page_name=${this.data._FailPageCustomEventSubmitPageName}&from=${this.data._appLaunchFrom}`,
           })
         }else {
           wx.navigateTo({
-            url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&page_name=${this.data.navBarTitle}`,
+            url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&page_name=${this.data.navBarTitle}&from=${this.data._appLaunchFrom}`,
           })
         }
       }).catch(err => {
@@ -227,11 +230,11 @@ Component({
         let stage = this.data.PageStage.PAY_FAIL_PAGE //失败页处理,继续支付
         if (this.data.stage == this.data.PageStage.PAY_FAIL_PAGE) { 
           wx.redirectTo({
-            url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&pay=${JSON.stringify(this.data._payParams)}&page_name=${this.data._FailPageCustomEventSubmitPageName}&vip_name=${this.data._FailPageCustomEventSubmitVipName}`,
+            url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&pay=${JSON.stringify(this.data._payParams)}&page_name=${this.data._FailPageCustomEventSubmitPageName}&vip_name=${this.data._FailPageCustomEventSubmitVipName}&from=${this.data._appLaunchFrom}`,
           })
         }else {
           wx.navigateTo({
-            url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&pay=${JSON.stringify(this.data._payParams)}&page_name=${this.data.navBarTitle}&vip_name=${this.data.productListShow[this.data.curSelectedProject.id].product_name}`,
+            url: `../vipbuy/vipbuy?stage=${stage}&orderId=${this.data._orderId}&pay=${JSON.stringify(this.data._payParams)}&page_name=${this.data.navBarTitle}&vip_name=${this.data.productListShow[this.data.curSelectedProject.id].product_name}&from=${this.data._appLaunchFrom}`,
           })
         }
       }).then(() => {
@@ -304,7 +307,7 @@ Component({
       wx.reportAnalytics('vip_detail_page_clicked', {
         page_name: this.data.navBarTitle,
         button_name: this.data.productListShow[this.data.curSelectedProject.id].product_name,
-        source_name: !!this.data._appLaunchFrom ? this.data._appLaunchFrom : '我的',
+        source_name: this.data._appLaunchFrom,
       });
     },
     goRollPrize() { //支付成功去抽奖
@@ -479,7 +482,7 @@ Component({
       })
       wx.reportAnalytics('vip_detail_page_show', { //数据采集
         page_name: srcName,
-        source_name: !!this.data._appLaunchFrom ? this.data._appLaunchFrom : '我的',
+        source_name: this.data._appLaunchFrom,
       });
     },
     readServiceProtocol(e) { //查看协议
@@ -502,6 +505,7 @@ Component({
           stage: stage
         })
         this.data._orderId = options.orderId
+        this.data._appLaunchFrom = options.from
         if (this.data.stage == this.data.PageStage.PAY_FAIL_PAGE) {
           this.data._payParams = JSON.parse(options.pay)
           this.data._FailPageCustomEventSubmitPageName = options.page_name
@@ -517,6 +521,7 @@ Component({
       }else { //其它页跳转到本页面
         this.data._curSourceId = options.source_id
         this.data._curVipType = options.type
+        this.data._appLaunchFrom = util_fyb.getAppLaunchSource() + (options.from == 'my' ? '-标签我的' : '-活动页')
         this._showNavBarTitle(this.data._curVipType)
       }
     },
