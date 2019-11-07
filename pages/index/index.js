@@ -264,7 +264,7 @@ Page({
       })
     } else if (type === 2) {
       wx.navigateTo({
-        url: `../webview/webview?path=${url}`
+        url: `../webview/webview?path=${encodeURIComponent(url)}`
       });
     }
     // let type = e.currentTarget.dataset.type

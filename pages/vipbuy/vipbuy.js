@@ -318,6 +318,7 @@ Component({
         url = `http://beta.webapp.skysrt.com/lqq/chou/chou.html`
       }
       url += `?openId=${openid}&nickName=${nickName}&loginType=${loginType}&wxid=${wxid}`      
+      url = encodeURIComponent(url)
       wx.navigateTo({
         url: `../webview/webview?path=${url}`
       });

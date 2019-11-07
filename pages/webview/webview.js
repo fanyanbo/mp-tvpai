@@ -13,18 +13,10 @@ Page({
       source: utils.getTvsource()
     }
     let paramsStr = JSON.stringify(paramsObj)
-    let _path = `${options.path}?baseInfo=${paramsStr}`
+    let _url = decodeURIComponent(options.path)
+    let _path = _url.indexOf('?') > -1 ? `${_url}&baseInfo=${paramsStr}` : `${_url}?baseInfo=${paramsStr}`
     console.log(_path)
-    // _path = "http://beta.webapp.skysrt.com/fyb/miniapp/index.html"
-    // _path = "https://webapp.skysrt.com/miniapp/log/index.html"
-    // _path = "http://www.baidu.com"
     this.setData({curSrc: _path})
-    // this.setData({
-    //   curSrc: 'https://webx.coocaa.com/hfdplatform/yuqi/index.html?objString=' + objString
-    // })
-    // wx.setNavigationBarTitle({
-    //   title: options.title
-    // })
   },
 
   /**
