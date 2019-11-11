@@ -214,10 +214,10 @@ Component({
           // this._cleaProductSourceList()
         })
       }
-      // else { //如果没绑定的设备，需要清除信息,
-      //   this._cleaProductSourceList()
-      //   utils.showLoadingToast('页面刷新中~', false)
-      // }
+      else { //如果没绑定的设备，需要清除信息,
+        // this._cleaProductSourceList()
+        utils.showLoadingToast('页面刷新中~', false)
+      }
     },
     _tackleProductSourceList(src) {
       let list = src.sources
