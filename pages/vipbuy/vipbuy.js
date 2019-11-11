@@ -377,17 +377,19 @@ Component({
     goVipPageTencentSource(e) { //显示腾讯源的产品包购买页
       this.setData({ bToastAuthTencentQQorWechat: false })
       this.data._tencentType = e.currentTarget.dataset.type
+      this.updateSourceIdWhenFromAcitivityPage()
       this._getProductPackageList({ source_id: this.data._curSourceId, txType: this.data._tencentType })
+      this._showNavBarTitle(this.data._curVipType)  
     },
     closeToastAuthTencentQQorWechat() { //关闭腾讯源授权弹窗
       wx.navigateBack()
     },
     _checkHasBoundDevice() { //检查是否绑定设备
-      if (!!Object.keys(app.globalData.boundDeviceInfo).length) {
+      if (!Object.keys(app.globalData.boundDeviceInfo).length) {
         let that = this
         wx.showModal({
           title: '温馨提示',
-          content: '绑定设备，然后查看对应的VIP产品包信息',
+          content: '查看VIP产品包信息需要先绑定一台电视',
           cancelText: '返回',
           cancelColor: '#000000',
           confirmText: '去绑定',
@@ -401,6 +403,8 @@ Component({
           },
         })
         return false
+      }else {
+        return true
       }
     },
     _checkUserLoginStateForPay() { //检查登录状态是否满足调起各产品包的要求
@@ -521,7 +525,15 @@ Component({
         this.data._curSourceId = options.source_id
         this.data._curVipType = options.type
         this.data._appLaunchFrom = util_fyb.getAppLaunchSource() + (options.from == 'my' ? '-标签我的' : '-活动页')
-        this._showNavBarTitle(this.data._curVipType)
+      }
+    },
+    updateSourceIdWhenFromAcitivityPage() {//如果是影视vip并且是从活动页过来的，需要先获取正确的source_id
+      if (this.data._curVipType == 'movie' && this.data._appLaunchFrom.search('活动页') != -1) {
+        if (app.globalData.boundDeviceInfo.source == "tencent") { //更新source_id,source_id需要跟my.js里从后台获取的/以及活动页里配置的一致；
+          this.data._curSourceId = 5;
+        } else {//默认
+          this.data._curSourceId = 1;
+        }
       }
     },
     /**
@@ -530,14 +542,15 @@ Component({
     onReady: function () {
 
     },
-
     /**
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
       if (this.data.stage == this.data.PageStage.HOME_PAGE) {
-        if (this._checkHasBoundDevice && this._checkUserLoginStateForPay()) {
-          this._getProductPackageList({ source_id: this.data._curSourceId, txType: this.data._tencentType  })
+        if (this._checkUserLoginStateForPay() && this._checkHasBoundDevice()) {
+          this.updateSourceIdWhenFromAcitivityPage()
+          this._getProductPackageList({ source_id: this.data._curSourceId, txType: this.data._tencentType })
+          this._showNavBarTitle(this.data._curVipType)          
         }
       }
       this.setData({
