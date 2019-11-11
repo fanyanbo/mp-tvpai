@@ -211,11 +211,11 @@ Component({
             title: '获取产品源失败',
             icon: 'none'
           })
-          // this._cleaProductSourceList()
+          this._cleaProductSourceList()
         })
       }
       else { //如果没绑定的设备，需要清除信息,
-        // this._cleaProductSourceList()
+        this._cleaProductSourceList()
         utils.showLoadingToast('页面刷新中~', false)
       }
     },
@@ -293,7 +293,6 @@ Component({
   onShow: function () {
     console.log('onShow');
     utils.showLoadingToast('页面刷新中~')
-    this._cleaProductSourceList()
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       // 切换到“我的”tab，设置选中状态
       this.getTabBar().setData({
@@ -333,6 +332,7 @@ Component({
   },
   onHide() {
     console.log('my onHide')
+    this._cleaProductSourceList()
   },  
     // 跳转至搜索页面
     handleSearchTap: function () {
