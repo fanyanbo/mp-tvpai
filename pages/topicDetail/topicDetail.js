@@ -21,8 +21,8 @@ Page({
   onLoad: function (options) {
     console.log("进入片单详情 options:", options)
     // 从分享进入，导航栏显示首页，隐藏返回
-    if(options.from === 'share') {
-      this.setData({isShowNavBack: false, isShowNavHome: true})
+    if (options.from === 'share') {
+      this.setData({ isShowNavBack: false, isShowNavHome: true })
     }
     this.data.topicId = options.id
     this.getTopicDetailById(options.id)
@@ -37,7 +37,7 @@ Page({
     if (_scrollTop >= 270) { //移动高度270后再逐渐显示(改成立即显示)) 
       // let customNavStyle = `opacity: ${0.5 + 0.5 * (_scrollTop - 270)/ 202};`
       this.data.isSettingHide = false
-      if(!this.data.isSettingShow) {
+      if (!this.data.isSettingShow) {
         let customNavStyle = `opacity: 1;`
         this.setData({
           customNavStyle: customNavStyle,
@@ -53,12 +53,16 @@ Page({
       }
     } else {
       this.data.isSettingShow = false
-      if(!this.data.isSettingHide) {
+      if (!this.data.isSettingHide) {
         this.setData({
           customNavStyle: 'opacity: 0;'
         })
+        wx.setNavigationBarColor({
+          frontColor: '#ffffff',
+          backgroundColor: '#0000000',
+        })
         this.data.isSettingHide = true
-      }    
+      }
     }
   }, 200),
 
