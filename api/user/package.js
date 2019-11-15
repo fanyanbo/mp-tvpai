@@ -126,12 +126,14 @@ module.exports = Behavior({
           if (data.data.code == 0) {
             resolve(data.data)
           } else {
-            reject(data.data.msg)
+            // reject(data.data.msg)
+            resolve({data: []})
           }
         },
         fail(err) {
           console.error(err)
-          reject(err)
+          // reject(err)
+          resolve({ data: [] })
         },
         complete(res) {
         }
@@ -155,12 +157,12 @@ module.exports = Behavior({
           if (data.data.code == 0) {
             resolve(data.data.data.totalSubsidy)
           } else {
-            reject(data.message)
+            resolve(0)
           }
         },
         fail(err) {
           console.error(err)
-          reject(err)
+          resolve(0)
         },
         complete(res) {
         }
