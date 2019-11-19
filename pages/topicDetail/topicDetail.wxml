@@ -4,14 +4,16 @@
   desc: 片单详情页 -->
 <wxs src="./topicDetail.wxs" module="tools" />
 <view>
-  <navBar extClass="navbar-extclass" style="{{customNavStyle}}" background="#fff" color='#000' 
-  title='片单' back="{{isShowNavBack}}" home="{{isShowNavHome}}" bindback="handleGobackClick" bindhome="handleGoHomeClick"/>
+  <navBar id="navbar" extClass="navbar-extclass" style="{{customNavStyle}}" background="{{customBackground}}" color='#000' iconTheme='{{navIconTheme}}'
+  title='{{navTitle}}' back="{{isShowNavBack}}" home="{{isShowNavHome}}" bindback="handleGobackClick" bindhome="handleGoHomeClick"/>
 </view>
 <view class="main-wrap">
   <view class="header-wrap">
     <image src="{{topicDetail.image_url}}" class="bg-img" mode="aspectFill"/>
-    <view class="title">{{topicDetail.title}}</view>
-    <view class="desc">{{topicDetail.desc}}</view>
+    <view class="title-wrap">
+      <view class="topic-title two-lines">{{topicDetail.title}}</view>
+      <view class="topic-desc two-lines">{{topicDetail.desc}}</view>
+    </view>
     <image wx:if="{{isCollected}}" class="favorite" src="../../images/videodetail/favorite-focus.png" bindtap="handleUnCollectionClick" data-type="topic" />
     <image wx:else class="favorite" src="../../images/videodetail/favorite.png" bindtap="handleCollectionClick" data-type="topic" />
     <view class="summary">片单列表 · 共{{topicDetail.videos.length}}部</view>
@@ -29,7 +31,7 @@
           <image class="poster" mode="aspectFill" src="{{item.video_detail.show_info.images[0].url}}" />
           <text class="title">{{item.video_detail.base_info.title}}</text>
           <text class="score">{{item.video_detail.base_info.score}}</text>
-          <text class="info">{{item.video_detail.base_info.publish_date}}<block wx:if="{{item.video_detail.base_info.publish_area}}"> · {{item.video_detail.base_info.publish_area}}</block>
+          <text class="info two-lines">{{item.video_detail.base_info.publish_date}}<block wx:if="{{item.video_detail.base_info.publish_area}}"> · {{item.video_detail.base_info.publish_area}}</block>
             <block wx:if="{{item.video_detail.base_info.video_type}}"> · {{item.video_detail.base_info.video_type}}</block>
             <block wx:if="{{item.video_detail.base_info.video_tags}}"> · {{tools.getFormattedTags(item.video_detail.base_info.video_tags)}}</block>
           </text>

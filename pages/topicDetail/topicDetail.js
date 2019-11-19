@@ -6,16 +6,18 @@ Page({
   data: {
     scrollHeight: '',
     topicDetail: [],
-    customNavStyle: 'opacity: 0;',
+    // customNavStyle: 'opacity: 0;',
     collectionList: [], //片单影片收藏列表
     movieCollectedList: {},
     isCollected: false, //当前片单是否收藏
     isShowNavBack: true, //导航栏是否显示返回
     isShowNavHome: false, //导航栏是否显示首页
     errIconUrl: '../../images/close_icon.png',
-    title: '' //片单名称
-
-    // customBackground: 'rgba(255,255,255,0)'
+    title: '', //片单名称
+    navTitle: '', //导航栏名称
+    navIconTheme: 'white',
+    isShowNavBackground: true,
+    customBackground: 'rgba(255,255,255,0)' 
   },
 
   onLoad: function (options) {
@@ -33,17 +35,16 @@ Page({
   onPageScroll: utils.throttle(function (e) {
     let _scrollTop = e.scrollTop
     console.log('onPageScroll', _scrollTop)
-
     if (_scrollTop >= 270) { //移动高度270后再逐渐显示(改成立即显示)) 
-      // let customNavStyle = `opacity: ${0.5 + 0.5 * (_scrollTop - 270)/ 202};`
       this.data.isSettingHide = false
       if (!this.data.isSettingShow) {
-        let customNavStyle = `opacity: 1;`
         this.setData({
-          customNavStyle: customNavStyle,
-          // scrollTop: _scrollTop
-          // customBackground: `rgba(255,255,255,${_opacity})`
+          customBackground: 'rgba(255,255,255,1)',
+          navTitle: '片单',
+          navIconTheme: 'black'
         })
+        // 重设导航栏样式，必须手动触发
+        this.navBar.resetStyle()
         // 改变胶囊样式
         wx.setNavigationBarColor({
           frontColor: '#000000',
@@ -55,11 +56,15 @@ Page({
       this.data.isSettingShow = false
       if (!this.data.isSettingHide) {
         this.setData({
-          customNavStyle: 'opacity: 0;'
+          customBackground: 'rgba(255,255,255,0)',
+          navTitle: '',
+          navIconTheme: 'white',
         })
+        this.navBar.resetStyle()
+        // 改变胶囊样式
         wx.setNavigationBarColor({
           frontColor: '#ffffff',
-          backgroundColor: '#0000000',
+          backgroundColor: '#000000',
         })
         this.data.isSettingHide = true
       }
@@ -74,6 +79,7 @@ Page({
 
   onReady: function () {
     console.log('search onReady监听页面初次渲染完成');
+    this.navBar = this.selectComponent('#navbar')
     const {
       pxNavBarHeight,
       rpxNavBarHeight,
