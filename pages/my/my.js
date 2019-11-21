@@ -180,7 +180,6 @@ Component({
     },
     _getProductSourceList() {
       if (!!Object.keys(app.globalData.boundDeviceInfo).length) {
-        utils.showLoadingToast('页面刷新中~')
         new Promise((resolve, reject) => {
           if (user_login.isUserLogin({type : 2})) {
             return this.getProductSourceList('wechat')
@@ -214,8 +213,10 @@ Component({
           })
           this._cleaProductSourceList()
         })
-      }else { //如果没绑定的设备，需要清除信息,
+      }
+      else { //如果没绑定的设备，需要清除信息,
         this._cleaProductSourceList()
+        utils.showLoadingToast('页面刷新中~', false)
       }
     },
     _tackleProductSourceList(src) {
@@ -291,6 +292,7 @@ Component({
 
   onShow: function () {
     console.log('onShow');
+    utils.showLoadingToast('页面刷新中~')
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       // 切换到“我的”tab，设置选中状态
       this.getTabBar().setData({
@@ -321,6 +323,7 @@ Component({
       this._getProductSourceList()
       this._getBoundTVInfo()
     }).catch(() => {
+      utils.showLoadingToast('页面刷新中~', false)
       console.log('设备列表为空或获取失败...')
     })
     // 获取历史和收藏列表
@@ -329,6 +332,7 @@ Component({
   },
   onHide() {
     console.log('my onHide')
+    this._cleaProductSourceList()
   },  
     // 跳转至搜索页面
     handleSearchTap: function () {

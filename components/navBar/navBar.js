@@ -71,6 +71,9 @@ Component({
     hide: function() {}
   },
   methods: {
+    resetStyle: function() {
+      this.setStyle()
+    },
     setStyle: function(life) {
       const {
         statusBarHeight,

@@ -37,7 +37,8 @@ function showFailedToast(title, imgUrl) {
 function showLoadingToast(title = '加载中', isShow = true) {
   if (isShow) {
     wx.showLoading({
-      title: title
+      title: title,
+      mask: true,
     })
   } else {
     wx.hideLoading()

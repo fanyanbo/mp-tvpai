@@ -253,8 +253,8 @@ swiper {
 }
 .topic-item-header .title {
   position: absolute;
-  left: 40rpx;
-  top: 36rpx;
+  /* left: 40rpx;
+  top: 36rpx; */
   /* z-index: 999; */
   width: 360rpx;
   font-size:32rpx;
