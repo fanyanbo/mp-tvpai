@@ -1,5 +1,6 @@
 const utils = require('../../utils/util_fyb')
 const api = require('../../api/api_fyb')
+const activity = require('../../api/activity/index')
 const app = getApp()
 
 Page({
@@ -17,14 +18,22 @@ Page({
     navTitle: '', //导航栏名称
     navIconTheme: 'white',
     isShowNavBackground: true,
-    customBackground: 'rgba(255,255,255,0)' 
+    customBackground: 'rgba(255,255,255,0)'
   },
 
   onLoad: function (options) {
     console.log("进入片单详情 options:", options)
-    // 从分享进入，导航栏显示首页，隐藏返回
-    if (options.from === 'share') {
-      this.setData({ isShowNavBack: false, isShowNavHome: true })
+    // 从活动入口进入，考虑通用性
+    app.status = options.type
+    if (app.status === 'activity') {
+      activity.initActivityData()
+    }
+    // 从分享或公众号文章进入，导航栏显示首页，隐藏返回
+    if (options.from === 'share' || options.from === 'openArticle') {
+      this.setData({
+        isShowNavBack: false,
+        isShowNavHome: true
+      })
     }
     this.data.topicId = options.id
     this.getTopicDetailById(options.id)
@@ -61,7 +70,6 @@ Page({
           navIconTheme: 'white',
         })
         this.navBar.resetStyle()
-        // 改变胶囊样式
         wx.setNavigationBarColor({
           frontColor: '#ffffff',
           backgroundColor: '#000000',
@@ -72,9 +80,10 @@ Page({
   }, 200),
 
   onShow: function () {
-    // this.setData({
-    //   customNavStyle: 'opacity: 0;'
-    // })
+    // just for testing
+    // if (app.status === 'activity') {
+    //   activity.handleActivityTask({ type: 'comment' })
+    // }
   },
 
   onReady: function () {
@@ -96,18 +105,14 @@ Page({
     // })
   },
 
-  // 页面分享
+  // 页面分享, from==button表示来自页面内转发按钮
   onShareAppMessage: function (res) {
-    console.log(res)
+    console.log('开始分享', res)
     wx.reportAnalytics('topic_detail_clicked', {
       topic_name: this.data.title,
       button_name: 'topic_share',
       params: '',
     });
-    if (res.from === 'button') {
-      // 来自页面内转发按钮
-      console.log(res.target)
-    }
     return {
       title: '电视派',
       path: `pages/topicDetail/topicDetail?id=${this.data.topicId}&from=share`
@@ -115,31 +120,25 @@ Page({
   },
 
   //根据不同设备和型号获取不同内容高度
-  getContentHeight: function ({ platform, model }) {
+  getContentHeight: function ({
+    platform,
+    model
+  }) {
     if (platform.match(/ios/i)) {
-      if (model.match(/iPhone8/i)) {
-        return 600;
-      } else if (model.match(/iPhone10/i)) {
-        return 630
-      } else if (model.match(/iPhone11/i)) {
-        return 700;
-      } else {
-        return 650;
-      }
-    } else {
-      return 0;
-    }
+      if (model.match(/iPhone8/i)) return 600
+      else if (model.match(/iPhone10/i)) return 630
+      else if (model.match(/iPhone11/i)) return 700
+      else return 650
+    } else return 0
   },
 
   // 处理导航返回点击事件
   handleGobackClick: function () {
-    console.log('handleGobackClick')
     utils.navigateBack()
   },
 
   // 处理导航点击主页事件
   handleGoHomeClick: function () {
-    console.log('handleGoHomeClick')
     wx.switchTab({
       url: '../index/index'
     })
@@ -148,7 +147,10 @@ Page({
   // 添加影片/片单收藏
   handleCollectionClick: function (e) {
     console.log('handleCollectionClick')
-    let { type, movieid } = e.currentTarget.dataset
+    let {
+      type,
+      movieid
+    } = e.currentTarget.dataset
     console.log(type, movieid)
     if (type === 'movie') {
       wx.reportAnalytics('topic_detail_clicked', {
@@ -170,7 +172,10 @@ Page({
   // 取消影片/片单收藏
   handleUnCollectionClick: function (e) {
     console.log('handleUnCollectionClick')
-    let { type, movieid } = e.currentTarget.dataset
+    let {
+      type,
+      movieid
+    } = e.currentTarget.dataset
     console.log(type, movieid)
     if (type === 'movie') {
       // let _collectionList = this.data.collectionList
@@ -199,7 +204,9 @@ Page({
   // 进入影片详情页
   handleItemClick: function (e) {
     console.log('handleItemClick')
-    let { movieid } = e.currentTarget.dataset
+    let {
+      movieid
+    } = e.currentTarget.dataset
     wx.reportAnalytics('topic_detail_clicked', {
       topic_name: this.data.title,
       button_name: 'enter_movie_detail',
@@ -221,7 +228,11 @@ Page({
         url: "../home/home"
       })
     }
-    let { movieid, title, type } = e.currentTarget.dataset
+    let {
+      movieid,
+      title,
+      type
+    } = e.currentTarget.dataset
     wx.reportAnalytics('topic_detail_clicked', {
       topic_name: this.data.title,
       button_name: 'movie_push',
@@ -234,7 +245,9 @@ Page({
     }
     let _session = wx.getStorageSync("new_cksession")
     console.log("校验参数 session:" + _session);
-    wx.showLoading({ title: '推送中...' })
+    wx.showLoading({
+      title: '推送中...'
+    })
     let params = {
       "ccsession": _session,
       "deviceId": _deviceId + '',
@@ -261,7 +274,9 @@ Page({
 
   // 获取片单详情数据，片单不区分源
   getTopicDetailById: function (id) {
-    utils.requestP(api.getTopicUrl, utils.paramsAssemble_tvpai({ "id": id })).then(res => {
+    utils.requestP(api.getTopicUrl, utils.paramsAssemble_tvpai({
+      "id": id
+    })).then(res => {
       console.log('获取片单详情数据:', res)
       if (res.data.data) {
         this.setData({
@@ -277,7 +292,9 @@ Page({
 
   // 添加影片推送历史
   addPushHistory: function (movieId, title, videoId) {
-    let urlParams = { "vuid": wx.getStorageSync("wxopenid") };
+    let urlParams = {
+      "vuid": wx.getStorageSync("wxopenid")
+    };
     let url = utils.urlAssemble_tvpai(api.addPushHistoryUrl, utils.paramsAssemble_tvpai(urlParams));
     let data = {
       album_id: movieId,
@@ -296,14 +313,22 @@ Page({
   addTopicFavorite: function (topicId) {
     // 片单不需要跳转登录，但为了和影片/文章收藏逻辑统一，后续让产品优化这块交互
     if (wx.getStorageSync('ccUserInfo') == "") {
-      return wx.navigateTo({ url: '../login/login' })
+      return wx.navigateTo({
+        url: '../login/login'
+      })
     }
     console.log('添加片单id', topicId)
-    let params = { "id": topicId, "vuid": wx.getStorageSync("wxopenid"), "collect": 1 }
+    let params = {
+      "id": topicId,
+      "vuid": wx.getStorageSync("wxopenid"),
+      "collect": 1
+    }
     let url = utils.urlAssemble_tvpai(api.setFavoriteTopicUrl, utils.paramsAssemble_tvpai(params))
     utils.requestP(url, null, 'POST').then(res => {
       console.log('添加片单收藏成功:', res)
-      this.setData({ isCollected: true })
+      this.setData({
+        isCollected: true
+      })
     }).catch(res => {
       console.log('添加片单收藏发生错误', res)
     })
@@ -311,12 +336,24 @@ Page({
 
   // 取消片单收藏
   delTopicFavorite: function (topicId) {
+    // 片单不需要跳转登录，但为了和影片/文章收藏逻辑统一，后续让产品优化这块交互
+    if (wx.getStorageSync('ccUserInfo') == "") {
+      return wx.navigateTo({
+        url: '../login/login'
+      })
+    }
     console.log('删除片单id', topicId)
-    let params = { "id": topicId, "vuid": wx.getStorageSync("wxopenid"), "collect": 0 }
+    let params = {
+      "id": topicId,
+      "vuid": wx.getStorageSync("wxopenid"),
+      "collect": 0
+    }
     let url = utils.urlAssemble_tvpai(api.setFavoriteTopicUrl, utils.paramsAssemble_tvpai(params))
     utils.requestP(url, null, 'POST').then(res => {
       console.log('取消片单收藏成功:', res)
-      this.setData({ isCollected: false })
+      this.setData({
+        isCollected: false
+      })
     }).catch(res => {
       console.log('取消片单收藏发生错误', res)
     })
@@ -324,7 +361,9 @@ Page({
 
   // 获取片单收藏列表
   getTopicFavorite: function () {
-    let params = { "vuid": wx.getStorageSync("wxopenid") }
+    let params = {
+      "vuid": wx.getStorageSync("wxopenid")
+    }
     let url = utils.urlAssemble_tvpai(api.getFavoriteTopicUrl, utils.paramsAssemble_tvpai(params))
     utils.requestP(url, null).then(res => {
       console.log('获取片单收藏列表成功:', res)
@@ -332,7 +371,9 @@ Page({
         for (let i = 0; i < res.data.data.length; i++) {
           // 注意类型的不同，this.data.topicId是string类型
           if (+this.data.topicId === res.data.data[i].topic_id) {
-            this.setData({ isCollected: true })
+            this.setData({
+              isCollected: true
+            })
             break
           }
         }
@@ -346,19 +387,26 @@ Page({
   addMovieFavorite: function (movieId) {
     // utils.checkCoocaaUserLogin()
     if (wx.getStorageSync('ccUserInfo') == "") {
-      return wx.navigateTo({ url: '../login/login' })
+      return wx.navigateTo({
+        url: '../login/login'
+      })
     }
     let ccsession = wx.getStorageSync('new_cksession')
     if (ccsession == "") return
     let _movieid = `['${movieId}']`
-    let params = { "ccsession": ccsession, "moviesId": _movieid }
+    let params = {
+      "ccsession": ccsession,
+      "moviesId": _movieid
+    }
     utils.requestP(api.addMovieFavoriteUrl, utils.paramsAssemble_wx(params)).then(res => {
       if (res.data && res.data.data && res.data.code === 200) {
         console.log('添加影片收藏成功', res)
         let _collectionList = this.data.movieCollectedList
         _collectionList[movieId] = res.data.data[0].collectId
         console.log(_collectionList)
-        this.setData({ movieCollectedList: _collectionList })
+        this.setData({
+          movieCollectedList: _collectionList
+        })
       } else {
         console.log('添加影片收藏失败', res)
       }
@@ -369,18 +417,28 @@ Page({
 
   // 删除影片收藏
   delMovieFavorite: function (movieId) {
+    if (wx.getStorageSync('ccUserInfo') == "") {
+      return wx.navigateTo({
+        url: '../login/login'
+      })
+    }
     let ccsession = wx.getStorageSync('new_cksession')
     if (ccsession == "") return
     let _collectIds = `[${this.data.movieCollectedList[movieId]}]`
     console.log(_collectIds)
-    let params = { "ccsession": ccsession, "collectIds": _collectIds }
+    let params = {
+      "ccsession": ccsession,
+      "collectIds": _collectIds
+    }
     utils.requestP(api.delMovieFavoriteUrl, utils.paramsAssemble_wx(params)).then(res => {
       if (res.data && res.data.code === 200) {
         console.log('删除影片收藏成功', res)
         let _collectionList = this.data.movieCollectedList
         delete _collectionList[movieId]
         console.log(_collectionList)
-        this.setData({ movieCollectedList: _collectionList })
+        this.setData({
+          movieCollectedList: _collectionList
+        })
       } else {
         console.log('删除影片收藏失败', res)
       }
@@ -393,17 +451,22 @@ Page({
   getMovieFavorite: function () {
     let ccsession = wx.getStorageSync('new_cksession')
     if (ccsession == "") return
-    let params = { "ccsession": ccsession }
+    let params = {
+      "ccsession": ccsession
+    }
     utils.requestP(api.getFavoriteVideosUrl, utils.paramsAssemble_wx(params)).then(res => {
       console.log('获取影片收藏列表结果', res)
       if (res.data.data) {
-        let _list = {}, list = res.data.data.list
+        let _list = {},
+          list = res.data.data.list
         for (let i = 0; i < list.length; i++) {
           console.log(list[i].movieId, list[i].collectId)
           _list[list[i].movieId] = list[i].collectId
         }
         console.log(_list)
-        this.setData({ movieCollectedList: _list })
+        this.setData({
+          movieCollectedList: _list
+        })
       } else {
         console.log('获取影片收藏列表失败', res)
       }
@@ -411,4 +474,4 @@ Page({
       console.log('获取影片收藏列表发生错误', res)
     })
   }
-})  
+})

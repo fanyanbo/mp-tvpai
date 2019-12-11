@@ -22,7 +22,7 @@
 		}
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.8.3",
+	"libVersion": "2.9.3",
 	"appid": "wx35b9e9a99fd089a9",
 	"projectname": "feature-v2.1",
 	"debugOptions": {
@@ -56,66 +56,18 @@
 			"current": -1,
 			"list": [
 				{
-					"id": -1,
-					"name": "关联设备",
-					"pathName": "pages/home/home",
-					"query": ""
+					"id": 8,
+					"name": "公众号文章进入片单详情",
+					"pathName": "pages/topicDetail/topicDetail",
+					"query": "id=87&from=openArticle&type=activity",
+					"scene": 1058
 				},
 				{
-					"id": -1,
-					"name": "我的",
-					"pathName": "pages/my/my",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "设备绑定",
-					"pathName": "pages/home/home",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "首推荐列表",
-					"pathName": "pages/column/column",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "影片详情",
-					"pathName": "pages/movieDetail/movieDetail",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "教程",
-					"pathName": "pages/course/course",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 6,
-					"name": "推送历史",
-					"pathName": "pages/history/history",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "影评",
+					"id": 9,
+					"name": "公众号文章进入影评页",
 					"pathName": "pages/cinecism/cinecism",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "电影",
-					"pathName": "pages/sresult/sresult",
-					"query": "",
-					"scene": null
+					"query": "id=102&from=openArticle&type=activity",
+					"scene": 1058
 				}
 			]
 		}

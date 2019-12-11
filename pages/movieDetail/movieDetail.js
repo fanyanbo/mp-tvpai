@@ -7,6 +7,7 @@
 const utils = require('../../utils/util_fyb')
 const api = require('../../api/api_fyb')
 const user_login = require('../../api/user/login.js')
+const activity = require('../../api/activity/index')
 const app = getApp()
 
 Page({
@@ -279,7 +280,7 @@ Page({
   getComment: function (movieId) {
     let ccsession = wx.getStorageSync('new_cksession')
     let params = { "movieId": movieId }
-    if (ccsession != null && ccsession !== "") {   
+    if (ccsession != null && ccsession !== "") {
       params = { "ccsession": ccsession, "movieId": movieId }
     }
     let desParams = utils.paramsAssemble_wx(params)
@@ -311,7 +312,6 @@ Page({
   // 提交评论
   submitComment: function (content, score) {
     let ccsession = wx.getStorageSync('new_cksession')
-    // let ccsession = 'b45004fab0934395dc20ede9dc13801d'
     if (ccsession == "") return
     let params = {
       "ccsession": ccsession,
@@ -337,6 +337,9 @@ Page({
           hotCommentList: this.data._hotComments,
           allCommentList: this.data._allComments
         })
+        if (app.status === 'activity') {
+          activity.handleActivityTask({ type: 'comment', movieid: this.data.curMovieId })
+        }
       } else {
         console.log("提交评论数据失败:", res)
       }
@@ -553,8 +556,8 @@ Page({
   handleGobackClick: function () {
     // 小程序内部页面进入返回上一级，外部进入（公众号文章，分享）返回主页
     console.log('导航返回', this.data.from)
-    let _innerPage = ['topicDetail','articleDetail','favorite','search','sresult']
-    if(_innerPage.indexOf(this.data.from) > -1) {
+    let _innerPage = ['topicDetail', 'articleDetail', 'favorite', 'search', 'sresult']
+    if (_innerPage.indexOf(this.data.from) > -1) {
       utils.navigateBack()
     } else {
       wx.switchTab({
@@ -624,7 +627,7 @@ Page({
   handleSubmitClick: function (e) {
     console.log('handleSubmitClick', e)
     let { content, score } = e.detail
-    if(content === '') content = '此用户暂无评论'
+    if (content === '') content = '此用户暂无评论'
     // 后台按照10分制定义
     this.submitComment(content, score * 2)
   },
@@ -684,11 +687,9 @@ Page({
   scroll: function (e) {
     console.log('触发scroll事件')
   },
-
   scrollToLower: function (e) {
     console.log('触发scrollToLower事件')
   },
-
   scrollToUpper: function (e) {
     console.log('触发scrollToUpper事件')
   },

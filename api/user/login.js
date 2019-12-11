@@ -150,11 +150,13 @@ function getWXAuth(params) { //酷开账号登录前先获取微信授权，并�
     .then(res => {
       console.log('getSessionByCode res=', res)
       if (res.data.result && res.data.data) {
-        let ccsession = res.data.data.ccsession;
-        let wxopenid = res.data.data.wxopenid;
-        wx.setStorageSync('new_cksession', ccsession);
-        wx.setStorageSync('wxopenid', wxopenid);
-        console.log('setStorage, session = ' + ccsession + ',openid = ' + wxopenid);
+        let ccsession = res.data.data.ccsession
+        let wxopenid = res.data.data.wxopenid
+        let unionid = res.data.data.unionid
+        wx.setStorageSync('new_cksession', ccsession)
+        wx.setStorageSync('wxopenid', wxopenid)
+        wx.setStorageSync('unionid', unionid)
+        console.log('setStorage, session:' + ccsession + ',openid:' + wxopenid + ',unionid:' + unionid)
 
         let rawData = encodeURI(params.rawData, 'utf-8');
         let paramsStr = {
@@ -165,7 +167,6 @@ function getWXAuth(params) { //酷开账号登录前先获取微信授权，并�
           "signature": params.signature
         }
         let sign = util.encryption(paramsStr, app.globalData.key);
-        // console.log(sign);
         let dataStr = util.json2Form({
           client_id: 'applet',
           sign: sign,

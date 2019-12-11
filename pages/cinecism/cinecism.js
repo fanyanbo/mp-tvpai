@@ -4,6 +4,7 @@ var utils = require('../../utils/util.js')
 //有空一定要把老接口全部改为新接口
 const utilsNew = require('../../utils/util_fyb')
 const apiNew = require('../../api/api_fyb')
+const activity = require('../../api/activity/index')
 
 let getIsCollectList = []
 var app = getApp()
@@ -64,10 +65,16 @@ Page({
     // mydata:''
   },
   onLoad: function (options) {
+    // 从活动入口进入，考虑通用性
+    console.log("文章页onLoad", options)
+    app.status = options.type
+    if (app.status === 'activity') {
+      activity.initActivityData()
+    }
     this.setData({
       theArticleId: options.id  //从点击入口获取的文章id
     })
-    console.log('theArticleId:',options.id)
+    console.log('theArticleId:', options.id)
 
     this.data._commentLike = wx.getStorageSync('comment_like')
     if (!this.data._commentLike) wx.setStorageSync('comment_like', [])
@@ -119,14 +126,16 @@ Page({
     wx.stopPullDownRefresh();
   },
   onShareAppMessage: function () {
-    var that = this
+    if (app.status === 'activity') {
+      activity.handleActivityTask({ type: 'share' })
+    }
     return {
-      title: that.data.articleTitle,
-      path: 'pages/cinecism/cinecism?id=' + that.data.articlesId
+      title: this.data.articleTitle,
+      path: 'pages/cinecism/cinecism?id=' + this.data.articlesId
     }
   },
   formSubmit: function (e) {
-    console.log("formid：",e.detail.formId)
+    console.log("formid：", e.detail.formId)
     wx.setStorageSync("formid", e.detail.formId)
   },
 
@@ -188,7 +197,7 @@ Page({
 
     let _index = e.currentTarget.dataset.index
     let _collectIds = `[${e.currentTarget.dataset.collectid}]`
-    console.log('collectId',_collectIds)
+    console.log('collectId', _collectIds)
     let params = { "ccsession": ccsession, "collectIds": _collectIds }
     utilsNew.requestP(apiNew.delMovieFavoriteUrl, utilsNew.paramsAssemble_wx(params)).then(res => {
       if (res.data && res.data.code === 200) {
@@ -214,7 +223,7 @@ Page({
   },
 
   // 对某条评论点赞/取消点赞
-  submitClickLike (e) {
+  submitClickLike(e) {
     // let ccsession = 'b45004fab0934395dc20ede9dc13801d'
     let ccsession = wx.getStorageSync('new_cksession')
     if (ccsession == null || ccsession == '') {
@@ -359,7 +368,7 @@ Page({
     let desParams = utilsNew.paramsAssemble_wx(params)
 
     utilsNew.requestP(apiNew.submitFavoriteArticleUrl, desParams).then(res => {
-      console.log("获取收藏文章接口成功",res)
+      console.log("获取收藏文章接口成功", res)
       collectFlag++
       if (res.data.result) {
         if (res.data.data != null && res.data.data != undefined) {
@@ -395,7 +404,7 @@ Page({
   // 评论弹窗
   commentClick: function (e) {
     var that = this
-  //  if (utils.ccsessionIs() == null) return
+    //  if (utils.ccsessionIs() == null) return
     that.setData({
       hidden1: 'false',
       focus: true
@@ -404,8 +413,6 @@ Page({
 
   // 获取文章评论
   getComment() {
-    // let articleId = '_oqy_1012320100'
-    // let ccsession = 'b45004fab0934395dc20ede9dc13801d'
     let articleId = this.data.theArticleId
     let ccsession = wx.getStorageSync("new_cksession")
 
@@ -437,7 +444,7 @@ Page({
   },
 
   // 提交评论，新接口会有提交评论成功后只显示最新10条评论的bug
-  submitComment (e) {
+  submitComment(e) {
     let content = e.detail.value
     content = encodeURI(content, 'utf-8')
     if (content == "" || content == null) {
@@ -474,7 +481,7 @@ Page({
           })
           utils.showToastBox("评论成功", "success")
         } else {
-          console.log('提交评论失败',res.data.message)
+          console.log('提交评论失败', res.data.message)
           utils.showToastBox("请先登录", "loading")
         }
       }).catch(res => {
@@ -670,7 +677,7 @@ Page({
     console.log(that.data.optionIds)
   },
   voteVs: function (e) {
-  //  if (utils.ccsessionIs() == null) return
+    //  if (utils.ccsessionIs() == null) return
     var that = this
     that.data.optionIds = []
     for (var key in that.data.cicleMany) { // 将其他投票选项置空
@@ -689,7 +696,7 @@ Page({
   voteArray: function (e) {
     console.log("投票2")
     console.log(utils.ccsessionIs() == null)
-  //  if (utils.ccsessionIs() == null) return
+    //  if (utils.ccsessionIs() == null) return
     var that = this
     var url = api.saveUserVoteUrl
     var key = app.globalData.key
@@ -755,8 +762,8 @@ Page({
     var that = this
     moviechildId = null
     //判断ccsession是否为空
-  //  if (utils.ccsessionIs() == null) return
-  //  if (utils.coocaaLogin() == null) return
+    //  if (utils.ccsessionIs() == null) return
+    //  if (utils.coocaaLogin() == null) return
     console.log("获取设备列表")
     // movieId = e.currentTarget.dataset.movieid
     var allcount = e.currentTarget.dataset.allcount
@@ -1050,7 +1057,7 @@ function getArtical(that) {
       console.log(res.data)
       if (res.data.result) {
         var data = res.data.data
-        console.log("获取详情成功",data)
+        console.log("获取详情成功", data)
         if (data != null && data != undefined) {
           var votesList = data.voteList
           var createTime = utils.toDate(data.createTime / 1000)
@@ -1225,7 +1232,7 @@ function getArtical(that) {
 function getFavoriteStatus(movieId) {
   // 检查是否登录酷开账号
   if (wx.getStorageSync('ccUserInfo') == "") {
-    return 
+    return
   }
   let ccsession = wx.getStorageSync('new_cksession')
   if (ccsession == "") return
@@ -1269,7 +1276,7 @@ function getAboutMovie(that) {
         var imgV = new Array()
         var movieType
         var clooectList = new Array()
-        console.log("获取文章的影片数据",movieDataList)
+        console.log("获取文章的影片数据", movieDataList)
         if (movieDataList != null && movieDataList != undefined) {
           starArray = []
           var tags = []
@@ -1280,7 +1287,7 @@ function getAboutMovie(that) {
             if (movieDataList[i].moviesDetail != null) {
               getIsCollectList.push(movieDataList[i].moviesDetail.isCollectionMovie)
             }
-            
+
             if (movieDataList[i].movieIdsList != null) {
               // 保存影片id，一部影片可能有两个id，爱奇艺和腾讯
               let _getMovieId = ''
@@ -1298,8 +1305,8 @@ function getAboutMovie(that) {
               let _getMovieCollectId = getFavoriteStatus(_getMovieId) || 'noCollectId'
               movieCollectIdArray.push(_getMovieCollectId)
             }
-            
- 
+
+
             if (movieDataList[i].moviesDetail != null) {
               that.setData({
                 lenIs: true
@@ -1336,9 +1343,9 @@ function getAboutMovie(that) {
             }
           }
 
-          console.log('movieImgList',imgV)
-          console.log('movieTagList',tags)
-          console.log("starClass:",that.data.starClass)
+          console.log('movieImgList', imgV)
+          console.log('movieTagList', tags)
+          console.log("starClass:", that.data.starClass)
           that.setData({
             isCollectList: getIsCollectList,
             clooectList: clooectList,

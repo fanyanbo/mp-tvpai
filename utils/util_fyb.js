@@ -215,7 +215,6 @@ function requestP(url, params, method = 'GET', contentType = 'application/x-www-
 
 // 获取session和openid
 function getSessionByCode(code, success, fail, complete) {
-  console.log("getSession code", code);
   let srcParams = {
     "appid": "wx35b9e9a99fd089a9",
     "jscode": code
@@ -235,7 +234,6 @@ function getSessionByCode(code, success, fail, complete) {
 }
 
 function getSessionByCodeP(code) {
-  console.log("getSession code", code);
   let srcParams = {
     "appid": "wx35b9e9a99fd089a9",
     "jscode": code

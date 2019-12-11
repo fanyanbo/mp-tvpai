@@ -1,10 +1,8 @@
 const utils_old = require('../../utils/util')
 const utils = require('../../utils/util_fyb')
 const api_old = require('../../api/api')
-const api = require('../../api/api_fyb')
 const bind = require('../../api/user/bind')
-
-const app = getApp();
+const app = getApp()
 
 Page({
   data: {
@@ -89,13 +87,15 @@ Page({
           return utils.getSessionByCodeP(res.code) //todo 优化复用微信登录代码
         })
         .then(res => {
-            console.log('getSessionByCode res=', res)
+            console.log('getSessionByCode res:', res)
           if (res.data.result && res.data.data) {
-            let ccsession = res.data.data.ccsession;
-            let wxopenid = res.data.data.wxopenid;
-            wx.setStorageSync('new_cksession', ccsession);
-            wx.setStorageSync('wxopenid', wxopenid);
-            console.log('setStorage, session = ' + ccsession + ',openid = ' + wxopenid);
+            let ccsession = res.data.data.ccsession
+            let wxopenid = res.data.data.wxopenid
+            let unionid = res.data.data.unionid
+            wx.setStorageSync('new_cksession', ccsession)
+            wx.setStorageSync('wxopenid', wxopenid)
+            wx.setStorageSync('unionid', unionid)
+            console.log('session:' + ccsession + ',openid:' + wxopenid + ',unionid:' + unionid)
             let url = api_old.getuserinfoUrl
             rawData = encodeURI(rawData, 'utf-8')
             let paramsStr = { "ccsession": ccsession, "encryptedData": encryptedData, "iv": iv, "rawData": rawData, "signature": signature }
