@@ -216,7 +216,7 @@ function requestP(url, params, method = 'GET', contentType = 'application/x-www-
 // 获取session和openid
 function getSessionByCode(code, success, fail, complete) {
   let srcParams = {
-    "appid": "wx35b9e9a99fd089a9",
+    "appid": "wx6d5849a00b59fb6a",
     "jscode": code
   }
   let desParams = paramsAssemble_wx(srcParams);
@@ -235,7 +235,7 @@ function getSessionByCode(code, success, fail, complete) {
 
 function getSessionByCodeP(code) {
   let srcParams = {
-    "appid": "wx35b9e9a99fd089a9",
+    "appid": "wx6d5849a00b59fb6a",
     "jscode": code
   }
   return this.requestP(api.getSessionUrl, paramsAssemble_wx(srcParams));

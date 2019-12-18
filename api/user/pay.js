@@ -135,7 +135,7 @@ module.exports = Behavior({
           "sign_type": "MD5",
           "random_str": this._getRandomStr32(),
           "open_id": wx.getStorageSync("wxopenid"),//"o2qQA0V42DEWdzlExnD2LRBQ7B38", //微信：用户在商户appid下的唯一标识。 todo 再次确认这个openId！
-          "app_id": "wx35b9e9a99fd089a9"
+          "app_id": "wx6d5849a00b59fb6a"
         }
         pay_prepay_data = is_fake_data ? mock.pay_prepay_data : pay_prepay_data;
         pay_prepay_data["sign"] = this._getSign(pay_prepay_data)

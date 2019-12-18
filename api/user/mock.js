@@ -87,7 +87,7 @@ const mock_pay_prepay_data = {//请求支付mock data
   "sign_type": "MD5",
   "random_str": 'abcdefghijklmnopqrstuvwxyz123456',
   "open_id": "o2qQA0V42DEWdzlExnD2LRBQ7B38",
-  "app_id": "wx35b9e9a99fd089a9"
+  "app_id": "wx6d5849a00b59fb6a"
 }
 const mock_package_list_data = { //产品包返回数据
   "code": 0,

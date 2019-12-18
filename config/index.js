@@ -24,7 +24,7 @@ const config = (env === 'prod') ? {
     baseUrl_pay: "https://beta-pay.coocaa.com/",
     baseUrl_acct: "http://beta.passport.coocaa.com/",
     baseUrl_allowance: "https://beta-jintie.coocaa.com/",
-    baseUrl_acti: "http://beta.restful.lottery.coocaatv.com/",
+    baseUrl_acti: "https://beta-restful.coocaa.com/",
 }
 
 console.log("config", config)

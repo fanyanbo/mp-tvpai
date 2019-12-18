@@ -402,7 +402,7 @@ function eventCollect(type, contactId){
   const key = getApp().globalData.key
   var ccsession = wx.getStorageSync("cksession")
   var createTime = Date.parse(new Date())/1000
-  var appid = "wx35b9e9a99fd089a9"
+  var appid = "wx6d5849a00b59fb6a"
   var formId = wx.getStorageSync("formid")
   var paramsStr = { "appid": appid, "ccsession": ccsession,"contactId": contactId +'', "formId": formId +'', "type": type, "wxCreateTime": createTime+''}
   var sign = encryption(paramsStr, key)
