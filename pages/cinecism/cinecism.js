@@ -415,7 +415,6 @@ Page({
   getComment() {
     let articleId = this.data.theArticleId
     let ccsession = wx.getStorageSync("new_cksession")
-
     let params = { "ccsession": ccsession, "articleId": articleId }
     let desParams = utilsNew.paramsAssemble_wx(params)
     utilsNew.requestP(apiNew.getCommentsUrl, desParams).then(res => {
