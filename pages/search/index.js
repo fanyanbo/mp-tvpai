@@ -81,7 +81,8 @@ Page({
       isShowResult: true,
       isShowNoResult: false,
       searchResultList: [],
-      historyWordsList: cacheKeywords
+      historyWordsList: cacheKeywords,
+      curPageIndex: 0
     })
     this.searchByKeyword(1, event.target.dataset.keyword)
   },
@@ -95,7 +96,8 @@ Page({
       searchResultList: [],
       isShowResult: true,
       isShowNoResult: false,
-      historyWordsList: cacheKeywords
+      historyWordsList: cacheKeywords,
+      curPageIndex: 0
     })
     this.searchByKeyword(1, this.data.inputValue)
   },

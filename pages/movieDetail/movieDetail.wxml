@@ -105,7 +105,7 @@
           <view class="hot-comment-item">
             <view class="comment-title">
               <image class="comment-avatar-img" src="{{item.headimgurl}}" />
-              <text class="comment-nickname">{{item.nickname}}</text>
+              <view class="comment-nickname">{{item.nickname}}</view>
               <view class="comment-star">
                 <block wx:for="{{tools.getStars(item.grade)}}" wx:key="index">
                   <image wx:if="{{item === 1}}" class="comment-star-img" mode="aspectFill" src="../../images/videodetail/star-focus.png" />
