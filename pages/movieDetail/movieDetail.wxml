@@ -7,7 +7,7 @@
 <!-- 导航栏组件 -->
 <view>
   <!-- <navBar title='详情' background='#222222' color='#fff' back="{{true}}" home="{{true}}" iconTheme='white' bindback="handleGobackClick" bindhome="handleGohomeClick" /> -->
-  <navBar title='详情' background='#222' color='#fff' back="{{true}}" iconTheme='white' bindback="handleGobackClick" />
+  <navBar title='详情' background='#222' color='#fff' back="{{isShowNavBack}}" home="{{isShowNavHome}}" iconTheme='white' bindback="handleGobackClick" bindhome="handleGoHomeClick"/>
 </view>
 <view class='{{isFixedWindow ? "pageFixed" : ""}}' style="{{fixedWindowStyle}}">
   <!-- 影片信息 -->

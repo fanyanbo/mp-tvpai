@@ -56,10 +56,10 @@
 			"current": -1,
 			"list": [
 				{
-					"id": 8,
+					"id": 0,
 					"name": "公众号文章进入片单详情",
 					"pathName": "pages/topicDetail/topicDetail",
-					"query": "id=87&from=openArticle&type=activity",
+					"query": "id=81&from=openArticle&type=activity",
 					"scene": 1058
 				},
 				{
@@ -68,6 +68,13 @@
 					"pathName": "pages/cinecism/cinecism",
 					"query": "id=102&from=openArticle&type=activity",
 					"scene": 1058
+				},
+				{
+					"id": 2,
+					"name": "公众号文章进入影评详情页",
+					"pathName": "pages/movieDetail/movieDetail",
+					"query": "id=_otx_mzc00200chankdx&from=openArticle",
+					"scene": null
 				}
 			]
 		}

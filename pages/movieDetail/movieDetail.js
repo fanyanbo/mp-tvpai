@@ -37,6 +37,8 @@ Page({
       formSubmit: 'formSubmit',
       collectEvent: 'collectEvent'
     },
+    isShowNavBack: true, //导航栏是否显示返回
+    isShowNavHome: false, //导航栏是否显示首页
   },
   formSubmit(e) { //form-id 表单提交
     console.log(e.detail.formId)
@@ -62,6 +64,13 @@ Page({
     console.log('当前影片id和from:', options)
     this.data.curMovieId = options.id
     this.data.from = options.from
+    // 从分享或公众号文章进入，导航栏显示首页，隐藏返回
+    if (options.from === 'openArticle') {
+      this.setData({
+        isShowNavBack: false,
+        isShowNavHome: true
+      })
+    }
     // 初始化评论点赞列表的缓存
     this.data._commentLike = wx.getStorageSync('comment_like')
     if (!this.data._commentLike) wx.setStorageSync('comment_like', [])
@@ -545,7 +554,7 @@ Page({
   },
 
   // 处理导航栏主页点击事件
-  handleGohomeClick: function () {
+  handleGoHomeClick: function () {
     // 注意:tabbar页面无法使用redirectTo和navigateTo进行跳转
     wx.switchTab({
       url: '../index/index'
