@@ -1,7 +1,7 @@
 <!-- 1.取消收藏影片的功能，需要先获取collectId，每个影片的collectId从获取影片收藏状态api拿
 2.影片推送到电视巨复杂，原函数pushVideo保留，但点击事件已改成响应detailTo -->
 <view>
-  <navBar title='电视派' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
+  <navBar title='电视派' background='#fff' color='#000' back="{{isShowNavBack}}" home="{{isShowNavHome}}" bindback="handleGobackClick" bindhome="handleGoHomeClick"/>
 </view>
 <!-- height:{{scHeight-90}}px;overflow-y:{{isTrue}} -->
 <form bindsubmit="formSubmit" formSubmit="true">
