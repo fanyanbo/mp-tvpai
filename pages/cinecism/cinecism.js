@@ -62,7 +62,8 @@ Page({
     commentGrayStar: '/images/videodetail/star.png',
     isCollectList: [],
     movieCollectId: [],
-    // mydata:''
+    isShowNavBack: true, //导航栏是否显示返回
+    isShowNavHome: false, //导航栏是否显示首页
   },
   onLoad: function (options) {
     // 从活动入口进入，考虑通用性
@@ -70,6 +71,13 @@ Page({
     app.status = options.type
     if (app.status === 'activity') {
       activity.initActivityData()
+    }
+    // 从分享或公众号文章进入，导航栏显示首页，隐藏返回
+    if (options.from === 'share' || options.from === 'openArticle') {
+      this.setData({
+        isShowNavBack: false,
+        isShowNavHome: true
+      })
     }
     this.setData({
       theArticleId: options.id  //从点击入口获取的文章id
@@ -131,7 +139,7 @@ Page({
     }
     return {
       title: this.data.articleTitle,
-      path: 'pages/cinecism/cinecism?id=' + this.data.articlesId
+      path: `pages/cinecism/cinecism?id=${this.data.articlesId}&from=share`
     }
   },
   formSubmit: function (e) {
@@ -219,6 +227,12 @@ Page({
     console.log('handleGobackClick')
     wx.navigateBack({
       delta: 1
+    })
+  },
+
+  handleGoHomeClick: function () {
+    wx.switchTab({
+      url: '../index/index'
     })
   },
 
@@ -899,7 +913,6 @@ Page({
   },
 })
 
-
 //推送接口
 function pushMovies(that, movieId, deviceId, moviechildId) {
   var paramsStr
@@ -1029,10 +1042,6 @@ function serviceList(that) {
     }
   })
 }
-
-
-
-
 
 // 文章详情
 function getArtical(that) {
