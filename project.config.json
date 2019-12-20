@@ -68,6 +68,13 @@
 					"pathName": "pages/cinecism/cinecism",
 					"query": "id=102&from=openArticle&type=activity",
 					"scene": 1058
+				},
+				{
+					"id": 2,
+					"name": "公众号文章进入影片详情页",
+					"pathName": "pages/movieDetail/movieDetail",
+					"query": "id=_oqy_225041201&from=openArticle",
+					"scene": null
 				}
 			]
 		}

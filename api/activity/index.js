@@ -10,7 +10,8 @@ function initActivityData() {
 }
 
 function handleActivityTask(params) {
-    console.log('handleActivityTask params:', params)
+    console.log('handleActivityTask  params:', JSON.stringify(params))
+    console.log('handleActivityTask unionid:', wx.getStorageSync('unionid'))
     if (params.type === 'comment') {
         _handleCommentTask(params.movieid)
     } else if (params.type === 'share') {
@@ -58,11 +59,13 @@ function _handleCommentTask(movieid) {
         }
         // 判断是否完成任务，这里考虑提交任务失败的情况
         if (_commentTask.count === 1) {
-            _submitTask(_commentTask).then(() => {
-                console.log('影片评论任务提交成功')
-                _commentTask.count = 0
-                _commentTask.isComplete = true
-                _commentTask.movieList = []
+            _submitTask(_commentTask).then((res) => {
+                console.log('提交影片评论任务', res.data)
+                if(res.data.code === '50100') {
+                    _commentTask.count = 0
+                    _commentTask.isComplete = true
+                    _commentTask.movieList = []
+                }
             }).catch(res => {
                 console.log('影片评论任务提交失败', res)
             })
@@ -94,9 +97,11 @@ function _handleShareTask() {
         console.log('影评分享任务已完成，请勿重复提交')
         return
     }
-    _submitTask(_shareTask).then(() => {
-        console.log('影评分享任务提交成功')
-        _shareTask.isComplete = true
+    _submitTask(_shareTask).then((res) => {
+        console.log('提交影评分享任务', res.data)
+        if(res.data.code === '50100') {
+            _shareTask.isComplete = true
+        }  
     }).catch(res => {
         console.log('影评分享任务提交失败', res)
     })
@@ -110,6 +115,8 @@ function _submitTask(taskData) {
             taskType: taskData.taskType,
             userKeyId: unionid
         }
+        console.log('url:', api.submitTaskCompleteUrl)
+        console.log('params:', JSON.stringify(_params))
         return utils.requestP(api.submitTaskCompleteUrl, _params, 'POST')
     })
 }
