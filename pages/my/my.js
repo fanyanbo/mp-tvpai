@@ -229,8 +229,8 @@ Component({
           case '6':
             this._updateProductSourceList(0, item, src.txType)
             break;
-          case 'supervip':
-            this._updateProductSourceList(1, item) //超级教育vip
+          case 'jiaoyuvip':
+            this._updateProductSourceList(1, item) //教育vip
             break;
           case 'shaoervip':
             this._updateProductSourceList(2, item)  //少儿vip
