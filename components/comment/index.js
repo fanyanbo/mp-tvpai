@@ -49,13 +49,12 @@ Component({
   },
   methods: {
     // 自定义方法
-
     handleInputEvent: function (e) {
       // 获取输入框的内容
       let inputValue = e.detail.value;
       // 获取输入框内容的长度
       let len = parseInt(inputValue.length);
-      // console.log("已输入字数：", len);
+      console.log("已输入字数：", len);
       this.setData({
         currentWordNumber: len,
         inputValue: inputValue
