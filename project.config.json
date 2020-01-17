@@ -22,7 +22,7 @@
 		}
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.9.4",
+	"libVersion": "2.10.0",
 	"appid": "wx35b9e9a99fd089a9",
 	"projectname": "feature-v2.1",
 	"debugOptions": {
@@ -63,10 +63,10 @@
 					"scene": 1058
 				},
 				{
-					"id": 9,
+					"id": 1,
 					"name": "公众号文章进入影评页",
 					"pathName": "pages/cinecism/cinecism",
-					"query": "id=102&from=openArticle&type=activity",
+					"query": "id=577&from=openArticle&type=activity",
 					"scene": 1058
 				},
 				{

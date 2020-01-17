@@ -172,12 +172,12 @@ Page({
       });
     }).catch(res => {
       console.log('影片详情获取失败', res)
+      utils.showFailedToast('加载数据失败', this.data.errIconUrl)
       //日志提交
       wx.reportAnalytics('page_videodetail_show', {
         from: this.data.from,
         video_name: res.data.data.album_title || this.data.curMovieId
       });
-      utils.showFailedToast('加载数据失败', this.data.errIconUrl)
     })
   },
 
@@ -240,7 +240,7 @@ Page({
     utils.requestP(api.getSegmentListUrl, desParams).then(res => {
       console.log("获取剧集数据:", res)
       if (this.data.videoType === "纪录片") {
-        console.log("纪录片剧集列表:", res.data.data.reverse())
+        // console.log("纪录片剧集列表:", res.data.data.reverse())
       } else {
         console.log("非纪录片剧集列表:", res.data.data)
       }

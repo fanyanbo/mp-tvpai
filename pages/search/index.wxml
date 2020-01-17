@@ -71,7 +71,7 @@
               </view> -->
               <block wx:if="{{tools.getStrLength(item.video_title) > 22}}">
                 <view class='right-title-wrapper' bindtap="handleJumpTap" data-item="{{item}}">
-                  <block wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="{{index}}">
+                  <block wx:for="{{tools.getHighLightItems(item.video_title, inputValue)}}" wx:key="index">
                     <text class="{{item == inputValue ? 'searchHigh' : '' }}">{{item}}</text>
                   </block>
                 </view>
