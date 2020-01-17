@@ -135,7 +135,7 @@
             </view>
             <scroll-view class="episode" scroll-x enable-flex="true" style="width: 100%">
               <block wx:for="{{tools.getReverse(item.episodes_list)}}" wx:key="index">
-                <view class="scroll-view-item {{ index === 0 ? 'episode-first' : '' }} {{(item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" data-index="{{index}}" hover-class="noimplement">
+                <view class="scroll-view-item {{ index === 0 ? 'episode-first' : '' }} {{(item.segment_index == curIndex && item.video_third_id == curThirdId) ? 'active' : 'inactive'}}" bindtap="handleEpisodeTap" data-keyword="{{item}}" data-index="{{item.segment_index-1}}" hover-class="noimplement">
                   <view class="idx">第 {{item.segment_index}} 期</view>
                   <view class="desc">{{item.video_title}}</view>
                 </view>

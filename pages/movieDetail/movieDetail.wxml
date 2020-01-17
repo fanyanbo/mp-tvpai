@@ -44,8 +44,14 @@
       <image class="more-icon" src='../../images/info_arraw.png' mode="aspectFill"></image>
     </view>
     <view wx:if="{{videoType !== '电影'}}" class='push-area {{videoType === "综艺" || videoType === "纪录片" ? "variety" : "tvplay"}}'>
-      <block wx:if="{{videoType === '综艺' || videoType === '纪录片'}}">
+      <block wx:if="{{videoType === '综艺'}}">
         <view wx:for="{{moviesItem}}" wx:key="coocaa_m_id" class='zy-item {{selected === item.coocaa_m_id ? "zy-active" : ""}}' bindtap="push" data-moviechildid="{{index}}" data-movieid="{{item.third_album_id}}" data-coocaamid="{{item.coocaa_m_id}}" data-videoid="{{vidList[index]}}" data-title="{{item.video_title}}">
+          <view class='index {{selected === item.coocaa_m_id ? "zy-active2" : ""}}'>第 {{item.segment_index}} 期</view>
+          <view class='desc {{selected === item.coocaa_m_id ? "zy-active2" : ""}}'>{{item.video_title}}</view>
+        </view>
+      </block>
+      <block wx:elif="{{videoType === '纪录片'}}">
+        <view wx:for="{{moviesItem}}" wx:key="coocaa_m_id" class='zy-item {{selected === item.coocaa_m_id ? "zy-active" : ""}}' bindtap="push" data-moviechildid="{{item.segment_index-1}}" data-movieid="{{item.third_album_id}}" data-coocaamid="{{item.coocaa_m_id}}" data-videoid="{{vidList[index]}}" data-title="{{item.video_title}}">
           <view class='index {{selected === item.coocaa_m_id ? "zy-active2" : ""}}'>第 {{item.segment_index}} 期</view>
           <view class='desc {{selected === item.coocaa_m_id ? "zy-active2" : ""}}'>{{item.video_title}}</view>
         </view>

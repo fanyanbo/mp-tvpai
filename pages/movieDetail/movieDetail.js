@@ -240,7 +240,7 @@ Page({
     utils.requestP(api.getSegmentListUrl, desParams).then(res => {
       console.log("获取剧集数据:", res)
       if (this.data.videoType === "纪录片") {
-        // console.log("纪录片剧集列表:", res.data.data.reverse())
+        console.log("纪录片剧集列表:", res.data.data.reverse())
       } else {
         console.log("非纪录片剧集列表:", res.data.data)
       }
