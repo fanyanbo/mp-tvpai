@@ -98,6 +98,7 @@ Page({
     })
   },
   onShow: function (e) {
+    console.log("文章页onShow")
     if (this.data.loadData != null && this.data.loadData.length > 0) {
       this.setData({
         failHidden: true,
@@ -117,6 +118,10 @@ Page({
       utils.checkUsers()
     }
     //this.commentTest = this.selectComponent("#commentTest")
+    console.log('app.status:', app.status)
+    if (app.status === 'activity') {
+      activity.handleActivityTask({ type: 'share' })
+    }
   },
   onReachBottom: function () {
     if (this.data.page > 1) {
@@ -134,9 +139,6 @@ Page({
     wx.stopPullDownRefresh();
   },
   onShareAppMessage: function () {
-    if (app.status === 'activity') {
-      activity.handleActivityTask({ type: 'share' })
-    }
     return {
       title: this.data.articleTitle,
       path: `pages/cinecism/cinecism?id=${this.data.articlesId}&from=share`
