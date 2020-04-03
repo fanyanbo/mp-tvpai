@@ -25,27 +25,27 @@ Page({
     bannerList: [],
     isShowBanner: true, //是否显示banner区域，控制骨架屏显示逻辑
     isShowTopic: true, //是否显示片单区域，控制骨架屏显示逻辑
-    formIdCollect: { //form-id人群圈定功能
-      formSubmit: 'formSubmit',
-      collectEvent: 'collectEvent'
-    },
+    // formIdCollect: { //form-id人群圈定功能
+    //   formSubmit: 'formSubmit',
+    //   collectEvent: 'collectEvent'
+    // },
   },
-  formSubmit(e) { //form-id 表单提交
-    console.log(e.detail.formId)
-    wx.setStorageSync("formid", e.detail.formId)
-  },
-  collectEvent(e) {//form-id 人群圈定
-    console.log(e)
-    new user_login.formIdEventCollectClass().collectAsync('userInitEnter', utils.getFormatTime(+new Date()))
-          .then(res => {
-            this.setData({ //如果提交成功，不再重复提交
-              'formIdCollect.formSubmit': null,
-              'formIdCollect.collectEvent': null,
-            })
-          }).catch( err =>{
-              wx.removeStorageSync('formid') //提交失败，删除formid，下次继续提交
-          })
-  },
+  // formSubmit(e) { //form-id 表单提交
+  //   console.log(e.detail.formId)
+  //   wx.setStorageSync("formid", e.detail.formId)
+  // },
+  // collectEvent(e) {//form-id 人群圈定
+  //   console.log(e)
+  //   new user_login.formIdEventCollectClass().collectAsync('userInitEnter', utils.getFormatTime(+new Date()))
+  //         .then(res => {
+  //           this.setData({ //如果提交成功，不再重复提交
+  //             'formIdCollect.formSubmit': null,
+  //             'formIdCollect.collectEvent': null,
+  //           })
+  //         }).catch( err =>{
+  //             wx.removeStorageSync('formid') //提交失败，删除formid，下次继续提交
+  //         })
+  // },
   swiperChange: function () {
     console.log('swiperChange')
   },
@@ -258,6 +258,9 @@ Page({
   handleBannerTap: function (e) {
     console.log('handleBannerTap', e)
     let { type, url } = e.currentTarget.dataset
+    // type = 2
+    // url = 'https://www.baidu.com'
+    // url = 'https://webx.coocaa.com/fyb/h5demo/index.html'
     if (type === 1) { // type 1:小程序 2:外链
       wx.navigateTo({
         url: `../${url}`
@@ -305,7 +308,7 @@ Page({
             if (res.data.data[i].bindStatus === 1) {
               app.globalData.activeId = res.data.data[i].device.serviceId;
               app.globalData.deviceId = res.data.data[i].deviceId + '',
-                wx.setStorageSync('deviceId', res.data.data[i].deviceId + '');
+              wx.setStorageSync('deviceId', res.data.data[i].deviceId + '');
               console.log('当前绑定设备: activeId = ' + app.globalData.activeId + ", deviceId = " + app.globalData.deviceId);
               break;
             }
@@ -329,10 +332,10 @@ Page({
       url: `/pages/webview/webview?path=` + url
     })
   },
-  jumpMyFavorite() {
-    console.log('jumpMyFavorite')
+  jumpMiniProgramPage() {
+    console.log('jumpMiniProgramPage')
     wx.navigateTo({
-      url: '/pages/favorite/favorite'
+      url: '/pages/418warmup/warmup'
     })
   }
 });

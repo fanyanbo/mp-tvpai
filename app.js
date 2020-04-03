@@ -4,7 +4,7 @@ const bind = require('api/user/bind.js')
 App({
   onLaunch: function () {
     console.log('app onLaunch')
-    let that = this;
+    let that = this
     wx.getSystemInfo({
       success: function(res) {
         console.log('onLaunch getSystemInfo', res)

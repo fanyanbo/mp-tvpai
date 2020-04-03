@@ -6,11 +6,11 @@
 <view class="container">
   <view class="{{devices?'none':'no-devices'}}" wx:if="{{isShowDoc}}">
     <view class="swiper_list">
-      <image src="../../images/help/0.jpg"  mode="widthFix"></image>
-      <image src="../../images/help/1.png"  mode="widthFix"></image>
-      <image src="../../images/help/2.png"  mode="widthFix"></image>
-      <image src="../../images/help/3.jpg"  mode="widthFix"></image>
-      <image src="../../images/help/4.jpg"  mode="widthFix"></image>
+      <image src="https://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/help/0.jpg"  mode="widthFix"></image>
+      <image src="https://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/help/1.png"  mode="widthFix"></image>
+      <image src="https://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/help/2.png"  mode="widthFix"></image>
+      <image src="https://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/help/3.jpg"  mode="widthFix"></image>
+      <image src="https://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/help/4.jpg"  mode="widthFix"></image>
     </view>
     <view class="{{bIphoneFullScreenModel ? 'iphone-fullscreen-model' : 'view'}}">
       <!-- <button class="_binding" bindtap="scan" id="scan">开始扫码绑定</button> -->

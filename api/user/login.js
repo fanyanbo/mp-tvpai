@@ -40,6 +40,7 @@ function vcode(mobile) { //手机注册，获取验证码
   })
 }
 function _storeCCUserInfo(data) {
+  console.log('_storeCCUserInfo', data)
   app.globalData.ccUserInfo = data;
   wx.setStorageSync('ccUserInfo', data)
 }

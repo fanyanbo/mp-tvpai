@@ -6,9 +6,9 @@
   1.优化首屏加载速度 -->
 <wxs src="./index.wxs" module="tools" />
 <!-- 人群圈定-数据采集 -->
-<form bindsubmit="{{formIdCollect.formSubmit}}" report-submit="true">
+<!-- <form bindsubmit="{{formIdCollect.formSubmit}}" report-submit="true">
   <button id="eventButton" name="collectEvent" form-type="submit" open-type="getUserInfo" bindgetuserinfo="{{formIdCollect.collectEvent}}" class="button-hover" hover-class="other-button-hover"></button>
-  <label for="eventButton">
+  <label for="eventButton"> -->
 <!-- 导航栏组件 -->
 <view>
   <navBar background='#fff' searchBar="{{true}}" searchText="搜索视频、影评或话题" bindsearch='handleSearchTap' />
@@ -36,8 +36,8 @@
           </swiper>
     </view>
     <!-- 快捷跳转区域，内测使用 -->
-    <!-- <view bindtap="jumpOutLink">跳转到h5页面</view>
-    <view bindtap="jumpMyFavorite">跳转到我的收藏页面</view> -->
+    <!-- <view bindtap="jumpOutLink">跳转到h5页面</view> -->
+    <!-- <view bindtap="jumpMiniProgramPage">跳转活动页</view>   -->
     <!-- 区分腾讯源和爱奇艺源标签分类，因为标签个数不同，它们的布局不同 -->
     <swiper wx:if="{{source === 'iqiyi'}}" class="iqiyi-label swiper-box" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-active-color="{{indicatorActiveColor}}" indicator-color="{{indicatorColor}}">
       <block wx:if="{{categoryList.length !== 0}}">
@@ -157,5 +157,5 @@
   <remotecontrol id="remotecontrol-id" isShowTips="{{isShowTips}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
 </view>
 
-  </label>
-</form> 
+  <!-- </label>
+</form>  -->

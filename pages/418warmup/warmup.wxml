@@ -1,0 +1,62 @@
+<view>
+    <!-- 导航栏 -->
+    <navBar title='418超级会员日' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
+</view>
+<view class='main-wrap {{isFixedWindow ? "pageFixed" : ""}}'>
+    <image class='background' src="" mode="scaleToFill"></image>
+    <!-- 顶部区域 -->
+    <view class="top-wrap">
+        <image id='topImg' src="http://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/418/top.png" mode="widthFix"></image>
+        <image id="guide" bindtap="handleGuideClick" src="http://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/418/btnrule.png" mode="">活动规则</image>
+        <video id="myVideo" src="{{videoUrl}}" poster="{{posterUrl}}" autoplay="{{true}}" loop="{{true}}" controls="{{false}}" object-fit="fill"></video>
+        <view id="video-play" bindtap="handlePlayClick"></view>
+        <image id="playImg" wx:if="{{!isPlaying}}" bindtap="handlePlayClick" src="http://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/418/play.png" mode=""></image>
+    </view>
+    <!-- 中部区域 -->
+    <view class="middle-wrap">
+        <image id='tipImg' src="http://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/418/tip.png" mode=""></image>
+        <image id='btnImg' src="http://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/418/button.png" mode="widthFix"></image>
+        <image id='giftImg' src="http://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/418/gift.png" mode="widthFix"></image>
+        <button class='contact-btn' 
+        open-type='contact' 
+        send-message-title="{{contactCardTitle}}" 
+        send-message-path="" 
+        show-message-card="{{true}}" 
+        send-message-img="{{contactImgUrl}}" 
+        bindcontact="handleContact"></button>
+    </view>
+    <!-- 底部区域 -->
+    <view class="bottom-wrap">
+        <image style="width:562rpx; margin-left:94rpx;" src="http://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/418/manualtitle.png" mode="widthFix"></image>
+        <view class="tabbar-title">
+            <view wx:for="{{tabbarList}}" wx:key="index" class="tabbar-item {{tabbarActiveIndex === index ? 'on' : ''}}" bindtap="handleTabbarClick" data-index="{{index}}">
+                {{item}}
+            </view>
+        </view>
+        <!-- 解决加载网络大图片不闪烁的问题 -->
+        <view wx:if="{{tabbarActiveIndex === 0}}" class="tabbar-one">
+            <image id='manualImg' style="height:{{isManualImageLoad1 ? 1 : manualImageheight}}px;" bindload="munualImageLoad" data-index="{{tabbarActiveIndex}}" src="http://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/418/manual1.png" mode="widthFix"></image>
+        </view>
+        <view wx:else class="tabbar-two">
+            <image id='manualImg' style="height:{{isManualImageLoad2 ? 1 : manualImageheight}}px;" bindload="munualImageLoad" data-index="{{tabbarActiveIndex}}" src="http://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/418/manual2.png" mode="widthFix"></image>
+        </view>
+        <image id='logoImg' src="http://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/418/logo.png" mode=""></image>
+    </view>
+</view>
+<!-- 规则页浮窗 -->
+<view wx:if="{{isShowPopup}}" class='mask-layer'></view>
+<view wx:if="{{isShowPopup}}" class='popup'>
+    <image id='popupImg' wx:show="{{isLoadComplete}}"  bindload="imageLoad" src="http://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/418/bg.png" mode="widthFix"></image>
+    <image id="close" src="http://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/418/popupclose.png" mode="" bindtap='hidePopup'></image>
+    <view id="content-wrap">
+        <view id="popupTitle">活动规则</view>
+        <scroll-view scroll-y id="scroll-view">
+            <text class="description">{{desc}}</text>
+        </scroll-view>
+        <view id="btn-wrap">
+            <image id='popupBtnImg' src="http://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/418/dialogbtn.png" mode="widthFix"></image>
+            <view id="popupBtnText">联系客服</view>
+            <button class='contact-btn2' open-type='contact' send-message-title="{{contactCardTitle}}" send-message-path="" show-message-card="{{true}}" send-message-img="{{contactImgUrl}}" bindcontact="handleContact"></button>
+        </view>
+    </view>
+</view>

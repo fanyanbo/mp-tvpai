@@ -21,7 +21,8 @@
     "pages/login/login",
     "pages/vipbuy/vipbuy",
     "pages/buyRecord/buyRecord",
-    "pages/userProtocol/userProtocol"
+    "pages/userProtocol/userProtocol",
+    "pages/418warmup/warmup"
   ],
   "window": {
     "backgroundTextStyle": "light",

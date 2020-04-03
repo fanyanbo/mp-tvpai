@@ -143,7 +143,26 @@ function getUnionId() {
     })
 }
 
+// 获取418活动初始化数据，主要包含运营视频链接
+function get418ActivityInitData() {
+    return getUnionId().then(unionid => {
+        console.log('unionid:' + unionid)
+        let _params = {
+            id: '209', //活动id
+            cUDID: unionid, //unionid
+            cOpenId: '', //酷开id
+            MAC: '001a9a11e211',
+            cModel: 'Q4A',
+            cChip: '9S52'
+        }
+        console.log('url:', api.get418ActivityInitDataUrl)
+        console.log('params:', JSON.stringify(_params))
+        return utils.requestP(api.get418ActivityInitDataUrl, _params, 'POST')
+    })
+}
+
 module.exports = {
-    initActivityData,
-    handleActivityTask
+    initActivityData,   //春节活动
+    handleActivityTask, //春节活动
+    get418ActivityInitData //获取418活动初始化数据
 }

@@ -13,22 +13,12 @@
   height: 300rpx;
   overflow: hidden;
 }
-.button-hover,.other-button-hover {
+/* .button-hover,.other-button-hover {
   display: none;
-}
-/* .banner-item {
-  width: 670rpx;
-  height: 300rpx;
-  display: inline-block;
-  border-radius: 8rpx;
-  margin: 0 10rpx;
-  border: 1px solid red;
-  background: #ECECEC;
 } */
 
 .iqiyi-label {
   box-sizing: border-box;
-  /* text-align: center; */
   height: 358rpx;
   margin-top: 40rpx;
   padding-left: 15rpx;

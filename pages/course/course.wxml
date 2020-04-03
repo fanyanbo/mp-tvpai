@@ -2,11 +2,11 @@
   <navBar title='教程' background='#fff' color='#000' back="{{true}}" bindback="handleGobackClick" />
 </view>
 <view class="img_list">
-  <image src="../../images/help/0.jpg" mode="widthFix"></image>
-  <image src="../../images/help/1.png" mode="widthFix"></image>
-  <image src="../../images/help/2.png" mode="widthFix"></image>
-  <image src="../../images/help/3.jpg" mode="widthFix"></image>
-  <image src="../../images/help/4.jpg" mode="widthFix"></image>
+  <image src="https://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/help/0.jpg" mode="widthFix"></image>
+  <image src="https://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/help/1.png" mode="widthFix"></image>
+  <image src="https://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/help/2.png" mode="widthFix"></image>
+  <image src="https://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/help/3.jpg" mode="widthFix"></image>
+  <image src="https://webapp.skysrt.com/common-activity/webx/miniapp/tvpai/help/4.jpg" mode="widthFix"></image>
 </view>
 <view class="{{bIphoneFullScreenModel ? 'iphone-fullscreen-model' : 'view'}}">
   <button class="binding" bindtap="scanQRCode">开始扫码绑定</button>
