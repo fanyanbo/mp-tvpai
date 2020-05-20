@@ -24,7 +24,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.10.4",
 	"appid": "wx35b9e9a99fd089a9",
-	"projectname": "feature-v2.1",
+	"projectname": "release-v2.2.x",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
