@@ -234,9 +234,15 @@ Page({
   handleCategoryTap: function (e) {
     let categoryId = e.currentTarget.dataset.category
     let title = e.currentTarget.dataset.title
-    wx.navigateTo({
-      url: '../sresult/sresult?category_id=' + categoryId + '&title=' + title
-    })
+    if(title.indexOf('教育') > -1) {
+      wx.navigateTo({
+        url: `../column/column?id=${categoryId}&title=${title}`
+      })
+    } else {
+      wx.navigateTo({
+        url: '../sresult/sresult?category_id=' + categoryId + '&title=' + title
+      })
+    }
   },
 
   // 点击跳转热门推荐类目更多
