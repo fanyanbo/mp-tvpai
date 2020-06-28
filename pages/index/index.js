@@ -22,6 +22,7 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     source: utils.getTvsource(),
     topicList: [],
+    appointmentList: [],
     bannerList: [],
     isShowBanner: true, //是否显示banner区域，控制骨架屏显示逻辑
     isShowTopic: true, //是否显示片单区域，控制骨架屏显示逻辑
@@ -148,11 +149,31 @@ Page({
     })
   },
 
+  // 获取预约影片数据
+  getAppointmentData: function () {
+    // 后台还未给接口
+    this.setData({
+      appointmentList: [
+        {
+          title: '推荐影片1',
+          id: '1',
+          img: 'src'
+        },
+        {
+          title: '推荐影片2',
+          id: '2',
+          img: 'src'
+        }
+      ]
+    })
+  },
+
   onLoad() {
     console.log('onLoad')
     // 这两个接口不区分源
     this.getBannerData()
     this.getTopicData()
+    this.getAppointmentData()
     // 首次调用，区分源
     this.getLabelClassify()
     this.getRecommendClassify()
@@ -252,6 +273,10 @@ Page({
     if (type === 'topic') {
       wx.navigateTo({
         url: "../topicList/topicList"
+      })
+    } else if (type === 'appointment') {
+      wx.navigateTo({
+        url: "../appointment/appointment"
       })
     } else {
       wx.navigateTo({

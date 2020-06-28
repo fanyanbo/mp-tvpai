@@ -81,6 +81,17 @@
         </view>
       </scroll-view>
     </view>
+
+    <!-- 佳片有约 -->
+    <view class="header" wx:if="{{appointmentList.length !== 0}}">
+      <text class="line"></text>
+      <text class="title">佳片有约</text>
+      <view class="topic-more" bindtap="handleMoreTap" data-type="appointment">
+        <span style="font-weight: normal;">更多</span>
+        <image class="arrow" src="../../images/index_arraw.png" mode="aspectFill"></image>
+      </view>
+    </view>
+
     <!-- 片单列表 -->
     <view class="header" wx:if="{{topicList.length !== 0}}">
       <text class="line"></text>

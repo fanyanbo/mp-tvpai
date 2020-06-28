@@ -1,0 +1,12 @@
+<view>
+  <navBar background="#F1F1F1" color='#000' title='佳片有约' back="{{true}}" bindback="handleGobackClick" />
+</view>
+<view class="main-wrap">
+  <!-- <block wx:for="{{appointmentList}}" wx:key="index" wx:for-item="item">
+  </block> -->
+  <view>好多好多影片</view>
+</view>
+<!-- 遥控器组件 -->
+<view>
+  <remotecontrol id="remotecontrol-id" isShowTips="{{false}}" bIphoneFullScreenModel="{{bIphoneFullScreenModel}}"></remotecontrol>
+</view>
