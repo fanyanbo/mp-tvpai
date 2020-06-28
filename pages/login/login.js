@@ -154,7 +154,7 @@ Page({
       } else {
         return user_login.getWXAuth(e.detail)
           .then(() => {
-            user_login.mobLogin(this.data.userinput_mob, this.data.userinput_pw)
+            user_login.acctLogin(this.data.userinput_mob, this.data.userinput_pw)
           })
       }
     }).then((res) => {

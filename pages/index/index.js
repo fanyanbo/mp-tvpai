@@ -25,6 +25,7 @@ Page({
     bannerList: [],
     isShowBanner: true, //是否显示banner区域，控制骨架屏显示逻辑
     isShowTopic: true, //是否显示片单区域，控制骨架屏显示逻辑
+    
     // formIdCollect: { //form-id人群圈定功能
     //   formSubmit: 'formSubmit',
     //   collectEvent: 'collectEvent'
